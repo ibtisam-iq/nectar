@@ -1,0 +1,122 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: plain-po
+spec:
+  containers:
+  - name: abcd
+    image: busybox
+    command: ["sleep", "3600"]
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tol-po
+spec:
+  containers:
+  - name: abcd
+    image: busybox
+    command: ["sleep", "3600"]
+  tolerations:              # flower=rose:NoSchedule              key=value:effect
+  - key: "flower"           # The taint key
+    operator: "Equal"       # Defines the relationship between the key and value. Supported operators are Equal and Exists.
+    value: "rose"           # The taint value (only for Equal operator).
+    effect: "NoSchedule"    # The taint effect (e.g., NoSchedule, PreferNoSchedule, NoExecute).
+
+# We want to schedule a specific pod on a specific node only.
+
+# Let say, we have 3 worker nodes & 3 pods to schedule in the cluster.
+# We tainted the node1 with "flower=rose:NoSchedule" taint.
+# Node1 will not schedule any pods except "flower=rose" toleration.
+# But, the pod having toleration "flower=rose" may still schedule on node2 0r node3.
+
+# Solved problem: node will not schudele any pod except toleration.
+# Unsolved problem: but, the pod having toleration may still schedule on other nodes.
+
+# Limitation: All unwanted pods will repel, but the wanted pod (red) may still be scheduled on other nodes.
+# Solution: Label the node also & add a node selector/affinity to the pod spec to schedule the pod on a specific node.
+
+# Adding tolerations to the pod works only if the node has tainted, means absence of taints on the node will not impact on scheduling the pod.
+# Adding node selector/affinity to the pod spec works even if the node has not labeled, means absence of labels on the node subjects to pod pending.
+
+# Tolerations/taints: Tolerations only matter if the node is tainted.
+# if the node doesn't have any taints, the tolerations don't play a role, and the Pod will be scheduled normally.
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodeselector-po
+spec:
+  containers:
+  - name: abcd
+    image: busybox
+    command: ["sleep", "3600"]
+  nodeSelector:                 # not much powerful, only one operator (=), only one value
+   cpu: large
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ha-po
+spec:
+  containers:
+  - name: abcd
+    image: busybox
+    command: ["sleep", "3600"]
+  affinity: # Concept of nodeAffinity comes into picture when nodeSelector does not serve the purpose.
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:  # Hard affinity
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: disktype        # Node must have label 'disktype'
+            operator: In         # 'In' operator requires one of the listed values
+            values:
+            - ssd
+            - hdd
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sa-po
+spec:
+  containers:
+  - name: abcd
+    image: busybox
+    command: ["sleep", "3600"]
+  affinity:
+    nodeAffinity:    
+      preferredDuringSchedulingIgnoredDuringExecution:  # Soft affinity
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: disktype          # Prefer nodes labeled 'region'
+            operator: In
+            values:
+            - ssd
+            - hdd
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tol-ha-po
+spec:
+  containers:
+  - name: abcd
+    image: busybox
+    command: ["sleep", "3600"]
+  tolerations:              
+  - key: "flower"           
+    operator: "Equal"       
+    value: "rose"           
+    effect: "NoSchedule"
+  affinity: 
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:  
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: disktype        
+            operator: In         
+            values:
+            - ssd
+            - hdd
+  

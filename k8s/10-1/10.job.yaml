@@ -1,0 +1,58 @@
+apiVersion: batch/v1
+kind: Job                     # Job creates a pod itself that runs to completion
+metadata:
+  name: test-job
+spec:
+  completions: 5              # How many Pods need to succeed for the Job to finish
+  parallelism: 1              # How many Pods can run concurrently for the Job.
+  backoffLimit: 4             # How many times Kubernetes will retry a failed Pod before giving up on the Job.
+  activeDeadlineSeconds: 600  # Optional, max time in seconds for the job to complete (can remain active), after it's forcibly terminated.
+  template:
+    metadata:
+      labels:
+        app: test-job
+    spec:
+      containers:
+      - command:              # ["sh", "-c", "echo Hello from Kubernetes Job! && sleep 30"]
+        - sh
+        - -c
+        - echo Hello from Kubernetes Job! && sleep 30
+        image: busybox
+        name: example-job
+      restartPolicy: Never      # Job containers should not restart automatically
+status: {}
+
+---
+
+apiVersion: batch/v1
+kind: CronJob                   # CronJob creates a Job at a specified time, and this Job creates a Pod that runs to completion
+metadata:
+  name: test-cronjob
+  namespace: default
+spec:
+  schedule: "*/5 * * * *"        # Cron schedule: Runs every 5 minutes
+  concurrencyPolicy: Forbid      # Ensures that jobs don't overlap if the previous one is still running
+  successfulJobsHistoryLimit: 3  # Number of successful job logs to retain
+  failedJobsHistoryLimit: 1      # Number of failed job logs to retain
+  jobTemplate:
+    metadata:
+      name: example-cronjob
+    spec:
+      completions: 1 
+      parallelism: 1  
+      backoffLimit: 4  
+      activeDeadlineSeconds: 600 
+      template:
+        metadata:
+          labels:
+            app: scheduled-job
+        spec:
+          containers:
+          - command:
+            - sh
+            - -c
+            - echo Hello from Kubernetes CronJob! && sleep 30
+            image: busybox
+            name: example-cronjob
+          restartPolicy: OnFailure
+status: {}

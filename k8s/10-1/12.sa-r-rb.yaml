@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: dashboard
+  name: dashboard-app
+spec:
+  containers:
+  - name: dashboard-app-cont
+    image: gcr.io/kodekloud/customimage/my-kubernetes-dashboard
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    env:
+    - name: PYTHONUNBUFFERED
+      value: "1"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dashboard-app-svc
+spec:
+  ports:
+  - port: 7575
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: dashboard
+  type: NodePort
+---
+# When a ServiceAccount is bound to a Role (using a RoleBinding), it can interact with the resources 
+# defined in that Role. For example, if the Role grants access to Pods, Services, ConfigMaps, and Secrets, 
+# the ServiceAccount will have permissions to interact with all of these resources.
+
+
+# A ServiceAccount can be associated with roles that grant permissions for various resources, such as Pods, 
+# Services, ConfigMaps, Secrets, and more, just like a Role.
+
+# ServiceAccounts are not restricted to just Pods; they can interact with any resources 
+# defined in the Role or ClusterRole to which they are bound.
+
+# The ServiceAccount must be associated with the appropriate Role (namespace) or ClusterRole (cluster-wide) to have the necessary permissions.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: dashboard-app-sa
+# kubectl create token dashboard-app-sa
+---
+#  Create a Role that grants access to Pods, Services, ConfigMaps, and Secrets
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role                    # Role is used to define permissions for a ServiceAccount
+metadata:
+  name: dashboard-app-po-reader
+  namespace: default          # Namespace where the Role is created. Roles are namespace-scoped.
+rules:                        # Rules define the permissions granted by the Role
+- apiGroups:
+  - ""
+  resources:                  # This is the list of resources that the Role can access. # You can also combine multiple resources within the same Role.
+  - pods                      # Access to Pods # small 'p' & plural
+  - services                  # Access to Services
+  - configmaps                # Access to ConfigMaps
+  - secrets                   # Access to Secrets
+  - persistentvolumeclaims    # Access to PersistentVolumeClaims
+  - persistentvolumes         # Access to PersistentVolumes
+  verbs:                      # This is the list of verbs/actions that the Role can perform on the resources.
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: dashboard-app-po-reader-binding
+  namespace: default            # It is scoped to the same namespace as the Role.
+roleRef:                        # Role reference section defines which Role this binding refers to.
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role                    # Kind of role. In this case, it’s a Role (not a ClusterRole).
+  name: dashboard-app-po-reader # Name of the Role being bound. This Role must already exist in the same namespace.
+subjects:                       # Yes, besides ServiceAccount, other possible subjects include: User and Group
+- kind: ServiceAccount
+  name: dashboard-app-sa        # Name of the ServiceAccount to which this RoleBinding grants permissions.
+  namespace: default            # The namespace where the ServiceAccount exists.
+- kind: User
+  name: ibtisam
+  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: dev-team
+  apiGroup: rbac.authorization.k8s.io
+
+
+

@@ -1,0 +1,213 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    sex: m
+  name: rc7abc
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+      cat: frontend
+  template:
+    metadata:
+      labels:
+        cat: frontend  
+    spec:
+      containers:
+      - image: nginx
+        name: rc7nginx
+        ports:
+        - containerPort: 80
+
+# Make sure the labels in the selector and template.metadata.labels fields match exactly.
+
+---
+
+apiVersion: apps/v1
+kind: ReplicaSet                # it triggers the creation of pod.
+metadata:
+  labels:
+    sex: m
+  name: rs7def
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      cat: backend
+  template:
+    metadata:
+      labels:
+        cat: backend
+    spec:
+      containers:
+      - image: nginx
+        name: rs7nginx
+        ports:
+        - containerPort: 80
+
+
+---
+
+apiVersion: apps/v1
+kind: Deployment          # It triggers the creation of ReplicaSet, which in turn triggers the creation of pod.
+metadata:
+  labels:
+    sex: f
+  name: dp7xyz
+  namespace: default      # Namespace is defined here, do'nt repeat it below.
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      cat: database
+  strategy: {}
+  template:
+    metadata:             # do not include namespace as a label in the Pod template—it's unnecessary.
+      labels:
+        cat: database
+    spec:
+      containers:
+      - image: nginx
+        name: dp7nginx
+        ports:
+        - containerPort: 80
+
+
+---
+# blue-green deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp7blue
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+      color: blue
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: frontend
+        color: blue
+    spec:
+      containers:
+      - image: linuxacademycontent/ckad-nginx:blue
+        name: dp7bl-nginx
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: b-g-svc
+  namespace: default
+spec:
+  ports:
+  - port: 3741        # kubectl port-forward service/b-g-svc 7080:3741 > /dev/null 2>&1 &
+    protocol: TCP     # http://localhost:7080/
+    targetPort: 80
+  selector:
+    app: frontend
+    color: blue       # edit it to green when green env is ready.
+  type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp7green
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+      color: green
+  template:
+    metadata:
+      labels:
+        app: frontend
+        color: green
+    spec:
+      containers:
+      - image: linuxacademycontent/ckad-nginx:green
+        name: dp7gr-nginx
+        ports:
+        - containerPort: 80
+
+---
+
+# canary deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp7v1
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: frontend
+      env: main
+  template:
+    metadata:
+      labels:
+        tier: frontend
+        env: main
+    spec:
+      containers:
+      - image: linuxacademycontent/ckad-nginx:1.0.0
+        name: dp7v1nginx
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: can-svc
+  namespace: default
+spec:
+  ports:
+  - port: 4741
+    protocol: TCP
+    targetPort: 80
+  selector:
+    tier: frontend              # add env: canary, so all traffic is served by canary env, and stopped by main
+  type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp7can
+  namespace: default
+spec:
+  replicas: 1                     # small portion to test the traffic
+  selector:
+    matchLabels:
+      tier: frontend
+      env: canary
+  template:
+    metadata:
+      labels:
+        tier: frontend
+        env: canary
+    spec:
+      containers:
+      - image: linuxacademycontent/ckad-nginx:canary
+        name: dp7can-nginx
+        ports:
+        - containerPort: 80

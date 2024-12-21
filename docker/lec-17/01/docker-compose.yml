@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  my-app:
+    image: node:$MY_ENV
+    ports:
+      - "7911:$MY_PORT"
+    volumes:
+      - $PWD/src:/app/src
+    environment:
+      - PORT=$MY_PORT
+  

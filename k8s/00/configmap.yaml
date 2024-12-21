@@ -1,0 +1,83 @@
+apiVersion: v1
+
+kind: ConfigMap #cm
+
+metadata:
+  name: test-cm
+
+data:
+  APP_COLOR: red # key = APP_Color, value = red
+  NAME: ibtisam
+  UNI: uaf
+
+---
+
+apiVersion: v1 
+
+kind: Pod #pod without configmap, env directly added.
+
+metadata:
+  name: pod-no-cm
+  namespace: default
+  labels: #mandatory to expose the port via imperative command # kubectl expose po test-pod
+    app: frontend 
+
+spec:
+  containers:
+  - name: cont-no-cm
+    image: kodekloud/webapp-color
+    env: #falls under container not pod
+    - name: APP_COLOR
+      value: pink
+
+#Environment:
+#     APP_COLOR:  pink
+
+
+
+---
+
+apiVersion: v1
+
+kind: Pod #pod with complete configmap
+
+metadata:
+  name: pod-with-cm
+  namespace: default
+  labels: 
+    app: backend
+
+spec:
+  containers:
+  - name: cont-with-cm
+    image: kodekloud/webapp-color
+    envFrom: #associated with container not pod
+    - configMapRef:
+        name: test-cm #line 6
+
+#Environment Variables from:
+#     test-cm     ConfigMap  Optional: false
+#   Environment:  <none>
+
+---
+
+apiVersion: v1
+
+kind: Pod #pod with one or two or more key-value pairs from a configmap (not complete)
+
+metadata:
+  name: pod-with-cm2
+  namespace: default
+  labels: 
+    app: database
+
+spec:
+  containers:
+  - name: cont-with-cm2
+    image: kodekloud/webapp-color
+    env: #associated with container not pod
+      - name: APP_COLOR #take care of indentation
+        valueFrom:
+          configMapKeyRef:
+            name: test-cm #line no 6
+            key: APP_COLOR #that one key you want to add from configmap

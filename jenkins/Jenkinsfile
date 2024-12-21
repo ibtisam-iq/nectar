@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "jenkins-maven"
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                // Get some code from a GitHub repository
+                git 'https://github.com/mibtisam-iq/simple-java-maven-app.git'
+            }
+        }
+        stage('Build'){
+            steps {
+                // Build the project using Maven
+                sh 'mvn clean package'
+            }
+        }
+        stage('Test'){
+            steps {
+                // Test the project using Maven
+                sh 'mvn test'
+            }
+            post {
+                always{
+                    junit '**/target/surefire-reports/*.xml'
+                }
+            }
+        }
+        stage('Deploy'){
+            steps {
+                // Deploy the project using Maven
+                sh 'echo Deployed'
+            }
+        }
+    }
+    post {
+        failure {
+            // Send a notification when the build fails
+            echo 'Build failed'
+            mail to: 'mibtisamiq@gmail.com',
+                subject: 'Build failed: ${env.JOB_NAME} -  Build #${env.BUILD_NUMBER}',
+                body: 'Job ${env.JOB_NAME} failed with build number ${env.BUILD_NUMBER}.'
+        }
+        success {
+            // Send a notification when the build is successful
+            echo 'Build successful'
+            archiveArtifacts artifacts: '**/target/*.jar', followSymlinks: false, onlyIfSuccessful: true
+        }
+    }
+}
+
+
