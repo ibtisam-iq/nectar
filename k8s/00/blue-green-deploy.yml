@@ -1,0 +1,76 @@
+# traffic is directed to green env once it's stable & working.
+# traffic is either routed to blue env or green env based on the traffic routing rules.
+
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: blue-deploy
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: frontend
+      color: blue
+
+  template:
+    metadata:
+      labels:
+        app: frontend
+        color: blue
+    spec:
+      containers:
+      - name: alpha
+        image: linuxacademycontent/ckad-nginx:blue
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+
+kind: Service
+
+metadata:
+  name: blue-green-svc
+
+spec:
+  selector:
+    app: frontend
+    color: blue
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+
+---
+
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: green-deploy
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: frontend
+      color: green
+
+  template:
+    metadata:
+      labels:
+        app: frontend
+        color: green
+
+    spec:
+      containers:
+      - name: beta
+        image: linuxacademycontent/ckad-nginx:green
+        ports:
+        - containerPort: 80

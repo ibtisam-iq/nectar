@@ -1,0 +1,164 @@
+#1  installation
+which git
+git --version
+git -v
+
+
+#2  configuration
+
+there are 3 config files, --global --system --local
+--global    <run from anywhere>
+--system    <anywhere, but requires root permission>
+--local     <for that directory>
+
+git config --global user.name "ibtisam"             
+git config --global user.email "abc@gmail.com"
+git config --global core.editor "vim"
+git config --global alias.st status         #to set alias			#or "status"
+git config --global --unset alias.st        #to unset alias
+git config --global --unset user.name 
+git config --global --list                  #to check all under --global
+git config --global --edit
+
+
+git config pull.rebase false				#merge
+git config pull.rebase true					#rebase
+
+ibtisam@mint-dell:~$ cat .gitconfig         # --global
+
+ibtisam@mint-dell:~$ cat /etc/gitconfig     # --system
+
+ibtisam@mint-dell:~/git$ cat .git/config    # --local   #
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "origin"]
+	url = https://github.com/mibtisam-iq/test-1.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+
+ibtisam@mint-dell:~$ git config --list         #outside the directory
+user.name=ibtisam
+user.email=m.ibtisam.iq@gmail.com
+core.editor=vim
+
+ibtisam@mint-dell:~/git$ git config --list      #inside the directory
+user.name=ibtisam
+user.email=m.ibtisam.iq@gmail.com
+core.editor=--help
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=https://github.com/mibtisam-iq/test-1.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+
+#3 Basic Commands
+
+git init                                        #to start tracking
+git status
+git add <filename> or git add .                 #to add into stagged area
+git diff --cached								#run it before commit to see what you are about to commit.
+git commit -m "add the message here"
+
+Case 1
+git checkout <file>			OR					#you just stagge a file (not commited yet), and add some text (not stagged yet), revert some text added.
+git checkout -f									#to discard/revert changes in the working directory before staging all of these files
+
+git restore <file>         						#recover the deleted staged or commited file                     
+
+case 2
+git reset <filename> or git reset .     OR      #to remove from stagged area
+git restore --staged <file>                     #to unstage a file
+
+case 3
+git restore --worktree <file>					#added, but not commit yet, added some text into workspace. to get back stagged area
+
+case4
+git reset --hard                                #to remove from staging area along with workspace
+
+case 5
+git revert <commit_ID>                          #A new commit is created that undoes the changes made by the specified commit.
+git reset --soft HEAD^							#HEAD shows the latest commit of that branch, each branch has its own one.
+git reset --soft HEAD^							#uncommit & discard
+
+
+case 6
+git clean -n 									#dry run, delete all untracked files 
+git clean -f									#forcefully
+
+
+
+git log                                         #displays a list of all commits, including the commit ID, author, date, and message in reverse chronological order.
+git log --grep "woman"		OR					# search from the commit messages only
+git log --grep="woman"
+git log --since="2024-01-01"
+git log --until="2024-01-01"
+git log --author="ibtisam"
+git log --no-merge
+
+
+
+git log -2										#last 2 commits
+git log -p -2									#last 2 commits with diff
+git log --stat									#summary of changes
+git log --oneline
+git log --pretty=oneline
+git log --pretty=format:"%h - %an, %ar %s"		#h for tag id, an for author, ar for times ago, s for commit message
+git log -S <function_name>
+
+
+git show <comment_ID>:filename                  #to see that (previous) version
+git diff <commit1> <commit2>                    #displays the differences between the specified commits.
+git diff                                        #shows the differences between your working directory and the staging area.
+git diff --cached
+
+git checkout <commit ID> -- *					#to check the live changes
+git checkout main -- *							#to get back 
+
+git branch                                      #to check on which branch you are working
+git branch <2nd>                                #new branch is created
+git branch -m master main						#Renames the branch, but fails if the new branch name already exists
+git branch -M master main						#Renames the branch and forces the rename, overwriting the branch if the new name already exists
+git branch -d <2nd>                             #deleted after merging
+git checkout <branch_to_switch>
+git merge <branch name want to merge>           #switch to main branch & then merge
+git merge origin/main							#merge changes from the remote main branch into your current branch.
+
+
+#Adding a remote repository 
+git remote add origin <HTTPS/SSH>         		#local repository is now connected to the remote repository on GitHub.
+#<remote-name>: A short name you want to use for the remote repository (e.g., origin).
+git remote -v                                   #displays the URLs of your remote repositories
+git remote remove origin                        #remote repository named origin is removed from your local repository.
+git push origin --delete one					#delete the remote "one" branch
+
+git fetch origin main
+git pull origin main --rebase					#This flag ensures that your local changes will be applied on top of the changes pulled from the remote branch.
+git push <remote-name> <branch-name>            #upload # git push origin main
+git pull <remote-name> <branch-name>            #download #does not require authentication
+#Use -u when you're pushing a branch for the first time and want to make future git push/git pull commands more convenient.
+git push origin one								#pushed, even there was no "one" branch in github repo. Created & pushed.
+git push origin main --tags
+
+
+git clone <remote-url>							#by default, it picks "main" branch only
+git clone -b <branch-name> --single-branch <remote-url>
+
+
+git stash
+git stash list
+git stash apply
+git stash apply <>
+git stash drop <>
+git stash clear 
+
+git tag
+git tag -a "tag name" -m "tag message" <commit ID>
+git tag -d <tag name>							#delete a tag from the local repository
+git show <tag name>
+git push origin --delete <tag name>				#delete a tag from the remote repository
+
+
+

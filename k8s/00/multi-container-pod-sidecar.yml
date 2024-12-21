@@ -1,0 +1,23 @@
+kind: Pod
+apiVersion: v1
+metadata:
+ name: sidecar-pod
+spec:
+ containers:
+ - name: main-cont
+   image: nginx
+   command: [ 'sh', '-c', 'echo "This is my sweetheart, Ibtisam." > /output-dir/data.txt; while true; do sleep 5; done']
+   volumeMounts:
+   - name: shared-volume
+     mountPath: /output-dir
+
+ - name: side-car-cont
+   image: nginx
+   command: [ 'sh', '-c', 'while true; do cat /input-dir/data.txt; sleep 5; done']
+   volumeMounts:
+   - name: shared-volume
+     mountPath: /input-dir
+
+ volumes:
+  - name: shared-volume
+    emptyDir: {}

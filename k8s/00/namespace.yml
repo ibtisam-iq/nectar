@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ibtisam
+
+
+---
+
+apiVersion: v1
+
+kind: ResourceQuota
+
+metadata:
+  name: compute-quota
+  namespace: ibtisam
+
+spec:
+  hard:
+    pods: "2"
+    requests.cpu: "2"
+    requests.memory: 2Gi
+    limits.cpu: "3"
+    limits.memory: 5Gi
+
+---
+#resouce requirement # resource limit
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: xyz
+  namespace: ibtisam
+spec:
+  containers:
+  - name: abc
+    image: nginx
+    resources:
+      limits: # max
+        cpu: "1.5"
+        memory: 3Gi
+      requests: # actual required, always < limit
+        cpu: "1"      # default cpu = 0.5
+        memory: 1.5Gi # default memory = 256 Mi
+      
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+  namespace: default
+  labels:
+    name: blue
+spec:
+  hostNetwork: true #It looks like enabling hostNetwork: true
+  #made the pod's IP match the node's IP (172.18.0.3),
+  #but the service is still not accessible from your local network
+  #due to the network segregation between the 172.x.x.x and 192.x.x.x ranges.
+  containers:
+  - name: internal
+    image: kodekloud/webapp-conntest
+    env:
+    - name: APP_NAME
+      value: Blue - Marketing Application
+    - name: BG_COLOR
+      value: blue
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-svc
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    name: blue
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080

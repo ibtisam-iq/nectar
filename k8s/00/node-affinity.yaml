@@ -1,0 +1,39 @@
+
+
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  labels:
+    app: node-affinity
+  name: node-affinity
+  namespace: default
+  
+spec:
+  replicas: 6
+
+  selector:
+    matchLabels:
+      app: frontend
+  
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution: # preferredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: topology.kubernetes.io/zone
+                operator: In
+                values:
+                - antarctica-east1
+                - antarctica-west1  
+
+ 
