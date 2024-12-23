@@ -2,33 +2,64 @@
 
 ## Local Setup
 ```bash
+# Update the system's package list and install MySQL server
 sudo apt update; sudo apt install mysql-server
+
+# Access the MySQL shell as the root user
 sudo mysql -u root
+
+# Set the password for the root user and use the native MySQL authentication method
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'IbtisamOps';
+
+# Refresh MySQL privileges to ensure the changes take effect
 FLUSH PRIVILEGES;
+
+# Exit the MySQL shell
 exit
 
+# Log in to MySQL as root using the new password
 mysql -u root -p
+
+# Create a new database for the application
 CREATE DATABASE bankappdb;
+
+# Verify the database has been created
 show databases;
+
+# Switch to the newly created database
 USE bankappdb;
 
+# Display all tables in the current database (will be empty initially)
 show tables;
+
+# Query the `account` table (if it exists in the schema)
 select * from account;
+
+# Query the `transaction` table (if it exists in the schema)
 select * from transaction;
 
-# Create a new user
-
+# Create a new MySQL user with a specific username and password
 CREATE USER 'ibtisam'@'%' IDENTIFIED BY 'ib.ti.sam';
+
+# Grant the new user full privileges on all databases and tables
 GRANT ALL PRIVILEGES ON *.* TO 'ibtisam'@'%';
+
+# Refresh privileges to apply the changes
 FLUSH PRIVILEGES;
+
+# Exit the MySQL shell
 exit
 
-# Grant remote access
-
+# Allow remote connections by editing the MySQL configuration file
 vi /etc/mysql/mysql.conf.d/mysqld.cnf
-bind-address = 0.0.0.0
+
+# In the configuration file, find the `bind-address` directive and change it to:
+# bind-address = 0.0.0.0
+
+# Restart the MySQL service to apply the configuration changes
 sudo systemctl restart mysql
+
+# Verify that MySQL is listening for connections on port 3306
 sudo netstat -tuln | grep 3306
 ```
 ## MySQL with Docker
@@ -96,14 +127,23 @@ sudo ufw allow 3306
 ```
 
 2.  `https://www.phpmyadminonline.com/`
-
+---
 # PostgreSQL
 ## Local SetUp
 ```bash
+# Install PostgreSQL and its additional contributed packages
 sudo apt-get install postgresql postgresql-contrib
+
+# Start the PostgreSQL service
 sudo systemctl start postgresql
+
+# Enable the PostgreSQL service to start automatically on boot
 sudo systemctl enable postgresql
+
+# Switch to the default PostgreSQL user 'postgres' to perform administrative tasks
 sudo -i -u postgres
+# Access the PostgreSQL shell using the psql command to perform database operations
+psql
 ```
 ```sql
 -- Create a new user named 'root' with the password 'root'
@@ -115,7 +155,7 @@ CREATE DATABASE my_database;
 -- Grant all privileges on 'my_database' to the 'root' user
 GRANT ALL PRIVILEGES ON DATABASE my_database TO root;
 
--- Switch to the new database
+-- Switch to the newly created database for further configuration
 \c my_database 
 
 -- Grant all privileges on the public schema to the 'root' user
@@ -123,6 +163,12 @@ GRANT ALL PRIVILEGES ON SCHEMA public TO root;
 
 -- Allow the 'root' user to create objects in 'my_database'
 GRANT CREATE ON DATABASE my_database TO root;
+```
+```bash
+# Exit the PostgreSQL shell after completing database configuration
+\q
+# Exit the PostgreSQL administrative user session
+exit
 ```
 # PostgresSQL with Docker
 
@@ -171,4 +217,47 @@ services:
     restart: always
     ports:
       - 8080:8080
+```
+
+# MariaDB
+
+# MongoDB
+
+## Local SetUp
+
+```bash
+# Download and add the GPG key for MongoDB 7.0
+curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
+sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor 
+
+# Add the MongoDB repository to your system's package sources list
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+
+# Update the system's package list and install MongoDB
+sudo apt update; sudo apt install -y mongodb-org
+
+# Enable MongoDB service to start automatically on system boot
+sudo systemctl enable mongod
+
+# Start the MongoDB service
+sudo systemctl start mongod
+
+# Follow the MongoDB Shell installation guide (ensure you visit the linked documentation)
+# This step installs `mongosh`, the MongoDB shell, which is used to interact with the database
+# Visit: https://www.mongodb.com/docs/mongodb-shell/install/
+
+# Access the MongoDB shell to manage databases and collections
+mongosh
+
+# Show a list of all databases available in the MongoDB instance
+show dbs;
+
+# Switch to (or create) a specific database by its name
+use db_name;
+
+# Display all collections (similar to tables in relational databases) in the selected database
+show collections;
+
+# Query the `Products` collection in the current database and format the results for readability
+db.Products.find().pretty();
 ```
