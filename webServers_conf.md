@@ -14,10 +14,8 @@ cd /opt/apache-tomcat-9.0.98/conf; sudo vi tomcat-users.xml
    <user username="ibtisam" password="12345@s" roles="admin-gui,manager-gui,manager-script"/>
    ```
 ```bash
-# Edit the `context.xml` file for the Manager web application:
-  
-   sudo vi /opt/apache-tomcat-9.0.98/webapps/manager/META-INF/context.xml
-# Comment out the `RemoteAddrValve` configuration:
+# Comment out the `RemoteAddrValve` configuration for the Manager web application
+sudo vi /opt/apache-tomcat-9.0.98/webapps/manager/META-INF/context.xml
 ```
    ```xml
    <!--
@@ -25,11 +23,10 @@ cd /opt/apache-tomcat-9.0.98/conf; sudo vi tomcat-users.xml
    allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />
    -->
    ```
-
 ```bash
-# Edit the `context.xml` file for the Host Manager web application:
-   sudo vi /opt/apache-tomcat-9.0.98/webapps/host-manager/META-INF/context.xml
-# Comment out the `RemoteAddrValve` configuration:
+# Comment out the `RemoteAddrValve` configuration for the Host Manager web application
+sudo vi /opt/apache-tomcat-9.0.98/webapps/host-manager/META-INF/context.xml
+
 ```
    ```xml
    <!--
@@ -41,7 +38,7 @@ cd /opt/apache-tomcat-9.0.98/conf; sudo vi tomcat-users.xml
 ```bash
 sudo ln -s /opt/apache-tomcat-9.0.98/bin/startup.sh /usr/bin/startTomcat
 sudo ln -s /opt/apache-tomcat-9.0.98/bin/shutdown.sh /usr/bin/stopTomcat
-sudo stopTomcat
 sudo startTomcat
+sudo stopTomcat
 sudo netstat -tlnp | grep 8080
 ```
