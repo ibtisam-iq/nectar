@@ -76,9 +76,6 @@ services:
 
 The default configuration for MySQL can be found in `/etc/mysql/my.cnf`, which may `!includedir` additional directories such as **`/etc/mysql/conf.d`** or `/etc/mysql/mysql.conf.d`.
 
-### Ensure that the firewall allows incoming traffic on port 3306. For example:
-sudo ufw allow 3306
-
 ### How to access?
 
 1. `mysql://localhost:3306/database_name`
