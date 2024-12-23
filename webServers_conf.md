@@ -22,8 +22,9 @@ Add the following line before the closing </tomcat-users> tag in the tomcat-user
 ```xml
 <user username="ibtisam" password="12345@s" roles="admin-gui,manager-gui,manager-script"/>
 ```
+Modify the Manager web application's context.xml to disable IP restrictions
+
 ```bash
-# Modify the Manager web application's context.xml to disable IP restrictions
 sudo vi /opt/apache-tomcat-9.0.98/webapps/manager/META-INF/context.xml
 ```
 Comment out the RemoteAddrValve configuration by enclosing it in <!-- -->:
@@ -35,8 +36,9 @@ Comment out the RemoteAddrValve configuration by enclosing it in <!-- -->:
 allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />
 -->
 ```
+Modify the Host Manager web application's context.xml to disable IP restrictions
+
 ```bash
-# Modify the Host Manager web application's context.xml to disable IP restrictions
 sudo vi /opt/apache-tomcat-9.0.98/webapps/host-manager/META-INF/context.xml
 ```
 Comment out the RemoteAddrValve configuration here as well:
