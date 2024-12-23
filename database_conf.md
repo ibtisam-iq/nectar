@@ -16,9 +16,19 @@ show tables;
 select * from account;
 select * from transaction;
 
+# Create a new user
+
 CREATE USER 'ibtisam'@'%' IDENTIFIED BY 'ib.ti.sam';
 GRANT ALL PRIVILEGES ON *.* TO 'ibtisam'@'%';
 FLUSH PRIVILEGES;
+exit
+
+# Grant remote access
+
+vi /etc/mysql/mysql.conf.d/mysqld.cnf
+bind-address = 0.0.0.0
+sudo systemctl restart mysql
+sudo netstat -tuln | grep 3306
 ```
 ## MySQL with Docker
 ```bash
@@ -62,6 +72,21 @@ services:
 
 - Some projects use Object-Relational Mapping (ORM) tools like Sequelize (JavaScript), Hibernate (Java), or Django ORM (Python). These tools can often automatically create tables and schema during initialization based on the application's data models. However, this behavior depends on how the project is configured.
 
-### Using a custom MySQL configuration file
+### MySQL configuration file
 
 The default configuration for MySQL can be found in `/etc/mysql/my.cnf`, which may `!includedir` additional directories such as **`/etc/mysql/conf.d`** or `/etc/mysql/mysql.conf.d`.
+
+### Ensure that the firewall allows incoming traffic on port 3306. For example:
+sudo ufw allow 3306
+
+### How to access?
+
+1. `mysql://localhost:3306/database_name`
+- Ensure that the firewall allows incoming traffic on port 3306.
+
+```bash
+sudo ufw allow 3306
+```
+
+2.  `https://www.phpmyadminonline.com/`
+
