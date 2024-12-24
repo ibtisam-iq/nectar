@@ -285,3 +285,45 @@ docker run -d \
 -p 8081:8081 \
 mongo-express:latest
 ```
+
+## MongoDB with Docker Compose
+
+```bash
+version: '3.8' # Define the Docker Compose file format version
+
+services:
+  mongodb:
+    image: mongo:latest                     # Use the latest MongoDB image
+    container_name: mongodb                 # Name of the MongoDB container
+    environment:                            # Environment variables for MongoDB setup
+      - MONGO_INITDB_ROOT_USERNAME=admin    # Set the root username for MongoDB
+      - MONGO_INITDB_ROOT_PASSWORD=password # Set the root password for MongoDB
+    volumes:
+      - mongo-data:/data/db                 # Mount a volume to persist database data
+    networks:
+      - my-network                          # Attach MongoDB to the custom network
+    restart: unless-stopped                 # Always restart the container unless it is explicitly stopped
+
+  mongo-express:
+    image: mongo-express:latest             # Use the latest Mongo Express image
+    container_name: mongo-express           # Name of the Mongo Express container
+    environment:                            # Environment variables for Mongo Express setup
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin       # Set the MongoDB admin username
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=password    # Set the MongoDB admin password
+      - ME_CONFIG_MONGODB_SERVER=mongodb            # Tell Mongo Express to connect to the MongoDB container
+      - ME_CONFIG_BASICAUTH_USERNAME=admin          # Set the web interface username
+      - ME_CONFIG_BASICAUTH_PASSWORD=pass123        # Set the web interface password
+    ports:
+      - "8081:8081"                     # Map port 8081 on the host to port 8081 in the container
+    networks:
+      - my-network                      # Attach Mongo Express to the same custom network as MongoDB
+    restart: unless-stopped             # Always restart the container unless it is explicitly stopped
+    depends_on:                         # Ensure MongoDB starts before Mongo Express
+      - mongodb
+
+networks:
+  my-network:                           # Define the custom network for inter-container communication
+
+volumes:
+  mongo-data:                           # Define the named volume for persisting MongoDB data
+```
