@@ -261,3 +261,27 @@ show collections;
 # Query the `Products` collection in the current database and format the results for readability
 db.Products.find().pretty();
 ```
+## MongoDB with Docker
+
+```bash
+docker network create my-network
+
+docker run -d \
+--name mongodb \
+--network my-network \
+-e MONGO_INITDB_ROOT_USERNAME=admin \     # Sets the environment variable for MongoDB's `root` username.
+-e MONGO_INITDB_ROOT_PASSWORD=password \  # Sets the environment variable forMongoDB's root password
+-v mongo-data:/data/db \
+mongo:latest
+
+docker run -d \
+--name mongo-express \
+--network my-network \  # Connects the container to the my-network network (shared with the MongoDB container)
+-e ME_CONFIG_MONGODB_ADMINUSERNAME=admin \      # Sets MongoDB admin username (same as in MongoDB)
+-e ME_CONFIG_MONGODB_ADMINPASSWORD=password \   # Sets MongoDB admin password (same as in MongoDB)
+-e ME_CONFIG_MONGODB_SERVER=mongodb \   # Tells Mongo Express to connect to the MongoDB container by name (mongodb) 
+-e ME_CONFIG_BASICAUTH_USERNAME=admin \     # Sets the basic auth username for the Mongo Express interface
+-e ME_CONFIG_BASICAUTH_PASSWORD=pass123 \   # Sets the basic auth password for the Mongo Express interface
+-p 8081:8081 \
+mongo-express:latest
+```
