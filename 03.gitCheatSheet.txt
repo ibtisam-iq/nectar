@@ -21,8 +21,10 @@ git config --global --list                  #to check all under --global
 git config --global --edit
 
 
-git config pull.rebase false				#merge
-git config pull.rebase true					#rebase
+git config pull.rebase false				# to set pull to fetch and merge # To always merge (default behavior)
+git config pull.rebase true					# to set pull to rebase
+git config pull.ff only						# to set pull to fast forward only
+
 
 ibtisam@mint-dell:~$ cat .gitconfig         # --global
 
@@ -60,33 +62,29 @@ git init                                        #to start tracking
 git status
 git add <filename> or git add .                 #to add into stagged area
 git diff --cached								#run it before commit to see what you are about to commit.
-git commit -m "add the message here"
+git commit -m "msg"				--message
+git commit -m "msg" --dry-run 					#dry run
 
-Case 1
-git checkout <file>			OR					#you just stagge a file (not commited yet), and add some text (not stagged yet), revert some text added.
-git checkout -f									#to discard/revert changes in the working directory before staging all of these files
+Case 1 Undo Changes to Files 
+git checkout <file>		Deprecated	OR			#you just stagged a file (not commited yet), and add some text (not stagged yet), revert some text added. #If you've made changes to a file but haven't staged or committed them, and you want to discard those changes.
+git restore <file>         						#recover the deleted staged or commited file
+git restore <file>                      		#Similar to git checkout <file>, reverts uncommitted changes in the specified file to the state of the latest commit.
+git restore --worktree <file> 					#Similar to git checkout <file>, but explicitly applies to files in the working directory.
 
-git restore <file>         						#recover the deleted staged or commited file                     
-
-case 2
+Case 2 Undo Staged Changes
 git reset <filename> or git reset .     OR      #to remove from stagged area
 git restore --staged <file>                     #to unstage a file
 
-case 3
-git restore --worktree <file>					#added, but not commit yet, added some text into workspace. to get back stagged area
+Case 3 Undo Commits
+git reset --soft <commit> 						#reset the commit, but keep the changes in the stagged area
+git reset --mixed <commit>						#reset the commit, but remove the changes from the stagged area, but keep the changes in the working directory
+git reset --hard <commit>						#reset the commit, and remove the changes from the stagged and the working directory
+git revert <commit>								#undo the commit, but keep the changes in the stagged area # A new commit is created that undoes the changes made in the specified commit.
 
-case4
-git reset --hard                                #to remove from staging area along with workspace
-
-case 5
-git revert <commit_ID>                          #A new commit is created that undoes the changes made by the specified commit.
-git reset --soft HEAD^							#HEAD shows the latest commit of that branch, each branch has its own one.
-git reset --soft HEAD^							#uncommit & discard
-
-
-case 6
-git clean -n 									#dry run, delete all untracked files 
-git clean -f									#forcefully
+Case 4 Clean Untracked Files
+git clean -n 									#dry run, shows a preview of untracked files and directories that would be removed by git clean -f
+git clean -f									#deletes untracked files from the working directory. #Note: This will delete files that are not tracked by Git, but it will not delete files that are tracked by Git, even if they are not in the current commit. 
+git clean -f -d									#if you want to delete files that are tracked by Git, you can use git clean -fd.
 
 
 
@@ -103,7 +101,7 @@ git log --no-merge
 git log -2										#last 2 commits
 git log -p -2									#last 2 commits with diff
 git log --stat									#summary of changes
-git log --oneline
+git log --oneline 								#one line per commit
 git log --pretty=oneline
 git log --pretty=format:"%h - %an, %ar %s"		#h for tag id, an for author, ar for times ago, s for commit message
 git log -S <function_name>
@@ -117,13 +115,24 @@ git diff --cached
 git checkout <commit ID> -- *					#to check the live changes
 git checkout main -- *							#to get back 
 
-git branch                                      #to check on which branch you are working
+git branch                                      # to check all local branches # to check on which branch you are working
+git branch -a        --all                      #to check all branches
+git branch -r 		 --remote					#to check remote branches
 git branch <2nd>                                #new branch is created
-git branch -m master main						#Renames the branch, but fails if the new branch name already exists
-git branch -M master main						#Renames the branch and forces the rename, overwriting the branch if the new name already exists
-git branch -d <2nd>                             #deleted after merging
-git checkout <branch_to_switch>
-git merge <branch name want to merge>           #switch to main branch & then merge
+git branch -m <master> <main>	--move			#Renames the branch, but fails if the new branch name already exists
+git branch -M master main		--move --force	#Renames the branch and forces the rename, overwriting the branch if the new name already exists
+git branch -c <master> <main>	--copy			#Creates a new branch and copies the history
+git branch -d <2nd>             --delete        #deleted after merging at local # make sure you checkout to any other branch to delete <2nd> # make sure to delete remote branch as well
+git checkout <branch_to_switch> 				#to switch to another branch
+git checkout -f <branch_to_switch>	--force		#to switch to another branch forcefully # Forces a checkout, discarding any uncommitted changes in the working directory. # When you need to switch branches but have uncommitted changes you’re willing to lose.
+git checkout -b feature/new-feature 			#to create a new branch and switch to it simultaneouly. # The new branch feature/new-feature will be based on your current branch.
+git checkout -b feature/new-feature main		#The new branch feature/new-feature will be based on main, regardless of which branch you are currently on.
+git switch -c feature/new-feature main	--create #The new branch feature/new-feature will be based on main, regardless of which branch
+
+
+git merge <branch name want to merge>           #switch to main branch first & then merge
+git merge --no-commit <branch name> 			#merge but do not commit
+git rebase <branch name>						#switch to main branch first & then rebase the branch
 git merge origin/main							#merge changes from the remote main branch into your current branch.
 
 
@@ -136,9 +145,8 @@ git push origin --delete one					#delete the remote "one" branch
 
 git fetch origin main
 git pull origin main --rebase					#This flag ensures that your local changes will be applied on top of the changes pulled from the remote branch.
-git push <remote-name> <branch-name>            #upload # git push origin main
-git pull <remote-name> <branch-name>            #download #does not require authentication
-#Use -u when you're pushing a branch for the first time and want to make future git push/git pull commands more convenient.
+git push <remote-name> <branch-name>            #upload # git push origin main # Use -u when you're pushing a branch for the first time and want to make future git push/git pull commands more convenient.
+git pull <remote-name> <branch-name>            #download #does not require authentication 
 git push origin one								#pushed, even there was no "one" branch in github repo. Created & pushed.
 git push origin main --tags
 
