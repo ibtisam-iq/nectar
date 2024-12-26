@@ -1,0 +1,32 @@
+root@ibtisam:/home/osboxes/ibtisam/docker/lec10# tree (to test in local/zero step, no need of nginx)
+.
+├── package.json
+└── src
+    └── index.js
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
+apt install -y nodejs npm
+npm install (/../lec10), installs dependencies mentioned in package.json (express & nodemon)
+npm start 
+npm list (/../lec10) OR npm view express version, lists all installed dependencies
+
+const express = require('express')
+const app = express()
+const port= process.env.PORT || 4000 // Defaults to 4000 if no PORT is provided
+
+app.get('/', (req, res) => {
+       res.send('Hello ibtisam, my sweetheart')
+})
+
+app.listen(port, ()  => {
+       console.log(`Example app listening at http://localhost:${port}`)
+})
+
+FROM node:alpine
+ARG PORT=8000
+ENV PORT=$PORT		#This variable can be accessed within the application using process.env.PORT.
+WORKDIR /app
+COPY src/ .            #So, to copy the entire src directory as a whole into /app, you should use:
+COPY package.json .
+EXPOSE $PORT
+RUN npm install
+CMD npm start
