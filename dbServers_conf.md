@@ -38,7 +38,10 @@ select * from account;
 # Query the `transaction` table (if it exists in the schema)
 select * from transaction;
 
-# Create a new MySQL user with a specific username and password
+# Check the available users and hosts
+SELECT user, host FROM mysql.user;
+
+# Create a new MySQL user with a specific username and password # Use '%' for any host.
 CREATE USER 'ibtisam'@'%' IDENTIFIED BY 'ib.ti.sam';
 
 # Grant the new user full privileges on all databases and tables
