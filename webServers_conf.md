@@ -27,8 +27,8 @@ Modify the Manager web application's context.xml to disable IP restrictions
 ```bash
 sudo vi /opt/apache-tomcat-9.0.98/webapps/manager/META-INF/context.xml
 ```
-Comment out the RemoteAddrValve configuration by enclosing it in <!-- -->:
-- To "comment out" means adding the comment tags (<!-- -->) around a piece of code to disable it, preventing it from being executed or processed.
+Comment out the RemoteAddrValve configuration by enclosing it in `<!-- -->`:
+- To "comment out" means adding the comment tags `<!-- -->` around a piece of code to disable it, preventing it from being executed or processed.
 
 ```xml
 <!--
@@ -67,7 +67,7 @@ sudo netstat -tlnp | grep 8080
 **Key Notes:**
 
 1. Tomcat Users:
-   - The <user> tag in tomcat-users.xml defines credentials for accessing the Tomcat Manager and Admin interfaces.
+   - The `<user>` tag in tomcat-users.xml defines credentials for accessing the Tomcat Manager and Admin interfaces.
 
 2. IP Restrictions:
    - By default, Tomcat restricts access to the Manager and Host Manager applications to localhost. Commenting out the RemoteAddrValve allows access from other IPs.
