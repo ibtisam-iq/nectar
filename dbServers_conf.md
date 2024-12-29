@@ -249,6 +249,9 @@ sudo systemctl start mongod
 # This step installs `mongosh`, the MongoDB shell, which is used to interact with the database
 # Visit: https://www.mongodb.com/docs/mongodb-shell/install/
 
+# Start the MongoDB service, if not
+sudo systemctl start mongod
+
 # Access the MongoDB shell to manage databases and collections
 mongosh
 
@@ -257,6 +260,10 @@ show dbs;
 
 # Switch to (or create) a specific database by its name
 use db_name;
+
+# Exit the MongoDB Shell
+exit
+Ctrl+D 
 
 # Display all collections (similar to tables in relational databases) in the selected database
 show collections;
