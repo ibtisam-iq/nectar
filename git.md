@@ -153,18 +153,30 @@ git clean -fd                        # Delete untracked files and directories
 # Viewing History
 ```bash
 git log                             # Show commit history in reverse chronological order
+
 git log --oneline                   # Compact view of commits
+
 git log --pretty=format:"%h - %an, %ar: %s"  # Custom log format
+
 git log --grep="keyword"            # Search commits by message
+
 git log --since="YYYY-MM-DD"        # Filter commits after a date
+
 git log --until="YYYY-MM-DD"        # Filter commits before a date
+
 git log --author="author"           # Filter commits by author
+
 git log --after="YYYY-MM-DD"        # Filter commits after a date
+
 git log --before="YYYY-MM-DD"       # Filter commits before a date
+
 git log --all                       # Show all branches
 git log --graph                     # Show commit history with a graph
+
 git log --stat                      # Show commit history with statistics
+
 git log -2                          # Show the last two commits
+
 git log -p -2                       # Show the last two commits with patch
 ```
 # git diff
@@ -191,12 +203,19 @@ git diff --no-color                  # Show differences without color (useful fo
 ## Working with Branches
 ```bash
 git branch                          # List local branches # Check on which branch you are working
+
 git branch -a                       # List all branches
+
 git branch -r                       # List remote branches
+
 git branch -m old new               # Rename a branch, but fails if the new branch name already exists
+
 git branch -m old new --force       # Rename a branch, even if the new branch name already exists
+
 git branch -M old new               # Same as git branch -m old new --force
+
 git branch -c old new               # Create a new branch and checkout to it
+
 git branch -d branch_name           # Delete a branch after merging at local
 ```
 - Make sure you checkout to any other branch before deleting the branch.
@@ -321,11 +340,17 @@ git push origin --delete tag_name
 # Stashing
 ```bash
 git stash                           # Stash uncommitted changes
+
 git stash list                      # List stashed changes
+
 git stash apply                     # Apply the most recent stash
+
 git stash apply <stash_name>        # Apply a specific stash
+
 git stash drop <stash_name>         # Drop a specific stash
+
 git stash drop stash@{index}        # Drop a specific stash
+
 git stash clear                     # Clear all stashed changes
 ```
 
