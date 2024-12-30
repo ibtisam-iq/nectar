@@ -77,3 +77,5 @@ sudo netstat -tlnp | grep 8080
 
 4. Port Check:
    - The netstat command verifies if Tomcat is running and listening on the default HTTP port (8080).
+
+# Nginx
