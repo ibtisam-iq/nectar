@@ -61,10 +61,10 @@ minikube status/start/stop/delete/dashboard/pause/unpause
 ```
 #### Minikube Context Setup
 ```bash
-kubectl config get-contexts #to get all available clusters
+kubectl config get-contexts # to get all available clusters
 kubectl config get-clusters		
 kubectl cluster-info
-kubectl config use-context <minikube>	use,not set			
+kubectl config use-context <minikube>	# use, not set			
 kubectl config use-context <kind-ibtisam>
 kubectl config current-context					            
 kubectl cluster-info --context $(kubectl config current-context)
@@ -98,21 +98,22 @@ kubectl version --client false -o yaml
 ```
 
 #### Basic Commands:
-- **Beginner:**
+```bash
+Beginner:
   create          Create a resource from a file or from stdin
   expose          Take a replication controller, service, deployment or pod and expose it as a new Kubernetes service
   run             Run a particular image on the cluster
   set             Set specific features on objects
-- **Intermediate:**
+Intermediate:
   explain         Get documentation for a resource
   get             Display one or many resources
   edit            Edit a resource on the server
   delete          Delete resources by file names, stdin, resources and names, or by resources and label selector
-#### Deploy Commands:
+Deploy Commands:
   rollout         Manage the rollout of a resource
   scale           Set a new size for a deployment, replica set, or replication controller		--replicas=0
   autoscale       Auto-scale a deployment, replica set, stateful set, or replication controller
-#### Cluster Management Commands:
+Cluster Management Commands:
   certificate     Modify certificate resources
   cluster-info    Display cluster information
   top             Display resource (CPU/memory) usage
@@ -120,8 +121,7 @@ kubectl version --client false -o yaml
   uncordon        Mark node as schedulable
   drain           Drain node in preparation for maintenance
   taint           Update the taints on one or more nodes
-
-#### Troubleshooting and Debugging Commands:
+Troubleshooting and Debugging Commands:
   describe        Show details of a specific resource or group of resources
   logs            Print the logs for a container in a pod
   attach          Attach to a running container
@@ -132,60 +132,26 @@ kubectl version --client false -o yaml
   auth            Inspect authorization
   debug           Create debugging sessions for troubleshooting workloads and nodes
   events          List events
-#### Advanced Commands:
+Advanced Commands:
   diff            Diff the live version against a would-be applied version
   apply           Apply a configuration to a resource by file name or stdin
   patch           Update fields of a resource
   replace         Replace a resource by file name or stdin
   wait            Experimental: Wait for a specific condition on one or many resources
   kustomize       Build a kustomization target from a directory or URL
-#### Settings Commands:
+Settings Commands:
   label           Update the labels on a resource
   annotate        Update the annotations on a resource
   completion      Output shell completion code for the specified shell (bash, zsh, fish, or powershell)
-#### Other Commands:
+Other Commands:
   api-resources   Print the supported API resources on the server
   api-versions    Print the supported API versions on the server, in the form of "group/version"
   config          Modify kubeconfig files
   plugin          Provides utilities for interacting with plugins
   version         Print the client and server version information
----
-
-## Kubectl Create/Apply/Replace Examples
-
-```bash
-kubectl create -f resource.yaml
-kubectl apply -f resource.yaml
-kubectl replace -f resource.yaml --force
 ```
-
 ---
 
-## Declarative and Imperative Commands
-
-### Declarative Examples:
-- Resources: Pod, Deployment, Service, etc.
-- Apply configuration:
-  ```bash
-  kubectl apply -f config.yaml
-  kubectl replace -f config.yaml --force
-  ```
-
-### Imperative Examples:
-- Pods:
-  ```bash
-  kubectl run <pod_name> --image=<image_name> --restart=Never
-  ```
-
----
-
-### Kubernetes Config Commands
-```bash
-kubectl config get-contexts
-kubectl config use-context <context>
-kubectl config current-context
-kubectl config delete-context <context>
-```
 
 ---
 
@@ -260,8 +226,8 @@ Other Commands:
   version         Print the client and server version information
 ```
 **kubectl config commands**
-
-- current-context   Display the current-context
+```bash
+current-context   Display the current-context
 delete-cluster    Delete the specified cluster from the kubeconfig
 delete-context    Delete the specified context from the kubeconfig
 delete-user       Delete the specified user from the kubeconfig
@@ -276,7 +242,7 @@ set-credentials   Set a user entry in kubeconfig
 unset             Unset an individual value in a kubeconfig file
 use-context       Set the current-context in a kubeconfig file
 view              Display merged kubeconfig settings or a specified kubeconfig file
-
+```
 
 **kubectl create/apply/replace/run/expose/rollout/port-forward/config/taint/label/patch**
 ```bash
@@ -402,7 +368,7 @@ view              Display merged kubeconfig settings or a specified kubeconfig f
 
 --selector app=frontend,env=dev --no-headers | wc -l  # Example of using a selector to filter resources and count them.
 ```
-
+**above is done**
 
 Declarative Commands
 
