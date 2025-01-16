@@ -31,6 +31,7 @@ pipeline {
 
 ## Parameters
 - Use this directive when the pipeline is not parameterized.
+- Parameters: string, choice, boolean, file
 ```groovy
     parameters {
         choice choices: ['main', 'dev', 'ibtisam'], description: 'write description', name: 'Branch_name'
