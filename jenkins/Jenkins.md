@@ -5,6 +5,7 @@
 - **Continuous Integration**: Automation to build and test applications whenever new commits are pushed into the branch.
 - **Continuous Delivery**: Continuous Integration + Deploy application to production by "clicking on a button" (Release to customers is often, but on demand).
 - **Continuous Deployment**: Continuous Delivery but without human intervention (Release to customers is ongoing).
+
 ![](./Delivery%20vs%20Deployment.png)
 #### Pipeline Types
 
