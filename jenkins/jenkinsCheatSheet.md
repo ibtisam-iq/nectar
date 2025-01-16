@@ -16,7 +16,7 @@ It spans multiple lines.
 ```groovy
 pipeline {
     agent any                // agent is a directive
-//  agent {label 'slave-1'} 
+    agent {label 'slave-1'}  // specify a specific agent
 }
 ```
 
@@ -30,9 +30,9 @@ pipeline {
 ```
 
 ## Parameters
-
+- Use this directive when the pipeline is not parameterized.
 ```groovy
-    parameters { // use this directive when the pipeline is not parameterized.
+    parameters {
         choice choices: ['main', 'dev', 'ibtisam'], description: 'write description', name: 'Branch_name'
         string defaultValue: 'main', description: 'enter description', name: 'Branch_name'
     }
