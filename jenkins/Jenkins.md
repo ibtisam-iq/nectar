@@ -31,16 +31,16 @@ sudo apt-get install jenkins
 ```
 
 If Jenkins fails to start because a port is in use, run `systemctl edit jenkins` and add the following:
-
+```bash
 [Service]
 Environment="JENKINS_PORT=8081"
-
+```
 Here, "8081" was chosen but you can put another port available.
 
 ##### Firewall 
-
+```bash
 sudo ufw status; sudo ufw enable; sudo ufw allow 8080/tcp; sudo ufw status; sudo ufw reload
-
+```
 #### RHEL
 
 ```bash
@@ -51,9 +51,9 @@ sudo yum install java-17-openjdk
 sudo yum install jenkins
 ```
 ##### Firewall
-
+```bash
 sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp; sudo firewall-cmd --reload
-
+```
 ### Docker
 
 ```bash
@@ -102,7 +102,7 @@ sudo systemctl status jenkins
 
 The Manage Jenkins tab is for managing Jenkins itself. This includes managing plugins, managing the Jenkins instance, and managing the Jenkins configuration.
 
-### System 
+### 1. System 
 
 The System tab is for setting up global configurations that Jenkins and plugins (servers) require to operate at a higher level. These configurations typically deal with the overall functioning of Jenkins or its plugins.
 
@@ -110,7 +110,7 @@ The System tab is for setting up global configurations that Jenkins and plugins 
 
 Push groovy files to GitHub and configure under System > Global Trusted Pipeline Libraries.
 
-### Tools
+### 2. Tools
 
 The Tools tab focuses specifically on configuring the tools Jenkins uses, such as compilers, interpreters, build systems, or external utilities. These are specific to the runtime of the builds and can vary between jobs.
 
@@ -127,7 +127,7 @@ When Jenkins installs tools automatically, it does not place them in system-wide
 2. **Workspace Directory**: Tools may also be installed in job-specific workspace directories if configured that way. For example, for a job running in /var/lib/jenkins/workspace/my-job, the tool might be installed inside that workspace or referenced there temporarily.
 3. **Tool-Specific Subdirectories**: Within the cache or workspace directory, Jenkins creates subdirectories for each tool and version, ensuring isolation. For example: ~/.jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven-3.8.5/ Here: hudson.tasks.Maven_MavenInstallation: Identifier for the tool type (Maven in this case). Maven-3.8.5: The version of Maven being installed.
 
-## Plugins
+## 3. Plugins
 
 Plugins are essentially extensions to Jenkins that add new functionality. They can be installed from the Jenkins Plugin Manager. Here are the important plugins:
 
@@ -139,13 +139,13 @@ Plugins are essentially extensions to Jenkins that add new functionality. They c
 - Multibranch Scan Webhook Trigger
 - Deploy to container
 
-## Nodes
+## 4. Nodes
 
-## Security
+## 5. Security
 
-## Credentials
+## 6. Credentials
 
-## Users
+## 7. Users
 
 
 
