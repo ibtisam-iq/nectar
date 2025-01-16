@@ -61,7 +61,7 @@ sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp; sudo firewall-c
 docker run jenkins/jenkins:lts-jdk17 -d -p 8080:8080
 ```
 
-If you are running Jenkins in Docker using the official `jenkins/jenkins` image you can use `sudo docker exec ${CONTAINER_ID or CONTAINER_NAME} cat /var/jenkins_home/secrets/initialAdminPassword` to print the password in the console without having to exec into the container.
+If you are running Jenkins in Docker using the official `jenkins/jenkins` image, you can use `sudo docker exec ${CONTAINER_ID or CONTAINER_NAME} cat /var/jenkins_home/secrets/initialAdminPassword` to print the password in the console without having to exec into the container.
 
 ### WAR File
 
