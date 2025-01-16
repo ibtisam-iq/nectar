@@ -5,7 +5,7 @@
 - **Continuous Integration**: Automation to build and test applications whenever new commits are pushed into the branch.
 - **Continuous Delivery**: Continuous Integration + Deploy application to production by "clicking on a button" (Release to customers is often, but on demand).
 - **Continuous Deployment**: Continuous Delivery but without human intervention (Release to customers is ongoing).
-
+! (./Delivery%20vs%20Deployment.png)
 #### Pipeline Types
 
 - **Scripted Pipeline**: Original, code validation happens while running the pipeline. Can’t restart. Executed all stages sequentially.
@@ -60,7 +60,7 @@ sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp; sudo firewall-c
 docker run jenkins/jenkins:lts-jdk17 -d -p 8080:8080
 ```
 
-If you are running Jenkins in Docker using the official jenkins/jenkins image you can use sudo docker exec ${CONTAINER_ID or CONTAINER_NAME} cat /var/jenkins_home/secrets/initialAdminPassword to print the password in the console without having to exec into the container.
+If you are running Jenkins in Docker using the official `jenkins/jenkins` image you can use `sudo docker exec ${CONTAINER_ID or CONTAINER_NAME} cat /var/jenkins_home/secrets/initialAdminPassword` to print the password in the console without having to exec into the container.
 
 ### WAR File
 
@@ -72,7 +72,7 @@ Run the command:
 java -jar jenkins.war
 ```
 
-You can change the port by specifying the --httpPort option when you run the java -jar jenkins.war command. For example, to make Jenkins accessible through port 9090, then run Jenkins using the command:
+You can change the port by specifying the `--httpPort` option when you run the `java -jar jenkins.war` command. For example, to make Jenkins accessible through port 9090, then run Jenkins using the command:
 
 ```bash
 java -jar jenkins.war --httpPort=9090
@@ -123,9 +123,11 @@ When Jenkins installs tools automatically, it does not place them in system-wide
 
 #### Where Exactly It Is Installed
 
-1. **Cache Directory**: Jenkins maintains a special directory, often called the tools cache, where it stores downloaded and installed tools. Default Locations: ~/.jenkins/tools or /var/lib/jenkins/tools.
-2. **Workspace Directory**: Tools may also be installed in job-specific workspace directories if configured that way. For example, for a job running in /var/lib/jenkins/workspace/my-job, the tool might be installed inside that workspace or referenced there temporarily.
-3. **Tool-Specific Subdirectories**: Within the cache or workspace directory, Jenkins creates subdirectories for each tool and version, ensuring isolation. For example: ~/.jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven-3.8.5/ Here: hudson.tasks.Maven_MavenInstallation: Identifier for the tool type (Maven in this case). Maven-3.8.5: The version of Maven being installed.
+1. **Cache Directory**: Jenkins maintains a special directory, often called the tools cache, where it stores downloaded and installed tools. Default Locations: `~/.jenkins/tools` or `/var/lib/jenkins/tools`.
+
+2. **Workspace Directory**: Tools may also be installed in job-specific workspace directories if configured that way. For example, for a job running in `/var/lib/jenkins/workspace/my-job`, the tool might be installed inside that workspace or referenced there temporarily.
+
+3. **Tool-Specific Subdirectories**: Within the cache or workspace directory, Jenkins creates subdirectories for each tool and version, ensuring isolation. For example: `~/.jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven-3.8.5/` Here: `hudson.tasks.Maven_MavenInstallation`: Identifier for the tool type (Maven in this case). Maven-3.8.5: The version of Maven being installed.
 
 ## 3. Plugins
 
