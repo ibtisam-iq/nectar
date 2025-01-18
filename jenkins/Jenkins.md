@@ -99,9 +99,11 @@ You can check the status of the Jenkins service using the command:
 sudo systemctl status jenkins
 ```
 
-## Walkthrough Manage Jenkins Dashboard
+## Walkthrough Manage Jenkins UI
 
 The Manage Jenkins tab is for managing Jenkins itself. This includes managing plugins, managing the Jenkins instance, and managing the Jenkins configuration.
+
+![](./Manage%20Jenkins.png)
 
 ### 1. System 
 
@@ -144,11 +146,35 @@ Plugins are essentially extensions to Jenkins that add new functionality. They c
 
 ## 4. Nodes
 
+
 ## 5. Security
 
 ## 6. Credentials
 
 ## 7. Users
 
+## Job Types
+In Jenkins, different types of jobs allow you to define and automate various stages of the software
+development lifecycle. Here are some common types:
+### 1. Freestyle Project
+- A general-purpose job type where you can define a series of build steps, such as running shell commands, executing scripts, and performing other tasks.
+- Suitable for simple tasks and projects that don't require complex workflows.
+![Specify the Git Branch](./Branch%20Specifier.png)
+![Build Steps](./Build%20Steps%20for%20Java%20App.png)
 
+
+### 2. Pipeline
+
+- Jenkinsfile is a Groovy script that defines the pipeline.
+- Jenkinsfile is stored in the repository, and Jenkins will automatically detect it and use it to build the project. 
+- Jenkinsfile is a declarative syntax, meaning it defines what the pipeline should do, rather than how it should do it.
+- If a tool, let say, `maven`, is not configured in groovy syntax, it must be installed on the Jenkins server locally.
+- If configured with the Jenkinsfile, `pipeline script from SCM`, pipeline as code, you can use `replay` to view & build the pipeline.
+![Specify Jenkinsfile Pipeline as Code](./Script%20Path.png) 
+
+### 3. Multibranch Pipeline
+
+### 4. Maven Project
+
+### 5. Multi-Configuration Project
 
