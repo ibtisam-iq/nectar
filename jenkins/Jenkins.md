@@ -204,6 +204,33 @@ java -jar jenkins-cli.jar -s $JEN_URL -auth $JEN_USER:$JEN_PASSWORD list-jobs
 - Webhooks are used to notify Jenkins of changes to a repository, triggering a build.
 - Click [here](./webhook_setup.md) for more details.
 
+### 2. Upstream vs Downstream Jobs
+- Upstream jobs are the ones that trigger the downstream jobs.
+- Downstream jobs are the ones that are triggered by the upstream jobs.
+
+#### Here is how to configure a upstream job to trigger a downstream job in `Freestyle Project`:
+- Go to `Configure` of the upstream job as following:
+![](./images/Post-build%20Actions.png)
+
+#### Here is an example of how to trigger a downstream job from an upstream job in a `Pipleline` job.
+
+```groovy
+stages {
+        stage('Hello') {
+            steps {
+                echo "Hello, my sweetheart"
+            }
+        }
+    }
+    post {
+        success {
+            build 'Job B' // mention downstream job name
+        }
+        failure {
+            build 'Job C' // mention downstream job name
+        }
+    }    
+```
 ## Important Key Concepts
 
 1. **Parameters and Variables**
@@ -219,5 +246,7 @@ java -jar jenkins-cli.jar -s $JEN_URL -auth $JEN_USER:$JEN_PASSWORD list-jobs
     - Go to `Manage Jenkins > Security > Authorization > Matrix-based security` to configure the roles and permissions.
 
 ![](./images/Matrix-based%20Security.png)
+
+
 
 
