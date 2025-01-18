@@ -23,10 +23,30 @@ Parameters allow you to provide inputs to a build at runtime. These inputs can c
 - When you need user input or control over how the build should execute.
 - If a build process needs flexibility for different conditions or environments.
 
+### **Types**:
+- **String Parameter**: Allows users to input a string value.
+- **Choice Parameter**: Presents a list of predefined choices to the user.
+- **Boolean Parameter**: Offers a yes/no or true/false option.
+- **Password Parameter**: Hides the input for security, typically used for credentials.
+- **Credentials Parameter**: Allows users to select from a list of stored credentials.
+- **File Parameter**: Allows users to upload a file.
+
+![](./images/Types%20pf%20Parameters.png)
+
+
+
 ### **Example**:
+At a time, multiple types of parameters can be used in a Jenkins job. For instance, a job might ask for a `username`, a `password`, and a `choice` of environment (`dev`, `staging`, `prod`). The configuration is of the type `String Parameter`, `Password Parameter`, and `Choice Parameter` respectively.
+
+1. Cofiguring in Jenkins Job:
+
+![This project is parameterized](./images/Project%20is%20parameterized.png)
+
+2. Configure in Jenkinsfile:
+
 A parameterized build with a string parameter `Environment`:
 ```groovy
-parameters {
+parameters { // Use this directive when the pipeline is not parameterized.
     string(name: 'Environment', defaultValue: 'dev', description: 'Target environment for deployment')
 }
 ```
