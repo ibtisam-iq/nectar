@@ -12,6 +12,8 @@
 - **Scripted Pipeline**: Original, code validation happens while running the pipeline. Can’t restart. Executed all stages sequentially.
 - **Declarative Pipeline**: Latest, first validates the code, and then runs the pipeline. Restarting from a specific stage is supported. A particular stage can be skipped based on the `when` directive.
 
+---
+
 ## Setting up Jenkins
 
 ### Official Site
@@ -85,6 +87,8 @@ java -jar jenkins.war --httpPort=9090
 sudo systemctl enable/start/status/stop/disable jenkins
 ```
 
+---
+
 ## Walkthrough Manage Jenkins UI
 
 The Manage Jenkins tab is for managing Jenkins itself. This includes managing plugins, managing the Jenkins instance, and managing the Jenkins configuration.
@@ -131,13 +135,16 @@ Plugins are essentially extensions to Jenkins that add new functionality. They c
 - Deploy to container
 
 ## 4. Nodes
+- Nodes are Jenkins servers or agents that can run jobs as slave.
+- Click [here](./slave_setup.md) & open in new tab for details.
 
-Click [here](jenkins_slave_setup.md) & open in new tab for details.
 ## 5. Security
+- Jenkins has a built-in security system that allows you to configure access control for users and groups.
+- Click [here](./security.md) & open in new tab for details.
 
 ## 6. Credentials
 
-## 7. Users
+---
 
 ## Job Types
 In Jenkins, different types of jobs allow you to define and automate various stages of the software
@@ -169,6 +176,34 @@ development lifecycle. Here are some common types:
 
 ### 5. Multi-Configuration Project
 
+---
+
+## Jenkins CLI
+
+- Download the specific Jar for CLI from [here](http://localhost:8080/jnlpJars/jenkins-cli.jar)
+- Run the Jar file.
+```bash
+java -jar jenkins-cli.jar -s http://localhost:8080/jnlpJars/jenkins-cli.jar
+``` 
+- Setting Up Environment Variables
+```bash
+export JEN_URL=http://localhost:8080/
+export JEN_USER=admin
+export JEN_PASSWORD=ibtisam
+```
+- List all the jobs
+```bash
+java -jar jenkins-cli.jar -s $JEN_URL -auth $JEN_USER:$JEN_PASSWORD list-jobs
+```
+- click [here](http://localhost:8080/manage/cli/) to see all available Jenkins CLI commands.
+
+
+## Scenario Based Implementation
+
+### 1. Webhook
+- Webhooks are used to notify Jenkins of changes to a repository, triggering a build.
+- Click [here](./webhook_setup.md) for more details.
+
 ## Important Key Concepts
 
 1. **Parameters and Variables**
@@ -176,13 +211,13 @@ development lifecycle. Here are some common types:
 - Variables can be defined in the Jenkinsfile or in the Jenkins UI.
 - Parameters are defined in the job configuration, or in the Jenkinsfile or pipeline. script.
 - Click [here](./params_and_var.md) for more details.
-2. **Credentials**
-- Credentials are used to authenticate with external systems, such as Git repositories, databases, or APIs.
-- Credentials can be stored in Jenkins, and then used in the pipeline or build steps.
-- Click [here](./credentials.md) for more details.
-3. **Nodes and Agents**
-- Nodes are Jenkins servers or agents that can run jobs.
-- Click [here](slave_setup.md) & open in new tab for details.
-4. **Webhook**
-- Webhooks are used to notify Jenkins of changes to a repository, triggering a build.
-- Click [here](./jenkins_webhook.md) for more details.
+
+2. **User Access Management**
+- Jenkins provides various roles and permissions to manage user access.
+    - Add the plugin `Matrix Authorization Strategy Plugin`, it comes by-default now.
+    - Add users to the Jenkins user list under `Manage Jenkins > Users`
+    - Go to `Manage Jenkins > Security > Authorization > Matrix-based security` to configure the roles and permissions.
+
+![](./images/Matrix-based%20Security.png)
+
+
