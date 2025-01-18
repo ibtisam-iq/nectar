@@ -6,7 +6,7 @@
 - **Continuous Delivery**: Continuous Integration + Deploy application to production by "clicking on a button" (Release to customers is often, but on demand).
 - **Continuous Deployment**: Continuous Delivery but without human intervention (Release to customers is ongoing).
 
-![](.images/Delivery%20vs%20Deployment.png)
+![](./images/Delivery%20vs%20Deployment.png)
 #### Pipeline Types
 
 - **Scripted Pipeline**: Original, code validation happens while running the pipeline. Can’t restart. Executed all stages sequentially.
@@ -81,29 +81,15 @@ java -jar jenkins.war --httpPort=9090
 
 ### Start Jenkins
 
-You can enable the Jenkins service to start at boot with the command:
-
 ```bash
-sudo systemctl enable jenkins
-```
-
-You can start the Jenkins service with the command:
-
-```bash
-sudo systemctl start jenkins
-```
-
-You can check the status of the Jenkins service using the command:
-
-```bash
-sudo systemctl status jenkins
+sudo systemctl enable/start/status/stop/disable jenkins
 ```
 
 ## Walkthrough Manage Jenkins UI
 
 The Manage Jenkins tab is for managing Jenkins itself. This includes managing plugins, managing the Jenkins instance, and managing the Jenkins configuration.
 
-![](.images/Manage%20Jenkins.png)
+![](./images/Manage%20Jenkins.png)
 
 ### 1. System 
 
@@ -160,9 +146,9 @@ development lifecycle. Here are some common types:
 - A general-purpose job type where you can define a series of build steps, such as running shell commands, executing scripts, and performing other tasks.
 - Suitable for simple tasks and projects that don't require complex workflows.
 
-![Specify the Git Branch](.images/Branch%20Specifier.png)
+![Specify the Git Branch](./images/Branch%20Specifier.png)
 
-![Build Steps](.images/Build%20Steps%20for%20Java%20App.png)
+![Build Steps](./images/Build%20Steps%20for%20Java%20App.png)
 
 
 ### 2. Pipeline
@@ -173,7 +159,7 @@ development lifecycle. Here are some common types:
 - If a tool, let say, `maven`, is not configured in groovy syntax, it must be installed on the Jenkins server locally.
 - If configured with the Jenkinsfile, `pipeline script from SCM`, pipeline as code, you can use `replay` to view & build the pipeline.
 
-![Specify Jenkinsfile Pipeline as Code](.images/Script%20Path.png) 
+![Specify Jenkinsfile Pipeline as Code](./images/Script%20Path.png) 
 
 ### 3. Multibranch Pipeline
 
