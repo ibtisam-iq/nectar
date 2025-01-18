@@ -171,6 +171,8 @@ development lifecycle. Here are some common types:
 
 ## Important Key Concepts
 
-1. **Parameters**: 
-    - Jenkins allows you to define parameters for your jobs, which can be used to customize the build process during the runtime.
-    - Click here to learn more about [parameters](https://www.jenkins.io/doc/book/pipeline/parameters/)
+1. **Parameters and Variables**
+    - Parameters are inputs provided by users at build time, while variables are values used within the build or pipeline.
+    - Variables can be defined in the Jenkinsfile or in the Jenkins UI.
+    - Parameters are defined in the job configuration, or in the Jenkinsfile or pipeline. script.
+    - Click [here](./params_and_var.md) for more details.
