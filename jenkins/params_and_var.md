@@ -31,7 +31,7 @@ Parameters allow you to provide inputs to a build at runtime. These inputs can c
 - **Credentials Parameter**: Allows users to select from a list of stored credentials.
 - **File Parameter**: Allows users to upload a file.
 
-![](./images/Types%20pf%20Parameters.png)
+![](./images/Types%20of%20Parameters.png)
 
 
 
