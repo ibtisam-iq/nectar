@@ -159,7 +159,9 @@ development lifecycle. Here are some common types:
 ### 1. Freestyle Project
 - A general-purpose job type where you can define a series of build steps, such as running shell commands, executing scripts, and performing other tasks.
 - Suitable for simple tasks and projects that don't require complex workflows.
+
 ![Specify the Git Branch](./Branch%20Specifier.png)
+
 ![Build Steps](./Build%20Steps%20for%20Java%20App.png)
 
 
