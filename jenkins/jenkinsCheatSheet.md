@@ -136,6 +136,8 @@ pipeline {
 
 ## Post Actions
 
+![](./images/Post%20Directive.png)
+
 ```groovy
     post {
         success {
@@ -152,4 +154,3 @@ pipeline {
         }
     }
 ```
-
