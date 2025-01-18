@@ -146,9 +146,11 @@ development lifecycle. Here are some common types:
 - A general-purpose job type where you can define a series of build steps, such as running shell commands, executing scripts, and performing other tasks.
 - Suitable for simple tasks and projects that don't require complex workflows.
 
-![Specify the Git Branch](./images/Branch%20Specifier.png)
+![Specify the git branch](./images/Branch%20Specifier.png)
 
-![Build Steps](./images/Build%20Steps%20for%20Java%20App.png)
+![Restrict the build to a specific node](./images/Slave%20Restriction.png)
+
+![Build steps](./images/Build%20Steps%20for%20Java%20App.png)
 
 
 ### 2. Pipeline
