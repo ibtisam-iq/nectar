@@ -169,3 +169,8 @@ development lifecycle. Here are some common types:
 
 ### 5. Multi-Configuration Project
 
+## Important Key Concepts
+
+1. **Parameters**: 
+    - Jenkins allows you to define parameters for your jobs, which can be used to customize the build process during the runtime.
+    - Click here to learn more about [parameters](https://www.jenkins.io/doc/book/pipeline/parameters/)
