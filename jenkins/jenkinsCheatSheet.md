@@ -1,5 +1,12 @@
 # Jenkins Pipeline Cheat Sheet
-Have a look on the official Jenkins [Pipeline](https://www.jenkins.io/doc/book/pipeline/) & [Pipeline Syntax](https://www.jenkins.io/doc/book/pipeline/syntax/) documentations
+Have a look on the official Jenkins documentations
+- [Pipeline](https://www.jenkins.io/doc/book/pipeline/)
+- [Pipeline Syntax](https://www.jenkins.io/doc/book/pipeline/syntax/)
+
+- [Directive Generator](http://localhost:8080/directive-generator/)
+- [Snippet Generator](http://localhost:8080/pipeline-syntax/)
+- [Global Variable Reference](http://localhost:8080/pipeline-syntax/globals)
+
 
 ## Adding Comments in Jenkinsfile
 
