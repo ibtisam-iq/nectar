@@ -1,4 +1,5 @@
 # Jenkins Pipeline Cheat Sheet
+Have a look on the official Jenkins **[Pipeline]**(https://www.jenkins.io/doc/book/pipeline/) & **[Pipeline-Syntax]**(https://www.jenkins.io/doc/book/pipeline/syntax/) documentations
 
 ## Adding Comments in Jenkinsfile
 
