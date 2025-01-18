@@ -129,9 +129,20 @@ Here, the `ref` value is `refs/heads/main`.
 
 ## Steps to Configure Webbook
 
+### 1. Pipeline
+
 1. Install `Generic Webhook Trigger` Plugin in Jenkins.
 2. Configure the plugin by specifying the webhook URL, token, and other settings as described above.
     - **Webhook URL:** The URL where the webhook will send its payload.
     - **Token:** The secret token used for authentication.
     - **Cause:** The message that will appear in the Jenkins build cause.
     - **Optional Filter:** The regular expression and text to filter the webhook events.
+
+### 2. Multibranch Pipeline
+
+1. Install `Multibranch Scan Webhook Trigger` Plugin in Jenkins.
+2. Configure the plugin by specifying the webhook URL, token, and other settings as described above.
+
+**Note**: This plugin does not provide an option to put the `Token` as `Credentials` with `Secret Text`.
+
+![](./images/Multibranch%20Webhook.png)
