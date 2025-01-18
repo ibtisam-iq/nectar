@@ -38,11 +38,11 @@ Parameters allow you to provide inputs to a build at runtime. These inputs can c
 ### **Example**:
 At a time, multiple types of parameters can be used in a Jenkins job. For instance, a job might ask for a `username`, a `password`, and a `choice` of environment (`dev`, `staging`, `prod`). The configuration is of the type `String Parameter`, `Password Parameter`, and `Choice Parameter` respectively.
 
-1. Cofiguring in Jenkins Job:
+1. **Cofigure in Jenkins Job**:
 
 ![This project is parameterized](./images/Project%20is%20parameterized.png)
 
-2. Configure in Jenkinsfile:
+2. **Configure in Jenkinsfile**:
 
 A parameterized build with a string parameter `Environment`:
 ```groovy

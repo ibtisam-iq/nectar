@@ -172,7 +172,17 @@ development lifecycle. Here are some common types:
 ## Important Key Concepts
 
 1. **Parameters and Variables**
-    - Parameters are inputs provided by users at build time, while variables are values used within the build or pipeline.
-    - Variables can be defined in the Jenkinsfile or in the Jenkins UI.
-    - Parameters are defined in the job configuration, or in the Jenkinsfile or pipeline. script.
-    - Click [here](./params_and_var.md) for more details.
+- Parameters are inputs provided by users at build time, while variables are values used within the build or pipeline.
+- Variables can be defined in the Jenkinsfile or in the Jenkins UI.
+- Parameters are defined in the job configuration, or in the Jenkinsfile or pipeline. script.
+- Click [here](./params_and_var.md) for more details.
+2. **Credentials**
+- Credentials are used to authenticate with external systems, such as Git repositories, databases, or APIs.
+- Credentials can be stored in Jenkins, and then used in the pipeline or build steps.
+- Click [here](./credentials.md) for more details.
+3. **Nodes and Agents**
+- Nodes are Jenkins servers or agents that can run jobs.
+- Click [here](slave_setup.md) & open in new tab for details.
+4. **Webhook**
+- Webhooks are used to notify Jenkins of changes to a repository, triggering a build.
+- Click [here](./jenkins_webhook.md) for more details.
