@@ -27,7 +27,7 @@ This guide details the steps to configure a slave node for Jenkins. Follow the i
    ```bash
    mkdir /home/ibtisam/slave-workplace
    ```
-![](./Slave%20Label.png)
+![](.images/Slave%20Label.png)
 ---
 
 ### 2. On the Master Machine
@@ -68,7 +68,8 @@ This guide details the steps to configure a slave node for Jenkins. Follow the i
    Add the SSH credentials in Jenkins to establish a connection to the slave:
    - **Username**: `ibtisam`  
    - **Private Key**: `/var/lib/jenkins/.ssh/id_ed25519`
-![](./Slave%20Credentials.png)
+
+![](.images/Slave%20Credentials.png)
 ---
 
 ### Summary
