@@ -132,7 +132,7 @@ Plugins are essentially extensions to Jenkins that add new functionality. They c
 
 ## 4. Nodes
 
-Click [here](jenkins_slave_setup.md) for details.
+Click [here](jenkins_slave_setup.md) & open in new tab for details.
 ## 5. Security
 
 ## 6. Credentials
