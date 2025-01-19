@@ -2,9 +2,26 @@
 
 This document provides a detailed guide on using Git for version control, including installation, configuration, basic commands, and advanced operations. It is structured for ease of use and covers various scenarios you might encounter when working with Git.
 
+## Table of Contents
+
+1. [Installation](#installation)
+2. [Configuration](#configuration)
+3. [Basic Commands](#basic-commands)
+    - [Initializing and Checking Status](#initializing-and-checking-status)
+    - [Staging and Committing](#staging-and-committing)
+    - [Undoing Changes](#undoing-changes)
+4. [Viewing History](#viewing-history)
+5. [Branching and Merging](#branching-and-merging)
+    - [Working with Branches](#working-with-branches)
+    - [Switching Branches](#switching-branches)
+    - [Merging and Rebasing](#merging-and-rebasing)
+6. [Working with Remotes](#working-with-remotes)
+7. [Tags](#tags)
+8. [Stashing](#stashing)
+
 ---
 
-# Installation
+## Installation
 ```bash
 # Check if Git is installed
 which git
@@ -354,4 +371,4 @@ git stash drop stash@{index}        # Drop a specific stash
 git stash clear                     # Clear all stashed changes
 ```
 
-# Muhammad Ibtisam 
+# Muhammad Ibtisam
