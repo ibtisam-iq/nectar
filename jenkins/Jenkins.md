@@ -210,9 +210,10 @@ java -jar jenkins-cli.jar -s $JEN_URL -auth $JEN_USER:$JEN_PASSWORD list-jobs
 
 #### Here is how to configure a upstream job to trigger a downstream job in `Freestyle Project`:
 - Go to `Configure` of the upstream job as following:
+
 ![](./images/Post-build%20Actions.png)
 
-#### Here is an example of how to trigger a downstream job from an upstream job in a `Pipleline` job.
+#### Here is an example of how to trigger a downstream job from an upstream job in a `Pipeline` job.
 
 ```groovy
 stages {
