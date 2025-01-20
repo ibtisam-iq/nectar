@@ -1,4 +1,4 @@
-# Jenkins Pipeline Cheat Sheet
+# Jenkinsfile Cheat Sheet
 
 Have a look on the official Jenkins documentations
 - [Pipeline](https://www.jenkins.io/doc/book/pipeline/)
