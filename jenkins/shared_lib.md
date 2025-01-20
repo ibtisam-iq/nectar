@@ -50,5 +50,74 @@ Shared libraries have two main directories: `vars/` and `src/`.
 | **Complexity**           | Simpler functions                | Advanced object-oriented logic   |
 | **Accessibility**        | Automatically available globally | Requires explicit imports        |
 
+```
+ibtisam@mint-dell:/media/ibtisam/L-Mint/git/jenkins_shared_library$ tree
+.
+├── resources
+│   └── config.txt
+├── src
+│   └── org
+│       └── example
+│           └── myLibrary.groovy
+└── vars
+    ├── install.groovy
+    ├── myFunction.groovy
+    ├── pkgwithskiptest.groovy
+    └── sonar-analysis.groovy
+
+6 directories, 6 files
+
+ibtisam@mint-dell:/media/ibtisam/L-Mint/git/jenkins_shared_library$ cat vars/myFunction.groovy 
+// vars/myFunction.groovy
+def call(name) {
+    echo "Hello ${name} from myFunction!"
+    
+}
+
+ibtisam@mint-dell:/media/ibtisam/L-Mint/git/jenkins_shared_library$ cat vars/pkgwithskiptest.groovy 
+def call() {   
+     sh 'mvn package -DskipTests=true'      
+    
+}
+
+```
+
 ---
+
+## Steps
+
+1. Configure the Github repo as following:
+
+![](./images/Shared%20Lib.png)
+
+2. Write the `pipeline` as following:
+
+```groovy
+@Library ("it_can_be_any_name")_
+
+pipeline {
+    agent any
+    
+    tools { 
+        maven "maven3"
+    } 
+
+    stages {
+        stage('Git Checkout') {
+            steps {
+                git branch: 'master', url: 'https://github.com/ibtisamops/secretsanta-generator.git'
+            }
+        }
+        
+        stage('Hello') {
+            steps {
+                script {
+                    myFunction("Ibtisam")
+                    pkgwithskiptest
+                }
+            }
+        }
+    }
+}
+```
 
