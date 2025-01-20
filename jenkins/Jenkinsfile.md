@@ -43,7 +43,7 @@ pipeline {
 - Parameters: string, choice, boolean, file
 ```groovy
     parameters {
-        choice choices: ['main', 'dev', 'ibtisam'], description: 'write description', name: 'Branch_name'
+        choice choices: ['main', 'dev', 'ibtisam'], description: 'write description', name: 'env'
         string defaultValue: 'main', description: 'enter description', name: 'Branch_name'
     }
 ```
@@ -117,9 +117,11 @@ pipeline {
                 script {
                     if (params.env == 'dev') {
                         sh 'mvn clean deploy'
-                    } else if (params.env == 'prod') {
+                    } 
+                    else if (params.env == 'prod') {
                         sh 'mvn clean deploy'
-                    } else {
+                    } 
+                    else {
                         echo 'Invalid environment'
                     }
                 }
@@ -172,4 +174,92 @@ pipeline {
             archiveArtifacts artifacts: '**/target/*.jar', followSymlinks: false, onlyIfSuccessful: true
         }
     }
+```
+## Scenario Based Implementation
+
+### 1. Changeset
+```groovy
+        stage('Test') {
+            // executes this stage only if any change happens in 'path_to_file.txt', otherwise, it will skip this stage  
+            when {
+                changeset 'path_to_file.txt'
+            }
+            steps {
+                echo 'mvn test'
+            }
+        }
+```
+
+---
+
+### 2. Change directory
+```groovy
+        stage('Git Checkout') {
+            steps {
+                git branch: "${params.Branch_name}", url: 'Github URL' // Use when the pipeline is parameterized.
+            }
+        }
+        stage('Compile') {
+            steps {
+                dir('03.Projects/00.LocalOps/0.1.01-jar_Boardgame') {
+                    sh 'mvn compile'
+                }
+            }
+        }
+```
+
+---
+
+### 3. Deploy to a specific env (Multi Env)
+
+```groovy
+    parameters {
+        choice choices: ['main', 'dev', 'ibtisam'], description: 'write description', name: 'env'
+    }
+
+        stage('Deploy') {
+            steps {
+                echo "deploy to multi env"
+                script {
+                    if (params.env == 'dev') {
+                        sh 'mvn clean deploy'
+                    } 
+                    else if (params.env == 'ibtisam') {
+                        sh 'mvn clean deploy'
+                    } 
+                    else {
+                        echo 'main'
+                    }
+                }
+            }
+        }
+```
+
+---
+
+### 4. Parallel Stage Pipeline
+### 5. Post cleanup 
+```groovy
+    post {
+        always {
+            echo "cleaning up the workspace after the job is done"
+            cleanWs()
+        }
+    }
+```
+
+![](./images/cleanWS.png)
+
+---
+
+### 6. Timeout
+
+```groovy
+        stage('Install') {
+            steps {
+                timeout(time: 10, unit: 'SECONDS') {
+                    echo "Love you, Sweetheart Ibtisam"
+                }
+            }
+        }
 ```

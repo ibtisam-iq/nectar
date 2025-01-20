@@ -1,5 +1,44 @@
 # Jenkins Setup and Configuration Guide
 
+This guide provides comprehensive instructions for setting up and configuring Jenkins, including installation, configuration, and usage of various features.
+
+## Table of Contents
+
+1. [Setting up Jenkins](#setting-up-jenkins)
+    - [Official Site](#official-site)
+    - [Linux](#linux)
+        - [Ubuntu](#ubuntu)
+        - [RHEL](#rhel)
+    - [Docker](#docker)
+    - [WAR File](#war-file)
+    - [Start Jenkins](#start-jenkins)
+2. [Walkthrough Manage Jenkins UI](#walkthrough-manage-jenkins-ui)
+    - [System](#system)
+    - [Tools](#tools)
+    - [Plugins](#plugins)
+    - [Nodes](#nodes)
+    - [Security](#security)
+    - [Credentials](#credentials)
+3. [Job Types](#job-types)
+    - [Freestyle Project](#freestyle-project)
+    - [Pipeline](#pipeline)
+    - [Multibranch Pipeline](#multibranch-pipeline)
+    - [Maven Project](#maven-project)
+    - [Multi-Configuration Project](#multi-configuration-project)
+4. [Jenkins CLI](#jenkins-cli)
+5. [Important Key Concepts](#important-key-concepts)
+    - [Parameters and Variables](#parameters-and-variables)
+    - [Shared Libraries](#shared-libraries)
+    - [User Access Management](#user-access-management)
+    - [Webhook](#webhook)
+    - [Upstream vs Downstream Jobs](#upstream-vs-downstream-jobs)
+    - [Deployment via Tomcat](#deployment-via-tomcat)
+    - [Backup](#backup)
+    - [Email Configuration](#email-configuration)
+    - [Troubleshooting](#troubleshooting)
+
+---
+
 ## Setting up Jenkins
 
 ### Official Site
@@ -72,7 +111,6 @@ java -jar jenkins.war --httpPort=9090
 ```bash
 sudo systemctl enable/start/status/stop/disable jenkins
 ```
-
 ---
 
 ## Walkthrough Manage Jenkins UI
@@ -174,13 +212,32 @@ java -jar jenkins-cli.jar -s $JEN_URL -auth $JEN_USER:$JEN_PASSWORD list-jobs
 
 ---
 
-## Scenario Based Implementation
+## Important Key Concepts
 
-### 1. Webhook
+### Parameters and Variables
+- Parameters are inputs provided by users at build time, while variables are values used within the build or pipeline.
+- Variables can be defined in the Jenkinsfile or in the Jenkins UI.
+- Parameters are defined in the job configuration, or in the Jenkinsfile or pipeline. script.
+- Click [here](./params_and_var.md) for more details.
+
+### Shared Libraries
+- Shared libraries in Jenkins are reusable code components that centralize common logic, making pipelines modular, maintainable, and consistent.
+- Push groovy files to GitHub and configure under `System > Global Trusted Pipeline Libraries`.
+- Click [here](./shared_lib.md) for more details.
+
+### User Access Management
+- Jenkins provides various roles and permissions to manage user access.
+    - Add the plugin `Matrix Authorization Strategy Plugin`, it comes by-default now.
+    - Add users to the Jenkins user list under `Manage Jenkins > Users`
+    - Go to `Manage Jenkins > Security > Authorization > Matrix-based security` to configure the roles and permissions.
+
+![](./images/Matrix-based%20Security.png)
+
+### Webhook
 - Webhooks are used to notify Jenkins of changes to a repository, triggering a build.
 - Click [here](./webhook_setup.md) for more details.
 
-### 2. Upstream vs Downstream Jobs
+### Upstream vs Downstream Jobs
 - Upstream jobs are the ones that trigger the downstream jobs.
 - Downstream jobs are the ones that are triggered by the upstream jobs.
 
@@ -208,7 +265,8 @@ stages {
         }
     }    
 ```
-### 3. Deployment via Tomcat
+
+### Deployment via Tomcat
 - Jenkins can be used to deploy the Java based application to a Tomcat server.
 - Click [here](https://github.com/ibtisamops/nectar/blob/main/servers/tomcat.md) to set up Tomcat server.
 - Install Jenkins via JAR file and change the port by specifying the `--httpPort` option. 
@@ -231,8 +289,8 @@ stages {
             }
         }
 ```
-### 4. Backup
 
+### Backup
 1. Copy the Jenkins server's `/var/lib/jenkins` directory to a remote server or push it to a GitHub repository.
 2. Install `Java` and `Jenkins` on the remote server.
 3. Complete Jenkins's initial setup on the remote server.
@@ -250,33 +308,9 @@ sudo systemctl stop jenkins
 ```bash
 sudo systemctl start jenkins
 ```
-### 5. Email Configuration
 
+### Email Configuration
 - Please follow the detailed documentation [here](./mail_conf.md).
 
----
-
-## Important Key Concepts
-
-1. **Parameters and Variables**
-- Parameters are inputs provided by users at build time, while variables are values used within the build or pipeline.
-- Variables can be defined in the Jenkinsfile or in the Jenkins UI.
-- Parameters are defined in the job configuration, or in the Jenkinsfile or pipeline. script.
-- Click [here](./params_and_var.md) for more details.
-
-2. **Shared Libraries**
-- Shared libraries in Jenkins are reusable code components that centralize common logic, making pipelines modular, maintainable, and consistent.
-- Push groovy files to GitHub and configure under `System > Global Trusted Pipeline Libraries`.
-- Click [here](./shared_lib.md) for more details.
-
-3. **User Access Management**
-- Jenkins provides various roles and permissions to manage user access.
-    - Add the plugin `Matrix Authorization Strategy Plugin`, it comes by-default now.
-    - Add users to the Jenkins user list under `Manage Jenkins > Users`
-    - Go to `Manage Jenkins > Security > Authorization > Matrix-based security` to configure the roles and permissions.
-
-![](./images/Matrix-based%20Security.png)
-
-4. **Troubleshooting**
-
+### Troubleshooting
 - Please follow the detailed documentation [here](./troubleshooting.md).
