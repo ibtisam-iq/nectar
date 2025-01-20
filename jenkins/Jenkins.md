@@ -233,7 +233,7 @@ stages {
 ```
 ### 4. Shared Libraries
 
-Push groovy files to GitHub and configure under System > Global Trusted Pipeline Libraries.
+
 
 ---
 
@@ -245,14 +245,17 @@ Push groovy files to GitHub and configure under System > Global Trusted Pipeline
 - Parameters are defined in the job configuration, or in the Jenkinsfile or pipeline. script.
 - Click [here](./params_and_var.md) for more details.
 
-2. **User Access Management**
+2. **Shared Libraries**
+- Shared libraries in Jenkins are reusable code components that centralize common logic, making pipelines modular, maintainable, and consistent.
+- Push groovy files to GitHub and configure under `System > Global Trusted Pipeline Libraries`.
+- Click [here](./shared_lib.md) for more details.
+
+3. **User Access Management**
 - Jenkins provides various roles and permissions to manage user access.
     - Add the plugin `Matrix Authorization Strategy Plugin`, it comes by-default now.
     - Add users to the Jenkins user list under `Manage Jenkins > Users`
     - Go to `Manage Jenkins > Security > Authorization > Matrix-based security` to configure the roles and permissions.
 
 ![](./images/Matrix-based%20Security.png)
-
-
 
 
