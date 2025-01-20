@@ -85,10 +85,6 @@ The Manage Jenkins tab is for managing Jenkins itself. This includes managing pl
 
 The System tab is for setting up global configurations that Jenkins and plugins (servers) require to operate at a higher level. These configurations typically deal with the overall functioning of Jenkins or its plugins.
 
-#### Shared libraries
-
-Push groovy files to GitHub and configure under System > Global Trusted Pipeline Libraries.
-
 ### 2. Tools
 
 The Tools tab focuses specifically on configuring the tools Jenkins uses, such as compilers, interpreters, build systems, or external utilities. These are specific to the runtime of the builds and can vary between jobs.
@@ -176,6 +172,7 @@ java -jar jenkins-cli.jar -s $JEN_URL -auth $JEN_USER:$JEN_PASSWORD list-jobs
 ```
 - click [here](http://localhost:8080/manage/cli/) to see all available Jenkins CLI commands.
 
+---
 
 ## Scenario Based Implementation
 
@@ -234,6 +231,11 @@ stages {
             }
         }
 ```
+### 4. Shared Libraries
+
+Push groovy files to GitHub and configure under System > Global Trusted Pipeline Libraries.
+
+---
 
 ## Important Key Concepts
 
