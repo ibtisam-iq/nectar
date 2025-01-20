@@ -231,9 +231,25 @@ stages {
             }
         }
 ```
-### 4. Shared Libraries
+### 4. Backup
 
-
+1. Copy the Jenkins server's `/var/lib/jenkins` directory to a remote server or push it to a GitHub repository.
+2. Install `Java` and `Jenkins` on the remote server.
+3. Complete Jenkins's initial setup on the remote server.
+4. Clone the repository or copy the `/var/lib/jenkins` directory to the remote server.
+5. Change the ownership of the directory to `jenkins`:
+```bash
+sudo chown -R jenkins:jenkins /var/lib/jenkins
+```
+6. Stop Jenkins:
+```bash
+sudo systemctl stop jenkins
+```
+7. Replace the existing `/var/lib/jenkins` directory with the copied one.
+8. Restart Jenkins:
+```bash
+sudo systemctl start jenkins
+```
 
 ---
 
@@ -258,4 +274,6 @@ stages {
 
 ![](./images/Matrix-based%20Security.png)
 
+4. **Troubleshooting**
 
+- Please follow the detailed documentation [here](./troubleshooting.md).
