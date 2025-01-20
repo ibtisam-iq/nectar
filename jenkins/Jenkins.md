@@ -252,7 +252,7 @@ sudo systemctl start jenkins
 ```
 ### 5. Email Configuration
 
-- Please follow the detailed documentation [here](./email_conf.md).
+- Please follow the detailed documentation [here](./mail_conf.md).
 
 ---
 

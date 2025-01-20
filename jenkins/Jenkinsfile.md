@@ -1,4 +1,5 @@
 # Jenkins Pipeline Cheat Sheet
+
 Have a look on the official Jenkins documentations
 - [Pipeline](https://www.jenkins.io/doc/book/pipeline/)
 - [Pipeline Syntax](https://www.jenkins.io/doc/book/pipeline/syntax/)
@@ -151,6 +152,24 @@ pipeline {
         always {
             // One or more steps need to be included within each condition's block.
             cleanWs() // to clean up the workspace after the job is done
+        }
+    }
+```
+
+## Email Setup
+```groovy
+    post {
+        failure {
+            // Send a notification when the build fails
+            echo 'Build failed'
+            mail to: 'loveyou@mibtisam.com',
+                subject: 'Build failed: ${env.JOB_NAME} -  Build #${env.BUILD_NUMBER}',
+                body: 'Job ${env.JOB_NAME} failed with build number ${env.BUILD_NUMBER}.'
+        }
+        success {
+            // Send a notification when the build is successful
+            echo 'Build successful'
+            archiveArtifacts artifacts: '**/target/*.jar', followSymlinks: false, onlyIfSuccessful: true
         }
     }
 ```
