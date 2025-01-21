@@ -18,9 +18,9 @@
 
 ---
 
-## What is SonarQube?
+## What is SonarQube Server (formerly SonarQube)?
 
-- Leading on-premise platform, SonarQube Server (formerly SonarQube) for continuous code quality and security analysis.
+- Leading on-premise platform for continuous code quality and security analysis.
 - Supports over 30 programming languages, frameworks, and IaC platforms.
 - Leverages SAST to identify and fix bugs, vulnerabilities, code smells, duplicated code, and technical debt.
 - Ensures automated code quality checks in CI/CD pipelines.
@@ -38,9 +38,9 @@
 ### Key Features
 - **Multi-Language Support**: Java, Python, JavaScript, .NET, etc.
 - **Quality Gates**: Enforce quality checks before code merges.
-- **Code Coverage Metrics**: Highlights untested areas.
+- **Code Coverage Metrics**: Integrates with test frameworks to highlight untested areas.
 - **AI-Powered Fixes**: Recommendations for addressing issues.
-- **DevOps Integration**: Jenkins, GitHub Actions, Azure DevOps, etc.
+- **DevOps Integration**: Works seamlessly with Jenkins, GitHub Actions, Azure DevOps, and more.
 
 ---
 
