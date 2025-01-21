@@ -45,7 +45,7 @@
 ---
 
 
-## Core Concepts in SonarQube
+## Few Concepts in SonarQube
 
 - **Code Quality**: A measure of how well-written and maintainable code is.
 - **Code Coverage**: Percentage of code executed during automated tests.
@@ -68,9 +68,9 @@
 
 ### Using Docker
 
-- **Prerequisites**: Docker installed.
-- **Pull the Docker Image**: `docker pull sonarqube`
-- **Run the Container**: `docker run -d --name sonarqube -p 9000:9000 sonarqube`
+```bash
+docker run -d --name sonarqube -p 9000:9000 sonarqube
+```
 - **Access the Interface**: Open `http://localhost:9000`
 
 ### Local Installation
@@ -87,8 +87,9 @@
 ### Steps to Integrate
 
 - **Install Plugins**: `SonarQube Scanner` plugin in Jenkins.
-- **Configure SonarQube in Jenkins**: `Manage Jenkins > Configure System`, add SonarQube server details.
-- **Add SonarQube Scanner**: `Global Tool Configuration`, configure scanner.
+- **Add SonarQube Scanner**: `Manage Jenkins > Tool`, configure scanner.
+- **Configure SonarQube Server**: `Manage Jenkins > System`, add SonarQube server details.
+
 
 ### Pipeline Stages
 
