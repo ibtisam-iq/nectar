@@ -25,4 +25,9 @@ SAST is a methodology for analyzing source code to identify vulnerabilities, bug
 ### Summary
 Ignoring these issues can lead to degraded system performance, higher costs, and increased security risks. Addressing them ensures maintainable, secure, and efficient codebases.
 
+#### Note
+
+- `Code Quality Check` is performed based upon the above mentioned issue types in SonarQube.
+- The more the number of these issues, the less code quality it exhibits.
+
 ---
