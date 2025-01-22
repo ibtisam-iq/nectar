@@ -19,6 +19,7 @@
 ![](./images/Token.png)
 
 - **Configure Webhook**: Set up a webhook in SonarQube Server to send analysis results to Jenkins.
+    - Read the official documentation [here](https://docs.sonarsource.com/sonarqube-server/9.9/project-administration/webhooks/)
 
 ![](./images/Webhook.png)
 

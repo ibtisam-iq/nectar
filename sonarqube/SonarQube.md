@@ -217,9 +217,10 @@ To calculate code coverage in SonarQube, specific plugins and tools are required
 #### **1. Python**
 - **Tool**: `Coverage.py`
 - **Integration**: 
-  - Use `pytest-cov` or directly run `coverage run` to execute tests.
-  - Generate a coverage report in `.xml` format (e.g., `coverage xml`).
+  - Use `pytest-cov` or directly run `pip3 install coverage; coverage run -m unittest discover; coverage report` to execute tests.
+  - Generate a coverage report in `.xml` format (e.g., `coverage xml`) by running `coverage xml`.
   - Configure the SonarQube scanner to use the generated report.
+  - For details, please click [here](coverage.xml.md). 
 
 ---
 
@@ -365,7 +366,6 @@ sonar.projectName=Boardgame
 sonar.projectKey=boardgame
 sonar.java.binaries=target 
 ```
-
 ---
 
 ## Integrating SonarQube with Jenkins
@@ -398,3 +398,4 @@ sonar.java.binaries=target
 ---
 
 This guide provides a comprehensive overview of SonarQube, its features, setup process, and best practices for integrating it into your workflow. For more detailed instructions, refer to the official SonarQube documentation.
+
