@@ -197,7 +197,7 @@ Here’s how you can run your `unittest` tests with coverage:
 
 1. **Install `coverage.py`**:
    ```bash
-   pip install coverage
+   pip3 install coverage
    ```
 
 2. **Run Tests with Coverage**:
