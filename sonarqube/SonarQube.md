@@ -14,7 +14,6 @@
 8. [Integrating SonarQube with Jenkins](#integrating-sonarqube-with-jenkins)
 9. [Best Practices for SonarQube](#best-practices-for-sonarqube)
 10. [Common Use Cases](#common-use-cases)
-11. [FAQs](#faqs)
 
 ---
 
@@ -147,6 +146,172 @@
 
 ---
 
+### **What Happens When Running SonarQube Analysis on a Python Project Without Tests?**
+
+If you run a SonarQube analysis on a Python project without any written tests, here’s what happens regarding **Code Quality Check**, **Code Coverage**, and **Quality Gates**:
+
+---
+
+### **Code Quality Check**
+- **What Happens**:
+  - SonarQube performs static analysis of the code, identifying:
+    - **Bugs**: Potential runtime errors.
+    - **Vulnerabilities**: Insecure coding patterns.
+    - **Code Smells**: Redundant or overly complex code.
+    - **Duplications**: Duplicate code fragments.
+  - These checks are independent of the presence of tests as they rely solely on static code analysis.
+- **Prerequisites**:
+  - Source code files must exist in a supported format (e.g., `.py` for Python).
+  - A **Quality Profile** must be set up for Python to define the rules SonarQube uses for analysis.
+
+---
+
+### **Code Coverage**
+- **What Happens**:
+  - Code coverage analysis will not produce results since no tests are present to generate coverage data.
+  - Code coverage relies on external test frameworks to run the code and report coverage.
+- **Prerequisites**:
+  - Automated tests must exist in the project.
+  - A compatible test coverage tool (e.g., `Coverage.py`) should be configured to collect and export coverage data in a supported format (e.g., `.xml`).
+  - The SonarQube scanner needs the coverage report file path specified during the analysis.
+
+---
+
+### **Quality Gates**
+- **What Happens**:
+  - If a **Quality Gate** includes conditions related to code coverage (e.g., "minimum coverage = 80%"), the quality gate will **fail** because coverage data is either absent or reported as 0%.
+  - Other conditions in the Quality Gate (e.g., "no blocker bugs" or "less than 5% code duplication") will still be evaluated based on the static analysis results.
+- **Prerequisites**:
+  - The code must pass static analysis rules defined in the **Quality Gate**.
+  - If the Quality Gate includes coverage metrics, tests and coverage data must be available for those metrics to be evaluated.
+
+---
+
+### **Summary of Prerequisites for Analysis**
+
+| **Analysis Type**      | **Prerequisites**                                                                 |
+|-------------------------|----------------------------------------------------------------------------------|
+| **Code Quality Check**  | - Source code is available. <br> - Quality Profile is configured.                |
+| **Code Coverage**       | - Automated tests are written. <br> - Test coverage tool is configured (e.g., `Coverage.py`). <br> - Coverage report is generated in a supported format. |
+| **Quality Gates**       | - Static analysis rules must be satisfied. <br> - If coverage conditions are included, tests and coverage data must be available. |
+
+
+
+### **Conclusion**
+In the absence of tests:
+1. **Static code quality checks** will still be performed and reported.
+2. **Code coverage** will remain at 0%, and any Quality Gate conditions based on coverage will fail.
+3. To fully leverage SonarQube, ensure the project has:
+   - Adequate test coverage.
+   - Proper configuration of test tools and reporting paths.
+   - A well-defined Quality Profile tailored to the project’s language and standards.
+
+---
+
+### **Evaluating Code Coverage for Different Languages in SonarQube**
+
+To calculate code coverage in SonarQube, specific plugins and tools are required for each programming language. Here's a brief overview:
+
+---
+
+#### **1. Python**
+- **Tool**: `Coverage.py`
+- **Integration**: 
+  - Use `pytest-cov` or directly run `coverage run` to execute tests.
+  - Generate a coverage report in `.xml` format (e.g., `coverage xml`).
+  - Configure the SonarQube scanner to use the generated report.
+
+---
+
+#### **2. Java**
+- **Tool**: `JaCoCo` (Java Code Coverage)
+- **Integration**: 
+  - Add the JaCoCo plugin to your build tool configuration (`pom.xml` for Maven or `build.gradle` for Gradle).
+  - Run tests using the build tool, which generates the coverage report in `.exec` or `.xml` format.
+  - Specify the coverage report path in the SonarQube scanner configuration.
+
+---
+
+#### **3. .NET**
+- **Tool**: `coverlet` or Visual Studio Code Coverage.
+- **Integration**: 
+  - Use `coverlet` with test runners like `dotnet test` to generate coverage in formats like `opencover` or `.cobertura`.
+  - Alternatively, Visual Studio Enterprise can generate code coverage reports.
+  - Provide the report file path to SonarQube for analysis.
+
+---
+
+#### **4. JavaScript/TypeScript**
+- **Tool**: `Istanbul` (via `nyc`) or Jest's built-in coverage tool.
+- **Integration**: 
+  - Run tests using `nyc` or configure Jest to collect coverage data.
+  - Generate reports in supported formats such as `lcov` or `.json`.
+  - Specify the coverage file in the SonarQube scanner settings.
+
+---
+
+### **Summary**
+
+| **Language**    | **Tool**         | **Report Format**       | **Steps to Integrate**                             |
+|------------------|------------------|-------------------------|---------------------------------------------------|
+| **Python**       | `Coverage.py`    | `.xml`                  | Generate XML report with `coverage.py`.           |
+| **Java**         | `JaCoCo`         | `.exec` or `.xml`       | Add JaCoCo plugin, configure the build tool.      |
+| **.NET**         | `coverlet`       | `opencover` or `.cobertura` | Use `coverlet` with test runners or Visual Studio. |
+| **JavaScript**   | `Istanbul`/`nyc` | `lcov` or `.json`       | Run tests with `nyc` or Jest to collect coverage. |
+
+
+
+### **Conclusion**
+SonarQube relies on language-specific tools to gather and analyze code coverage data. Always ensure:
+1. Tests are written and executed.
+2. Coverage reports are generated in formats supported by SonarQube.
+3. SonarQube scanner configuration includes the correct report file paths for analysis.
+
+---
+
+### Key Features of SonarQube
+
+SonarQube provides two main features to ensure code quality and maintainability:
+
+1. **Code Quality Check**
+
+- **Definition**: This is the static code analysis performed by SonarQube to identify issues such as:
+    - Bugs
+    - Vulnerabilities
+    - Code smells
+    - Duplications
+- **Includes**:
+    - **Code Coverage** is a subset of code quality metrics because it provides insight into how thoroughly the code is tested. However, Code Coverage itself relies on external tools to generate coverage reports and is not directly calculated by SonarQube.
+
+2. **Quality Gates**
+
+- **Definition**: Quality Gates are a set of conditions that must be met to consider the code ready for production. They evaluate specific metrics, including:
+    - **Code Quality Issues** (e.g., blocker bugs, high-severity vulnerabilities).
+    - **Code Coverage** (e.g., minimum 80% coverage required).
+    - **Other Metrics** (e.g., duplications or maintainability thresholds).
+- **Purpose**: Acts as a checkpoint to enforce coding standards and ensure the overall health of the codebase before deploying or merging changes.
+
+### Relationship Between Features
+
+- **Code Coverage**: While it’s part of the broader **Code Quality Check**, it plays a critical role in **Quality Gate Analysis** if included as a condition.
+- For example:
+    - Code Quality Check identifies issues like code smells and bugs.
+    - Quality Gates use these metrics (including coverage) to decide if the code passes or fails the defined standards.
+
+#### **Example Workflow**
+1. **Code Quality Check** detects:
+   - Bugs, code smells, and vulnerabilities.
+   - Coverage data if provided by external tools (e.g., `Coverage.py` or `JaCoCo`).
+2. **Quality Gates** evaluate the results of the analysis:
+   - Fails if conditions (e.g., "minimum 80% coverage" or "no blocker bugs") are not met.
+
+#### Conclusion
+
+1. **Code Quality Check**: Focuses on detecting issues in the code, including bugs, vulnerabilities, and code coverage.
+2. **Quality Gates**: Ensures that the project meets predefined criteria for deployment, leveraging metrics from the code quality check, including coverage if configured.
+Thus, **Code Coverage** is an integral part of the analysis but is distinct from the overall **Code Quality Check** as it requires external test coverage data.
+
+---
 ## How SonarQube Works
 
 1. **Static Analysis**:  
@@ -192,11 +357,18 @@ docker run -d --name sonarqube -p 9000:9000 sonarqube:lts-community
 - **Start SonarQube**: `./bin/{OS}/sonar.sh start`
 - **Access the Interface**: Navigate to `http://localhost:9000`
 
+### Configuration
+- Create `sonar-project.properties` file in the root directory as following:
+
+```bash
+sonar.projectName=Boardgame
+sonar.projectKey=boardgame
+sonar.java.binaries=target 
+```
+
 ---
 
 ## Integrating SonarQube with Jenkins
-
-### Steps to Integrate
 
 - **Install Plugins**: `SonarQube Scanner` plugin in Jenkins to publish the results to SonarQube Server.
 - **Add SonarQube Scanner**: `Manage Jenkins > Tool`, configure scanner.
@@ -222,16 +394,6 @@ docker run -d --name sonarqube -p 9000:9000 sonarqube:lts-community
 - **Security Analysis**: Identify, fix vulnerabilities.
 - **Technical Debt Management**: Monitor, reduce technical debt.
 - **Regulatory Compliance**: Ensure code complies with standards/regulations.
-
----
-
-## FAQs
-
-- **Access SonarQube**: `http://localhost:9000`
-- **Supported Languages**: Over 30, including Java, Python, JavaScript, .NET.
-- **Integrate with Jenkins**: Install `SonarQube Scanner` plugin, configure server details, add scanner.
-- **Quality Gates**: Criteria for production-ready code.
-- **Customize Quality Profiles**: Configure rule sets in Quality Profiles section.
 
 ---
 

@@ -22,7 +22,7 @@
 
 ![](./images/Webhook.png)
 
-### Pipeline Stages
+## Pipeline Stages
 
 1. **Checkout Code**
    ```groovy
