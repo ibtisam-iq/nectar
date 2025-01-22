@@ -132,6 +132,7 @@ Create a virtual environment using:
 ```bash
 python3 -m venv IbtisamOps
 ```
+   - It will create `IbtisamOps` directory in the root directory of the project (current directory).
 Activate the Virtual Environment:
 - On Linux/macOS:
   ```bash
@@ -143,15 +144,29 @@ Activate the Virtual Environment:
   ```
 
 ### Running the Application
-Install the required dependencies:
+1. Install the required dependencies:
 ```bash
 pip install -r requirements.txt
 ```
-Run your Python application:
+- In a Python-based project, you typically run tests using a testing framework like `unittest`, `pytest`, or `nose` before packaging or deploying the application
+
+   - Using `unittest`
+   ```bash
+   python -m unittest discover
+   ```
+   - Using `pytest`
+   ```bash
+   pip install pytest; pytest
+   ```
+   - Using `nose`
+   ```bash
+   pip install nose; nosetests
+   ```
+2. Run your Python application:
 ```bash
 python app.py
 ```
-Deactivate the virtual environment when you're done:
+3. Deactivate the virtual environment when you're done:
 ```bash
 deactivate
 ```
@@ -160,3 +175,7 @@ deactivate
 - Always ensure your Python and pip versions are up to date.
 - Use virtual environments to manage dependencies and avoid conflicts.
 - Consider using Docker for consistent and isolated environments.
+
+### Purpose of `__init__.py`
+
+In Python, the `__init__.py` file is used to mark a directory as a Python package. This allows the directory to be imported as a module in other Python scripts. The file can be empty, or it can contain initialization code for the package.
