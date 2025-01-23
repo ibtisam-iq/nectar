@@ -147,12 +147,18 @@ When Jenkins installs tools automatically, it does not place them in system-wide
 Plugins are essentially extensions to Jenkins that add new functionality. They can be installed from the Jenkins Plugin Manager. Here are the important plugins:
 
 - Pipeline: Stage View
+- SSH Build Agents plugin
+- SSH server
 - SonarQube Scanner
 - Eclipse Temurin installer
 - Matrix Authorization Strategy Plugin Version 3.2.3
 - Generic Webhook Trigger
 - Multibranch Scan Webhook Trigger
 - Deploy to container
+- NodeJS Plugin
+- Pipeline Maven Integration
+- LDAP Plugin
+-
 
 ## 4. Nodes
 - Nodes are Jenkins servers or agents that can run jobs as slave.

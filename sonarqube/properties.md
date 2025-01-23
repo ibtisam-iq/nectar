@@ -2,6 +2,8 @@
 
 The `sonar-project.properties` file configures the analysis of a project with SonarQube. Below is a detailed breakdown of the properties, grouped by type, and including examples for Java and Python projects.
 
+- Official Documentation: [Analysis parameters](https://docs.sonarsource.com/sonarqube-server/latest/analyzing-source-code/analysis-parameters/)
+
 ---
 
 ## **1. General Required Metadata**

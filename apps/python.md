@@ -158,6 +158,9 @@ pip install -r requirements.txt
    ```bash
    pip install pytest; pytest
    ```
+      - `pytest` is a popular testing framework for Python, and `pip install pytest` installs it.
+      - `pytest` command runs all tests in the project.
+      - Ensures the pytest module is executed within the Python interpreter’s context. This can be more reliable in certain environments (e.g., virtual environments or specific Python installations).
    - Using `nose`
    ```bash
    pip install nose; nosetests
