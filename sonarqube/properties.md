@@ -138,13 +138,13 @@ sonar.java.libraries=target/dependency
 sonar.tests=src/test/java
 sonar.test.binaries=target/test-classes
 sonar.sourceEncoding=UTF-8
+sonar.language=java
 sonar.host.url=http://localhost:9000
 sonar.login=<SONAR_AUTHENTICATION_TOKEN>
 ```
 ### **Python Project**
 ```properties
 # Python Project Configuration
-
 sonar.projectKey=python-project
 sonar.projectName=Python-project
 sonar.projectVersion=1.0
@@ -152,10 +152,22 @@ sonar.sources=.
 sonar.exclusions=IbtisamOps/**
 sonar.python.coverage.reportPaths=coverage.xml
 sonar.sourceEncoding=UTF-8
+sonar.language=py
 sonar.host.url=http://localhost:9000
 sonar.login=<SONAR_AUTHENTICATION_TOKEN>
 ```
 
+### **Nodejs Project**
+```properties
+sonar.projectName==Nodejs-jest
+sonar.projectKey==Nodejs-jest
+sonar.javascript.lcov.reportPaths==coverage/lcov.info
+sonar.test.inclusions==**/*.test.js
+sonar.sources==.
+sonar.tests==.
+sonar.sourceEncoding==UTF-8
+sonar.language==js
+```
 ---
 
 ## **Key Differences Between Java and Python**

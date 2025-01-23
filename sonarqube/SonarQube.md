@@ -220,7 +220,7 @@ To calculate code coverage in SonarQube, specific plugins and tools are required
   - Use `pytest-cov` or directly run `pip3 install coverage; coverage run -m unittest discover; coverage report` to execute tests.
   - Generate a coverage report in `.xml` format (e.g., `coverage xml`) by running `coverage xml`.
   - Configure the SonarQube scanner to use the generated report.
-  - For details, please click [here](coverage.xml.md). 
+  - For details, please click [here](coverage.md). 
 
 ---
 
@@ -246,7 +246,7 @@ To calculate code coverage in SonarQube, specific plugins and tools are required
 - **Tool**: `Istanbul` (via `nyc`) or Jest's built-in coverage tool.
 - **Integration**: 
   - Run tests using `nyc` or configure Jest to collect coverage data.
-  - Generate reports in supported formats such as `lcov` or `.json`.
+  - Generate reports in supported formats such as `lcov.info` or `.json`.
   - Specify the coverage file in the SonarQube scanner settings.
 
 ---
@@ -258,7 +258,7 @@ To calculate code coverage in SonarQube, specific plugins and tools are required
 | **Python**       | `Coverage.py`    | `.xml`                  | Generate XML report with `coverage.py`.           |
 | **Java**         | `JaCoCo`         | `.exec` or `.xml`       | Add JaCoCo plugin, configure the build tool.      |
 | **.NET**         | `coverlet`       | `opencover` or `.cobertura` | Use `coverlet` with test runners or Visual Studio. |
-| **JavaScript**   | `Istanbul`/`nyc` | `lcov` or `.json`       | Run tests with `nyc` or Jest to collect coverage. |
+| **JavaScript**   | `Istanbul`/`nyc` | `lcov.info` or `.json`       | Run tests with `nyc` or Jest to collect coverage. |
 
 
 
