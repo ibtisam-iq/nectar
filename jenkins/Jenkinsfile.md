@@ -35,6 +35,7 @@ pipeline {
     tools { 
         maven "maven3"
         jdk "jdk17"
+        nodejs 'nodejs23'
     }
 ```
 
@@ -263,3 +264,148 @@ pipeline {
             }
         }
 ```
+
+---
+
+## Maven Pipeline
+
+```groovy
+pipeline {
+    agent any
+    tools {
+        maven "maven3"
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn compile'
+                sh 'mvn clean test'
+                sh 'mvn clean package'
+            }
+        }
+    }
+    post {
+        success {
+            archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false, onlyIfSuccessful: true
+        }
+    }
+}
+```
+
+---
+
+## Python Pipeline
+
+```groovy
+pipeline {
+    agent any
+    
+    stages {
+        stage('Setup Virtual Environment') {
+            steps {
+                sh '''
+                    # Remove any existing virtual environments
+                    rm -rf IbtisamOps
+
+                    # Create a new virtual environment
+                    python3 -m venv IbtisamOps
+
+                    # Set permissions
+                    chmod -R 755 IbtisamOps
+                    
+                    # The error /var/lib/jenkins/workspace/.../script.sh.copy: 12: source: not found occurs because the source command is not recognized by the shell executing the script.
+                    # The source command is a shell built-in command, and it is not available in the shell that is executing the script.
+                    # the default shell being used in Jenkins (sh) is not Bash but a more basic shell like dash, which doesn't support source.
+                    # To fix this error, you can use the dot (.) command instead of source to activate the virtual environment.
+
+                    # Activate virtual environment and install dependencies
+                    . IbtisamOps/bin/activate
+
+                    # Upgrade pip package itself using pip
+                    pip install --upgrade pip
+
+                    # Install dependencies
+                    sh 'python --version'
+                    pip install -r requirements.txt
+                '''
+                /*
+                sh '''
+                rm -rf IbtisamOps
+                python3 -m venv IbtisamOps
+                chmod -R 755 IbtisamOps
+                bash -c "
+                source IbtisamOps/bin/activate
+                pip install --upgrade pip
+                pip install -r requirements.txt
+                "
+                '''
+                */
+            }
+        }
+
+        stage('Run Tests - Pytest') {
+            steps {
+                sh '''
+                    # Activate virtual environment and run tests with coverage
+                    . IbtisamOps/bin/activate
+                    python --version
+
+                    # Install coverage package for pytest framework
+                    pip install pytest pytest-cov
+
+                    # Run tests with pytest and generate coverage reports
+                    pytest --cov=app tests/ --cov-report=xml --cov-report=term-missing --disable-warnings
+                '''
+            }
+        }
+
+        stage('Run Tests - Unittest') {
+            steps {
+                sh '''
+                    # Activate virtual environment and run tests with coverage
+                    . IbtisamOps/bin/activate
+                    python --version
+
+                    # Install coverage package for pytest framework
+                    pip install coverage
+
+                    # Run tests with pytest and generate coverage reports
+                    coverage run -m unittest discover
+                    coverage xml
+                '''
+            }
+        }
+    }
+}
+```
+
+---
+
+## Jenkinsfile for Node.js
+
+```groovy
+pipeline {
+    agent any
+    tools {
+        nodejs 'nodejs23'
+    }
+    stages {
+        stage('Build') {
+            steps {
+                dir('SonarQube/Nodejs-jest') {
+                    nodejs('nodejs23') {
+                        sh 'npm install'
+                        sh 'npm run test' // test is the script name in package.json, that's it is written as npm `run` test
+                    }    
+                }
+            }    
+        }
+    }
+}
+```
+
+---
+
+## Jenkinsfile for Docker
+
+```groovy

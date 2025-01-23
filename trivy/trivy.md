@@ -1,0 +1,133 @@
+# Trivy Usage Guide
+
+Trivy is a comprehensive and versatile security scanner. It has scanners that look for security issues and targets where it can find those issues. This guide will walk you through the installation, configuration, and usage of Trivy for scanning folders and Docker images.
+
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Installation](#installation)
+    - [Ubuntu](#ubuntu)
+    - [Docker](#docker)
+3. [Trivy Scanners](#trivy-scanners)
+4. [Trivy Targets](#trivy-targets)
+5. [Usage](#usage)
+    - [Folder Scan](#folder-scan)
+    - [Docker Image Scan](#docker-image-scan)
+6. [References](#references)
+
+---
+
+## Introduction
+
+Trivy is a powerful vulnerability scanner for containers and filesystems. It supports most popular programming languages, operating systems, and platforms. For a complete list, see the [Scanning Coverage](https://trivy.dev/latest/docs/coverage/) page.
+
+---
+
+## Installation
+
+### Ubuntu
+
+1. **Install Prerequisites**:
+    ```bash
+    sudo apt-get install wget gnupg
+    ```
+
+2. **Add Trivy Repository**:
+    ```bash
+    wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+    echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+    ```
+
+3. **Install Trivy**:
+    ```bash
+    sudo apt-get update
+    sudo apt-get install trivy
+    ```
+
+### Docker
+
+1. **Run Trivy Docker Image**:
+    ```bash
+    docker run aquasec/trivy image python:3.4-alpine
+    ```
+---
+
+Trivy has scanners that look for security issues, and targets where it can find those issues.
+
+## Trivy Scanners
+
+Trivy can find the following security issues:
+
+- **OS packages and software dependencies in use (SBOM)**
+- **Known vulnerabilities (CVEs)**
+- **IaC issues and misconfigurations**
+- **Sensitive information and secrets**
+- **Software licenses**
+
+---
+
+## Trivy Targets
+
+Trivy can scan the following targets:
+
+- **Container Image**
+- **Filesystem**
+- **Git Repository (remote)**
+- **Virtual Machine Image**
+- **Kubernetes**
+
+---
+
+## Usage
+
+### Folder Scan
+
+To scan a folder or directory for vulnerabilities, use the following command:
+
+```bash
+trivy fs path/to/scan
+```
+
+To save the scan result in HTML format, use the --format and -o options:
+
+```bash
+trivy fs --format html -o result.html /path/to/scan
+```
+
+You can also specify the types of security checks to perform using the --security-checks option:
+
+```bash
+trivy fs --format html -o result.html --security-checks vuln,config path_to_scan
+```
+
+### Docker Image Scan
+
+To scan a Docker image for vulnerabilities, use the following command:
+
+```bash
+trivy image my_image:latest
+```
+
+To save the scan result in HTML format, use the -f and -o options:
+
+```bash
+trivy image -f html -o results.html my_image:latest
+```
+
+You can specify the severity levels of vulnerabilities to include in the report using the --severity option:
+
+```bash
+trivy image -f html -o results.html --severity HIGH,CRITICAL my_image:latest
+```
+
+---
+
+## References
+
+- [Installation](https://trivy.dev/latest/getting-started/installation/)
+- [GitHub](https://github.com/aquasecurity/trivy)
+- [Docker Hub](https://hub.docker.com/r/aquasec/trivy)
+- [Docs](https://trivy.dev/latest/docs/)
+
+---
+
+This guide provides a comprehensive overview of Trivy, its installation, and usage for scanning folders and Docker images. For more detailed instructions, refer to the official Trivy documentation.
