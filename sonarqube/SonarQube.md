@@ -355,17 +355,9 @@ docker run -d --name sonarqube -p 9000:9000 sonarqube:lts-community
 
 - **Download SonarQube**: [SonarQube downloads page](https://www.sonarsource.com/)
 - **Extract and Configure**: Unzip, configure `sonar.properties`.
-- **Start SonarQube**: `./bin/{OS}/sonar.sh start`
 - **Access the Interface**: Navigate to `http://localhost:9000`
+- For details, please click [here](./local_setup.md).
 
-### Configuration
-- Create `sonar-project.properties` file in the root directory as following:
-
-```bash
-sonar.projectName=Boardgame
-sonar.projectKey=boardgame
-sonar.java.binaries=target 
-```
 ---
 
 ## Integrating SonarQube with Jenkins
@@ -377,6 +369,11 @@ sonar.java.binaries=target
 - **Configure Webhook**: Set up a webhook in SonarQube Server to send analysis results to Jenkins.
 - For details, please click [here](jenkins_setup.md).
 ---
+## Sonarqube Community Branch Plugin
+
+Please click here for more information about installing [Community Branch Plugin](https://github.com/mc1arke/sonarqube-community-branch-plugin).
+
+![](./images/Plugins.png)
 
 ## Best Practices for SonarQube
 
