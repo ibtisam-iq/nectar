@@ -25,16 +25,7 @@
 
 ## Pipeline Stages
 
-1. **Checkout Code**
-   ```groovy
-   stage('Checkout') {
-       steps {
-           checkout scm
-       }
-   }
-   ```
-
-2. **SonarQube Analysis**
+1. **SonarQube Analysis**
    ```groovy
    // This stage must be after "Testing"
   
@@ -49,7 +40,7 @@
         }
    ```
 
-3. **Quality Gate Check**
+2. **Quality Gate Check**
    ```groovy
    stage('Quality Gate') {
        steps {
@@ -61,3 +52,19 @@
    ```
 
 ---
+
+### For Python Projects
+
+Add the following depencendies to your `requirements.txt` file:
+
+```bash
+sonar-scanner==4.6.2.2472
+# For testing and code coverage
+pytest==7.4.2
+pytest-cov==4.1.0
+coverage==7.3.1
+```
+
+### Configuration
+- Create `sonar-project.properties` file in the root directory as [following](./properties.md).
+- For details, please refer to the official documentation [here](https://docs.sonarqube.org/latest/analysis/analysis-parameters/).
