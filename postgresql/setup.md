@@ -43,9 +43,6 @@ sudo apt update
 # If you want a specific version, use 'postgresql-16' or similar instead of 'postgresql'
 sudo apt -y install postgresql postgresql-contrib
 
-# Install PostgreSQL 
-sudo apt-get install postgresql 
-
 # Start the PostgreSQL service
 sudo systemctl start postgresql
 
