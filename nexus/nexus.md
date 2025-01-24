@@ -8,8 +8,11 @@ This guide provides an overview of artifacts, their types, and how they are mana
     - [Artifact Types by Programming Language](#artifact-types-by-programming-language)
 2. [Binaries, Libraries, and Packages](#binaries-libraries-and-packages)
     - [JAR File and run.py Classification](#jar-file-and-runpy-classification)
-5. [Combining Nexus and Docker in a CI/CD Pipeline](#combining-nexus-and-docker-in-a-cicd-pipeline)
-6. [Runtime Environments for Various Languages](#runtime-environments-for-various-languages)
+3. [Typical Project Contents](#typical-project-contents)
+4. [Nexus and Docker in Pipeline Workflow](#nexus-and-docker-in-pipeline-workflow)
+5. [Key Components Stored in Nexus vs Docker Image](#key-components-stored-in-nexus-vs-docker-image)
+6. [Components Inside an Artifact File vs. Docker Image](#components-inside-an-artifact-file-vs-docker-image)
+7. [Runtime Environments for Various Languages](#runtime-environments-for-various-languages)
 
 ---
 
@@ -157,7 +160,7 @@ A typical project might include:
 
 ---
 
-## Pipeline Workflow  
+## Nexus and Docker in Pipeline Workflow  
 
 ### 1. Build Phase  
 1. Source code is compiled, and all dependencies are resolved.  
@@ -218,11 +221,11 @@ A typical project might include:
 
 ---
 
-## Components Inside an Artifact File vs. Docker  
+## Components Inside an Artifact File vs. Docker Image  
 
 Let’s break down what components (source code, dependencies, libraries, packages, and runtime) are included in an artifact file (e.g., `.jar`, Python `.whl`, or Node.js `.tgz`) versus what is handled by Docker to make all components available.  
 
-### Components Inside an Artifact File  
+### Artifact File  
 An **artifact file** is typically created during the build process and usually contains:  
 
 1. **Source Code:**  
