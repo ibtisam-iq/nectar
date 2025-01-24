@@ -194,7 +194,7 @@ A typical project might include:
   Internally developed reusable libraries that are shared across projects by uploading them to Nexus.  
 
 #### Purpose of Nexus  
-- Serves as a centralized repository for managing and storing artifacts.  
+- Serves as a centralized repository for **managing** and **storing** artifacts.  
 - Facilitates reusability and ensures consistency of libraries and artifacts across different environments.  
 - Enables traceability of artifacts, especially for production deployments.
 - Helps us to create a **private Docker registry** like ECR, and ACR etc.  
