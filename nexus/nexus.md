@@ -510,3 +510,7 @@ Please find the below detailed guide about integrating it with Jenkins.
 - [Nodejs](./nodejs_artifact.md)
 
 This guide provides a comprehensive overview of artifacts, their types, and how they are managed using Nexus and Docker in a CI/CD pipeline.
+
+## OrientDB
+
+**Nexus Repository Manager** utilizes **OrientDB** internally, but users typically won't need to interact with this database directly. It's used for storing system data and metadata, enabling Nexus to function efficiently. If you're managing a Nexus instance, you should focus on backing up and restoring the Nexus data rather than manipulating the internal OrientDB database directly.
