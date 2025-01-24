@@ -13,6 +13,8 @@ This guide provides an overview of artifacts, their types, and how they are mana
 5. [Key Components Stored in Nexus vs Docker Image](#key-components-stored-in-nexus-vs-docker-image)
 6. [Components Inside an Artifact File vs. Docker Image](#components-inside-an-artifact-file-vs-docker-image)
 7. [Runtime Environments for Various Languages](#runtime-environments-for-various-languages)
+8. [Installation and Configuration](#installation-and-configuration)
+9. [Deploy to Nexus](#deploy-to-nexus)
 
 ---
 
@@ -352,7 +354,7 @@ Docker addresses the **remaining components** to make the program fully function
 | Shell (Bash) | Bash Shell or Terminal             | Executes shell scripts on Unix-like systems.                     |
 
 ---
-## Installation and Configuration Guide  
+## Installation and Configuration 
 
 ### Installation Using Native Commands  
 [Official Documentation](https://help.sonatype.com/en/download.html)  
@@ -391,8 +393,6 @@ Docker addresses the **remaining components** to make the program fully function
    ```bash
    /opt/nexus-3.76.1-01/bin/nexus start
    ```  
-
----
 
 ### Installation Using Docker (Easy Way)  
 
@@ -443,31 +443,4 @@ Please find the below detailed guide about integrating it with Jenkins.
 - [Maven](./maven_artifact.md)
 - [Nodejs](./nodejs_artifact.md)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-This guide provides a comprehensive overview of artifacts, their types, and how they are managed using Nexus and Docker in a CI/CD pipeline. For more detailed instructions, refer to the official documentation of Nexus and Docker.
+This guide provides a comprehensive overview of artifacts, their types, and how they are managed using Nexus and Docker in a CI/CD pipeline.
