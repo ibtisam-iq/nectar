@@ -352,5 +352,122 @@ Docker addresses the **remaining components** to make the program fully function
 | Shell (Bash) | Bash Shell or Terminal             | Executes shell scripts on Unix-like systems.                     |
 
 ---
+## Installation and Configuration Guide  
+
+### Installation Using Native Commands  
+[Official Documentation](https://help.sonatype.com/en/download.html)  
+
+#### Steps  
+1. **Install Java Runtime**  
+   ```bash
+   sudo apt install openjdk-17-jdk-headless -y
+   ```  
+
+2. **Download and Extract Nexus**  
+   ```bash
+   cd /opt
+   wget https://download.sonatype.com/nexus/3/nexus-3.76.1-01-unix.tar.gz
+   tar -xvf nexus-3.76.1-01-unix.tar.gz
+   ```  
+
+3. **Create a Nexus User and Set Permissions**  
+   ```bash
+   adduser nexus
+   chown -R nexus:nexus nexus-3.76.1-01/
+   chown -R nexus:nexus sonatype-work/
+   ```  
+
+4. **Edit Nexus Configuration**  
+   Open the configuration file:  
+   ```bash
+   vi nexus-3.76.1-01/bin/nexus.rc
+   ```  
+   Add the following line:  
+   ```plaintext
+   run_as_user="nexus"
+   ```  
+
+5. **Start Nexus**  
+   ```bash
+   /opt/nexus-3.76.1-01/bin/nexus start
+   ```  
+
+---
+
+### Installation Using Docker (Easy Way)  
+
+#### Step 1: Install Nexus 3 Using Docker  
+Run the following command to pull and start the Nexus container:  
+```bash
+docker run -d -p 8081:8081 --name nexus sonatype/nexus3
+```  
+- **Flags Used:**  
+  - `-d`: Run as a detached container.  
+  - `-p 8081:8081`: Expose Nexus on port 8081.  
+  - `--name nexus`: Assign the container the name "nexus."  
+
+#### Step 2: Retrieve the Initial Admin Password  
+Wait for Nexus to initialize, then retrieve the admin password:  
+1. Check running containers:  
+   ```bash
+   docker ps
+   ```  
+   Note down the `container_ID`.  
+
+2. Access the container and retrieve the password:  
+   ```bash
+   docker exec -it container_ID /bin/bash
+   cat sonatype-work/nexus3/admin.password
+   ```  
+
+#### Step 3: Access Nexus Web Interface  
+1. Open your browser and navigate to:  
+   [http://localhost:8081](http://localhost:8081).  
+
+2. Log in with:  
+   - **Username:** `admin`  
+   - **Password:** Retrieved in the previous step.  
+
+#### Cleanup (Optional)  
+To stop and remove the Nexus container after testing:  
+```bash
+docker stop nexus
+docker rm nexus
+```  
+
+---
+
+## Deploy to Nexus
+Please find the below detailed guide about integrating it with Jenkins.
+
+- [Maven](./maven_artifact.md)
+- [Nodejs](./nodejs_artifact.md)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 This guide provides a comprehensive overview of artifacts, their types, and how they are managed using Nexus and Docker in a CI/CD pipeline. For more detailed instructions, refer to the official documentation of Nexus and Docker.
