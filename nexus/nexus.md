@@ -437,7 +437,23 @@ docker rm nexus
 
 ---
 
+## Types of Nexus Repositories: Releases vs. Snapshots
+
+In Nexus Repository, there are two primary types of repositories used for storing artifacts:
+
+### 1. Release Repositories
+- **Purpose**: Store stable, production-ready versions of artifacts.
+- **Versioning**: Releases are versioned with a final version identifier (e.g., `1.0.0`, `2.1.3`).
+- **Immutability**: Artifacts in release repositories should be immutable, meaning once published, they cannot be changed or overwritten.
+  
+### 2. Snapshot Repositories
+- **Purpose**: Store development versions of artifacts that are still in progress and may change over time.
+- **Versioning**: Snapshots are versioned with a `-SNAPSHOT` suffix (e.g., `1.0.0-SNAPSHOT`, `2.1.3-SNAPSHOT`).
+- **Mutability**: Snapshot versions are mutable, allowing multiple versions of the same artifact to be published (e.g., `1.0.0-SNAPSHOT` can be replaced with `1.0.1-SNAPSHOT`).
+
+---
 ## Deploy to Nexus
+
 Please find the below detailed guide about integrating it with Jenkins.
 
 - [Maven](./maven_artifact.md)

@@ -19,9 +19,15 @@
      YWRtaW46YWRpdHlh
      ```
    - Add the following lines to the `.npmrc` file:
+      - For Snapshot Repository:
      ```
-     registry=http://13.235.245.200:8081/repository/npm-private
-     //13.235.245.200:8081/repository/npm-private/:_auth=YWRtaW46YWRpdHlh
+     registry=http://13.235.245.200:8081/repository/npm-snapshot
+     //13.235.245.200:8081/repository/npm-snapshot/:_auth=YWRtaW46YWRpdHlh
+     ```
+      - For Release Repository:
+     ``` 
+     registry=http://13.235.245.200:8081/repository/npm-release
+     //13.235.245.200:8081/repository/npm-release/:_auth=YWRtaW46YWRpdHlh
      ```
 
 ---
