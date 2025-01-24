@@ -119,6 +119,47 @@ You can specify the severity levels of vulnerabilities to include in the report 
 trivy image -f html -o results.html --severity HIGH,CRITICAL my_image:latest
 ```
 
+### Remote Git Repository Scan
+- Usage:
+  - trivy repository [flags] (REPO_PATH | REPO_URL)
+
+- Aliases:
+  - repository, repo
+
+- To scan a remote Git repository for vulnerabilities, use the following command:
+
+```bash
+trivy repo https://github.com/myuser/myrepo.git
+```
+
+### Kubernetes Cluster Scan
+To scan a Kubernetes cluster for vulnerabilities, use the following command:
+```bash
+trivy cluster --namespace default --image my_image:latest
+```
+
+### Configuration File
+You can specify a configuration file using the -c option. The configuration file should contain the following format:
+```yaml
+trivy: 
+security-checks:
+    - vuln
+    - config
+```    
+
+
+---
+
+## Important Flags
+
+```bash
+-f, --format string              format (table,json,template,sarif,cyclonedx,spdx,spdx-json,github,cosign-vuln) (default "table")
+-o, --output string              output file name
+--security-checks strings        security checks to perform (vuln,config,license,secret,osv) (default "vuln")
+-s, --severity strings           severities of security issues to be displayed (UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL) (default [UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL])
+--config-file string             path to the configuration file
+```
+
 ---
 
 ## References
