@@ -355,6 +355,7 @@ Docker addresses the **remaining components** to make the program fully function
 | Shell (Bash) | Bash Shell or Terminal             | Executes shell scripts on Unix-like systems.                     |
 
 ---
+
 ## Installation and Configuration 
 
 ### Installation Using Native Commands  
@@ -453,6 +454,54 @@ In Nexus Repository, there are two primary types of repositories used for storin
 - **Mutability**: Snapshot versions are mutable, allowing multiple versions of the same artifact to be published (e.g., `1.0.0-SNAPSHOT` can be replaced with `1.0.1-SNAPSHOT`).
 
 ---
+
+## Types of Nexus Repositories: Hosted, Group, and Proxy
+
+In Nexus Repository, there are three primary repository types:
+
+### 1. Hosted Repositories
+- **Purpose**: Hosted repositories store your artifacts, allowing you to upload, store, and manage them within Nexus.
+- **Usage**: Used for storing your own artifacts, such as those produced from CI/CD pipelines or manually uploaded packages.
+- **Example Use Cases**:
+  - Storing release or snapshot versions of artifacts.
+  - Storing internal dependencies that you want to manage and share within your organization.
+
+#### Example:
+  - You may create a **hosted repository** for your `npm` packages or Java artifacts that you want to publish or retrieve from within your private network.
+
+### 2. Group Repositories
+- **Purpose**: A group repository aggregates multiple repositories (both hosted and proxy) under a single URL, providing a unified access point.
+- **Usage**: It simplifies repository management by grouping related repositories together, so users can query them in one go.
+- **Example Use Cases**:
+  - Creating a **group repository** that includes both release and snapshot repositories for `npm` packages.
+  - Aggregating multiple artifact types (e.g., Java and npm artifacts) into a single access point for ease of use.
+
+#### Example:
+  - You may create a **group repository** that includes:
+    - A hosted repository for internal releases.
+    - A proxy repository for external dependencies.
+
+### 3. Proxy Repositories
+- **Purpose**: Proxy repositories cache and store artifacts from external repositories. They allow you to access external dependencies more efficiently by caching them locally.
+- **Usage**: Useful for retrieving and caching artifacts from remote repositories like Maven Central, npm registry, or Docker Hub. Proxy repositories improve reliability and performance by storing these artifacts locally, reducing the need to fetch them repeatedly from the external source.
+- **Example Use Cases**:
+  - Creating a **proxy repository** to cache artifacts from a public repository like npm, Maven Central, or Docker Hub.
+  - Ensuring access to external artifacts even when the external source is down or slow by using the cached versions.
+
+#### Example:
+  - You can create a **proxy repository** for the `npm` registry so that you don't need to rely on the remote npm repository each time you build your application.
+
+
+### Choosing Between Hosted, Group, and Proxy Repositories
+
+- **Hosted Repositories**: Use for your own artifacts that you want to upload and manage.
+- **Group Repositories**: Use to combine multiple repositories into one unified access point.
+- **Proxy Repositories**: Use to cache and proxy artifacts from external repositories, improving performance and reliability.
+
+Each repository type has its role in managing artifacts, whether they are internal, aggregated, or external.
+
+---
+
 ## Deploy to Nexus
 
 Please find the below detailed guide about integrating it with Jenkins.
