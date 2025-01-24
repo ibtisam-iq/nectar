@@ -3,22 +3,21 @@
 This guide provides an overview of artifacts, their types, and how they are managed using Nexus and Docker in a CI/CD pipeline.
 
 ## Table of Contents
-1. [Artifact Definition](#artifact-definition)
-2. [How Artifacts Differ from Regular Files](#how-artifacts-differ-from-regular-files)
-3. [Artifact Types by Programming Language](#artifact-types-by-programming-language)
-4. [Binaries, Libraries, and Packages](#binaries-libraries-and-packages)
+1. [Artifact](#artifact)
+    - [How Artifacts Differ from Regular Files](#how-artifacts-differ-from-regular-files)
+    - [Artifact Types by Programming Language](#artifact-types-by-programming-language)
+2. [Binaries, Libraries, and Packages](#binaries-libraries-and-packages)
+    - [JAR File and run.py Classification](#jar-file-and-runpy-classification)
 5. [Combining Nexus and Docker in a CI/CD Pipeline](#combining-nexus-and-docker-in-a-cicd-pipeline)
 6. [Runtime Environments for Various Languages](#runtime-environments-for-various-languages)
 
 ---
 
-## Artifact Definition
+## Artifact
 
 An artifact is a file or collection of files produced during the build process of a software project. Artifacts are typically binaries, libraries, or packages that are deployed to repositories for distribution or consumption by other projects.
 
----
-
-## How Artifacts Differ from Regular Files
+### How Artifacts Differ from Regular Files
 
 Artifacts are different from regular files because:
 
@@ -35,9 +34,7 @@ Artifacts are different from regular files because:
 | **Library**      | Reusable code components packaged for integration into other projects.                            |
 | **Package**      | Bundled files, including source code, binaries, and metadata for easy distribution (e.g., `.jar`). |
 
----
-
-## Artifact Types by Programming Language
+### Artifact Types by Programming Language
 
 | Programming Language | Common Artifact Types                   |
 |----------------------|------------------------------------------|
@@ -102,8 +99,6 @@ Artifacts are different from regular files because:
 | **Dependency**   | No dependencies required| Often depends on other libraries| May depend on other packages or libraries |
 | **Metadata**     | No metadata required    | May include metadata for integration| Includes metadata for distribution and version management |
 
----
-
 ### JAR File and run.py Classification
 
 #### 1. JAR File
@@ -138,9 +133,9 @@ A JAR (Java Archive) file is a package format used to bundle Java class files an
 
 ---
 
-## Combining Nexus and Docker in a CI/CD Pipeline
+## Typical Project Contents
 
-### Typical Project Contents
+A typical project might include:
 
 1. **Source Code**  
    The human-readable instructions written by developers (e.g., Python, Java, JavaScript code).  
@@ -160,69 +155,74 @@ A JAR (Java Archive) file is a package format used to bundle Java class files an
 5. **Runtime**  
    The environment required to execute the program (e.g., JVM for Java, Python interpreter).  
 
+---
 
-### Roles of Nexus and Docker in a CI/CD Pipeline  
+## Pipeline Workflow  
 
-#### Nexus Repository  
+### 1. Build Phase  
+1. Source code is compiled, and all dependencies are resolved.  
+2. Build artifacts (e.g., `.jar`, `.war`, `.dll`) are created and pushed to **Nexus** for versioning and storage.  
 
-**What Goes into Nexus?**  
-- **Build Artifacts:** Outputs of your build process, like `.jar`, `.war`, `.dll`, `.whl`, or other binaries.  
-  - These are versioned and stored in Nexus so they can be used across environments or by other teams.  
-- **Dependencies:** Third-party libraries or packages downloaded during the build process.  
-  - *Example:* Maven dependencies in Java projects are cached in Nexus for faster builds and consistency.  
-- **Custom Libraries:** If your team develops reusable libraries, these are uploaded to Nexus for sharing.  
+### 2. Docker Image Creation Phase  
+1. A `Dockerfile` is created, configured to fetch the build artifact from **Nexus**.  
+2. The Docker image is built to include:  
+   - The build artifact from Nexus.  
+   - Required runtime environment and dependencies.  
 
-**Purpose:**  
-- Acts as a centralized artifact repository.  
-- Enables reusability and consistency of libraries/artifacts across environments.  
-- Ensures traceability of artifacts in production.  
-
-#### Docker  
-
-**What Goes into Docker?**  
-- **Runtime Environment:** Docker images bundle everything needed to run the program, including:  
-  - Base OS (e.g., `alpine`, `ubuntu`).  
-  - Application runtime (e.g., JVM for Java, Python interpreter).  
-  - Your application (build artifact from Nexus).  
-  - Any required dependencies.  
-- **Dockerfile:** Defines how the Docker image is built, specifying dependencies, configurations, and runtime requirements.  
-
-**Purpose:**  
-- Provides a containerized environment for consistent application execution.  
-- Ensures the application works the same way in all environments (development, staging, production).  
-
-
-### Combining Nexus and Docker in a Pipeline  
-
-#### Build Phase  
-1. Source code is compiled, and dependencies are resolved.  
-2. Build artifacts (e.g., `.jar`, `.war`, `.dll`) are created and pushed to **Nexus**.  
-
-#### Docker Image Creation  
-1. A `Dockerfile` is created, which fetches the build artifact from **Nexus** and integrates it with the runtime environment.  
-2. The Docker image is built and contains:  
-   - Build artifact (from Nexus).  
-   - Runtime environment and dependencies.  
-
-#### Deploy Phase  
-1. The Docker image is pushed to a Docker registry (e.g., Docker Hub or Nexus if it’s configured for Docker).  
-2. The container is deployed to the target environment (e.g., Kubernetes, AWS ECS).  
-
-### Key Difference: Nexus vs. Docker  
-
-| **Aspect**            | **Nexus**                                   | **Docker**                                   |
-|------------------------|---------------------------------------------|---------------------------------------------|
-| **Purpose**           | Store and manage artifacts (e.g., `.jar`, `.dll`). | Build, ship, and run containerized applications. |
-| **What It Contains**  | Build outputs, libraries, dependencies.     | Application, runtime, and dependencies in a container. |
-| **Stage in Pipeline** | Artifact storage after the build phase.     | Containerization before deployment.         |
+### 3. Deploy Phase  
+1. The Docker image is pushed to a Docker registry (e.g., Docker Hub or Nexus configured as a Docker registry).  
+2. The image is deployed as a container to the target environment (e.g., Kubernetes, AWS ECS).  
 
 ---
 
-### Components Inside an Artifact File vs. Docker  
+## Key Components Stored in Nexus vs Docker Image
+
+### Nexus
+
+1. **Build Artifacts:**  
+  Outputs of the build process, such as `.jar`, `.war`, `.dll`, `.whl`, or other binaries.  
+  - These artifacts are versioned and stored to ensure consistency and availability across environments or teams.  
+2. **Dependencies:**  
+  Third-party libraries or packages required during the build process.  
+  - *Example:* Maven dependencies in Java projects are cached in Nexus to improve build times and maintain consistency.  
+3. **Custom Libraries:**  
+  Internally developed reusable libraries that are shared across projects by uploading them to Nexus.  
+
+#### Purpose of Nexus  
+- Serves as a centralized repository for managing and storing artifacts.  
+- Facilitates reusability and ensures consistency of libraries and artifacts across different environments.  
+- Enables traceability of artifacts, especially for production deployments.  
+
+### Docker Images
+
+1. **Runtime Environment:**  
+  A Docker image bundles all essential components to run the application, such as:  
+  - Base OS (e.g., `alpine`, `ubuntu`).  
+  - Application runtime (e.g., JVM for Java, Python interpreter).  
+  - Application (build artifact retrieved from Nexus).  
+  - Any required dependencies.  
+2. **Dockerfile:**  
+  A file that defines the process for building the Docker image, including instructions for adding dependencies, configurations, and runtime requirements.  
+
+#### Purpose of Docker  
+- Provides a containerized environment to ensure applications run consistently across different environments (development, staging, production).  
+- Eliminates environment-specific issues by bundling the application and its dependencies in a container.
+
+### Key Differences Between Nexus and Docker  
+
+| **Aspect**            | **Nexus**                                     | **Docker**                                   |
+|------------------------|-----------------------------------------------|---------------------------------------------|
+| **Primary Purpose**    | Store and manage build artifacts (e.g., `.jar`, `.dll`). | Build, ship, and run containerized applications. |
+| **What It Stores**     | Build outputs, libraries, dependencies.       | Complete application, runtime, and dependencies inside a container. |
+| **Pipeline Role**      | Artifact storage after the build phase.       | Containerization before deployment.         |
+
+---
+
+## Components Inside an Artifact File vs. Docker  
 
 Let’s break down what components (source code, dependencies, libraries, packages, and runtime) are included in an artifact file (e.g., `.jar`, Python `.whl`, or Node.js `.tgz`) versus what is handled by Docker to make all components available.  
 
-#### Components Inside an Artifact File  
+### Components Inside an Artifact File  
 An **artifact file** is typically created during the build process and usually contains:  
 
 1. **Source Code:**  
@@ -247,7 +247,6 @@ An **artifact file** is typically created during the build process and usually c
   - **Not included.**  
   - Artifacts do not bundle the runtime environment (e.g., JVM for Java, Python interpreter for Python). The runtime must be available separately.  
 
-An **artifact file** is typically created during the build process and usually contains:
 
 | **Component**        | **Presence in Artifact File**                                                                 |
 |-----------------------|-----------------------------------------------------------------------------------------------|
@@ -257,7 +256,7 @@ An **artifact file** is typically created during the build process and usually c
 | **Packages**          | Always included (artifacts are inherently packaged versions of the application).             |
 | **Runtime**           | Not included; the runtime environment must be available separately.                          |
 
-#### Components Handled by Docker  
+### Components Handled by Docker  
 Docker addresses the **remaining components** to make the program fully functional:  
 
 1. **Source Code:**  
@@ -279,7 +278,6 @@ Docker addresses the **remaining components** to make the program fully function
   - Docker images explicitly include the runtime environment.  
   - *Example:* A Java Docker image (`openjdk`) includes the JVM to run `.jar` files.  
 
-Docker addresses the **remaining components** to make the program fully functional:
 
 | **Component**        | **Handled by Docker**                                                              |
 |-----------------------|-----------------------------------------------------------------------------------|
@@ -289,7 +287,7 @@ Docker addresses the **remaining components** to make the program fully function
 | **Packages**          | Copies and uses the artifact as part of the image.                                |
 | **Runtime**           | Always included (e.g., JVM, Python interpreter, or Node.js runtime).              |
 
-#### Example Breakdown for Java, Python, and Node.js  
+### Example Breakdown for Java, Python, and Node.js  
 
 - **Java (.jar):**  
   - *Artifact Contains:* Compiled source code, dependencies (if fat JAR), and packaged structure.  
