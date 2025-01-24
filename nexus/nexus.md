@@ -166,7 +166,7 @@ A typical project might include:
 
 ### 1. Build Phase  
 1. Source code is compiled, and all dependencies are resolved.  
-2. Build artifacts (e.g., `.jar`, `.war`, `.dll`) are created and pushed to **Nexus** for versioning and storage.  
+2. Build artifacts (e.g., `.jar`, `.war`, `.dll`) are created and pushed to **Nexus** for **versioning** and **storage**.  
 
 ### 2. Docker Image Creation Phase  
 1. A `Dockerfile` is created, configured to fetch the build artifact from **Nexus**.  
