@@ -175,7 +175,7 @@ A typical project might include:
    - Required runtime environment and dependencies.  
 
 ### 3. Deploy Phase  
-1. The Docker image is pushed to a Docker registry (e.g., Docker Hub or Nexus configured as a Docker registry).  
+1. The Docker image is pushed to a Docker registry (e.g., Docker Hub or **Nexus configured as a Docker registry**).  
 2. The image is deployed as a container to the target environment (e.g., Kubernetes, AWS ECS).  
 
 ---
@@ -196,7 +196,8 @@ A typical project might include:
 #### Purpose of Nexus  
 - Serves as a centralized repository for managing and storing artifacts.  
 - Facilitates reusability and ensures consistency of libraries and artifacts across different environments.  
-- Enables traceability of artifacts, especially for production deployments.  
+- Enables traceability of artifacts, especially for production deployments.
+- Helps us to create a **private Docker registry** like ECR, and ACR etc.  
 
 ### Docker Images
 
