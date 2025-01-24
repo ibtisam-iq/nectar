@@ -15,6 +15,7 @@ Trivy is a comprehensive and versatile security scanner. It has scanners that lo
     - [Remote Git Repository Scan](#remote-git-repository-scan)
     - [Kubernetes Cluster Scan](#kubernetes-cluster-scan)
     - [Configuration](#configuration)
+6. [Important Flags](#important-flags)
 6. [References](#references)
 
 ---
