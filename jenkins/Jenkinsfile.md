@@ -405,7 +405,3 @@ pipeline {
 ```
 
 ---
-
-## Jenkinsfile for Docker
-
-```groovy
