@@ -12,6 +12,9 @@ Trivy is a comprehensive and versatile security scanner. It has scanners that lo
 5. [Usage](#usage)
     - [Folder Scan](#folder-scan)
     - [Docker Image Scan](#docker-image-scan)
+    - [Remote Git Repository Scan](#remote-git-repository-scan)
+    - [Kubernetes Cluster Scan](#kubernetes-cluster-scan)
+    - [Configuration](#configuration)
 6. [References](#references)
 
 ---
@@ -80,7 +83,13 @@ Trivy can scan the following targets:
 ## Usage
 
 ### Folder Scan
+```
+Usage:
+  trivy filesystem [flags] PATH
 
+Aliases:
+  filesystem, fs
+```
 To scan a folder or directory for vulnerabilities, use the following command:
 
 ```bash
@@ -101,6 +110,36 @@ trivy fs --format html -o result.html --security-checks vuln,config path_to_scan
 
 ### Docker Image Scan
 
+```
+Usage:
+  trivy image [flags] IMAGE_NAME
+
+Aliases:
+  image, i
+
+Examples:
+  # Scan a container image
+  $ trivy image python:3.4-alpine
+
+  # Scan a container image from a tar archive
+  $ trivy image --input ruby-3.1.tar
+
+  # Filter by severities
+  $ trivy image --severity HIGH,CRITICAL alpine:3.15
+
+  # Ignore unfixed/unpatched vulnerabilities
+  $ trivy image --ignore-unfixed alpine:3.15
+
+  # Scan a container image in client mode
+  $ trivy image --server http://127.0.0.1:4954 alpine:latest
+
+  # Generate json result
+  $ trivy image --format json --output result.json alpine:3.15
+
+  # Generate a report in the CycloneDX format
+  $ trivy image --format cyclonedx --output result.cdx alpine:3.15
+```
+
 To scan a Docker image for vulnerabilities, use the following command:
 
 ```bash
@@ -120,16 +159,17 @@ trivy image -f html -o results.html --severity HIGH,CRITICAL my_image:latest
 ```
 
 ### Remote Git Repository Scan
-- Usage:
-  - trivy repository [flags] (REPO_PATH | REPO_URL)
+```
+Usage:
+  trivy repository [flags] (REPO_PATH | REPO_URL)
 
-- Aliases:
-  - repository, repo
-
-- To scan a remote Git repository for vulnerabilities, use the following command:
+Aliases:
+  repository, repo
+```
+To scan a remote Git repository for vulnerabilities, use the following command:
 
 ```bash
-trivy repo https://github.com/myuser/myrepo.git
+trivy repo https://github.com/ibtisamops/3TierFullStackApp-Flask-Postgres.git
 ```
 
 ### Kubernetes Cluster Scan
@@ -146,8 +186,6 @@ security-checks:
     - vuln
     - config
 ```    
-
-
 ---
 
 ## Important Flags
@@ -158,6 +196,8 @@ security-checks:
 --security-checks strings        security checks to perform (vuln,config,license,secret,osv) (default "vuln")
 -s, --severity strings           severities of security issues to be displayed (UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL) (default [UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL])
 --config-file string             path to the configuration file
+-c, --config string             config path (default "trivy.yaml")
+-d, --debug                     debug mode
 ```
 
 ---
