@@ -1,1 +1,355 @@
+# Nexus and Artifact Management Guide
 
+This guide provides an overview of artifacts, their types, and how they are managed using Nexus and Docker in a CI/CD pipeline.
+
+## Table of Contents
+1. [Artifact Definition](#artifact-definition)
+2. [How Artifacts Differ from Regular Files](#how-artifacts-differ-from-regular-files)
+3. [Artifact Types by Programming Language](#artifact-types-by-programming-language)
+4. [Binaries, Libraries, and Packages](#binaries-libraries-and-packages)
+5. [Combining Nexus and Docker in a CI/CD Pipeline](#combining-nexus-and-docker-in-a-cicd-pipeline)
+6. [Runtime Environments for Various Languages](#runtime-environments-for-various-languages)
+
+---
+
+## Artifact Definition
+
+An artifact is a file or collection of files produced during the build process of a software project. Artifacts are typically binaries, libraries, or packages that are deployed to repositories for distribution or consumption by other projects.
+
+---
+
+## How Artifacts Differ from Regular Files
+
+Artifacts are different from regular files because:
+
+- **Versioning**: Artifacts are usually versioned to ensure consistency and traceability in software builds.
+- **Build Outputs**: They represent the final or intermediate products of a build pipeline.
+- **Reusability**: Artifacts can be reused across multiple projects, making them essential for dependency management.
+
+
+| **File Type**    | **Definition**                                                                                     |
+|------------------|---------------------------------------------------------------------------------------------------|
+| **Artifact**     | Packaged, versioned files used for distribution or deployment.                                     |
+| **Source Code**  | Human-readable code written by developers.                                                        |
+| **Binary**       | Machine-readable compiled files (e.g., `.exe`, `.class`).                                         |
+| **Library**      | Reusable code components packaged for integration into other projects.                            |
+| **Package**      | Bundled files, including source code, binaries, and metadata for easy distribution (e.g., `.jar`). |
+
+---
+
+## Artifact Types by Programming Language
+
+| Programming Language | Common Artifact Types                   |
+|----------------------|------------------------------------------|
+| Java                 | .jar, .war, .ear                        |
+| Python               | .whl (Wheel), .tar.gz (Source Distribution) |
+| JavaScript           | .tgz (npm package archives)             |
+| .NET (C#, VB.NET)    | .dll, .exe, .nupkg (NuGet Package)      |
+| Ruby                 | .gem (RubyGems)                         |
+| Go                   | Executable binaries (no specific extension) |
+| C/C++                | .exe, .dll, .so (Shared Object), .a (Static Library) |
+| Node.js              | .js (Built JavaScript Files)            |
+| Rust                 | .rlib, Executable binaries              |
+| PHP                  | .phar (PHP Archive)                     |
+
+---
+
+## Binaries, Libraries, and Packages
+
+### Binaries
+- **Definition**: An executable file compiled from source code that a computer can run directly. It’s machine-readable and doesn’t require further compilation or interpretation.
+- **Difference**: 
+    - Standalone; contains everything needed to run the program.
+    - Purpose: Designed to perform a specific task or run an application.
+- **Use Case Example**: `myapp.exe` on Windows or `./myapp` on Linux.
+    - You’ve developed a C++ application that calculates interest rates. After compiling the code, the output is an executable binary file. Running it directly performs the calculations.
+
+
+### Libraries
+- **Definition**: A collection of pre-written code that developers can use to perform common tasks or add functionality to their programs. Libraries are not standalone; they’re included in other programs. 
+- **Difference**: 
+    - Reusable and often required by binaries to function properly.
+    - Purpose: Provide modular, reusable code for specific tasks like database interaction or math operations.
+- **Use Case Example**: `libmath.so` (Linux shared library) or `math.dll` (Windows dynamic library).
+    - Your Python program needs advanced math functions. Instead of writing them yourself from scratch, you import a library like `numpy`, which provides these functions.
+
+### Packages
+- **Definition**: A structured collection of files (binaries, libraries, configuration files, etc.) bundled together for distribution. Packages make it easier to share and install software.
+- **Difference**: 
+    - Comprehensive; includes binaries, libraries, and metadata.
+    - Purpose: Facilitate installation, distribution, and version management.
+- **Use Case Example**: A `.deb` file (Debian package) or `.nupkg` (NuGet package).
+    - You want to share your Python project with others. You create a package that includes your code, dependencies, and configuration files. This package can be easily installed on other systems.
+    - Your project depends on several libraries. You create a package that includes these libraries along with your project’s code. This simplifies the installation process for users.
+    - Your project has multiple versions. You create a package for each version, making it easy to manage and switch between versions.
+    - Your project has dependencies that need to be installed separately. You create a package that includes these dependencies, ensuring they’re installed correctly with your project.
+    - When you want to install a web server like Nginx on Linux, you download its .deb package. This package contains all necessary binaries, libraries, and configuration files to run Nginx.
+
+#### Key Difference
+
+| **Aspect**       | **Binary**             | **Library**                   | **Package**                     |
+|-------------------|------------------------|--------------------------------|----------------------------------|
+| **Standalone**    | Yes                    | No                             | Often includes binaries/libraries |
+| **Purpose**       | Executes specific tasks| Provides reusable functionality| Simplifies software distribution |
+| **Example Extension** | .exe, .bin            | .dll, .so, .jar               | .deb, .rpm, .nupkg              |
+| **Use**          | Run directly           | Linked/integrated with software| Installed to enable functionality |
+| **Management**    | No version management | Version management within software| Version management for distribution |
+| **Distribution**  | Direct execution        | Included with software          | Bundled with dependencies and metadata |
+| **Installation**  | No installation required| Linked/integrated with software| Requires installation process |
+| **Reusability**   | Limited to specific task| Highly reusable across software| Highly reusablility across projects |
+| **Complexity**    | Simple, direct execution| Complex, requires integration| Complex, requires installation process |
+| **Size**          | Typically small         | Varies, often smaller than binaries| Can be large, depending on included files |
+| **Dependency**   | No dependencies required| Often depends on other libraries| May depend on other packages or libraries |
+| **Metadata**     | No metadata required    | May include metadata for integration| Includes metadata for distribution and version management |
+
+---
+
+### JAR File and run.py Classification
+
+#### 1. JAR File
+**What is it?**  
+A JAR (Java Archive) file is a package format used to bundle Java class files and associated resources (like images or configuration files). It’s often used for distribution.
+
+**Category:** Depends on Use Case  
+- **Binary:** If the JAR is an executable file (contains a Main-Class in its MANIFEST.MF file), it’s considered a binary. You can run it directly with `java -jar myapp.jar`.  
+    - *Example:* A Java application packaged as `app.jar` that launches a GUI calculator when run.  
+- **Library:** If the JAR contains reusable code that other Java applications import (like `log4j.jar` for logging), it’s a library.  
+    - *Example:* A JAR file that provides database drivers, such as `mysql-connector.jar`.  
+- **Package:** JAR files are also technically packages because they bundle files for distribution.
+
+#### 2. run.py
+**What is it?**  
+`run.py` is a Python script file containing source code written in Python. It’s a text file and not compiled into machine code.
+
+**Category:** Binary-Like (Source Executable)  
+- **Binary-Like:** When executed with the Python interpreter (`python run.py`), it behaves like a binary, as it performs a specific task. However, it’s technically not a compiled binary but a source file executed by Python.  
+    - *Example:* A `run.py` script that starts a web server for a Python application.  
+- **Not a Library or Package:** It’s not a library because it doesn’t provide reusable functionality, nor is it a package because it’s not a structured bundle.
+
+### Key Difference Between the Two
+
+| **Aspect**     | **JAR File**                               | **run.py**                   |
+|----------------|--------------------------------------------|------------------------------|
+| **Compiled?**  | Yes (Java bytecode)                        | No (Python source code)      |
+| **Run Directly?** | Yes (`java -jar`) if executable           | Yes (`python run.py`)        |
+| **Reusable?**  | Yes (as a library)                         | No (typically not reusable)  |
+| **Category**   | Binary, Library, or Package (varies)       | Binary-Like                  |
+
+
+---
+
+## Combining Nexus and Docker in a CI/CD Pipeline
+
+### Typical Project Contents
+
+1. **Source Code**  
+   The human-readable instructions written by developers (e.g., Python, Java, JavaScript code).  
+
+2. **Dependencies**  
+   External libraries or modules the project relies on, often defined in files like:  
+   - `pom.xml` (Maven)  
+   - `requirements.txt` (Python)  
+   - `package.json` (Node.js)  
+
+3. **Libraries**  
+   Pre-written code that provides functionality (e.g., `.jar`, `.dll` files).  
+
+4. **Packages**  
+   Bundled versions of your application or its dependencies (e.g., `.whl`, `.nupkg`).  
+
+5. **Runtime**  
+   The environment required to execute the program (e.g., JVM for Java, Python interpreter).  
+
+
+### Roles of Nexus and Docker in a CI/CD Pipeline  
+
+#### Nexus Repository  
+
+**What Goes into Nexus?**  
+- **Build Artifacts:** Outputs of your build process, like `.jar`, `.war`, `.dll`, `.whl`, or other binaries.  
+  - These are versioned and stored in Nexus so they can be used across environments or by other teams.  
+- **Dependencies:** Third-party libraries or packages downloaded during the build process.  
+  - *Example:* Maven dependencies in Java projects are cached in Nexus for faster builds and consistency.  
+- **Custom Libraries:** If your team develops reusable libraries, these are uploaded to Nexus for sharing.  
+
+**Purpose:**  
+- Acts as a centralized artifact repository.  
+- Enables reusability and consistency of libraries/artifacts across environments.  
+- Ensures traceability of artifacts in production.  
+
+#### Docker  
+
+**What Goes into Docker?**  
+- **Runtime Environment:** Docker images bundle everything needed to run the program, including:  
+  - Base OS (e.g., `alpine`, `ubuntu`).  
+  - Application runtime (e.g., JVM for Java, Python interpreter).  
+  - Your application (build artifact from Nexus).  
+  - Any required dependencies.  
+- **Dockerfile:** Defines how the Docker image is built, specifying dependencies, configurations, and runtime requirements.  
+
+**Purpose:**  
+- Provides a containerized environment for consistent application execution.  
+- Ensures the application works the same way in all environments (development, staging, production).  
+
+
+### Combining Nexus and Docker in a Pipeline  
+
+#### Build Phase  
+1. Source code is compiled, and dependencies are resolved.  
+2. Build artifacts (e.g., `.jar`, `.war`, `.dll`) are created and pushed to **Nexus**.  
+
+#### Docker Image Creation  
+1. A `Dockerfile` is created, which fetches the build artifact from **Nexus** and integrates it with the runtime environment.  
+2. The Docker image is built and contains:  
+   - Build artifact (from Nexus).  
+   - Runtime environment and dependencies.  
+
+#### Deploy Phase  
+1. The Docker image is pushed to a Docker registry (e.g., Docker Hub or Nexus if it’s configured for Docker).  
+2. The container is deployed to the target environment (e.g., Kubernetes, AWS ECS).  
+
+### Key Difference: Nexus vs. Docker  
+
+| **Aspect**            | **Nexus**                                   | **Docker**                                   |
+|------------------------|---------------------------------------------|---------------------------------------------|
+| **Purpose**           | Store and manage artifacts (e.g., `.jar`, `.dll`). | Build, ship, and run containerized applications. |
+| **What It Contains**  | Build outputs, libraries, dependencies.     | Application, runtime, and dependencies in a container. |
+| **Stage in Pipeline** | Artifact storage after the build phase.     | Containerization before deployment.         |
+
+---
+
+### Components Inside an Artifact File vs. Docker  
+
+Let’s break down what components (source code, dependencies, libraries, packages, and runtime) are included in an artifact file (e.g., `.jar`, Python `.whl`, or Node.js `.tgz`) versus what is handled by Docker to make all components available.  
+
+#### Components Inside an Artifact File  
+An **artifact file** is typically created during the build process and usually contains:  
+
+1. **Source Code:**  
+  - **Not included in most artifact files.**  
+    - Instead, the source code is compiled into binaries (e.g., `.class` files for Java, `.pyc` files for Python).  
+  - *Exception:* For interpreted languages (like Python or JavaScript), the artifact may include uncompiled source code (e.g., `.py` or `.js` files).  
+
+2. **Dependencies:**  
+  - **Partially included or referenced.**  
+  - In Java (JAR files), dependencies can be included as part of the file (a "fat JAR") or referenced externally.  
+  - For Python (Wheel or `.tar.gz`), dependencies are typically not included but are listed in metadata for package managers (like `pip`) to fetch.  
+
+3. **Libraries:**  
+  - **Partially included** (depends on the build process).  
+  - For instance, a JAR file may contain compiled versions of reusable libraries if packaged as a "fat JAR," but this isn’t always the case.  
+
+4. **Packages:**  
+  - **Always included.**  
+  - Artifact files are inherently packaged versions of your application or its components.  
+
+5. **Runtime:**  
+  - **Not included.**  
+  - Artifacts do not bundle the runtime environment (e.g., JVM for Java, Python interpreter for Python). The runtime must be available separately.  
+
+An **artifact file** is typically created during the build process and usually contains:
+
+| **Component**        | **Presence in Artifact File**                                                                 |
+|-----------------------|-----------------------------------------------------------------------------------------------|
+| **Source Code**       | Rarely included (except for interpreted languages like Python or JavaScript).                |
+| **Dependencies**      | Partially included (e.g., fat JARs or referenced metadata for dependency managers).          |
+| **Libraries**         | Partially included (depends on the build process and packaging settings).                    |
+| **Packages**          | Always included (artifacts are inherently packaged versions of the application).             |
+| **Runtime**           | Not included; the runtime environment must be available separately.                          |
+
+#### Components Handled by Docker  
+Docker addresses the **remaining components** to make the program fully functional:  
+
+1. **Source Code:**  
+  - If the artifact doesn’t include compiled code, Docker copies the source code into the image and ensures it’s runnable.  
+  - *Example:* Docker can include a Python script (`run.py`) alongside a Python runtime.  
+
+2. **Dependencies:**  
+  - Docker can fetch and install dependencies during the image build process.  
+  - *Example:* A Dockerfile may include `RUN pip install -r requirements.txt` for Python projects.  
+
+3. **Libraries:**  
+  - Libraries not bundled in the artifact can be installed using package managers (like `apt` for OS-level libraries or `maven` for Java).  
+  - *Example:* `RUN apt-get install libssl-dev` for OpenSSL support.  
+
+4. **Packages:**  
+  - The artifact file (which is itself a package) is copied into the Docker image.  
+
+5. **Runtime:**  
+  - Docker images explicitly include the runtime environment.  
+  - *Example:* A Java Docker image (`openjdk`) includes the JVM to run `.jar` files.  
+
+Docker addresses the **remaining components** to make the program fully functional:
+
+| **Component**        | **Handled by Docker**                                                              |
+|-----------------------|-----------------------------------------------------------------------------------|
+| **Source Code**       | May include if not precompiled (e.g., interpreted languages like Python or Node.js). |
+| **Dependencies**      | Installed during the image build process.                                         |
+| **Libraries**         | Installed if missing or required externally.                                      |
+| **Packages**          | Copies and uses the artifact as part of the image.                                |
+| **Runtime**           | Always included (e.g., JVM, Python interpreter, or Node.js runtime).              |
+
+#### Example Breakdown for Java, Python, and Node.js  
+
+- **Java (.jar):**  
+  - *Artifact Contains:* Compiled source code, dependencies (if fat JAR), and packaged structure.  
+  - *Docker Adds:* JVM runtime, OS-level dependencies, external libraries (if not included in the JAR).  
+
+- **Python (.whl or .tar.gz):**  
+  - *Artifact Contains:* Source code or compiled `.pyc` files, metadata for dependencies.  
+  - *Docker Adds:* Python runtime, installs dependencies using `pip`.  
+
+- **Node.js (.tgz):**  
+  - *Artifact Contains:* Source code (JavaScript files), metadata (`package.json`) listing dependencies.  
+  - *Docker Adds:* Node.js runtime, installs dependencies using `npm install`.  
+
+#### Summary Table  
+
+| **Component**      | **Artifact File**                                  | **Docker**                                     |
+|---------------------|---------------------------------------------------|-----------------------------------------------|
+| **Source Code**     | Rarely included (except for interpreted languages) | May include if not precompiled.               |
+| **Dependencies**    | Sometimes included (e.g., fat JARs)               | Installed during the image build.             |
+| **Libraries**       | Sometimes included (depends on build settings)    | Installed if missing or externally required.  |
+| **Packages**        | Always included (artifacts are packaged files)    | Copies and uses the artifact.                 |
+| **Runtime**         | Never included                                    | Always included (runtime environment).        |
+| **Build Environment**| Rarely included (except for interpreted languages) | Always included (to build the artifact).     |
+| **OS-Level Dependencies**| Rarely included (except for interpreted languages) | Installed if missing or externally required.  |
+| **External Libraries**| Rarely included (except for interpreted languages) | Installed if missing or externally required.  |
+| **Metadata**        | Sometimes included (e.g., `package.json`)        | Used to install dependencies and configure.  |
+| **Build Tools**     | Rarely included (except for interpreted languages) | Installed if missing or externally required.  |
+| **Versioning**      | Included in the artifact metadata (e.g., `pom.xml`) | Used to ensure consistent versions.           |
+| **Security**        | Included in the artifact (e.g., encryption keys) | May bloat the image size.                     |
+| **Configuration**   | Included in the artifact (e.g., `application.properties`) | May be used to configure the application.    |
+| **Logging**         | Included in the artifact (e.g., `log.properties`) | May be used to configure logging.            |
+| **Monitoring**      | Included in the artifact (e.g., `monitoring.properties`) | May be used to configure monitoring.         |
+| **Testing**         | Included in the artifact (e.g., test classes)    | May be used to run tests during the build.    |
+
+---
+
+## Runtime Environments for Various Languages
+
+| Language     | Runtime Environment                | Description                                                      |
+|--------------|------------------------------------|------------------------------------------------------------------|
+| Java         | JVM (Java Virtual Machine)         | Executes Java bytecode. Part of the JRE (Java Runtime Environment). |
+| Python       | Python Interpreter                 | Executes Python scripts (CPython is the most common implementation). |
+| Node.js      | Node.js Runtime                    | Executes JavaScript code outside the browser, built on Chrome's V8 JavaScript engine. |
+| .NET (C#)    | CLR (Common Language Runtime)      | Executes .NET bytecode (MSIL). Part of the .NET Framework or .NET Core. |
+| JavaScript   | Browser JavaScript Engine          | Executes JavaScript code inside the browser (e.g., V8 for Chrome, SpiderMonkey for Firefox). |
+| Ruby         | Ruby Interpreter                   | Executes Ruby scripts (e.g., MRI for CRuby or JRuby for JVM).     |
+| PHP          | PHP Interpreter                    | Executes PHP scripts, typically used with web servers like Apache or Nginx. |
+| C/C++        | Native Machine Code (via Compiler) | Executed directly by the OS; no specific runtime environment but may link to shared libraries. |
+| Go           | Native Machine Code (via Compiler) | Compiled to native code; no separate runtime required beyond system libraries. |
+| Rust         | Native Machine Code (via Compiler) | Compiled to native code; no separate runtime required beyond system libraries. |
+| Kotlin       | JVM (Java Virtual Machine)         | Executes Kotlin bytecode, often alongside Java.                  |
+| Scala        | JVM (Java Virtual Machine)         | Executes Scala bytecode, fully interoperable with Java.          |
+| Perl         | Perl Interpreter                   | Executes Perl scripts (perl command-line tool).                  |
+| Swift        | Swift Runtime (for macOS/iOS/Linux)| Executes Swift code, often compiled to native machine code for execution. |
+| R            | R Interpreter                      | Executes R scripts, primarily for statistical computing and visualization. |
+| Elixir       | BEAM (Erlang VM)                   | Executes Elixir code, a high-level language built on the Erlang VM. |
+| Haskell      | GHC (Glasgow Haskell Compiler Runtime) | Executes Haskell programs, often using the GHC runtime for lazy evaluation and threading. |
+| Dart         | Dart VM (Dart Virtual Machine)     | Executes Dart code, particularly for Flutter apps, or compiled to native code. |
+| Shell (Bash) | Bash Shell or Terminal             | Executes shell scripts on Unix-like systems.                     |
+
+---
+
+This guide provides a comprehensive overview of artifacts, their types, and how they are managed using Nexus and Docker in a CI/CD pipeline. For more detailed instructions, refer to the official documentation of Nexus and Docker.
