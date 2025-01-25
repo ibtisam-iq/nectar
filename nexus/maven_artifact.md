@@ -1,5 +1,9 @@
-## Configure Maven to Use Nexus  
-To integrate Maven with Nexus, update your `pom.xml` file to include the following:  
+## Configure Jenkins to Use Nexus
+
+### Step 1: URL
+- Unlike SonarQube, you need URL of the nexus repo, not the server itself.
+- Unlike Sonarqube, you need to add the URL in the `source code`, not inside the Jenkins UI.
+Integrate Maven with Nexus, update your `pom.xml` file to include the following:  
 ```xml
 <project>
     <!-- Other project information -->
@@ -17,6 +21,10 @@ To integrate Maven with Nexus, update your `pom.xml` file to include the followi
 </project>
 ```  
 Replace `NEXUS-URL` with the URL of your Nexus repository.
+
+### Step 2: Credentials
+- The credentials will be provided to the Jenkins via a configuration file `setting.xml`.
+- Install a plugin `Config File Provider`. It provides us the ability to provide configuration files.
 
 ---
 
