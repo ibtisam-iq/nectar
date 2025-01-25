@@ -219,11 +219,11 @@ In this specific context:
 3. **Add Authentication Details:**
    - Convert your Nexus credentials to base64:
      ```bash
-     echo -n 'admin:aditya' | base64
+     echo -n 'admin:ibtisam' | base64
      ```
    - Example output:
      ```
-     YWRtaW46YWRpdHlh
+     YWRtaW46aWJ0aXNhbQ==
      ```
    - Add the following lines to the `.npmrc` file:
       - For Snapshot Repository:
