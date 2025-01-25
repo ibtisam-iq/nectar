@@ -502,12 +502,11 @@ Each repository type has its role in managing artifacts, whether they are intern
 
 ---
 
-## Setting up Jenkins and Deploy to Nexus
+## Deploy Artifact to Nexus Repository Using Jenkins
 
-Please find the below detailed guide about integrating it with Jenkins.
+Please find the [detailed guide](jenkins_setup.md) about integrating it with Jenkins.
 
-- [Maven](./maven_artifact.md)
-- [Nodejs](./nodejs_artifact.md)
+---
 
 This guide provides a comprehensive overview of artifacts, their types, and how they are managed using Nexus and Docker in a CI/CD pipeline.
 
@@ -517,3 +516,7 @@ This guide provides a comprehensive overview of artifacts, their types, and how 
 
 ## Important Considerations
 - `Allow redeploy` in Deployment policy is not recommended as it can cause issues with the artifact versioning.
+- If you're using a proxy repository, ensure that the external repository is accessible and not blocked by any firewall or network restrictions.
+- Always test your Nexus setup and artifact deployment in a non-production environment before deploying it to production.
+- Nexus supports various authentication methods, including username/password, LDAP, and Active Directory. Choose the method that best fits your organization's security policies.
+- If you want to take the backup, take the back up of complete `sonatype-work` directory.
