@@ -1,4 +1,4 @@
-# Configure Jenkis with Nexus 
+# Configure Jenkis to Deploy to Nexus 
 
 ## 1. Update pom.xml to Integrate with Nexus
 
@@ -64,13 +64,17 @@
 ```  
 Replace `NEXUS-URL` with the URL of your Nexus repository.
 
-## 2: Add Credentials to Jenkins
+## 2: Add Nexus Credentials to Jenkins
 
 - Install a plugin `Config File Provider`. It provides us the ability to provide configuration files.
 - Go to Jenkins > Manage Jenkins > Configure System > `Manage Files` > `Global Maven settings.xml`.
 - You can put the credentials here in two different ways.
 
 ![](./images/Setting%20up%20Credentials%20in%20Jenkins.png)
+
+  - Howerver, you can also put the credentials in the `settings.xml` file in the Jenkins workspace.
+
+### Step 1: Add Maven Releases and Snapshots Repos
 
 ```xml
 <server>
@@ -85,7 +89,27 @@ Replace `NEXUS-URL` with the URL of your Nexus repository.
 <password>your-password</password>      <!-- put the password of your nexus account here -->
 </server>
 ```
-  - Howerver, you can also put the credentials in the `settings.xml` file in the Jenkins workspace.
+### Step 2: Add Maven Proxy Repo
+
+```xml
+<!-- First, we need to define the proxy repo -->
+<server>
+<id>maven-proxy-repo</id>               <!-- put the proxy repo name here -->
+<username>your-username</username>      <!-- put the username of your nexus account here -->
+<password>your-password</password>      <!-- put the password of your nexus account here -->
+</server>
+```
+
+```xml
+<!-- Then, we need to define the proxy settings -->
+<mirror>
+<id>nexus</id>
+<!-- mirror all repositories, including central. Put * if you want to mirror all, put the name of the repo if you want to mirror only that repo -->               
+<mirrorOf>*</mirrorOf>                     
+<url>http://your-proxy-repo-url.com</url>  <!-- put the proxy repo url here -->
+</mirror>
+
+```
 
 ## 3: Install Maven Plugins
 - Install `Maven Integration`. It provides us the ability to run maven commands.
