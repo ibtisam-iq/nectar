@@ -156,9 +156,10 @@ Plugins are essentially extensions to Jenkins that add new functionality. They c
 - Multibranch Scan Webhook Trigger
 - Deploy to container
 - NodeJS Plugin
+- Maven Integration
 - Pipeline Maven Integration
 - LDAP Plugin
--
+- Config File Provider Plugin
 
 ## 4. Nodes
 - Nodes are Jenkins servers or agents that can run jobs as slave.
