@@ -1,4 +1,4 @@
-# Configure Jenkins to Deploy to Nexus 
+# Publishing Maven Artifacts to Nexus using Jenkins
 
 ## 1. Update pom.xml to Integrate with Nexus
 
@@ -154,7 +154,7 @@ stage('Download JAR with Credentials') {
 
 ---
 
-## Stage: Deploy to Nexus
+## Stage: Deploy Artifact to Nexus
 
 ```groovy
 stage('Code-Build') {
@@ -197,6 +197,10 @@ In this specific context:
 ---
 
 # Publishing Node.js Artifacts to Nexus using Jenkins
+
+## Step 1: Create a Nexus Repository
+
+![](./images/NPM%20Hosted%20Repo.png)
 
 ## Step 1: Create a Custom `.npmrc` File in Jenkins
 
