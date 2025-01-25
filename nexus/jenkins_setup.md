@@ -204,6 +204,8 @@ In this specific context:
 
 ## Step 1: Create a Custom `.npmrc` File in Jenkins
 
+- Install the required plugins `Config File Provider Plugin` and `NodeJS Plugin` in Jenkins.
+
 1. **Navigate to Jenkins Configuration:**
    - Go to **Manage Jenkins** > **Managed Files**.
 
