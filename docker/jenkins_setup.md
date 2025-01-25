@@ -1,3 +1,6 @@
+- Run `sudo usermod -aG docker $USER` to add the Jenkin's server user to the docker group.
+- After that, restart the Jenkins server.
+
 Install the following plugins:
 - `Docker Pipeline`:
     - used to build and push Docker images to a registry, such as Docker Hub.
