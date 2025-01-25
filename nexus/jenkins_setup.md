@@ -152,6 +152,8 @@ stage('Download JAR with Credentials') {
      - `-u $user:$pass`: Passes the username and password for authentication.
      - `-O`: Saves the file with its original name.
 
+![](./images/withCredentials.png)
+
 ---
 
 ## Stage: Deploy Artifact to Nexus
@@ -205,6 +207,7 @@ In this specific context:
 ## Step 1: Create a Custom `.npmrc` File in Jenkins
 
 - Install the required plugins `Config File Provider Plugin` and `NodeJS Plugin` in Jenkins.
+- Go to `Manage Jenkins` > `Tools` > `NodeJS Installations` > and configure the tool.  
 
 1. **Navigate to Jenkins Configuration:**
    - Go to **Manage Jenkins** > **Managed Files**.
