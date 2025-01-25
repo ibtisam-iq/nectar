@@ -229,12 +229,18 @@ In this specific context:
       - For Snapshot Repository:
      ```
      registry=http://13.235.245.200:8081/repository/npm-snapshot
-     //13.235.245.200:8081/repository/npm-snapshot/:_auth=YWRtaW46YWRpdHlh
+     //13.235.245.200:8081/repository/npm-snapshot/:_auth=YWRtaW46aWJ0aXNhbQ==
      ```
       - For Release Repository:
      ``` 
      registry=http://13.235.245.200:8081/repository/npm-release
-     //13.235.245.200:8081/repository/npm-release/:_auth=YWRtaW46YWRpdHlh
+     //13.235.245.200:8081/repository/npm-release/:_auth=YWRtaW46aWJ0aXNhbQ==
+     ```
+
+     - For Newly Created Hosted Repository:
+     ``` 
+     registry=http://13.235.245.200:8081/repository/npm-hosted-private-repo
+     //13.235.245.200:8081/repository/npm-hosted-private-repo/:_auth=YWRtaW46aWJ0aXNhbQ==
      ```
 
 ---
@@ -254,7 +260,7 @@ pipeline {
         }
         stage('NPM Dependencies') {
             steps {
-                nodejs('node20') {
+                nodejs('node23') {
                     sh "npm install"
                 }
             }
@@ -262,7 +268,7 @@ pipeline {
         stage('Publish to Nexus') {
             steps {
                 configFileProvider([configFile(fileId: 'npmrc', targetLocation: '.')]) {
-                    nodejs('node20') {
+                    nodejs('node23') {
                         sh "npm publish"
                     }
                 }
