@@ -502,7 +502,7 @@ Each repository type has its role in managing artifacts, whether they are intern
 
 ---
 
-## Deploy to Nexus
+## Setting up Jenkins and Deploy to Nexus
 
 Please find the below detailed guide about integrating it with Jenkins.
 
