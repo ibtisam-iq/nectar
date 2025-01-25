@@ -255,7 +255,7 @@ pipeline {
     stages {
         stage('Git') {
             steps {
-                git branch: 'main', url: 'https://github.com/jaiswaladi246/NodejS-JEST.git'
+                git branch: 'main', url: 'https://github.com/ibtisamops/Node.js-Jest.git'
             }
         }
         stage('NPM Dependencies') {
@@ -267,7 +267,7 @@ pipeline {
         }
         stage('Publish to Nexus') {
             steps {
-                configFileProvider([configFile(fileId: 'npmrc', targetLocation: '.')]) {
+                configFileProvider([configFile(fileId: 'npm', targetLocation: '.')]) {
                     nodejs('node23') {
                         sh "npm publish"
                     }
