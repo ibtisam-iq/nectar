@@ -1,7 +1,7 @@
 ## Configure Jenkins to Use Nexus
 
 ### Step 1: URL
-- Unlike SonarQube, you need URL of the nexus repo, not the server itself.
+- Unlike SonarQube, you need URL of the nexus repo, not the server URL itself.
 - Unlike Sonarqube, you need to add the URL in the `source code`, not inside the Jenkins UI.
 Integrate Maven with Nexus, update your `pom.xml` file to include the following:  
 ```xml
@@ -24,7 +24,30 @@ Replace `NEXUS-URL` with the URL of your Nexus repository.
 
 ### Step 2: Credentials
 - The credentials will be provided to the Jenkins via a configuration file `setting.xml`.
+- This configuration file is later pushed into Jenkins workspace where it is used by Maven to authenticate with Nexus.
 - Install a plugin `Config File Provider`. It provides us the ability to provide configuration files.
+- Go to Jenkins > Manage Jenkins > Configure System > `Manage Files` > `Global Maven settings.xml`.
+- You can put the credentials here in two different ways.
+
+![](./images/Setting%20up%20Credentials%20in%20Jenkins.png)
+
+```xml
+<server>
+<id>maven-releases</id>                 <!-- put the repo name here -->
+<username>your-username</username>      <!-- put the username of your nexus account here -->
+<password>your-password</password>      <!-- put the password of your nexus account here -->
+</server>
+
+<server>
+<id>maven-snapshots</id>                <!-- put the repo name here -->
+<username>your-username</username>      <!-- put the username of your nexus account here -->
+<password>your-password</password>      <!-- put the password of your nexus account here -->
+</server>
+```
+  - Howerver, you can also put the credentials in the `settings.xml` file in the Jenkins workspace.
+### Step 3: Install Maven Plugins
+- Install `Maven Integration`. It provides us the ability to run maven commands.
+- Install `Pipeline Maven Integration`. It provides us the ability to run maven commands in pipeline.
 
 ---
 
