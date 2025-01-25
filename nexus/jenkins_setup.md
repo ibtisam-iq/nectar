@@ -126,9 +126,7 @@ This Jenkins pipeline stage is designed to securely download a `.jar` file from 
 stage('Download JAR with Credentials') {
   steps {
     script {
-      withCredentials([usernamePassword(credentialsId: 'your-credentials-id',
-                                        usernameVariable: 'user', 
-                                        passwordVariable: 'pass')]) {
+      withCredentials([usernamePassword(credentialsId: 'nexus-cred', passwordVariable: 'pass', usernameVariable: 'user')]) {
         def jarUrl = 'https://example.com/path/to/your.jar'
         sh "curl -u $user:$pass -O $jarUrl"
       }
@@ -165,7 +163,7 @@ stage('Code-Build') {
     }
 }
 
-stage('Deploy To Nexus') {
+stage('Deploy Artifact To Nexus') {
     steps {
         withMaven(globalMavenSettingsConfig: 'nexus-ID', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: false) {
             sh "mvn deploy"
@@ -182,7 +180,7 @@ The `withMaven` step in Jenkins is used to integrate Maven builds with Jenkins p
 
 ##### `globalMavenSettingsConfig`
 - Refers to a pre-configured Maven settings file in Jenkins.
-- The value (`e7838703-298a-44a7-b080-a9ac14fa0a5e`) is an identifier for a stored Maven settings configuration.
+- The value (`nexus-ID`) is an identifier for a stored Maven settings configuration.
 - It typically includes details like:
   - Repository URLs.
   - Authentication credentials for private repositories like Nexus or Artifactory.
