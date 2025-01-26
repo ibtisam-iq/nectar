@@ -75,6 +75,8 @@ Replace `NEXUS-URL` with the URL of your Nexus repository.
   - Howerver, you can also put the credentials in the `settings.xml` file in the Jenkins workspace.
 
 ### Step 1: Add Maven Releases and Snapshots Repos
+- Please note that you need to add the proxy repo for both releases and snapshots.
+- You can do this by adding the following code in the `settings.xml` file.
 
 ```xml
 <server>
@@ -89,70 +91,15 @@ Replace `NEXUS-URL` with the URL of your Nexus repository.
 <password>your-password</password>      <!-- put the password of your nexus account here -->
 </server>
 ```
-### Step 2: Add Maven Proxy Repo
-
-```xml
-<!-- First, we need to define the proxy repo -->
-<server>
-<id>maven-proxy-repo</id>               <!-- put the proxy repo name here -->
-<username>your-username</username>      <!-- put the username of your nexus account here -->
-<password>your-password</password>      <!-- put the password of your nexus account here -->
-</server>
-```
-
-```xml
-<!-- Then, we need to define the proxy settings -->
-<mirror>
-<id>nexus</id>
-<!-- mirror all repositories, including central. Put * if you want to mirror all, put the name of the repo if you want to mirror only that repo -->               
-<mirrorOf>*</mirrorOf>                     
-<url>http://your-proxy-repo-url.com</url>  <!-- put the proxy repo url here -->
-</mirror>
-
-```
+### Step 2: Add Maven Proxy Repo (Optional, but recommended)
+- If you are behind a proxy, you need to add the proxy repo as well.
+- You can add the proxy repo in the `settings.xml` file.
+- Note that you need to add the proxy repo for both releases and snapshots.
+- Please click [here](proxyrepo_setup.md) for more information.
 
 ## 3: Install Maven Plugins
 - Install `Maven Integration`. It provides us the ability to run maven commands.
 - Install `Pipeline Maven Integration`. It provides us the ability to run maven commands in pipeline.
-
----
-
-## Stage: Download JAR with Credentials
-
-This Jenkins pipeline stage is designed to securely download a `.jar` file from a URL requiring authentication. It uses credentials stored in Jenkins' credentials store to handle the authentication.
-
-### Pipeline Code
-```groovy
-stage('Download JAR with Credentials') {
-  steps {
-    script {
-      withCredentials([usernamePassword(credentialsId: 'nexus-cred', passwordVariable: 'pass', usernameVariable: 'user')]) {
-        def jarUrl = 'https://example.com/path/to/your.jar'
-        sh "curl -u $user:$pass -O $jarUrl"
-      }
-    }
-  }
-}
-```
-### **Key Components**
-
-1. **`withCredentials` Block**
-   - Securely retrieves credentials stored in Jenkins.
-   - **Parameters:**
-     - `credentialsId`: The unique ID of the credentials stored in Jenkins.
-     - `usernameVariable`: The environment variable (`user`) used to store the username.
-     - `passwordVariable`: The environment variable (`pass`) used to store the password.
-
-2. **`jarUrl`**
-   - The URL of the `.jar` file to be downloaded.
-
-3. **`sh` Step**
-   - Executes a shell command to download the JAR file using `curl`.
-   - **Options:**
-     - `-u $user:$pass`: Passes the username and password for authentication.
-     - `-O`: Saves the file with its original name.
-
-![](./images/withCredentials.png)
 
 ---
 
