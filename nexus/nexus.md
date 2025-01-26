@@ -501,14 +501,22 @@ In Nexus Repository, there are three primary repository types:
 Each repository type has its role in managing artifacts, whether they are internal, aggregated, or external.
 
 ---
+## Use Cases
+### 1. Deploy Artifact to Nexus Repository Using Jenkins
 
-## Deploy Artifact to Nexus Repository Using Jenkins
+Please find the [detailed guide](nexus_jenkins.md) about deploying different types of artifacts to Nexus Repository using Jenkins.
 
-Please find the [detailed guide](jenkins_setup.md) about integrating it with Jenkins.
+### 2. Download Artifact from Nexus Repository Using Maven in Jenkins
 
----
+Please find the [detailed guide](artifact_downloading.md) about downloading artifacts from Nexus Repository using Maven in Jenkins.
 
-This guide provides a comprehensive overview of artifacts, their types, and how they are managed using Nexus and Docker in a CI/CD pipeline.
+### 3. Create a Proxy Repository
+
+Please find the [detailed guide](proxy_repo.md) about creating a proxy repository.
+
+### 4. Setting up Nexus as a Docker Registry
+
+Please find the [detailed guide](nexus_docker.md) about setting up Nexus as a Docker.
 
 ## OrientDB
 
@@ -520,3 +528,7 @@ This guide provides a comprehensive overview of artifacts, their types, and how 
 - Always test your Nexus setup and artifact deployment in a non-production environment before deploying it to production.
 - Nexus supports various authentication methods, including username/password, LDAP, and Active Directory. Choose the method that best fits your organization's security policies.
 - If you want to take the backup, take the back up of complete `sonatype-work` directory.
+
+---
+
+This guide provides a comprehensive overview of artifacts, their types, and how they are managed using Nexus and Docker in a CI/CD pipeline.

@@ -367,7 +367,7 @@ docker run -d --name sonarqube -p 9000:9000 sonarqube:lts-community
 - **Configure SonarQube Server**: `Manage Jenkins > System`, add SonarQube server details.
   - Best Practice: Use an access token (generated in SonarQube) instead of a `username` and `password`. Save the token as a `Secret Text` under `Credentials`.
 - **Configure Webhook**: Set up a webhook in SonarQube Server to send analysis results to Jenkins.
-- For details, please click [here](jenkins_setup.md).
+- For details, please click [here](sonar_jenkins.md).
 ---
 ## Sonarqube Community Branch Plugin
 
