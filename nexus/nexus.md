@@ -461,7 +461,7 @@ In Nexus Repository, there are three primary repository types:
 
 ### 1. Hosted Repositories
 - **Purpose**: Hosted repositories store your artifacts, allowing you to upload, store, and manage them within Nexus.
-- **Usage**: Used for storing your own artifacts, such as those produced from CI/CD pipelines or manually uploaded packages.
+- **Usage**: Used for storing your **own companies's artifacts**, such as those produced from CI/CD pipelines or manually uploaded packages.
 - **Example Use Cases**:
   - Storing release or snapshot versions of artifacts.
   - Storing internal dependencies that you want to manage and share within your organization.
