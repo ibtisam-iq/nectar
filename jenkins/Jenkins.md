@@ -179,7 +179,7 @@ development lifecycle. Here are some common types:
 ### 1. Freestyle Project
 - A general-purpose job type where you can define a series of build steps, such as running shell commands, executing scripts, and performing other tasks.
 - Suitable for simple tasks and projects that don't require complex workflows.
-- For details, click [here](./New%20Item.md).
+- For details, click [here](new%20item.md).
 
 ### 2. Pipeline
 
@@ -188,7 +188,7 @@ development lifecycle. Here are some common types:
 - Jenkinsfile is a declarative syntax, meaning it defines what the pipeline should do, rather than how it should do it.
 - If a tool, let say, `maven`, is not configured in groovy syntax, it must be installed on the Jenkins server locally.
 - If configured with the Jenkinsfile, `pipeline script from SCM`, pipeline as code, you can use `replay` to view & build the pipeline.
-- For details, click [here](./New%20Item.md).
+- For details, click [here](new%20item.md).
 
 ### 3. Multibranch Pipeline
 
