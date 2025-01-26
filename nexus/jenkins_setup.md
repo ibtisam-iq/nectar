@@ -279,5 +279,10 @@ pipeline {
 ```
 
 - The .npmrc file created earlier is provided to the pipeline using configFileProvider.
-- The artifacts are published to Nexus using the npm publish command.
+- The artifacts are published to Nexus using the `npm publish` command.
 - Replace the registry URL in the .npmrc file with the actual Nexus repository URL.
+
+---
+
+
+
