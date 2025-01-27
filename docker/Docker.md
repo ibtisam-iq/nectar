@@ -111,41 +111,52 @@ Docker uses a layered architecture to manage containers. The key components incl
 - These tools integrate with the Docker Engine to provide additional capabilities, simplifying workflows and extending Docker's usability.
 - Please click [here](plugins.md) for more information.
 
+---
+
 ## Dockerfile
 - It is a text file that contains all the commands a user could call on the command line to assemble an image.
 - For details, please click [here](./Dockerfile).
 - Official [Dockerfile Reference](https://docs.docker.com/reference/dockerfile/)
 
+---
+
 ## Install Docker Engine
 
-- [Official Link](https://docs.docker.com/engine/install/)
+- [Official Documentation](https://docs.docker.com/engine/install/)
 
-### 1. Uninstall old versions
+### 1. Uninstall Old Versions
+To ensure a clean installation, remove any conflicting packages by running the following command:
+
 ```bash
-# Run the following command to uninstall all conflicting packages:
-for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove $pkg; done
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do 
+  sudo apt-get remove -y $pkg
+done
 ```
+
+---
+
 ### 2. Installation
-You can install Docker Engine in different ways, depending on your needs:
+Docker Engine can be installed using different methods depending on your requirements.
 
-1. **Docker Desktop**
-- Docker Engine comes bundled with **Docker Desktop** for Linux. This is the easiest and quickest way to get started. 
-- [Official link](https://docs.docker.com/desktop/setup/install/linux/)
-- Important command: `systemctl --user start/stop/enable/disable docker-desktop`
+#### **1. Docker Desktop**
+- Docker Engine comes bundled with **Docker Desktop** for Linux, offering the easiest setup.
+- [Installation Guide](https://docs.docker.com/desktop/setup/install/linux/)
+- Key command to manage Docker Desktop:
+  ```bash
+  systemctl --user start|stop|enable|disable docker-desktop
+  ```
 
-2. **`apt` repository**
-- Set up and install Docker Engine from **Docker's apt repository**.
-- [Official Link](https://docs.docker.com/engine/install/ubuntu/)
+#### **2. Using `apt` Repository**
+Install Docker Engine directly from Docker's official `apt` repository:
+
+1. **Add Docker's GPG Key and Repository**
 
 ```bash
-# Add Docker's official GPG key:
 sudo apt-get update
-sudo apt-get install ca-certificates curl
+sudo apt-get install -y ca-certificates curl
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
-
-# Add the repository to Apt sources:
 
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
@@ -153,37 +164,82 @@ echo \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 ```
-- If you use an Ubuntu derivative distribution, such as Linux Mint, you may need to use `UBUNTU_CODENAME` instead of `VERSION_CODENAME`.
+
+> **Note**: For Ubuntu derivative distributions (e.g., Linux Mint), replace `VERSION_CODENAME` with `UBUNTU_CODENAME`.
+
+2. **Install Docker Engine**
 
 ```bash
-# Install the latest version
-
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt-get install -y \
+  docker-ce \
+  docker-ce-cli \
+  containerd.io \
+  docker-buildx-plugin \
+  docker-compose-plugin
 ```
 
-### 3. Post-installation Steps
+---
 
-- [Official Link](https://docs.docker.com/engine/install/linux-postinstall/)
+### 3. Post-Installation Steps
+To enable non-root users to run Docker and perform other configurations, follow these steps:
+
+- [Post-Installation Guide](https://docs.docker.com/engine/install/linux-postinstall/)
+
+1. **Add Your User to the Docker Group**
 
 ```bash
-sudo groupadd docker	
+sudo groupadd docker
 sudo usermod -aG docker $USER
-# Log out and log back in so that your group membership is re-evaluated OR
-# You can also run the following command to activate the changes to groups:
-newgrp docker		
+```
+
+2. **Apply Changes**
+Log out and back in, or activate the changes immediately:
+
+```bash
+newgrp docker
+```
+
+3. **Verify Group Membership**
+
+```bash
 groups $USER
 ```
-systemctl start docker	# SSD
-service docker start/stop/status	
-systemctl --user <> docker-desktop
-systemctl start docker; systemctl start docker.socket; 
-systemctl list-units --type=service | grep docker
 
+4. **Manage Docker Service**
+
+```bash
+# Start, stop, or check the status of Docker
+sudo systemctl start|stop|status docker
+
+# Alternatively, use the following:
+sudo service docker start|stop|status
+
+# Start the Docker socket
+sudo systemctl start docker.socket
+
+# List Docker-related services
+sudo systemctl list-units --type=service | grep docker
+```
+
+---
+
+### 4. Deploy Portainer
+Portainer is a lightweight management UI for Docker:
+
+```bash
+# Pull the Portainer image
 docker pull portainer/portainer-ce
+
+# Create a volume for Portainer
 docker volume create portainer_data
+
+# Run Portainer
+
 docker run -d -p 8000:8000 -p 9443:9443 --name=portainer --restart=always \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v portainer_data:/data portainer/portainer-ce  #  https://localhost:9443
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v portainer_data:/data portainer/portainer-ce
+
+# Access Portainer at: https://localhost:9443
 ```
 ---
 
@@ -201,6 +257,7 @@ docker run -d -p 8000:8000 -p 9443:9443 --name=portainer --restart=always \
 - manifest
 
 ---
+
 ## Common Docker Commands
 
 ```bash
