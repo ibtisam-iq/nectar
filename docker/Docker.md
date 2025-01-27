@@ -243,22 +243,22 @@ docker run -d -p 8000:8000 -p 9443:9443 --name=portainer --restart=always \
 ```
 ---
 
-**Docker CLI Commands**
+## Docker CLI Overview
 
 - container
 - image
 - volume
 - network
 - system: df, events, info, prune
-- login/logout: login, logout
-- plugin: plugin, context, search
+- authentication: login, logout
+- plugins: plugin, context, search
 - version
 - stats
 - manifest
 
 ---
 
-## Common Docker Commands
+## Docker Essenial Commands
 
 ```bash
 # Lists all available images on the system.
