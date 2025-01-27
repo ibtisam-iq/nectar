@@ -106,8 +106,7 @@ Docker provides a lightweight, efficient, and secure alternative to traditional 
 Docker uses a layered architecture to manage containers. The key components include:
 - **Docker Engine**: The core component responsible for creating, managing, and running containers. It includes the Docker daemon and the Docker client.
 - **Docker Hub**: A cloud-based registry where users can store and share Docker images.
-- **Docker Images**: Templates used to create containers. They contain the application code, libraries, and dependencies.
-- **Docker Containers**: Isolated environments that run applications. They are created from Docker images and can be started, stopped, and deleted.
+- **Docker Objects**: These are the building blocks of Docker, including images, containers, volumes, networks, and more.
 - For details, please click [here](architecture.md).
 
 
