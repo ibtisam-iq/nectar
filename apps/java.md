@@ -155,7 +155,7 @@ mvn package -DskipTests=true
         Name: A human-readable name for the project.
         This is purely for informational purposes and does not affect repository selection.
     -->
-    <name>bankapp</name>
+    <name>IbtisamOps Bankapp</name>
     
     <!-- 
         Description: A brief description providing details about the project.
@@ -172,5 +172,34 @@ mvn package -DskipTests=true
             <!-- Add your plugins here -->
         </plugins>
     </build>
+
+    <!-- Other project information -->
+
+    <!-- 
+        Distribution Management: Specifies the locations where the project's artifacts should be deployed.
+        This section is crucial for configuring Nexus repositories for snapshots and releases.
+    -->
+    <distributionManagement>
+        <!-- 
+            Repository: Used for deploying release versions of the project.
+            Artifacts with versions like '1.0.0' will be deployed here.
+        -->
+        <repository>
+            <id>maven-releases</id> <!-- ID for the release repository, referenced in settings.xml -->
+            <url>NEXUS-URL/repository/maven-releases/</url> <!-- URL of the release repository in Nexus -->
+        </repository>
+
+        <!-- 
+            Snapshot Repository: Used for deploying development versions (e.g., 1.0.0-SNAPSHOT).
+            Artifacts with versions ending in '-SNAPSHOT' will be deployed here.
+        -->
+        <snapshotRepository>
+            <id>maven-snapshots</id> <!-- ID for the snapshot repository, referenced in settings.xml -->
+            <url>NEXUS-URL/repository/maven-snapshots/</url> <!-- URL of the snapshot repository in Nexus -->
+        </snapshotRepository>
+    </distributionManagement>
+
+    <!-- Other project configuration -->
+
 </project>
 ```
