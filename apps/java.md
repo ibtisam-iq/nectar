@@ -113,14 +113,55 @@ mvn package -DskipTests=true
 
 ## POM File Structure
 ```xml
+
+<!-- 
+    Root element defining the project configuration and metadata.
+    The 'project' element is required and adheres to the Maven POM (Project Object Model) standard.
+    The namespace and schema details ensure the XML conforms to the Maven specification.
+-->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+    <!-- 
+        Model Version: Specifies the version of the POM model used.
+        For Maven 2.x and 3.x, this value should always be 4.0.0.
+    -->
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- 
+        Group ID: Specifies the unique identifier for the project's group or organization.
+        Typically represents a domain or company name in reverse format.
+    -->
     <groupId>com.example</groupId>
-    <artifactId>my-app</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    
+    <!-- 
+        Artifact ID: The unique name of the project or module.
+        Used to identify the artifact within the group.
+    -->
+    <artifactId>bankapp</artifactId>
+    
+    <!-- 
+        Version: Specifies the version of the project.
+        - Use 'SNAPSHOT' in the version (e.g., 0.0.1-SNAPSHOT) to publish to the snapshot repository.
+        - Use a specific version number (e.g., 1.0.0) to publish to the release repository.
+        This decision determines whether the artifact is considered a development version (SNAPSHOT) 
+        or a stable release version.
+    -->
+    <version>0.0.1-SNAPSHOT</version>
+    
+    <!-- 
+        Name: A human-readable name for the project.
+        This is purely for informational purposes and does not affect repository selection.
+    -->
+    <name>bankapp</name>
+    
+    <!-- 
+        Description: A brief description providing details about the project.
+        This is useful for documentation or repository indexing.
+    -->
+    <description>Banking Web Application</description>
 
     <dependencies>
         <!-- Add your dependencies here -->
