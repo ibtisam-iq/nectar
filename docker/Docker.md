@@ -114,6 +114,7 @@ Docker uses a layered architecture to manage containers. The key components incl
 ## Dockerfile
 - It is a text file that contains all the commands a user could call on the command line to assemble an image.
 - For details, please click [here](./Dockerfile).
+- Official [Dockerfile Reference](https://docs.docker.com/reference/dockerfile/)
 
 
 # Docker Commands Cheat Sheet
