@@ -116,20 +116,67 @@ Docker uses a layered architecture to manage containers. The key components incl
 - For details, please click [here](./Dockerfile).
 - Official [Dockerfile Reference](https://docs.docker.com/reference/dockerfile/)
 
+## Install Docker Engine
 
-# Docker Commands Cheat Sheet
+- [Official Link](https://docs.docker.com/engine/install/)
 
-## Docker System Setup
+### 1. Uninstall old versions
+```bash
+# Run the following command to uninstall all conflicting packages:
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove $pkg; done
+```
+### 2. Installation
+You can install Docker Engine in different ways, depending on your needs:
+
+1. **Docker Desktop**
+- Docker Engine comes bundled with **Docker Desktop** for Linux. This is the easiest and quickest way to get started. 
+- [Official link](https://docs.docker.com/desktop/setup/install/linux/)
+- Important command: `systemctl --user start/stop/enable/disable docker-desktop`
+
+2. **`apt` repository**
+- Set up and install Docker Engine from **Docker's apt repository**.
+- [Official Link](https://docs.docker.com/engine/install/ubuntu/)
+
+```bash
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+```
+- If you use an Ubuntu derivative distribution, such as Linux Mint, you may need to use `UBUNTU_CODENAME` instead of `VERSION_CODENAME`.
+
+```bash
+# Install the latest version
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+### 3. Post-installation Steps
+
+- [Official Link](https://docs.docker.com/engine/install/linux-postinstall/)
 
 ```bash
 sudo groupadd docker	
-sudo usermod -aG docker $USER		
+sudo usermod -aG docker $USER
+# Log out and log back in so that your group membership is re-evaluated OR
+# You can also run the following command to activate the changes to groups:
+newgrp docker		
 groups $USER
-
+```
 systemctl start docker	# SSD
 service docker start/stop/status	
 systemctl --user <> docker-desktop
-systemctl start docker; systemctl start docker.socket; systemctl --user start docker-desktop
+systemctl start docker; systemctl start docker.socket; 
 systemctl list-units --type=service | grep docker
 
 docker pull portainer/portainer-ce
