@@ -152,6 +152,65 @@ docker run -d -p 8000:8000 -p 9443:9443 --name=portainer --restart=always \
 - stats
 - manifest
 
+---
+## Common Docker Commands
+
+### 1. Image Management Commands
+
+```bash
+# Lists all available images on the system.
+docker images
+
+# Alias for docker images.
+docker image ls
+
+# Filters images with the name 'node'.
+docker image ls node
+
+# Lists dangling images (unused image layers).
+docker images -f "dangling=true"
+```
+
+### 2. Container Management Commands
+
+```bash
+# Lists running containers.
+docker ps
+
+# Lists all container IDs (running and stopped).
+docker ps -a -q
+
+# Displays details of both running containers and images.
+docker ps/images/container
+
+# Removes a specific container using its ID.
+docker rm CONTAINERID
+
+# Removes all stopped containers.
+docker rm $(docker ps -a -q)
+
+# Another way to remove all stopped containers.
+docker ps -aq | xargs docker rm
+```
+
+### 3. Removal Commands
+
+```bash
+# Removes a specific volume by its ID.
+docker volume rm VOLID
+
+# Removes a specific image forcibly, either by ID or name.
+docker rmi IMAGEID/REPOSITORY:v --force
+```
+
+## 4. System Cleanup Commands
+
+```bash
+# Cleans up unused images, containers, networks, and volumes to free up disk space.
+docker system prune
+
+---
+
 ```bash
 docker Container commands
 
@@ -268,22 +327,8 @@ List: 		--volumes-from <> --volumes-from <> busybox OR --volumes-from cont1,cont
 String: 	refers to a single value, docker run -it --name <> -w /app node:alpine /bin/sh 
 stringArray:	docker build --build-arg <ARG_NAME>=<value> --build-arg <ARG_NAME2>=<value2> .
 ```
+
 ```bash
-# common commands
-
-docker images
-docker image ls 	
-docker image ls node 	
-docker images -f “dangling=true”
-docker ps		
-docker ps -a -q	docker system prune
-docker ps/images/container
-docker rm CONTAINERID		
-docker rm $(docker ps -a -q)	
-docker ps -aq | xargs docker rm	
-docker volume rm VOLID
-docker rmi IMAGEID/REPOSITORY:v --force
-
 # docker pull, push, tag
 
 docker image pull hello-world	docker pull --all-tags  image_name
