@@ -303,7 +303,56 @@ docker system prune
 
 ---
 
+## Docker Commands: Pull, Push, and Tag
+
 ```bash
+# Pull a specific image from Docker Hub (e.g., hello-world)
+docker image pull hello-world
+
+# Pull all tags of a specific image (e.g., image_name)
+# Useful when you want to download all variants of an image
+docker pull --all-tags image_name
+
+# Tag an image from an old repository to a new one (e.g., OLDREPOSITORY:v to mibtisam/NEWREPOSITORY:v)
+docker tag OLDREPOSITORY:v mibtisam/NEWREPOSITORY:v
+
+# Tag an image by its Image ID (e.g., IMAGE_ID to my-app:1.0)
+docker tag IMAGE_ID my-app:1.0
+
+# Push an image to a Docker repository (e.g., mibtisam/NEWREPOSITORY:v)
+docker push mibtisam/NEWREPOSITORY:v
+```
+- The **image name** is distinct from the **repository name**, with the repository serving as the storage location for images.
+- Please follow the complete guide [here](repository.md).
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # docker pull, push, tag
 
 docker image pull hello-world	docker pull --all-tags  image_name
