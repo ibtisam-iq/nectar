@@ -505,26 +505,26 @@ docker run -it --name container2 -v /home/ec2-user:/ibtisam --privileged=true ub
 ## docker network
 
 ```bash
-# Docker network creation
-docker network create my-network  # Creates a custom Docker network named `my-network`.
+# Creates a custom Docker network named `my-network`
+docker network create my-network
 
-# Inspecting network details
-docker network inspect my-network  # Displays detailed information about the custom network `my-network`, including connected containers.
+# Displays detailed information about the custom network `my-network`, including connected containers
+docker network inspect my-network
 
-# Listing all networks
-docker network ls  # Lists all available Docker networks on the host system.
+# Lists all available Docker networks on the host system
+docker network ls  
 
-# Removing a network
-docker network rm my-network  # Removes the specified network `my-network` from Docker.
+# Removes the specified network `my-network` from Docker
+docker network rm my-network  
 
-# Pruning unused networks
-docker network prune  # Removes all unused Docker networks to free disk space.
+# Removes all unused Docker networks to free disk space
+docker network prune  
 
-# Connecting a container to a network
-docker network connect my-network container1  # Connects `container1` to the existing `my-network`.
+# Connects `container1` to the existing `my-network`
+docker network connect my-network container1  
 
-# Disconnecting a container from a network
-docker network disconnect my-network container1  # Disconnects `container1` from the `my-network`.
+# Disconnects `container1` from the `my-network`
+docker network disconnect my-network container1  
 ```
 
 ---
