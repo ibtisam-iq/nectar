@@ -1,6 +1,6 @@
 # Comprehensive Git Commands Reference
 
-This document provides a detailed guide on using Git for version control, including installation, configuration, basic commands, and advanced operations. It is structured for ease of use and covers various scenarios you might encounter when working with Git.
+This document provides a detailed guide on using Git for version control, including installation, configuration, basic commands, and advanced operations. It is structured for ease of use and covers various scenarios you might encounter when working with Git. Clink [here](https://cs.fyi/guide/git-cheatsheet).
 
 ## Table of Contents
 
