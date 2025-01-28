@@ -120,7 +120,7 @@ Docker uses a layered architecture to manage containers. The key components incl
 
 - Have a look on its Descritives in depth:
   - [ARG, ENV, EXPOSE](ARG-ENV-EXPOSE.md)
-  - [ENTRYPOINT, CMD](CMD-ENTRYPOINT.md)
+  - [ENTRYPOINT, CMD](ENTRYPOINT-CMD.md)
 
 - Official [Dockerfile Reference](https://docs.docker.com/reference/dockerfile/)
 
