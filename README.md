@@ -175,7 +175,7 @@ The repository is organized into the following categories:
 
 ### 6. **Fundamentals**
 - [Linux](./linux/README.md)
-- [Git](./git/README.md)
+- [Git](https://github.com/ibtisamops/nectar/blob/main/git/Git.md)
 
 ---
 
