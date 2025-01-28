@@ -174,7 +174,7 @@ The repository is organized into the following categories:
 - [Networking Basics](https://github.com/ibtisamops/nectar/blob/main/networking/Networking.md)
 
 ### 6. **Fundamentals**
-- [Linux](./linux/README.md)
+- [Linux](https://github.com/ibtisamops/nectar/blob/main/linux/Linux.md)
 - [Git](https://github.com/ibtisamops/nectar/blob/main/git/Git.md)
 
 ---
