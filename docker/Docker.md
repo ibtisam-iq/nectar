@@ -439,7 +439,7 @@ The `docker run` command is used to create and start a container from a specifie
 
 ## docker volume
 
-Docker supports **Volumes**, **Bind Mounts**, and **Tmpfs** for managing container data. Please follow [this](volumes.md)link for more details.
+Docker supports **Volumes**, **Bind Mounts**, and **Tmpfs** for managing container data. Please follow [this](volumes.md) link for more details.
 
 ```bash
 
@@ -457,7 +457,6 @@ docker volume prune
 
 # Deletes the specified volume permanently.
 docker volume rm my-volume  
-
 
 ## Just create the volume, no mounting
 
