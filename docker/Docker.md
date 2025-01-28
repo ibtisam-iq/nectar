@@ -115,7 +115,13 @@ Docker uses a layered architecture to manage containers. The key components incl
 
 ## Dockerfile
 - It is a text file that contains all the commands a user could call on the command line to assemble an image.
+
 - For details, please click [here](./Dockerfile).
+
+- Have a look on its Descritives in depth:
+  - [ARG, ENV, EXPOSE](ARG-ENV-EXPOSE.md)
+  - [ENTRYPOINT, CMD](CMD-ENTRYPOINT.md)
+
 - Official [Dockerfile Reference](https://docs.docker.com/reference/dockerfile/)
 
 ---
@@ -687,86 +693,7 @@ Please click [here](compose.md).
 
 ---
 
-<div style="text-align: justify;">
-ARG PORT=8000
-ENV PORT=$PORT
 
-- ARG PORT=8000: This sets PORT to 8000 during the build process (build-time). You can override this value when you build the Docker image using docker build --build-arg PORT=5000 . to change the port number just during the build.
 
-- ENV PORT=$(PORT): After the build is done, this line ensures that the port you specified at build-time gets passed into the container as an environment variable.
-
-  - application is listening on 8000, and docker also exposes 8000. Right? so, I'll map it to my localhost at 8000 to work properly? from what I understand, ENV & Expose must be the same in the docker file, and should you open the same port on your localhost?
-
-**ChatGPT said:**
-Yes, you're understanding it correctly. Here's the breakdown:
-
-Application inside the container:
-The application is configured to listen on port 8000 because of the ENV PORT=8000 in the Dockerfile.
-
-Docker exposing the port:
-Docker is set to expose port 8000 to allow access to the application from outside the container (using EXPOSE 8000).
-
-Mapping to localhost:
-When running the container, you'll need to map the container's port 8000 to a port on your localhost (host machine). 
-
-The most straightforward way is to map it to the same port on your localhost by running:
-docker run -p 8000:8000 your-image This command maps port 8000 inside the container to port 8000 on your localhost. Now, when you visit http://localhost:8000, it will route to the application running inside the Docker container.
-
-Key Points:
-
-ENV and EXPOSE values should generally be the same to keep everything aligned, meaning both are set to 8000 in this case.
-
-When you map the container port to your localhost, you can use the same 8000 port on the host machine for simplicity, but you can also map to a different port if needed (e.g., -p 9000:8000 would map the container's port 8000 to port 9000 on the host).
-
-So yes, for everything to work as expected:
-
-The application listens on port 8000.
-
-Docker exposes port 8000.
-
-You map port 8000 to your localhost:8000.
-
-In this way, accessing http://localhost:8000 on your machine will successfully reach your application.
-
-   - so, is it mandatory to mention both ENV & AGR? what if i mentioned AGR, but don't mention ENV? or what if I mention ENV, and don't mention AGR?
-
-**ChatGPT said:**
-
-It’s not mandatory to mention both ARG and ENV together in a Dockerfile. They have distinct purposes and behave differently:
-
-If you mention only ARG (without ENV):
-
-ARG is only available during build-time (when the Docker image is being created), so if you use ARG PORT=8000, this value will only be used during the build process. Once the container is running, ARG values are no longer available. This means the application inside the container won't be able to access PORT unless you explicitly set it with ENV as well.
-
-Result: The application in index.js won’t know about PORT at runtime because ARG is only for build-time, so it will fall back to the default in your code (4000 in this case).
-
-If you mention only ENV (without ARG):
-
-ENV sets environment variables for runtime (when the container is running). So if you only use ENV PORT=8000, your application will pick up this value from process.env.PORT at runtime. This means your application will listen on port 8000 without needing ARG.
-
-Result: Your application will correctly use port 8000 because ENV passes the value to process.env.PORT at runtime.
-
-If you mention both ARG and ENV:
-ARG is used during the build to pass values that can later be set as environment variables via ENV. For example:
-
-ARG PORT=8000
-ENV PORT=$PORT
-
-Here, ARG PORT=8000 sets a default value at build-time, and then ENV PORT=$PORT makes it available at runtime by passing the value from the ARG to ENV.
-
-This setup allows flexibility where the build process can accept different ARG values but still make them available as ENV for the container.
-
-Result: This ensures that both build-time and runtime configurations align. You could also override the ARG at build-time like this:
-
-docker build --build-arg PORT=9000 -t myapp .
-
-In Summary:
-
-Only ARG: Used at build-time. The application won’t see it unless you pass it to ENV.
-Only ENV: This is what you need for the application to get the value at runtime.
-Both ARG and ENV: Flexible and allows you to pass different values during the build, which are then available at runtime.
-For your case with the Node.js application, you can skip ARG if you don’t need to pass a different port at build-time and only use ENV for runtime configuration.
-</div>
-
-## **Conclusion**
+## Conclusion
 Docker provides a lightweight, efficient, and secure alternative to traditional virtual machines. By addressing critical issues like dependency management, configuration consistency, portability, complexity, inefficiency, and security, Docker has become an essential tool for modern software development and deployment. Its ability to maximize resource utilization and scalability makes it indispensable for organizations aiming for agility and cost-efficiency.
