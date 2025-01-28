@@ -502,21 +502,79 @@ docker run -it --name container2 -v /home/ec2-user:/ibtisam --privileged=true ub
 
 ---
 
+## docker network
 
-# docker network
+```bash
+# Docker network creation
+docker network create my-network  # Creates a custom Docker network named `my-network`.
 
-docker connect/create/disconnect/inspect/ls/prune/rm <>
+# Inspecting network details
+docker network inspect my-network  # Displays detailed information about the custom network `my-network`, including connected containers.
 
-# Monitoring & Debugging
+# Listing all networks
+docker network ls  # Lists all available Docker networks on the host system.
 
-docker exec -it CONTAINERID /bin/sh
-docker start/stop/kill/pause/unpause CONTAINERID
-docker start --attach CONTAINERID  (it also prints the message; docker run hello)
-docker start (docker ps) docker diff <container>
-docker container logs/inspect/port CONTAINERID/NAME 	
-docker logs -f CONTAINERID
-docker inspect <> | python3 -c "import sys, yaml, json; yaml.safe_dump(json.load(sys.stdin), sys.stdout, default_flow_style=False)" > abc.yaml
-docker search <image name to be searched from hub>
+# Removing a network
+docker network rm my-network  # Removes the specified network `my-network` from Docker.
+
+# Pruning unused networks
+docker network prune  # Removes all unused Docker networks to free disk space.
+
+# Connecting a container to a network
+docker network connect my-network container1  # Connects `container1` to the existing `my-network`.
+
+# Disconnecting a container from a network
+docker network disconnect my-network container1  # Disconnects `container1` from the `my-network`.
+```
+
+---
+
+## Monitoring & Debugging
+
+```bash
+
+# Executes an interactive bash shell inside `container1`
+docker exec -it container1 /bin/sh  
+
+# Gracefully starts/stops the running container `container1`
+docker start|stop container1
+
+# Forcefully stops the running container `container1`
+docker kill container1  
+
+# Pauses the execution of `container1`, suspending its processes
+docker pause container1  
+
+# Resumes the execution of `container1` after it has been paused
+docker unpause container1  
+
+# Starts `container1` and attaches to its output stream. This is useful for monitoring logs directly.
+docker start --attach container1
+
+# Viewing container logs
+docker container logs container1
+
+# Streams real-time logs from `container1`, useful for continuous monitoring of its output.
+docker logs -f container1  
+
+# Inspecting container details and viewing changes made to the container
+# Displays detailed information about `container1` such as its configuration, environment variables, and status.
+docker inspect container1
+
+# Shows the changes made to `container1`’s filesystem since it was created, such as added or deleted files.
+docker diff container1  
+
+# Displays the port mappings for `container1`, showing which host ports are forwarded to container ports
+docker container port container1  
+
+# Search for images from Docker Hub
+docker search nginx
+
+# Converts the inspection output of `container1` into a human-readable YAML format and saves it as `container1.yaml`
+docker inspect container1 | python3 -c "import sys, yaml, json; yaml.safe_dump(json.load(sys.stdin), sys.stdout, default_flow_style=False)" > container1.yaml  
+```
+
+---
 
 # docker compose
 
