@@ -233,9 +233,9 @@ Use the `-f` option to specify a `Dockerfile` with a different name or located o
 ```bash
 docker build -t IMAGENAME:version /path/to/docker/context		
 docker build -t img1:sam  /home/ibtisam/docker/files	# ERROR	   Dockerfile1
-docker build -t img1:sam  .								            # ERROR	   Dockerfile1
+docker build -t img1:sam  .		# ERROR	   Dockerfile1
 docker build -t img1:sam  /home/ibtisam/docker/files	# EXECUTED  Dockerfile
-docker build -t img1:sam  .								            # EXECUTED  Dockerfile
+docker build -t img1:sam  .		# EXECUTED  Dockerfile
 docker build -t img:sam -f ../../../Dockerfile1 /home/ibtisam/docker/files    # EXECUTED
 docker build -t img:sam -f ../../../Dockerfile2 /home/ibtisam/docker/files    # EXECUTED
 ```
