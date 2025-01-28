@@ -495,6 +495,7 @@ docker run -it --name cont-v4 -v /home/ibtisam/docker-bind:/opt/data busybox /bi
 
 # Create `container2` and share volumes from `container1`.
 docker run -it --name container2 --privileged=true --volume-from container1 ubuntu bin/bash
+
 # Mount host directory `/home/ec2-user` to `/rajput` in `container2`.  
 docker run -it --name container2 -v /home/ec2-user:/ibtisam --privileged=true ubuntu bin/bash  
 ```
