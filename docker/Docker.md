@@ -437,38 +437,71 @@ The `docker run` command is used to create and start a container from a specifie
 
 ---
 
-# docker volume
-```bash
-docker volume create/inspect/ls/prune/rm <>	
-docker volume, docker bind (bind mount), tmpfs
-/var/lib/docker/image/overlay2/imagedb/metadata/sha256 (build)
-/var/lib/docker/image/overlay2/imagedb/content/sha256 (All)
-docker run -it --name cont1 -v /Vo1 alpine /bin/sh
-```
-```bash
-Yes, all commands are essentially the same. They all create a new container named cont1 from the alpine image, start a shell in the container, and mount a volume named my-vol at the path /Vol in the container.
-docker create volume my-vol
-docker run -it --name cont1 --mount type=volume,source=my-volume,target=/Vol alpine /bin/sh
-docker run -it --name cont1 --mount source=my-vol,target=/Vol alpine /bin/sh 	# "Type": "volume"
-docker run -it -d --name con1 --mount src=my-vol,dst=/Vol alpine				# "Type": "volume"
-docker run -it --name cont1 -v my-volume:/Vol alpine /bin/sh				    # "Type": "volume"
-docker run -it --name cont2 -v /HOST/PATH:/CONTAINER/PATH alpine /bin/sh		# "Type": "bind"
-```
-```bash
-ibtisam@mint-dell:~/dockr$ mkdir bind		#	/home/ibtisam/dockr/bind
-docker run -it --name cont2 --mount type=bind,source=/../../,destination=/opt/data alpine /bin/sh
-docker run -it --name cont-v3 -v /home/ibtisam/ct/doc-ker/docker-bind:/opt/data busybox /bin/sh and docker run -it --name cont-v4 -v /home/ibtisam/ct/doc-ker/docker-bind:/opt/data busybox /bin/sh
+## docker volume
 
-more than one container (with same everything) can be mounted on the same destination, all containers will share the same ONE path. Unlike docker bind, in docker volumes, all the containers have a unique volume ID, so containers can’t share the data.
-```
+Docker supports **Volumes**, **Bind Mounts**, and **Tmpfs** for managing container data. Please follow [this](volumes.md)link for more details.
+
+```bash
+
+# Creates a Docker-managed named volume `my-volume`, stored under `/var/lib/docker/volumes`
+docker volume create my-volume
+
+# Displays metadata about the specified volume, such as mount paths and usage.
+docker volume inspect my-volume  
+
+# Lists all Docker-managed volumes on the host system.
+docker volume ls  
+
+# Cleans up all unused volumes to free disk space.
+docker volume prune  
+
+# Deletes the specified volume permanently.
+docker volume rm my-volume  
+
+
+## Just create the volume, no mounting
+
+# Create the container and start shell without volume mounting.
+docker run -it --name cont1 -v /Vo1 alpine /bin/sh  
+
+
+# Volume type: volume (docker-managed volume)
+docker run -it --name cont1 --mount type=volume,source=my-volume,target=/Vol alpine /bin/sh
+docker run -it --name cont1 --mount source=my-vol,target=/Vol alpine /bin/sh
+docker run -it --name cont1 --mount src=my-vol,dst=/Vol alpine
+docker run -it --name cont1 -v my-volume:/Vol alpine /bin/sh
+
+# Volume type: bind (mounts host directory)
+
+mkdir /home/ibtisam/dockr/bind  # Create a directory on the host system for mounting.
+docker run -it --name cont2 -v /HOST/PATH:/CONTAINER/PATH alpine /bin/sh
+docker run -it --name cont2 --mount type=bind,source=/../../,destination=/opt/data alpine /bin/sh
+
+# Volume type: tmpfs (in-memory mount)
 docker run -d -it --name cont3 --mount type=tmpfs,destination=/app alpine /bin/sh
 docker run -d -it --name cont3 --tmpfs /app alpine /bin/sh
 
-docker create -v /dbdata --name lec-18 postgres:13-alpine /bin/true # container created, but exited.
+## Sharing the volume between containers
+
+# Create a container `lec-18` with volume `/dbdata`, but container will exit immediately.
+docker create -v /dbdata --name lec-18 postgres:13-alpine /bin/true
 docker run -d -it --name db1 --volumes-from lec-18 postgres:13-alpine /bin/sh
 docker run -d -it --name db2 --volumes-from lec-18 postgres:13-alpine /bin/sh
+
+# Sharing a host directory between containers
+docker run -it --name cont-v3 -v /home/ibtisam/docker-bind:/opt/data busybox /bin/sh
+docker run -it --name cont-v4 -v /home/ibtisam/docker-bind:/opt/data busybox /bin/sh
+
+## Privileged container to container volume mounting
+
+# Create `container2` and share volumes from `container1`.
 docker run -it --name container2 --privileged=true --volume-from container1 ubuntu bin/bash
-docker run -it --name container2 -v /home/ec2-user(host):/rajput(container) --privileged=true ubuntu bin/bash (container to host volume mounting)
+# Mount host directory `/home/ec2-user` to `/rajput` in `container2`.  
+docker run -it --name container2 -v /home/ec2-user:/ibtisam --privileged=true ubuntu bin/bash  
+```
+
+---
+
 
 # docker network
 
