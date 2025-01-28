@@ -578,53 +578,114 @@ docker inspect container1 | python3 -c "import sys, yaml, json; yaml.safe_dump(j
 
 ## docker compose
 
+Please click [here](compose.md).
 
 ## Key Points
 
-- docker run, always use -it, if you later want to enter (docker exec) into the container, otherwise docker start doesn't start it to exec. /bin/sh (better to add)
-- To be in ps, -it isn’t mandatory; docker start exec
-- Kill/stop the container. Remove/Delete the container. Remove/Delete the image.
-- Once you exit the running container, you need to start it again before running exec.
-- docker start/exec {containerID}, unlike the run command, container stops only if stopped.
-- docker run `exit` exited; but docker start/exec `exit` NOT EXited, until you stop it.
-- docker run/build `NO ContainerID`, exec/start/stop/kill/commit/inspect/logs `ContainerID`
-- docker run doesn’t require a path, but docker build requires a path.
-- docker start {containerID}, it just starts the container, but can’t print the output.
-- To print the message, docker start --attach {containerID}
-- To run the same container, start --attach directly instead of exec
-- docker commit, whether you make changes in container or not, each commit command generates a new image ID.
-- docker build, image layers are read-only. Image layers = no of lines in Dockerfile 
-- While building, if any error occurs at any layer, it will not proceed next, but create the image with `none` tag and finish it.
-- docker build . dangling image; NO image Name & TAG,but contains Image ID. 
-- docker images alpine; docker build with RUN alpine; docker images, NO alpine 
-- ImageName, always be in lower case.
-- ls -l, just print the output after exiting. docker run alpine ls -l
-- dagling image = `repo & tag = none`, but imageID allocated
-- /var/run/docker.sock this file connects docker client with server/daemon. If the server is off, pa -a doesn’t show any result.
-- -- rm, name, attach, version, help, all
-- docker run -it & -dit, /bin/sh is not mandatory. -it leads to /boot by default.
-- docker exec -it & -dit, /path isn’t mandatory.	docker exec {container ID} ls
-- docker exec, -it is mandatory along with /path, if you enter into the container.
-- build, /Dockerfile path is mandatory.
-- run `<ls -l> <bin/sh> <bin/ash> <echo “this is ibtisam”>`
-- To go into the container, add -it. Or add --attach while starting the container for print.
-- Image ID NOT changed, `<deletion> <tagging> <pushing>`
-- Image ID CHANGED, `<changes in Dockerfile> <commit, even you made no changes in container>`
-- Image ID Created, `<build>, <pull>, <commit>`
-- --name cont1 -v /VOL alpine		--name cont2 -v /VOL alpine; possible
-- /VOL (the same destination) can be used to mount for n volumes
-- containers -v (n) = volumes (n) , same destination no problem, but containers can’t share the data due to the unique volume ID assigned to each one.
-- In docker volume, different container IDs, different Volume Ids, data not shared
-- In docker bind, different container IDs, no Volume ID, data shared
-- docker run -d --rm -p 8080:8080 --name webserver busybox sh -c "while true; do { echo -e 'HTTP/1.1 200 OK\r\n';echo 'smallest http server'; } | nc -l -p 8080; done"
-- docker ps -a	 or docker port CONTAINERID	
-- netstat -tuln | grep 8080	OR	ss -tuln | grep 8080
-- curl http://localhost:8080 or http://192.168.100.107:8080/
-- docker run -dit -p 8080:80 --name myser nginx		YES
-- docker run -dit -p 8080:80 --name myser1 nginx		NO, port allocated
+- **Use `-it` with `docker run`**  
+  Always use the `-it` flags when running a container if you plan to enter the container later using `docker exec`. Without the `-it` flags, the container will not start in interactive mode, and you won't be able to enter it using `docker exec`. For better access, it's recommended to also add `/bin/sh` as the default shell.
 
+- **Running Containers with `-it` and `-dit`**  
+  When running a container with `docker run -it` or `docker run -dit`, `/bin/sh` is not mandatory. The container defaults to the `/root` directory if not specified.
 
+- **Using `docker exec`**  
+  The `-it` flags are mandatory when using `docker exec` if you intend to enter the container. You also need to specify the path to the shell, such as `/bin/sh` or `/bin/bash`.
 
+  However, the path to shell isn't mandatory all the times, like : `docker exec {container ID} ls`  
+
+- **To be in `docker ps`**  
+  The `-it` flags are not required to list containers using `docker ps`. You can use `docker start` and `docker exec` to start and interact with a container.
+
+- **Stopping and Removing Containers**  
+  Use the commands `docker kill` or `docker stop` to stop a container. To remove a container or image, use `docker rm` or `docker rmi`, respectively.
+
+- **Starting a Container After Exiting**  
+  Once you exit a running container, you need to start it again before using `docker exec` to execute commands inside the container.
+
+- **Difference between `docker start` and `docker exec`**  
+  `docker start` and `docker exec` differ from `docker run`. When using `docker start/exec`, the container will not stop unless explicitly instructed to do so. This is different from `docker run`, where the container exits after the command finishes.
+
+- **Behavior of `docker run` vs. `docker start/exec` with `exit`**  
+  When using `docker run`, the container exits immediately after running the command (e.g., `exit`). However, when using `docker start` or `docker exec`, the container does not exit until it is explicitly stopped.
+
+- **Entering a Container**  
+  To enter a container, add the `-it` flags to `docker run`. Alternatively, you can add the `--attach` flag when starting the container to print its output.  
+
+- **Container ID in Commands**  
+  `docker run` does not require a container ID, but commands like `docker exec`, `docker start`, `docker stop`, `docker kill`, `docker commit`, `docker inspect`, and `docker logs` all require a container ID.
+
+- **Docker Run vs Docker Build**  
+  `docker run` does not require a path to an image, but `docker build` requires a path to the Dockerfile or the directory where it resides.
+
+- **Starting Containers and Output**  
+  `docker start {containerID}` will start the container but will not display any output. To display the container’s output, you need to use the `--attach` flag with `docker start`, like this: `docker start --attach {containerID}`.
+
+- **Re-running Containers**  
+  To run the same container, use `docker start --attach {containerID}` directly instead of using `docker exec`.
+
+- **Using `docker commit`**  
+  Every time you use `docker commit`, a new image ID is generated, regardless of whether changes were made to the container.
+
+- **Image Layers in Docker Build**  
+  Docker image layers are read-only, and the number of layers corresponds to the number of instructions (lines) in the Dockerfile.
+
+- **Error Handling During Build**  
+  If an error occurs at any layer during the build process, Docker will stop building further layers and will create an image with the tag `none`.
+
+- **Dangling Images**  
+  A dangling image is an image that does not have an image name or tag but still has an allocated image ID.
+
+- **Dangling Image with No Tag**  
+  A dangling image has no repository or tag assigned to it but still has an image ID allocated to it.  
+
+- **Alpine Image Example**  
+  When running `docker images alpine`, it will show the Alpine image. However, after running `docker build` with the `RUN alpine` command, running `docker images` will not show the Alpine image because it was built without tagging.
+
+- **Image Name Case Sensitivity**  
+  The image name should always be in lowercase. Docker will enforce this naming convention.
+
+- **Listing Files with `ls -l`**  
+  You can run `docker run alpine ls -l` to list files in the container. The `ls -l` command will print the output after exiting the container.
+
+- **Docker Socket File (`/var/run/docker.sock`)**  
+  The `/var/run/docker.sock` file connects the Docker client with the Docker daemon. If the Docker daemon is stopped, running `docker ps -a` will not show any containers.
+
+- **Docker Build Requires a Dockerfile Path**  
+  The path to the `Dockerfile` is mandatory when using `docker build`.
+
+- **Running Commands in Containers**  
+  To run commands in a container, you can use the syntax `docker run <ls -l> <bin/sh> <bin/ash> <echo “this is ibtisam”>`.
+
+- **Image ID Changes or Remains the Same**  
+  The Image ID remains the same when you delete, tag, or push an image. However, the Image ID will change if there are changes in the `Dockerfile` or if you commit a container, even if no changes were made inside it.
+
+- **Creating Images**  
+  Image IDs are created when you use commands like `docker build`, `docker pull`, or `docker commit`.
+
+- **Using Volumes with Containers**  
+  You can use the same volume for multiple containers by specifying `--name cont1 -v /VOL alpine` and `--name cont2 -v /VOL alpine`. However, each container will have a unique volume ID, so data cannot be shared between them unless you use a bind mount.
+
+- **Sharing Data Between Containers**  
+  In Docker volumes, each container has a unique volume ID, so the data is not shared between containers. However, in Docker bind mounts, data is shared because there is no volume ID assigned to bind mounts.
+
+- **Running a Simple HTTP Server**  
+  To run a simple HTTP server using `docker run`, you can use the following command:  
+  `docker run -d --rm -p 8080:8080 --name webserver busybox sh -c "while true; do { echo -e 'HTTP/1.1 200 OK\r\n'; echo 'smallest http server'; } | nc -l -p 8080; done"`.
+
+- **Checking Running Containers**  
+  You can list all containers (including stopped ones) using `docker ps -a`, or check the port of a specific container with `docker port {CONTAINERID}`.
+
+- **Checking Open Ports on Host**  
+  You can check which ports are open on the host using `netstat -tuln | grep 8080` or `ss -tuln | grep 8080`.
+
+- **Accessing a Running Service**  
+  You can access the service running on port 8080 by visiting `http://localhost:8080` or `http://192.168.100.107:8080/`.
+
+- **Running Nginx Container**  
+  You can run an Nginx container with the command:  
+  `docker run -dit -p 8080:80 --name myser nginx`. However, this may not work as expected if the port is already allocated.
+
+---
 
 <div style="text-align: justify;">
 ARG PORT=8000
