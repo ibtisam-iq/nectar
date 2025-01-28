@@ -281,45 +281,161 @@ To summarize, a successful `docker build` requires:
 ---
 
 # docker commit
+
 ```bash
-docker commit -a "Ibtisam" -m "Nginx container with custom CMD, ENV, and exposed port" \
+# Commit the container to a new image
+
+docker commit \
+    -a "Ibtisam" \
+    -m "Nginx container with custom CMD, ENV, and exposed port" \
+    -c 'ENTRYPOINT ["nginx", "-g", "daemon off;"]' \ 
     -c 'CMD ["nginx", "-g", "daemon off;"]' \
-    -c 'ENTRYPOINT ["nginx", "-g", "daemon off;"]' \
     -c 'ENV APP_ENV=production PORT=8080' \
-    -c 'WORKDIR /usr/src/app' -c 'EXPOSE 8080' \
+    -c 'WORKDIR /usr/src/app' \
+    -c 'EXPOSE 8080' \
     -c 'USER nginx' \
     -c 'LABEL version="1.0" description="Custom Nginx image"' \
-    -c 'VOLUME ["/data"]' <container_id/name> <image>
+    -c 'VOLUME ["/data"]' \
+    <container_id/name> <image>
 ```
+---
+
+## docker run
+
+The `docker run` command is used to create and start a container from a specified image. It is often the first step to interact with a containerized application.
+
+#### Basic Syntax:
+`docker run [OPTIONS] IMAGE [COMMAND] [ARG...]`
+
+- OPTIONS: Various flags to modify container behavior (e.g., `-d`, `--name`, `--entrypoint`).
+- IMAGE: The image to use for creating the container.
+- COMMAND: (Optional) The command to run inside the container.
+- ARG: (Optional) Arguments for the specified command.
+
+> `docker container run` is equivalent to: `docker container create + docker container start + docker container attach`
+
+#### ENTRYPOINT and CMD
+
+- Here's how it works:
+  - **ENTRYPOINT** defines the `executable` to run.
+  - **CMD** provides the default `arguments` to the ENTRYPOINT.
+
+- `CMD` can be overridden when running the container.
+- `ENTRYPOINT` cannot be overridden without using the `--entrypoint` flag.
+- If you use the `ENTRYPOINT` flag, **it doesn't automatically replace the** `CMD` unless you specify a new command after the image name. If no command is specified after overriding `ENTRYPOINT`, Docker will use the default `CMD` from the Dockerfile.
+
+- For example:
+  - If you override `ENTRYPOINT` to `sleep`, but you don't provide any argument, Docker will use the `CMD` argument from the Dockerfile (if defined).
+  - If you want to override both, you would need to specify both `ENTRYPOINT` and `CMD` explicitly.
+
+1. **Override ENTRYPOINT and CMD**
+   
+   `docker run --name <container_name> --entrypoint sleep -d alpine infinity`
+   - This command sets the entrypoint to `sleep` and the argument to `infinity`. This effectively overrides both the `ENTRYPOINT` and `CMD` behavior. The `infinity` argument overrides whatever `CMD` was originally defined in the Dockerfile (if any).
+   
+   `docker run --name <container_name> --entrypoint <entrypoint_command> nginx 10`
+   - This overrides both the `ENTRYPOINT` and `CMD` defined in the Dockerfile. For example, if the Dockerfile defined:
+     - `ENTRYPOINT` ["sleep"]
+     - `CMD` ["5"]
+     - Both `ENTRYPOINT` and `CMD` are overridden here.
+
+- Both points clarify that when an argument is provided for `ENTRYPOINT` (like `infinity` or `10`), it overrides the `CMD` as well.
+
+2. **Run and remove the container automatically on exit**
+   
+   `docker container run --rm -d --name <container_name> REPOSITORY:v`
+   - Runs the container in detached mode and removes it automatically after it stops.
+
+3. **Run with a shell command**
+   
+   `docker run -dit --name myfirstcon REPOSITORY:v /bin/sh`
+   - Runs the container with the command `/bin/sh`, allowing interaction with the shell.
+
+4. **Run with a shell command to echo a message**
+   
+   `docker run --name <container_name> alpine sh -c "echo hello"`
+   - Runs the container with the `sh` command and the argument `-c "echo hello"`, which prints "hello" to the console.
+
+5. **Run with default command**
+   
+   `docker run alpine ls -l`
+   - Runs the container with the `ls -l` command. By default, it lists the contents of the `/root` directory.
+
+6. **Run with a custom command and arguments**
+   
+   `docker run -dit --name myfirstcon REPOSITORY:v uname -a`
+   - Runs the container with the command `uname` and the argument `-a` to display system information.
+
+7. **Run with the sleep command**
+   
+   `docker run -dit --name myfirstcon alpine sleep 10`
+   - Runs the container with the `sleep` command and the argument `10`, making the container sleep for 10 seconds before stopping.
+
+8. **Run with custom capabilities**
+   
+   `docker run --cap-add MAC_ADMIN ubuntu sleep 3600`
+   - Adds the `MAC_ADMIN` capability to the container and runs it for 3600 seconds (1 hour).
+   
+   `docker run --cap-drop KILL ubuntu`
+   - Drops the `KILL` capability from the container, restricting its ability to kill other processes.
+
+9. **Run with specific user**
+   
+   `docker run --user=1000 ubuntu sleep 3600`
+   - Runs the container as the `user` with UID 1000.
+
+10. **Run with environment variable and bind mount**
+   
+   `docker run -it -d --name <container_name> -e PORT=$MY_PORT -p 7600:$MY_PORT --mount type=bind,src=$PWD/src,dst=/app/src node:$MY_ENV`
+   - Runs the container interactively with environment variables, a port binding, and a bind mount.
+
+---
 
 
-# docker run
+## Port Mapping
 
-docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
-docker container run = docker container create + docker container start + docker container attach
-CMD can be overridden; but ENTRYPOINT can’t. # Lec-20
-docker run --name <> --entrypoint sleep -d alpine infinity		entrypoint=sleep, arg=infinity
-docker run --name <> --entrypoint <> nginx 10	# Dr_f: ENTRYPOINT [“sleep”] CMD [“5”], will override both ENTRYPOINT & CMD mentioned in Dr_f
-# docker run --name abc --entrypoint echo nginx ibtisam
-docker container run --rm -d --name <> REPOSITORY:v	
-docker run -dit --name myfirstcon REPOSITORY:v /bin/sh	[COMMAND] (/bin/sh) 
-docker run -dit --name myfirstcon REPOSITORY:v uname -a	[COMMAND] (uname) [ARG...] (-a)
-docker run -dit --name myfirstcon alpine sleep 10		[COMMAND] (sleep) [ARG...] (10)
-docker run --name <> alpine sh -c "echo hello" 		    [COMMAND] (sh) [ARG...] (-c "echo hello")
-docker run alpine ls -l {by default prints the output of /root}	ls -l /usr {list /usr}
-docker run --cap-add MAC_ADMIN ubuntu sleep 3600		docker run --cap-drop KILL ubuntu
-docker run --user=<> ubuntu sleep 3600							user=1000
-docker run -it -d --name <> -e PORT=$MY_PORT -p 7600:$MY_PORT --mount type=bind,src=$PWD/src,dst=/app/src node:$MY_ENV
+1. **Run with port mapping (host:container)**
+   
+   `docker run -it --name {} -p 8080:80 nginx /bin/sh`  
+   - This command maps port `8080` on the host to port `80` inside the container. It allows you to access the container's `nginx` service on `http://<host-ip>:8080`.  
+   - The placeholder `{}` should be replaced with a container name (e.g., `web1`).
 
-# port mapping
+2. **Run with port 80 mapped successfully**
+   
+   `docker run -it --name web1 -p 80:80 nginx`  
+   - Here, port `80` on the host is mapped to port `80` inside the container, meaning the `nginx` service is accessible from `http://<host-ip>:80`.
 
-docker run -it --name {} -p 8080:80 nginx /bin/sh	host/client:server/container
-docker run -it --name web1 -p 80:80 nginx 		    YES
-docker run -it --name web2 -p 80:80 nginx 		    NO mapped, but container generated. 
-docker run -it --name web2 -p 8080:80 nginx 		NO mapped,because container ID exists.
-docker run -it --name web3 -p 8080:80 nginx 		NOT mapped, port is already allocated.
-docker run -it --name web4 -p 8081:80 nginx 		YES
-docker run --rm -it --name nginx1 -d -p 127.0.0.1:80:8081/tcp nginx 80 on local to 8081 inside cont
+3. **Run with port 80 already mapped (same as host and container)**  
+   
+   `docker run -it --name web2 -p 80:80 nginx`  
+   - This won't work because port `80` is already in use on the host by another container (`web1`). Docker will generate a container, but the port mapping is not successful.
+
+4. **Run with port 8080 on host and port 80 inside container (container ID exists)**
+
+   `docker run -it --name web2 -p 8080:80 nginx`  
+   - This command fails if a container with the same name (`web2`) already exists, as container names must be unique. Even if the container runs, the port is not mapped because the container ID already exists.
+
+5. **Run with port 8080 already allocated on host**
+
+   `docker run -it --name web3 -p 8080:80 nginx`  
+   - If port `8080` is already in use on the host (by another container or application), Docker cannot map the port and the container won’t run as expected. The port is already allocated.
+
+6. **Run with port 8081 mapped successfully**
+
+   `docker run -it --name web4 -p 8081:80 nginx`  
+   - In this case, port `8081` on the host is mapped to port `80` inside the container. This command works as expected and maps the port successfully.
+
+7. **Run with specific IP for port mapping**
+
+   `docker run --rm -it --name nginx1 -d -p 127.0.0.1:80:8081/tcp nginx`  
+   - This command maps port `8081` inside the container to port `80` on the local machine's loopback interface (`127.0.0.1`). The container is accessible only from the host itself (not from other devices on the network).  
+   - The `--rm` flag ensures the container is removed after it stops.
+
+#### Port Binding Protocols:
+- Docker uses the **TCP protocol** by default for port mappings. However, you can also specify other protocols like UDP if needed (e.g., `-p 80:80/udp` for UDP).
+- A service using **port 5353 for UDP** does **not** block Docker from binding **port 5353 for TCP**, as the protocols are distinct and separate. Docker can bind to the same port for both protocols without conflicts.
+
+---
 
 # docker volume
 
