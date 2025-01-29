@@ -9,7 +9,7 @@ Docker supports **Volumes**, **Bind Mounts**, and **Tmpfs** for managing contain
 1. **Create a named volume**
    
    `docker volume create my-volume`  
-   - Creates a Docker-managed named volume (`my-volume`) stored in `/var/lib/docker/volumes`.
+   - Creates a Docker-managed named volume (`my-volume`) stored in `/var/lib/docker/volumes` **on our host machine on linux**.
 
 2. **Inspect a volume**
    
