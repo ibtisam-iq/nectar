@@ -401,7 +401,7 @@ The `docker run` command is used to create and start a container from a specifie
 
 ## docker volume
 
-Docker supports **Volumes**, **Bind Mounts**, and **Tmpfs** for managing container data. Please follow [this](volumes.md) link for more details.
+Docker supports **Named & Anonymous Volumes**, **Bind Mounts**, and **tmpfs** for managing container data. Please follow [this](volumes.md) link for more details.
 
 ```bash
 
@@ -422,11 +422,10 @@ docker volume rm my-volume
 
 ## Just create the volume, no mounting
 
-# Create the container and start shell without volume mounting.
+# Create the container and start shell with ananymous volume mounting.
 docker run -it --name cont1 -v /Vo1 alpine /bin/sh  
 
-
-# Volume type: volume (docker-managed volume)
+# Volume type: volume (docker-managed volume; docker-named volume)
 docker run -it --name cont1 --mount type=volume,source=my-volume,target=/Vol alpine /bin/sh
 docker run -it --name cont1 --mount source=my-vol,target=/Vol alpine /bin/sh
 docker run -it --name cont1 --mount src=my-vol,dst=/Vol alpine

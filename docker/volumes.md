@@ -60,9 +60,15 @@ Docker supports **Volumes**, **Bind Mounts**, and **Tmpfs** for managing contain
 
 ### 1. **Mounting Volumes (Docker-created volumes)**
 
-- A volume is created inside Docker itself (implicitly or explicitly) and then mounted to that container.
+- A volume may be `named` or `anonymous`. Anonymous volumes are given a random name that's guaranteed to be unique within a given Docker host. Just like named volumes, anonymous volumes persist even if you remove the container that uses them, except if you use the `--rm` flag when creating the container, in which case the anonymous volume associated with the container is destroyed.
 
-#### Run with a volume mount
+- A volume (in case of named volume) is created inside Docker itself (implicitly or explicitly) and then mounted to that container. 
+
+#### Run with anonymous volume
+`docker run -it --name cont1 -v /data alpine`
+- Anonymous volume is created and mounted to the container. The volume is named automatically. 
+
+#### Run with a named volume
 `docker run -it --name cont1 -v my-volume:/Vol alpine /bin/sh`  
 - Mounts the Docker-managed volume `my-volume` to `/Vol` in the container.
 
@@ -114,7 +120,7 @@ docker run -it --name cont2 -v /home/user/data:/opt/data alpine /bin/sh
 
 ---
 
-### 3. **Tmpfs Mounts**
+### 3. **tmpfs Mounts**
 
 #### Run with a tmpfs mount
 `docker run -d -it --name cont3 --mount type=tmpfs,destination=/app alpine /bin/sh`  
@@ -144,6 +150,7 @@ docker run -it --name cont2 -v /home/user/data:/opt/data alpine /bin/sh
 ### Volume vs. Bind Mount
 - **Volumes**:  
   - Managed by Docker and stored in `/var/lib/docker/volumes`.
+  - Deleting the container does not delete the volume itself. We will delete it later manually.
 - **Bind Mounts**:  
   - Map specific host directories to container paths.
 
