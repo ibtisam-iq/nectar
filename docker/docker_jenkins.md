@@ -1,5 +1,5 @@
 - Run `sudo usermod -aG docker $USER` to add the Jenkin's server user to the docker group.
-- After that, restart the Jenkins server.
+- Restart the Jenkins server instead of running `newgrp docker`.
 
 Install the following plugins:
 - `Docker Pipeline`:
