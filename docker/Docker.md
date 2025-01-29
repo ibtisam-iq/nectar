@@ -1,11 +1,12 @@
 # Docker: A Structured Guide
 
-## **What is Docker**
+## What is Docker
 Docker is an open-source platform that allows developers to package, deploy, and run applications in **lightweight, portable containers**. These containers ensure consistent behavior across various environments, eliminating compatibility issues.
 
 ---
 
 ## **Key Features and Benefits**
+
 - **Lightweight**: Containers share the host OS kernel, avoiding the overhead of a full operating system per application.
 - **Portable**: Run containers consistently across any environment that supports Docker.
 - **Efficient**: Containers start and stop quickly, improving development and deployment speed.
@@ -18,25 +19,31 @@ Docker is an open-source platform that allows developers to package, deploy, and
 
 ---
 
-## **Problems Docker Solves**
+## Problems Docker Solves
 
-### **1. Dependency and Configuration Management**
+### 1. Dependency and Configuration Management
 
-#### **What are Dependencies and Configuration?**
+#### What are Dependencies and Configuration?
+
 - **Dependencies**: External libraries, frameworks, runtime environments, or packages required for an application to run. For example:
   - Python applications need specific Python versions and libraries like `Django` or `Flask`.
   - Java applications may require `JDK` or specific `.jar` files.
+
 - **Configuration**: Environment-specific settings, such as:
   - Database connection strings.
   - API keys and credentials.
   - Server-specific configurations (e.g., ports, memory limits).
 
-#### **How Were Dependencies and Configuration Managed Earlier?**
+#### How Were Dependencies and Configuration Managed Earlier?
+
 - **Manual Installation**: Developers manually installed dependencies on each system, often leading to version mismatches.
+
 - **Environment Variations**: Applications behaved differently across environments due to inconsistencies in configurations and dependencies.
+
 - **Complex Deployment**: Teams had to maintain detailed documentation or scripts to replicate the required environment, which was time-consuming and error-prone.
 
-#### **How Docker Solves This Problem**
+#### How Docker Solves This Problem
+
 - Docker packages the application, its dependencies, and configurations into **Docker images**:
   - Ensures all dependencies are included, avoiding version conflicts.
   - Allows environment-specific configurations to be managed using **environment variables** or **configuration files**.
@@ -45,43 +52,53 @@ Docker is an open-source platform that allows developers to package, deploy, and
 
 ---
 
-### **2. Portability**
-**Before Docker**: Applications faced compatibility issues due to differences in operating systems, dependencies, and configurations.  
+### 2. Portability
+
+**Before Docker**: Applications faced compatibility issues due to differences in operating systems, dependencies, and configurations.
+
 **With Docker**: 
 - Applications and dependencies are packaged into **Docker images**, ensuring consistent behavior across environments.
 - Containers eliminate the need to manage infrastructure dependencies manually.
 
 ---
 
-### **3. Complexity**
-**Before Docker**: Running applications with diverse dependencies required complex configurations.  
+### 3. Complexity
+
+**Before Docker**: Running applications with diverse dependencies required complex configurations.
+
 **With Docker**: Docker simplifies the process by bundling application code, dependencies, and configurations into a single container.
 
 ---
 
-### **4. Inefficiency**
-**Before Docker**: Traditional methods consumed excessive resources due to redundant OS instances and slow startup times.  
+### 4. Inefficiency
+
+**Before Docker**: Traditional methods consumed excessive resources due to redundant OS instances and slow startup times.
+
 **With Docker**: 
 - Containers share the host OS kernel, drastically reducing resource usage.
 - They start almost instantly, enabling faster workflows and scaling.
 
 ---
 
-### **5. Security**
-**Before Docker**: Shared environments posed risks of application conflicts and vulnerabilities.  
+### 5. Security
+
+**Before Docker**: Shared environments posed risks of application conflicts and vulnerabilities.
+
 **With Docker**: Containers isolate applications, minimizing risks and ensuring secure execution.
 
 ---
 
-## **Docker vs. Virtual Machines**
+## Docker vs. Virtual Machines
 
-### **Virtual Machines**
+### Virtual Machines
+
 - Each VM includes a full OS, leading to:
   - High resource usage (CPU, memory, disk space).
   - Slow startup times due to OS booting.
   - Inefficient resource sharing and management.
 
-### **Docker Containers**
+### Docker Containers
+
 - Containers share the host OS kernel, offering:
   - **Resource Efficiency**: No need for a full OS per container, enabling more containers on the same hardware.
   - **Fast Startup**: Containers start in seconds, ideal for scaling.
@@ -90,7 +107,8 @@ Docker is an open-source platform that allows developers to package, deploy, and
 
 ---
 
-## **How Docker Revolutionizes Deployment**
+## How Docker Revolutionizes Deployment
+
 1. **Unified Workflow**: Containers simplify transitions between development, testing, and production environments.
 2. **Rapid Scaling**: Instant container startup enables responsive scaling during peak demands.
 3. **Streamlined Management**: Tools like Docker Compose and Docker Swarm simplify multi-container application management.
@@ -98,6 +116,7 @@ Docker is an open-source platform that allows developers to package, deploy, and
 ---
 
 ## Docker Architecture
+
 Docker uses a layered architecture to manage containers. The key components include:
 - **Docker Engine**: The core component responsible for creating, managing, and running containers. It includes the Docker daemon and the Docker client.
 - **Docker Hub**: A cloud-based registry where users can store and share Docker images.
@@ -107,6 +126,7 @@ Docker uses a layered architecture to manage containers. The key components incl
 ---
 
 ## Docker Plugins
+
 - Docker Plugins are **extensions** or **add-ons** that enhance Docker's functionality. 
 - These tools integrate with the Docker Engine to provide additional capabilities, simplifying workflows and extending Docker's usability.
 - Please click [here](plugins.md) for more information.
@@ -114,6 +134,7 @@ Docker uses a layered architecture to manage containers. The key components incl
 ---
 
 ## Dockerfile
+
 - It is a text file that contains all the commands a user could call on the command line to assemble an image.
 
 - For details, please click [here](./Dockerfile).
@@ -213,7 +234,7 @@ docker tag IMAGE_ID my-app:1.0
 docker push mibtisam/NEWREPOSITORY:v
 ```
 - The **image name** is distinct from the **repository name**, with the repository serving as the storage location for images.
-- Please follow the complete guide [here](repository.md).
+- Please follow the complete guide [Docker Repositories, Registries, and Image Names: The Big Picture](repository.md).
 
 ---
 
@@ -221,7 +242,7 @@ docker push mibtisam/NEWREPOSITORY:v
 
 The `docker build` command is used to create Docker images from a `Dockerfile` and its associated context. The **context** refers to the directory sent to the Docker daemon containing the `Dockerfile` and any files required during the build process. The behavior of the `docker build` command depends on the correct setup of the context and the path to the `Dockerfile`.
 
-- For details, please click [here](build.md).
+- For details, please click [docker build](build.md) and [docker tag](tag.md)
 
 ```bash
 docker build -t IMAGENAME:version /path/to/docker/context
