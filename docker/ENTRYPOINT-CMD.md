@@ -134,11 +134,7 @@ docker run my-python-container another_script.py
 | Only ENTRYPOINT            | ["python3"]      | Not Set        | Runs `python3` (without arguments)                |
 | Both ENTRYPOINT + CMD      | ["python3"]      | ["app.py"]     | Runs `python3 app.py`                             |
 | Override CMD               | ["python3"]      | ["app.py"]     | `docker run my-python-container script.py` → Runs `python3 script.py` |
-| Override ENTRYPOINT        | ["python3"]      | ["app.py"]     | `docker run --entrypoint /bin/bash my-python-container` → Runs 
-
-bash
-
- |
+| Override ENTRYPOINT        | ["python3"]      | ["app.py"]     | `docker run --entrypoint /bin/bash my-python-container` → Runs `/bin/bash`|
 
 **Override ENTRYPOINT at Runtime:**
 ```bash
