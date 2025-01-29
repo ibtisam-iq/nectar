@@ -49,7 +49,7 @@ stage('Build Docker Image') {
                 sh 'docker build -t my-image:latest .'
                 sh 'docker tag my-image:latest my-registry:5000/my-image:latest'
                 sh 'docker push my-registry:5000/my-image:latest'
-                sh 'docker run -p 8080:8080 my-registry:5000/my-image:latest'
+                sh 'docker run -d -p 8082:8080 my-registry:5000/my-image:latest'
             }
         }
     }
