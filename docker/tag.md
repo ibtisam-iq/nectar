@@ -44,10 +44,11 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 docker tag my-app:latest 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo:v1
 ```
 
-**Push the image to AWS ECR:**
+**Push & Pull the image to AWS ECR:**
 
 ```bash
 docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo:v1
+docker pull 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo:v1
 ```
 
 ---
