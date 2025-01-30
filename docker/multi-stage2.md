@@ -77,9 +77,9 @@ docker run -p 8000:8000 myapp-dev
 ```
 
 ### 🔥 When to Use This?
-- 🔹 You need different dependencies for different environments (prod vs dev).
-- 🔹 You want a single Dockerfile for both use cases.
-- 🔹 You want to reuse layers instead of creating two separate builds.
+- You need different dependencies for different environments (prod vs dev).
+- You want a single Dockerfile for both use cases.
+- You want to reuse layers instead of creating two separate builds.
 
 ---
 
