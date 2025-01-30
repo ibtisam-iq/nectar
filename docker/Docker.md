@@ -567,6 +567,53 @@ Please click [here](compose.md).
 
 ---
 
+## Multi-Stage Docker Build
+
+Multi-stage builds are an efficient way to create optimized Docker images by separating build and runtime environments. This approach helps in:  
+
+- **Reducing image size** – Only necessary files are included in the final image.  
+- **Enhancing security** – Removes unnecessary build tools and dependencies.  
+- **Optimizing performance** – Lighter images lead to faster deployments.  
+
+### **How It Works?**
+
+A multi-stage build consists of multiple `FROM` instructions, where:  
+- Each stage produces artifacts that the next stage can use.  
+- The final image contains only the essential runtime components.  
+
+### **Common Approaches**  
+
+#### 1. Using Different Images for Build and Runtime
+
+- **First stage:** Uses a larger image with all build dependencies.  
+- **Second stage:** Uses a minimal runtime image, copying only what’s required.  
+- **Best for:** Compiled languages like **Go, Java, and C++**, where the build process needs extra dependencies that aren’t required in production.  
+
+**🔹 Example Use Case:**  
+- A **Go application** builds inside a full-featured image (e.g., `golang`), and the compiled binary is copied to a lightweight **Alpine-based** image for runtime.  
+
+#### 2️. Using the First Stage as a Base for the Final Image
+
+- The second stage extends the first while installing additional dependencies.  
+- Keeps **shared base layers** but allows different configurations.  
+- **Best for:** JavaScript-based applications (**Node.js**) where development tools (e.g., **nodemon**) are used in one stage, while only production dependencies remain in the final stage.  
+
+**🔹 Example Use Case:**  
+- A **Node.js app** starts with a `node:alpine` image to install dependencies and build assets. The final stage extends it, keeping only production dependencies while removing unnecessary files.  
+
+
+### Benefits of Multi-Stage Builds
+
+- **Lighter images** → Faster pull & deploy times.  
+- **Better security** → Removes unused dependencies.  
+- **Environment separation** → Dev & prod dependencies managed efficiently.  
+
+By leveraging multi-stage builds, Docker images stay **optimized, secure, and production-ready**, ensuring **faster deployments and improved performance**.
+
+For more details, please click [here](multi-stage1.md).
+
+---
+
 ## Key Points
 
 - **Use `-it` with `docker run`**  
