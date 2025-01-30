@@ -570,7 +570,7 @@ Please click [here](compose.md).
 
 Multi-stage builds are an efficient way to create optimized Docker images by separating build and runtime environments. This approach helps in:  
 
-- **Reducing image size** – Only necessary files are included in the final image.  
+- **Reducing image size** – Only necessary files are included in the final image.
 - **Enhancing security** – Removes unnecessary build tools and dependencies.  
 - **Optimizing performance** – Lighter images lead to faster deployments.  
 
@@ -592,6 +592,8 @@ A multi-stage build consists of multiple `FROM` instructions, where:
 
 *   **Example:** A **Golang app** builds in `golang:latest` and runs in `alpine`.
 
+For more details, please click [here](multi-stage1.md).
+
 #### **2️⃣ Using the First Stage as a Base for the Final Image**
 
 *   The second stage **inherits from the first**, but **removes or adds dependencies** based on the environment.
@@ -599,6 +601,8 @@ A multi-stage build consists of multiple `FROM` instructions, where:
 *   **Use case:** When the same base image is required across different stages, but with **different dependencies** (e.g., dev tools in one stage, production-ready minimal setup in another).
 
 *   **Example:** A **Node.js app** starts with `node:alpine`, installs **dev dependencies in the first stage**, and only keeps **prod dependencies in the final stage**.
+
+For more details, please click [here](multi-stage2.md).
 
 ### Benefits of Multi-Stage Builds
 
@@ -608,7 +612,8 @@ A multi-stage build consists of multiple `FROM` instructions, where:
 
 By leveraging multi-stage builds, Docker images stay **optimized, secure, and production-ready**, ensuring **faster deployments and improved performance**.
 
-For more details, please click [here](multi-stage1.md).
+- [How to Choose the Right Base Image for Multi-Stage Builds?](multi-stage3.md)
+- [What are Different Ways to Reduce the Image Size?](size-reduction.md)
 
 ---
 
