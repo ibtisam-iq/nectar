@@ -54,23 +54,23 @@ CMD npm start
 
 ### 🎯 Why Use This Approach?
 
-- ✅ 1. Single Dockerfile for Both Dev & Prod
+- 1. Single Dockerfile for Both Dev & Prod
   - Instead of maintaining two separate Dockerfiles (`Dockerfile.dev` & `Dockerfile.prod`), you can switch between stages easily.
-- ✅ 2. Optimized for Multi-Environment Builds
+- 2. Optimized for Multi-Environment Builds
   - Production (abc): Minimal dependencies
   - Development (xyz): Extra tools & debug utilities
-- ✅ 3. Saves Build Time & Cache
+- 3. Saves Build Time & Cache
   - `abc` already has `npm install --only=prod`, so `xyz` only adds dev dependencies instead of reinstalling everything.
 
 ### 🛠 How to Use Different Stages?
 
-#### 🔹 Building for Production
+#### Building for Production
 ```sh
 docker build --target abc -t myapp-prod .
 docker run -p 8000:8000 myapp-prod
 ```
 
-#### 🔹 Building for Development
+#### Building for Development
 ```sh
 docker build --target xyz -t myapp-dev .
 docker run -p 8000:8000 myapp-dev
