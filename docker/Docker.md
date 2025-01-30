@@ -167,6 +167,8 @@ Docker uses a layered architecture to manage containers. The key components incl
 - stats
 - manifest
 
+Please click [here](docker%20--help.md) to learn these commands and their flags in depth.
+
 ---
 
 ## Docker Essenial Commands
