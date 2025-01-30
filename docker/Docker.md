@@ -313,7 +313,7 @@ The `docker run` command is used to create and start a container from a specifie
 
 1. **Override ENTRYPOINT and CMD**
    
-  `docker run --name <container_name> --entrypoint sleep -d alpine infinity`
+`docker run --name <container_name> --entrypoint sleep -d alpine infinity`
 - This command sets the entrypoint to `sleep` and the argument to `infinity`. This effectively overrides both the `ENTRYPOINT` and `CMD` behavior. The `infinity` argument overrides whatever `CMD` was originally defined in the Dockerfile (if any).
    
 `docker run --name <container_name> --entrypoint <entrypoint_command> nginx 10`
@@ -326,50 +326,50 @@ The `docker run` command is used to create and start a container from a specifie
 
 2. **Run and remove the container automatically on exit**
    
-   `docker container run --rm -d --name <container_name> REPOSITORY:v`
+  `docker container run --rm -d --name <container_name> REPOSITORY:v`
 - Runs the container in detached mode and removes it automatically after it stops.
 
 3. **Run with a shell command**
    
-   `docker run -dit --name myfirstcon REPOSITORY:v /bin/sh`
+  `docker run -dit --name myfirstcon REPOSITORY:v /bin/sh`
 - Runs the container with the command `/bin/sh`, allowing interaction with the shell.
 
 4. **Run with a shell command to echo a message**
    
-   `docker run --name <container_name> alpine sh -c "echo hello"`
+  `docker run --name <container_name> alpine sh -c "echo hello"`
 - Runs the container with the `sh` command and the argument `-c "echo hello"`, which prints "hello" to the console.
 
 5. **Run with default command**
    
-   `docker run alpine ls -l`
+  `docker run alpine ls -l`
 - Runs the container with the `ls -l` command. By default, it lists the contents of the `/root` directory.
 
 6. **Run with a custom command and arguments**
    
-   `docker run -dit --name myfirstcon REPOSITORY:v uname -a`
+  `docker run -dit --name myfirstcon REPOSITORY:v uname -a`
 - Runs the container with the command `uname` and the argument `-a` to display system information.
 
 7. **Run with the sleep command**
    
-   `docker run -dit --name myfirstcon alpine sleep 10`
+  `docker run -dit --name myfirstcon alpine sleep 10`
 - Runs the container with the `sleep` command and the argument `10`, making the container sleep for 10 seconds before stopping.
 
 8. **Run with custom capabilities**
    
-   `docker run --cap-add MAC_ADMIN ubuntu sleep 3600`
+  `docker run --cap-add MAC_ADMIN ubuntu sleep 3600`
 - Adds the `MAC_ADMIN` capability to the container and runs it for 3600 seconds (1 hour).
    
-   `docker run --cap-drop KILL ubuntu`
+  `docker run --cap-drop KILL ubuntu`
 - Drops the `KILL` capability from the container, restricting its ability to kill other processes.
 
 9. **Run with specific user**
    
-   `docker run --user=1000 ubuntu sleep 3600`
+  `docker run --user=1000 ubuntu sleep 3600`
 - Runs the container as the `user` with UID 1000.
 
 10. **Run with environment variable and bind mount**
    
-   `docker run -it -d --name <container_name> -e PORT=$MY_PORT -p 7600:$MY_PORT --mount type=bind,src=$PWD/src,dst=/app/src node:$MY_ENV`
+  `docker run -it -d --name <container_name> -e PORT=$MY_PORT -p 7600:$MY_PORT --mount type=bind,src=$PWD/src,dst=/app/src node:$MY_ENV`
 - Runs the container interactively with environment variables, a port binding, and a bind mount.
 
 ---
