@@ -374,7 +374,6 @@ The `docker run` command is used to create and start a container from a specifie
 
 ---
 
-
 ## Port Mapping
 
 1. **Run with port mapping (host:container)**
