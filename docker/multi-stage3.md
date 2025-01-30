@@ -119,15 +119,15 @@ FROM scratch AS final
 COPY --from=build /app/myapp /myapp
 CMD ["/myapp"]
 ```
-- ✅ Final image contains only the binary, no OS, no extra files
-- ✅ Extremely small (~10MB vs. 100+MB)
+- Final image contains only the binary, no OS, no extra files
+- Extremely small (~10MB vs. 100+MB)
 
 ---
 
 ## Key Takeaways
 
-1️⃣ Pick a build image based on project dependencies (Node.js, Maven, Golang, etc.)
-2️⃣ Pick a final image based on runtime needs (Alpine, Distroless, Nginx, Scratch, Slim, etc.)
-3️⃣ Optimize for size & security
-4️⃣ Always remove unnecessary dependencies from the final image
+- Pick a build image based on project dependencies (Node.js, Maven, Golang, etc.)
+- Pick a final image based on runtime needs (Alpine, Distroless, Nginx, Scratch, Slim, etc.)
+- Optimize for size & security
+- Always remove unnecessary dependencies from the final image
 
