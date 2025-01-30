@@ -313,14 +313,14 @@ The `docker run` command is used to create and start a container from a specifie
 
 1. **Override ENTRYPOINT and CMD**
    
-   `docker run --name <container_name> --entrypoint sleep -d alpine infinity`
-   - This command sets the entrypoint to `sleep` and the argument to `infinity`. This effectively overrides both the `ENTRYPOINT` and `CMD` behavior. The `infinity` argument overrides whatever `CMD` was originally defined in the Dockerfile (if any).
+`docker run --name <container_name> --entrypoint sleep -d alpine infinity`
+- This command sets the entrypoint to `sleep` and the argument to `infinity`. This effectively overrides both the `ENTRYPOINT` and `CMD` behavior. The `infinity` argument overrides whatever `CMD` was originally defined in the Dockerfile (if any).
    
-   `docker run --name <container_name> --entrypoint <entrypoint_command> nginx 10`
-   - This overrides both the `ENTRYPOINT` and `CMD` defined in the Dockerfile. For example, if the Dockerfile defined:
-     - `ENTRYPOINT` ["sleep"]
-     - `CMD` ["5"]
-     - Both `ENTRYPOINT` and `CMD` are overridden here.
+`docker run --name <container_name> --entrypoint <entrypoint_command> nginx 10`
+- This overrides both the `ENTRYPOINT` and `CMD` defined in the Dockerfile. For example, if the Dockerfile defined:
+  - `ENTRYPOINT` ["sleep"]
+  - `CMD` ["5"]
+  - Both `ENTRYPOINT` and `CMD` are overridden here.
 
 - Both points clarify that when an argument is provided for `ENTRYPOINT` (like `infinity` or `10`), it overrides the `CMD` as well.
 
