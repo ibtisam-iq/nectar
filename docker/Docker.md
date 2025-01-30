@@ -583,7 +583,7 @@ A multi-stage build consists of multiple `FROM` instructions, where:
 
 ### **Common Approaches**  
 
-### **1️⃣ Using Different Images for Build and Runtime**
+#### **1️⃣ Using Different Images for Build and Runtime**
 
 *   The **first stage** uses a **larger image** (e.g., `golang`, `maven`, `node`) to compile/build the application.
 
@@ -593,7 +593,7 @@ A multi-stage build consists of multiple `FROM` instructions, where:
 
 *   **Example:** A **Golang app** builds in `golang:latest` and runs in `alpine`.
 
-### **2️⃣ Using the First Stage as a Base for the Final Image**
+#### **2️⃣ Using the First Stage as a Base for the Final Image**
 
 *   The second stage **inherits from the first**, but **removes or adds dependencies** based on the environment.
 
