@@ -583,24 +583,23 @@ A multi-stage build consists of multiple `FROM` instructions, where:
 
 ### **Common Approaches**  
 
-### 1. Using Different Images for Build and Runtime
+### **1️⃣ Using Different Images for Build and Runtime**
 
-- **First stage:** Uses a larger image with all build dependencies.  
-- **Second stage:** Uses a minimal runtime image, copying only what’s required.  
-- **Best for:** Compiled languages like **Go, Java, and C++**, where the build process needs extra dependencies that aren’t required in production.  
+*   The **first stage** uses a **larger image** (e.g., `golang`, `maven`, `node`) to compile/build the application.
 
-**🔹 Example Use Case:**  
-- A **Go application** builds inside a full-featured image (e.g., `golang`), and the compiled binary is copied to a lightweight **Alpine-based** image for runtime.  
+*   The **second stage** uses a **lighter image** (e.g., `alpine`, `nginx`, `scratch`) to run the application.
 
-### 2️. Using the First Stage as a Base for the Final Image
+*   **Use case:** When the build process requires additional dependencies (compilers, build tools) that aren’t needed at runtime.
 
-- The second stage extends the first while installing additional dependencies.  
-- Keeps **shared base layers** but allows different configurations.  
-- **Best for:** JavaScript-based applications (**Node.js**) where development tools (e.g., **nodemon**) are used in one stage, while only production dependencies remain in the final stage.  
+*   **Example:** A **Golang app** builds in `golang:latest` and runs in `alpine`.
 
-**🔹 Example Use Case:**  
-- A **Node.js app** starts with a `node:alpine` image to install dependencies and build assets. The final stage extends it, keeping only production dependencies while removing unnecessary files.  
+### **2️⃣ Using the First Stage as a Base for the Final Image**
 
+*   The second stage **inherits from the first**, but **removes or adds dependencies** based on the environment.
+
+*   **Use case:** When the same base image is required across different stages, but with **different dependencies** (e.g., dev tools in one stage, production-ready minimal setup in another).
+
+*   **Example:** A **Node.js app** starts with `node:alpine`, installs **dev dependencies in the first stage**, and only keeps **prod dependencies in the final stage**.
 
 ### Benefits of Multi-Stage Builds
 
