@@ -1,4 +1,4 @@
-# docker container commands
+# docker container
 
 ```bash
   attach      Attach local standard input, output, and error streams to a running container
@@ -30,7 +30,7 @@
 
 ---
 
-# docker image commands
+# docker image
 
 ```bash
   build       Build an image from a Dockerfile
