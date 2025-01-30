@@ -1,6 +1,6 @@
-```bash
-docker Container commands
+# docker container commands
 
+```bash
   attach      Attach local standard input, output, and error streams to a running container
   commit      Create a new image from a container's changes
   cp          Copy files/folders between a container and the local filesystem
@@ -26,9 +26,13 @@ docker Container commands
   unpause     Unpause all processes within one or more containers
   update      Update configuration of one or more containers
   wait        Block until one or more containers stop, then print their exit codes
+```
 
-docker Image commands
+---
 
+# docker image commands
+
+```bash
   build       Build an image from a Dockerfile
   history     Show the history of an image
   import      Import the contents from a tarball to create a filesystem image
@@ -41,9 +45,13 @@ docker Image commands
   rm          Remove one or more images
   save        Save one or more images to a tar archive (streamed to STDOUT by default)
   tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+```
 
-docker run & exec
+---
 
+# docker run & exec
+
+```bash
 -a, --attach list          Attach to STDIN, STDOUT or STDERR
     --cap-add list         Add Linux capabilities	--cap-add MAC_ADMIN ubuntu sleep 3600
     --cap-drop list        Drop Linux capabilities	--cap-drop KILL ubuntu sleep 3600
@@ -68,8 +76,13 @@ docker run & exec
 -v, --volume list          Bind mount a volume
     --volumes-from list    Mount volumes from the specified container(s)
 -w, --workdir string       Working directory inside the container
+```
 
-docker build
+---
+
+# docker build
+
+```bash
 
     --build-arg stringArray         Set build-time variables
 -f, --file string                   Name of the Dockerfile (default: "PATH/Dockerfile")
@@ -79,16 +92,24 @@ docker build
 -q, --quiet                         Suppress the build output and print image ID on success
 -t, --tag stringArray               Name and optionally a tag (format: "name:tag")
 --target string                     Set the target build stage to build 	--target=prod
+```
 
-docker commit
+---
 
+# docker commit
+
+```bash
 -a, --author string    Author (e.g., "Ibtisam <loveyou@ibtisam.com>")
 -c, --change list      Apply Dockerfile instruction to the created image
 -m, --message string   Commit message
 -p, --pause            Pause container during commit (default true)
+```
 
-ps & images
+---
 
+# ps & image
+
+```bash
 -a, --all	      Show all containers/images (default shows just running)
 -a, --all             Show all images (default hides intermediate images)
 -f, --filter filter   Filter output based on conditions provided “dangling=true”	“status=exited”
@@ -98,19 +119,29 @@ ps & images
     --no-trunc        Don't truncate output of container/image
 -q, --quiet           Only display container/image IDs
 -s, --size            Display total file sizes
+```
 
-pull/push
+---
 
+# pull/push
+
+```bash
 -a, --all-tags         Download all tagged images in the repository
 -q, --quiet            Suppress verbose output
+```
 
-login/logout
+---
 
+# login/logout
+
+```bash
 -p, --password string   Password
     --password-stdin    Take the password from stdin
 -u, --username string   Username
-
-List: 		--volumes-from <> --volumes-from <> busybox OR --volumes-from cont1,cont2 busybox
-String: 	refers to a single value, docker run -it --name <> -w /app node:alpine /bin/sh 
-stringArray:	docker build --build-arg <ARG_NAME>=<value> --build-arg <ARG_NAME2>=<value2> .
 ```
+---
+
+- **List**: 	--volumes-from <> --volumes-from <> busybox OR --volumes-from cont1,cont2 busybox
+- **String**: 	refers to a single value, docker run -it --name <> -w /app node:alpine /bin/sh 
+- **stringArray**:	docker build --build-arg <ARG_NAME>=<value> --build-arg <ARG_NAME2>=<value2> .
+
