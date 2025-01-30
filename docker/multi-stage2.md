@@ -62,7 +62,7 @@ CMD npm start
 - 3. Saves Build Time & Cache
   - `abc` already has `npm install --only=prod`, so `xyz` only adds dev dependencies instead of reinstalling everything.
 
-### 🛠 How to Use Different Stages?
+### How to Use Different Stages?
 
 #### Building for Production
 ```sh
