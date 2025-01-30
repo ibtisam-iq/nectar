@@ -583,7 +583,7 @@ A multi-stage build consists of multiple `FROM` instructions, where:
 
 ### **Common Approaches**  
 
-#### 1. Using Different Images for Build and Runtime
+### 1. Using Different Images for Build and Runtime
 
 - **First stage:** Uses a larger image with all build dependencies.  
 - **Second stage:** Uses a minimal runtime image, copying only what’s required.  
@@ -592,7 +592,7 @@ A multi-stage build consists of multiple `FROM` instructions, where:
 **🔹 Example Use Case:**  
 - A **Go application** builds inside a full-featured image (e.g., `golang`), and the compiled binary is copied to a lightweight **Alpine-based** image for runtime.  
 
-#### 2️. Using the First Stage as a Base for the Final Image
+### 2️. Using the First Stage as a Base for the Final Image
 
 - The second stage extends the first while installing additional dependencies.  
 - Keeps **shared base layers** but allows different configurations.  
