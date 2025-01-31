@@ -96,7 +96,7 @@ docker run myapp
 
 ```dockerfile
 # Stage 1: Build React App
-FROM node:18 AS builder
+FROM node:alpine AS builder
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install

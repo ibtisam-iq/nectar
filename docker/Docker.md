@@ -616,6 +616,11 @@ By leveraging multi-stage builds, Docker images stay **optimized, secure, and pr
 - [What are Different Ways to Reduce the Image Size?](size-reduction.md)
 
 ---
+## Troubleshooting
+
+Please read a complete documentation about troubleshooting [here](troubleshooting.md).
+
+---
 
 ## Key Points
 
