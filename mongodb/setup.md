@@ -52,7 +52,7 @@ docker run -d \
 --network my-network \
 -e MONGO_INITDB_ROOT_USERNAME=admin \     # Sets the environment variable for MongoDB's `root` username.
 -e MONGO_INITDB_ROOT_PASSWORD=password \  # Sets the environment variable forMongoDB's root password
--v mongo-data:/data/db \
+-v mongo-data:/data/db \                  # Creates a named volume 'mongo-data' inside host machine, mounts it to the container's directory /data/db
 mongo:latest
 
 docker run -d \
@@ -80,7 +80,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=admin    # Set the root username for MongoDB
       - MONGO_INITDB_ROOT_PASSWORD=password # Set the root password for MongoDB
     volumes:
-      - mongo-data:/data/db                 # Mount a volume to persist database data
+      - mongo-data:/data/db                 # Mount a Named volume to persist database data
     networks:
       - my-network                          # Attach MongoDB to the custom network
     restart: unless-stopped                 # Always restart the container unless it is explicitly stopped
