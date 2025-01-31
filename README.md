@@ -88,9 +88,9 @@ Contributions are welcome! If you'd like to enhance the documentation or add new
 
 ## 📬 Connect with Me
 
-Feel free to reach out for collaboration or questions:
-- **LinkedIn**: [Muhammad Ibtisam](https://www.linkedin.com/in/ibtisamops)
+<p align="left">
+<a href="https://linkedin.com/in/ibtisamops" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="https://www.linkedin.com/in/ibtisamops" height="30" width="40" /></a>
+</p>
 
----
 
 Thank you for exploring **Nectar**! Dive into the details and unlock the power of DevOps tools. 🚀
