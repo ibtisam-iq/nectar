@@ -1,11 +1,44 @@
 # Docker: A Structured Guide
 
+## Table of Contents
+1. [What is Docker](#what-is-docker)
+2. [Key Features and Benefits](#key-features-and-benefits)
+3. [Problems Docker Solves](#problems-docker-solves)
+   - [Dependency and Configuration Management](#dependency-and-configuration-management)
+   - [Portability](#portability)
+   - [Complexity](#complexity)
+   - [Inefficiency](#inefficiency)
+   - [Security](#security)
+4. [Docker vs. Virtual Machines](#docker-vs-virtual-machines)
+5. [How Docker Revolutionizes Deployment](#how-docker-revolutionizes-deployment)
+6. [Docker Architecture](#docker-architecture)
+7. [Docker Plugins](#docker-plugins)
+8. [Dockerfile](#dockerfile)
+9. [Install Docker Engine](#install-docker-engine)
+10. [Docker CLI Overview](#docker-cli-overview)
+11. [Docker Essential Commands](#docker-essential-commands)
+12. [Docker Commands: Pull, Push, and Tag](#docker-commands-pull-push-and-tag)
+13. [docker build](#docker-build)
+14. [docker commit](#docker-commit)
+15. [docker run](#docker-run)
+16. [Port Mapping](#port-mapping)
+17. [docker volume](#docker-volume)
+18. [docker network](#docker-network)
+19. [Monitoring & Debugging](#monitoring-debugging)
+20. [docker compose](#docker-compose)
+21. [Multi-Stage Docker Build](#multi-stage-docker-build)
+22. [Troubleshooting](#troubleshooting)
+23. [Key Points](#key-points)
+24. [Conclusion](#conclusion)
+
+---
+
 ## What is Docker
 Docker is an open-source platform that allows developers to package, deploy, and run applications in **lightweight, portable containers**. These containers ensure consistent behavior across various environments, eliminating compatibility issues.
 
 ---
 
-## **Key Features and Benefits**
+## Key Features and Benefits
 
 - **Lightweight**: Containers share the host OS kernel, avoiding the overhead of a full operating system per application.
 - **Portable**: Run containers consistently across any environment that supports Docker.
@@ -21,7 +54,7 @@ Docker is an open-source platform that allows developers to package, deploy, and
 
 ## Problems Docker Solves
 
-### 1. Dependency and Configuration Management
+### Dependency and Configuration Management
 
 #### What are Dependencies and Configuration?
 
@@ -52,7 +85,7 @@ Docker is an open-source platform that allows developers to package, deploy, and
 
 ---
 
-### 2. Portability
+### Portability
 
 **Before Docker**: Applications faced compatibility issues due to differences in operating systems, dependencies, and configurations.
 
@@ -62,7 +95,7 @@ Docker is an open-source platform that allows developers to package, deploy, and
 
 ---
 
-### 3. Complexity
+### Complexity
 
 **Before Docker**: Running applications with diverse dependencies required complex configurations.
 
@@ -70,7 +103,7 @@ Docker is an open-source platform that allows developers to package, deploy, and
 
 ---
 
-### 4. Inefficiency
+### Inefficiency
 
 **Before Docker**: Traditional methods consumed excessive resources due to redundant OS instances and slow startup times.
 
@@ -80,7 +113,7 @@ Docker is an open-source platform that allows developers to package, deploy, and
 
 ---
 
-### 5. Security
+### Security
 
 **Before Docker**: Shared environments posed risks of application conflicts and vulnerabilities.
 
@@ -171,7 +204,7 @@ Please click [here](docker%20--help.md) to learn these commands and their flags 
 
 ---
 
-## Docker Essenial Commands
+## Docker Essential Commands
 
 ```bash
 # Lists all available images on the system.
