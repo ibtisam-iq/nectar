@@ -35,7 +35,7 @@ The repository is organized into the following categories:
 - [MariaDB](https://github.com/ibtisamops/nectar/blob/main/mariadb/MariaDB.md)
 - [MongoDB](https://github.com/ibtisamops/nectar/blob/main/mongodb/MongoDB.md)
 - [MySQL](https://github.com/ibtisamops/nectar/blob/main/mysql/MySQL.md)
-- [PostgreSQL](https://github.com/ibtisamops/nectar/blob/main/postgresql/setup.md)
+- [PostgreSQL](https://github.com/ibtisamops/nectar/blob/main/postgresql/PostgreSQL.md)
 
 ### 4. **Web Servers**
 - [Nginx](https://github.com/ibtisamops/nectar/blob/main/nginx/Nginx.md)
