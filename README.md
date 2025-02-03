@@ -32,7 +32,7 @@ The repository is organized into the following categories:
 - [Trivy](https://github.com/ibtisamops/nectar/blob/main/trivy/Trivy.md)
 
 ### 3. **Databases**
-- [MariaDB](https://github.com/ibtisamops/nectar/blob/main/mariadb/setup.md)
+- [MariaDB](https://github.com/ibtisamops/nectar/blob/main/mariadb/MariaDB.md)
 - [MongoDB](https://github.com/ibtisamops/nectar/blob/main/mongodb/MongoDB.md)
 - [MySQL](https://github.com/ibtisamops/nectar/blob/main/mysql/setup.md)
 - [PostgreSQL](https://github.com/ibtisamops/nectar/blob/main/postgresql/setup.md)
