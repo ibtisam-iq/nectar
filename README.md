@@ -33,7 +33,7 @@ The repository is organized into the following categories:
 
 ### 3. **Databases**
 - [MariaDB](https://github.com/ibtisamops/nectar/blob/main/mariadb/setup.md)
-- [MongoDB](https://github.com/ibtisamops/nectar/blob/main/mongodb/setup.md)
+- [MongoDB](https://github.com/ibtisamops/nectar/blob/main/mongodb/MongoDB.md)
 - [MySQL](https://github.com/ibtisamops/nectar/blob/main/mysql/setup.md)
 - [PostgreSQL](https://github.com/ibtisamops/nectar/blob/main/postgresql/setup.md)
 
