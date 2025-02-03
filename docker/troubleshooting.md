@@ -253,6 +253,37 @@ docker inspect <container_id> | grep -i "port"
 docker run -p 8080:80 myimage
 ```
 
+##
+```Dockerfile
+=> ERROR [2/4] RUN mvn package                                                                                                                                    11.9s
+------                                                                                                                                                                   
+ > [2/4] RUN mvn package:
+8.462 /bin/sh: 1: mvn: not found
+------
+
+ 1 warning found (use docker --debug to expand):
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 5)
+Dockerfile:7
+--------------------
+   5 |     ENV APP_HOME /usr/src/app
+   6 |     
+   7 | >>> RUN mvn package
+   8 |     
+   9 |     COPY target/*.jar $APP_HOME/app.jar
+--------------------
+ERROR: failed to solve: process "/bin/sh -c mvn package" did not complete successfully: exit code: 127
+```
+### **Why It Happens?**
+- **Missing Maven installation** in the Dockerfile.
+Docker build is failing because Maven (mvn) is not installed inside the container.
+
+> **Note**: However, Maven is installed on your local machine, which is why it works outside the container.
+
+### **Solution:**
+- Install Maven in the Dockerfile:
+```bash
+RUN apt-get update && apt-get install -y maven
+```
 ---
 ## Conclusion
 This guide covers the most common Docker errors and their solutions, helping you troubleshoot efficiently. If you encounter additional errors, check logs using:
