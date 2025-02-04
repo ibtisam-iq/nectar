@@ -595,6 +595,8 @@ docker inspect container1 | python3 -c "import sys, yaml, json; yaml.safe_dump(j
 
 ## docker compose
 
+Docker Compose is a tool that simplifies the management of multi-container Docker applications. It enables users to define and manage containerized applications using a single YAML file.
+
 Please click [here](compose.md).
 
 ---
