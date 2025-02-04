@@ -1,16 +1,3 @@
-# Docker Errors & Solution
-
-- Permission denied; append the user to docker group
-- pull access denied; correct the image name
-- port is already allocated; change the host port
-- if multiple contains are running somehow, and you delete them; docker rm -f $(docker ps -aq)
-- in case of alpine, if there is no command, the containter will start and exit eventually, and you can't go into inside later; use -it flag along with sh command; docker run -d alpine tail -f /dev/null
-- /xyz.txt not found; the file is not present in docker context
-- remove all unused stuff; docker system prune -a
-- cannot connect to the Docker deamon; 
-- sometimes systemctl stop docker doesn't work; run docker.socket
-- exceeded rate limits; you are pulling a lot images in very short time, docker login 
-
 # Docker Errors & Solutions
 
 ## 1. Permission Denied when Running Docker Commands
