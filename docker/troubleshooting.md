@@ -4,6 +4,7 @@
 ### **Error:**
 ```bash
 Got permission denied while trying to connect to the Docker daemon socket
+PermissionError: [Errno 13] Permission denied
 ```
 ### **Why It Happens?**
 - Your user doesn’t have the necessary permissions to interact with Docker.
