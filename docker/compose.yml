@@ -1,0 +1,55 @@
+services:
+  frontend:
+    # Use this descriptive, if the image is not built
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args: 
+        - ENV_MODE=production
+    # Use this descriptive, if the image is already built
+    image: example/webapp
+
+    container_name: name_of_container
+    restart: unless-stopped
+    command: flask run --host=0.0.0.0  
+    environment:
+      POSTGRES_USER: ibtisam
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - front-tier
+      - back-tier
+    configs:
+      - httpd-config
+    secrets:
+      - server-certificate
+
+  backend:
+    image: example/database
+    volumes:
+      - db-data:/etc/data
+    networks:
+      - back-tier
+    depends_on:
+      - db  
+
+volumes:
+  db-data:
+    driver: flocker
+    driver_opts:
+      size: "10GiB"
+
+configs:
+  httpd-config:
+    external: true
+
+secrets:
+  server-certificate:
+    external: true
+
+networks:
+  # The presence of these objects is sufficient to define them
+  front-tier: {}
+  back-tier: {}
