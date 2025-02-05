@@ -114,16 +114,10 @@ Define and run multi-container applications with Docker
 
 Options:
       --all-resources              Include all resources, even those not used by services
-      --ansi string                Control when to print ANSI control characters ("never"|"always"|"auto") (default "auto")
-      --compatibility              Run compose in backward compatibility mode
       --dry-run                    Execute command in dry run mode
       --env-file stringArray       Specify an alternate environment file
   -f, --file stringArray           Compose configuration files
       --parallel int               Control max parallelism, -1 for unlimited (default -1)
-      --profile stringArray        Specify a profile to enable
-      --progress string            Set type of progress output (auto, tty, plain, quiet) (default "auto")
-      --project-directory string   Specify an alternate working directory
-                                   (default: the path of the, first specified, Compose file)
   -p, --project-name string        Project name
 
 Commands:
