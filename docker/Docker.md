@@ -626,6 +626,7 @@ A multi-stage build consists of multiple `FROM` instructions, where:
 *   **Use case:** When the build process requires additional dependencies (compilers, build tools) that aren’t needed at runtime.
 
 *   **Example:** A **Golang app** builds in `golang:latest` and runs in `alpine`.
+ - The runtime stage copies only the virtual environment and app files, avoiding unnecessary tools like `pip` and `venv`.
 
 For more details, please click [here](multi-stage1.md).
 
