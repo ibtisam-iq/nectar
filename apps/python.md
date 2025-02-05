@@ -146,7 +146,9 @@ Activate the Virtual Environment:
 ### Running the Application
 1. Install the required dependencies:
 ```bash
-pip install -r requirements.txt
+pip install --upgrade pip
+pip install -r requirements.txt # Add --no-cache-dir flag when dockerizing the app
+
 ```
 - In a Python-based project, you typically run tests using a testing framework like `unittest`, `pytest`, or `nose` before packaging or deploying the application
 
@@ -182,3 +184,13 @@ deactivate
 ### Purpose of `__init__.py`
 
 In Python, the `__init__.py` file is used to mark a directory as a Python package. This allows the directory to be imported as a module in other Python scripts. The file can be empty, or it can contain initialization code for the package.
+
+## `--no-cache-dir` in `pip install`
+
+The `--no-cache-dir` flag in `pip install` prevents **pip** from storing downloaded packages in its cache directory.
+
+### **What Does It Do?**
+
+By default, when you install Python packages using `pip install`, **pip caches** the downloaded `.whl` or `.tar.gz` files in `~/.cache/pip` (or `/root/.cache/pip` in a Docker container). This helps speed up future installations but **increases the image size** unnecessarily in Docker builds.
+
+When you add `--no-cache-dir`, it tells `pip` **not** to store these temporary files, reducing the final image size.
