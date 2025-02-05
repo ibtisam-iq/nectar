@@ -171,6 +171,25 @@ Options:
       --wait                         Wait for services to be running|healthy. Implies detached mode.
       --wait-timeout int             Maximum duration to wait for the project to be running|healthy
   -w, --watch                        Watch source code and rebuild/refresh containers when files are updated.
+
+ibtisam@mint-dell:/media/ibtisam/L-Mint/git/LocalOps/07-ReactJSPortfolio$ docker compose build --help
+
+Usage:  docker compose build [OPTIONS] [SERVICE...]
+
+Build or rebuild services
+
+Options:
+      --build-arg stringArray   Set build-time variables for services
+      --builder string          Set builder to use
+      --dry-run                 Execute command in dry run mode
+  -m, --memory bytes            Set memory limit for the build container. Not supported by BuildKit.
+      --no-cache                Do not use cache when building the image
+      --pull                    Always attempt to pull a newer version of the image
+      --push                    Push service images
+  -q, --quiet                   Don't print anything to STDOUT
+      --with-dependencies       Also build dependencies (transitively)
+
+
 ```
 
 ---
