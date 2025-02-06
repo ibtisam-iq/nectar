@@ -104,7 +104,73 @@ COPY --from=builder /app/build /usr/share/nginx/html
 ✅ **Single build (Node.js only):** `/var/www/html/` (or any custom directory).
 ✅ **Multi-stage build (Node.js + Nginx):** `/usr/share/nginx/html` (because that's where Nginx serves static content from by default).
 
-## Reference from Docker Hub for Nginx Image
-To confirm this behavior, you can check the official Docker Hub page for the Nginx image: [Nginx Docker Image](https://hub.docker.com/_/nginx).
+---
+The decision to use Nginx or not depends on how the frontend is being served. Let me clarify when and why we use it.
 
+## 1⃣ When to Use Nginx (Production Build - Static Deployment)
+If your frontend is a React, Vue, or Angular application, it compiles into static files (index.html, CSS, JS). These static files should be served efficiently using a lightweight web server like Nginx or Apache.
+
+### Example:
+Running `npm run build` in React creates a `/build` folder. This build does not need Node.js anymore; we can use Nginx to serve it.
+
+### ✅ Use Nginx when:
+- Deploying React/Vue/Angular in production.
+- Serving static assets efficiently.
+- Reducing unnecessary overhead (removes Node.js runtime for serving static files).
+
+### Example: Dockerfile (React Frontend with Nginx)
+```dockerfile
+# Build stage
+FROM node:18 AS builder
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# Serve stage using Nginx
+FROM nginx:alpine
+COPY --from=builder /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+## 2⃣ When NOT to Use Nginx (Development Mode - Running `npm start`)
+In development, React/Vue/Angular apps use a built-in development server (webpack dev server). This hot reloads changes and is optimized for local testing. Here, we need Node.js to run `npm start` instead of Nginx.
+
+### ✅ Do NOT use Nginx when:
+- Running `npm start` in development mode.
+- The frontend contains server-side logic (e.g., Next.js SSR).
+- The project isn't static (e.g., it fetches data dynamically).
+
+### Example: Dockerfile (React Frontend Without Nginx - Dev Mode)
+```dockerfile
+FROM node:18
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["npm", "start"]
+```
+
+## Why Did the Two Dockerfiles Differ?
+- The first project (using Nginx) was a React frontend meant for **production**, where static files were generated using `npm run build`, so Nginx served them.
+- The second project (without Nginx) was probably for **development**, where `npm start` was needed to run the frontend via Node.js.
+
+## When Should I Use Which?
+
+| Scenario | Use Nginx? | Dockerfile Type |
+|---|---|---|
+| React/Vue/Angular in Production (static) | ✅ Yes | Multi-stage (Node.js → Nginx) |
+| React/Vue/Angular in Development (hot reload) | ❌ No | Single-stage (Node.js only) |
+| Express Backend (API) | ❌ No | Node.js only |
+| Server-Side Rendering (Next.js, Nuxt.js) | ❌ No | Node.js only |
+| Hosting HTML, CSS, JS only | ✅ Yes | Nginx only |
+
+## Final Answer: When Should You Use Nginx?
+✅ **Yes**, for static frontends (React/Vue/Angular in production).
+❌ **No**, for development (`npm start`) or server-rendered frameworks (Next.js, Nuxt.js).
+
+---
 This structured document provides a comprehensive guide on using Nginx in Docker, covering when and why to use it, how different types of applications handle servers, and the differences in directory usage based on the build approach.
