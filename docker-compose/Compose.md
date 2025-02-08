@@ -289,3 +289,61 @@ volumes:
 networks:
   my-network:  # Custom network to connect all services
 ```  
+
+---
+
+## **Is `command` Mandatory in Docker Compose?**
+
+### **1️⃣ Is `command` Mandatory?**
+No, specifying the `command` directive in the Docker Compose file is **not mandatory**. However, its necessity depends on how the Docker image is configured.
+
+---
+
+### **2️⃣ What Happens if You Specify `command`?**
+If you include:
+
+```yaml
+command: java -jar /usr/src/app/app.jar
+```
+
+✅ The container will run this command explicitly, **overriding** any default `CMD` or `ENTRYPOINT` defined in the Docker image.
+
+---
+
+### **3️⃣ What Happens if You Don't Specify `command`?**
+- **If your Dockerfile has a `CMD` or `ENTRYPOINT`,** Docker Compose will execute that command automatically.
+- **If your Dockerfile does not define `CMD` or `ENTRYPOINT`,** the container will start and exit immediately because no process is specified to run.
+
+---
+
+### **4️⃣ When Should You Explicitly Use `command`?**
+✅ **Overriding the default command** if the base image has a different startup command.
+✅ **Ensuring correct execution** if the Dockerfile does not already specify `CMD` or `ENTRYPOINT`.
+
+---
+
+### **5️⃣ How to Check if `command` is Needed?**
+Check your `Dockerfile`:
+
+#### **Scenario 1: `CMD` Already Exists (No Need for `command`)**
+```dockerfile
+CMD ["java", "-jar", "/usr/src/app/app.jar"]
+```
+❌ `command` is **not needed** in `docker-compose.yml`.
+
+#### **Scenario 2: No `CMD` in Dockerfile (Use `command` in Compose)**
+```dockerfile
+# No CMD defined
+```
+✅ `command` **must be added** in `docker-compose.yml` to specify the startup process.
+
+---
+
+### **6️⃣ Conclusion**
+- If `CMD` is present in the Dockerfile → **No need for `command`** in `docker-compose.yml`.
+- If `CMD` is missing → **Explicitly define `command`** in `docker-compose.yml`.
+
+Would you like me to review your Dockerfile to confirm if `command` is required? 🚀
+
+---
+
