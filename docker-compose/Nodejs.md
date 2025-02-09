@@ -138,4 +138,24 @@ volumes:
 
 This mounts the entire project folder, including dependencies.
 
+---
+
+## React Frontend with Nginx: Handling node_modules
+
+### 📌 Do You Need to Copy `node_modules`?
+Good question! For a React frontend-only application served via Nginx, you do **not** need to copy `node_modules` from the build image.
+
+### 🔹 Why?
+- Unlike a Node.js + Express app, where `node_modules` is needed to run the backend server,
+- A React app is purely frontend, and after `npm run build`, the `build/` directory contains static files (HTML, JS, CSS).
+- Nginx only serves static files—it does not execute Node.js code, so `node_modules` is irrelevant.
+
+### 📌 When Should You Copy `node_modules`?
+If the project contains a backend (e.g., Node.js + Express), then you **need** `node_modules` for the server to run. In that case, you would:
+1. Copy `node_modules` from the builder stage.
+2. Use a Node.js base image in the final stage.
+
+### 🔹 For Your Current Setup (React + Nginx)
+✔ No need to copy `node_modules`—everything required is in `/app/build`.
+
 
