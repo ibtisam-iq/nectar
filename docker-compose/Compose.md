@@ -347,3 +347,21 @@ Would you like me to review your Dockerfile to confirm if `command` is required?
 
 ---
 
+2️⃣ Rebuild the Image
+
+sh
+Copy
+Edit
+docker compose build --no-cache
+or
+
+sh
+Copy
+Edit
+docker build --no-cache -t my-react-portfolio .
+3️⃣ Restart Your Containers
+
+sh
+Copy
+Edit
+docker compose up -d
