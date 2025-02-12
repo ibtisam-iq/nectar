@@ -275,7 +275,7 @@ stages {
 
 ### Deployment via Tomcat
 - Jenkins can be used to deploy the Java based application to a Tomcat server.
-- Click [here](https://github.com/ibtisamops/nectar/blob/main/servers/tomcat.md) to set up Tomcat server.
+- Click [here](https://github.com/ibtisam-iq/nectar/blob/main/servers/tomcat.md) to set up Tomcat server.
 - Install Jenkins via JAR file and change the port by specifying the `--httpPort` option. 
 - Install `Deploy to container Plugin` plugin in Jenkins.
     - This plugin allows you to deploy a **war** to a container after a successful build.

@@ -202,7 +202,7 @@ pipeline {
     stages {
         stage('Git') {
             steps {
-                git branch: 'main', url: 'https://github.com/ibtisamops/Node.js-Jest.git'
+                git branch: 'main', url: 'https://github.com/ibtisam-iq/Node.js-Jest.git'
             }
         }
         stage('NPM Dependencies') {

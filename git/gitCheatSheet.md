@@ -75,7 +75,7 @@ core.repositoryformatversion=0
 core.filemode=true
 core.bare=false
 core.logallrefupdates=true
-remote.origin.url=https://github.com/ibtisamops/nectar.git
+remote.origin.url=https://github.com/ibtisam-iq/nectar.git
 remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
 
 # View configuration files

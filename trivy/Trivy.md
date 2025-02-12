@@ -170,7 +170,7 @@ Aliases:
 To scan a remote Git repository for vulnerabilities, use the following command:
 
 ```bash
-trivy repo https://github.com/ibtisamops/3TierFullStackApp-Flask-Postgres.git
+trivy repo https://github.com/ibtisam-iq/3TierFullStackApp-Flask-Postgres.git
 ```
 
 ### Kubernetes Cluster Scan

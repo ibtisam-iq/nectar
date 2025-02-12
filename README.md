@@ -24,29 +24,29 @@ The repository is organized into the following categories:
 - [Python Scripting]()
 
 ### 2. **DevOps Toolkits**
-- [Docker](https://github.com/ibtisamops/nectar/blob/main/docker/Docker.md)
+- [Docker](https://github.com/ibtisam-iq/nectar/blob/main/docker/Docker.md)
 - [Kubernetes]()
-- [Jenkins](https://github.com/ibtisamops/nectar/blob/main/jenkins/Jenkins.md)
+- [Jenkins](https://github.com/ibtisam-iq/nectar/blob/main/jenkins/Jenkins.md)
 - [Ansible]()
-- [SonarQube](https://github.com/ibtisamops/nectar/blob/main/sonarqube/SonarQube.md)
-- [Trivy](https://github.com/ibtisamops/nectar/blob/main/trivy/Trivy.md)
+- [SonarQube](https://github.com/ibtisam-iq/nectar/blob/main/sonarqube/SonarQube.md)
+- [Trivy](https://github.com/ibtisam-iq/nectar/blob/main/trivy/Trivy.md)
 
 ### 3. **Databases**
-- [MariaDB](https://github.com/ibtisamops/nectar/blob/main/mariadb/MariaDB.md)
-- [MongoDB](https://github.com/ibtisamops/nectar/blob/main/mongodb/MongoDB.md)
-- [MySQL](https://github.com/ibtisamops/nectar/blob/main/mysql/MySQL.md)
-- [PostgreSQL](https://github.com/ibtisamops/nectar/blob/main/postgresql/PostgreSQL.md)
+- [MariaDB](https://github.com/ibtisam-iq/nectar/blob/main/mariadb/MariaDB.md)
+- [MongoDB](https://github.com/ibtisam-iq/nectar/blob/main/mongodb/MongoDB.md)
+- [MySQL](https://github.com/ibtisam-iq/nectar/blob/main/mysql/MySQL.md)
+- [PostgreSQL](https://github.com/ibtisam-iq/nectar/blob/main/postgresql/PostgreSQL.md)
 
 ### 4. **Web Servers**
-- [Nginx](https://github.com/ibtisamops/nectar/blob/main/nginx/Nginx.md)
-- [Tomcat](https://github.com/ibtisamops/nectar/tree/main/tomcat)
+- [Nginx](https://github.com/ibtisam-iq/nectar/blob/main/nginx/Nginx.md)
+- [Tomcat](https://github.com/ibtisam-iq/nectar/tree/main/tomcat)
 
 ### 5. **Networking**
-- [Networking Basics](https://github.com/ibtisamops/nectar/blob/main/networking/Networking.md)
+- [Networking Basics](https://github.com/ibtisam-iq/nectar/blob/main/networking/Networking.md)
 
 ### 6. **Fundamentals**
-- [Linux](https://github.com/ibtisamops/nectar/blob/main/linux/Linux.md)
-- [Git](https://github.com/ibtisamops/nectar/blob/main/git/Git.md)
+- [Linux](https://github.com/ibtisam-iq/nectar/blob/main/linux/Linux.md)
+- [Git](https://github.com/ibtisam-iq/nectar/blob/main/git/Git.md)
 
 ---
 
@@ -89,7 +89,7 @@ Contributions are welcome! If you'd like to enhance the documentation or add new
 ## 📬 Connect with Me
 
 <p align="left">
-<a href="https://linkedin.com/in/ibtisamops" target="blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
+<a href="https://linkedin.com/in/ibtisam-iq" target="blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
 </p>
 
 
