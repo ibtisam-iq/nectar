@@ -17,7 +17,7 @@ java -version
 ## Install PostgreSQL
 
 - SonarQube uses PostgreSQL as its database.
-- Please follow the instructions below [here](https://github.com/ibtisamops/nectar/blob/main/postgresql/setup.md).
+- Please follow the instructions below [here](https://github.com/ibtisam-iq/nectar/blob/main/postgresql/setup.md).
 
 ## Configure PostgreSQL
 
