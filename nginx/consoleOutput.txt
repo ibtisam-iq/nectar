@@ -208,6 +208,29 @@ server {
     }
 }
 
-ubuntu@ip-172-31-89-29:~$ 
+ubuntu@ip-172-31-89-29:~$
+
+ibtisam@mint-dell:/media/ibtisam/L-Mint/git/SilverOps/DevOps/DevOps-Tools/docker$ nslookup -type=NS ibtisam-iq.com
+Server:		127.0.0.53
+Address:	127.0.0.53#53
+
+Non-authoritative answer:
+ibtisam-iq.com	nameserver = ns22.domaincontrol.com.
+ibtisam-iq.com	nameserver = ns21.domaincontrol.com.
+
+Authoritative answers can be found from:
+
+ibtisam@mint-dell:/media/ibtisam/L-Mint/git/SilverOps/DevOps/DevOps-Tools/docker$ hostname -I | awk '{print $1}'
+192.168.1.9
+
+
+ibtisam@mint-dell:/media/ibtisam/L-Mint/git/SilverOps/DevOps/DevOps-Tools/docker$ nslookup ibtisam-iq.com
+Server:		127.0.0.53
+Address:	127.0.0.53#53
+
+Non-authoritative answer:
+Name:	ibtisam-iq.com
+Address: 52.91.255.235
+
 
 
