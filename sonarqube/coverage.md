@@ -246,7 +246,7 @@ Here’s how you can run your `unittest` tests with coverage:
 This will allow you to measure code coverage for your `unittest` tests and generate the necessary reports.
 
 ```
-(IbtisamOps) ibtisam@mint-dell:/media/ibtisam/L-Mint/git/Agri2Ops/SonarQube/PostgresFlask3TierApp$ pip install coverage
+(IbtisamX) ibtisam@mint-dell:/media/ibtisam/L-Mint/git/Agri2Ops/SonarQube/PostgresFlask3TierApp$ pip install coverage
 Collecting coverage
   Downloading coverage-7.6.10-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (8.2 kB)
 Downloading coverage-7.6.10-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (240 kB)
@@ -254,14 +254,14 @@ Downloading coverage-7.6.10-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.m
 Installing collected packages: coverage
 Successfully installed coverage-7.6.10
 
-(IbtisamOps) ibtisam@mint-dell:/media/ibtisam/L-Mint/git/Agri2Ops/SonarQube/PostgresFlask3TierApp$ coverage run -m unittest discover
+(IbtisamX) ibtisam@mint-dell:/media/ibtisam/L-Mint/git/Agri2Ops/SonarQube/PostgresFlask3TierApp$ coverage run -m unittest discover
 ....
 ----------------------------------------------------------------------
 Ran 4 tests in 0.039s
 
 OK
 
-(IbtisamOps) ibtisam@mint-dell:/media/ibtisam/L-Mint/git/Agri2Ops/SonarQube/PostgresFlask3TierApp$ coverage report
+(IbtisamX) ibtisam@mint-dell:/media/ibtisam/L-Mint/git/Agri2Ops/SonarQube/PostgresFlask3TierApp$ coverage report
 Name                Stmts   Miss  Cover
 ---------------------------------------
 app/__init__.py        12      9    25%
@@ -271,6 +271,6 @@ tests/test_app.py      26      1    96%
 ---------------------------------------
 TOTAL                  46     10    78%
 
-(IbtisamOps) ibtisam@mint-dell:/media/ibtisam/L-Mint/git/Agri2Ops/SonarQube/PostgresFlask3TierApp$ coverage xml
+(IbtisamX) ibtisam@mint-dell:/media/ibtisam/L-Mint/git/Agri2Ops/SonarQube/PostgresFlask3TierApp$ coverage xml
 Wrote XML report to coverage.xml
 ```

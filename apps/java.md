@@ -155,7 +155,7 @@ mvn package -DskipTests=true
         Name: A human-readable name for the project.
         This is purely for informational purposes and does not affect repository selection.
     -->
-    <name>IbtisamOps Bankapp</name>
+    <name>IbtisamX Bankapp</name>
     
     <!-- 
         Description: A brief description providing details about the project.

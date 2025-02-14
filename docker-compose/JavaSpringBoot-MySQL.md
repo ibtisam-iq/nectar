@@ -248,7 +248,7 @@ ini
 Copy
 Edit
 # MySQL Credentials
-MYSQL_ROOT_PASSWORD=IbtisamOps
+MYSQL_ROOT_PASSWORD=IbtisamX
 MYSQL_DATABASE=bankappdb
 MYSQL_USER=ibtisam
 MYSQL_PASSWORD=Ibtisam
@@ -349,7 +349,7 @@ Edit
 db:
     image: mysql:latest
     environment:
-      - MYSQL_ROOT_PASSWORD=IbtisamOps
+      - MYSQL_ROOT_PASSWORD=IbtisamX
       - MYSQL_DATABASE=bankappdb
       MYSQL_USER: ibtisam
       MYSQL_PASSWORD: ibtisam
@@ -365,7 +365,7 @@ yaml
 Copy
 Edit
 environment:
-  - MYSQL_ROOT_PASSWORD=IbtisamOps
+  - MYSQL_ROOT_PASSWORD=IbtisamX
   - MYSQL_DATABASE=bankappdb
   - MYSQL_USER=ibtisam
   - MYSQL_PASSWORD=ibtisam
@@ -375,7 +375,7 @@ yaml
 Copy
 Edit
 environment:
-  MYSQL_ROOT_PASSWORD: IbtisamOps
+  MYSQL_ROOT_PASSWORD: IbtisamX
   MYSQL_DATABASE: bankappdb
   MYSQL_USER: ibtisam
   MYSQL_PASSWORD: ibtisam
@@ -443,7 +443,7 @@ Edit
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/bankappdb?useSSL=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: IbtisamOps
+      SPRING_DATASOURCE_PASSWORD: IbtisamX
 Does MySQL have a default root username?
 ✅ Yes, the default root username in MySQL is always root.
 ✅ The root password must be set using MYSQL_ROOT_PASSWORD, or MySQL won't start.
@@ -607,7 +607,7 @@ services:
   db:
     image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD: IbtisamOps
+      MYSQL_ROOT_PASSWORD: IbtisamX
       MYSQL_DATABASE: bankappdb
       MYSQL_USER: ibtisam 
       MYSQL_PASSWORD: ibtisam
@@ -639,7 +639,7 @@ spring.application.name=bankapp
 # MySQL Database configuration
 spring.datasource.url=jdbc:mysql://localhost:3306/bankappdb?useSSL=false&serverTimezone=UTC
 spring.datasource.username=root
-spring.datasource.password=IbtisamOps
+spring.datasource.password=IbtisamX
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 # JPA & Hibernate configuration
@@ -989,7 +989,7 @@ volumes:
 
 ```properies
 # MySQL Credentials
-MYSQL_ROOT_PASSWORD=IbtisamOps
+MYSQL_ROOT_PASSWORD=IbtisamX
 MYSQL_DATABASE=bankappdb
 MYSQL_USER=ibtisam
 MYSQL_PASSWORD=Ibtisam

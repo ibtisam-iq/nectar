@@ -40,7 +40,7 @@ These properties specify the location of the source code and are **mandatory**.
 
 - **`sonar.exclusions`** (Optional)  
   - Paths or files to exclude from the analysis.  
-  - Example for Python: `IbtisamOps/**` (Excludes all files in the `IbtisamOps` directory)
+  - Example for Python: `IbtisamX/**` (Excludes all files in the `IbtisamX` directory)
 
 ---
 
@@ -151,7 +151,7 @@ sonar.projectKey=python-project
 sonar.projectName=Python-project
 sonar.projectVersion=1.0
 sonar.sources=.
-sonar.exclusions=IbtisamOps/**
+sonar.exclusions=IbtisamX/**
 sonar.python.coverage.reportPaths=coverage.xml
 sonar.sourceEncoding=UTF-8
 sonar.language=py
