@@ -305,13 +305,13 @@ pipeline {
             steps {
                 sh '''
                     # Remove any existing virtual environments
-                    rm -rf IbtisamOps
+                    rm -rf IbtisamX
 
                     # Create a new virtual environment
-                    python3 -m venv IbtisamOps
+                    python3 -m venv IbtisamX
 
                     # Set permissions
-                    chmod -R 755 IbtisamOps
+                    chmod -R 755 IbtisamX
                     
                     # The error /var/lib/jenkins/workspace/.../script.sh.copy: 12: source: not found occurs because the source command is not recognized by the shell executing the script.
                     # The source command is a shell built-in command, and it is not available in the shell that is executing the script.
@@ -319,7 +319,7 @@ pipeline {
                     # To fix this error, you can use the dot (.) command instead of source to activate the virtual environment.
 
                     # Activate virtual environment and install dependencies
-                    . IbtisamOps/bin/activate
+                    . IbtisamX/bin/activate
 
                     # Upgrade pip package itself using pip
                     pip install --upgrade pip
@@ -330,11 +330,11 @@ pipeline {
                 '''
                 /*
                 sh '''
-                rm -rf IbtisamOps
-                python3 -m venv IbtisamOps
-                chmod -R 755 IbtisamOps
+                rm -rf IbtisamX
+                python3 -m venv IbtisamX
+                chmod -R 755 IbtisamX
                 bash -c "
-                source IbtisamOps/bin/activate
+                source IbtisamX/bin/activate
                 pip install --upgrade pip
                 pip install -r requirements.txt
                 "
@@ -347,7 +347,7 @@ pipeline {
             steps {
                 sh '''
                     # Activate virtual environment and run tests with coverage
-                    . IbtisamOps/bin/activate
+                    . IbtisamX/bin/activate
                     python --version
 
                     # Install coverage package for pytest framework
@@ -363,7 +363,7 @@ pipeline {
             steps {
                 sh '''
                     # Activate virtual environment and run tests with coverage
-                    . IbtisamOps/bin/activate
+                    . IbtisamX/bin/activate
                     python --version
 
                     # Install coverage package for pytest framework

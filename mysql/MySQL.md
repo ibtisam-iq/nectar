@@ -40,7 +40,7 @@ sudo mysql -u root
 
 ```bash
 # Set the password for the root user and use the native MySQL authentication method
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'IbtisamOps';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'IbtisamX';
 
 # Refresh MySQL privileges to ensure the changes take effect
 FLUSH PRIVILEGES;

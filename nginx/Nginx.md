@@ -3,8 +3,8 @@ https://nginx.org/en/linux_packages.html
 Ubuntu
 ```bash
 # Install the prerequisites:
-
-sudo apt install curl gnupg2 ca-certificates lsb-release ubuntu-keyring
+sudo apt update
+sudo apt install -y curl gnupg2 ca-certificates lsb-release ubuntu-keyring
 
 # Import an official nginx signing key so apt could verify the packages authenticity. Fetch the key:
 
@@ -30,7 +30,8 @@ sudo apt install nginx -y
 
 1. Install Nginx:
 2. Create Nginx configuration
-vi /etc/nginx/sites-available/ibtisam-iq.com
+sudo vi /etc/nginx/sites-available/ibtisam-iq.com
+sudo vi /etc/nginx/conf.d/ibtisam-iq.com.conf
 
 Enable the new configuration:
 sudo ln -s /etc/nginx/sites-available/ibtisam-iq.com /etc/nginx/sites-enabled/
@@ -38,7 +39,7 @@ sudo nginx -t
 sudo systemctl restart nginx
 
 Configure HTTPS
-sudo apt install certbot python3-certbot-nginx -y
+sudo apt install -y certbot python3-certbot-nginx
 # sudo certbot --nginx -d ibtisam-iq.com -d www.ibtisam-iq.com
 sudo certbot certonly --standalone -d ibtisam-iq.com -d www.ibtisam-iq.com
 sudo ls /etc/letsencrypt/live/ibtisam-iq.com

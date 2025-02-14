@@ -93,11 +93,11 @@ To run a Python application with a virtual environment:
 1. Activate the Virtual Environment (use the appropriate command for your operating system):
     - On Linux/macOS:
       ```bash
-      source IbtisamOps/bin/activate
+      source IbtisamX/bin/activate
       ```
     - On Windows:
       ```bash
-      .\IbtisamOps\Scripts\activate
+      .\IbtisamX\Scripts\activate
       ```
 2. Navigate to the directory where your Python script is located.
 3. Run the script using:
@@ -130,17 +130,17 @@ sudo apt install -y python3-pip python3.12-venv
 ### Creating a Virtual Environment
 Create a virtual environment using:
 ```bash
-python3 -m venv IbtisamOps
+python3 -m venv IbtisamX
 ```
-   - It will create `IbtisamOps` directory in the root directory of the project (current directory).
+   - It will create `IbtisamX` directory in the root directory of the project (current directory).
 Activate the Virtual Environment:
 - On Linux/macOS:
   ```bash
-  source IbtisamOps/bin/activate
+  source IbtisamX/bin/activate
   ```
 - On Windows:
   ```bash
-  .\IbtisamOps\Scripts\activate
+  .\IbtisamX\Scripts\activate
   ```
 
 ### Running the Application
