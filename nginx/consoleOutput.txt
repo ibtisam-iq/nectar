@@ -138,6 +138,7 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 
 ubuntu@ip-172-31-89-29:~$ sudo systemctl start nginx
 
+
 ubuntu@ip-172-31-89-29:~$ echo "# Redirect all HTTP traffic to HTTPS
 server {
     listen 80;
@@ -208,7 +209,58 @@ server {
     }
 }
 
-ubuntu@ip-172-31-89-29:~$
+ubuntu@ip-172-31-89-29:~$ sudo vi /etc/nginx/conf.d/ibtisam-iq.com.conf
+ubuntu@ip-172-31-89-29:~$ systemctl reload nginx
+==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ====
+Authentication is required to reload 'nginx.service'.
+Authenticating as: Ubuntu (ubuntu)
+Password: 
+ubuntu@ip-172-31-89-29:~$ sudo systemctl reload nginx
+ubuntu@ip-172-31-89-29:~$ sudo vi /etc/nginx/conf.d/ibtisam-iq.com.conf
+ubuntu@ip-172-31-89-29:~$ sudo systemctl reload nginx
+ubuntu@ip-172-31-89-29:~$ sudo vi /etc/nginx/conf.d/ibtisam-iq.com.conf
+ubuntu@ip-172-31-89-29:~$ sudo systemctl reload nginx
+ubuntu@ip-172-31-89-29:~$ sudo vi /etc/nginx/conf.d/ibtisam-iq.com.conf
+ubuntu@ip-172-31-89-29:~$ sudo systemctl reload nginx
+ubuntu@ip-172-31-89-29:~$ sudo vi /etc/nginx/conf.d/ibtisam-iq.com.conf
+ubuntu@ip-172-31-89-29:~$ sudo systemctl reload nginx
+ubuntu@ip-172-31-89-29:~$ sudo vi /etc/nginx/conf.d/ibtisam-iq.com.conf
+ubuntu@ip-172-31-89-29:~$ sudo systemctl reload nginx
+ubuntu@ip-172-31-89-29:~$ sudo vi /etc/nginx/conf.d/ibtisam-iq.com.conf
+ubuntu@ip-172-31-89-29:~$ sudo systemctl reload nginx
+ubuntu@ip-172-31-89-29:~$ sudo vi /etc/nginx/conf.d/ibtisam-iq.com.conf
+ubuntu@ip-172-31-89-29:~$ sudo systemctl reload nginx
+ubuntu@ip-172-31-89-29:~$ sudo vi /etc/nginx/conf.d/ibtisam-iq.com.conf
+ubuntu@ip-172-31-89-29:~$ sudo systemctl reload nginx
+ubuntu@ip-172-31-89-29:~$ sudo vi /etc/nginx/conf.d/ibtisam-iq.com.conf
+ubuntu@ip-172-31-89-29:~$ sudo systemctl reload nginx
+ubuntu@ip-172-31-89-29:~$ sudo vi /etc/nginx/conf.d/ibtisam-iq.com.conf
+ubuntu@ip-172-31-89-29:~$ sudo systemctl reload nginx
+ubuntu@ip-172-31-89-29:~$ 
+Broadcast message from root@ip-172-31-89-29 (Fri 2025-02-14 13:23:09 UTC):
+
+The system will power off now!
+
+Connection to ec2-52-91-255-235.compute-1.amazonaws.com closed by remote host.
+Connection to ec2-52-91-255-235.compute-1.amazonaws.com closed.
+ibtisam@mint-dell:~$ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ibtisam@mint-dell:/media/ibtisam/L-Mint/git/SilverOps/DevOps/DevOps-Tools/docker$ nslookup -type=NS ibtisam-iq.com
 Server:		127.0.0.53
@@ -223,7 +275,6 @@ Authoritative answers can be found from:
 ibtisam@mint-dell:/media/ibtisam/L-Mint/git/SilverOps/DevOps/DevOps-Tools/docker$ hostname -I | awk '{print $1}'
 192.168.1.9
 
-
 ibtisam@mint-dell:/media/ibtisam/L-Mint/git/SilverOps/DevOps/DevOps-Tools/docker$ nslookup ibtisam-iq.com
 Server:		127.0.0.53
 Address:	127.0.0.53#53
@@ -231,6 +282,7 @@ Address:	127.0.0.53#53
 Non-authoritative answer:
 Name:	ibtisam-iq.com
 Address: 52.91.255.235
+
 
 
 
