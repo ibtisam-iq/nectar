@@ -11,7 +11,7 @@
         Group ID: Specifies the unique identifier for the project's group or organization.
         Typically represents a domain or company name in reverse format.
     -->
-    <groupId>com.mibtisam</groupId>
+    <groupId>com.ibtisam-iq</groupId>
     
     <!-- 
         Artifact ID: The unique name of the project or module.

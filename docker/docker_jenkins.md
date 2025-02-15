@@ -14,8 +14,7 @@ Install the following plugins:
 ```groovy
 stage('Deploy Artifact to Nexus'){
     steps {
-        withMaven(globalMavenSettingsConfig: 'global-maven-settings', jdk: 'jdk17', maven:
-'maven3', mavenSettingsConfig: '', traceability: false) {
+        withMaven(globalMavenSettingsConfig: 'global-maven-settings', jdk: 'jdk17', maven: 'maven3' mavenSettingsConfig: '', traceability: false) {
             sh 'mvn deploy'
         }
     }
