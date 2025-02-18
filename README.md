@@ -55,7 +55,7 @@ The repository is organized into the following categories:
 1. **Clone the Repo**:
    ```bash
    git clone https://github.com/ibtisam-iq/nectar.git
-   cd Nectar
+   cd nectar
    ```
 
 2. **Explore Sections**:
