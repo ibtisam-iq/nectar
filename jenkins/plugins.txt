@@ -1,0 +1,14 @@
+pipeline-stage-view
+ssh-slaves
+sshd
+sonar
+adoptopenjdk
+matrix-auth
+generic-webhook-trigger
+multibranch-scan-webhook-trigger
+deploy
+nodejs
+maven-plugin
+pipeline-maven
+ldap
+config-file-provider
