@@ -156,6 +156,12 @@ git reset --hard <commit>
 
 git revert <commit>
 ```
+- Fetch the specific file from the given commit and places it in the working directory without switching branches. The  file is deleted from history, and you want to bring back its last known version from an older commit without reverting the whole repo.
+
+```bash
+# Fetch a file from a previous commit
+git checkout <commit-hash> -- <file>
+```
 
 ### Case 4: Clean Untracked Files
 ```bash
