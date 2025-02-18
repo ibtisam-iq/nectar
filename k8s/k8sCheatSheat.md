@@ -581,6 +581,8 @@ Without an Ingress, you would need to expose your services using a Service of ty
 kubectl create ingress <> --rule="myapp.example.com/*=myapp-service:80" --rule=<> --dry-run=client -o yaml		# pathType: Prefix
 kubectl create ingress <> --rule="myapp.example.com/=myapp-service:80" --rule=<> --dry-run=client -o yaml		# pathType: Exact
 ```
+https://letsencrypt.org/docs/challenge-types/
+https://cert-manager.io/docs/configuration/acme/
 ### Network Policy
 Kubernetes does not have an imperative command for creating Network Policies directly.
 
