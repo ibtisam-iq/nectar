@@ -144,7 +144,11 @@ When Jenkins installs tools automatically, it does not place them in system-wide
 
 ## 3. Plugins
 
-Plugins are essentially extensions to Jenkins that add new functionality. They can be installed from the Jenkins Plugin Manager. Here are the important plugins:
+Plugins are essentially extensions to Jenkins that add new functionality. They can be installed from the Jenkins Plugin Manager.
+
+[Official Jenkins Plugin Repository:](https://plugins.jenkins.io/)
+
+Here are the important plugins:
 
 - Pipeline: Stage View
 - SSH Build Agents plugin
@@ -159,7 +163,16 @@ Plugins are essentially extensions to Jenkins that add new functionality. They c
 - Maven Integration
 - Pipeline Maven Integration
 - LDAP Plugin
-- Config File Provider Plugin
+- 
+
+Run the following command to install all plugins from the file:
+
+```bash
+while read plugin; do
+    java -jar jenkins-cli.jar -s http://localhost:8080/ install-plugin $plugin
+done < plugins.txt
+```
+This reads each plugin from plugins.txt and installs it using Jenkins CLI.
 
 ## 4. Nodes
 - Nodes are Jenkins servers or agents that can run jobs as slave.
