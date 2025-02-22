@@ -12,3 +12,6 @@ maven-plugin
 pipeline-maven
 ldap
 config-file-provider
+kubernetes
+kubernetes-cli
+kubernetes-client-api

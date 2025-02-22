@@ -2,13 +2,11 @@
 
 ## Infra Server
 ```bash
-# =====================================
-# -------- Set up Infra Server --------
-# =====================================
-
+#!/bin/bash
+echo "Updating system packages..."
 sudo apt update > /dev/null 2>&1
-sudo apt install -y python3-pip > /dev/null 2>&1
-sudo apt install -y tree > /dev/null 2>&1
+echo "Installing essential tools..."
+sudo apt install -y python3-pip tree wget curl gnupg ca-certificates > /dev/null 2>&1
 echo -e "The system is up to date now.\n"
 
 # Install AWS CLI
@@ -81,49 +79,45 @@ echo -e "Infra Server is set up now.\n"
 ## Jenkins Server
 
 ```bash
-# =====================================
-# -------- Set up Jenkins Server ------
-# =====================================
-
+#!/bin/bash
+echo "Updating system packages..."
 sudo apt update > /dev/null 2>&1
-sudo apt install -y python3-pip > /dev/null 2>&1
-sudo apt install -y tree > /dev/null 2>&1
+echo "Installing essential tools..."
+sudo apt install -y python3-pip tree wget curl gnupg ca-certificates > /dev/null 2>&1
 echo -e "The system is up to date now.\n"
 
 # Install Jenkins
 echo "Installing Jenkins..."
-sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key > /dev/null 2>&1
 echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+echo "Updating system packages to install Jenkins..."
 sudo apt update > /dev/null 2>&1
-sudo apt install openjdk-17-jre-headless > /dev/null 2>&1
-sudo apt install jenkins > /dev/null 2>&1
-echo -e "Jenkins is installed and it's version is:\n$(sudo -u jenkins java -jar /usr/share/jenkins/jenkins.war --version)"
-systemctl enable jenkins > /dev/null 2>&1
+sudo apt install openjdk-17-jre-headless jenkins -y > /dev/null 2>&1
+echo "Jenkins Version: $(dpkg -l | grep jenkins | awk '{print $3}')"
+sudo systemctl enable jenkins > /dev/null 2>&1
+sudo systemctl restart jenkins > /dev/null 2>&1
 if systemctl is-active --quiet jenkins; then
     echo "✅ Jenkins is running."
 else
     echo "❌ Jenkins is NOT running. Starting Jenkins..."
     sudo systemctl start jenkins
 fi
+Please put the password to unlock Jenkins: $(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
 
 # Install Docker
 echo "Installing Docker..."
 sudo apt-get update > /dev/null 2>&1
-sudo apt-get install ca-certificates curl > /dev/null 2>&1
+sudo apt-get install -y ca-certificates curl > /dev/null 2>&1
 sudo install -m 0755 -d /etc/apt/keyrings 
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc 
 sudo chmod a+r /etc/apt/keyrings/docker.asc
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 sudo apt-get update > /dev/null 2>&1
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin > /dev/null 2>&1
 sudo usermod -aG docker jenkins
-newgrp docker
-groups jenkins
-echo -e "Docker is installed and it's version is:\n$(docker --version)"
+sudo systemctl restart jenkins > /dev/null 2>&1
+echo "Docker version: $(docker --version | awk '{print $3}' | sed 's/,//')"
 if systemctl is-active --quiet docker; then
     echo "✅ Docker is running."
 else
@@ -133,54 +127,49 @@ fi
 
 # Install Trivy
 echo "Installing Trivy..."
-sudo apt install -y wget gnupg
+sudo apt install -y wget gnupg > /dev/null 2>&1
 wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
 echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
 sudo apt update > /dev/null 2>&1
-sudo apt install trivy > /dev/null 2>&1
-echo -e "Trivy is installed and it's version is:\n$(trivy --version)"
+sudo apt install trivy -y > /dev/null 2>&1
+echo "Trivy version: $(trivy --version)"
 
 # Install Kubectl
 echo "Installing Kubectl..."
+# KUBECTL_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
+# curl -LO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
 echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 rm -rf kubectl kubectl.sha256
-echo -e "Kubectl is installed and it's version is:\n$(kubectl version --client)"
+echo "Kubectl version: $(kubectl version --client --output=yaml)"
 
-echo -e "All the required tools are installed now.\n"
+echo "✅ All tools installed successfully!"
 ```
 
 ## SonarQube Server
 
 ```bash
-# =====================================
-# ---- Set up SonarQube Server --------
-# =====================================
-
+#!/bin/bash
+echo "Updating system packages..."
 sudo apt update > /dev/null 2>&1
+echo "Installing essential tools..."
+sudo apt install -y python3-pip tree wget curl openjdk-17-jdk-headless > /dev/null 2>&1
 echo -e "The system is up to date now.\n"
-sudo apt-get install -y openjdk-17-jdk-headless > /dev/null 2>&1
 
 # Install Docker
 echo "Installing Docker..."
-sudo apt-get update > /dev/null 2>&1
-sudo apt-get install ca-certificates curl > /dev/null 2>&1
+sudo apt update > /dev/null 2>&1
+sudo apt install -y ca-certificates curl > /dev/null 2>&1
 sudo install -m 0755 -d /etc/apt/keyrings 
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc 
 sudo chmod a+r /etc/apt/keyrings/docker.asc
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update > /dev/null 2>&1
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin > /dev/null 2>&1
 sudo usermod -aG docker $USER
-newgrp docker
-groups $USER
-systemctl start docker
-systemctl enable docker
+echo "Docker version: $(docker --version | awk '{print $3}' | sed 's/,//')"
 if systemctl is-active --quiet docker; then
     echo "✅ Docker is running."
 else
@@ -188,38 +177,33 @@ else
     sudo systemctl start docker
 fi
 echo -e "SonarQube Server is being set up through Docker.\n"
+# newgrp docker
 docker run -d --name sonarqube -p 9000:9000 sonarqube:lts-community
 ```
 
 ## Nexus Server
 
 ```bash
-# =====================================
-# ---- Set up Nexus Server ------------
-# =====================================
-
+#!/bin/bash
+echo "Updating system packages..."
 sudo apt update > /dev/null 2>&1
+echo "Installing essential tools..."
+sudo apt install -y python3-pip tree wget curl openjdk-17-jdk-headless > /dev/null 2>&1
 echo -e "The system is up to date now.\n"
-sudo apt-get install -y openjdk-17-jdk-headless > /dev/null 2>&1
 
 # Install Docker
 echo "Installing Docker..."
 sudo apt-get update > /dev/null 2>&1
-sudo apt-get install ca-certificates curl > /dev/null 2>&1
+sudo apt-get install -y ca-certificates curl > /dev/null 2>&1
 sudo install -m 0755 -d /etc/apt/keyrings 
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc 
 sudo chmod a+r /etc/apt/keyrings/docker.asc
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
 sudo apt-get update > /dev/null 2>&1
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin > /dev/null 2>&1
 sudo usermod -aG docker $USER
-newgrp docker
-groups $USER
-systemctl start docker
-systemctl enable docker
+echo "Docker version: $(docker --version | awk '{print $3}' | sed 's/,//')"
 if systemctl is-active --quiet docker; then
     echo "✅ Docker is running."
 else
@@ -227,7 +211,9 @@ else
     sudo systemctl start docker
 fi
 echo -e "Nexus Server is being set up through Docker.\n"
+# newgrp docker
 docker run -d --name nexus -p 8081:8081 sonatype/nexus3
+Please put the password to unlock Nexus: $(docker exec nexus cat /nexus-data/admin.password)
 ```
 
 
