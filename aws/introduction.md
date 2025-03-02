@@ -38,6 +38,14 @@ Virtualization is classified into different types based on what is being virtual
 | **Network Virtualization** | Virtual networks are created within a physical network for better flexibility. | Cisco ACI, VMware NSX |
 | **Application Virtualization** | Applications run in isolated environments without full installation. | Microsoft App-V, Citrix XenApp |
 
+#### **Types of Hypervisors**
+Hypervisors are categorized into two types:
+
+| Hypervisor Type | Description | Examples |
+|---------------|------------|------------|
+| **Type 1 (Bare Metal Hypervisor)** | Runs directly on the physical hardware, providing better performance and security. Used in enterprise data centers. | VMware ESXi, Microsoft Hyper-V, Xen |
+| **Type 2 (Hosted Hypervisor)** | Runs on top of an existing operating system, making it more suitable for personal use and testing. | VMware Workstation, Oracle VirtualBox, Parallels |
+
 ### **Emergence of Cloud Computing**
 While virtualization improved efficiency, organizations still had to manage their own **data centers, networking, and security**. This led to the birth of **Cloud Computing**, where IT resources were provided as **on-demand services** over the internet.
 
@@ -47,7 +55,21 @@ While virtualization improved efficiency, organizations still had to manage thei
 3. **Pay-As-You-Go Pricing** – Eliminated upfront investments in hardware.
 4. **Need for Global Scalability** – Companies needed infrastructure that could scale instantly.
 
-## 2. What is Cloud Computing?
+## 2. What is IT Infrastructure?
+IT Infrastructure refers to the combination of hardware, software, networks, and facilities that organizations use to develop, test, deliver, and manage IT services.
+
+### **Components of IT Infrastructure**
+
+| Component | Description | Example |
+|-----------|------------|------------|
+| **Hardware** | Physical devices like servers, storage, and networking equipment. | Dell Servers, Cisco Routers |
+| **Software** | Operating systems, applications, and management tools. | Windows Server, Linux, VMware |
+| **Networking** | Connectivity between devices, including switches, routers, and firewalls. | Cisco Switches, Juniper Firewalls |
+| **Data Storage** | Solutions to store and manage enterprise data. | SAN, NAS, Cloud Storage |
+| **Security** | Tools to protect IT assets from threats and unauthorized access. | Firewalls, Antivirus, IAM |
+| **Cloud Services** | Infrastructure provided over the internet to reduce physical dependency. | AWS, Azure, GCP |
+
+## 3. What is Cloud Computing?
 Cloud Computing is the **delivery of computing services** (servers, storage, databases, networking, software) over the internet, allowing users to access resources **on demand** without physical infrastructure management.
 
 ### **Key Characteristics of Cloud Computing**
@@ -57,24 +79,6 @@ Cloud Computing is the **delivery of computing services** (servers, storage, dat
 4. **Rapid Elasticity** – Resources can scale up/down automatically based on demand.
 5. **Measured Service** – Users only pay for what they consume, reducing costs.
 
-## 3. Types of Cloud Computing
-Cloud computing comes in **three main deployment models**:
-
-### **Public Cloud**
-- **Owned by third-party providers** (e.g., AWS, Azure, GCP).
-- Resources are **shared** among multiple customers.
-- **Cost-effective and scalable** but less control over security.
-
-### **Private Cloud**
-- Used exclusively by **one organization**.
-- Can be hosted on-premises or by a third-party provider.
-- Provides **higher security and customization** but is **expensive**.
-
-### **Hybrid Cloud**
-- **Combines Public and Private Clouds**.
-- **Critical workloads** run on a private cloud, while non-sensitive tasks utilize the public cloud.
-- **Flexible and cost-efficient** for businesses needing security and scalability.
-
 ## 4. Cloud Service Models (IaaS, PaaS, SaaS)
 Cloud computing is categorized into three major service models:
 
@@ -83,24 +87,15 @@ Cloud computing is categorized into three major service models:
 - Users manage OS, applications, and data; provider manages hardware.
 - **Examples:** AWS EC2, Google Compute Engine.
 
-#### **Real-World Example**
-A startup rents virtual machines from AWS EC2 instead of buying physical servers. They install their own operating system and applications on the rented VMs.
-
 ### **Platform as a Service (PaaS)**
 - Offers a **development platform** to build and deploy applications.
 - Developers focus on coding; providers handle infrastructure and runtime.
 - **Examples:** AWS Elastic Beanstalk, Google App Engine.
 
-#### **Real-World Example**
-A developer builds a web application using Google App Engine. They don’t need to worry about managing servers—Google handles it.
-
 ### **Software as a Service (SaaS)**
 - Delivers **fully managed software applications** over the internet.
 - Users don’t manage infrastructure or platform—only use the software.
 - **Examples:** Gmail, Microsoft Office 365, Dropbox.
-
-#### **Real-World Example**
-A business uses Google Docs to create and share documents online. They don’t install or maintain any software—it’s accessed via a browser.
 
 | Cloud Service Model | Responsibility | Examples |
 |----------------------|----------------|------------|
@@ -125,23 +120,4 @@ A business uses Google Docs to create and share documents online. They don’t i
 | (Managed: Compute, Storage, Network)|
 +-----------------------------------+
 ```
-
-## 5. Different Cloud Providers
-Several cloud service providers exist, each offering a range of services:
-
-### **1. Amazon Web Services (AWS)**
-- **Market leader** in cloud computing.
-- Provides **compute, storage, networking, AI, and security services**.
-
-### **2. Microsoft Azure**
-- Strong enterprise adoption and **hybrid cloud solutions**.
-- Integrates well with **Microsoft services** (Windows Server, Active Directory).
-
-### **3. Google Cloud Platform (GCP)**
-- Focuses on **AI, machine learning, and big data solutions**.
-- Used by data-intensive companies like YouTube and Spotify.
-
----
-This completes **Lesson 1: Introduction to Cloud Computing**. Next, we will explore real-world applications and cloud adoption strategies!
-
 
