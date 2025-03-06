@@ -1,0 +1,10 @@
+Role is attached, but no bucket is created yet.
+ubuntu@ip-172-31-89-29:~$ aws s3 ls
+Bucket is now created.
+ubuntu@ip-172-31-89-29:~$ aws s3 ls
+2025-03-04 11:00:53 ibtisamx
+Bucket is there, but role is detached while running the EC2 machine.
+ubuntu@ip-172-31-89-29:~$ aws s3 ls
+
+Unable to locate credentials. You can configure credentials by running "aws configure".
+ubuntu@ip-172-31-89-29:~$ 
