@@ -1,5 +1,3 @@
-
-
 ## Infra Server
 ```bash
 #!/bin/bash
