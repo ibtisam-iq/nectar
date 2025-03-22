@@ -89,6 +89,35 @@ Explanation:
 - Each dictionary represents a server with its `name`, `version`, and `ports` list.
 - The `ports` key contains its own list of numbers, further nesting data within the list of dictionaries.
 
+### **Step-by-Step Identification:**
+
+1. **`servers` is a list**  
+   - It contains multiple items, each prefixed with `-`.  
+   - The presence of `-` indicates that `servers` is a list.
+
+2. **Each item in `servers` is a dictionary**  
+   - Every list item consists of key-value pairs (`name`, `version`, and `ports`).  
+   - In YAML, a key followed by a colon (`:`) represents a dictionary.
+
+3. **The `ports` key holds a list**  
+   - The `ports` key contains multiple values, each prefixed with `-`.  
+   - This means `ports` is a list nested inside each dictionary.  
+
+### **Breakdown of Structure:**
+- The **outer structure** is a list (`servers`).
+- Each **list item** is a dictionary with keys `name`, `version`, and `ports`.
+- The **`ports` key** contains a list of port numbers.
+
+### **Visual Representation:**
+| servers (List) | Dictionary (Key-Value Pairs) | Nested List (`ports`) |
+|---------------|----------------------------|----------------------|
+| - name: nginx | version: 1.18.0             | - 80                 |
+|               |                             | - 443                |
+| - name: apache | version: 2.4               | - 8080               |
+
+This structure is commonly used in DevOps for managing multiple server configurations in a structured and readable format.
+
+
 ## 2.4 Inline Lists
 
 Sometimes, you may want to define a list in a more compact form. YAML allows you to write a list on a single line using square brackets (`[]`).
