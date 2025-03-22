@@ -51,6 +51,7 @@ colors:
   - green
   - blue
 ```
+Please find the complete explanation of lists in the Yaml [here](list-in-yml.md).
 
 ### 3. Dictionaries (Mappings)
 Dictionaries, also known as maps, store key-value pairs.
@@ -61,6 +62,7 @@ person:
   age: 30
   occupation: Engineer
 ```
+Please find the complete explanation of dictionary in the Yaml [here](dictionary-in-yml.md).
 
 ---
 
@@ -87,6 +89,7 @@ description: >
   All lines will be joined into
   a single paragraph.
 ```
+Please find the complete explanation of multi-line strings in the Yaml [here](multi-line-strings-in-yml.md).
 
 ---
 
