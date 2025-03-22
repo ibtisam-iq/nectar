@@ -49,6 +49,21 @@ Explanation:
 - The outer list contains two dictionaries: one for `fruits` and one for `vegetables`.
 - Each dictionary contains a list of specific items (`apple`, `carrot`, etc.).
 
+#### **Step-by-Step Identification:**
+
+1. **`shopping_list` is a list**  
+   - It contains multiple items, each prefixed with `-`.  
+   - In YAML, a leading `-` denotes an item in a list.
+
+2. **Each item in `shopping_list` is a dictionary**  
+   - Each list item consists of a single key (`fruits` or `vegetables`) followed by a colon (`:`).  
+   - In YAML, key-value pairs indicate a dictionary.
+
+3. **The value of `fruits` and `vegetables` is a list**  
+   - The values of `fruits` and `vegetables` are lists because their items are also prefixed with `-`.  
+   - Example: `- apple, - orange` under `fruits` means `fruits` is a key pointing to a list.
+
+
 ## 2.3 Lists of Dictionaries
 
 In YAML, you can create a list where each item is a dictionary (also known as a map). This is very useful in DevOps tools where you might define multiple resources with similar properties.
