@@ -17,6 +17,8 @@ fruits:
 ```
 Here, `fruits` is a key, and its value is a list of strings (`apple`, `banana`, `orange`).
 
+---
+
 ### Example 2: List of Numbers
 
 ```yaml
@@ -63,6 +65,7 @@ Explanation:
    - The values of `fruits` and `vegetables` are lists because their items are also prefixed with `-`.  
    - Example: `- apple, - orange` under `fruits` means `fruits` is a key pointing to a list.
 
+---
 
 ## 2.3 Lists of Dictionaries
 
@@ -89,7 +92,7 @@ Explanation:
 - Each dictionary represents a server with its `name`, `version`, and `ports` list.
 - The `ports` key contains its own list of numbers, further nesting data within the list of dictionaries.
 
-### **Step-by-Step Identification:**
+#### **Step-by-Step Identification:**
 
 1. **`servers` is a list**  
    - It contains multiple items, each prefixed with `-`.  
@@ -117,6 +120,7 @@ Explanation:
 
 This structure is commonly used in DevOps for managing multiple server configurations in a structured and readable format.
 
+---
 
 ## 2.4 Inline Lists
 
@@ -139,6 +143,8 @@ colors:
 ```
 
 Inline lists can make configurations more compact, but they may reduce readability, especially in larger files.
+
+---
 
 ## 2.5 Complex Lists with Nested Dictionaries
 
@@ -169,6 +175,71 @@ Explanation:
 - The `environments` key contains a list of environments (`development`, `production`).
 - Each environment contains a list of `servers`, each with its own `name` and `port`.
 - This type of structure is very common in DevOps for defining environments, servers, or services.
+
+#### **Step-by-Step Identification:**
+
+1. **`webapp` is a dictionary**  
+   - It has key-value pairs like `name` and `environments`.
+   - The colon (`:`) after `webapp` indicates it is a dictionary.
+
+2. **`environments` is a list**  
+   - Each item under `environments` is prefixed with `-`, meaning it is a list.
+   - The list contains dictionaries representing different environments (`development` and `production`).
+
+3. **Each environment (`development` and `production`) is a dictionary**  
+   - Contains `name` and `servers` keys.
+
+4. **`servers` is a nested list inside each environment**  
+   - Each item under `servers` is also prefixed with `-`, making it a list.
+   - The list contains dictionaries representing different servers.
+   - Each server has two key-value pairs: `name` and `port`.
+
+#### **Breakdown of Structure:**
+
+- **`webapp` (Dictionary)**
+  - Contains a `name` (string).
+  - Has an `environments` list.
+
+- **`environments` (List)**
+  - Contains multiple dictionaries (`development` and `production`).
+
+- **Each environment dictionary**  
+  - Has a `name` key.
+  - Contains a `servers` list.
+
+- **`servers` (List)**
+  - Contains multiple dictionaries (`name` and `port` of each server).
+
+#### **Visual Representation:**
+
+| **Key**            | **Type**       | **Sub-Keys**               | **Nested Structure** |
+|--------------------|---------------|----------------------------|----------------------|
+| `webapp`          | Dictionary     | `name`, `environments`     | -                    |
+| ├── `name`        | String         | `"My App"`                 | -                    |
+| ├── `environments` | List           | `development`, `production` | -                    |
+| │ ├── `name`      | String         | `"development"`             | -                    |
+| │ ├── `servers`   | List           | `dev-server-1`, `dev-server-2` | -                    |
+| │ │ ├── `name`    | String         | `"dev-server-1"`            | -                    |
+| │ │ ├── `port`    | Integer        | `3000`                      | -                    |
+| │ │ ├── `name`    | String         | `"dev-server-2"`            | -                    |
+| │ │ ├── `port`    | Integer        | `3001`                      | -                    |
+| │ ├── `name`      | String         | `"production"`              | -                    |
+| │ ├── `servers`   | List           | `prod-server-1`, `prod-server-2` | -                    |
+| │ │ ├── `name`    | String         | `"prod-server-1"`           | -                    |
+| │ │ ├── `port`    | Integer        | `80`                        | -                    |
+| │ │ ├── `name`    | String         | `"prod-server-2"`           | -                    |
+| │ │ ├── `port`    | Integer        | `443`                       | -                    |
+
+
+##### **Summary:**
+1. **`webapp` is a dictionary** with `name` and `environments` keys.
+2. **`environments` is a list** of dictionaries, each representing a deployment stage.
+3. **Each environment has a `servers` list**, which contains dictionaries specifying the servers and their ports.
+4. **The entire structure is hierarchical**, making it a useful format for defining complex configurations in DevOps.
+
+This YAML format is commonly used for web applications where different environments (development, production) need separate server configurations.
+
+---
 
 ## 2.6 Best Practices for Lists
 
@@ -211,6 +282,8 @@ The `containers` key is a list where each item represents a container inside the
 ```
 
 The `tasks` key contains a list of dictionaries, each representing a task to be performed.
+
+---
 
 ## 2.8 Practice Exercise: Writing a YAML File with Lists
 
