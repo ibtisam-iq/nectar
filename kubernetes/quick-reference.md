@@ -4,6 +4,7 @@ This documention is a quick reference for kubectl, the command-line tool for int
 ### Official Documentation
 
 - https://kubernetes.io/docs/reference/kubectl/quick-reference
+- https://kubernetes.io/docs/reference/kubectl/kubectl/
 - https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands 
 
 ## kubectl Commands
@@ -80,10 +81,5 @@ Use "kubectl <command> --help" for more information about a given command.
 Use "kubectl options" for a list of global command-line options (applies to all commands).
 ```
 
-## kubectl run
-Create and run a particular image.
-```bash
-kubectl run <name> --image=<image> \
-        --port=<port> --dry-run
-```         
+       
 
