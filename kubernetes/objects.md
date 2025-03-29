@@ -19,7 +19,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 ### **Pod**
 - The smallest and simplest deployable unit in Kubernetes.
 - Can contain one or more containers that share storage and network.
-- Managed by higher-level controllers like Deployments or StatefulSets.
+- Managed by higher-level controllers like `Deployments` or `StatefulSets`.
 
 ### **ReplicationController**
 - An older controller that ensures a specified number of pod replicas are running.
@@ -31,7 +31,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 - Successor to `ReplicationController` with better support for label selectors.
 
 ### **Deployment**
-- Manages ReplicaSets and allows rolling updates and rollbacks.
+- Manages `ReplicaSets` and allows rolling updates and rollbacks.
 - Used for declarative pod management.
 
 ### **StatefulSet**
@@ -44,7 +44,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 
 ### **Job & CronJob**
 - **Job**: Runs a one-time task until completion.
-- **CronJob**: Schedules Jobs to run at specific intervals.
+- **CronJob**: Schedules `Jobs` to run at specific intervals.
 
 | Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
 |------------------------------------|------------------|--------------------------------|-----------------------------|
@@ -63,7 +63,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 
 ### **Service**
 - Provides stable network access to pods, abstracting their dynamic nature.
-- Supports different types: ClusterIP, NodePort, LoadBalancer, ExternalName.
+- Supports different types: `ClusterIP`, `NodePort`, `LoadBalancer`, `ExternalName`.
 
 ### **Ingress**
 - Manages external HTTP/S access to services.
