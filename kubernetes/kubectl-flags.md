@@ -1,5 +1,135 @@
 # kubectl Flags
 
+**kubectl create|apply|replace|run|expose|rollout|port-forward|config|taint|label|patch**
+=====================================
+```bash
+-f, --filename=[]                # Filename, directory, or URL to files identifying the resource to manage.
+--force                          # Force the operation.
+--dry-run=''                     # Must be "none", "server", or "client". Use to preview the operation without making changes.
+-o, --output=''                  # Output format. Options: 'yaml' or 'json'.
+-w, --watch=false                # Watch for changes after the operation.
+-n, --namespace=[]               # Namespace to use for the operation.
+-l, --labels=''                  # Comma-separated labels to apply to the resource. Will override previous values.
+#                      Create
+--edit=false                     # Edit the API resource before creating it.
+
+--save-config                    # Save the configuration of the current object in its annotation. Useful for future kubectl apply operations.
+#                      Run
+--annotations=[]                 # Annotations to apply to the pod.
+
+--attach=false                   # Wait for the Pod to start running, then attach to it. Default is false unless '-i/--stdin' is set.
+
+--command=false                  # Use extra arguments as the 'command' field in the container, rather than the 'args' field.
+
+--env=[]                         # Environment variables to set in the container.
+
+--expose=false                   # Create a ClusterIP service associated with the pod. Requires `--port`.
+
+--image=''                       # The image for the container to run.
+
+--port=''                        # The port that this container exposes.
+
+--privileged=false               # Run the container in privileged mode.
+
+-q, --quiet=false                # Suppress prompt messages.
+
+--restart='Always'               # The restart policy for this Pod. Legal values: [Always, OnFailure, Never].
+
+--rm=false                       # Delete the pod after it exits. Only valid when attaching to the container.
+
+-i, --stdin=false                # Keep stdin open on the container in the pod, even if nothing is attached.
+
+-t, --tty=false                  # Allocate a TTY for the container in the pod.
+#                       Expose    
+--cluster-ip=''                  # ClusterIP to be assigned to the service. Leave empty to auto-allocate, or set to 'None' to create a headless service.
+
+--external-ip=''                 # Additional external IP address (not managed by Kubernetes) to accept for the service.
+
+--load-balancer-ip=''            # IP to assign to the LoadBalancer. If empty, an ephemeral IP will be created and used (cloud-provider specific).
+
+--name=''                        # The name for the newly created object.
+
+--protocol=''                    # The network protocol for the service to be created. Default is 'TCP'.
+
+--selector=''                    # A label selector to use for this service. Only equality-based selector requirements are supported.
+
+--target-port=''                 # Name or number for the port on the container that the service should direct traffic to. Optional.
+
+--type=''                        # Type for this service: ClusterIP, NodePort, LoadBalancer, or ExternalName. Default is 'ClusterIP'.
+```
+---
+
+**kubectl get|describe|delete|edit|exec|logs|set**
+
+```bash
+-A, --all-namespaces=false       # List the requested object(s) across all namespaces.
+
+-n, --namespace=[]               # Namespace to use for the operation.
+
+-f, --filename=[]                # Filename, directory, or URL to files identifying the resource to get from a server.
+
+--no-headers=false               # When using the default or custom-column output format, don't print headers.
+
+-o, --output=''                  # Output format. Options: 'wide'.
+
+-l, --selector=''                # Selector (label query) to filter on, supports '=', '==', and '!='.
+
+--show-kind=false                # List the resource type for the requested object(s).
+
+--show-labels=false              # Show all labels as the last column when printing.
+#                       Get
+-w, --watch=false                # Watch for changes after listing/getting the requested object.
+
+--watch-only=false               # Watch for changes to the requested object(s), without listing/getting first.
+
+--all=false                      # Delete all resources, in the namespace of the specified resource types.
+
+--force=false                    # Immediately remove resources from API and bypass graceful deletion.
+
+--grace-period=-1                # Period of time in seconds given to the resource to terminate gracefully. Ignored if negative.
+
+--ignore-not-found=false         # Treat "resource not found" as a successful delete. Defaults to "true" when --all is specified.
+
+-i, --interactive=false          # Delete resource only when the user confirms.
+
+--now=false                      # Signal resources for immediate shutdown.
+
+--timeout=0s                     # The length of time to wait before giving up on a delete.
+
+--wait=true                      # Wait for resources to be gone before returning. This waits for finalizers.
+#                       Edit
+--save-config=false              # Save the configuration of the current object in its annotation.
+#                       Exec
+-c, --container=''               # Container name. If omitted, use the default container or the first container in the pod.
+
+-q, --quiet=false                # Only print output from the remote session.
+
+-i, --stdin=false                # Pass stdin to the container.
+
+-t, --tty=false                  # Stdin is a TTY.
+#                       logs
+--all-containers=false           # Get all containers' logs in the pod(s).
+
+-c, --container=''               # Print the logs of this container.
+
+-f, --follow=false               # Specify if the logs should be streamed.
+
+--max-log-requests=5             # Specify maximum number of concurrent logs to follow when using by a selector. Defaults to 5.
+
+--pod-running-timeout=20s        # The length of time to wait until at least one pod is running.
+
+--prefix=false                   # Prefix each log line with the log source (pod name and container name).
+
+-p, --previous=false             # Print the logs for the previous instance of the container in a pod if it exists.
+
+--timestamps=false               # Include timestamps on each line in the log output.
+
+--record=true                    # Record the current kubectl command in the resource annotation.
+
+--selector app=frontend,env=dev --no-headers | wc -l  # Example of using a selector to filter resources and count them.
+```
+---
+
 ## Understanding `kubectl run` Flags: Labels and Environment Variables
 
 ## 1. `--labels="key1=value1,key2=value2"` (Comma-Separated String)
@@ -104,127 +234,4 @@
 
 ---
 
-**kubectl create|apply|replace|run|expose|rollout|port-forward|config|taint|label|patch**
-```bash
--f, --filename=[]                # Filename, directory, or URL to files identifying the resource to manage.
---force                          # Force the operation.
---dry-run=''                     # Must be "none", "server", or "client". Use to preview the operation without making changes.
--o, --output=''                  # Output format. Options: 'yaml' or 'json'.
--w, --watch=false                # Watch for changes after the operation.
--n, --namespace=[]               # Namespace to use for the operation.
--l, --labels=''                  # Comma-separated labels to apply to the resource. Will override previous values.
-#                      Create
---edit=false                     # Edit the API resource before creating it.
 
---save-config                    # Save the configuration of the current object in its annotation. Useful for future kubectl apply operations.
-#                      Run
---annotations=[]                 # Annotations to apply to the pod.
-
---attach=false                   # Wait for the Pod to start running, then attach to it. Default is false unless '-i/--stdin' is set.
-
---command=false                  # Use extra arguments as the 'command' field in the container, rather than the 'args' field.
-
---env=[]                         # Environment variables to set in the container.
-
---expose=false                   # Create a ClusterIP service associated with the pod. Requires `--port`.
-
---image=''                       # The image for the container to run.
-
---port=''                        # The port that this container exposes.
-
---privileged=false               # Run the container in privileged mode.
-
--q, --quiet=false                # Suppress prompt messages.
-
---restart='Always'               # The restart policy for this Pod. Legal values: [Always, OnFailure, Never].
-
---rm=false                       # Delete the pod after it exits. Only valid when attaching to the container.
-
--i, --stdin=false                # Keep stdin open on the container in the pod, even if nothing is attached.
-
--t, --tty=false                  # Allocate a TTY for the container in the pod.
-#                       Expose    
---cluster-ip=''                  # ClusterIP to be assigned to the service. Leave empty to auto-allocate, or set to 'None' to create a headless service.
-
---external-ip=''                 # Additional external IP address (not managed by Kubernetes) to accept for the service.
-
---load-balancer-ip=''            # IP to assign to the LoadBalancer. If empty, an ephemeral IP will be created and used (cloud-provider specific).
-
---name=''                        # The name for the newly created object.
-
---protocol=''                    # The network protocol for the service to be created. Default is 'TCP'.
-
---selector=''                    # A label selector to use for this service. Only equality-based selector requirements are supported.
-
---target-port=''                 # Name or number for the port on the container that the service should direct traffic to. Optional.
-
---type=''                        # Type for this service: ClusterIP, NodePort, LoadBalancer, or ExternalName. Default is 'ClusterIP'.
-```
-**kubectl get|describe|delete|edit|exec|logs|set**
-```bash
--A, --all-namespaces=false       # List the requested object(s) across all namespaces.
-
--n, --namespace=[]               # Namespace to use for the operation.
-
--f, --filename=[]                # Filename, directory, or URL to files identifying the resource to get from a server.
-
---no-headers=false               # When using the default or custom-column output format, don't print headers.
-
--o, --output=''                  # Output format. Options: 'wide'.
-
--l, --selector=''                # Selector (label query) to filter on, supports '=', '==', and '!='.
-
---show-kind=false                # List the resource type for the requested object(s).
-
---show-labels=false              # Show all labels as the last column when printing.
-#                       Get
--w, --watch=false                # Watch for changes after listing/getting the requested object.
-
---watch-only=false               # Watch for changes to the requested object(s), without listing/getting first.
-
---all=false                      # Delete all resources, in the namespace of the specified resource types.
-
---force=false                    # Immediately remove resources from API and bypass graceful deletion.
-
---grace-period=-1                # Period of time in seconds given to the resource to terminate gracefully. Ignored if negative.
-
---ignore-not-found=false         # Treat "resource not found" as a successful delete. Defaults to "true" when --all is specified.
-
--i, --interactive=false          # Delete resource only when the user confirms.
-
---now=false                      # Signal resources for immediate shutdown.
-
---timeout=0s                     # The length of time to wait before giving up on a delete.
-
---wait=true                      # Wait for resources to be gone before returning. This waits for finalizers.
-#                       Edit
---save-config=false              # Save the configuration of the current object in its annotation.
-#                       Exec
--c, --container=''               # Container name. If omitted, use the default container or the first container in the pod.
-
--q, --quiet=false                # Only print output from the remote session.
-
--i, --stdin=false                # Pass stdin to the container.
-
--t, --tty=false                  # Stdin is a TTY.
-#                       logs
---all-containers=false           # Get all containers' logs in the pod(s).
-
--c, --container=''               # Print the logs of this container.
-
--f, --follow=false               # Specify if the logs should be streamed.
-
---max-log-requests=5             # Specify maximum number of concurrent logs to follow when using by a selector. Defaults to 5.
-
---pod-running-timeout=20s        # The length of time to wait until at least one pod is running.
-
---prefix=false                   # Prefix each log line with the log source (pod name and container name).
-
--p, --previous=false             # Print the logs for the previous instance of the container in a pod if it exists.
-
---timestamps=false               # Include timestamps on each line in the log output.
-
---record=true                    # Record the current kubectl command in the resource annotation.
-
---selector app=frontend,env=dev --no-headers | wc -l  # Example of using a selector to filter resources and count them.
-```
