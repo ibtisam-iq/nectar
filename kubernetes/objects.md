@@ -137,40 +137,57 @@ Understanding both meanings is essential for managing workloads efficiently.
 
 ---
 
-## 2. Kubernetes Resource Types
+## Kubernetes Resource Types
 
-The following table includes a list of all supported resource types, their abbreviated aliases, commands to fetch them using `kubectl get`, and commands to create them imperatively (if available):
+The following table includes a list of all supported resource types, grouped by category, with their abbreviated aliases, commands to fetch them using `kubectl get`, and commands to create them imperatively (if available):
 
+### **Workload Resources** (Define how applications run)
+| Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
+|------------------------------------|------------------|--------------------------------|-----------------------------|
+| Pods                               | po              | `kubectl get pods`            | `kubectl run <name> --image=<image>` |
+| Deployments                        | deploy         | `kubectl get deployments`      | `kubectl create deployment <name> --image=<image>` |
+| ReplicaSets                        | rs              | `kubectl get replicasets`      | -                           |
+| ReplicationControllers             | rc              | `kubectl get replicationcontrollers` | `kubectl create replicationcontroller <name>` |
+| DaemonSets                         | ds              | `kubectl get daemonsets`       | `kubectl create daemonset <name>` |
+| StatefulSets                       | -               | `kubectl get statefulsets`     | `kubectl create statefulset <name> --image=<image>` |
+| Jobs                               | -               | `kubectl get jobs`            | `kubectl create job <name> --image=<image>` |
+| CronJobs                           | -               | `kubectl get cronjobs`         | `kubectl create cronjob <name> --schedule="* * * * *" --image=<image>` |
+
+### **Networking Resources** (Manage communication between applications)
+| Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
+|------------------------------------|------------------|--------------------------------|-----------------------------|
+| Services                           | svc             | `kubectl get services`        | `kubectl expose pod <name> --port=80 --target-port=8080 --name=<service>` |
+| Endpoints                          | ep              | `kubectl get endpoints`        | -                           |
+| Ingresses                          | ing             | `kubectl get ingresses`        | `kubectl create ingress <name> --rule=<host>/=<service>:<port>` |
+| NetworkPolicies                    | -               | `kubectl get networkpolicies`  | `kubectl create networkpolicy <name> --pod-selector=<label>` |
+
+### **Storage Resources** (Manage data persistence)
+| Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
+|------------------------------------|------------------|--------------------------------|-----------------------------|
+| PersistentVolumes                  | pv              | `kubectl get pv`              | -                           |
+| PersistentVolumeClaims             | pvc             | `kubectl get pvc`             | `kubectl create pvc <name> --storage=1Gi` |
+| StorageClasses                     | -               | `kubectl get storageclasses`  | -                           |
+
+### **Configuration & Secrets Management**
+| Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
+|------------------------------------|------------------|--------------------------------|-----------------------------|
+| ConfigMaps                         | cm              | `kubectl get configmaps`       | `kubectl create configmap <name> --from-literal=key=value` |
+| Secrets                            | -               | `kubectl get secrets`         | `kubectl create secret generic <name> --from-literal=key=value` |
+
+### **Cluster Management Resources**
 | Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
 |------------------------------------|------------------|--------------------------------|-----------------------------|
 | Clusters                          | -                | `kubectl get clusters`         | -                           |
-| ComponentStatuses                  | cs               | `kubectl get componentstatuses` | -                           |
-| ConfigMaps                         | cm               | `kubectl get configmaps`       | `kubectl create configmap <name> --from-literal=key=value` |
-| DaemonSets                         | ds               | `kubectl get daemonsets`       | `kubectl create daemonset <name>` |
-| Deployments                        | deploy          | `kubectl get deployments`      | `kubectl create deployment <name> --image=<image>` |
-| Endpoints                          | ep               | `kubectl get endpoints`        | -                           |
-| Events                             | ev               | `kubectl get events`           | -                           |
-| HorizontalPodAutoscalers           | hpa              | `kubectl get hpa`              | `kubectl autoscale deployment <name> --min=1 --max=5 --cpu-percent=80` |
-| Ingresses                          | ing              | `kubectl get ingresses`        | `kubectl create ingress <name> --rule=<host>/=<service>:<port>` |
-| Jobs                               | -                | `kubectl get jobs`            | `kubectl create job <name> --image=<image>` |
-| LimitRanges                        | limits          | `kubectl get limitranges`      | -                           |
 | Namespaces                         | ns              | `kubectl get namespaces`       | `kubectl create namespace <name>` |
-| NetworkPolicies                    | -               | `kubectl get networkpolicies`  | `kubectl create networkpolicy <name> --pod-selector=<label>` |
 | Nodes                              | no              | `kubectl get nodes`           | -                           |
-| StatefulSets                       | -               | `kubectl get statefulsets`     | `kubectl create statefulset <name> --image=<image>` |
-| PersistentVolumeClaims             | pvc             | `kubectl get pvc`             | `kubectl create pvc <name> --storage=1Gi` |
-| PersistentVolumes                  | pv              | `kubectl get pv`              | -                           |
-| Pods                               | po              | `kubectl get pods`            | `kubectl run <name> --image=<image>` |
+| ComponentStatuses                  | cs              | `kubectl get componentstatuses` | -                           |
+| ResourceQuotas                     | quota           | `kubectl get resourcequotas`   | `kubectl create quota <name> --hard=cpu=2,memory=1Gi` |
+| LimitRanges                        | limits         | `kubectl get limitranges`      | -                           |
+| ServiceAccounts                    | sa              | `kubectl get serviceaccounts` | `kubectl create serviceaccount <name>` |
 | PodSecurityPolicies                | psp             | `kubectl get podsecuritypolicies` | -                           |
 | PodTemplates                       | -               | `kubectl get podtemplates`     | -                           |
-| ReplicaSets                        | rs              | `kubectl get replicasets`      | -                           |
-| ReplicationControllers             | rc              | `kubectl get replicationcontrollers` | `kubectl create replicationcontroller <name>` |
-| ResourceQuotas                     | quota           | `kubectl get resourcequotas`   | `kubectl create quota <name> --hard=cpu=2,memory=1Gi` |
-| CronJobs                           | -               | `kubectl get cronjobs`         | `kubectl create cronjob <name> --schedule="* * * * *" --image=<image>` |
-| Secrets                            | -               | `kubectl get secrets`         | `kubectl create secret generic <name> --from-literal=key=value` |
-| ServiceAccounts                    | sa              | `kubectl get serviceaccounts` | `kubectl create serviceaccount <name>` |
-| Services                           | svc             | `kubectl get services`        | `kubectl expose pod <name> --port=80 --target-port=8080 --name=<service>` |
-| StorageClasses                     | -               | `kubectl get storageclasses`  | -                           |
 | ThirdPartyResources                | -               | `kubectl get thirdpartyresources` | -                           |
+| Events                             | ev              | `kubectl get events`           | -                           |
+| HorizontalPodAutoscalers           | hpa             | `kubectl get hpa`              | `kubectl autoscale deployment <name> --min=1 --max=5 --cpu-percent=80` |
 
-This table provides a reference for managing Kubernetes objects efficiently.
+This categorized table provides a structured reference for managing Kubernetes objects efficiently.
