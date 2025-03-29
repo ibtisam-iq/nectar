@@ -15,16 +15,16 @@ Create and run a particular image.
 
 ```bash
 kubectl run <name> --image=<image> \
-        --port=<port> \
-        --expose =<expose> \
-        --labels=<key>=<value>,<key>=<value> \
-        --env=<key>=<value> --env=<key>=<value> \
-        --namespace=<namespace> \
-        -- <arg1> <arg2> ... <argN> \   # use default command, but use custom arguments (arg1 .. argN) for that command
-        --command -- <cmd> <arg1> ... <argN> \  # use a different command and custom arguments
-        --restart=Never \
-        --dry-run=client \
-        --output=yaml > <output file>
+    --port=<port> \
+    --expose =<expose> \
+    --labels=<key>=<value>,<key>=<value> \
+    --env=<key>=<value> --env=<key>=<value> \
+    --namespace=<namespace> \
+    -- <arg1> <arg2> ... <argN> \   # use default command, but use custom arguments (arg1 .. argN) for that command
+    --command -- <cmd> <arg1> ... <argN> \  # use a different command and custom arguments
+    --restart=Never \
+    --dry-run=client \
+    --output=yaml > <output file>
 ```
 ### Example
 ```bash
