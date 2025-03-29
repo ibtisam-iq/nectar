@@ -1,7 +1,10 @@
 # kubectl Quick Reference
 This documention is a quick reference for kubectl, the command-line tool for interacting with Kubernetes clusters.
 
-- [Official Site](https://kubernetes.io/docs/reference/kubectl/quick-reference/)
+### Official Documentation
+
+- https://kubernetes.io/docs/reference/kubectl/quick-reference
+- https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands 
 
 ## kubectl Commands
 ```bash
