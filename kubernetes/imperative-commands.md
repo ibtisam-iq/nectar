@@ -2,13 +2,15 @@
 
 ### Official Documentation
 
-- https://kubernetes.io/docs/reference/kubectl/kubectl/
+- https://kubernetes.io/docs/reference/kubectl/kubectl/ # this one
 - https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
 - https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-command/
 
 ### Important Points
 
 - Kubernetes supports both `--flag=value` and `--flag value` formats.
+
+---
 
 ## Pod
 Create and run a particular image.
@@ -17,14 +19,14 @@ Create and run a particular image.
 kubectl run <name> --image=<image> \
     --port=<port> \
     --expose =<expose> \
-    --labels=<key>=<value>,<key>=<value> \
+    -l, --labels=<key>=<value>,<key>=<value> \
     --env=<key>=<value> --env=<key>=<value> \
-    --namespace=<namespace> \
+    -n, --namespace=<namespace> \
     -- <arg1> <arg2> ... <argN> \   # use default command, but use custom arguments (arg1 .. argN) for that command
     --command -- <cmd> <arg1> ... <argN> \  # use a different command and custom arguments
     --restart=Never \
     --dry-run=client \
-    --output=yaml > <output file>
+    -o, --output=yaml > <output file>
 ```
 
 Fetch a resource.
@@ -71,3 +73,58 @@ kubectl run -i -t busybox --image=busybox --restart=Never
 
 ---
 
+## Deployment
+Create a deployment with the specified name
+
+```bash
+kubectl create deployment <name> --image=<image> \
+    -r, --replicas=1 \
+    --port=80 \
+    -l, --labels=<key>=<value>,<key>=<value> \
+    --env=<key>=<value> --env=<key>=<value> \
+    -n, --namespace=<namespace> \
+    -- <arg1> <arg2> ... <argN> \   
+    --command -- <cmd> <arg1> ... <argN> \
+    --save-config
+```
+### Example
+
+```bash
+# Create a deployment named my-dep that runs the busybox image
+kubectl create deployment my-dep --image busybox -r 3 --port 3000
+
+# Create a deployment with a command
+kubectl create deployment my-dep --image=busybox -- date
+
+# Create a deployment named my-dep that runs multiple containers
+kubectl create deployment my-dep --image=busybox:latest --image=ubuntu:latest --image=nginx
+```
+- `--image=[]`: Image names to run. A deployment can have multiple images set for multi-container pod.
+
+---
+
+## Service
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## kubectl apply (should add in quick ref)
