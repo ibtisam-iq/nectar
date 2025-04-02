@@ -110,9 +110,9 @@ kubectl create service clusterip|externalname|loadbalancer|nodeport NAME --tcp=p
 
 
 ```
-- -f, --filename=[]:
+- `-f, --filename=[]`:
 	Filename, directory, or URL to files identifying the resource to expose a service
-- --type='':
+- `--type=''`:
 	Type for this service: ClusterIP, NodePort, LoadBalancer, or ExternalName. Default is 'ClusterIP'.
 
 
