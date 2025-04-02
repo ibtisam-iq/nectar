@@ -3,7 +3,7 @@ This documention is a quick reference for kubectl, the command-line tool for int
 
 ### Official Documentation
 
-- https://kubernetes.io/docs/reference/kubectl/quick-reference
+- https://kubernetes.io/docs/reference/kubectl/quick-reference # this one
 - https://kubernetes.io/docs/reference/kubectl/kubectl/
 - https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands 
 
