@@ -105,7 +105,15 @@ kubectl create deployment my-dep --image=busybox:latest --image=ubuntu:latest --
 
 ## Service
 
+```bash
+kubectl create service clusterip|externalname|loadbalancer|nodeport NAME --tcp=port:targetPort
 
+
+```
+- -f, --filename=[]:
+	Filename, directory, or URL to files identifying the resource to expose a service
+- --type='':
+	Type for this service: ClusterIP, NodePort, LoadBalancer, or ExternalName. Default is 'ClusterIP'.
 
 
 
