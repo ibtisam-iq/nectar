@@ -150,6 +150,34 @@ kubectl expose deployment nginx --port=80 --target-port=8000
 - If the pod doesn’t have a label, `kubectl expose` command wouldn’t work. `error: the pod has no labels and cannot be exposed.`
 ---
 
+## ConfigMap and Secret
+
+```bash
+kubectl create configmap NAME \
+    --from-file=path/to/bar \ # bar is directory
+    --from-file=path/to/bar \ # bar is file
+    --from-file=key1=/path/to/file1.txt --from-file=key2=/path/to/file2.txt \
+    --from-literal=key1=config1 --from-literal=key2=config2 \
+    --from-env-file=path/to/foo.env --from-env-file=path/to/bar.env
+
+kubectl create secret generic NAME \
+    --from-file=path/to/bar \
+    --from-file=ssh-privatekey=path/to/id_rsa \
+    --from-literal=key1=supersecret \
+    --from-env-file=path/to/bar.env
+
+# Create a new TLS secret named tls-secret with the given key pair
+kubectl create secret tls tls-secret --cert=path/to/tls.crt --key=path/to/tls.key
+
+# If you do not already have a .dockercfg file, create a dockercfg secret directly
+kubectl create secret docker-registry my-secret --docker-server=DOCKER_REGISTRY_SERVER --docker-username=DOCKER_USER --docker-password=DOCKER_PASSWORD --docker-email=DOCKER_EMAIL
+  
+# Create a new secret named my-secret from ~/.docker/config.json
+kubectl create secret docker-registry my-secret --from-file=path/to/.docker/config.json
+```
+
+---
+
 
 
 
