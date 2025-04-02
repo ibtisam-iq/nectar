@@ -108,13 +108,47 @@ kubectl create deployment my-dep --image=busybox:latest --image=ubuntu:latest --
 ```bash
 kubectl create service clusterip|externalname|loadbalancer|nodeport NAME --tcp=port:targetPort
 
-
+kubectl expose (-f FILENAME | TYPE NAME) --port=<> \
+    --target-port=<port> \
+    --name=<name> \
+    --type=<type> \
+    --protocol=<protocol> \ # Sets TCP, UDP, or SCTP (default: TCP)
+    --external-ip=<IP>
 ```
-- `-f, --filename=[]`:
-	Filename, directory, or URL to files identifying the resource to expose a service
-- `--type=''`:
-	Type for this service: ClusterIP, NodePort, LoadBalancer, or ExternalName. Default is 'ClusterIP'.
 
+### Examples
+```bash
+# Create a service for a replicated nginx, which serves on port 80 and connects to the containers on port 8000
+kubectl expose rc nginx --port=80 --target-port=8000
+  
+# Create a service for a replication controller identified by type and name specified in "nginx-controller.yaml", which serves on port 80 and connects to the containers on port 8000
+kubectl expose -f nginx-controller.yaml --port=80 --target-port=8000
+  
+# Create a service for a pod valid-pod, which serves on port 444 with the name "frontend"
+kubectl expose pod valid-pod --port=444 --name=frontend
+  
+# Create a second service based on the above service, exposing the container port 8443 as port 443 with the name "nginx-https"
+kubectl expose service nginx --port=443 --target-port=8443 --name=nginx-https
+  
+# Create a service for a replicated streaming application on port 4100 balancing UDP traffic and named 'video-stream'.
+kubectl expose rc streamer --port=4100 --protocol=UDP --name=video-stream
+  
+# Create a service for a replicated nginx using replica set, which serves on port 80 and connects to the containers on port 8000
+kubectl expose rs nginx --port=80 --target-port=8000
+  
+# Create a service for an nginx deployment, which serves on port 80 and connects to the containers on port 8000
+kubectl expose deployment nginx --port=80 --target-port=8000
+```
+- `-f, --filename=[]`: Filename, directory, or URL to files identifying the resource to expose a service
+- `TYPE` → The type of the resource you want to expose e.g. `pod (po)`, `service (svc)`, `replicationcontroller (rc)`, `deployment (deploy)`, `replicaset (rs)`.
+- `NAME` → The specific name of the resource instance.
+- `--port=<port>` defines the port on the Service that clients will use to access it. This port is exposed by the Service and directs traffic to the underlying Pods. Mandatory!
+- `--target-port=''`: Name or number for the port on the container that the service should direct traffic to. (default: same as `--port`)
+- `--type=''`: ClusterIP, NodePort, LoadBalancer, or ExternalName. Default is 'ClusterIP'.
+- Kubernetes assigns an **internal cluster IP** to Services. However, if you want a specific external IP (e.g., a public IP from your cloud provider or a static IP in your network), you can set it manually using `--external-ip`.
+- Use `-f FILENAME` to specify a resource definition file instead of `TYPE NAME`.
+- If the pod doesn’t have a label, `kubectl expose` command wouldn’t work. `error: the pod has no labels and cannot be exposed.`
+---
 
 
 
