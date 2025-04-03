@@ -178,8 +178,31 @@ kubectl create secret docker-registry my-secret --from-file=path/to/.docker/conf
 
 ---
 
+## Jobs & CronJobs
+```bash
+kubectl create job NAME --image=image \
+    -- [COMMAND] [args...] \
+    --from=cronjob/name     # create a job from a cron job named "a-cronjob" 
 
+kubectl create cronjob NAME --image=image --schedule='0/5 * * * ?' \
+    --restart \     # supported values: OnFailure, Never
+    -- [COMMAND] [args...] [flags] [options] 
+```
 
+In commands like `kubectl create cronjob`, the format `-- [COMMAND] [args...] [flags] [options]` dictates what runs inside the container:
+
+- **COMMAND**: The program that runs inside the container (e.g., `echo`, `sh`, `python`)
+- **args...**: Arguments passed to the command (e.g., "Hello, Kubernetes!")
+- **flags**: Command-specific flags inside the container (e.g., `-c` for `sh`)
+- **options**: Extra settings for the command inside the container (e.g., `--verbose`)
+
+Example:
+```sh
+kubectl create cronjob my-cronjob --image=busybox --schedule="*/5 * * * *" -- echo "Hello, Kubernetes!"
+```
+Here, `echo "Hello, Kubernetes!"` runs inside the container every 5 minutes.
+
+---
 
 
 

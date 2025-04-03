@@ -1,3 +1,20 @@
+## 3. Understanding `[COMMAND] [args...] [flags] [options]`
+
+In commands like `kubectl create cronjob`, the format `-- [COMMAND] [args...] [flags] [options]` dictates what runs inside the container:
+
+- **COMMAND**: The program that runs inside the container (e.g., `echo`, `sh`, `python`)
+- **args...**: Arguments passed to the command (e.g., "Hello, Kubernetes!")
+- **flags**: Command-specific flags inside the container (e.g., `-c` for `sh`)
+- **options**: Extra settings for the command inside the container (e.g., `--verbose`)
+
+Example:
+```sh
+kubectl create cronjob my-cronjob --image=busybox --schedule="*/5 * * * *" -- echo "Hello, Kubernetes!"
+```
+Here, `echo "Hello, Kubernetes!"` runs inside the container every 5 minutes.
+
+---
+
 ## 7. Running Pods with Custom Commands and Arguments
 ### **1. Understanding Default Command and Arguments**
 - Every container image has a **default command** (defined as `ENTRYPOINT` in Docker) and **default arguments** (defined as `CMD` in Docker).
