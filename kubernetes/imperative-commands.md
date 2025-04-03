@@ -206,10 +206,15 @@ Here, `echo "Hello, Kubernetes!"` runs inside the container every 5 minutes.
 
 ## Resource Quota Management
 
+```bash
+# Create a new resource quota named my-quota
+kubectl create quota NAME --hard cpu=1,memory=1G,pods=2,services=3,replicationcontrollers=2,resourcequotas=1,secrets=5,persistentvolumeclaims=10 --namespace <> \
+    --scopes BestEffort,Scope2
+```
 
+---
 
-
-
+## 
 
 
 
