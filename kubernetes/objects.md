@@ -51,9 +51,9 @@ Understanding both meanings is essential for managing workloads efficiently.
 | Pods                               | po              | `kubectl get pods`            | `kubectl run <name> --image=<image>` |
 | Deployments                        | deploy         | `kubectl get deployments`      | `kubectl create deployment <name> --image=<image>` |
 | ReplicaSets                        | rs              | `kubectl get replicasets`      | -                           |
-| ReplicationControllers             | rc              | `kubectl get replicationcontrollers` | `kubectl create replicationcontroller <name>` |
-| DaemonSets                         | ds              | `kubectl get daemonsets`       | `kubectl create daemonset <name>` |
-| StatefulSets                       | -               | `kubectl get statefulsets`     | `kubectl create statefulset <name> --image=<image>` |
+| ReplicationControllers             | rc              | `kubectl get replicationcontrollers` | - |
+| DaemonSets                         | ds              | `kubectl get daemonsets`       | - |
+| StatefulSets                       | -               | `kubectl get statefulsets`     | - |
 | Jobs                               | -               | `kubectl get jobs`            | `kubectl create job <name> --image=<image>` |
 | CronJobs                           | -               | `kubectl get cronjobs`         | `kubectl create cronjob <name> --schedule="* * * * *" --image=<image>` |
 
