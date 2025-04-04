@@ -214,14 +214,69 @@ kubectl create quota NAME --hard cpu=1,memory=1G,pods=2,services=3,replicationco
 
 ---
 
-## 
+## Service Account & Token
+```bash
+# create a service account with the specified name
+kubectl create sa my-service-account
 
+# Request a service account token
+kubectl create token SERVICE_ACCOUNT_NAME
+```
 
+---
 
+## Role and RoleBinding
+## ClusterRole and ClusterRoleBinding
 
+```bash
+# Create a role named "pod-reader" that allows user to perform "get", "watch" and "list" on pods
+kubectl create role pod-reader --verb=get,list,watch --resource=pods
+  
+# Create a role named "pod-reader" with ResourceName specified
+kubectl create role pod-reader --verb=get --resource=pods --resource-name=readablepod,anotherpod
+  
+# Create a role named "foo" with API Group specified
+kubectl create role foo --verb=get,list,watch --resource=rs.apps
+  
+# Create a role named "foo" with SubResource specified
+kubectl create role foo --verb=get,list,watch --resource=pods,pods/status
 
+kubectl create role NAME --verb=verb --resource=resource.group [--resource-name=resourcename]
+[--dry-run=server|client|none] [options]
 
+kubectl create clusterrole NAME --verb=verb --resource=resource.group [--resource-name=resourcename]
+[--dry-run=server|client|none] [options]
 
+kubectl create rolebinding|clusterrolebinding NAME --clusterrole=NAME|--role=NAME [--user=username1,username2] [--group=groupname] [--serviceaccount=namespace:serviceaccountname] [--dry-run=server|client|none] [options]
+```
+
+When using the `--resource` flag in `kubectl create role`, you're defining the exact API target the role will apply to. This flag can have **three components**:
+
+- **`resource`** → The main Kubernetes object.  
+  _Examples_: `pods`, `deployments`, `services`
+
+- **`group`** → The API group the resource belongs to.  
+  _Examples_: `apps`, `batch`, `rbac.authorization.k8s.io`
+
+- **`subresource`** (optional) → A more specific part or action related to the resource.  
+  _Examples_:  
+  - `pods/log` – to access logs from a pod  
+  - `deployments/scale` – to allow scaling of deployments  
+  - `pods/status` – to read or modify the status subresource of a pod
+
+> 📌 **Format:**  
+> `--resource=resource.group/subresource`  
+> All three components are not always required. For core resources (like `pods`), the `group` may be empty. And `subresource` is only used when needed.
+
+> ✅ You can specify multiple values for flags like `--verb`, `--resource`, or `--resource-name` either by repeating the flag (`--verb=get --verb=list`) or by providing comma-separated values (`--verb=get,list`) — both approaches are functionally equivalent.
+
+---
+
+## Namespace
+
+## Taints, Toleration, Node Selector, Node Affinity
+
+## Ingress 
 
 
 
