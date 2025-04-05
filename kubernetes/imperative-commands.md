@@ -276,8 +276,21 @@ When using the `--resource` flag in `kubectl create role`, you're defining the e
 
 ## Taints, Toleration, Node Selector, Node Affinity
 
-## Ingress 
+## Ingress
+```bash
+kubectl create ingress NAME --class <> --annotations <>
+    --rule ibtisam-iq.com/=svc1:8080,tls=my-cert    # TLS       # Exact
+    --rule ibtisam-iq.com/=svc2:8081                # Non-TLS   # Exact
+    --rule ibtisam-iq.com/*=svc3:8082               # Wildcard  # Prefix
+```
+## Frequently Used Flags
 
+--dry-run='none':
+	Must be "none", "server", or "client".
+-o, --output='':
+	Output format. One of: (json, yaml).
+--save-config=false:
+	If true, the configuration of current object will be saved in its annotation.
 
 
 ## kubectl apply (should add in quick ref)
