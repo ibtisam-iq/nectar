@@ -174,23 +174,30 @@ Understanding both meanings is essential for managing workloads efficiently.
 - Used to prevent starvation of critical workloads.
 
 ### **ResourceQuota**
-- Limits the amount of CPU, memory, and other resources a namespace can use.
+- Limits the amount of total resources (e.g. CPU, memory, and storage etc.) a **namespace** can use.
 - Helps prevent any single workload from consuming excessive cluster resources.
+
+### **LimitRange**
+- Sets default resource limits for **individual pods or containers** within a **namespace**.
+- Ensures pods don't consume more resources than intended.
+
+### **ComponentStatuses**
+- Provides status information about cluster components (e.g., nodes, control plane components).
+- Useful for monitoring cluster health.
+- **Note:** This is not a resource that can be created or deleted.
 
 | Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
 |------------------------------------|------------------|--------------------------------|-----------------------------|
 | Clusters                          | -                | `kubectl get clusters`         | -                           |
 | Namespaces                         | ns              | `kubectl get namespaces`       | `kubectl create namespace <name>` |
 | Nodes                              | no              | `kubectl get nodes`           | -                           |
-| ComponentStatuses                  | cs              | `kubectl get componentstatuses` | -                           |
 | ResourceQuotas                     | quota           | `kubectl get resourcequotas`   | `kubectl create quota <name> --hard=cpu=2,memory=1Gi` |
 | LimitRanges                        | limits         | `kubectl get limitranges`      | -                           |
 | PodDisruptionBudgets               | pdb             | `kubectl get pdb`              | `kubectl create pdb <name> --selector=<label>` |
-| PodSecurityPolicies                | psp             | `kubectl get podsecuritypolicies` | -                           |
-| PodTemplates                       | -               | `kubectl get podtemplates`     | -                           |
-| ThirdPartyResources                | -               | `kubectl get thirdpartyresources` | -                           |
 | Events                             | ev              | `kubectl get events`           | -                           |
 | HorizontalPodAutoscalers           | hpa             | `kubectl get hpa`              | `kubectl autoscale deployment <name> --min=1 --max=5 --cpu-percent=80` |
+| ComponentStatuses                  | cs              | `kubectl get componentstatuses` | -                           |
+| PriorityClasses                    | pc              | `kubectl get priorityclasses`  | `kubectl create pc` |
 
 ---
 
