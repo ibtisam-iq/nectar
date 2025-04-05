@@ -76,13 +76,9 @@ Understanding both meanings is essential for managing workloads efficiently.
 | Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
 |------------------------------------|------------------|--------------------------------|-----------------------------|
 | Services                           | svc             | `kubectl get services`        | `kubectl expose pod <name> --port=80 --target-port=8080 --name=<service>` |
-| Endpoints                          | ep              | `kubectl get endpoints`        | -                           |
 | Ingresses                          | ing             | `kubectl get ingresses`        | `kubectl create ingress <name> --rule=<host>/=<service>:<port>` |
-| IngressResource Statuses            | -               | `kubectl get ingressresourcestatuses` | -                           |
 | IngressClass                         | -               | `kubectl get ingressclasses`    | -                           |
-| IngressClassSpec                     | -               | `kubectl get ingressclassspecs`  | - |
-| IngressClassParameters              | -               | `kubectl get ingressclassparameters` | - |
-| IngressResource                    | -               | `kubectl get ingressresources` | `kubectl create ingress resource <name> --api-version=<api-version>` |
+| Endpoints                          | ep              | `kubectl get endpoints`        | -                           |
 | EndpointSlices                     | eps             | `kubectl get endpointslices`   | -                           |
 
 ---
@@ -121,7 +117,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 | Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
 |------------------------------------|------------------|--------------------------------|-----------------------------|
 | PersistentVolumes                  | pv              | `kubectl get pv`              | -                           |
-| PersistentVolumeClaims             | pvc             | `kubectl get pvc`             | `kubectl create pvc <name> --storage=1Gi` |
+| PersistentVolumeClaims             | pvc             | `kubectl get pvc`             | - |
 | StorageClasses                     | -               | `kubectl get storageclasses`  | -                           |
 | LocalPVs                            | -               | `kubectl get localpv`         | -                           |
 
@@ -159,7 +155,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 
 | Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
 |------------------------------------|------------------|--------------------------------|-----------------------------|
-| NetworkPolicies                    | -               | `kubectl get networkpolicies`  | `kubectl create networkpolicy <name> --pod-selector=<label>` |
+| NetworkPolicies                    | -               | `kubectl get networkpolicies`  | - |
 
 ---
 

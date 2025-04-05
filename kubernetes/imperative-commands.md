@@ -273,16 +273,203 @@ When using the `--resource` flag in `kubectl create role`, you're defining the e
 ---
 
 ## Namespace
+```bash
+kubectl create ns NAME [--dry-run=server|client|none] [options]
+kubectl config view --minify --output yaml | grep namespace:
+```
 
-## Taints, Toleration, Node Selector, Node Affinity
+## kubectl taint nodes
+Update the taints on one or more nodes.
 
-## Ingress
+- A taint consists of a key, value, and effect. As an argument here, it is expressed as key=value:effect.
+- The key must begin with a letter or number, and may contain letters, numbers, hyphens, dots, and underscores, up to
+253 characters.
+- Optionally, the key can begin with a DNS subdomain prefix and a single '/', like example.com/my-app.
+- The value is optional. If given, it must begin with a letter or number, and may contain letters, numbers, hyphens,
+dots, and underscores, up to 63 characters.
+- The effect must be NoSchedule, PreferNoSchedule or NoExecute.
+- Currently taint can only apply to node.
+
+```bash
+kubectl taint NODE NAME KEY_1=VAL_1:TAINT_EFFECT_1 ... KEY_N=VAL_N:TAINT_EFFECT_N [options]
+```
+
+### Examples
+
+```bash
+# Update node 'foo' with a taint with key 'dedicated' and value 'special-user' and effect 'NoSchedule'
+# If a taint with that key and effect already exists, its value is replaced as specified
+kubectl taint nodes foo dedicated=special-user:NoSchedule
+  
+# Remove from node 'foo' the taint with key 'dedicated' and effect 'NoSchedule' if one exists
+kubectl taint nodes foo dedicated:NoSchedule-
+  
+# Remove from node 'foo' all the taints with key 'dedicated'
+kubectl taint nodes foo dedicated-
+  
+# Add a taint with key 'dedicated' on nodes having label myLabel=X
+kubectl taint node -l myLabel=X  dedicated=foo:PreferNoSchedule
+
+#  
+kubectl describe node foo | grep -i taint -5
+
+# Add to node 'foo' a taint with key 'bar' and no value
+kubectl taint nodes foo bar:NoSchedule
+```
+
+---
+
+## kubectl label|annotate
+Update the labels on a resource.
+
+- A label key and value must begin with a letter or number, and may contain letters, numbers, hyphens, dots, and
+underscores, up to 63 characters each.
+- Optionally, the key can begin with a DNS subdomain prefix and a single '/', like example.com/my-app.
+- If `--overwrite` is true, then existing labels can be overwritten, otherwise attempting to overwrite a label will
+result in an error.
+- If `--resource-version` is specified, then updates will use this resource version, otherwise the existing
+resource-version will be used.
+
+```bash
+kubectl label [--overwrite] (-f FILENAME | TYPE NAME) KEY_1=VAL_1 ... KEY_N=VAL_N [--resource-version=version]
+[options]
+
+kubectl annotate [--overwrite] (-f FILENAME | TYPE NAME) KEY_1=VAL_1 ... KEY_N=VAL_N [--resource-version=version]
+[options]
+```
+
+### Examples
+
+```bash
+# Update pod 'foo' with the label 'unhealthy' and the value 'true'
+kubectl label pods foo unhealthy=true
+  
+# Update pod 'foo' with the label 'status' and the value 'unhealthy', overwriting any existing value
+kubectl label --overwrite pods foo status=unhealthy
+  
+# Update all pods in the namespace
+kubectl label pods --all status=unhealthy
+  
+# Update a pod identified by the type and name in "pod.json"
+kubectl label -f pod.json status=unhealthy
+  
+# Update pod 'foo' only if the resource is unchanged from version 1
+kubectl label pods foo status=unhealthy --resource-version=1
+  
+# Update pod 'foo' by removing a label named 'bar' if it exists
+# Does not require the --overwrite flag
+kubectl label pods foo bar-
+```
+
+---
+
+## Ingress Resource
+
+- The **Ingress resource** defines how external HTTP/S traffic is routed to the services inside your Kubernetes cluster. It includes the domain, path routing rules, and TLS (SSL) configurations.
+
+- It also contains the references to the Ingress controller (e.g., NGINX) and any specific configurations for TLS certificates (via `ClusterIssuer`).
+
 ```bash
 kubectl create ingress NAME --class <> --annotations <>
     --rule ibtisam-iq.com/=svc1:8080,tls=my-cert    # TLS       # Exact
     --rule ibtisam-iq.com/=svc2:8081                # Non-TLS   # Exact
     --rule ibtisam-iq.com/*=svc3:8082               # Wildcard  # Prefix
 ```
+
+## Ingress Controller (NGINX Ingress controller)
+
+- The **Ingress controller** is the **actual component** that processes the **Ingress resources** and routes the incoming HTTP/S traffic to the backend services in your cluster.
+- The **NGINX Ingress controller** is the most commonly used controller, and it can be deployed as a Kubernetes deployment or pod.
+- It listens to changes in the Ingress resources and implements the routing rules specified in the resources.
+- It can also handle TLS termination and load balancing.
+- Run the following command to list the pods and see if there's a pod related to the Ingress controller:
+```bash
+kubectl get pods -n kube-system
+```
+Look for something like `nginx-ingress-controller` in the pod name. If you see this, then the NGINX Ingress controller is deployed.
+
+> 📌 **Note:** If you don't see any relevant pod, you can deploy the **NGINX Ingress controller** manually using the following steps (via Helm or YAML).
+```bash
+# Add the NGINX ingress controller repository
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
+# Update the Helm repository to get the latest charts
+helm repo update
+
+# Install the NGINX ingress controller
+helm install nginx-ingress ingress-nginx/ingress-nginx
+```
+Alternatively, you can apply the NGINX Ingress controller directly using a YAML manifest:
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+```
+## ClusterIssuer
+
+- The **ClusterIssuer** (or **Issuer**) is used to manage **SSL/TLS certificates**. In production, you usually want traffic to be **secure** using HTTPS, which means using an SSL/TLS certificate.
+- The **ClusterIssuer** is usually backed by **Let's Encrypt** (or another Certificate Authority) to automatically manage the certificates.
+- The **cert-manager** is the component that integrates with the **ClusterIssuer** to automate the process of obtaining, renewing, and managing SSL/TLS certificates.
+
+```bash
+
+```
+
+---
+
+## Horizontal Pod Autoscaler (HPA)
+- Creates an autoscaler that automatically chooses and sets the number of pods that run in a Kubernetes cluster.
+- Looks up a **deployment**, **replicaset**, **statefulset**, or **replicationcontroller** by name and creates an autoscaler that uses the given **resource** as a reference.
+- The autoscaler will automatically scale the number of replicas up or down based on the **CPU utilization** of the pods.
+
+```bash
+kubectl autoscale (-f FILENAME | TYPE NAME | TYPE/NAME) # Three different ways to specify the target resource
+    --name NAME
+    [--min=MINPODS] --max=MAXPODS 
+    [--cpu-percent=CPU]
+    [--namespace=NAMESPACE]
+```
+### Examples
+
+```bash
+# Specify the path to a YAML file that defines the target resource (e.g., deployment, replicaset, etc.).
+kubectl autoscale -f deployment.yaml --min=2 --max=10 --cpu-percent=80
+
+# Specify the type and name of the target resource.
+kubectl autoscale deployment my-deployment --min=2 --max=10 --cpu-percent=80
+kubectl autoscale deployment/my-deployment --min=2 --max=10 --cpu-percent=80
+
+# Specify the type and name of the target resource, and the namespace where the resource is located.
+kubectl autoscale deployment my-deployment --namespace=my-namespace --min=2 --max=10 --cpu-percent=80
+
+# Specify the type and name of the target resource, and the namespace where the resource is located, and the name of the autoscaler.
+kubectl autoscale deployment my-deployment --namespace=my-namespace --min=2 --max=10 --cpu-percent=80 --name=my-autoscaler
+
+# Specify the type and name of the target resource, and the namespace where the resource is located, and the name of the autoscaler, and the path to a YAML file that defines the target resource ( e.g., deployment, replicaset, etc.).
+kubectl autoscale -f deployment.yaml --namespace=my-namespace --min=2 --max=10 --cpu-percent=80 --name=my-autoscaler
+```
+---
+
+## kubectl logs
+Print the logs for a `container` in a **pod** or **specified resource**. If the pod has only one container, the container name is optional. 
+
+```bash
+kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER] [options]
+```
+| Use Case | Command |
+|----------|---------|
+| Single Container | `kubectl logs pod-name` |
+| Multi-Container | `--all-containers=true` |
+| Stream Logs | `-f` |
+| Previous Logs | `-p` |
+| Filter by Label | `-l app=name` |
+| Resource Type (Job/Deployment) | `job/name`, `deployment/name` |
+| Time-based | `--since=1h`, `--since-time=` |
+| TLS Skip | `--insecure-skip-tls-verify-backend` |
+| Limit Output | `--limit-bytes`, `--tail` |
+
+---
+
+## Persistent Volume (PV) and Persistent Volume Claim (PVC)
 ## Frequently Used Flags
 
 --dry-run='none':
