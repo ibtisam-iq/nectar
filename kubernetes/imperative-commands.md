@@ -469,6 +469,27 @@ kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER] [options]
 
 ---
 
+## PriorityClass
+
+Create a priority class with the specified name, value, globalDefault and description.
+
+```bash
+kubectl create priorityclass NAME --value=VALUE --global-default=BOOL --description=''
+    --preemption-policy 'PreemptLowerPriority' | 'PreemptNoPriority' | 'PreemptNoSchedule'
+```
+
+---
+
+## PodDisruptionBudget
+
+Create a pod disruption budget with the specified name, selector, and desired minimum available pods.
+
+```bash
+kubectl create poddisruptionbudget NAME --selector=SELECTOR --min-available=N [--dry-run=server|client|none] [options]
+```
+
+---
+
 ## Persistent Volume (PV) and Persistent Volume Claim (PVC)
 ## Frequently Used Flags
 
