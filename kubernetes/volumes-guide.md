@@ -166,8 +166,8 @@ spec:
 # storageClassName: csi-sc
 
 ```
-> The value of `storageClassName` is not fixed; it can be any name, but it **must match** the name of the `StorageClass` or the value in the PV and PVC manifest for proper binding.
-> 🔄 This PVC will only bind to a PV that also has `storageClassName: manual`.
+- The value of `storageClassName` is not fixed; it can be any name, but it **must match** the name of the `StorageClass` or the value in the PV and PVC manifest for proper binding.
+- 🔄 This PVC will only bind to a PV that also has `storageClassName: manual`.
 > 📌 PVC binds to a suitable PV if `accessModes`, `storageClassName`, and `requests.storage` match.
 ---
 
