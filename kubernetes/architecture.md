@@ -2,7 +2,7 @@
 
 This documentation provides an in-depth understanding of Kubernetes architecture, covering concepts, components, and processes from basics to advanced operations.
 
-![https://kubernetes.io/images/docs/kubernetes-cluster-architecture.svg]
+![Kubernetes Cluster Components](https://kubernetes.io/images/docs/kubernetes-cluster-architecture.svg)
 
 ---
 
