@@ -17,12 +17,11 @@ A **PersistentVolume (PV)** is a piece of storage in the cluster that has been p
 ### 🔍 Is `storageClassName` required in a PV?
 - **Static provisioning**: Recommended to include it and match the PVC's `storageClassName`.
 - **Manual binding (no dynamic provisioning)**: Set to `""` (empty string) to prevent Kubernetes from dynamic provisioning.
-- **Dynamic provisioning**: You do **not** create the PV. Kubernetes auto-creates it using the `StorageClass`.
+- **Dynamic provisioning**: You even do **not** create the PV. Kubernetes auto-creates it using the `StorageClass`.
 
 ---
 
-### ✅ Example: HostPath (for local testing only)
-### 📝 Static PV YAML (with `storageClassName`)
+### ✅ Example: HostPath (for local testing only; static provisioning)
 
 ```yaml
 apiVersion: v1
@@ -74,7 +73,6 @@ spec:
 | Who provisions the volume? | **You** (manually in AWS or on local node)  |
 | Provisioning type       | ✅ **Static provisioning**                    |
 
-
 ### ✅ Example: NFS (ReadWriteMany)
 ```yaml
 apiVersion: v1
@@ -121,6 +119,21 @@ spec:
 - **User-Defined PV**: You're telling Kubernetes to use an already-created EBS volume, meaning you're manually provisioning the volume.
 
 - **storageClassName**: The presence of the `storageClassName` (e.g., `csi-sc`) is still useful for matching the PVC, but it doesn't trigger dynamic provisioning here.
+
+---
+
+## 🚦 How to Know Whether a PV is Static or Dynamic?
+
+| Clue | Static Provisioning | Dynamic Provisioning |
+|------|---------------------|-----------------------|
+| PV Manifest Exists | ✅ Yes | ❌ No |
+| PVC references a known `storageClassName` | ✅ Optional | ✅ Required |
+| PV has `storageClassName` matching PVC | ✅ Yes | 🚫 Auto-filled |
+| PVC triggers StorageClass provisioning | ❌ No | ✅ Yes |
+| PV created manually by admin | ✅ Yes | ❌ No |
+
+### ❗ Key Hint
+> If you **manually write a PV**, it’s static provisioning. If you only write a PVC and `StorageClass` handles volume creation, it’s dynamic.
 
 ---
 
@@ -375,23 +388,6 @@ Here's how they work together:
 - You **create a StorageClass** first.
 - Then a **PVC** requests storage using that **StorageClass**.
 - Kubernetes **automatically provisions a matching PV** for that PVC using the defined StorageClass.
-
----
-
-## 🚦 How to Know Whether a PV is Static or Dynamic?
-
-| Clue | Static Provisioning | Dynamic Provisioning |
-|------|---------------------|-----------------------|
-| PV Manifest Exists | ✅ Yes | ❌ No |
-| PVC references a known `storageClassName` | ✅ Optional | ✅ Required |
-| PV has `storageClassName` matching PVC | ✅ Yes | 🚫 Auto-filled |
-| PVC triggers StorageClass provisioning | ❌ No | ✅ Yes |
-| PV created manually by admin | ✅ Yes | ❌ No |
-
-### ❗ Key Hint
-> If you **manually write a PV**, it’s static provisioning. If you only write a PVC and `StorageClass` handles volume creation, it’s dynamic.
-
----
 
 ---
 
