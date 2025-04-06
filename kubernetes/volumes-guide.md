@@ -205,7 +205,7 @@ This ensures data persists even if the Pod is restarted or rescheduled on a diff
 
 ## ⚡ 4. Dynamic Provisioning with StorageClass (e.g., AWS EBS)
 
-A StorageClass defines how storage should be provisioned dynamically. It provides a way to **dynamically provision PVs**. Defines how PVs are created on-demand.
+A `StorageClass` defines how storage should be provisioned dynamically. It provides a way to **dynamically provision PVs**. Defines how PVs are created on-demand.
 
 ### Key Characteristics:
 - **Provisioner**: The component that creates the PV (e.g., AWS EBS, GCE PD, etc.).
@@ -275,7 +275,7 @@ spec:
       storage: 10Gi
   storageClassName: ebs-sc  # Links to the above StorageClass # This will trigger dynamic provisioning
 ```
-> **Note**: The StorageClass must be created before the PVC. The PVC will then use the StorageClass to dynamically provision a PV.
+- The StorageClass must be created before the PVC. The PVC will then use the StorageClass to dynamically provision a PV.
 > ⏳ As soon as this PVC is applied, Kubernetes will **automatically provision an EBS volume**, create a matching PV, and bind it to this PVC.
 ---
 
@@ -438,11 +438,12 @@ Pod mounts PVC as a volume
 
 ## ✅ Summary Table
 
-| Component | Static Provisioning | Dynamic Provisioning |
-|----------|----------------------|-----------------------|
-| PV       | Created manually     | Created automatically by K8s |
-| PVC      | Must match PV        | Must reference StorageClass |
-| storageClassName | Must match PV & PVC | Required only in PVC |
+| Component | Static Provisioning | Dynamic Provisioning | Purpose                          | Created By        |
+|----------|----------------------|-----------------------| ----------------------------------|-------------------|
+| PV       | Created manually     | Created automatically by K8s | Provides raw storage             | Admin / K8s       |
+| PVC      | Must match PV        | Must reference StorageClass | Requests storage                 | Developer / User  |
+| StorageClass | Not Required | Required |
+| storageClassName | Must match PV & PVC | Required only in PVC | Defines how storage is provisioned | Admin            |
 | hostPath/NFS/etc | Defined in PV       | Defined in StorageClass |
 | Use Case | On-premises, legacy systems | Cloud-native, scalable workloads |
 
