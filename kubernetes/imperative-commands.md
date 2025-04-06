@@ -103,51 +103,30 @@ kubectl create deployment my-dep --image=busybox:latest --image=ubuntu:latest --
 
 ---
 
-## Service
-
+## Jobs & CronJobs
 ```bash
-kubectl create service clusterip|externalname|loadbalancer|nodeport NAME --tcp=port:targetPort
+kubectl create job NAME --image=image \
+    -- [COMMAND] [args...] \
+    --from=cronjob/name     # create a job from a cron job named "a-cronjob" 
 
-kubectl expose (-f FILENAME | TYPE NAME) --port=<> \
-    --target-port=<port> \
-    --name=<name> \
-    --type=<type> \
-    --protocol=<protocol> \ # Sets TCP, UDP, or SCTP (default: TCP)
-    --external-ip=<IP>
+kubectl create cronjob NAME --image=image --schedule='0/5 * * * ?' \
+    --restart \     # supported values: OnFailure, Never
+    -- [COMMAND] [args...] [flags] [options] 
 ```
 
-### Examples
-```bash
-# Create a service for a replicated nginx, which serves on port 80 and connects to the containers on port 8000
-kubectl expose rc nginx --port=80 --target-port=8000
-  
-# Create a service for a replication controller identified by type and name specified in "nginx-controller.yaml", which serves on port 80 and connects to the containers on port 8000
-kubectl expose -f nginx-controller.yaml --port=80 --target-port=8000
-  
-# Create a service for a pod valid-pod, which serves on port 444 with the name "frontend"
-kubectl expose pod valid-pod --port=444 --name=frontend
-  
-# Create a second service based on the above service, exposing the container port 8443 as port 443 with the name "nginx-https"
-kubectl expose service nginx --port=443 --target-port=8443 --name=nginx-https
-  
-# Create a service for a replicated streaming application on port 4100 balancing UDP traffic and named 'video-stream'.
-kubectl expose rc streamer --port=4100 --protocol=UDP --name=video-stream
-  
-# Create a service for a replicated nginx using replica set, which serves on port 80 and connects to the containers on port 8000
-kubectl expose rs nginx --port=80 --target-port=8000
-  
-# Create a service for an nginx deployment, which serves on port 80 and connects to the containers on port 8000
-kubectl expose deployment nginx --port=80 --target-port=8000
+In commands like `kubectl create cronjob`, the format `-- [COMMAND] [args...] [flags] [options]` dictates what runs inside the container:
+
+- **COMMAND**: The program that runs inside the container (e.g., `echo`, `sh`, `python`)
+- **args...**: Arguments passed to the command (e.g., "Hello, Kubernetes!")
+- **flags**: Command-specific flags inside the container (e.g., `-c` for `sh`)
+- **options**: Extra settings for the command inside the container (e.g., `--verbose`)
+
+Example:
+```sh
+kubectl create cronjob my-cronjob --image=busybox --schedule="*/5 * * * *" -- echo "Hello, Kubernetes!"
 ```
-- `-f, --filename=[]`: Filename, directory, or URL to files identifying the resource to expose a service
-- `TYPE` → The type of the resource you want to expose e.g. `pod (po)`, `service (svc)`, `replicationcontroller (rc)`, `deployment (deploy)`, `replicaset (rs)`.
-- `NAME` → The specific name of the resource instance.
-- `--port=<port>` defines the port on the Service that clients will use to access it. This port is exposed by the Service and directs traffic to the underlying Pods. Mandatory!
-- `--target-port=''`: Name or number for the port on the container that the service should direct traffic to. (default: same as `--port`)
-- `--type=''`: ClusterIP, NodePort, LoadBalancer, or ExternalName. Default is 'ClusterIP'.
-- Kubernetes assigns an **internal cluster IP** to Services. However, if you want a specific external IP (e.g., a public IP from your cloud provider or a static IP in your network), you can set it manually using `--external-ip`.
-- Use `-f FILENAME` to specify a resource definition file instead of `TYPE NAME`.
-- If the pod doesn’t have a label, `kubectl expose` command wouldn’t work. `error: the pod has no labels and cannot be exposed.`
+Here, `echo "Hello, Kubernetes!"` runs inside the container every 5 minutes.
+
 ---
 
 ## ConfigMap and Secret
@@ -175,43 +154,17 @@ kubectl create secret docker-registry my-secret --docker-server=DOCKER_REGISTRY_
 # Create a new secret named my-secret from ~/.docker/config.json
 kubectl create secret docker-registry my-secret --from-file=path/to/.docker/config.json
 ```
+---
+
+## Persistent Volume (PV), Persistent Volume Claim (PVC) and StorageClass
 
 ---
 
-## Jobs & CronJobs
+## Namespace
 ```bash
-kubectl create job NAME --image=image \
-    -- [COMMAND] [args...] \
-    --from=cronjob/name     # create a job from a cron job named "a-cronjob" 
-
-kubectl create cronjob NAME --image=image --schedule='0/5 * * * ?' \
-    --restart \     # supported values: OnFailure, Never
-    -- [COMMAND] [args...] [flags] [options] 
+kubectl create ns NAME [--dry-run=server|client|none] [options]
+kubectl config view --minify --output yaml | grep namespace:
 ```
-
-In commands like `kubectl create cronjob`, the format `-- [COMMAND] [args...] [flags] [options]` dictates what runs inside the container:
-
-- **COMMAND**: The program that runs inside the container (e.g., `echo`, `sh`, `python`)
-- **args...**: Arguments passed to the command (e.g., "Hello, Kubernetes!")
-- **flags**: Command-specific flags inside the container (e.g., `-c` for `sh`)
-- **options**: Extra settings for the command inside the container (e.g., `--verbose`)
-
-Example:
-```sh
-kubectl create cronjob my-cronjob --image=busybox --schedule="*/5 * * * *" -- echo "Hello, Kubernetes!"
-```
-Here, `echo "Hello, Kubernetes!"` runs inside the container every 5 minutes.
-
----
-
-## Resource Quota Management
-
-```bash
-# Create a new resource quota named my-quota
-kubectl create quota NAME --hard cpu=1,memory=1G,pods=2,services=3,replicationcontrollers=2,resourcequotas=1,secrets=5,persistentvolumeclaims=10 --namespace <> \
-    --scopes BestEffort,Scope2
-```
-
 ---
 
 ## Service Account & Token
@@ -222,11 +175,9 @@ kubectl create sa my-service-account
 # Request a service account token
 kubectl create token SERVICE_ACCOUNT_NAME
 ```
-
 ---
 
-## Role and RoleBinding
-## ClusterRole and ClusterRoleBinding
+## Role and RoleBinding & ClusterRole and ClusterRoleBinding
 
 ```bash
 # Create a role named "pod-reader" that allows user to perform "get", "watch" and "list" on pods
@@ -272,56 +223,51 @@ When using the `--resource` flag in `kubectl create role`, you're defining the e
 
 ---
 
-## Namespace
-```bash
-kubectl create ns NAME [--dry-run=server|client|none] [options]
-kubectl config view --minify --output yaml | grep namespace:
-```
-
-## kubectl taint nodes
-Update the taints on one or more nodes.
-
-- A taint consists of a key, value, and effect. As an argument here, it is expressed as key=value:effect.
-- The key must begin with a letter or number, and may contain letters, numbers, hyphens, dots, and underscores, up to
-253 characters.
-- Optionally, the key can begin with a DNS subdomain prefix and a single '/', like example.com/my-app.
-- The value is optional. If given, it must begin with a letter or number, and may contain letters, numbers, hyphens,
-dots, and underscores, up to 63 characters.
-- The effect must be NoSchedule, PreferNoSchedule or NoExecute.
-- Currently taint can only apply to node.
+## Service
 
 ```bash
-kubectl taint NODE NAME KEY_1=VAL_1:TAINT_EFFECT_1 ... KEY_N=VAL_N:TAINT_EFFECT_N [options]
+kubectl create service clusterip|externalname|loadbalancer|nodeport NAME --tcp=port:targetPort
+
+kubectl expose (-f FILENAME | TYPE NAME) --port=<> \
+    --target-port=<port> \
+    --name=<name> \
+    --type=<type> \
+    --protocol=<protocol> \ # Sets TCP, UDP, or SCTP (default: TCP)
+    --external-ip=<IP>
 ```
 
 ### Examples
-
-Please see `kubectl taint nodes --help`.
-
----
-
-## kubectl label|annotate
-Update the labels on a resource.
-
-- A label key and value must begin with a letter or number, and may contain letters, numbers, hyphens, dots, and
-underscores, up to 63 characters each.
-- Optionally, the key can begin with a DNS subdomain prefix and a single '/', like example.com/my-app.
-- If `--overwrite` is true, then existing labels can be overwritten, otherwise attempting to overwrite a label will
-result in an error.
-- If `--resource-version` is specified, then updates will use this resource version, otherwise the existing
-resource-version will be used.
-
 ```bash
-kubectl label [--overwrite] (-f FILENAME | TYPE NAME) KEY_1=VAL_1 ... KEY_N=VAL_N [--resource-version=version]
-[options]
-
-kubectl annotate [--overwrite] (-f FILENAME | TYPE NAME) KEY_1=VAL_1 ... KEY_N=VAL_N [--resource-version=version]
-[options]
+# Create a service for a replicated nginx, which serves on port 80 and connects to the containers on port 8000
+kubectl expose rc nginx --port=80 --target-port=8000
+  
+# Create a service for a replication controller identified by type and name specified in "nginx-controller.yaml", which serves on port 80 and connects to the containers on port 8000
+kubectl expose -f nginx-controller.yaml --port=80 --target-port=8000
+  
+# Create a service for a pod valid-pod, which serves on port 444 with the name "frontend"
+kubectl expose pod valid-pod --port=444 --name=frontend
+  
+# Create a second service based on the above service, exposing the container port 8443 as port 443 with the name "nginx-https"
+kubectl expose service nginx --port=443 --target-port=8443 --name=nginx-https
+  
+# Create a service for a replicated streaming application on port 4100 balancing UDP traffic and named 'video-stream'.
+kubectl expose rc streamer --port=4100 --protocol=UDP --name=video-stream
+  
+# Create a service for a replicated nginx using replica set, which serves on port 80 and connects to the containers on port 8000
+kubectl expose rs nginx --port=80 --target-port=8000
+  
+# Create a service for an nginx deployment, which serves on port 80 and connects to the containers on port 8000
+kubectl expose deployment nginx --port=80 --target-port=8000
 ```
-
-### Examples
-
-Please see `kubectl label --help` and `kubectl annotate --help`.
+- `-f, --filename=[]`: Filename, directory, or URL to files identifying the resource to expose a service
+- `TYPE` → The type of the resource you want to expose e.g. `pod (po)`, `service (svc)`, `replicationcontroller (rc)`, `deployment (deploy)`, `replicaset (rs)`.
+- `NAME` → The specific name of the resource instance.
+- `--port=<port>` defines the port on the Service that clients will use to access it. This port is exposed by the Service and directs traffic to the underlying Pods. Mandatory!
+- `--target-port=''`: Name or number for the port on the container that the service should direct traffic to. (default: same as `--port`)
+- `--type=''`: ClusterIP, NodePort, LoadBalancer, or ExternalName. Default is 'ClusterIP'.
+- Kubernetes assigns an **internal cluster IP** to Services. However, if you want a specific external IP (e.g., a public IP from your cloud provider or a static IP in your network), you can set it manually using `--external-ip`.
+- Use `-f FILENAME` to specify a resource definition file instead of `TYPE NAME`.
+- If the pod doesn’t have a label, `kubectl expose` command wouldn’t work. `error: the pod has no labels and cannot be exposed.`
 
 ---
 
@@ -411,24 +357,13 @@ kubectl autoscale -f deployment.yaml --namespace=my-namespace --min=2 --max=10 -
 ```
 ---
 
-## kubectl logs
-Print the logs for a `container` in a **pod** or **specified resource**. If the pod has only one container, the container name is optional. 
+## Resource Quota Management
 
 ```bash
-kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER] [options]
+# Create a new resource quota named my-quota
+kubectl create quota NAME --hard cpu=1,memory=1G,pods=2,services=3,replicationcontrollers=2,resourcequotas=1,secrets=5,persistentvolumeclaims=10 --namespace <> \
+    --scopes BestEffort,Scope2
 ```
-| Use Case | Command |
-|----------|---------|
-| Single Container | `kubectl logs pod-name` |
-| Multi-Container | `--all-containers=true` |
-| Stream Logs | `-f` |
-| Previous Logs | `-p` |
-| Filter by Label | `-l app=name` |
-| Resource Type (Job/Deployment) | `job/name`, `deployment/name` |
-| Time-based | `--since=1h`, `--since-time=` |
-| TLS Skip | `--insecure-skip-tls-verify-backend` |
-| Limit Output | `--limit-bytes`, `--tail` |
-
 ---
 
 ## PriorityClass
@@ -449,10 +384,76 @@ Create a pod disruption budget with the specified name, selector, and desired mi
 ```bash
 kubectl create poddisruptionbudget NAME --selector=SELECTOR --min-available=N [--dry-run=server|client|none] [options]
 ```
+---
+
+## kubectl taint nodes
+Update the taints on one or more nodes.
+
+- A taint consists of a key, value, and effect. As an argument here, it is expressed as key=value:effect.
+- The key must begin with a letter or number, and may contain letters, numbers, hyphens, dots, and underscores, up to
+253 characters.
+- Optionally, the key can begin with a DNS subdomain prefix and a single '/', like example.com/my-app.
+- The value is optional. If given, it must begin with a letter or number, and may contain letters, numbers, hyphens,
+dots, and underscores, up to 63 characters.
+- The effect must be NoSchedule, PreferNoSchedule or NoExecute.
+- Currently taint can only apply to node.
+
+```bash
+kubectl taint NODE NAME KEY_1=VAL_1:TAINT_EFFECT_1 ... KEY_N=VAL_N:TAINT_EFFECT_N [options]
+```
+
+### Examples
+
+Please see `kubectl taint nodes --help`.
 
 ---
 
-## Persistent Volume (PV) and Persistent Volume Claim (PVC)
+## kubectl label|annotate
+Update the labels on a resource.
+
+- A label key and value must begin with a letter or number, and may contain letters, numbers, hyphens, dots, and
+underscores, up to 63 characters each.
+- Optionally, the key can begin with a DNS subdomain prefix and a single '/', like example.com/my-app.
+- If `--overwrite` is true, then existing labels can be overwritten, otherwise attempting to overwrite a label will
+result in an error.
+- If `--resource-version` is specified, then updates will use this resource version, otherwise the existing
+resource-version will be used.
+
+```bash
+kubectl label [--overwrite] (-f FILENAME | TYPE NAME) KEY_1=VAL_1 ... KEY_N=VAL_N [--resource-version=version]
+[options]
+
+kubectl annotate [--overwrite] (-f FILENAME | TYPE NAME) KEY_1=VAL_1 ... KEY_N=VAL_N [--resource-version=version]
+[options]
+```
+
+### Examples
+
+Please see `kubectl label --help` and `kubectl annotate --help`.
+
+---
+
+## kubectl logs
+Print the logs for a `container` in a **pod** or **specified resource**. If the pod has only one container, the container name is optional. 
+
+```bash
+kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER] [options]
+```
+| Use Case | Command |
+|----------|---------|
+| Single Container | `kubectl logs pod-name` |
+| Multi-Container | `--all-containers=true` |
+| Stream Logs | `-f` |
+| Previous Logs | `-p` |
+| Filter by Label | `-l app=name` |
+| Resource Type (Job/Deployment) | `job/name`, `deployment/name` |
+| Time-based | `--since=1h`, `--since-time=` |
+| TLS Skip | `--insecure-skip-tls-verify-backend` |
+| Limit Output | `--limit-bytes`, `--tail` |
+
+---
+
+
 ## Frequently Used Flags
 
 --dry-run='none':
