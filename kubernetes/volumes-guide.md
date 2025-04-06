@@ -409,16 +409,17 @@ Here's how they work together:
 | Delete  | Automatically delete the storage backend when PVC is deleted.              |
 | Recycle | *(Deprecated)* Basic scrub + reuse. Not recommended anymore.               |
 
+## 🔐 Best Practices
+
+| Area           | Recommendation                                                   |
+|----------------|------------------------------------------------------------------|
+| Reclaim Policy | Use `Retain` for critical apps (DBs), `Delete` for temp data     |
+| Access Modes   | `ReadWriteOnce` for DBs, `ReadOnlyMany` for shared content       |
+| StorageClass   | Use for dynamic provisioning with CSI drivers                    |
+| Binding Mode   | Use `WaitForFirstConsumer` to improve pod scheduling             |
+| Monitoring     | Watch PVC binding status: `kubectl get pvc`                      |
+
 ---
-
-## ✅ Summary
-
-| Component            | Purpose                          | Created By        |
-|----------------------|----------------------------------|-------------------|
-| PersistentVolume     | Provides raw storage             | Admin / K8s       |
-| PersistentVolumeClaim| Requests storage                 | Developer / User  |
-| StorageClass         | Defines how storage is provisioned | Admin            |
-
 
 ## ✅ Visual Diagram: Integration Flow
 
@@ -446,22 +447,6 @@ Pod mounts PVC as a volume
 | storageClassName | Must match PV & PVC | Required only in PVC | Defines how storage is provisioned | Admin            |
 | hostPath/NFS/etc | Defined in PV       | Defined in StorageClass |
 | Use Case | On-premises, legacy systems | Cloud-native, scalable workloads |
-
----
-
-## 🔐 Best Practices
-
-| Area           | Recommendation                                                   |
-|----------------|------------------------------------------------------------------|
-| Reclaim Policy | Use `Retain` for critical apps (DBs), `Delete` for temp data     |
-| Access Modes   | `ReadWriteOnce` for DBs, `ReadOnlyMany` for shared content       |
-| StorageClass   | Use for dynamic provisioning with CSI drivers                    |
-| Binding Mode   | Use `WaitForFirstConsumer` to improve pod scheduling             |
-| Monitoring     | Watch PVC binding status: `kubectl get pvc`                      |
-
----
-
-Would you like to add CSI drivers like Rook/Ceph or longhorn as next topic?
 
 
 
