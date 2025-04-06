@@ -40,12 +40,11 @@ spec:
     path: "/mnt/data"  # Simulated path on the node; not used in production (used only for local testing)
     type: DirectoryOrCreate  # Create the directory if it doesn't exist
 ```
-> **Note:** For production environments, use a **StorageClass** to dynamically provision PVs.
-> **Note:** `hostPath` is not suitable for production environments as it relies on the node's file system.
-> **Note:** `Retain` reclaim policy is used here for demonstration purposes; in production, use `Delete` or `Recycle` reclaim policies.
-> **Note:** `manual` storageClassName is used here for demonstration purposes; in production, use a `StorageClass` name.
-> **Note:** `ReadWriteOnce` access mode is used here for demonstration purposes; in production, use `ReadWriteMany` or `ReadOnlyMany` access modes.
-> **Note:** `10Gi` capacity is used here for demonstration purposes; in production, use a suitable capacity value.
+- For production environments, use a **StorageClass** to dynamically provision PVs.
+- `hostPath` is not suitable for production environments as it relies on the node's file system.
+- `Retain` reclaim policy is used here for demonstration purposes; in production, use `Delete` or `Recycle` reclaim policies.
+- `ReadWriteOnce` access mode is used here for demonstration purposes; in production, use `ReadWriteMany` or `ReadOnlyMany` access modes.
+- `10Gi` capacity is used here for demonstration purposes; in production, use a suitable capacity value.
 > 🔥 **Note:** In production, this might use `awsElasticBlockStore`, `nfs`, or `csi drivers` instead of hostPath.
 
 ### ✅ Example: AWS EBS (Elastic Block Store) (static provisioning)
