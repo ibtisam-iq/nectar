@@ -443,8 +443,8 @@ Pod mounts PVC as a volume
 |----------|----------------------|-----------------------| ----------------------------------|-------------------|
 | PV       | Created manually     | Created automatically by K8s | Provides raw storage             | Admin / K8s       |
 | PVC      | Must match PV        | Must reference StorageClass | Requests storage                 | Developer / User  |
-| StorageClass | Not Required | Required |
-| storageClassName | Must match PV & PVC | Required only in PVC | Defines how storage is provisioned | Admin            |
+| StorageClass | Not Required | Required | Defines how storage is provisioned | Admin            |
+| storageClassName | Must match PV & PVC | Required only in PVC | 
 | hostPath/NFS/etc | Defined in PV       | Defined in StorageClass |
 | Use Case | On-premises, legacy systems | Cloud-native, scalable workloads |
 
