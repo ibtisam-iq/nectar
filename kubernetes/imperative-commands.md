@@ -296,26 +296,7 @@ kubectl taint NODE NAME KEY_1=VAL_1:TAINT_EFFECT_1 ... KEY_N=VAL_N:TAINT_EFFECT_
 
 ### Examples
 
-```bash
-# Update node 'foo' with a taint with key 'dedicated' and value 'special-user' and effect 'NoSchedule'
-# If a taint with that key and effect already exists, its value is replaced as specified
-kubectl taint nodes foo dedicated=special-user:NoSchedule
-  
-# Remove from node 'foo' the taint with key 'dedicated' and effect 'NoSchedule' if one exists
-kubectl taint nodes foo dedicated:NoSchedule-
-  
-# Remove from node 'foo' all the taints with key 'dedicated'
-kubectl taint nodes foo dedicated-
-  
-# Add a taint with key 'dedicated' on nodes having label myLabel=X
-kubectl taint node -l myLabel=X  dedicated=foo:PreferNoSchedule
-
-#  
-kubectl describe node foo | grep -i taint -5
-
-# Add to node 'foo' a taint with key 'bar' and no value
-kubectl taint nodes foo bar:NoSchedule
-```
+Please see `kubectl taint nodes --help`.
 
 ---
 
@@ -340,26 +321,7 @@ kubectl annotate [--overwrite] (-f FILENAME | TYPE NAME) KEY_1=VAL_1 ... KEY_N=V
 
 ### Examples
 
-```bash
-# Update pod 'foo' with the label 'unhealthy' and the value 'true'
-kubectl label pods foo unhealthy=true
-  
-# Update pod 'foo' with the label 'status' and the value 'unhealthy', overwriting any existing value
-kubectl label --overwrite pods foo status=unhealthy
-  
-# Update all pods in the namespace
-kubectl label pods --all status=unhealthy
-  
-# Update a pod identified by the type and name in "pod.json"
-kubectl label -f pod.json status=unhealthy
-  
-# Update pod 'foo' only if the resource is unchanged from version 1
-kubectl label pods foo status=unhealthy --resource-version=1
-  
-# Update pod 'foo' by removing a label named 'bar' if it exists
-# Does not require the --overwrite flag
-kubectl label pods foo bar-
-```
+Please see `kubectl label --help` and `kubectl annotate --help`.
 
 ---
 
