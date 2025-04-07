@@ -1,4 +1,175 @@
+# 📘 Kubernetes Docs — Personal Reference (CKA Focused)
 
-1. Kubernetes Documentation / [Getting started](https://kubernetes.io/docs/setup/) / [Production environment](https://kubernetes.io/docs/setup/production-environment/) / [Container Runtimes](https://kubernetes.io/docs/setup/production-environment/container-runtimes/)
-2. 
+A curated collection of official Kubernetes documentation links for quick navigation and CKA prep. Grouped by topic, sorted by importance.
+
+---
+
+## 📌 General Docs
+- [Kubernetes Documentation (Home)](https://kubernetes.io/docs/home/)
+- [Concepts Overview](https://kubernetes.io/docs/concepts/)
+
+---
+
+## 🚀 Getting Started
+- [Getting Started](https://kubernetes.io/docs/setup/)
+- [Production Environment Setup](https://kubernetes.io/docs/setup/production-environment/)
+  - [Container Runtimes](https://kubernetes.io/docs/setup/production-environment/container-runtimes/)
+  - [Deployment Tools](https://kubernetes.io/docs/setup/production-environment/tools/)
+    - [Kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/)
+
+---
+
+## Concepts
+- Overview
+    - Kubernetes Components
+    - Objects In Kubernetes
+        - Kubernetes Object Management
+        - Object Names and IDs
+        - Labels and Selectors
+        - Namespaces
+        - Annotations
+        - Field Selectors
+        - Finalizers
+        - Owners and Dependents
+        - Recommended Labels
+    - The Kubernetes API
+- Cluster Architecture
+    - Nodes
+    - Communication between Nodes and the Control Plane
+    - Controllers
+    - Leases
+    - Cloud Controller Manager
+    - About cgroup v2
+    - Kubernetes Self-Healing
+    - Container Runtime Interface (CRI)
+    - Garbage Collection
+    - Mixed Version Proxy
+- Containers
+    - Images
+    - Container Environment
+    - Runtime Class
+    - Container Lifecycle Hooks
+- Workloads
+    - Pods
+        - Pod Lifecycle
+        - Init Containers
+        - Sidecar Containers
+        - Ephemeral Containers
+        - Disruptions
+        - Pod Quality of Service Classes
+        - User Namespaces
+        - Downward API
+    - Workload Management
+        - Deployments
+        - ReplicaSet
+        - StatefulSets
+        - DaemonSet
+        - Jobs
+        - Automatic Cleanup for Finished Jobs
+        - CronJob
+        - ReplicationController
+    - Autoscaling Workloads
+    - Managing Workloads
+- Services, Load Balancing, and Networking
+    - Service
+    - Ingress
+    - Ingress Controllers
+    - Gateway API
+    - EndpointSlices
+    - Network Policies
+    - DNS for Services and Pods
+    - IPv4/IPv6 dual-stack
+    - Topology Aware Routing
+    - Networking on Windows
+    - Service ClusterIP allocation
+    - Service Internal Traffic Policy
+- Storage
+    - Volumes
+    - Persistent Volumes
+    - Projected Volumes
+    - Ephemeral Volumes
+    - Storage Classes
+    - Volume Attributes Classes
+    - Dynamic Volume Provisioning
+    - Volume Snapshots
+    - Volume Snapshot Classes
+    - CSI Volume Cloning
+    - Storage Capacity
+    - Node-specific Volume Limits
+    - Volume Health Monitoring
+    - Windows Storage
+- Configuration
+    - Configuration Best Practices
+    - ConfigMaps
+    - Secrets
+    - Liveness, Readiness, and Startup Probes
+    - Resource Management for Pods and Containers
+    - Organizing Cluster Access Using kubeconfig Files
+    - Resource Management for Windows nodes
+- Security
+    - Cloud Native Security
+    - Pod Security Standards
+    - Pod Security Admission
+    - Service Accounts
+    - Pod Security Policies
+    - Security For Windows Nodes
+    - Controlling Access to the Kubernetes API
+    - Role Based Access Control Good Practices
+    - Good practices for Kubernetes Secrets
+    - Multi-tenancy
+    - Hardening Guide - Authentication Mechanisms
+    - Kubernetes API Server Bypass Risks
+    - Linux kernel security constraints for Pods and containers
+    - Security Checklist
+    - Application Security Checklist
+- Policies
+    - Limit Ranges
+    - Resource Quotas
+    - Process ID Limits And Reservations
+    - Node Resource Managers
+- Scheduling, Preemption and Eviction
+    - Kubernetes Scheduler
+    - Assigning Pods to Nodes
+    - Pod Overhead
+    - Pod Scheduling Readiness
+    - Pod Topology Spread Constraints
+    - Taints and Tolerations
+    - Scheduling Framework
+    - Dynamic Resource Allocation
+    - Scheduler Performance Tuning
+    - Resource Bin Packing
+    - Pod Priority and Preemption
+    - Node-pressure Eviction
+    - API-initiated Eviction
+- Cluster Administration
+    - Node Shutdowns
+    - Node Autoscaling
+    - Certificates
+    - Cluster Networking
+    - Admission Webhook Good Practices
+    - Logging Architecture
+    - Compatibility Version For Kubernetes Control Plane Components
+    - Metrics For Kubernetes System Components
+    - Metrics for Kubernetes Object States
+    - System Logs
+    - Traces For Kubernetes System Components
+    - Proxies in Kubernetes
+    - API Priority and Fairness
+    - Installing Addons
+    - Coordinated Leader Election
+- Windows in Kubernetes
+    - Windows containers in Kubernetes
+    - Guide for Running Windows Containers in Kubernetes
+- Extending Kubernetes
+    - Compute, Storage, and Networking Extensions
+        - Network Plugins
+        - Device Plugins
+    - Extending the Kubernetes API
+        - Custom Resources
+        - Kubernetes API Aggregation Layer
+    - Operator pattern
+
+---
+
+## Tasks
 
