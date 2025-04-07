@@ -104,7 +104,7 @@ This guide should help clarify how Kubernetes imperative commands interact with 
 
 ---
 
-## 7. Running Pods with Custom Commands and Arguments
+## Running Pods with Custom Commands and Arguments
 ### **1. Understanding Default Command and Arguments**
 - Every container image has a **default command** (defined as `ENTRYPOINT` in Docker) and **default arguments** (defined as `CMD` in Docker).
 - When running a pod using `kubectl run`, if no command or arguments are specified, Kubernetes will use the **default command and arguments** defined in the container image.
@@ -164,7 +164,7 @@ kubectl run myapp --image=alpine --command -- /bin/sh -c "echo arg1; echo arg2; 
 
 ---
 
-## 8. Conclusion
+## Conclusion
 - **Use `--labels="key1=value1,key2=value2"` for tagging and selection.**
 - **Use `--env=[]` for defining environment variables in a structured way.**
 - **Labels are stored as a dictionary, while environment variables are stored as a list.**
