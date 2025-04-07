@@ -6,7 +6,11 @@ A curated collection of official Kubernetes documentation links for quick naviga
 
 ## 📌 General Docs
 - [Kubernetes Documentation (Home)](https://kubernetes.io/docs/home/)
+- [Getting Started](https://kubernetes.io/docs/setup/)
 - [Concepts Overview](https://kubernetes.io/docs/concepts/)
+- [Tasks](https://kubernetes.io/docs/tasks/)
+- [Tutorials](https://kubernetes.io/docs/tutorials/)
+- [Reference](https://kubernetes.io/docs/reference/)
 
 ---
 
@@ -380,3 +384,405 @@ A curated collection of official Kubernetes documentation links for quick naviga
 
 ## Tutorials
 
+- Hello Minikube
+- Learn Kubernetes Basics
+    - Create a Cluster
+        - Using Minikube to Create a Cluster
+    - Deploy an App
+        - Using kubectl to Create a Deployment
+    - Explore Your App
+        - Viewing Pods and Nodes
+    - Expose Your App Publicly
+        - Using a Service to Expose Your App
+    - Scale Your App
+        - Running Multiple Instances of Your App
+    - Update Your App
+        - Performing a Rolling Update
+- Configuration
+    - Updating Configuration via a ConfigMap
+    - Configuring Redis using a ConfigMap
+    - Adopting Sidecar Containers
+- Security
+    - Apply Pod Security Standards at the Cluster Level
+    - Apply Pod Security Standards at the Namespace Level
+    - Restrict a Container's Access to Resources with AppArmor
+    - Restrict a Container's Syscalls with seccomp
+- Stateless Applications
+    - Exposing an External IP Address to Access an Application in a Cluster
+    - Example: Deploying PHP Guestbook application with Redis
+- Stateful Applications
+    - StatefulSet Basics
+    - Example: Deploying WordPress and MySQL with Persistent Volumes
+    - Example: Deploying Cassandra with a StatefulSet
+    - Running ZooKeeper, A Distributed System Coordinator
+- Cluster Management
+    - Running Kubelet in Standalone Mode
+- Services
+    - Connecting Applications with Services
+    - Using Source IP
+    - Explore Termination Behavior for Pods And Their Endpoints
+
+---
+
+## Reference
+
+- Glossary
+- API Overview
+    - Kubernetes API Concepts
+    - Server-Side Apply
+    - Client Libraries
+    - Common Expression Language in Kubernetes
+    - Kubernetes Deprecation Policy
+    - Deprecated API Migration Guide
+    - Kubernetes API health endpoints
+- API Access Control
+    - Authenticating
+    - Authenticating with Bootstrap Tokens
+    - Authorization
+    - Using RBAC Authorization
+    - Using Node Authorization
+    - Webhook Mode
+    - Using ABAC Authorization
+    - Admission Control
+    - Dynamic Admission Control
+    - Managing Service Accounts
+    - Certificates and Certificate Signing Requests
+    - Mapping PodSecurityPolicies to Pod Security Standards
+    - Kubelet authentication/authorization
+    - TLS bootstrapping
+    - Mutating Admission Policy
+    - Validating Admission Policy
+- Well-Known Labels, Annotations and Taints
+    - Audit Annotations
+- Kubernetes API
+    - Workload Resources
+        - Pod
+        - Binding
+        - PodTemplate
+        - ReplicationController
+        - ReplicaSet
+        - Deployment
+        - StatefulSet
+        - ControllerRevision
+        - DaemonSet
+        - Job
+        - CronJob
+        - HorizontalPodAutoscaler
+        - HorizontalPodAutoscaler
+        - PriorityClass
+        - PodSchedulingContext v1alpha3
+        - ResourceClaim v1alpha3
+        - ResourceClaim v1beta1
+        - ResourceClaimTemplate v1alpha3
+        - ResourceClaimTemplate v1beta1
+        - ResourceSlice v1alpha3
+        - ResourceSlice v1beta1
+    - Service Resources
+        - Service
+        - Endpoints
+        - EndpointSlice
+        - Ingress
+        - IngressClass
+    - Config and Storage Resources
+        - ConfigMap
+        - Secret
+        - CSIDriver
+        - CSINode
+        - CSIStorageCapacity
+        - PersistentVolumeClaim
+        - PersistentVolume
+        - StorageClass
+        - StorageVersionMigration v1alpha1
+        - Volume
+        - VolumeAttachment
+        - VolumeAttributesClass v1beta1
+    - Authentication Resources
+        - ServiceAccount
+        - TokenRequest
+        - TokenReview
+        - CertificateSigningRequest
+        - ClusterTrustBundle v1alpha1
+        - SelfSubjectReview
+    - Authorization Resources
+        - LocalSubjectAccessReview
+        - SelfSubjectAccessReview
+        - SelfSubjectRulesReview
+        - SubjectAccessReview
+        - ClusterRole
+        - ClusterRoleBinding
+        - Role
+        - RoleBinding
+    - Policy Resources
+        - FlowSchema
+        - LimitRange
+        - ResourceQuota
+        - NetworkPolicy
+        - PodDisruptionBudget
+        - PriorityLevelConfiguration
+        - ValidatingAdmissionPolicy
+        - ValidatingAdmissionPolicyBinding
+    - Extend Resources
+        - CustomResourceDefinition
+        - DeviceClass v1alpha3
+        - DeviceClass v1beta1
+        - MutatingWebhookConfiguration
+        - ValidatingWebhookConfiguration
+    - Cluster Resources
+        - APIService
+        - ComponentStatus
+        - Event
+        - IPAddress v1beta1
+        - Lease
+        - LeaseCandidate v1alpha1
+        - Namespace
+        - Node
+        - RuntimeClass
+        - ServiceCIDR v1beta1
+    - Common Definitions
+        - DeleteOptions
+        - LabelSelector
+        - ListMeta
+        - LocalObjectReference
+        - NodeSelectorRequirement
+        - ObjectFieldSelector
+        - ObjectMeta
+        - ObjectReference
+        - Patch
+        - Quantity
+        - ResourceFieldSelector
+        - Status
+        - TypedLocalObjectReference
+    - Common Parameters
+- Instrumentation
+    - Service Level Indicator Metrics
+    - CRI Pod & Container Metrics
+    - Node metrics data
+    - Kubernetes z-pages
+    - Kubernetes Metrics Reference
+- Kubernetes Issues and Security
+    - Kubernetes Issue Tracker
+    - Kubernetes Security and Disclosure Information
+    - CVE feed
+- Node Reference Information
+    - Kubelet Checkpoint API
+    - Linux Kernel Version Requirements
+    - Articles on dockershim Removal and on Using CRI-compatible Runtimes
+    - Node Labels Populated By The Kubelet
+    - Local Files And Paths Used By The Kubelet
+    - Kubelet Configuration Directory Merging
+    - Kubelet Device Manager API Versions
+    - Kubelet Systemd Watchdog
+    - Node Status
+    - Seccomp and Kubernetes
+- Networking Reference
+    - Protocols for Services
+    - Ports and Protocols
+    - Virtual IPs and Service Proxies
+- Setup tools
+    - Kubeadm
+        - kubeadm init
+        - kubeadm join
+        - kubeadm upgrade
+        - kubeadm upgrade phases
+        - kubeadm config
+        - kubeadm reset
+        - kubeadm token
+        - kubeadm version
+        - kubeadm alpha
+        - kubeadm certs
+        - kubeadm init phase
+        - kubeadm join phase
+        - kubeadm kubeconfig
+        - kubeadm reset phase
+        - Implementation details
+- Command line tool (kubectl)
+    - Introduction to kubectl
+    - kubectl Quick Reference
+    - kubectl reference
+        - kubectl
+        - kubectl annotate
+        - kubectl api-resources
+        - kubectl api-versions
+        - kubectl apply
+            - kubectl apply edit-last-applied
+            - kubectl apply set-last-applied
+            - kubectl apply view-last-applied
+        - kubectl attach
+        - kubectl auth
+            - kubectl auth can-i
+            - kubectl auth reconcile
+            - kubectl auth whoami
+        - kubectl autoscale
+        - kubectl certificate
+            - kubectl certificate approve
+            - kubectl certificate deny
+        - kubectl cluster-info
+            - kubectl cluster-info dump
+        - kubectl completion
+        - kubectl config
+            - kubectl config current-context
+            - kubectl config delete-cluster
+            - kubectl config delete-context
+            - kubectl config delete-user
+            - kubectl config get-clusters
+            - kubectl config get-contexts
+            - kubectl config get-users
+            - kubectl config rename-context
+            - kubectl config set
+            - kubectl config set-cluster
+            - kubectl config set-context
+            - kubectl config set-credentials
+            - kubectl config unset
+            - kubectl config use-context
+            - kubectl config view
+        - kubectl cordon
+        - kubectl cp
+        - kubectl create
+            - kubectl create clusterrole
+            - kubectl create clusterrolebinding
+            - kubectl create configmap
+            - kubectl create cronjob
+            - kubectl create deployment
+            - kubectl create ingress
+            - kubectl create job
+            - kubectl create namespace
+            - kubectl create poddisruptionbudget
+            - kubectl create priorityclass
+            - kubectl create quota
+            - kubectl create role
+            - kubectl create rolebinding
+            - kubectl create secret
+            - kubectl create secret docker-registry
+            - kubectl create secret generic
+            - kubectl create secret tls
+            - kubectl create service
+            - kubectl create service clusterip
+            - kubectl create service externalname
+            - kubectl create service loadbalancer
+            - kubectl create service nodeport
+            - kubectl create serviceaccount
+            - kubectl create token
+        - kubectl debug
+        - kubectl delete
+        - kubectl describe
+        - kubectl diff
+        - kubectl drain
+        - kubectl edit
+        - kubectl events
+        - kubectl exec
+        - kubectl explain
+        - kubectl expose
+        - kubectl get
+        - kubectl kustomize
+        - kubectl label
+        - kubectl logs
+        - kubectl options
+        - kubectl patch
+        - kubectl plugin
+            - kubectl plugin list
+        - kubectl port-forward
+        - kubectl proxy
+        - kubectl replace
+        - kubectl rollout
+            - kubectl rollout history
+            - kubectl rollout pause
+            - kubectl rollout restart
+            - kubectl rollout resume
+            - kubectl rollout status
+            - kubectl rollout undo
+        - kubectl run
+        - kubectl scale
+        - kubectl set
+            - kubectl set env
+            - kubectl set image
+            - kubectl set resources
+            - kubectl set selector
+            - kubectl set serviceaccount
+            - kubectl set subject
+        - kubectl taint
+        - kubectl top
+            - kubectl top node
+            - kubectl top pod
+        - kubectl uncordon
+        - kubectl version
+        - kubectl wait
+    - kubectl Commands
+    - kubectl
+    - JSONPath Support
+    - kubectl for Docker Users
+    - kubectl Usage Conventions
+- Component tools
+    - Feature Gates
+    - Feature Gates (removed)
+    - kubelet
+    - kube-apiserver
+    - kube-controller-manager
+    - kube-proxy
+    - kube-scheduler
+- Debug cluster
+    - Flow control
+- Configuration APIs
+    - Client Authentication (v1)
+    - Client Authentication (v1beta1)
+    - Event Rate Limit Configuration (v1alpha1)
+    - Image Policy API (v1alpha1)
+    - kube-apiserver Admission (v1)
+    - kube-apiserver Audit Configuration (v1)
+    - kube-apiserver Configuration (v1)
+    - kube-apiserver Configuration (v1alpha1)
+    - kube-apiserver Configuration (v1beta1)
+    - kube-controller-manager Configuration (v1alpha1)
+    - kube-proxy Configuration (v1alpha1)
+    - kube-scheduler Configuration (v1)
+    - kubeadm Configuration (v1beta3)
+    - kubeadm Configuration (v1beta4)
+    - kubeconfig (v1)
+    - Kubelet Configuration (v1)
+    - Kubelet Configuration (v1alpha1)
+    - Kubelet Configuration (v1beta1)
+    - Kubelet CredentialProvider (v1)
+    - WebhookAdmission Configuration (v1)
+- External APIs
+    - Kubernetes Custom Metrics (v1beta2)
+    - Kubernetes External Metrics (v1beta1)
+    - Kubernetes Metrics (v1beta1)
+- Scheduling
+    - Scheduler Configuration
+    - Scheduling Policies
+- Other Tools
+
+---
+
+## Contribute
+
+- Contribute to Kubernetes Documentation
+- Suggesting content improvements
+- Contributing new content
+    - Opening a pull request
+    - Documenting for a release
+    - Blogs and case studies
+- Reviewing changes
+    - Reviewing pull requests
+    - For approvers and reviewers
+- Localizing Kubernetes documentation
+- Participating in SIG Docs
+    - Roles and responsibilities
+    - Issue Wranglers
+    - PR wranglers
+- Documentation style overview
+    - Content guide
+    - Style guide
+    - Diagram guide
+    - Writing a new topic
+    - Page content types
+    - Content organization
+    - Custom Hugo Shortcodes
+- Updating Reference Documentation
+    - Quickstart
+    - Contributing to the Upstream Kubernetes Code
+    - Generating Reference Documentation for the Kubernetes API
+    - Generating Reference Documentation for kubectl Commands
+    - Generating Reference Documentation for Metrics
+    - Generating Reference Pages for Kubernetes Components and Tools
+- Advanced contributing
+- Viewing Site Analytics
