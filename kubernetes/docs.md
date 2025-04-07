@@ -317,37 +317,37 @@ A curated collection of official Kubernetes documentation links for quick naviga
     - Expose Pod Information to Containers Through Files
     - Distribute Credentials Securely Using Secrets
 - Run Applications
-    Run a Stateless Application Using a Deployment
-    Run a Single-Instance Stateful Application
-    Run a Replicated Stateful Application
-    Scale a StatefulSet
-    Delete a StatefulSet
-    Force Delete StatefulSet Pods
-    Horizontal Pod Autoscaling
-    HorizontalPodAutoscaler Walkthrough
-    Specifying a Disruption Budget for your Application
-    Accessing the Kubernetes API from a Pod
+    - Run a Stateless Application Using a Deployment
+    - Run a Single-Instance Stateful Application
+    - Run a Replicated Stateful Application
+    - Scale a StatefulSet
+    - Delete a StatefulSet
+    - Force Delete StatefulSet Pods
+    - Horizontal Pod Autoscaling
+    - HorizontalPodAutoscaler Walkthrough
+    - Specifying a Disruption Budget for your Application
+    - Accessing the Kubernetes API from a Pod
 - Run Jobs
-    Running Automated Tasks with a CronJob
-    Coarse Parallel Processing Using a Work Queue
-    Fine Parallel Processing Using a Work Queue
-    Indexed Job for Parallel Processing with Static Work Assignment
-    Job with Pod-to-Pod Communication
-    Parallel Processing using Expansions
-    Handling retriable and non-retriable pod failures with Pod failure policy
+    - Running Automated Tasks with a CronJob
+    - Coarse Parallel Processing Using a Work Queue
+    - Fine Parallel Processing Using a Work Queue
+    - Indexed Job for Parallel Processing with Static Work Assignment
+    - Job with Pod-to-Pod Communication
+    - Parallel Processing using Expansions
+    - Handling retriable and non-retriable pod failures with Pod failure policy
 - Access Applications in a Cluster
-    Deploy and Access the Kubernetes Dashboard
-    Accessing Clusters
-    Configure Access to Multiple Clusters
-    Use Port Forwarding to Access Applications in a Cluster
-    Use a Service to Access an Application in a Cluster
-    Connect a Frontend to a Backend Using Services
-    Create an External Load Balancer
-    List All Container Images Running in a Cluster
-    Set up Ingress on Minikube with the NGINX Ingress Controller
-    Communicate Between Containers in the Same Pod Using a Shared Volume
-    Configure DNS for a Cluster
-    Access Services Running on Clusters
+    - Deploy and Access the Kubernetes Dashboard
+    - Accessing Clusters
+    - Configure Access to Multiple Clusters
+    - Use Port Forwarding to Access Applications in a Cluster
+    - Use a Service to Access an Application in a Cluster
+    - Connect a Frontend to a Backend Using Services
+    - Create an External Load Balancer
+    - List All Container Images Running in a Cluster
+    - Set up Ingress on Minikube with the NGINX Ingress Controller
+    - Communicate Between Containers in the Same Pod Using a Shared Volume
+    - Configure DNS for a Cluster
+    - Access Services Running on Clusters
 - Extend Kubernetes
     - Configure the Aggregation Layer
     - Use Custom Resources
