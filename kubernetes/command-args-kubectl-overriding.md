@@ -34,7 +34,7 @@ kubectl run NAME --image=IMAGE [--command] -- [COMMAND] [args...]
 | Scenario                           | `command` field     | `args` field         |
 |------------------------------------|----------------------|----------------------|
 | `--` (no `--command`)              | *Uses image default* | Everything after `--` |
-| `--command -- [cmd] [args...]`     | `[cmd]`              | `[args...]`          |
+| `--command -- [cmd] [args...]`     | Explicitly set to `[cmd]`              | Explicitly set to `[args...]`          |
 
 ---
 
@@ -211,7 +211,7 @@ In this case:
 ```sh
 kubectl create cronjob myjob --image=busybox --schedule="*/5 * * * *" -- echo "Hi"
 ```
-- ❌ This is parsed incorrectly — `echo` is treated as an argument, not a command.
+> "`echo` is treated as an argument to the image’s default command (likely `sh`), rather than replacing the command itself."
 
 **✅ Correct: Use `--command --`**
 ```bash
