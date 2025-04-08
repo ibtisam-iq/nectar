@@ -240,3 +240,11 @@ spec:
 - Always add `--` to separate `kubectl` options from container commands.
 - When in doubt, inspect the image with `docker inspect <image>` to check `ENTRYPOINT` and `CMD`.
 
+## 🔬 How to Inspect Image Defaults
+If you want to know what ENTRYPOINT and CMD values a container has:
+```bash
+docker inspect <image>
+```
+Look under `.Config.Entrypoint` and `.Config.Cmd`
+
+---
