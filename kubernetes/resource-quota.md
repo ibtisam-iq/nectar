@@ -291,6 +291,8 @@ spec:
 
 ## 🚀 Bonus Tip: How Kubernetes Calculates Resources
 
+Official docs: [Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
+
 - In Kubernetes, containers can specify:
   - `resources.requests`: Minimum required resources.
   - `resources.limits`: Max usable resources.

@@ -31,16 +31,16 @@ metadata:
 spec:
   limits:
     - type: Container  # Applies to individual containers (not whole pods)
-      max:
+      max:                  # Upper bound for requests and limits
         cpu: "1"            # Container can't request more than 1 CPU core
         memory: "1Gi"       # Container can't use more than 1Gi of memory
-      min:
+      min:                  # Lower bound for requests and limits
         cpu: "100m"         # At least 100 millicores must be requested
         memory: "128Mi"     # At least 128Mi memory must be requested
-      default:
+      default:              # this section defines default limits
         cpu: "500m"         # If not set in Pod spec, this value is used (Default resource.limit.cpu)
         memory: "512Mi"
-      defaultRequest:
+      defaultRequest:       # this section defines default requests
         cpu: "200m"         # Default resource.request.cpu
         memory: "256Mi"
       maxLimitRequestRatio:
