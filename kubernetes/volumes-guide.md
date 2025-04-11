@@ -171,7 +171,7 @@ spec:
 > 📌 PVC binds to a suitable PV if `accessModes`, `storageClassName`, and `requests.storage` match.
 ---
 
-## ⚙️ 3. Using PVC in a Pod
+## ⚙️ 3. Using PVC in a Pod (Claims As Volumes)
 
 ```yaml
 apiVersion: v1
