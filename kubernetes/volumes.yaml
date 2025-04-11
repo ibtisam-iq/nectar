@@ -1,0 +1,185 @@
+# Types of volumes in Kubernetes
+
+# 1. emptyDir: A temporary directory that shares storage between containers in a pod.
+# 2. hostPath: A directory on the host node that is shared with the pod.
+# 3. persistentVolumeClaim: A request for storage that is fulfilled by a PersistentVolume.
+# 4. configMap: A volume that contains configuration data from a ConfigMap.
+# 5. secret: A volume that contains sensitive data from a Secret.
+# 6. projected: A volume that combines multiple volume sources into a single volume.
+# 7. downwardAPI: A volume that exposes metadata about the pod and its containers.
+# 8. gitRepo: A volume that contains files from a Git repository.
+# 9. csi: A volume that uses a Container Storage Interface (CSI) driver to manage storage.
+# 10. azureDisk: A volume that uses an Azure Disk as storage.
+# 11. azureFile: A volume that uses an Azure File share as storage.
+# 12. awsElasticBlockStore: A volume that uses an AWS EBS volume as storage.
+# 13. gcePersistentDisk: A volume that uses a GCE Persistent Disk as storage.
+# 14. nfs: A volume that uses an NFS share as storage.
+# 15. iscsi: A volume that uses an iSCSI target as storage.
+# 16. rbd: A volume that uses a Ceph RBD image as storage.
+# 17. cephfs: A volume that uses a CephFS filesystem as storage.
+# 18. flocker: A volume that uses a Flocker dataset as storage.
+# 19. glusterfs: A volume that uses a GlusterFS volume as storage.
+# 20. local: A volume that uses a local disk as storage.
+# 21. storageos: A volume that uses a StorageOS volume as storage.
+# 22. portworxVolume: A volume that uses a Portworx volume as storage.
+# 23. quobyte: A volume that uses a Quobyte volume as storage.
+# 24. scaleIO: A volume that uses a ScaleIO volume as storage.
+# 25. vSphereVolume: A volume that uses a vSphere volume as storage.
+# 26. cinder: A volume that uses a Cinder volume as storage.
+# 27. photonPersistentDisk: A volume that uses a Photon Persistent Disk as storage.
+# 28. openstackCinder: A volume that uses an OpenStack Cinder volume as storage.
+# 29. openstackSwift: A volume that uses an OpenStack Swift object storage as storage.
+# 30. openstackCeph: A volume that uses an OpenStack Ceph volume as storage.
+# 31. openstackGlance: A volume that uses an OpenStack Glance image as storage.
+# 32. openstackManila: A volume that uses an OpenStack Manila share as storage.
+# 33. openstackOctavia: A volume that uses an OpenStack Octavia load balancer as storage.
+# 34. openstackNeutron: A volume that uses an OpenStack Neutron network as storage.
+# 35. openstackNova: A volume that uses an OpenStack Nova instance as storage.
+# 36. openstackNeutronLBaaS: A volume that uses an OpenStack Neutron LBaaS load balancer as storage.
+# 37. openstackNeutronVPNaaS: A volume that uses an OpenStack Neutron VPNaaS VPN as storage.
+# 38. openstackNeutronFWaaS: A volume that uses an OpenStack Neutron FWaaS firewall as storage.
+# 39. openstackNeutronLBaaS2: A volume that uses an OpenStack Neutron LBaaS2 load balancer as storage.
+# 40. openstackNeutronVPNaaS2: A volume that uses an OpenStack Neutron VPNaaS2 VPN as storage.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-pod
+spec:
+  containers:
+    - name: test
+      image: busybox:1.28
+      command: ['sh', '-c', 'echo "The app is running!" && tail -f /dev/null']
+      volumeMounts:
+        - name: config-vol
+          mountPath: /etc/config
+  volumes:
+    - name: config-vol
+      configMap:
+        name: log-config
+        items:
+          - key: log_level
+            path: log_level.conf
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pd
+spec:
+  containers:
+  - image: registry.k8s.io/test-webserver
+    name: test-container
+    volumeMounts:
+    - mountPath: /cache
+      name: cache-volume
+  volumes:
+  - name: cache-volume
+    emptyDir:
+      sizeLimit: 500Mi
+      medium: Memory
+
+---
+# This manifest mounts /data/foo on the host as /foo inside the
+# single container that runs within the hostpath-example-linux Pod.
+#
+# The mount into the container is read-only.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hostpath-example-linux
+spec:
+  os: { name: linux }
+  nodeSelector:
+    kubernetes.io/os: linux
+  containers:
+  - name: example-container
+    image: registry.k8s.io/test-webserver
+    volumeMounts:
+    - mountPath: /foo
+      name: example-volume
+      readOnly: true
+  volumes:
+  - name: example-volume
+    # mount /data/foo, but only if that directory already exists
+    hostPath:
+      path: /data/foo # directory location on host
+      type: Directory # this field is optional
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-webserver
+spec:
+  os: { name: linux }
+  nodeSelector:
+    kubernetes.io/os: linux
+  containers:
+  - name: test-webserver
+    image: registry.k8s.io/test-webserver:latest
+    volumeMounts:
+    - mountPath: /var/local/aaa
+      name: mydir
+    - mountPath: /var/local/aaa/1.txt
+      name: myfile
+  volumes:
+  - name: mydir
+    hostPath:
+      # Ensure the file directory is created.
+      path: /var/local/aaa
+      type: DirectoryOrCreate
+  - name: myfile
+    hostPath:
+      path: /var/local/aaa/1.txt
+      type: FileOrCreate
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: example-pv
+spec:
+  capacity:
+    storage: 100Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: local-storage
+  local:
+    path: /mnt/disks/ssd1
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - example-node
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pd
+spec:
+  containers:
+  - image: registry.k8s.io/test-webserver
+    name: test-container
+    volumeMounts:
+    - mountPath: /my-nfs-data
+      name: test-volume
+  volumes:
+  - name: test-volume
+    nfs:
+      server: my-nfs-server.example.com
+      path: /my-nfs-volume
+      readOnly: true
+
+---
+
