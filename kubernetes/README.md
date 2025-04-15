@@ -6,7 +6,7 @@ Kubernetes, often abbreviated as K8s, is an open-source platform designed to aut
 
 ### Core Concepts
 
-At its core, Kubernetes operates on a cluster-based architecture comprising a control plane and worker nodes. The control plane manages the cluster's state, while nodes run the containerized workloads. Key components include Pods, the smallest deployable units that encapsulate containers; Deployments, which manage stateless applications; and StatefulSets, for stateful workloads. Kubernetes leverages a declarative API, allowing users to define desired states in YAML or JSON manifests, which the system continuously reconciles.
+At its core, Kubernetes operates on a cluster-based [architecture](architecture.md) comprising a control plane and worker nodes. The control plane manages the cluster's state, while nodes run the containerized workloads. Key [objects](objects.md) include Pods, the smallest deployable units that encapsulate containers; Deployments, which manage stateless applications; and StatefulSets, for stateful workloads. Kubernetes leverages a declarative API, allowing users to define desired states in [YAML](https://github.com/ibtisam-iq/nectar/tree/main/yaml) or JSON manifests, which the system continuously reconciles.
 
 ### Cluster Setup and Configuration
 
