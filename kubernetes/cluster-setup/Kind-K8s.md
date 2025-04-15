@@ -145,6 +145,8 @@ extraPortMappings:
 
 Now, a service on NodePort `30000` will be accessible at `http://localhost:8080`.
 
+> **See detailed guide about `extraPortMappings` [here](extraPortMappings-1.md).**
+
 ---
 
 ## 8. Customizing Cluster Configuration
@@ -152,6 +154,7 @@ Now, a service on NodePort `30000` will be accessible at `http://localhost:8080`
 ### Kubeadm Configuration Patches
 - `kubeadmConfigPatches` customizes the kubeadm settings inside Kind.
 - It allows modifying cluster configurations at both **cluster level** and **node level**.
+
 
 #### Cluster-Wide Configuration:
 ```yaml
@@ -186,6 +189,8 @@ containerdConfigPatches:
 ```
 
 This improves container performance and storage efficiency.
+
+> **For a detailed explanation, please refer to the documentation on  [`kubeadmConfigPatches`](kubeadmConfigPatches.md) and [`containerdConfigPatches`](containerdConfigPatches.md).**
 
 ---
 
