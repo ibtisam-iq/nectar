@@ -32,28 +32,6 @@ A **PersistentVolumeClaim (PVC)** is a request for storage by a user. It specifi
 - Describes **how much space** is needed and **how it should be accessed** (ReadWriteOnce, ReadOnlyMany, etc).
 - Kubernetes **will bind a matching PV** with the PVC.
 
-### Key Fields in PVC YAML
-
-```yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: pvc-manual
-spec:
-  accessModes:
-    - ReadWriteOnce  # Can be mounted on one node # Matches the PV
-  resources:
-    requests:
-      storage: 10Gi  # Requested size # Must be <= available PV
-  storageClassName: manual  # Matches the PV or StorageClass
-# storageClassName: aws-ebs
-# storageClassName: nfs
-# storageClassName: csi-sc
-
-```
-- The value of `storageClassName` is not fixed; it can be any name, but it **must match** the name of the `StorageClass` or the value in the PV and PVC manifest for proper binding.
-- 🔄 This PVC will only bind to a PV that also has `storageClassName: manual`.
-> 📌 PVC binds to a suitable PV if `accessModes`, `storageClassName`, and `requests.storage` match.
 ---
 
 ## ⚙️ 3. Using PVC in a Pod (Claims As Volumes)
@@ -98,9 +76,10 @@ A `StorageClass` defines how storage should be provisioned dynamically. It provi
 - Defines **reclaim policies** (Delete, Retain, Recycle).
 - Used by PVC to dynamically provision PV.
 
-### StorageClass Example for AWS EBS
+### PVC Using StorageClass
 
 ```yaml
+# Create a StorageClass
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -111,43 +90,7 @@ parameters:
   fsType: ext4  # Filesystem type
 reclaimPolicy: Delete  # Automatically delete volume when PVC is deleted
 volumeBindingMode: WaitForFirstConsumer  # Delay volume binding until pod is scheduled
-```
-
-### StorageClass Example for NFS
-```yaml
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: nfs
-provisioner: nfs.csi.k8s.io
-parameters:
-  server: nfs-server.example.com
-  share: /exported/path
-mountOptions:
-  - vers=4.1
-reclaimPolicy: Retain
-volumeBindingMode: Immediate
-```
-
-### StorageClass Example for CSI (EBS CSI Driver)
-```yaml
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: csi-sc
-provisioner: ebs.csi.aws.com
-parameters:
-  type: gp2
-  fsType: ext4
-reclaimPolicy: Delete
-volumeBindingMode: WaitForFirstConsumer
-```
-
 ---
-
-### PVC Using StorageClass
-
-```yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -160,8 +103,7 @@ spec:
       storage: 10Gi
   storageClassName: ebs-sc  # Links to the above StorageClass # This will trigger dynamic provisioning
 ```
-- The StorageClass must be created before the PVC. The PVC will then use the StorageClass to dynamically provision a PV.
-> ⏳ As soon as this PVC is applied, Kubernetes will **automatically provision an EBS volume**, create a matching PV, and bind it to this PVC.
+
 ---
 
 ## 📌 5. Pod Example Using Dynamic PVC
@@ -208,55 +150,16 @@ spec:
 
 ## 📡 6. ReadWriteMany Example with NFS
 
-To enable shared access by multiple pods, we use **ReadWriteMany** with an NFS server:
+Sometimes, we underwent **a situation where multiple pods need to read and write to the same storage location concurrently**.
 
-### StorageClass for NFS
+In Kubernetes:
+- `ReadWriteOnce (RWO)` → One pod can read/write.
+- `ReadOnlyMany (ROX)` → Many pods can read.
+- `ReadWriteMany (RWX)` → Many pods can read and write.
 
-```yaml
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: nfs-sc
-provisioner: example.com/nfs  # Replace with your NFS CSI driver name
-parameters:
-  archiveOnDelete: "false"  # Optional behavior
-```
+But most common cloud provisioners like EBS, GCE PD, etc., **don’t support RWX** — so to achieve **shared read-write storage** for multiple pods, we often use **NFS (or other RWX-capable storage systems)**.
 
-### PVC Requesting RWX Access
-
-```yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: shared-pvc
-spec:
-  accessModes:
-    - ReadWriteMany  # RWX access
-  resources:
-    requests:
-      storage: 5Gi
-  storageClassName: nfs-sc
-```
-
-### Pod Using Shared Volume
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: frontend-pod
-spec:
-  containers:
-    - name: frontend
-      image: nginx
-      volumeMounts:
-        - mountPath: "/usr/share/nginx/html"
-          name: shared-storage
-  volumes:
-    - name: shared-storage
-      persistentVolumeClaim:
-        claimName: shared-pvc
-```
+> Click [here](rwx-nfs-volume.md) to know **how to set up a Kubernetes volume with ReadWriteMany access using NFS** — so multiple pods can mount the same volume concurrently and perform both read and write operations on it.
 
 ---
 
@@ -276,13 +179,17 @@ Here's how they work together:
 
 ---
 
-## 🔐 Access Modes (Important in Multi-pod Usage)
+## 📌 AccessModes in Kubernetes are **Pod-level permissions** — NOT Node-level
 
-| Mode            | Meaning                                                |
-|-----------------|--------------------------------------------------------|
-| ReadWriteOnce   | One node can mount read/write (most common)           |
-| ReadOnlyMany    | Multiple nodes can mount read-only                    |
-| ReadWriteMany   | Multiple nodes can mount read/write (less common, needs special backend) |
+Here’s how they really work:
+
+| Access Mode  | Meaning                                                 | Scope        |
+|:-------------|:---------------------------------------------------------|:---------------|
+| `ReadWriteOnce` (RWO) | **One Pod can mount it as read-write**. It may still be accessed from multiple nodes, but **only one pod at a time can have it mounted read-write**. | **Per Pod** |
+| `ReadOnlyMany` (ROX) | **Many Pods can mount it read-only at the same time** — across one or multiple nodes. | **Per Pod** |
+| `ReadWriteMany` (RWX) | **Many Pods can mount it as read-write simultaneously** — across multiple nodes. | **Per Pod** |
+
+#### ✅ So — **the unit of access is always the pod.**
 
 ---
 
@@ -293,18 +200,6 @@ Here's how they work together:
 | Retain  | Keep the PV data after PVC deletion. Manual cleanup needed.                |
 | Delete  | Automatically delete the storage backend when PVC is deleted.              |
 | Recycle | *(Deprecated)* Basic scrub + reuse. Not recommended anymore.               |
-
-## 🔐 Best Practices
-
-| Area           | Recommendation                                                   |
-|----------------|------------------------------------------------------------------|
-| Reclaim Policy | Use `Retain` for critical apps (DBs), `Delete` for temp data     |
-| Access Modes   | `ReadWriteOnce` for DBs, `ReadOnlyMany` for shared content       |
-| StorageClass   | Use for dynamic provisioning with CSI drivers                    |
-| Binding Mode   | Use `WaitForFirstConsumer` to improve pod scheduling             |
-| Monitoring     | Watch PVC binding status: `kubectl get pvc`                      |
-
----
 
 ## ✅ Visual Diagram: Integration Flow
 
@@ -319,6 +214,18 @@ PVC gets bound to the new PV
    ↓
 Pod mounts PVC as a volume
 ```
+
+---
+
+## 🔐 Best Practices
+
+| Area           | Recommendation                                                   |
+|----------------|------------------------------------------------------------------|
+| Reclaim Policy | Use `Retain` for critical apps (DBs), `Delete` for temp data     |
+| Access Modes   | `ReadWriteOnce` for DBs, `ReadOnlyMany` for shared content       |
+| StorageClass   | Use for dynamic provisioning with CSI drivers                    |
+| Binding Mode   | Use `WaitForFirstConsumer` to improve pod scheduling             |
+| Monitoring     | Watch PVC binding status: `kubectl get pvc`                      |
 
 ---
 
