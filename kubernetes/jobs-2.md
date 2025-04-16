@@ -1,7 +1,5 @@
 ## Advanced Job Handling: Failures, Policies, and Success Criteria
 
----
-
 ### Handling Pod and Container Failures
 
 In Kubernetes, containers and Pods can fail for multiple reasons, such as:
@@ -205,6 +203,7 @@ This Job will succeed once **one Pod** from the set {0, 2, 3} completes successf
 
 ---
 
-Let me know if you'd like diagrams added to visualize Job lifecycle with retries, success, and failure policies.
+## Next Topic
 
+- [Cron Job Guide](cron-job-guide.md)
 
