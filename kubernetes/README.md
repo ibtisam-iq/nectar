@@ -22,7 +22,7 @@ Kubernetes excels in managing diverse workloads. [Jobs](jobs-guide.md) and [Cron
 
 ### Security Practices
 
-Security in Kubernetes is multi-layered. Role-Based Access Control (RBAC) governs user and workload permissions, while Security Contexts define Pod-level security settings, such as running containers as non-root. Secrets manage sensitive data like API keys, and Pod Security Policies (deprecated in favor of admission controllers) enforce security standards. Taints and tolerations further isolate workloads, ensuring critical applications run on designated nodes.
+Security in Kubernetes is multi-layered. [Role-Based Access Control (RBAC)](rbac.md) governs user and workload permissions, while [Security Contexts](securityContext.md) define Pod-level security settings, such as running containers as non-root. Secrets manage sensitive data like API keys, and Pod Security Policies (deprecated in favor of admission controllers) enforce security standards. Taints and tolerations further isolate workloads, ensuring critical applications run on designated nodes.
 
 ### Scaling and Resource Management
 
