@@ -168,8 +168,6 @@ spec:
 - Monitor execution via Job/Pod logs.
 - Validate your cron expression with online tools.
 
----
 
-Would you like a visual flow diagram of how a CronJob works internally?
 
 
