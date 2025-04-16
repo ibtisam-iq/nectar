@@ -1,9 +1,4 @@
-# Kubernetes ConfigMap Guide
-
-## **Introduction**
-A **ConfigMap** in Kubernetes is an API object that allows you to store **non-sensitive configuration data** separately from the application code. This helps in maintaining a clear separation of configuration and application logic.
-
-## **Creating ConfigMaps Imperatively**
+# Creating ConfigMaps Imperatively
 Kubernetes provides multiple ways to create ConfigMaps using the `kubectl create configmap` command.
 
 ---

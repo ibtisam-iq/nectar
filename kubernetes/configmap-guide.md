@@ -1,6 +1,9 @@
-# Kubernetes ConfigMap Deep Dive
+# Kubernetes ConfigMap Manifest Deep Dive
 
-## 🔑 Key Components
+## **Introduction**
+A **ConfigMap** in Kubernetes is an API object that allows you to store **non-sensitive configuration data** separately from the application code. This helps in maintaining a clear separation of configuration and application logic.
+
+## 🔑 Manifest Key Components
 
 - **apiVersion & kind**: Identifies it as a `ConfigMap`.
 - **metadata.name**: Must be a valid DNS subdomain name (e.g., `my-config`).
@@ -264,3 +267,11 @@ kubectl delete configmap my-config
 **Why**: Separates config from code for flexibility & portability.
 
 ConfigMaps are simple yet powerful tools in Kubernetes for managing app configuration. Whether you prefer quick environment variables or structured config files—they’ve got you covered!
+
+## 📚 Further Reading
+
+- [Kubernetes ConfigMap Documentation](https://kubernetes.io/docs/concepts/configuration/configmap/)
+- [CKA Study Guide](https://github.com/ibtisam-iq/CKA-and-CKAD-prep/blob/main/3.%20Workloads%20%26%20Scheduling/07.%20Use%20ConfigMaps%20and%20Secrets%20to%20Configure%20Applications.md)
+- [CKAD Study Guide](https://github.com/ibtisam-iq/CKA-and-CKAD-prep/blob/main/3.%20Workloads%20%26%20Scheduling/08.%20Understand%20ConfigMaps.md)
+- [Creating ConfigMap Imperatively](configmap-imp-com.md)
+- [ConfigMap Manifest]()
