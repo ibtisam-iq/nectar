@@ -10,7 +10,7 @@ At its core, Kubernetes operates on a cluster-based [architecture](architecture.
 
 ### Cluster Setup and Configuration
 
-Setting up a Kubernetes cluster involves configuring the control plane components (API server, controller manager, scheduler) and ensuring nodes are properly networked. Configuration Maps and Secrets enable dynamic configuration and secure management of sensitive data. Resource quotas and limit ranges are critical for enforcing resource boundaries, ensuring fair usage across namespaces and preventing resource starvation.
+[Setting up a Kubernetes](./cluster-setup/README.md) cluster involves configuring the control plane components (API server, controller manager, scheduler) and ensuring nodes are properly networked. Configuration Maps and Secrets enable dynamic configuration and secure management of sensitive data. Resource quotas and limit ranges are critical for enforcing resource boundaries, ensuring fair usage across namespaces and preventing resource starvation.
 
 ### Workload Management
 
