@@ -1,4 +1,4 @@
-# NetworkPolicy and Ingress: A Detailed Perspective
+# NetworkPolicy and Ingress: Networking in Kubernetes
 
 In Kubernetes, **Ingress** provides HTTP/S traffic routing into your cluster. It's often used in conjunction with Ingress Controllers (like NGINX) to manage this traffic. However, the **Ingress Resource** and **Ingress Controller** are separate from **NetworkPolicy**, which controls traffic flow at the network layer (L3/L4) between pods.
 

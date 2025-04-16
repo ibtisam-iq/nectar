@@ -104,9 +104,28 @@ spec:
   storageClassName: ebs-sc  # Links to the above StorageClass # This will trigger dynamic provisioning
 ```
 
+## ⚡ 5. Mounted Volumes
+
+- **EmptyDir**: A temporary directory that exists only while the Pod is running.
+- **HostPath**: A directory on the host machine.
+- **ConfigMap**: A way to store configuration data as key-value pairs.
+- **Secret**: A way to store sensitive information (e.g., passwords, API keys).
+- **PersistentVolumeClaim**: A request for storage that can be fulfilled by a PersistentVolume.
+
+### How to Mount Volumes
+```yaml
+volumeMounts:
+  - name: demo-volume
+    mountPath: /data
+volumes:
+  - name: demo-volume
+    emptyDir: {}
+```
+Click [here](volume-mounting.md) for more information on volume mounting.
+
 ---
 
-## 📌 5. Pod Example Using Dynamic PVC
+## 📌 6. Pod Example Using Dynamic PVC
 
 ```yaml
 apiVersion: apps/v1
@@ -148,7 +167,7 @@ spec:
 
 ---
 
-## 📡 6. ReadWriteMany Example with NFS
+## 📡 7. ReadWriteMany Example with NFS
 
 Sometimes, we underwent **a situation where multiple pods need to read and write to the same storage location concurrently**.
 
