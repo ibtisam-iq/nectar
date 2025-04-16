@@ -14,7 +14,7 @@ At its core, Kubernetes operates on a cluster-based [architecture](architecture.
 
 ### Workload Management
 
-Kubernetes excels in managing diverse workloads. Jobs and CronJobs handle batch processing and scheduled tasks, while Deployments and ReplicaSets ensure desired replica counts for stateless applications. For stateful applications, Persistent Volumes (PVs) and Persistent Volume Claims (PVCs) provide stable storage, with StorageClasses defining provisioning rules. Concepts like [fsGroup](fsGroup.md) ensure proper file system permissions within Pods.
+Kubernetes excels in managing diverse workloads. [Jobs](jobs-guide.md) and [CronJobs](cron-job-guide.md) handle batch processing and scheduled tasks, while Deployments and ReplicaSets ensure desired replica counts for stateless applications. For stateful applications, Persistent Volumes (PVs) and Persistent Volume Claims (PVCs) provide stable storage, with StorageClasses defining provisioning rules. Concepts like [fsGroup](fsGroup.md) ensure proper file system permissions within Pods.
 
 ### Networking and Ingress
 

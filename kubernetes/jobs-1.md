@@ -237,14 +237,15 @@ spec:
 - Avoid using `selector` unless advanced customization is needed.
 - Use `backoffLimit` to control retry behavior.
 - Observe Job status via:
-  ```bash
-  kubectl get jobs
-  kubectl describe job <job-name>
-  kubectl logs jobs/<job-name>
-  ```
+```bash
+kubectl get jobs
+kubectl describe job <job-name>
+kubectl logs jobs/<job-name>
+```
 
----
+## Futher Reading
 
-Next section will cover **CronJobs** in the same depth.
+- [Advanced Job Handling: Failures, Policies, and Success Criteria](jobs-2.md)
+- [Cron Job Guide](cron-job-guide.md)
 
 
