@@ -86,7 +86,7 @@ Let's Encrypt requests this file and validates the challenge to prove that the r
 
 Upon successful validation, Let's Encrypt issues the SSL certificate.
 
-## 🔧 6. What is cert-manager?
+## 🔧 7. What is cert-manager?
 cert-manager is a Kubernetes tool that:
 - Talks to Let's Encrypt (or any CA)
 - Handles domain verification
@@ -99,6 +99,8 @@ It watches your Ingress resources for annotations like:
 cert-manager.io/cluster-issuer: letsencrypt-prod
 ```
 …and knows: → “Okay, I need to request a certificate from Let’s Encrypt for this domain.”
+
+---
 
 ## 🔄 The Whole Workflow — End to End:
 
@@ -138,7 +140,7 @@ sequenceDiagram
 - **Let's Encrypt**: cert-manager uses the HTTP-01 challenge method to prove domain ownership and obtain a certificate from Let's Encrypt.
 - **TLS Termination**: Once the certificate is issued, the Ingress controller uses it to terminate TLS connections, ensuring secure communication with clients.
 
-## 6. Final Notes
+## Final Notes
 - **Ingress Resource**: Routes traffic to services within the cluster based on domain and path.
 - **Ingress Controller**: Enforces the routing rules defined by the Ingress resource (e.g., NGINX, Traefik).
 - **Cert-Manager**: Automates the process of obtaining and renewing SSL/TLS certificates.
@@ -152,3 +154,33 @@ sequenceDiagram
 - Write Ingress with TLS annotations
 - Troubleshoot Ingress (e.g., port 80/443 not open, DNS mismatch)
 - Use `kubectl describe ingress` and `kubectl get certificates`
+
+---
+
+## Summary
+
+> **cert-manager** is a Kubernetes add-on that automates the process of obtaining, renewing, and managing SSL/TLS certificates for Kubernetes resources.
+> 
+> It integrates with multiple certificate authorities (CAs), including Let’s Encrypt.  
+>
+> To issue a certificate, cert-manager uses the **ClusterIssuer** (or **Issuer**) resource, which defines how cert-manager should communicate with a Certificate Authority (CA).
+> 
+> The **ClusterIssuer** contains the necessary configuration such as the CA's endpoint, authentication details, challenge-solving methods (like HTTP-01 or DNS-01), and secret references for storing private keys.  
+>
+> cert-manager continuously **watches** ClusterIssuer, Certificate, and optionally Ingress resources — and when it detects a new or updated certificate request, it interacts with the CA to request, validate, and retrieve the signed certificate, storing it securely inside a Kubernetes Secret.
+
+---
+
+## Further Reading
+
+- **Kubernetes Ingress + TLS + Cert-Manager + SSL Termination** 
+    - [Guide # 1](ingress-1.md)
+    - [Guide # 2](ingress-2.md)
+    - [Guide # 3](ingress-3.md)
+    - [Guide # 4](ingress-4.md)
+    - [Guide # 5](ingress-5.md)
+- [**Cert-Manager**](cert-manager.md)
+- [**Certificate**](certificate-guide.md)
+- [**Kubernetes Ingress + Let's Encrypt TLS Setup (Banking App)**](ingress-letsencrypt.md)
+- [**Kubernetes Ingress FAQs**](ingress-faq.md)
+- [**Imperative Ingress Creation in Kubernetes**](ingress-cli.md)

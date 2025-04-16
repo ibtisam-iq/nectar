@@ -18,7 +18,7 @@ Kubernetes excels in managing diverse workloads. [Jobs](jobs-guide.md) and [Cron
 
 ### Networking and Ingress
 
-Networking in Kubernetes is facilitated by a flat network model, where Pods communicate via ClusterIP services. Ingress resources manage external traffic, providing load balancing, SSL termination, and path-based routing. Network Policies enforce fine-grained access control, securing communication between Pods. Understanding Ingress controllers and their configurations is key to exposing services efficiently.
+[Networking in Kubernetes](networking-in-k8s.md) is facilitated by a flat network model, where Pods communicate via ClusterIP services. [Ingress](ingress-guide.md) resources manage external traffic, providing load balancing, SSL termination, and path-based routing. [Network Policies](network-policy-guide.md) enforce fine-grained access control, securing communication between Pods. Understanding Ingress controllers and their configurations is key to exposing services efficiently.
 
 ### Security Practices
 
