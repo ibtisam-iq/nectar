@@ -1,7 +1,7 @@
 # 📘 Kubernetes LimitRange Deep Dive
 
 ## 🌟 Introduction
-`LimitRange` is a Kubernetes resource that sets **default**, **minimum**, and **maximum** resource constraints for containers and pods within a **namespace**. While `ResourceQuota` enforces **aggregate resource usage limits**, `LimitRange` controls the **per-container/pod** resource policies.
+`LimitRange` is a Kubernetes resource that sets **default**, **minimum**, and **maximum** resource constraints for containers and pods within a **namespace**. While `[ResourceQuota](resource-quota-guide.md)` enforces **aggregate resource usage limits**, `LimitRange` controls the **per-container/pod** resource policies.
 
 They **complement** each other in a cluster’s resource policy setup.
 
@@ -152,3 +152,8 @@ There is no direct `kubectl create limitrange` command with full feature flags l
 | Total resource exceeds ResourceQuota   | Pod rejected                     |
 
 
+## Further Reading
+
+- [Limit Range and Pod Sheduling](limitrange-and-pod-scheduling.md)
+- [Limit Range and Resource Quota Demo](limitrange-resourcequota-demo.md)
+- [Limit Range and Resource Quota Together in Kubernetes](limitrange-resourcequota-together.md)
