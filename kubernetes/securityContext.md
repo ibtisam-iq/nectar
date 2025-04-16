@@ -100,6 +100,8 @@ drwxrwsrwx 2 root 2000 4096 Apr 8 20:08 demo
 - **Prevents** unauthorized access to shared files.
 - Useful when shared storage must be writable by group.
 
+> **Want a detailed documentation? Click [here](fsGroup.md)!**
+
 ---
 
 ### 4. `seLinuxOptions`

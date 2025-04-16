@@ -3,12 +3,16 @@
 ## 1. Introduction
 Kubernetes Secrets allow you to store and manage sensitive information, such as passwords, OAuth tokens, and SSH keys, securely in your cluster. Unlike ConfigMaps, Secrets are designed for confidential data and are base64-encoded.
 
+---
+
 ## 2. Types of Secrets
 There are three main types of secrets in Kubernetes:
 
 1. **Docker Registry Secret** (`docker-registry`) - Used for pulling images from private registries.
 2. **Generic Secret** (`generic`) - Used for storing arbitrary data, such as configuration files, credentials, or certificates.
 3. **TLS Secret** (`tls`) - Stores TLS certificate and key pairs for HTTPS communication.
+
+---
 
 ## 3. Creating Secrets Imperatively
 Kubernetes provides multiple ways to create secrets using the `kubectl create secret` command.
@@ -69,6 +73,8 @@ kubectl create secret docker-registry my-reg-secret \
 ```
 - This is required when pulling images from private registries.
 
+---
+
 ## 4. Understanding Secret Types
 
 The `--type` flag in `kubectl create secret generic` allows you to specify a custom type for the secret. By default, secrets created using `generic` have the type **`Opaque`**, but you can define your own type if needed.
@@ -98,6 +104,8 @@ kubectl get secret my-secret -o jsonpath='{.type}'
 ```
 This will return the type of the specified secret.
 
+---
+
 ## 5. Viewing Secrets
 ```sh
 kubectl get secrets
@@ -109,6 +117,8 @@ kubectl describe secret my-secret
 ```
 - Shows details of a specific secret.
 
+---
+
 ## 6. Decoding Secret Data
 By default, secrets are stored in base64 encoding. To decode them:
 
@@ -116,6 +126,8 @@ By default, secrets are stored in base64 encoding. To decode them:
 kubectl get secret my-secret -o jsonpath='{.data.key1}' | base64 --decode
 ```
 - This command fetches the `key1` value from `my-secret` and decodes it.
+
+---
 
 ## 7. Summary
 - Kubernetes Secrets are used to store sensitive data securely.
