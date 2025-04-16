@@ -10,11 +10,11 @@ At its core, Kubernetes operates on a cluster-based [architecture](architecture.
 
 ### Cluster Setup and Configuration
 
-[Setting up a Kubernetes](./cluster-setup/README.md) cluster involves configuring the control plane components (API server, controller manager, scheduler) and ensuring nodes are properly networked. [Configuration Maps](configmap-guide.md) and [Secrets](secret-guide.md) enable dynamic configuration and secure management of sensitive data. Resource quotas and limit ranges are critical for enforcing resource boundaries, ensuring fair usage across namespaces and preventing resource starvation.
+[Setting up a Kubernetes](./cluster-setup/README.md) cluster involves configuring the control plane components (API server, controller manager, scheduler) and ensuring nodes are properly networked. [Configuration Maps](configmap-guide.md) and [Secrets](secret-guide.md) enable dynamic configuration and secure management of sensitive data. [Resource quotas](resource-quota-guide.md) and [limit ranges](limit-range-guide.md) are critical for [enforcing resource boundaries](limitrange-resourcequota-together.md), ensuring fair usage across [namespaces](limitrange-resourcequota-demo.md) and preventing resource starvation.
 
 ### Workload Management
 
-Kubernetes excels in managing diverse workloads. Jobs and CronJobs handle batch processing and scheduled tasks, while Deployments and ReplicaSets ensure desired replica counts for stateless applications. For stateful applications, Persistent Volumes (PVs) and Persistent Volume Claims (PVCs) provide stable storage, with StorageClasses defining provisioning rules. Concepts like fsGroup ensure proper file system permissions within Pods.
+Kubernetes excels in managing diverse workloads. Jobs and CronJobs handle batch processing and scheduled tasks, while Deployments and ReplicaSets ensure desired replica counts for stateless applications. For stateful applications, Persistent Volumes (PVs) and Persistent Volume Claims (PVCs) provide stable storage, with StorageClasses defining provisioning rules. Concepts like [fsGroup](fsGroup.md) ensure proper file system permissions within Pods.
 
 ### Networking and Ingress
 

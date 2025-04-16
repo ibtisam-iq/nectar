@@ -160,6 +160,8 @@ spec:
 
 🧠 This is helpful when you want to limit resource consumption **only** for pods that belong to a specific priority class.
 
+> **Not cleared about `scopeSelector`? Click [here](scopeSelector.md) for more info!**
+
 ---
 
 ## 🛠️ CLI Equivalents: `kubectl create quota`
@@ -393,3 +395,9 @@ memory: "512M"
 | Storage quota                 | `requests.storage`  | Total PVC request limit     |
 
 
+## Next Read
+
+- [Limit Range Guide](limit-range-guide.md)
+- [Limit Range and Pod Sheduling](limitrange-and-pod-scheduling.md)
+- [Limit Range and Resource Quota Demo](limitrange-resourcequota-demo.md)
+- [Limit Range and Resource Quota Together in Kubernetes](limitrange-resourcequota-together.md)

@@ -1,4 +1,4 @@
-# 🎓 LimitRange vs Pod Scheduling — Case Study
+# 🎓 LimitRange and Pod Scheduling — Case Study
 
 This document explains how a `LimitRange` interacts with Pods in Kubernetes, particularly when resource `requests` and `limits` are defined or omitted.
 
