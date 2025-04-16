@@ -28,9 +28,11 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/K8s-Node-I
 curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/K8s-Control-Plane-Init.sh | sudo bash
 ```
 - **Kubespray**: Uses Ansible to automate the deployment of Kubernetes clusters, supporting various operating systems and cloud providers for self-managed setups.
+- **Kops**: 
+- **kubicorn**:
 - **RKE (Rancher Kubernetes Engine)**: A CNCF-certified Kubernetes installer that simplifies cluster setup on self-managed infrastructure, with built-in support for high availability.
 
-#### Managed Control Plane (Hosted Solutions)
+#### Managed Control Plane (Hosted Solutions; Turnkey Cloud Solutions)
 - **Google Kubernetes Engine (GKE)**: A fully managed Kubernetes service on Google Cloud, handling the control plane while allowing users to manage worker nodes. It offers features like auto-scaling and auto-upgrades.
 - **Amazon Elastic Kubernetes Service (EKS)**: AWS's managed Kubernetes service, providing a managed control plane with integration into AWS services like IAM and VPC for networking.
 - **Azure Kubernetes Service (AKS)**: Microsoft's managed Kubernetes offering, with a managed control plane and tight integration with Azure services like Azure Active Directory and Azure Monitor.
