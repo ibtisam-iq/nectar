@@ -109,7 +109,7 @@ Kubernetes enables:
 ## 🛠️ Debugging & Monitoring
 
 Troubleshooting essentials:
-- **[Logs & Events](kubectl-logs.md)** via `kubectl`  
+- **[Logs & Events](./02-cli-operations/kubectl-logs.md)** via `kubectl`  
 - **[Probes (Liveness, Readiness, Startup)](probes-case-studies.md)** for pod health checks  
 - Monitoring with **Prometheus**, **Grafana**, and **logging stacks** (Fluentd/Elasticsearch)
 
@@ -129,7 +129,7 @@ For production-ready clusters:
 
 [Quick references](quick-reference.md) and [cheatsheets](k8sCheatSheat.md) offer:
 - Concise [imperative `kubectl` commands](imperative-commands.md)  
-- Handy [flags](kubectl-flags.md)  
+- Handy [flags](./02-cli-operations/kubectl-flags.md)  
 - Direct links to [official documentation](docs.md)  
 
 They accelerate troubleshooting, simplify operations, and reinforce best practices.
