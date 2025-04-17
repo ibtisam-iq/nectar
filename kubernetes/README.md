@@ -52,25 +52,25 @@ It uses a **[declarative API](./01-core-concepts/declarative-api-process.md)**, 
 - **Node networking**  
 
 Important resources:
-- [ConfigMaps](configmap-guide.md) for dynamic configuration  
-- [Secrets](secret-guide.md) for secure data management  
-- [Resource Quotas](resource-quota-guide.md) and [Limit Ranges](limit-range-guide.md) for [enforcing resource boundaries](limitrange-resourcequota-together.md) 
+- [ConfigMaps](./06-resource-management/configmap-guide.md) for dynamic configuration  
+- [Secrets](./06-resource-management/secret-guide.md) for secure data management  
+- [Resource Quotas](./06-resource-management/resource-quota-guide.md) and [Limit Ranges](./06-resource-management/limit-range-guide.md) for [enforcing resource boundaries](./06-resource-management/limitrange-resourcequota-together.md) 
 
-👉 See how to manage them together: [Resource Management Demo](limitrange-resourcequota-demo.md)
+👉 See how to manage them together: [Resource Management Demo](./06-resource-management/limitrange-resourcequota-demo.md)
 
 ---
 
 ## 🚀 Workload Management
 
 Kubernetes manages various workloads:
-- **[Jobs](jobs-guide.md)** & **[CronJobs](cron-job-guide.md)** for batch/scheduled tasks  
+- **[Jobs](./09-workloads/jobs-guide.md)** & **[CronJobs](./09-workloads/cron-job-guide.md)** for batch/scheduled tasks  
 - **Deployments** & **ReplicaSets** for stateless apps  
-- **[Persistent Volumes (PVs)](pv-guide.md)** & **[PVCs](pvc-guide.md)** for stable [storage](storage-guide.md)
-- **[StorageClasses](storage-class.md)** for dynamic provisioning  
+- **[Persistent Volumes (PVs)](./04-storage/pv-guide.md)** & **[PVCs](./04-storage/pvc-guide.md)** for stable [storage](./04-storage/storage-guide.md)
+- **[StorageClasses](./04-storage/storage-class.md)** for dynamic provisioning  
 
 Advanced storage:
-- **[fsGroup](fsGroup.md)** for file system permissions  
-- **[ReadWriteMany NFS Volumes](rwx-nfs-volume.md)** for concurrent multi-pod access  
+- **[fsGroup](./07-security/fsGroup.md)** for file system permissions  
+- **[ReadWriteMany NFS Volumes](./04-storage/rwx-nfs-volume.md)** for concurrent multi-pod access  
 
 ---
 
@@ -88,11 +88,11 @@ Key concepts:
 ## 🔒 Security Best Practices
 
 Kubernetes secures workloads through:
-- **[RBAC](rbac.md)** for user/workload permissions  
-- **[Security Contexts](securityContext.md)** for pod-level restrictions  
+- **[RBAC](./07-security/rbac.md)** for user/workload permissions  
+- **[Security Contexts](./07-security/securityContext.md)** for pod-level restrictions  
 - **Secrets** for API keys and credentials  
 - **Pod Security Policies (deprecated)** and **admission controllers** for policy enforcement  
-- **[Taints and Tolerations](taints-affinity-guide-1.md)** for node workload isolation  
+- **[Taints and Tolerations](./05-scheduling-and-affinity/taints-affinity-guide-1.md)** for node workload isolation  
 
 ---
 
@@ -101,7 +101,7 @@ Kubernetes secures workloads through:
 Kubernetes enables:
 - **Horizontal scaling:** Adjust replicas via **Horizontal Pod Autoscalers (HPAs)**  
 - **Vertical scaling:** Tune resources via **Vertical Pod Autoscalers (VPAs)**  
-- **[Quotas](resource-quota-guide.md)** & **[Limit Ranges](limit-range-guide.md)** for fair usage enforcement  
+- **[Quotas](./06-resource-management/resource-quota-guide.md)** & **[Limit Ranges](./06-resource-management/limit-range-guide.md)** for fair usage enforcement  
 
 ---
 
@@ -109,7 +109,7 @@ Kubernetes enables:
 
 Troubleshooting essentials:
 - **[Logs & Events](./02-cli-operations/kubectl-logs.md)** via `kubectl`  
-- **[Probes (Liveness, Readiness, Startup)](probes-case-studies.md)** for pod health checks  
+- **[Probes (Liveness, Readiness, Startup)](./08-debugging-monitoring/probes-case-studies.md)** for pod health checks  
 - Monitoring with **Prometheus**, **Grafana**, and **logging stacks** (Fluentd/Elasticsearch)
 
 ---
@@ -117,7 +117,7 @@ Troubleshooting essentials:
 ## 🎛️ Advanced Features
 
 For production-ready clusters:
-- **[Taints & Tolerations](taints-affinity-guide-1.md)** for node scheduling  
+- **[Taints & Tolerations](./05-scheduling-and-affinity/taints-affinity-guide-1.md)** for node scheduling  
 - **Affinity/Anti-Affinity rules** for workload colocation and separation  
 - **Custom Resource Definitions (CRDs)** and **Operators** for extending Kubernetes  
 - Node-specific scheduling with **Node Affinity**  
@@ -126,10 +126,10 @@ For production-ready clusters:
 
 ## 📚 Quick References & Official Documentation
 
-[Quick references](quick-reference.md) and [cheatsheets](k8sCheatSheat.md) offer:
-- Concise [imperative `kubectl` commands](imperative-commands.md)  
+[Quick references](./10-references/quick-reference.md) and [cheatsheets](./10-references/k8sCheatSheat.md) offer:
+- Concise [imperative `kubectl` commands](./10-references/imperative-commands.md)  
 - Handy [flags](./02-cli-operations/kubectl-flags.md)  
-- Direct links to [official documentation](docs.md)  
+- Direct links to [official documentation](./10-references/docs.md)  
 
 They accelerate troubleshooting, simplify operations, and reinforce best practices.
 
