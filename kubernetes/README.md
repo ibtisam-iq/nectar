@@ -80,10 +80,8 @@ Advanced storage:
 Key concepts:
 - **ClusterIP Services** for internal communication  
 - **Ingress** for external traffic routing, SSL termination, and load balancing
-    - 👉 Master your [Ingress Resource, Ingress Controller, TLS Certificate, Cert-Manager and SSL Termination](./03-networking/ingress-guide.md)
+    - 👉 Master your [Ingress Resource, Ingress Controller, TLS Certificate, Cert-Manager and SSL Termination](./03-networking/k8s-https-guide.md)
 - **[Network Policies](./03-networking/network-policy-guide.md)** for pod-level access control  
-
-
 
 ---
 
