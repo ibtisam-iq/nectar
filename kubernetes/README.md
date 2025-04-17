@@ -32,16 +32,16 @@ Don’t miss out on these highly useful, complementary repositories:
 
 ## 🤩 Core Concepts
 
-Kubernetes follows a **cluster-based [architecture](architecture.md)**, consisting of a control plane and worker nodes:
+Kubernetes follows a **cluster-based [architecture](./01-core-concepts/architecture.md)**, consisting of a control plane and worker nodes:
 - **Control Plane:** Manages cluster state and schedules workloads  
 - **Worker Nodes:** Run containerized applications  
 
-Key [objects](objects.md) include:
+Key [objects](./01-core-concepts/objects.md) include:
 - **Pods:** Smallest deployable units, encapsulating containers  
 - **Deployments:** Manage stateless applications  
 - **StatefulSets:** Manage stateful workloads  
 
-It uses a **[declarative API](declarative-api-process.md)**, letting you define desired states in [YAML manifests](https://github.com/ibtisam-iq/nectar/tree/main/yaml), continuously reconciled by the system.
+It uses a **[declarative API](./01-core-concepts/declarative-api-process.md)**, letting you define desired states in [YAML manifests](https://github.com/ibtisam-iq/nectar/tree/main/yaml), continuously reconciled by the system.
 
 ---
 
