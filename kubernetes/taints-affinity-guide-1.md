@@ -240,4 +240,6 @@ Together, **taints + tolerations** repel and allow selectively, while **labels +
 
 That's how you gain full control over pod placement in your cluster — like an air traffic controller for your workloads. ✈️
 
+## Want to learn more? 🤔
 
+Please click [here](taints-affinity-guide-2.md) for understanding this topic in more depth.

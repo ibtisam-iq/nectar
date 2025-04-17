@@ -126,4 +126,11 @@ To solve this, Kubernetes offers:
 
 Each of these probes uses the pod/container lifecycle information + pod conditions to decide **what actions to take and when**.
 
+---
+## 🤔 Continue Reading...
+
+- Please click [here](probes-foundation-2.md) to read the next part of this guide.
+- Case studies and examples are also available [here](probes-case-studies.md).
+- Debugging and troubleshooting tips can be found [here](probes-debugging.md).
+- Best practices and recommendations are outlined [here](probes-best-practices.md).
 
