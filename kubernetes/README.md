@@ -76,13 +76,14 @@ Advanced storage:
 
 ## 🌐 Networking & Ingress
 
-[Kubernetes networking](networking-in-k8s.md) uses a **flat network model**.  
+[Kubernetes networking](./03-networking/networking-in-k8s.md) uses a **flat network model**.  
 Key concepts:
 - **ClusterIP Services** for internal communication  
-- **[Ingress](ingress-guide.md)** for external traffic routing, SSL termination, and load balancing  
-- **[Network Policies](network-policy-guide.md)** for pod-level access control  
+- **Ingress** for external traffic routing, SSL termination, and load balancing
+    - 👉 Master your [Ingress Resource, Ingress Controller, TLS Certificate, Cert-Manager and SSL Termination](./03-networking/ingress-guide.md)
+- **[Network Policies](./03-networking/network-policy-guide.md)** for pod-level access control  
 
-👉 Master your [Ingress controllers and configs](ingress-guide.md)
+
 
 ---
 
