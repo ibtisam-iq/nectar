@@ -145,7 +145,7 @@ extraPortMappings:
 
 Now, a service on NodePort `30000` will be accessible at `http://localhost:8080`.
 
-> **See detailed guide about `extraPortMappings` [here](extraPortMappings-1.md).**
+> **See detailed guide about `extraPortMappings` [here](extraPortMappings-a.md).**
 
 ---
 

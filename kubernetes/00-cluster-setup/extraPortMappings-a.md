@@ -131,4 +131,4 @@ If you're using Kind for local Kubernetes development, always consider how you w
 
 
 > **Need more info or didn’t fully get it yet?**
-No worries — check out this extended guide for more explanations and examples [**here**](extraPortMappings-2.md).
+No worries — check out this extended guide for more explanations and examples [**here**](extraPortMappings-b.md).
