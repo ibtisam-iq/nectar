@@ -4,7 +4,7 @@ Setting up a Kubernetes cluster involves configuring the control plane component
 
 #### Local Testing and Development
 - **Minikube**: A lightweight tool for running a single-node Kubernetes cluster locally, ideal for development and testing. It supports multiple hypervisors like VirtualBox, HyperKit, or Docker.
-- **Kind (Kubernetes in Docker)**: Runs Kubernetes clusters inside Docker containers, perfect for CI/CD pipelines or local testing of multi-node setups. Click [here](Kind-K8s.md) to know how to set up a Kind cluster.
+- **Kind (Kubernetes in Docker)**: Runs Kubernetes clusters inside Docker containers, perfect for CI/CD pipelines or local testing of multi-node setups. Click [here](Kind-K8s-Cluster.md) to know how to set up a Kind cluster.
 
 > **You want to set up it with ONE click? Run the following command in your terminal:**
 ```bash
@@ -13,7 +13,7 @@ kind create cluster --config https://github.com/ibtisam-iq/SilverKube/blob/main/
 - **K3s**: A lightweight Kubernetes distribution by Rancher, designed for resource-constrained environments like IoT or edge devices, while still supporting development workflows.
 
 #### Self-Managed Clusters
-- **Kubeadm**: A Kubernetes project tool for bootstrapping clusters on your own infrastructure. It sets up the control plane and worker nodes, offering flexibility for custom configurations on bare metal or VMs. Click [here](Kubeadm-K8s.md) to know how to set up a Kubeadm cluster.
+- **Kubeadm**: A Kubernetes project tool for bootstrapping clusters on your own infrastructure. It sets up the control plane and worker nodes, offering flexibility for custom configurations on bare metal or VMs. Click [here](Kubeadm-K8s-Cluster.md) to know how to set up a Kubeadm cluster.
 
 > **You want to set up it with ONE command? Run the following command in your terminal:**
 **Kubernetes Node Initialization**
