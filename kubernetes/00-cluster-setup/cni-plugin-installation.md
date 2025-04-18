@@ -51,18 +51,32 @@ Failed to create pod sandbox: rpc error: code = Unknown desc = failed to set up 
 ```
 
 ### How CNI Works
-1. **Kubelet Creates a Pod**:
-   - Kubelet instructs the container runtime (e.g., containerd) to create a pod’s sandbox (network namespace).
-2. **Runtime Calls CNI**:
-   - The runtime invokes the CNI plugin via `/etc/cni/net.d/` configs, passing pod details (e.g., name, namespace).
-3. **CNI Plugin Configures Networking**:
-   - The plugin assigns an IP, sets up a virtual ethernet interface (veth), configures routes, and applies firewall rules.
-4. **Pod is Connected**:
-   - The pod receives an IP (e.g., `10.244.0.5`) and joins the cluster network, enabling communication.
+The Container Network Interface (CNI) enables Kubernetes to configure pod networking, assigning IPs and enabling communication. Here’s how it works:
+
+1. **Kubelet Initiates Pod Creation**:
+   - The kubelet, Kubernetes’ node agent, schedules a pod (e.g., `nginx`) and instructs the container runtime (e.g., containerd) to create a pod **sandbox**—a network namespace isolating the pod’s networking.
+
+2. **Container Runtime Requests Networking**:
+   - The runtime calls the CNI interface, passing pod details (e.g., name, namespace, container ID) via `/etc/cni/net.d/` configuration files (e.g., `10-calico.conflist`).
+
+3. **CNI Interface Triggers the Plugin**:
+   - The CNI interface invokes the configured plugin (e.g., Calico, Flannel) to set up networking.
+
+4. **CNI Plugin Configures Networking**:
+   - The plugin:
+     - Assigns an IP (e.g., `10.244.0.5`) from the configured range (e.g., `10.244.0.0/16`).
+     - Creates a **virtual ethernet (veth)** pair, linking the pod’s namespace to the host’s network.
+     - Configures routes (e.g., via BGP for Calico) for pod-to-pod and node communication.
+     - Applies firewall rules or network policies.
+
+5. **Pod Joins the Cluster Network**:
+   - The pod receives its IP and is fully connected, enabling communication with other pods, services, and external resources.
 
 **Example** (Calico):
 - Pod gets IP `10.244.0.5` from `CALICO_IPV4POOL_CIDR: "10.244.0.0/16"`.
 - Routes are set via BGP or VXLAN for inter-node communication.
+
+> Click [here](cni-working.md) to see a detailed, step-by-step example of how CNI works.
 
 ## Types of CNI Plugins
 

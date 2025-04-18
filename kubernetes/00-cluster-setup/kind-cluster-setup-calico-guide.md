@@ -409,4 +409,16 @@ To use Calico as the CNI in your Kind cluster:
 5. Verify Calico pods, system pods, and pod networking.
 6. Optionally, test network policies to leverage Calico’s features.
 
+### ONE Command Solution
+
+Just copy and paste the following commands into your terminal in order:
+
+```bash
+curl -s https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-calico-config-file.yaml | kind create cluster --config -
+curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml
+sed -i 's/# - name: CALICO_IPV4POOL_CIDR/- name: CALICO_IPV4POOL_CIDR/' calico.yaml
+sed -i 's/#   value: "192.168.0.0\/16"/  value: "10.244.0.0\/16"/' calico.yaml
+kubectl apply -f calico.yaml
+```
+
 This setup ensures a robust, IPv4-only Kind cluster with Calico, supporting advanced networking features while maintaining compatibility with your existing configuration. The `10.244.0.0/16` range avoids conflicts, and modifying `calico.yaml` is less invasive than changing `podSubnet`.
