@@ -83,11 +83,11 @@ kind create cluster --config cluster-config.yaml
 
 The `--config` flag specifies the YAML file, and `image` ensures all nodes use the same Kubernetes version (v1.32.3 recommended as of April 2025).
 
-- Kind’s `--config` flag expects a local file path, not a URL. This command will fail unless the file is downloaded first.
+- The `--config` flag expects a local file path, not a URL. However, `Kind` supports reading the config from stdin using `--config -`, as in your command.
 
 > **You want to set up it with ONE click? Run the following command in your terminal:**
 ```bash
-kind create cluster --config https://github.com/ibtisam-iq/SilverKube/blob/main/kind-config-file.yaml
+curl -s https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-config-file.yaml | kind create cluster --config -
 ```
 
 ---
@@ -134,11 +134,11 @@ kubectl config use-context kind-dev-cluster
 ### Role of kubeadm
 - Kind uses `kubeadm` to bootstrap and join nodes into a Kubernetes cluster.
 - `kubeadm` initializes the control-plane and configures worker nodes.
-- Customizations are applied via `kubeadmConfigPatches` in the Kind config.
+- Customizations are applied via [`kubeadmConfigPatches`](kubeadmConfigPatches.md) in the Kind config.
 
 ### Container Runtime
 - Kind uses **containerd** as the container runtime for running pods.
-- Configurable via `containerdConfigPatches` for performance optimizations.
+- Configurable via [`containerdConfigPatches`](containerdConfigPatches.md) for performance optimizations.
 
 ---
 
@@ -149,18 +149,18 @@ kubectl config use-context kind-dev-cluster
 - To use a custom CNI (e.g., Calico), disable the default:
   ```yaml
   networking:
-    disableDefaultCNI: true
+    disableDefaultCNI: true   # Enable custom CNI. If it is set to false, Flannel will be used.
   ```
 
 ### Using Calico as CNI
-To replace Flannel with Calico for advanced features like network policies, please find [here](Kind-K8s-Cluster-Calico.md) a dedicated guide.
+To replace Flannel with Calico for advanced features like network policies, please find [here](kind-cluster-setup-calico-guide.md) a dedicated guide.
 
 
 ### podSubnet and --cluster-cidr
 - `podSubnet` (e.g., `10.244.0.0/16`) sets the IP range for pods, equivalent to the `--cluster-cidr` parameter in Kubernetes.
 - The CNI (e.g., Calico) must use a matching CIDR to assign valid pod IPs.
 - `10.244.0.0/16` is a safe, standard range to avoid conflicts with local networks.
-- Click [here](--cluster-cidr.md) for more details.
+- Click [here](kubeadm-init-flags-and-kind-config.md) for more details.
 
 ### serviceSubnet
 - `serviceSubnet` (e.g., `10.96.0.0/12`) defines the IP range for Kubernetes services (used for internal load balancing).
@@ -252,15 +252,13 @@ containerdConfigPatches:
 ```
 This uses `overlayfs` for better performance and storage efficiency.
 
-> **For a detailed explanation, please refer to the documentation on  [`kubeadmConfigPatches`](kubeadmConfigPatches.md) and [`containerdConfigPatches`](containerdConfigPatches.md).**
-
 ### Feature Gates
 Enable experimental Kubernetes features:
 ```yaml
 featureGates:
   IPv6DualStack: false
 ```
-Set to `true` for dual-stack networking (requires additional Calico configuration).
+Set to `true` for dual-stack networking (requires additional Calico configuration, if Calico is used).
 
 ---
 
@@ -387,5 +385,4 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main
 
 Kind is a versatile tool for running local Kubernetes clusters, ideal for development, testing, and learning. By customizing configurations (e.g., using Calico, port mappings, `kubeadm` patches), you can tailor clusters to your needs. This guide provides a comprehensive overview, including advanced features like Calico integration and CI/CD workflows.
 
-For more details, visit the [official Kind documentation](https://kind.sigs.k8s.io/) or [Calico documentation](https://docs.tigera.io/calico/latest).
-
+For more details, visit the [official Kind documentation](https://kind.sigs.k8s.io/).
