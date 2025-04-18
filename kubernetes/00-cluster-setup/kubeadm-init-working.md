@@ -1,5 +1,64 @@
 `kubeadm init` is the command used to initialize a Kubernetes control plane.
 
+---
+
+### **Will the Kubelet Service Run Before `kubeadm init`?**
+
+Let’s break down the behavior of the **kubelet** and **containerd** services when started prior to `kubeadm init`, focusing on your setup (Ubuntu 24.04, containerd, Kubernetes v1.32).
+
+#### **1. Containerd Service**
+- **Behavior**:
+  - **Containerd** is the container runtime you’ve chosen (aligned with `--cri-socket=/var/run/containerd/containerd.sock` in your `kubeadm init`).
+  - Running `sudo systemctl start containerd` starts the containerd daemon, which manages container lifecycles (e.g., pulling images, creating containers).
+  - Containerd operates independently of `kubeadm init` and does not require Kubernetes-specific configurations to run.
+  - **Status**: When you execute:
+    ```bash
+    sudo systemctl start containerd
+    ```
+    Containerd starts successfully and remains running, listening on its socket (e.g., `/var/run/containerd/containerd.sock`).
+  - **Verification**:
+    ```bash
+    systemctl is-active containerd
+    ```
+    **Output**: `active`
+    ```bash
+    ss -x | grep containerd
+    ```
+    **Output**: Shows the socket `/var/run/containerd/containerd.sock`.
+- **Correctness**: Starting containerd before `kubeadm init` is **correct** and necessary, as `kubeadm init` relies on containerd to pull and run Kubernetes component images (e.g., `kube-apiserver`).
+- **In Your Setup**: Your confidence that containerd is running is well-founded, and this step aligns with your guide’s pre-checks.
+
+#### **2. Kubelet Service**
+- **Behavior**:
+  - The **kubelet** is Kubernetes’ node agent, responsible for managing pods on a node, communicating with the API server, and interacting with the container runtime (containerd in your case).
+  - Kubelet requires a configuration to function properly, including:
+    - A kubeconfig file (e.g., `/etc/kubernetes/kubelet.conf`) to authenticate with the API server.
+    - A bootstrap kubeconfig (e.g., `/etc/kubernetes/bootstrap-kubelet.conf`) or a node configuration from `kubeadm init`.
+  - **Before `kubeadm init`**:
+    - `kubeadm init` has not yet run, so no Kubernetes cluster exists, and critical files like `/etc/kubernetes/kubelet.conf` or `/etc/kubernetes/bootstrap-kubelet.conf` are **not present**.
+    - When you run:
+      ```bash
+      sudo systemctl start kubelet
+      ```
+      Kubelet starts but immediately enters a **crash-loop** because it cannot:
+        - Connect to the API server (no cluster, no kubeconfig).
+        - Find a valid node configuration.
+    - **Logs**: Checking kubelet logs confirms this:
+      ```bash
+      journalctl -u kubelet
+      ```
+      **Sample Output**:
+      ```
+      kubelet[1234]: E0418 12:00:00.123456   1234 kubelet.go:123] "Failed to run kubelet" err="failed to load Kubelet config file /var/lib/kubelet/config.yaml, error: open /var/lib/kubelet/config.yaml: no such file or directory"
+      kubelet[1234]: E0418 12:00:00.123789   1234 server.go:456] "Failed to run kubelet" err="failed to initialize kubelet: node not found"
+      ```
+      Kubelet restarts repeatedly (due to systemd’s `Restart=always`) until `kubeadm init` provides the necessary configuration.
+  - **Status**: Kubelet **will not run successfully** before `kubeadm init`. It starts but crashes, as your original note correctly observed:
+    ```markdown
+    > Since `kubeadm init` is not run, and kubelet needs a valid configuration to work, it keeps crashing and restarting.
+    ```
+---
+
 ## 📌 What Happens When You Run `kubeadm init`?
 
 **1️⃣ Pre-checks**
