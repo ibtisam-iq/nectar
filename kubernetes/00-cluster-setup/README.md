@@ -121,7 +121,7 @@ These tools are ideal for developers, testers, or learners running Kubernetes lo
   ```
   Ensure pods have IPs in `10.244.0.0/16` (e.g., `10.244.0.5`).
 
-> **Please see the detailed documentation for setting up a Kubernetes cluster with Kind using Calico [here](Kind-K8s-Cluster-Calico.md) & Flannel (Kind's default CNI) [here](Kind-K8s-Cluster.md).**
+> **See the comprehensive documentation on [Kind and its configuration manifests](kind-cluster-setup-guide.md), and learn how to set up a Kubernetes cluster with Kind using Calico in [this guide](kind-cluster-setup-calico-guide.md).**
 
 ### K3s
 - **Description**: A lightweight Kubernetes distribution by Rancher, optimized for resource-constrained environments like IoT, edge devices, or low-power servers.
@@ -155,21 +155,7 @@ These tools allow you to manage Kubernetes clusters on your own infrastructure (
   - 4GB RAM, 2 CPUs per node
   - `kubeadm`, `kubelet`, `kubectl`
 - **Setup**:
-  Click [here](Kubeadm-K8s-Cluster.md) to know how to set up a Kubeadm cluster.
-
-> **You want to set up it with ONE command? Run the following command in your terminal:**
-
-**Kubernetes Node Initialization**
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/K8s-Node-Init.sh | sudo bash
-```
-
-**Kubernetes First Control Plane Initialization**
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/K8s-Control-Plane-Init.sh | sudo bash
-```
+  Click [here](kubeadm-cluster-setup-guide.md) to know how to set up a Kubeadm cluster step by step.
 
 ### Kubespray
 - **Description**: Uses Ansible to automate Kubernetes cluster deployment across multiple nodes, supporting various OSes and cloud providers.
