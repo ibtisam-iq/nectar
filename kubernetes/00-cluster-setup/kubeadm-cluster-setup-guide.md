@@ -1,6 +1,6 @@
 # Set Up a Kubernetes Cluster with Kubeadm
 
-This guide provides a step-by-step process to deploy a production-ready Kubernetes cluster using **kubeadm** on Ubuntu 22.04 LTS, tailored for high availability (HA) and integrated with the Calico CNI. Designed for clarity and precision, it ensures you can initialize a control plane, join worker nodes, and verify a fully functional cluster with confidence. Follow each step to build a robust Kubernetes environment for development, testing, or production.
+This guide provides a step-by-step process to deploy a production-ready Kubernetes cluster using **kubeadm** on Ubuntu 24.04 LTS, tailored for high availability (HA) and integrated with the Calico CNI. Designed for clarity and precision, it ensures you can initialize a control plane, join worker nodes, and verify a fully functional cluster with confidence. Follow each step to build a robust Kubernetes environment for development, testing, or production.
 
 ## Prerequisites
 
@@ -28,23 +28,22 @@ Before starting, ensure your environment meets these requirements:
 
 ---
 
-## 🚀 One Command to Set Up Your Kubernetes Control Plane!
+## 🚀 Quick & Effortless Kubernetes Cluster Setup — One Click Away!
 
-Tired of long, complicated setup processes? **Run your Kubernetes control plane effortlessly** with just **ONE** command! Sit back, grab a coffee ☕, and watch the magic unfold! ✨
+Setting up a Kubernetes control plane manually?
 
-### ❓ Do you have an EC2 instance ready with the required security group ports open?
+**No need!**
 
-Before running the command, ensure you have a **t2.medium Ubuntu EC2 instance** with the necessary ports open in your security group. See [here](https://kubernetes.io/docs/reference/networking/ports-and-protocols/) for the required ports.
+Head over to **[SilverInit](https://github.com/ibtisam-iq/SilverInit)** — my dedicated automation repo offering **one-click Kubernetes control plane installation**.
 
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/K8s-Control-Plane-Init.sh | bash
-```
+🎯 **What you'll find there:**
+- ⚡ Fully automated control plane setup scripts for EC2
+- 💾 Clean, reliable Kubernetes installation workflows
+- 🚀 No step-by-step guides, no copy-pasting — just one command to rule them all
 
-💡 No hassle. No manual steps. Just pure automation!
-⚡ Get your K8s control plane up and running in minutes!
-👉 Run it now and witness Kubernetes initialization like never before! 🚀
+👉 [Explore SilverInit now and experience effortless Kubernetes cluster initialization!](https://github.com/ibtisam-iq/SilverInit)
 
-🌸 *A flower never competes with its neighbor. It just blooms. So, be like a flower that gives its fragrance even to the hand that crushes it*. 🌸
+🌸 *Let automation bloom, while you focus on building the future on Kubernetes.* 🌸
 
 ---
 
@@ -216,11 +215,7 @@ Kubernetes uses **containerd** as the container runtime via the Container Runtim
    ```
    **Expected Output**: `Active: active (running)`.
 
-> **ONE Command Solution**: You can install & configure containerd on all nodes in the cluster. Run the following ONE COMMAND in each node's terminal:
-
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/containerd-setup.sh | sudo bash
-```
+> **ONE Command Solution**: Head over again to **[SilverInit](https://github.com/ibtisam-iq/SilverInit)** to install and configure containerd on all nodes with a single command.
 
 ---
 
@@ -300,6 +295,7 @@ Initialize the first control plane node using `kubeadm init`, setting up the clu
    - `--apiserver-advertise-address`: Control plane’s private IP.
    - `--node-name`: Unique node name.
    - `--cri-socket`: Specifies containerd’s CRI socket.
+   - Click [here](kubeadm-init-flags-and-kind-config.md) for more information on `kubeadm init` flags.
 
 4. **Save Join Commands**:
    The output includes `kubeadm join` commands for control planes and workers. Save them:
@@ -307,11 +303,12 @@ Initialize the first control plane node using `kubeadm init`, setting up the clu
    kubeadm join 10.0.138.123:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash> --control-plane --certificate-key <key>
    kubeadm join 10.0.138.123:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash>
    ```
-> **Note:** Please find the official documentation for the `kubeadm commands` [here](https://kubernetes.io/docs/reference/setup-tools/kubeadm/).
 
->
+⚙️ **Ever wondered what black magic unfolds behind the curtain when you run `kubeadm init`?**  
 
-> Interested in learning what happened behind the scence when you hit the `kubeadm init` command? Check out [here](kubeadm-init-working).
+It’s not just a command — it’s a symphony of components, certificates, manifests, and networking dances happening in perfect sync.
+
+👉 [Peek behind the scenes](kubeadm-init-working.md) and witness how your Kubernetes control plane is born, one daemon and one API handshake at a time.
 
 ---
 
@@ -371,57 +368,7 @@ Deploy Calico to enable pod networking, matching the `--pod-network-cidr`.
    ```
    **Expected Output**: All pods in `Running` state.
 
------------------
-
-### 📌 Step 2: Installing a CNI (Pod Network)
-
-CNI (Container Network Interface) is just a standard (a set of specifications) that defines how networking should be implemented in containerized environments. It doesn't provide networking itself.
-
-#### CNI Plugin:
-A CNI plugin is an actual implementation of the CNI standard. Calico, Flannel, Cilium, Weave, etc., are CNI plugins that follow the CNI specification to provide networking for Kubernetes clusters.
-
-#### Example of CNI Plugins
-
-| CNI Plugin | Networking Model | Key Features |
-|------------|-------------------|--------------|
-| Calico     | Layer 3 (Routing) | Network policies, BGP support, security-focused |
-| Flannel    | Layer 2 (Overlay) | Simple, lightweight, uses VXLAN or host-gw |
-| Cilium     | eBPF-based        | Highly scalable, security-focused, service mesh integration |
-| Weave      | Layer 2 (Overlay) | Simpler than Calico, automatic peer discovery |
-
-#### CNI Interface:
-- The CNI (Container Network Interface) interface is a standardized API that allows Kubernetes (or any container runtime) to communicate with networking plugins. 
-- nIt acts as a bridge between the container runtime (like containerd or CRI-O) and networking solutions (like Calico, Flannel, etc.). 
-- In Kubernetes, the **CNI interface** is typically located at: `/etc/cni/net.d/`.
-
-#### How It Works
-
-1️⃣ **Kubernetes (Kubelet) needs to create a pod**
-
-- It calls the container runtime (e.g., containerd).
-
-2️⃣ **Container runtime requests network setup**
-
-- The runtime calls the CNI interface, passing details like pod name, namespace, and container ID.
-
-3️⃣ **CNI Interface triggers the configured CNI plugin**
-
-- This could be Calico, Flannel, Cilium, etc.
-
-4️⃣ **CNI Plugin configures networking**
-
-- It sets up interfaces, IPs, routes, and any necessary firewall rules for the pod.
-
-5️⃣ **Networking is ready**
-
-- The pod gets connected to the cluster network.
-
-### Summary
-
-- Kubernetes does not automatically set up networking for pods.
-- You need to deploy a CNI (Container Network Interface) plugin like Calico or Flannel.
-- Without a CNI, your pods won't be able to communicate with each other.
-- You should choose that CNI of which CIDR range you set in the `--pod-network-cidr` flag while initializing the control plane above.
+> Click [here](cni-plugin-installation.md) to learn more about CNI plugins.
 
 ---
 
@@ -559,26 +506,4 @@ Confirm the cluster is operational.
 
 ## Conclusion
 
-You’ve successfully deployed a Kubernetes cluster using kubeadm, complete with a Calico CNI and optional HA control planes. This guide, tailored to your setup with `pod-network-cidr=10.244.0.0/16` and Ubuntu 22.04, ensures a robust and scalable cluster. Explore advanced features like network policies with Calico or deploy workloads to test your cluster’s capabilities. For further details, refer to the [Kubernetes Documentation](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/) or [Calico Documentation](https://docs.tigera.io/calico/latest).
-
----
-
-📌 **2. kubectl get pods -n kube-system Output**
-
-You have multiple pods running in the **kube-system** namespace.
-
-| **Pod Name**                               | **Status** | **Role**                      |
-|--------------------------------------------|-----------|--------------------------------|
-| calico-kube-controllers-7498b9bb4c-swhbg   | ✅ Running | Manages Calico CNI            |
-| coredns-668d6bf9bc-dsqc4                   | ✅ Running | DNS resolution                |
-| coredns-668d6bf9bc-k8m7m                   | ✅ Running | DNS resolution                |
-| etcd-k8s-master                            | ✅ Running | Stores cluster state          |
-| kube-apiserver-k8s-master                  | ✅ Running | Handles API requests          |
-| kube-controller-manager-k8s-master         | ✅ Running | Manages controllers           |
-| kube-scheduler-k8s-master                  | ✅ Running | Schedules pods                |
-| kube-proxy-2mpvh                           | ✅ Running | Network routing               |
-| kube-proxy-mvqdp                           | ✅ Running | Network routing               |
-| kube-proxy-p888w                           | ✅ Running | Network routing               |
-
-✅ **These are critical system components that are working properly.**
-
+You’ve successfully deployed a Kubernetes cluster using kubeadm, complete with a Calico CNI and optional HA control planes. This guide, tailored to your setup with `pod-network-cidr=10.244.0.0/16` and Ubuntu 24.04, ensures a robust and scalable cluster. Explore advanced features like network policies with Calico or deploy workloads to test your cluster’s capabilities.
