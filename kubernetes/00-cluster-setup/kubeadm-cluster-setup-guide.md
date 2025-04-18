@@ -273,9 +273,10 @@ Initialize the first control plane node using `kubeadm init`, setting up the clu
    sudo swapoff -a
    sudo systemctl start containerd kubelet
    sudo netstat -tulnp | grep 6443  # Ensure port 6443 is free
+   systemctl is-active "kubelet"    # kubelet is activating, becuase it requires configuration, which is done by kubeadm init
    kubeadm config images pull
    ```
-
+   
 2. **Run kubeadm init**:
    Use your control plane’s private IP and Calico’s pod CIDR.
    ```bash
