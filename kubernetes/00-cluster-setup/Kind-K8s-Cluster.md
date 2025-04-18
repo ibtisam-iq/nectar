@@ -83,6 +83,8 @@ kind create cluster --config cluster-config.yaml
 
 The `--config` flag specifies the YAML file, and `image` ensures all nodes use the same Kubernetes version (v1.32.3 recommended as of April 2025).
 
+- Kind’s `--config` flag expects a local file path, not a URL. This command will fail unless the file is downloaded first.
+
 > **You want to set up it with ONE click? Run the following command in your terminal:**
 ```bash
 kind create cluster --config https://github.com/ibtisam-iq/SilverKube/blob/main/kind-config-file.yaml
