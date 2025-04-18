@@ -204,7 +204,7 @@ Access the service at `http://localhost:8080`. Ensure the service’s `NodePort`
 - Verify `hostPort` doesn’t conflict with other services on the host.
 - For production-like setups, consider `Ingress` or external load balancers (e.g., MetalLB).
 
-> **See detailed guide about `extraPortMappings` [here](extraPortMappings-a.md).**
+> **See detailed guide about `extraPortMappings` [here](extraPortMappings.md).**
 
 ---
 
