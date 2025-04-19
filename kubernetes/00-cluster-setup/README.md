@@ -101,7 +101,7 @@ These tools are ideal for developers, testers, or learners running Kubernetes lo
      ```bash
      curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml
      ```
-     Edit `calico.yaml` to set:
+     Edit `calico.yaml` to set `--cluster-cidr` equals to `podSubnet` from the `kind-cluster-config.yaml` file:
      ```yaml
      - name: CALICO_IPV4POOL_CIDR
        value: "10.244.0.0/16"
