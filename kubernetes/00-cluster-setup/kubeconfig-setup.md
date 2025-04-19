@@ -1,6 +1,6 @@
 # Understanding and Managing Kubeconfig for Kubernetes Clusters
 
-This guide explains **kubeconfig**, a critical component for interacting with Kubernetes clusters using `kubectl`. Whether you’re setting up a local cluster with **Minikube** or **Kind**, a manual cluster with **kubeadm**, or a managed cluster with **AWS EKS**, kubeconfig ensures `kubectl` can connect to your cluster’s API server. Based on practical experience with four cluster types in the `cluster-set` repository, this guide covers what kubeconfig is, why it’s needed, how to set it up, and how to troubleshoot issues, all while keeping the process clear and beginner-friendly.
+This guide explains **kubeconfig**, a critical component for interacting with Kubernetes clusters using `kubectl`. Whether you’re setting up a local cluster with **Minikube** or **Kind**, a manual cluster with **kubeadm**, or a managed cluster with **AWS EKS**, kubeconfig ensures `kubectl` can connect to your cluster’s API server. Based on practical experience with four cluster types in the `00-cluster-setup` repository, this guide covers what kubeconfig is, why it’s needed, how to set it up, and how to troubleshoot issues, all while keeping the process clear and beginner-friendly.
 
 ---
 
