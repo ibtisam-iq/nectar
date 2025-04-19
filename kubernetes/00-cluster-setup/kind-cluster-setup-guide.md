@@ -168,7 +168,7 @@ To replace Flannel with Calico for advanced features like network policies, plea
 
 ### API Server Access
 - The API server runs inside the control-plane container, accessible via `127.0.0.1:6443` by default.
-- Use `extraPortMappings` to expose it externally:
+- Use [`extraPortMappings`](extraPortMappings.md) to expose it externally:
   ```yaml
   nodes:
     - role: control-plane
