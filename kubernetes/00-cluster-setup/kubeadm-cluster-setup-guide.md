@@ -1,6 +1,6 @@
 # Set Up a Kubernetes Cluster with Kubeadm
 
-This guide provides a step-by-step process to deploy a production-ready Kubernetes cluster using **kubeadm** on Ubuntu 24.04 LTS, tailored for high availability (HA) and integrated with the Calico CNI. Designed for clarity and precision, it ensures you can initialize a control plane, join worker nodes, and verify a fully functional cluster with confidence. Follow each step to build a robust Kubernetes environment for development, testing, or production.
+This guide provides a step-by-step process to deploy a production-ready Kubernetes cluster using **kubeadm** on Ubuntu 24.04 LTS, tailored for high availability (HA) and integrated with the Calico [CNI](cni-plugin-installation.md). Designed for clarity and precision, it ensures you can initialize a control plane, join worker nodes, and verify a fully functional cluster with confidence. Follow each step to build a robust Kubernetes environment for development, testing, or production.
 
 ## Prerequisites
 
