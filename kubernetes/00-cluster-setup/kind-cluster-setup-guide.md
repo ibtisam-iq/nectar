@@ -210,7 +210,7 @@ Access the service at `http://localhost:8080`. Ensure the service’s `NodePort`
 
 ## 8. Customizing Cluster Configuration
 
-### kubeadmConfigPatches
+### [kubeadmConfigPatches](kubeadmConfigPatches.md)
 Customize `kubeadm` settings for cluster-wide or node-specific configurations.
 
 #### Cluster-Wide Example
@@ -242,7 +242,7 @@ nodes:
           name: worker-1
 ```
 
-### containerdConfigPatches
+### [containerdConfigPatches](containerdConfigPatches.md)
 Optimize the containerd runtime:
 ```yaml
 containerdConfigPatches:
