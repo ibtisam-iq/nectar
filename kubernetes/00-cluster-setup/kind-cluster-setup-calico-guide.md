@@ -65,7 +65,7 @@ Before proceeding, let’s clarify critical terms:
 
 ## 4. Update [`kind-cluster-config.yaml`](https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-config-file.yaml)
 
-Your original `kind-cluster-config.yaml` needs minor changes to disable Flannel, set IPv4-only mode, and ensure compatibility with Calico. Below is the updated configuration with only the necessary changes highlighted.
+The original [`kind-cluster-config.yaml`](https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-config-file.yaml) needs minor changes to disable Flannel, set IPv4-only mode, and ensure compatibility with Calico. Below is the updated configuration with only the necessary changes highlighted.
 
 ### Updated `kind-cluster-config.yaml`
 ```yaml
@@ -156,7 +156,7 @@ Calico’s manifest (`calico.yaml`) must be updated to align with your cluster�
        value: "true"
      ```
    - **Changes**:
-     - Replace the default `192.168.0.0/16` (or uncomment the line if commented) with `10.244.0.0/16` to match your `podSubnet`.
+     - Replace the default `192.168.0.0/16` (or uncomment the line if commented) with `10.244.0.0/16` to match the `podSubnet`.
      - Keep `CALICO_DISABLE_FILE_LOGGING: "true"` to ensure logs are accessible via `kubectl logs`.
    - **No IPv6 Configuration**:
      - Since `IPv6DualStack: false`, do not add `CALICO_IPV6POOL_CIDR` or any IPv6 settings. Calico will operate in IPv4-only mode.
@@ -183,13 +183,13 @@ Calico’s manifest (`calico.yaml`) must be updated to align with your cluster�
 
 Follow these steps to create the cluster and set up Calico:
 
-1. **Save the Updated `kind-cluster-config.yaml`**:
+1. **Save the Updated `kind-calico-cluster-config.yaml`**:
    - Ensure the config includes `disableDefaultCNI: true`, `podSubnet: "10.244.0.0/16"`, and `IPv6DualStack: false` as shown above.
 
 2. **Create the Kind Cluster**:
    - Run:
      ```bash
-     kind create cluster --config kind-cluster-config.yaml
+     kind create cluster --config kind-calico-cluster-config.yaml
      ```
    - This creates the cluster named `ibtisam` without a CNI. Pods like `coredns` will be in a `Pending` state until Calico is installed.
 
@@ -358,7 +358,7 @@ You might wonder why we update `CALICO_IPV4POOL_CIDR` in `calico.yaml` to match 
   - Changing `podSubnet` requires deleting and recreating the cluster:
     ```bash
     kind delete cluster --name ibtisam
-    kind create cluster --config kind-cluster-config.yaml
+    kind create cluster --config kind-calico-cluster-config.yaml
     ```
   - Editing `calico.yaml` is less disruptive, as it doesn’t affect the cluster’s core configuration.
 
@@ -396,7 +396,7 @@ You might wonder why we update `CALICO_IPV4POOL_CIDR` in `calico.yaml` to match 
 ## 12. Summary
 
 To use Calico as the CNI in your Kind cluster:
-1. Update `kind-cluster-config.yaml`:
+1. Update [`kind-cluster-config.yaml`](https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-config-file.yaml):
    - Set `disableDefaultCNI: true` to disable Flannel.
    - Set `IPv6DualStack: false` for IPv4-only.
    - Keep `podSubnet: "10.244.0.0/16"` as the `--cluster-cidr`.
@@ -404,7 +404,7 @@ To use Calico as the CNI in your Kind cluster:
    - Set `CALICO_IPV4POOL_CIDR` to `10.244.0.0/16`.
    - Keep `CALICO_DISABLE_FILE_LOGGING: "true"`.
    - No IPv6 settings needed.
-3. Create the cluster: `kind create cluster --config kind-cluster-config.yaml`.
+3. Create the cluster: `kind create cluster --config kind-calico-cluster-config.yaml`.
 4. Apply Calico: `kubectl apply -f calico.yaml`.
 5. Verify Calico pods, system pods, and pod networking.
 6. Optionally, test network policies to leverage Calico’s features.
