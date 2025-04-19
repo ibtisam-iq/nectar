@@ -8,7 +8,7 @@ This guide provides a complete workflow to replace Flannel (the default CNI in K
 
 Calico offers advanced features compared to Flannel, making it suitable for specific use cases:
 
-- **Network Policies**: Calico supports Kubernetes `NetworkPolicy` resources for fine-grained control over pod-to-pod communication, enhancing security.
+- **Network Policies**: Calico supports Kubernetes [`NetworkPolicy`](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/03-networking/network-policy-guide.md) resources for fine-grained control over pod-to-pod communication, enhancing security.
 - **BGP Support**: Calico supports Border Gateway Protocol (BGP) for advanced routing, useful in hybrid or multi-cluster setups.
 - **Dual-Stack Networking**: Calico fully supports IPv4/IPv6 dual-stack networking, though this guide focuses on IPv4-only.
 - **Flexibility**: Calico is highly configurable, supporting various environments and networking requirements.
