@@ -57,7 +57,7 @@ These tools are ideal for developers, testers, or learners running Kubernetes lo
          image: kindest/node:v1.32.3
          extraPortMappings:
            - containerPort: 6443
-             hostPort: 6443
+             hostPort: 6444
              protocol: TCP
            - containerPort: 30000
              hostPort: 3000
@@ -86,8 +86,6 @@ These tools are ideal for developers, testers, or learners running Kubernetes lo
          apiServer:
            extraArgs:
              authorization-mode: Node,RBAC
-     featureGates:
-       IPv6DualStack: false
      containerdConfigPatches:
        - |
          [plugins."io.containerd.grpc.v1.cri".containerd]

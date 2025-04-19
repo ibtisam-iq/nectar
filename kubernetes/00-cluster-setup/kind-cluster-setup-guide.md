@@ -252,14 +252,6 @@ containerdConfigPatches:
 ```
 This uses `overlayfs` for better performance and storage efficiency.
 
-### Feature Gates
-Enable experimental Kubernetes features:
-```yaml
-featureGates:
-  IPv6DualStack: false
-```
-Set to `true` for dual-stack networking (requires additional Calico configuration, if Calico is used).
-
 ---
 
 ## 9. Managing Cluster Lifecycle
