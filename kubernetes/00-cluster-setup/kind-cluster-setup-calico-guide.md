@@ -25,7 +25,7 @@ Calico offers advanced features compared to Flannel, making it suitable for spec
 | Use Case                 | Simple clusters, testing        | Security-focused, complex setups |
 
 **Rationale for Calico**:
-- Your `kind-cluster-config.yaml` is designed for a local development or testing cluster named `ibtisam` with a single control-plane and worker node. Switching to Calico allows you to leverage network policies and prepare for potential future needs (e.g., security, advanced networking), while maintaining compatibility with your existing setup.
+- The [`kind-cluster-config.yaml`](https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-config-file.yaml) is designed for a local development or testing cluster named `ibtisam` with a single control-plane and worker node. Switching to Calico allows you to leverage network policies and prepare for potential future needs (e.g., security, advanced networking), while maintaining compatibility with your existing setup.
 
 ---
 
