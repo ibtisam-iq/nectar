@@ -104,6 +104,7 @@ CNI plugins vary in networking models, features, and use cases. Below is a compa
       value: "10.244.0.0/16"
     ```
 - **Use Case**: Ideal for clusters requiring network policies, scalability, or hybrid cloud integration.
+- **Official Documentation**: [Calico CNI](https://docs.tigera.io/calico/latest/getting-started/kubernetes/self-managed-onprem/onpremises#install-calico)
 
 ### 2. Flannel
 - **Overview**: A simple Layer 2 overlay CNI using VXLAN or host-gateway modes. Lightweight and easy to deploy.

@@ -137,9 +137,6 @@ nodes:
   - role: control-plane
     image: kindest/node:v1.32.3
     extraPortMappings:
-      - containerPort: 6443   # Kubernetes API server
-        hostPort: 6443
-        protocol: TCP
       - containerPort: 30000  # NodePort for an application
         hostPort: 8080
         protocol: TCP
@@ -167,8 +164,6 @@ kubeadmConfigPatches:
     apiServer:
       extraArgs:
         authorization-mode: Node,RBAC
-featureGates:
-  IPv6DualStack: false
 containerdConfigPatches:
   - |
     [plugins."io.containerd.grpc.v1.cri".containerd]

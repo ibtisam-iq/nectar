@@ -76,9 +76,6 @@ nodes:
   - role: control-plane
     image: kindest/node:v1.32.3
     extraPortMappings:
-      - containerPort: 6443
-        hostPort: 6443
-        protocol: TCP
       - containerPort: 30000
         hostPort: 3000
         protocol: TCP
@@ -106,8 +103,6 @@ kubeadmConfigPatches:
     apiServer:
       extraArgs:
         authorization-mode: Node,RBAC
-featureGates:
-  IPv6DualStack: false           # Changed: Disable dual-stack for IPv4-only
 containerdConfigPatches:
   - |
     [plugins."io.containerd.grpc.v1.cri".containerd]

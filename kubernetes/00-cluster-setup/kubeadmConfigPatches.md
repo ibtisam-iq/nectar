@@ -153,7 +153,7 @@ nodes:
     image: kindest/node:v1.32.3
     extraPortMappings:
       - containerPort: 6443
-        hostPort: 6443
+        hostPort: 6444
         protocol: TCP
       - containerPort: 30000
         hostPort: 8080

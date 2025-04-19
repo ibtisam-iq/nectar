@@ -309,8 +309,8 @@ nodes:
         nodeRegistration:
           name: k8s-master-1
     extraPortMappings:
-      - containerPort: 6443
-        hostPort: 6443
+      - containerPort: 30000
+        hostPort: 3000
         protocol: TCP
   - role: worker
     image: kindest/node:v1.32.3
