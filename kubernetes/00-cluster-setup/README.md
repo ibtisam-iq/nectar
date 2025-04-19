@@ -1,6 +1,6 @@
 # Cluster Setup and Configuration
 
-Setting up a Kubernetes cluster involves configuring control plane components (API server, controller manager, scheduler) and ensuring proper node networking. This guide categorizes tools and methods for creating Kubernetes clusters by use case, providing detailed steps, prerequisites, and verification for each. Whether for local testing, self-managed infrastructure, or managed cloud solutions, understanding these options helps you choose the right approach.
+Setting up a Kubernetes cluster involves configuring control plane components (API server, controller manager, scheduler) and ensuring proper node networking. This guide categorizes tools and methods for creating Kubernetes clusters by different use case, providing detailed steps, prerequisites, and verification for each. Whether for local testing, self-managed infrastructure, or managed cloud solutions, understanding these options helps you choose the right approach.
 
 ## Table of Contents
 1. Local Testing and Development
