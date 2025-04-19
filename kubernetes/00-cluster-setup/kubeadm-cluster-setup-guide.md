@@ -309,7 +309,7 @@ Initialize the first control plane node using `kubeadm init`, setting up the clu
 
 It’s not just a command — it’s a symphony of components, certificates, manifests, and networking dances happening in perfect sync.
 
-👉 [Peek behind the scenes](kubeadm-init-working.md) and witness how your Kubernetes control plane is born, one daemon and one API handshake at a time.
+👉 [Peek behind the scenes](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/00-cluster-setup/kubeadm-init-working.md#-what-happens-when-you-run-kubeadm-init) and witness how your Kubernetes control plane is born, one daemon and one API handshake at a time.
 
 ---
 
@@ -325,7 +325,7 @@ After initialization, your Kubernetes cluster is running, but you need to config
 - By default, only root can access it.
 - You need to copy and set the permissions properly so that your non-root user can use `kubectl` without issues. So, follow this step on your control plane node or any other node where you want to use `kubectl`.
 
-1. **Set Up kubeconfig**:
+1. **Set Up [kubeconfig](kubeconfig-setup.md)**:
    ```bash
    mkdir -p $HOME/.kube
    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
