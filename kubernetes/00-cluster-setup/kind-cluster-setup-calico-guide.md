@@ -37,7 +37,7 @@ Before proceeding, let’s clarify critical terms:
   - The CNI is responsible for setting up pod networking in Kubernetes, assigning IP addresses to pods and enabling communication between them. Flannel is Kind’s default CNI, but you’re replacing it with Calico.
 
 - **podSubnet**:
-  - The `podSubnet` in `kind-cluster-config.yaml` (e.g., `10.244.0.0/16`) defines the IP range for pod IPs. It’s equivalent to the `--cluster-cidr` parameter in Kubernetes, used by the CNI and Kubernetes components to manage pod networking.
+  - The `podSubnet` in [`kind-cluster-config.yaml`](https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-config-file.yaml) (e.g., `10.244.0.0/16`) defines the IP range for pod IPs. It’s equivalent to the `--cluster-cidr` parameter in Kubernetes, used by the CNI and Kubernetes components to manage pod networking.
 
 - **--cluster-cidr**:
   - This is the Kubernetes configuration parameter that specifies the CIDR range for pod IPs. In Kind, it’s set via the `podSubnet` field (e.g., `10.244.0.0/16`). The CNI (Calico) must use a CIDR that matches or falls within this range to assign valid pod IPs.
@@ -63,7 +63,7 @@ Before proceeding, let’s clarify critical terms:
 
 ---
 
-## 4. Update `kind-cluster-config.yaml`
+## 4. Update [`kind-cluster-config.yaml`](https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-config-file.yaml)
 
 Your original `kind-cluster-config.yaml` needs minor changes to disable Flannel, set IPv4-only mode, and ensure compatibility with Calico. Below is the updated configuration with only the necessary changes highlighted.
 
