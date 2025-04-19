@@ -1,6 +1,6 @@
 # Setting up Kind Cluster Using Calico as CNI
 
-This guide provides a complete workflow to replace Flannel (the default CNI in Kind) with Calico in a Kind cluster, based on the provided `kind-cluster-config.yaml`. It covers configuration updates, Calico installation, and verification, with explanations of key concepts like `--cluster-cidr`. The setup assumes an IPv4-only cluster (`IPv6DualStack: false`) but includes notes for dual-stack if needed.
+This guide provides a complete workflow to replace Flannel (the default CNI in Kind) with Calico in a Kind cluster, based on the provided [`kind-cluster-config.yaml`](https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-config-file.yaml). It covers configuration updates, Calico installation, and verification, with explanations of key concepts like `--cluster-cidr`. The setup assumes an IPv4-only cluster (`IPv6DualStack: false`) but includes notes for dual-stack if needed.
 
 ---
 
