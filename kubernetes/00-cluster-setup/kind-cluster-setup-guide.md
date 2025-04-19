@@ -101,7 +101,7 @@ kind create cluster --name dev-cluster
 ```
 
 ### Accessing the Cluster
-Kind generates a kubeconfig file for `kubectl`. Export it:
+Kind generates a [kubeconfig](kubeconfig-setup.md) file for `kubectl`. Export it:
 ```bash
 export KUBECONFIG=$(kind get kubeconfig --name dev-cluster)
 kubectl cluster-info
