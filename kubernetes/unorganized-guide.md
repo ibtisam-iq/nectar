@@ -2046,3 +2046,183 @@ aws eks update-kubeconfig --region us-east-1 --name my-eks-cluster
 Bro, ab koi confusion hai ya full clarity mil gayi? 🚀
 
 --------------------------------------
+
+# Architecture
+
+Bro, **Kubernetes Architecture** ka **end-to-end flow** yahan explain kar raha hoon:  
+
+---
+
+# **1️⃣ Jab Tum `kubectl` Run Karte Ho, Kya Hota Hai?**
+Let's say tum ye command run karte ho:
+```sh
+kubectl get pods
+```
+➡️ Is command se **kya-kya steps execute hote hain?**  
+
+1. **`kubectl` -> Kubeconfig**  
+   - `kubectl` tumhari **kubeconfig file (~/.kube/config)** ko read karta hai.
+   - Ye file decide karti hai ke **kaunsa API server access karna hai** aur **authentication kaise hogi**.  
+   - Example:
+     ```yaml
+     current-context: my-cluster
+     clusters:
+     - cluster:
+         server: https://API_SERVER_IP
+         certificate-authority-data: LS0tLS1...
+     users:
+     - name: my-user
+       user:
+         token: abc123
+     ```
+     
+2. **`kubectl` -> API Server**  
+   - `kubectl` **API server (kube-apiserver) se request bhejta hai**:
+     ```
+     GET /api/v1/pods
+     ```
+   - Ye request **authentication & authorization** se guzarti hai:
+     1. **Authentication** (`token`, `certificates`, ya `aws eks get-token`)  
+     2. **Authorization** (RBAC roles check hoti hain)  
+     3. **Admission Controllers** (Security policies validate hoti hain)  
+
+3. **API Server -> etcd (for Data Storage)**  
+   - API Server **`etcd` se data fetch karta hai**.  
+   - `etcd` is like Kubernetes ka **database** jo sari cluster ki **state store karta hai** (pods, services, deployments).  
+
+4. **API Server -> Response to kubectl**  
+   - API Server **response return karta hai**, aur tumhare terminal me pod ka output aata hai.
+
+---
+
+# **2️⃣ Kubernetes Ke Architecture Components (Pods)**
+✅ **Kubernetes Control Plane Components**  
+✅ **Kubernetes Worker Node Components**  
+✅ **Konse Components Sirf Control Plane Pe Hain?**  
+✅ **Konse Worker Nodes Pe Hain?**  
+
+## **📌 Control Plane Ke Components (Only on Control Plane Nodes)**
+| Component         | Purpose |
+|------------------|---------|
+| **kube-apiserver** | **Sare cluster ka entry point**, sabse important component. |
+| **etcd**         | Cluster ki **state store** karta hai (all objects). |
+| **kube-scheduler** | Decide karta hai **kaunsa pod kis node pe chalega**. |
+| **kube-controller-manager** | **Cluster controllers** manage karta hai (ReplicaSet, Node, Endpoint, etc.). |
+
+🚀 **Yeh sab components sirf Control Plane nodes pe run hotay hain.**  
+Run karne ka command:
+```sh
+kubectl get pods -n kube-system -o wide
+```
+Example output (Control Plane pods):
+```
+NAME                                      READY   STATUS    NODE
+etcd-master-node                          1/1     Running   master-node
+kube-apiserver-master-node                1/1     Running   master-node
+kube-controller-manager-master-node       1/1     Running   master-node
+kube-scheduler-master-node                1/1     Running   master-node
+```
+
+---
+
+## **📌 Worker Node Ke Components (Only on Worker Nodes)**
+| Component     | Purpose |
+|--------------|---------|
+| **kubelet**  | Worker node ka **agent**, jo API server se instructions leta hai. |
+| **kube-proxy** | **Network communication manage** karta hai. |
+| **Container Runtime** | Pods run karne ke liye (Docker, containerd, CRI-O, etc.). |
+
+🚀 **Yeh sab components sirf Worker Nodes pe hote hain.**  
+Example:
+```
+kubectl get pods -n kube-system -o wide
+```
+```
+kube-proxy-node-1                           1/1     Running   worker-node-1
+kube-proxy-node-2                           1/1     Running   worker-node-2
+```
+
+---
+
+## **📌 Konse Components Control Plane & Worker Dono Pe Hote Hain?**
+✅ **CNI (Container Network Interface) Plugin**  
+- Agar tum **Cilium, Calico, Flannel** ya koi bhi networking plugin use kar rahe ho, to ye **sare nodes pe chalega**.  
+- Example:
+  ```
+  cilium-agent-node-1                       1/1     Running   worker-node-1
+  cilium-agent-node-2                       1/1     Running   worker-node-2
+  ```
+
+✅ **Metrics Server (for Monitoring)**
+- Agar tum **metrics-server** install karte ho to ye **kisi bhi node pe run ho sakta hai**.
+
+✅ **CoreDNS (for DNS Resolution)**
+- Ye **Control Plane nodes pe hota hai**, lekin kabhi kabhi worker pe bhi deploy ho sakta hai.
+
+---
+
+# **3️⃣ Cluster Me Kitne Pods Honge?**
+Agar tumhare paas:
+- **3 Control Plane nodes hain**
+- **5 Worker nodes hain**
+  
+To total pods honge:
+
+| Component                     | Control Plane | Worker Nodes | Total Pods |
+|--------------------------------|--------------|--------------|------------|
+| **kube-apiserver**             | ✅ (3x)      | ❌ (0)       | 3          |
+| **etcd**                       | ✅ (3x)      | ❌ (0)       | 3          |
+| **kube-scheduler**             | ✅ (3x)      | ❌ (0)       | 3          |
+| **kube-controller-manager**     | ✅ (3x)      | ❌ (0)       | 3          |
+| **kubelet**                    | ✅ (3x)      | ✅ (5x)      | 8          |
+| **kube-proxy**                 | ❌ (0)       | ✅ (5x)      | 5          |
+| **CNI Plugin**                 | ✅ (3x)      | ✅ (5x)      | 8          |
+| **CoreDNS**                    | ✅ (3x)      | ❌ (0)       | 3          |
+| **Metrics Server (optional)**   | ✅ (3x)      | ✅ (5x)      | 8          |
+
+🔹 **Total Pods: ~41 (depending on setup)**
+
+---
+
+# **4️⃣ `kubelet` Kis Jagah Fit Hota Hai?**
+## **❓ Kya `kubelet` ka koi pod hota hai?**
+**Nahi!**  
+- `kubelet` **ek system-level process hai**, jo **har node pe run hota hai**, **kisi pod ke andar nahi hota**.  
+- Check karne ke liye:
+  ```sh
+  ps aux | grep kubelet
+  ```
+  Example:
+  ```
+  root       1456  2.0  1.2  185400  56732 ?  Ssl  10:32   2:13 /usr/bin/kubelet --config=/var/lib/kubelet/config.yaml
+  ```
+
+## **🛠 `kubelet` ka Kaam Kya Hai?**
+- Ye **worker node ka agent** hai.
+- Ye **API server se instructions leta hai** aur ensure karta hai ke required pods run ho rahe hain.
+- **Jab tum `kubectl apply -f pod.yaml` chalate ho:**
+  - `kubectl` API server se baat karta hai.
+  - API server `etcd` me entry store karta hai.
+  - Kube-scheduler **decide karta hai kaunsa node assign hoga**.
+  - `kubelet` us node pe pod start karne ka process initiate karta hai.
+
+## **🔄 `kubelet` vs API Server**
+| Feature        | API Server             | Kubelet |
+|---------------|------------------------|---------|
+| **Location**  | Sirf Control Plane Nodes | Worker + Control Plane Nodes |
+| **Role**      | Cluster ki state manage karta hai | Individual node ka manager |
+| **Interacts With** | `etcd`, controllers, schedulers | Container runtime, pod execution |
+| **Communication** | Accepts requests via `kubectl` | Talks to API Server via `watch` |
+
+---
+
+# **🔥 Summary**
+✅ `kubectl` command **API Server se request bhejta hai**, jo **etcd se data fetch karta hai**.  
+✅ Control Plane pe **API Server, etcd, Scheduler, Controller Manager hote hain**.  
+✅ Worker nodes pe **kubelet, kube-proxy, aur Container Runtime hota hai**.  
+✅ `kubelet` **pod nahi hai**, balki ek system process hai, jo har node pe chalta hai.  
+✅ Cluster size pe depend karta hai ke **kitne pods run honge**.
+
+Ab samajh aaya? Koi aur sawal hai to batao bro! 🚀
+
+----------------------------------------
