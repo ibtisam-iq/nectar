@@ -7,35 +7,35 @@
 
 ### Cluster Formation
 
-**1. [KodeKloud]**(https://kodekloud.com/public-playgrounds)
+**1.** [**KodeKloud**](https://kodekloud.com/public-playgrounds)
 
 **2. `kind`**
 
 - One control-plane node and one worker node with default CNI (Flannel)
-```bash
-curl -s https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-config-file.yaml | kind create cluster --config -
-```
+    ```bash
+    curl -s https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-config-file.yaml | kind create cluster --config -
+    ```
 
 - One control-plane node and one worker node with Calico CNI
-```bash
-curl -s https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-calico-config-file.yaml | kind create cluster --config -
-curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml
-sed -i 's/# - name: CALICO_IPV4POOL_CIDR/- name: CALICO_IPV4POOL_CIDR/' calico.yaml
-sed -i 's/#   value: "192.168.0.0\/16"/  value: "10.244.0.0\/16"/' calico.yaml
-kubectl apply -f calico.yaml
-```
+    ```bash
+    curl -s https://raw.githubusercontent.com/ibtisam-iq/SilverKube/main/kind-calico-config-file.yaml | kind create cluster --config -
+    curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml
+    sed -i 's/# - name: CALICO_IPV4POOL_CIDR/- name: CALICO_IPV4POOL_CIDR/' calico.yaml
+    sed -i 's/#   value: "192.168.0.0\/16"/  value: "10.244.0.0\/16"/' calico.yaml
+    kubectl apply -f calico.yaml
+    ```
 
 **3. `kubeadm`**
 
-- First control-plane initialization using
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/K8s-Control-Plane-Init.sh | sudo bash
-```
+- First control-plane initialization
+    ```bash
+    curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/K8s-Control-Plane-Init.sh | sudo bash
+    ```
 
 - Worker node initialization
-```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/K8s-Node-Init.sh | sudo bash
-```
+    ```bash
+    curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/K8s-Node-Init.sh | sudo bash
+    ```
 
 > **Note:** Kubernetes supports both `--flag=value` and `--flag value` formats.
 
