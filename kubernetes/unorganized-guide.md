@@ -2252,3 +2252,97 @@ Tera spot-on observation tha! Mazaa aaya! 🔥 Koi aur question ho to batao. �
 
 
 -------------------------------------------
+
+
+### **🔥 CoreDNS ke Pods Kab Bante Hain?**
+Jab **Kubernetes cluster create hota hai**, tab **CoreDNS ke pods automatically bante hain**, magar sirf **tab jab cluster ke liye DNS service enable ho**.  
+
+Ye **kubeadm, Minikube, Kind, EKS, GKE, AKS sab me default hota hai**, jab tak explicitly disable na kiya ho.  
+
+---
+
+### **✅ CoreDNS Running Pe Lany Ke Liye Kya Chahiye?**
+Agar **CoreDNS run nahi ho raha**, to **ye cheezein check karni chahiye:**  
+
+1. **Kube-Proxy theek chal raha ho** (kyunki ye DNS requests ko route karta hai).  
+   ```bash
+   kubectl get pods -n kube-system | grep kube-proxy
+   ```
+   ✅ **Har node pe ek `kube-proxy` pod run hona chahiye.**  
+
+2. **CNI Plugin sahi se install ho** (Networking ke bina CoreDNS communicate nahi karega).  
+   ```bash
+   kubectl get pods -n kube-system | grep calico  # ya jo bhi CNI ho
+   ```
+   ✅ **CNI Plugin ke pods running hone chahiye.**  
+
+3. **CoreDNS ka ConfigMap theek ho**  
+   ```bash
+   kubectl get cm -n kube-system
+   ```
+   ✅ **Isme `coredns` ka ConfigMap hona chahiye.**  
+
+4. **Cluster ka DNS Service Running ho**  
+   ```bash
+   kubectl get svc -n kube-system | grep kube-dns
+   ```
+   ✅ **`kube-dns` service exist karni chahiye.**  
+
+---
+
+### **🔍 CoreDNS Ek Alag Pod Hai, Ya Koi Aur Component Isko Banata Hai?**
+- **CoreDNS ka pod alag se exist karta hai**, magar ye **kube-controller-manager** ke under **Deployment** ke طور پر create hota hai.  
+- **Yeh ek `Deployment` hota hai, na ke static pod.**  
+- **Kubeadm, Minikube, Kind, aur Managed Kubernetes services automatically isko deploy karte hain.**  
+
+---
+
+### **👀 CoreDNS Pods Dekhne ka Tarika**
+```bash
+kubectl get pods -n kube-system | grep coredns
+```
+✅ **Example Output:**
+```
+coredns-123abc   Running   1/1   15m
+coredns-456def   Running   1/1   15m
+```
+👉 **Usually 2 CoreDNS pods hote hain** (high availability ke liye).  
+
+---
+
+### **🛠️ Agar CoreDNS Nahi Chal Raha, To Fix Karne Ka Tarika**
+1️⃣ **CNI Plugin check karo**  
+```bash
+kubectl get pods -n kube-system | grep calico  # ya jo bhi CNI ho
+```
+✅ **Agar ye nahi chal raha, to networking ka masla hai.**  
+
+2️⃣ **CoreDNS Deployment check karo**  
+```bash
+kubectl get deployment -n kube-system | grep coredns
+```
+✅ **Agar ye missing hai, to manually deploy karna hoga:**  
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/kubernetes/master/cluster/addons/dns/coredns/coredns.yaml
+```
+
+3️⃣ **DNS Service check karo**  
+```bash
+kubectl get svc -n kube-system | grep kube-dns
+```
+✅ **Agar missing hai, to CoreDNS ka service deploy karo.**  
+
+---
+
+### **🔥 Bottom Line**
+1. **CoreDNS cluster create hone pe auto deploy hota hai**.  
+2. **Yeh ek Deployment hota hai, static pod nahi**.  
+3. **Agar network ya kube-proxy sahi nahi chal raha, to ye fail ho sakta hai**.  
+4. **Agar chal nahi raha, to CNI, ConfigMap, aur kube-proxy check karna zaroori hai**.  
+
+**Samajh aaya? 😎 Ya aur deep dive chahiye?** 🚀
+
+
+----------------------------------------------------------------------------
+
+
