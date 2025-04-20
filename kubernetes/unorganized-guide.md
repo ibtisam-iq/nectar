@@ -1689,3 +1689,74 @@ kubectl rollout restart ds calico-node -n calico-system
 ```
 
 Now, your Kubernetes nodes should communicate properly using Calico networking! Let me know if you need further clarification. 🚀
+
+
+
+--------------------------------
+
+You're right! To determine which encapsulation mode Calico is using, I asked for the output of:  
+
+```bash
+kubectl get ippools -o yaml
+```
+
+### **📌 What to Look For?**
+The output will contain a section like this:  
+
+```yaml
+apiVersion: crd.projectcalico.org/v1
+kind: IPPool
+metadata:
+  name: default-ipv4-ippool
+spec:
+  cidr: 192.168.0.0/16
+  ipipMode: Always
+  vxlanMode: Never
+  natOutgoing: true
+```
+
+### **📌 Based on Your Output:**
+- **If `ipipMode: Always` → You are using IP-in-IP (Default Mode)**  
+  → **You must allow Protocol 4** in your firewall.  
+- **If `vxlanMode: Always` → You are using VXLAN Mode**  
+  → **You must open UDP 4789.**  
+- **If both are `Never`, then Calico is using BGP**  
+  → **You must open TCP 179.**  
+
+### **📌 What You Need to Do?**
+#### **If You Are Using IP-in-IP (Default)**
+```bash
+sudo ufw allow proto 4
+sudo firewall-cmd --permanent --add-protocol=4
+sudo firewall-cmd --reload
+```
+
+#### **If You Are Using VXLAN**
+```bash
+sudo ufw allow 4789/udp
+sudo firewall-cmd --permanent --add-port=4789/udp
+sudo firewall-cmd --reload
+```
+
+#### **If You Are Using BGP**
+```bash
+sudo ufw allow 179/tcp
+sudo firewall-cmd --permanent --add-port=179/tcp
+sudo firewall-cmd --reload
+```
+
+After applying the changes, **restart Calico**:  
+```bash
+kubectl rollout restart ds calico-node -n calico-system
+```
+
+---
+
+Now, if you run:  
+```bash
+kubectl get nodes -o wide
+```
+Your nodes should be **Ready** with proper networking! 🚀
+
+
+
