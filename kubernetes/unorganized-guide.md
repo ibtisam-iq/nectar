@@ -2345,4 +2345,56 @@ kubectl get svc -n kube-system | grep kube-dns
 
 ----------------------------------------------------------------------------
 
+Bohat zabardast question kiya hai! **Kubernetes ke andar kon se pods Deployment ke results hain aur kon se Static Pods hain**, ye samajhna architecture ko deeply samajhne ke liye bohat zaroori hai.  
 
+---
+
+## **🔥 Static Pods vs. Deployment Pods in Kubernetes**
+- **Static Pods:** Yeh **directly Kubelet manage karta hai**, aur yeh **kubectl apply ya Deployment se control nahi hotay**.  
+- **Deployment Pods:** Yeh **kube-controller-manager ke under control hotay hain**, aur **kubectl apply ya helm se manage hote hain**.  
+
+---
+
+## **🤖 Control Plane ke Components & Unke Pods**
+| **Component** | **Pod Type** | **Kahan Run Hota Hai?** | **Pod/Deployment Name** |
+|--------------|------------|-------------------|------------------|
+| API Server | **Static Pod** | **Control Plane Nodes Only** | `kube-apiserver` |
+| Controller Manager | **Static Pod** | **Control Plane Nodes Only** | `kube-controller-manager` |
+| Scheduler | **Static Pod** | **Control Plane Nodes Only** | `kube-scheduler` |
+| etcd | **Static Pod** | **Control Plane Nodes Only** | `etcd` |
+| CoreDNS | **Deployment** | **Control Plane & Worker Nodes** | `coredns` |
+| Kube Proxy | **DaemonSet (Deployment-like behavior)** | **All Nodes** | `kube-proxy` |
+
+✅ **Control Plane me sirf 4 static pods hain:**  
+- `kube-apiserver`  
+- `kube-controller-manager`  
+- `kube-scheduler`  
+- `etcd`  
+
+💡 **Baqi sab deployments ya DaemonSet hote hain!**  
+
+---
+
+## **⚡ Worker Nodes ke Components & Unke Pods**
+| **Component** | **Pod Type** | **Kahan Run Hota Hai?** | **Pod/Deployment Name** |
+|--------------|------------|-------------------|------------------|
+| Kubelet | **Process (Not a Pod)** | **All Worker Nodes** | ❌ (No pod, it's a system service) |
+| Kube Proxy | **DaemonSet** | **All Nodes (Control + Worker)** | `kube-proxy` |
+| CNI Plugin | **DaemonSet** | **All Worker Nodes** | `calico-node` / `flannel` / `weave` etc. |
+| User Pods (Apps) | **Deployment / StatefulSet / DaemonSet** | **Worker Nodes** | `nginx`, `redis`, etc. |
+
+✅ **Worker nodes me sirf ek process hota hai jo pod nahi hota → Kubelet**.  
+✅ **CNI Plugin aur kube-proxy DaemonSet hote hain jo har node pe run hotay hain**.  
+✅ **User applications sirf Worker Nodes pe run hoti hain (unless explicitly control plane pe deploy karein).**  
+
+---
+
+## **🔥 Summary**
+- **Static Pods sirf Control Plane pe hotay hain**, aur Kubelet inko `/etc/kubernetes/manifests/` se uthata hai.  
+- **Deployment wale pods Control + Worker dono pe ho sakte hain**, lekin inko `kube-controller-manager` manage karta hai.  
+- **Kubelet ek system process hai, pod nahi**.  
+- **Worker nodes sirf CNI, kube-proxy, aur user applications chalate hain**.  
+
+💡 **Agar cluster me 3 control plane nodes aur 5 worker nodes hain, to kitne total system pods chalain gay?** 😏
+
+---------------------------------------------------------------------------
