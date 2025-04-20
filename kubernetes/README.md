@@ -47,7 +47,7 @@ It uses a **[declarative API](./01-core-concepts/declarative-api-process.md)**, 
 
 ## ⚙️ Cluster Setup & Configuration
 
-[Cluster setup](./cluster-setup/README.md) involves configuring:
+[Cluster setup](./00-cluster-setup/README.md) involves configuring:
 - **Control plane components** (API server, controller manager, scheduler)  
 - **Node networking**  
 
