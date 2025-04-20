@@ -1544,4 +1544,70 @@ Would you like a breakdown of another CNI plugin, such as Calico? 🚀
 
 ---------------------------
 
+Not necessarily. `/etc/cni/net.d/` can contain **multiple** CNI configuration files at the same time.  
 
+### **How Kubernetes Handles Multiple CNI Configs in `/etc/cni/net.d/`**  
+- The **first** configuration file (sorted alphabetically) is used as the primary CNI plugin.  
+- Additional configuration files may be used for **chaining** (e.g., adding extra network features).  
+- If multiple configurations exist, Kubernetes (or CRI) selects the first matching one.
+
+---
+
+### **Example 1: Single Plugin (Flannel Only)**
+If `/etc/cni/net.d/` contains only **one** configuration file:
+```bash
+ls /etc/cni/net.d/
+10-flannel.conflist
+```
+Then Kubernetes will use **Flannel** as the only CNI.
+
+---
+
+### **Example 2: Multiple Plugins (Flannel + Bandwidth Control)**
+You might have multiple config files:
+```bash
+ls /etc/cni/net.d/
+10-flannel.conflist
+20-bandwidth.conf
+```
+- `10-flannel.conflist` → Defines pod networking via Flannel.  
+- `20-bandwidth.conf` → Used as an **additional plugin** for bandwidth limits.  
+
+**How it works:**  
+- The **primary CNI plugin** (Flannel) handles pod networking.  
+- The **secondary plugin** (Bandwidth) applies network restrictions.  
+
+---
+
+### **Example 3: Using Chained CNI Plugins in a Single Config File**
+Instead of separate files, you can also define **multiple plugins inside one file** using the `"plugins"` array:
+
+```json
+{
+  "cniVersion": "0.3.1",
+  "name": "multus-network",
+  "plugins": [
+    {
+      "type": "flannel"
+    },
+    {
+      "type": "bandwidth",
+      "ingressRate": 1000000,
+      "egressRate": 1000000
+    }
+  ]
+}
+```
+Here, Flannel is **first applied**, followed by the Bandwidth plugin.
+
+---
+
+### **Final Answer:**
+- **Yes, there can be multiple CNI config files** in `/etc/cni/net.d/`.  
+- **Kubernetes will use the first matching config (alphabetically sorted).**  
+- **Plugins can also be chained inside a single `.conflist` file.**  
+
+Would you like an example of a **Multus CNI setup** (which allows multiple CNIs per pod)? 🚀
+
+
+------------------------------------------------
