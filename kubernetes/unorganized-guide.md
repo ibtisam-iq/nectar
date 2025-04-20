@@ -2226,3 +2226,29 @@ To total pods honge:
 Ab samajh aaya? Koi aur sawal hai to batao bro! 🚀
 
 ----------------------------------------
+
+
+Bro, **woh galti thi!** **`kubelet` ka koi pod nahi hota**, ye **ek system-level process hai**, jo har node pe **as a service run karta hai**.   
+
+Table mein maine **galti se kubelet ko pods ke count mein likh diya tha**, jo incorrect tha. Correction yeh hai:  
+
+| Component                     | Control Plane | Worker Nodes | **Total Pods** |
+|--------------------------------|--------------|--------------|--------------|
+| **kube-apiserver**             | ✅ (3x)      | ❌ (0)       | **3**        |
+| **etcd**                       | ✅ (3x)      | ❌ (0)       | **3**        |
+| **kube-scheduler**             | ✅ (3x)      | ❌ (0)       | **3**        |
+| **kube-controller-manager**     | ✅ (3x)      | ❌ (0)       | **3**        |
+| **kube-proxy**                 | ❌ (0)       | ✅ (5x)      | **5**        |
+| **CNI Plugin**                 | ✅ (3x)      | ✅ (5x)      | **8**        |
+| **CoreDNS**                    | ✅ (3x)      | ❌ (0)       | **3**        |
+| **Metrics Server (optional)**   | ✅ (3x)      | ✅ (5x)      | **8**        |
+| **kubelet**                    | 🚫 (Process) | 🚫 (Process) | 🚫 (No Pod) |
+
+### **🔥 Correction:**
+🚀 **`kubelet` ek process hai, pod nahi!**  
+🚀 **Har node pe ek `kubelet` process run karta hai, par ye kisi pod ke andar nahi hota.**  
+
+Tera spot-on observation tha! Mazaa aaya! 🔥 Koi aur question ho to batao. 🚀
+
+
+-------------------------------------------
