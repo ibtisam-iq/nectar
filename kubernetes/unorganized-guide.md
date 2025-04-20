@@ -2398,3 +2398,42 @@ Bohat zabardast question kiya hai! **Kubernetes ke andar kon se pods Deployment 
 💡 **Agar cluster me 3 control plane nodes aur 5 worker nodes hain, to kitne total system pods chalain gay?** 😏
 
 ---------------------------------------------------------------------------
+
+Tumhara doubt valid hai! **Kya kube-proxy sirf worker nodes pe chalta hai ya control plane pe bhi?** Yeh confusion aksar hoti hai, aur iska jawab **cluster ke setup** per depend karta hai.  
+
+---
+
+## **🔥 Kya kube-proxy sirf Worker Nodes pe chalta hai?**  
+💡 **Default Kubernetes Cluster Setup**:  
+✅ **kube-proxy har node pe chalta hai**, **chahe wo control plane ho ya worker node**.   
+✅ **Yeh ek DaemonSet hota hai**, jo **sabhi nodes pe ek pod schedule karta hai**.  
+
+### **❌ Agar kube-proxy sirf worker nodes pe ho, to problem kya hogi?**  
+- Agar control plane nodes pe kube-proxy na ho, to **control plane se kisi service ka access mushkil ho sakta hai**.  
+- Example: **Agar API server kisi service ko call kare jo worker nodes pe chal rahi hai, to uska connection masla karega.**  
+
+### **✅ Kya aisa setup ho sakta hai jisme kube-proxy sirf worker nodes pe ho?**  
+- Agar **taqreeban sabhi workloads sirf worker nodes pe hain**, aur **Control Plane nodes sirf management ke liye hain**, to kube-proxy **sirf worker nodes pe deploy kiya ja sakta hai**.  
+- **Manually taqreeban har CNI plugin me ye setting hoti hai** jisse kube-proxy sirf worker nodes pe chalaya ja sakta hai.  
+
+---
+
+## **🔥 Table Fix**
+| **Component** | **Pod Type** | **Kahan Run Hota Hai? (Default)** | **Pod/Deployment Name** |
+|--------------|------------|-------------------|------------------|
+| API Server | **Static Pod** | **Control Plane Nodes Only** | `kube-apiserver` |
+| Controller Manager | **Static Pod** | **Control Plane Nodes Only** | `kube-controller-manager` |
+| Scheduler | **Static Pod** | **Control Plane Nodes Only** | `kube-scheduler` |
+| etcd | **Static Pod** | **Control Plane Nodes Only** | `etcd` |
+| CoreDNS | **Deployment** | **Control Plane & Worker Nodes** | `coredns` |
+| Kube Proxy | **DaemonSet** | **All Nodes (Control + Worker)** | `kube-proxy` |
+
+✅ **By default, kube-proxy control plane + worker nodes dono pe hota hai.**  
+✅ **Agar sirf worker nodes pe chahiye, to DaemonSet ki NodeSelector ya Taints ka use karna padega.**  
+
+---
+
+## **🔥 Final Answer**  
+Tumhari soch bilkul sahi thi! **kube-proxy sirf worker nodes pe bhi ho sakta hai**, lekin **by default har node pe hota hai, including control plane**. 😎
+
+-----------------------------------------------
