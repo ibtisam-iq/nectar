@@ -1611,3 +1611,81 @@ Would you like an example of a **Multus CNI setup** (which allows multiple CNIs 
 
 
 ------------------------------------------------
+
+No worries! Since you've installed **Calico** but haven't explicitly opened its required ports, let's go over it again.  
+
+### **📌 Why Do You Need to Open Ports for Calico?**  
+Calico is a **CNI plugin** that enables networking for Kubernetes Pods. It runs its own components, such as the **Felix agent, BGP, and Typha**, which require specific ports to be open for proper communication.  
+
+---
+
+### **🚀 Required Ports for Calico**
+You need to ensure that the following ports are open **on all Kubernetes nodes** (control plane & worker nodes):  
+
+#### **1️⃣ Calico Node-to-Node Communication (BGP & VXLAN/IP-in-IP)**
+| Port  | Protocol | Purpose |
+|-------|----------|---------|
+| **179**  | TCP  | BGP communication (only needed if using BGP mode) |
+| **4789** | UDP  | VXLAN tunnel traffic (only needed if using VXLAN mode) |
+| **6081** | UDP  | IP-in-IP encapsulated traffic (only needed if using IP-in-IP mode) |
+
+- **Which mode are you using?**  
+  - Default: **IP-in-IP** → Open **6081/UDP**  
+  - If using **VXLAN** → Open **4789/UDP**  
+  - If using **BGP Peering** → Open **179/TCP**  
+
+#### **2️⃣ Felix Agent & Typha (For Large Clusters)**
+| Port  | Protocol | Purpose |
+|-------|----------|---------|
+| **9091** | TCP  | Metrics (Felix agent) |
+| **5473** | TCP  | Typha-to-Felix communication (only in large clusters) |
+
+> **👉 Action**: Open the relevant ports based on your networking mode.
+
+---
+
+### **🚀 How to Open These Ports?**
+If your firewall is **enabled**, run the following commands to allow the required ports:
+
+#### **For UFW (Ubuntu/Debian)**
+```bash
+sudo ufw allow 179/tcp    # BGP
+sudo ufw allow 4789/udp   # VXLAN (if using)
+sudo ufw allow 6081/udp   # IP-in-IP (if using)
+sudo ufw allow 9091/tcp   # Felix metrics (optional)
+sudo ufw allow 5473/tcp   # Typha (if using)
+sudo ufw reload
+```
+
+#### **For Firewalld (RHEL/CentOS)**
+```bash
+sudo firewall-cmd --permanent --add-port=179/tcp
+sudo firewall-cmd --permanent --add-port=4789/udp
+sudo firewall-cmd --permanent --add-port=6081/udp
+sudo firewall-cmd --permanent --add-port=9091/tcp
+sudo firewall-cmd --permanent --add-port=5473/tcp
+sudo firewall-cmd --reload
+```
+
+---
+
+### **🚀 How to Verify If Ports Are Open?**
+Run:
+```bash
+sudo netstat -tulnp | grep -E '179|4789|6081|9091|5473'
+```
+or
+```bash
+sudo ss -tulnp | grep -E '179|4789|6081|9091|5473'
+```
+If you see the ports **LISTENING**, you're good to go! 🚀  
+
+---
+
+### **📌 Final Steps: Restart Calico**
+After opening the ports, restart Calico to apply the changes:
+```bash
+kubectl rollout restart ds calico-node -n calico-system
+```
+
+Now, your Kubernetes nodes should communicate properly using Calico networking! Let me know if you need further clarification. 🚀
