@@ -2437,3 +2437,5 @@ Tumhara doubt valid hai! **Kya kube-proxy sirf worker nodes pe chalta hai ya con
 Tumhari soch bilkul sahi thi! **kube-proxy sirf worker nodes pe bhi ho sakta hai**, lekin **by default har node pe hota hai, including control plane**. 😎
 
 -----------------------------------------------
+
+Follow me on LinkedIn: www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=ibtisam-iq 
