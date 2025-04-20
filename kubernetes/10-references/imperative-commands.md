@@ -39,7 +39,7 @@ curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/K8s-Node-I
 
 > **Note:** Kubernetes supports both `--flag=value` and `--flag value` formats.
 
----
+--- 
 
 ## Pod
 Create and run a particular image.
