@@ -4,7 +4,7 @@ In this chapter, we’ll dive into YAML lists and arrays, which are used to repr
 
 ## 2.1 Single-Level Lists
 
-A simple list in YAML is represented by a series of items prefixed by a dash (`-`). This is known as a single-level list, and it can contain strings, numbers, or even other complex structures.
+A simple list in YAML is represented by a series of **items** prefixed by a dash (`-`). This is known as a single-level list, and it can contain strings, numbers, or even other complex structures.
 
 ### Example 1: Simple List of Strings
 
@@ -15,7 +15,7 @@ fruits:
   - banana
   - orange
 ```
-Here, `fruits` is a key, and its value is a list of strings (`apple`, `banana`, `orange`).
+Here, `fruits` is a key, and its value is a list of items in the form of string (`apple`, `banana`, `orange`).
 
 ---
 
