@@ -123,7 +123,7 @@ Create a deployment with the specified name
 ```bash
 kubectl create deployment <name> --image=<image> \
     -r, --replicas=1 \
-    --port=80 \
+    --port=<> \
     -l, --labels=<key>=<value>,<key>=<value> \
     --env=<key>=<value> --env=<key>=<value> \
     -n, --namespace=<namespace> \
