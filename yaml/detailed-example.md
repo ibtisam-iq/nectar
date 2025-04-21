@@ -2,6 +2,8 @@
 
 YAML uses key-value pairs, where keys are strings and values can be strings, numbers, lists, or dictionaries. This guide shows how to use `fruit` as a key in three ways: (1) directly mapping to a value, (2) as a top-level dictionary key with nested content, and (3) as a key for a nested list structure. Follow these examples to master YAML’s flexibility.
 
+---
+
 ## Part 1: 'fruit' as a Key with Direct Values
 Here, `fruit` is a key directly mapped to a single value. We assume we need to represent fruit-related data in the simplest form.
 
@@ -87,7 +89,7 @@ fruit:
 ## Part 3: 'fruit:' as a Key for a Nested List
 Assume we need to represent multiple categories of fruit-related data, each with a list of items, under `fruit:`.
 
-### Nested List
+### 1. Nested List
 To categorize fruit types and colors, use a nested list structure.
 ```yaml
 fruit:
@@ -107,11 +109,35 @@ fruit:
   2. Each list item is a dictionary (e.g., `types:` or `colors:` with key-value pairs).
   3. Each dictionary’s value is a list (e.g., `- apple`, `- orange` under `types`).
 
+
+### 2. Nested List of Dictionaries
+To describe multiple fruit types with attributes and color lists, use a list of dictionaries with nested lists.
+```yaml
+fruit:
+  - type: apple
+    weight: 182
+    colors:
+      - red
+      - green
+  - type: orange
+    weight: 200
+    colors:
+      - orange
+```
+- **Explanation**:
+  - `fruit:` maps to a list of dictionaries, each representing a fruit type.
+  - Each dictionary has keys `type`, `weight`, and `colors`, where `colors` is a nested list.
+  - Use this for complex configurations, like detailing multiple fruits with attributes.
+- **Step-by-Step**:
+  1. `fruit:` is a list (items start with `-`).
+  2. Each list item is a dictionary with keys `type`, `weight`, and `colors`.
+  3. The `colors` key maps to a list (e.g., `- red`, `- green`).
+
 ---
 
 ## Key Takeaways
 - **Direct Use (`fruit`)**: Use `fruit` for simple, single values (string, number, list, dictionary) when minimal structure is needed.
 - **Dictionary Use (`fruit:`)**: Use `fruit:` to group related attributes in a dictionary, ideal for structured configs (e.g., Kubernetes manifests).
-- **Nested List `fruit:`**: Use for hierarchical lists, like categorizing data.
+- **Nested List `fruit:`**: Use for hierarchical lists or configurations, like categorizing or detailing multiple fruits.
 - Choose the structure based on data complexity.
 - Practice these to build robust YAML configurations.
