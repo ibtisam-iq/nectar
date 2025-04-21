@@ -28,7 +28,7 @@ versions:
   - 2.1
   - 3.4
 ```
-In this case, `versions` is a list of numeric values.
+In this case, `versions` is a `key` which consists of a list of numeric values.
 
 ## 2.2 Nested Lists
 
