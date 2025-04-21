@@ -128,8 +128,6 @@ kubectl create deployment <name> --image=<image> \
     -l, --labels=<key>=<value>,<key>=<value> \
     --env=<key>=<value> --env=<key>=<value> \
     -n, --namespace=<namespace> \
-    -- <arg1> <arg2> ... <argN> \   
-    --command -- <cmd> <arg1> ... <argN> \
     --save-config
 ```
 ### Example
@@ -139,6 +137,7 @@ kubectl create deployment <name> --image=<image> \
 kubectl create deployment my-dep --image busybox -r 3 --port 3000
 
 # Create a deployment with a command
+# kubectl create deployment NAME --image=image -- [COMMAND] [args...] [options]
 kubectl create deployment my-dep --image=busybox -- date
 
 # Create a deployment named my-dep that runs multiple containers
