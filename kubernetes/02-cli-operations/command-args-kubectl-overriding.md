@@ -248,3 +248,23 @@ docker inspect <image>
 Look under `.Config.Entrypoint` and `.Config.Cmd`
 
 ---
+
+- **Docker**:
+  - `ENTRYPOINT`: The executable (`/bin/sh` for `busybox`).
+  - `CMD`: The arguments (empty for `busybox`).
+- **Kubernetes**:
+  - `command`: Overrides `ENTRYPOINT`.
+  - `args`: Overrides `CMD` or passes arguments.
+- **busybox**:
+  - Default: `ENTRYPOINT /bin/sh`, `CMD` empty.
+  - Kubernetes default: `command` implicit (`/bin/sh`), `args` empty.
+  - `sh -c` is not the `CMD`; it’s how `/bin/sh` processes arguments (e.g., `args: ["sleep", "10"]`).
+- **Your Commands**:
+  - `kubectl create deployment ... -- 10`: Sets `command: ["10"]` (fails).
+  - `kubectl run ... -- 10`: Sets `args: ["10"]` (fails).
+  - `kubectl run ... -- sleep 10`: Sets `args: ["sleep", "10"]` (works).
+
+**Your Confusion Resolved**:
+- `/bin/sh` is the `ENTRYPOINT` (not `command` unless specified).
+- `sh -c` is not the `CMD` or `args`; it’s a behavior of `/bin/sh` with arguments.
+- `command` and `args` in Kubernetes override Docker’s `ENTRYPOINT` and `CMD`, respectively.S
