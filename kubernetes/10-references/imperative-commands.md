@@ -57,7 +57,7 @@ kubectl run <name> --image=<image> \
     --dry-run=client \
     -o, --output=yaml > <output file>
 ```
-### Key Differences
+
 | Aspect                | `--port`                                   | `--expose`                                   |
 |-----------------------|--------------------------------------------|---------------------------------------------|
 | **Purpose**           | *Declares* the port the container listens on | Creates a Service to expose the Pod         |
