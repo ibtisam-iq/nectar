@@ -101,6 +101,7 @@ kubectl run -i -t busybox --image=busybox --restart=Never
 - If more than one `--port` flag is mentioned, the last `--port` flag overrides all first mentioned `--port` flags.
 - The `--` separator indicates that everything after it (`--sleep 1000`) is passed as arguments to the container. `--sleep 1000` is interpreted as two separate arguments: `--sleep` and `1000`. To pass a single argument, use quotes: `-- "sleep 1000"`.
 - Use `--command --` to define custom commands in containers.
+- The `command` field overrides the container image’s default **entrypoint**.
 - When using `--command`, both command and arguments must be explicitly defined.
 
 | Aspect                | `--port`                                   | `--expose`                                   |
@@ -144,6 +145,7 @@ kubectl create deployment my-dep --image=busybox -- date
 kubectl create deployment my-dep --image=busybox:latest --image=ubuntu:latest --image=nginx
 ```
 - `--image=[]`: Image names to run. A deployment can have multiple images set for multi-container pod.
+- `kubectl create deployment` treats arguments after `--` as the container’s command, replacing the image’s default ENTRYPOINT. However, `kubectl run` interprets arguments after `--` as **arguments** to the container’s Entrypoint (not the command itself, and replacing ENTRYPOINT), unless `--command` is specified.
 
 ---
 
