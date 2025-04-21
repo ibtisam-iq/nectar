@@ -4,5 +4,5 @@
 
 **Daemonsets (1/1):** `daemonset.apps/calico-node, daemonset.apps/kube-proxy`
 
-**Deployments:** `deployment.apps/calico-kube-controllers (1/1), deployment.apps/coredns (2/2), deployment.apps/local-path-provisioner` (1/1)
-      
+**Deployments:** `deployment.apps/calico-kube-controllers (1/1), deployment.apps/coredns (2/2), deployment.apps/local-path-provisioner (1/1)`
+
