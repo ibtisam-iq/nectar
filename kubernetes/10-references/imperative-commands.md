@@ -130,6 +130,7 @@ kubectl create deployment <name> --image=<image> \
     -n, --namespace=<namespace> \
     # -- <arg1> <arg2> ... <argN> \              # Not supported
     # --command -- <cmd> <arg1> ... <argN> \     # Not supported
+    -- [COMMAND] [args...]
     --save-config
 ```
 ### Example
