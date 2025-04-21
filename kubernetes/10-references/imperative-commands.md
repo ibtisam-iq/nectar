@@ -125,9 +125,11 @@ Create a deployment with the specified name
 kubectl create deployment <name> --image=<image> \
     -r, --replicas=1 \
     --port=<> \
-    -l, --labels=<key>=<value>,<key>=<value> \
-    --env=<key>=<value> --env=<key>=<value> \
+    # -l, --labels=<key>=<value>,<key>=<value> \ # Not supported
+    # --env=<key>=<value> --env=<key>=<value> \  # Not supported
     -n, --namespace=<namespace> \
+    # -- <arg1> <arg2> ... <argN> \              # Not supported
+    # --command -- <cmd> <arg1> ... <argN> \     # Not supported
     --save-config
 ```
 ### Example
