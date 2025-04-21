@@ -65,6 +65,10 @@ Explanation:
    - The values of `fruits` and `vegetables` are lists because their items are also prefixed with `-`.  
    - Example: `- apple, - orange` under `fruits` means `fruits` is a key pointing to a list.
 
+- `shopping_list`: is a key whose value is a list (indicated by `-`).
+- Each list item is a dictionary (e.g., `fruits`: with key-value pairs).
+- Each dictionary’s value is a list (e.g., `- apple`, `- orange` under `fruits`).
+
 ---
 
 ## 2.3 Lists of Dictionaries
