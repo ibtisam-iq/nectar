@@ -46,7 +46,7 @@ Create and run a particular image.
 
 ```bash
 kubectl run <name> --image=<image> \
-    --port=<port> \                 # Exposes port on the container, where application is   
+    --port=<port> --port <> \       # specifies the port that the container inside the Pod listens on.  
     --expose =<expose> \
     -l, --labels=<key>=<value>,<key>=<value> \
     --env=<key>=<value> --env=<key>=<value> \
@@ -57,8 +57,18 @@ kubectl run <name> --image=<image> \
     --dry-run=client \
     -o, --output=yaml > <output file>
 ```
+### Key Differences
+| Aspect                | `--port`                                   | `--expose`                                   |
+|-----------------------|--------------------------------------------|---------------------------------------------|
+| **Purpose**           | *Declares* the port the container listens on | Creates a Service to expose the Pod         |
+| **Resource Affected** | Pod (container spec)                      | Pod + Service                              |
+| **Networking Impact** | None (no external access)                 | Creates a Service for cluster/external access |
+| **Output in YAML**    | Adds `containerPort` to Pod spec          | Pod spec + Service (if not dry-run)        |
+| **Use Case**          | Document container's listening port       | Enable network access to the Pod           |
+| **Dependency**        | Independent                               | Requires a port (e.g., via `--port`)       |
+
+
 > **Note:** `kubectl run` defaults to creating a Pod directly. The `pod` keyword is unnecessary and can lead to confusion. `kubectl run nginx --image nginx` is correct. `kubectl run pod nginx --image nginx` is incorrect.
-> **Note:** `--expose` is used to expose the port on the container. It is not the same as `--port`. `--port` is used to expose the port on the pod.
 
 
 Fetch a resource.
