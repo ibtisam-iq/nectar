@@ -182,6 +182,6 @@ database:
       role: read-only
 ```
 
-This concludes Chapter 4 on Dictionaries/Maps. You should now be comfortable creating dictionaries, nesting them, and combining them with lists. These skills are fundamental to configuring complex systems in DevOps tools.
+This concludes Chapter 4 on Dictionaries (Maps). You should now be comfortable creating dictionaries, nesting them, and combining them with lists. These skills are fundamental to configuring complex systems in DevOps tools.
 
 
