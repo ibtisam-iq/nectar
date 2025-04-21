@@ -232,9 +232,9 @@ This structure allows for an easy way to represent multiple entries while keepin
 
 ---
 
-## [Use Case Example: Using 'fruit' as a Key with Direct, Nested, and Nested List Values in YAML](detailed-example.md)
+## [Use Case Example: Using 'fruit' as a Key with Direct, Nested, and Nested List Values](detailed-example.md)
 
-YAML uses key-value pairs, where keys are strings and values can be strings, numbers, lists, or dictionaries. This guide shows how to use `fruit` as a key in three ways: (1) directly mapping to a value, (2) as a top-level dictionary key with nested content, and (3) as a key for a nested list structure. Follow these [examples](detailed-example.md) to master YAML’s flexibility.
+YAML uses key-value pairs, where keys are strings and values can be strings, numbers, lists, or dictionaries. This guide shows how to use `fruit` as a key in three ways: (1) directly mapping to a value, (2) as a top-level dictionary key with nested content, and (3) as a key for a nested list structure. Follow these examples to master YAML’s flexibility.
 
 ---
 
