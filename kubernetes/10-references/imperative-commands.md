@@ -46,7 +46,7 @@ Create and run a particular image.
 
 ```bash
 kubectl run <name> --image=<image> \
-    --port=<port> \
+    --port=<port> \                 # Exposes port on the container, where application is   
     --expose =<expose> \
     -l, --labels=<key>=<value>,<key>=<value> \
     --env=<key>=<value> --env=<key>=<value> \
@@ -57,6 +57,9 @@ kubectl run <name> --image=<image> \
     --dry-run=client \
     -o, --output=yaml > <output file>
 ```
+> **Note:** `kubectl run` defaults to creating a Pod directly. The `pod` keyword is unnecessary and can lead to confusion. `kubectl run nginx --image nginx` is correct. `kubectl run pod nginx --image nginx` is incorrect.
+> **Note:** `--expose` is used to expose the port on the container. It is not the same as `--port`. `--port` is used to expose the port on the pod.
+
 
 Fetch a resource.
 ```bash
