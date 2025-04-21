@@ -58,19 +58,6 @@ kubectl run <name> --image=<image> \
     -o, --output=yaml > <output file>
 ```
 
-| Aspect                | `--port`                                   | `--expose`                                   |
-|-----------------------|--------------------------------------------|---------------------------------------------|
-| **Purpose**           | *Declares* the port the container listens on | Creates a Service to expose the Pod         |
-| **Resource Affected** | Pod (container spec)                      | Pod + Service                              |
-| **Networking Impact** | None (no external access)                 | Creates a Service for cluster/external access |
-| **Output in YAML**    | Adds `containerPort` to Pod spec          | Pod spec + Service (if not dry-run)        |
-| **Use Case**          | Document container's listening port       | Enable network access to the Pod           |
-| **Dependency**        | Independent                               | Requires a port (e.g., via `--port`)       |
-
-
-> **Note:** `kubectl run` defaults to creating a Pod directly. The `pod` keyword is unnecessary and can lead to confusion. `kubectl run nginx --image nginx` is correct. `kubectl run pod nginx --image nginx` is incorrect.
-
-
 Fetch a resource.
 ```bash
 kubectl get pods -A, --all-namespaces \
@@ -115,6 +102,18 @@ kubectl run -i -t busybox --image=busybox --restart=Never
 - The `--` separator indicates that everything after it (`--sleep 1000`) is passed as arguments to the container. `--sleep 1000` is interpreted as two separate arguments: `--sleep` and `1000`. To pass a single argument, use quotes: `-- "sleep 1000"`.
 - Use `--command --` to define custom commands in containers.
 - When using `--command`, both command and arguments must be explicitly defined.
+
+| Aspect                | `--port`                                   | `--expose`                                   |
+|-----------------------|--------------------------------------------|---------------------------------------------|
+| **Purpose**           | *Declares* the port the container listens on | Creates a Service to expose the Pod         |
+| **Resource Affected** | Pod (container spec)                      | Pod + Service                              |
+| **Networking Impact** | None (no external access)                 | Creates a Service for cluster/external access |
+| **Output in YAML**    | Adds `containerPort` to Pod spec          | Pod spec + Service (if not dry-run)        |
+| **Use Case**          | Document container's listening port       | Enable network access to the Pod           |
+| **Dependency**        | Independent                               | Requires a port (e.g., via `--port`)       |
+
+
+> **Note:** `kubectl run` defaults to creating a Pod directly. The `pod` keyword is unnecessary and can lead to confusion. `kubectl run nginx --image nginx` is correct. `kubectl run pod nginx --image nginx` is incorrect.
 
 ---
 
