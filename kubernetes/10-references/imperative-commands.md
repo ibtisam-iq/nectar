@@ -101,7 +101,7 @@ kubectl run <> --image kodekloud/webapp-color --dry-run=client -o yaml -- --colo
 # Override the Command and Arguments
 kubectl run nginx --image=nginx --command -- /bin/sh -c "echo Hello Sweetheart, Ibtisam"
 kubectl run <> --image kodekloud/webapp-color --dry-run client -o yaml --command -- color red
-kubectl run <> --image busybox --dry-run client -o yaml --command -- sleep 3600
+kubectl run <> --image busybox --dry-run client -o yaml --command -- sleep 1000
 
 # Start a busybox pod and keep it in the foreground, don't restart it if it exits
 kubectl run -i -t busybox --image=busybox --restart=Never
@@ -111,9 +111,9 @@ kubectl run -i -t busybox --image=busybox --restart=Never
 - Requires `--port`, otherwise, Kubernetes won't know what port to expose.
 - Useful for **quick testing** but not flexible for customizing the Service.
 - For external access, manually expose the Pod using `kubectl expose` and change `--type` to `NodePort` or `LoadBalancer`.
-- The `--` separator indicates that everything after it (`--sleep 1000`) is passed as arguments to the container. `--sleep 1000` is interpreted as two separate arguments: `--sleep` and `10`. To pass a single argument, use quotes: `-- "sleep 1000"`.
-- **Use `--command --` to define custom commands in containers.**
-- **When using `--command`, both command and arguments must be explicitly defined.**
+- The `--` separator indicates that everything after it (`--sleep 1000`) is passed as arguments to the container. `--sleep 1000` is interpreted as two separate arguments: `--sleep` and `1000`. To pass a single argument, use quotes: `-- "sleep 1000"`.
+- Use `--command --` to define custom commands in containers.
+- When using `--command`, both command and arguments must be explicitly defined.
 
 ---
 
