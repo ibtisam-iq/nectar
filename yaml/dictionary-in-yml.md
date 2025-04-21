@@ -1,4 +1,4 @@
-# Chapter 3: Dictionaries/Maps
+# Chapter 3: Dictionaries (Maps)
 
 In this chapter, we’ll focus on dictionaries, also known as maps in YAML. Dictionaries are essential in YAML as they allow you to represent key-value pairs, where the key is a string, and the value can be anything from a simple scalar to a complex structure like another dictionary or a list. This is especially useful in DevOps when defining configurations for services, resources, and infrastructure.
 
