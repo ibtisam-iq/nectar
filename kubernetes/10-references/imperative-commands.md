@@ -155,7 +155,7 @@ kubectl create deployment my-dep --image=busybox:latest --image=ubuntu:latest --
 ```bash
 kubectl create job NAME --image=image \
     -- [COMMAND] [args...] \
-    --from=cronjob/name     # create a job from a cron job named "a-cronjob" 
+    --from=cronjob/name     # create a job from a cron job
 
 kubectl create cronjob NAME --image=image --schedule='0/5 * * * ?' \
     --restart \     # supported values: OnFailure, Never
@@ -175,6 +175,7 @@ kubectl create cronjob my-cronjob --image=busybox --schedule="*/5 * * * *" -- ec
 ```
 Here, `echo "Hello, Kubernetes!"` runs inside the container every 5 minutes.
 
+> error: either `--image` or `--from` must be specified
 ---
 
 ## ConfigMap and Secret
