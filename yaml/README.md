@@ -42,7 +42,7 @@ Scalars are single-value data types such as strings, numbers, booleans, and null
   empty_value:   
   ```
 
-### 2. Lists (Arrays)
+### [2. Lists (Arrays)](list-in-yml.md)
 Lists are ordered collections of items, each item prefixed with a hyphen (`-`).
 
 ```yaml
@@ -51,9 +51,8 @@ colors:
   - green
   - blue
 ```
-Please find the complete explanation of lists in the Yaml [here](list-in-yml.md).
 
-### 3. Dictionaries (Mappings)
+### [3. Dictionaries (Mappings)](dictionary-in-yml.md)
 Dictionaries, also known as maps, store key-value pairs.
 
 ```yaml
@@ -62,11 +61,10 @@ person:
   age: 30
   occupation: Engineer
 ```
-Please find the complete explanation of dictionary in the Yaml [here](dictionary-in-yml.md).
 
 ---
 
-## Multi-line Strings in YAML
+## [Multi-line Strings in YAML](multi-line-strings-in-yml.md)
 
 YAML provides two block styles for handling multi-line strings:
 
@@ -89,7 +87,6 @@ description: >
   All lines will be joined into
   a single paragraph.
 ```
-Please find the complete explanation of multi-line strings in the Yaml [here](multi-line-strings-in-yml.md).
 
 ---
 
@@ -205,15 +202,15 @@ Understanding when to use a **list** versus a **dictionary** is crucial in YAML:
 
 - **Use a Dictionary When:**
   - You need to store key-value pairs.
-  - The items need named labels for better readability.
+  - The items need **named labels** for better readability.
   - The order does not necessarily matter.
   
   **Example:** Storing person details
   ```yaml
   person:
-    name: Alice
-    age: 30
-    occupation: Engineer
+    name: Aafia
+    age: 53
+    occupation: "neuroscientist and educator"
   ```
 
 ### How Lists and Dictionaries Work Together
@@ -232,6 +229,12 @@ people:
 ```
 
 This structure allows for an easy way to represent multiple entries while keeping the attributes organized.
+
+---
+
+## [Use Case Example: Using 'fruit' as a Key with Direct, Nested, and Nested List Values in YAML](detailed-example.md)
+
+YAML uses key-value pairs, where keys are strings and values can be strings, numbers, lists, or dictionaries. This guide shows how to use `fruit` as a key in three ways: (1) directly mapping to a value, (2) as a top-level dictionary key with nested content, and (3) as a key for a nested list structure. Follow these [examples](detailed-example.md) to master YAML’s flexibility.
 
 ---
 
