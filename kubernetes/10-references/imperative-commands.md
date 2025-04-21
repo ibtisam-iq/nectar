@@ -46,10 +46,10 @@ Create and run a particular image.
 
 ```bash
 kubectl run <name> --image=<image> \
-    --port=<port> --port <> \       # specifies the port that the container inside the Pod listens on.  
+    --port=<port> \       # specifies the port that the container inside the Pod listens on.
     --expose =<expose> \
-    -l, --labels=<key>=<value>,<key>=<value> \
-    --env=<key>=<value> --env=<key>=<value> \
+    -l, --labels=<key>=<value>,<key>=<value> \  # -l, --labels=''
+    --env=<key>=<value> --env=<key>=<value> \   # --env=[]:
     -n, --namespace=<namespace> \
     -- <arg1> <arg2> ... <argN> \   # use default command, but use custom arguments (arg1 .. argN) for that command
     --command -- <cmd> <arg1> ... <argN> \  # use a different command and custom arguments
@@ -111,6 +111,7 @@ kubectl run -i -t busybox --image=busybox --restart=Never
 - Requires `--port`, otherwise, Kubernetes won't know what port to expose.
 - Useful for **quick testing** but not flexible for customizing the Service.
 - For external access, manually expose the Pod using `kubectl expose` and change `--type` to `NodePort` or `LoadBalancer`.
+- If more than one `--port` flag is mentioned, the last `--port` flag overrides all first mentioned `--port` flags.
 - The `--` separator indicates that everything after it (`--sleep 1000`) is passed as arguments to the container. `--sleep 1000` is interpreted as two separate arguments: `--sleep` and `1000`. To pass a single argument, use quotes: `-- "sleep 1000"`.
 - Use `--command --` to define custom commands in containers.
 - When using `--command`, both command and arguments must be explicitly defined.
