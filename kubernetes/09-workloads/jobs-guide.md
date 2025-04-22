@@ -20,10 +20,12 @@ m@ibtisam-iq:~$ kubectl create job abc --image nginx -o yaml --dry-run=client
 apiVersion: batch/v1
 kind: Job
 metadata:
+  creationTimestamp: null
   name: abc
 spec:
   template:
     metadata:
+      creationTimestamp: null
     spec:
       containers:
       - image: nginx
