@@ -110,7 +110,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 - Requests storage from a PersistentVolume.
 - Defines storage capacity and access modes.
 
-### **StorageClass**
+### [**StorageClass**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/04-storage/storage-class.md)
 - Defines different storage provisioning policies.
 - Used for dynamic volume provisioning.
 
