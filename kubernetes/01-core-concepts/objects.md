@@ -173,7 +173,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 - Assigns priorities to pods, ensuring higher-priority pods get scheduled first when resources are scarce.
 - Used to prevent starvation of critical workloads.
 
-### **ResourceQuota**
+### [**ResourceQuota**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/06-resource-management/resource-quota-guide.md)
 - Limits the amount of total resources (e.g. CPU, memory, and storage etc.) a **namespace** can use.
 - Helps prevent any single workload from consuming excessive cluster resources.
 
