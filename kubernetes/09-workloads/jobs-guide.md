@@ -12,6 +12,28 @@ Jobs are part of the `batch/v1` API group.
 
 ---
 
+```text
+Usage:
+  kubectl create job NAME --image=image [--from=cronjob/name] -- [COMMAND] [args...] [options]
+
+m@ibtisam-iq:~$ kubectl create job abc --image nginx -o yaml --dry-run=client
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: abc
+spec:
+  template:
+    metadata:
+    spec:
+      containers:
+      - image: nginx
+        name: abc
+        resources: {}
+      restartPolicy: Never
+status: {}
+```
+---
+
 ## Job Spec Overview
 
 A basic Job YAML manifest might look like this:
