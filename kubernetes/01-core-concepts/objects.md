@@ -43,8 +43,8 @@ Understanding both meanings is essential for managing workloads efficiently.
 - Typically used for logging, monitoring, or networking applications.
 
 ### **Job & CronJob**
-- **Job**: Runs a one-time task until completion.
-- **CronJob**: Schedules `Jobs` to run at specific intervals.
+- [**Job**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/09-workloads/jobs-guide.md): Runs a one-time task until completion.
+- [**CronJob**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/09-workloads/cron-job-guide.md): Schedules `Jobs` to run at specific intervals.
 
 | Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
 |------------------------------------|------------------|--------------------------------|-----------------------------|
@@ -65,7 +65,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 - Provides stable network access to pods, abstracting their dynamic nature.
 - Supports different types: `ClusterIP`, `NodePort`, `LoadBalancer`, `ExternalName`.
 
-### **Ingress**
+### [**Ingress**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/03-networking/k8s-https-guide.md)
 - Manages external HTTP/S access to services.
 - Supports routing, TLS termination, and virtual hosting.
 
