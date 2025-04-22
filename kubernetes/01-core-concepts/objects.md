@@ -106,7 +106,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 - Represents a physical storage resource in a cluster.
 - Can be manually provisioned or dynamically allocated.
 
-### **PersistentVolumeClaim (PVC)**
+### [**PersistentVolumeClaim (PVC)**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/04-storage/pvc-guide.md)
 - Requests storage from a PersistentVolume.
 - Defines storage capacity and access modes.
 
