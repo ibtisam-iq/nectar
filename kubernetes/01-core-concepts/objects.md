@@ -147,7 +147,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 
 ---
 
-## 7. Networking Objects
+## 7. [Networking](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/03-networking/networking-in-k8s.md) Objects
 
 ### **NetworkPolicy**
 - Defines rules for pod-to-pod communication.
