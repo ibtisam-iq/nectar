@@ -102,7 +102,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 
 ## 5. Storage Objects
 
-### **PersistentVolume (PV)**
+### [**PersistentVolume (PV)**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/04-storage/pv-guide.md)
 - Represents a physical storage resource in a cluster.
 - Can be manually provisioned or dynamically allocated.
 
