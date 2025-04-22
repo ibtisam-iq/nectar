@@ -85,11 +85,11 @@ Understanding both meanings is essential for managing workloads efficiently.
 
 ## 4. Configuration Objects
 
-### **ConfigMap**
+### [**ConfigMap**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/06-resource-management/configmap-guide.md)
 - Stores non-sensitive configuration data as key-value pairs.
 - Can be mounted as environment variables or volumes.
 
-### **Secret**
+### [**Secret**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/06-resource-management/secret-guide.md)
 - Stores sensitive data like passwords or API keys.
 - Encrypted at rest and accessible only to authorized pods.
 
