@@ -177,7 +177,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 - Limits the amount of total resources (e.g. CPU, memory, and storage etc.) a **namespace** can use.
 - Helps prevent any single workload from consuming excessive cluster resources.
 
-### **LimitRange**
+### [**LimitRange**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/06-resource-management/limit-range-guide.md)
 - Sets default resource limits for **individual pods or containers** within a **namespace**.
 - Ensures pods don't consume more resources than intended.
 
