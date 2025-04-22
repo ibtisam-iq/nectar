@@ -214,7 +214,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 ---
 
 ## Summary
-- Kubernetes objects (API resources) define the state of [workloads](https://github.com/ibtisam-iq/nectar/tree/main/kubernetes/09-workloads), [networking](https://github.com/ibtisam-iq/nectar/tree/main/kubernetes/03-networking), [storage](https://github.com/ibtisam-iq/nectar/tree/main/kubernetes/04-storage), and security.
+- Kubernetes objects (API resources) define the state of [workloads](https://github.com/ibtisam-iq/nectar/tree/main/kubernetes/09-workloads), [networking](https://github.com/ibtisam-iq/nectar/tree/main/kubernetes/03-networking), [storage](https://github.com/ibtisam-iq/nectar/tree/main/kubernetes/04-storage), and [security](https://github.com/ibtisam-iq/nectar/tree/main/kubernetes/07-security).
 - Kubernetes resources (compute resources) allocate and control system capabilities like CPU, memory, and storage.
 - They work together to build scalable, resilient, and manageable applications.
 - Understanding Kubernetes objects and resources is key to managing clusters effectively.
