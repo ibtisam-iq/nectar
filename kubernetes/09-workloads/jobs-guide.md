@@ -273,6 +273,7 @@ This lets each Pod in the Job get a stable DNS entry via the Service.
 
 ## Further Reading
 
+- [Kubernetes Jobs: Comprehensive Documentation](jobs-guide-full.md)
 - [Kubernetes Jobs: Deep Dive into `.spec` Configuration](jobs-1.md)
 - [Advanced Job Handling: Failures, Policies, and Success Criteria](jobs-2.md)
 - [Cron Job Guide](cron-job-guide.md)
