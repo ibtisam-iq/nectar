@@ -488,3 +488,7 @@ While Jobs are ideal for batch tasks, other Kubernetes resources may be more sui
 Kubernetes Jobs provide a powerful mechanism for running one-off, batch-oriented tasks with robust failure handling, parallelism, and cleanup options. By understanding the Job specification, types, completion modes, and advanced features like success policies and elastic scaling, you can effectively manage a wide range of workloads. The patterns and best practices outlined here ensure that you can apply Jobs to diverse use cases, from simple scripts to complex distributed computations, with confidence and clarity.
 
 For recurring tasks, consider using **CronJobs**. For deeper API details, refer to the **Kubernetes Job API documentation**.
+
+## Further Reading
+
+Click [here](jobs-guide-summary.md) to read the summary of this documentation.
