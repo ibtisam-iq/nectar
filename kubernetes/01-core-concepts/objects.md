@@ -61,7 +61,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 
 ## 3. Service-related Objects
 
-### **Service**
+### [**Service**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/03-networking/services-guide.md)
 - Provides stable network access to pods, abstracting their dynamic nature.
 - Supports different types: `ClusterIP`, `NodePort`, `LoadBalancer`, `ExternalName`.
 
