@@ -70,7 +70,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 - Supports routing, TLS termination, and virtual hosting.
 
 ### **Endpoint & EndpointSlice**
-- **Endpoint**: Represents backend pod IPs for a service.
+- [**Endpoint**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/03-networking/endpoints-guide.md): Represents backend pod IPs for a service.
 - **EndpointSlice**: Improves scalability by splitting endpoints into smaller chunks.
 
 | Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
