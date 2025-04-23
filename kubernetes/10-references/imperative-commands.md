@@ -312,6 +312,12 @@ kubectl expose rs nginx --port=80 --target-port=8000
   
 # Create a service for an nginx deployment, which serves on port 80 and connects to the containers on port 8000
 kubectl expose deployment nginx --port=80 --target-port=8000
+
+# Adds labels app=my-app and env=prod to the Service for grouping Services (e.g., kubectl get service -l app=my-app)
+kubectl expose deployment my-app --port=80 --labels="app=my-app,env=prod"
+
+# Routes traffic to Pods with labels app=my-app and version=v2, overriding the Deployment’s default selector
+kubectl expose deployment my-app --port=80 --selector="app=my-app,version=v2"
 ```
 - `-f, --filename=[]`: Filename, directory, or URL to files identifying the resource to expose a service
 - `TYPE` → The type of the resource you want to expose e.g. `pod (po)`, `service (svc)`, `replicationcontroller (rc)`, `deployment (deploy)`, `replicaset (rs)`.
@@ -322,6 +328,10 @@ kubectl expose deployment nginx --port=80 --target-port=8000
 - Kubernetes assigns an **internal cluster IP** to Services. However, if you want a specific external IP (e.g., a public IP from your cloud provider or a static IP in your network), you can set it manually using `--external-ip`.
 - Use `-f FILENAME` to specify a resource definition file instead of `TYPE NAME`.
 - If the pod doesn’t have a label, `kubectl expose` command wouldn’t work. `error: the pod has no labels and cannot be exposed.`
+- If omitted, `kubectl expose` automatically derives the selector from the exposed resource (e.g., a Deployment’s `spec.selector.matchLabels`). It’s only needed when you want to override the default selector.
+- `--cluster-ip=''` specifies the internal IP address for a **ClusterIP** Service. The Service’s `spec.clusterIP` field is set to this value, determining how it’s addressed within the cluster.
+- `--external-ip=''` specifies an additional external IP address (not managed by Kubernetes) that can accept traffic for the Service. This is added to the `spec.externalIPs` field.
+    - **Default:** No external IPs are assigned by default. External access is typically handled by Service types like **NodePort** or **LoadBalancer**, or by Ingress.
 
 ---
 
