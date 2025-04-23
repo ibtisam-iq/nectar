@@ -276,13 +276,18 @@ When using the `--resource` flag in `kubectl create role`, you're defining the e
 
 ```bash
 kubectl create service clusterip|externalname|loadbalancer|nodeport NAME --tcp=port:targetPort
+    --clusterip='Assign your own ClusterIP or set to 'None' for a 'headless' service (no loadbalancing)'
+    --node-port=0
 
 kubectl expose (-f FILENAME | TYPE NAME) --port=<> \
     --target-port=<port> \
     --name=<name> \
     --type=<type> \
     --protocol=<protocol> \ # Sets TCP, UDP, or SCTP (default: TCP)
-    --external-ip=<IP>
+    -l, --labels='': Labels to apply to the service created by this call
+    --selector='': A label selector to use for this service. Only equality-based selector requirements are supported.
+    --external-ip='': ClusterIP to be assigned to the service. Leave empty to auto-allocate, or set to 'None'
+    --external-ip='': Additional external IP address (not managed by Kubernetes) to accept for the service
 ```
 
 ### Examples
