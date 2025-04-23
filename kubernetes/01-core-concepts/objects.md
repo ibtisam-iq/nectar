@@ -75,7 +75,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 
 | Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
 |------------------------------------|------------------|--------------------------------|-----------------------------|
-| Services                           | svc             | `kubectl get services`        | `kubectl expose pod <name> --port=80 --target-port=8080 --name=<service>` |
+| Services                           | svc             | `kubectl get services`        | `kubectl expose pod <name> --port=80 --target-port=8080 --name=<service>` --protocol=TCP --type=<>|
 | Ingresses                          | ing             | `kubectl get ingresses`        | `kubectl create ingress <name> --rule=<host>/=<service>:<port>` |
 | IngressClass                         | -               | `kubectl get ingressclasses`    | -                           |
 | Endpoints                          | ep              | `kubectl get endpoints`        | -                           |
