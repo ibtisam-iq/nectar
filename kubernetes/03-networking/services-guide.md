@@ -9,7 +9,7 @@ This documentation provides a detailed, organized, and intellectually structured
 A **Kubernetes Service** is an abstraction that defines a logical set of Pods and a policy for accessing them, providing stable networking for dynamic, ephemeral Pods. Services enable communication within a cluster (e.g., between applications) and expose applications to external clients, ensuring reliability despite Pod failures, scaling, or rescheduling.
 
 ### Key Characteristics
-- **Stable Endpoint**: Services provide a consistent IP address (ClusterIP) or DNS name, abstracting Pod changes.
+- **Stable [Endpoint](endpoints-guide.md)**: Services provide a consistent IP address (ClusterIP) or DNS name, abstracting Pod changes.
 - **Load Balancing**: Distributes traffic across multiple Pods matching the Service’s selector.
 - **Flexibility**: Supports various protocols (TCP, UDP, SCTP) and exposure methods (internal, node ports, external load balancers).
 - **Decoupling**: Allows Pods to be accessed without knowing their exact locations or IPs.
@@ -264,7 +264,7 @@ Kubernetes supports four Service types, each suited to different connectivity ne
 
 ---
 
-## 6. Connection with Ingress
+## 6. Connection with [Ingress](k8s-https-guide.md)
 
 **Ingress** is a Kubernetes resource that manages external HTTP/HTTPS traffic, typically routing it to Services based on hostnames or paths. It works in conjunction with an **Ingress Controller** (e.g., Nginx, Traefik) and often complements Services.
 
