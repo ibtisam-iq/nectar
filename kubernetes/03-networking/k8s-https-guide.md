@@ -646,5 +646,5 @@ These components enable **automated, secure HTTPS** in Kubernetes.
 
 For more details:
 - [Ingress Basic Guide](ingress-basic.md)
-- [In](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+- [Understading Ingress — A Simple Example with `chatgpt.com`](ingress-example.md)
 - [Let’s Encrypt](https://letsencrypt.org/)
