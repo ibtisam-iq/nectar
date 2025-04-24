@@ -94,7 +94,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 | NetworkPolicies                    | -               | `kubectl get networkpolicies`  | - |
 
 
-## 4. Configuration Objects
+## 5. Configuration Objects
 
 ### [**ConfigMap**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/06-resource-management/configmap-guide.md)
 - Stores non-sensitive configuration data as key-value pairs.
