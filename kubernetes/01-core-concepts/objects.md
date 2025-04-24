@@ -134,7 +134,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 
 ---
 
-## 6. [Security & Access Control](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/07-security/rbac.md)
+## 7. [Security & Access Control](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/07-security/rbac.md)
 
 ### **ServiceAccount**
 - Provides an identity for pods to interact with the Kubernetes API securely.
