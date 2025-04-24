@@ -517,7 +517,28 @@ Follow these steps to secure `https://ibtisam-iq.com`:
 
 ---
 
-## ⛑️ Lesson 11: Debugging and Troubleshooting
+## ✅ Lesson 11: Verifying the Setup
+
+Check the final state:
+```bash
+kubectl get certificate
+kubectl get secret ibtisam-tls
+kubectl get ingress ibtisam-ingress
+kubectl get svc ibtisam-service
+```
+
+**Expected Outcome**:
+- A TLS certificate is stored in `ibtisam-tls`.
+- HTTPS traffic to `https://ibtisam-iq.com` is routed to `ibtisam-service`.
+- Cert-Manager automatically renews the certificate ~30 days before expiry.
+
+Test:
+- Visit `https://ibtisam-iq.com` in a browser.
+- Check the certificate details (should show Let’s Encrypt as the issuer).
+
+---
+
+## ⛑️ Lesson 12: Debugging and Troubleshooting
 
 If `https://ibtisam-iq.com` doesn’t work, check these:
 
@@ -550,7 +571,7 @@ If `https://ibtisam-iq.com` doesn’t work, check these:
 
 ---
 
-## ✅ Lesson 12: Key Components and Roles
+## ✅ Lesson 13: Key Components and Roles
 
 | Component            | Role                                                                 |
 |---------------------|----------------------------------------------------------------------|
@@ -565,7 +586,7 @@ If `https://ibtisam-iq.com` doesn’t work, check these:
 
 ---
 
-## 🛠️ Lesson 13: Why Separate Components?
+## 🛠️ Lesson 14: Why Separate Components?
 
 - **Cert-Manager**: Manages certificate lifecycle
 - **Ingress Controller**: Routes traffic and terminates SSL
@@ -576,7 +597,7 @@ These components enable **automated, secure HTTPS** in Kubernetes.
 
 ---
 
-## 🎯 Lesson 14: Analogy – The Airport
+## 🎯 Lesson 15: Analogy – The Airport
 
 - **Cert-Manager**: Security team verifying passenger identities
 - **ClusterIssuer**: Security policy for issuing boarding passes
@@ -588,9 +609,7 @@ These components enable **automated, secure HTTPS** in Kubernetes.
 
 ---
 
-## 📚 Lesson 15: Summary and Next Steps
-
-### Summary
+## Summary
 **Cert-Manager** is a Kubernetes add-on that automates the issuance, renewal, and management of TLS certificates for `ibtisam-iq.com`. It integrates with Certificate Authorities (CAs) like Let’s Encrypt to simplify securing HTTPS traffic. Using the **ClusterIssuer** resource, Cert-Manager defines how to communicate with Let’s Encrypt, specifying the ACME endpoint, email (`admin@ibtisam-iq.com`), HTTP-01 challenge solver, and private key storage. Cert-Manager watches **ClusterIssuer**, **Certificate**, and annotated **Ingress** resources in Kubernetes’ declarative model, triggering certificate requests when needed. Once issued, certificates are stored in **Kubernetes Secrets** (e.g., `ibtisam-tls`) for use by the Ingress Controller. This automation ensures `ibtisam-iq.com` remains secure with minimal manual effort, paving the way for testing and advanced configurations.
 
 For more details:
