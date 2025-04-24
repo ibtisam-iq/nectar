@@ -147,7 +147,7 @@ The **Ingress Controller** uses this Secret for **SSL termination**.
 ## 🎧 Lesson 5: Ingress Controller and Ingress Resource
 
 ### What is an Ingress Controller?
-An **Ingress Controller** (e.g., NGINX) is software running as a pod in your cluster that:
+An **Ingress Controller** (e.g., NGINX) is software running as a pod in the cluster that:
 - Listens on **ports 80 (HTTP)** and **443 (HTTPS)**
 - Watches **Ingress resources** for routing rules
 - Performs **SSL termination** for `https://ibtisam-iq.com`
