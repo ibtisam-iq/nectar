@@ -439,7 +439,7 @@ Cert-Manager
 
 ---
 
-## 🛠️ Lesson 9: Setup Steps (What to Do When)
+## 🛠️ Lesson 10: Setup Steps (What to Do When)
 
 Follow these steps to secure `https://ibtisam-iq.com`:
 
