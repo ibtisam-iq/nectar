@@ -6,6 +6,14 @@ This documentation guides you how to configure **secure HTTPS traffic** for `htt
 
 ## 🧠 Lesson 1: Understanding TLS/SSL Certificates
 
+### What is TLS?
+**TLS (Transport Layer Security)**, often called SSL, encrypts communication between a client (e.g., browser) and a server, ensuring:
+- **Confidentiality**: No eavesdropping on data
+- **Integrity**: Data isn’t altered in transit
+- **Authentication**: Users connect to the real `ibtisam-iq.com`
+
+When users visit `https://ibtisam-iq.com`, TLS guarantees a secure connection.
+
 ### What is a TLS/SSL Certificate?
 A **TLS/SSL certificate** is a digital passport for your website, ensuring **encrypted** and **authenticated** communication between a client (e.g., browser) and a server. When a user visits `https://ibtisam-iq.com`, the server presents a TLS certificate to:
 - Prove its **identity** ("I am ibtisam-iq.com")
@@ -19,17 +27,32 @@ A **TLS/SSL certificate** is a digital passport for your website, ensuring **enc
 | **CA Signature**     | Signed by a trusted Certificate Authority (CA)  |
 | **Validity Period**  | Certificate’s active timeframe (90 days for Let’s Encrypt) |
 | **Issuer**           | CA that issued the certificate (e.g., Let’s Encrypt) |
+| **SHA-256 Fingerprint** | Unique certificate identifier                |
 
 ### Public vs. Private Key
 | **Public Key**                     | **Private Key**                       |
 |------------------------------------|---------------------------------------|
-| Shared in the TLS certificate      | Stored securely in a Kubernetes Secret|
-| Encrypts data sent to the server   | Decrypts data received by the server |
+| Embedded in the certificate        | Kept secret in a Kubernetes Secret    |
+| Shared with clients for encryption | Used by the server for decryption     |
+
+For `ibtisam-iq.com`:
+- **Issued To**: `ibtisam-iq.com`
+- **Issued By**: Let’s Encrypt
+- **Public Key**: Generated for your cluster
+- **Fingerprint**: Unique to your certificate
 
 ### Why TLS?
 - **Encryption**: Prevents man-in-the-middle (MITM) attacks
 - **Authentication**: Verifies the server’s legitimacy
 - **Trust**: Avoids browser "Not Secure" warnings
+
+### What is SSL/TLS Termination?
+**SSL termination** occurs at the **Ingress Controller**, which:
+1. Receives encrypted HTTPS traffic
+2. Decrypts it using a TLS certificate’s private key
+3. Forwards plain HTTP to internal services (e.g., `ibtisam-service`)
+
+This centralizes encryption handling, simplifying communication within the cluster.
 
 In Kubernetes, TLS certificates enable **secure HTTPS traffic** for `https://ibtisam-iq.com` via the **Ingress Controller**.
 
@@ -157,10 +180,19 @@ An **Ingress Controller** (e.g., NGINX) is software running as a pod in the clus
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 ```
+
+Verify:
+```bash
+kubectl get pods -n ingress-nginx
+kubectl get svc -n ingress-nginx
+```
+
 ### Why an Ingress Controller?
 - **Centralized routing**: Manages all external traffic
 - **TLS handling**: Enables HTTPS without app-level configuration
 - **Flexibility**: Supports host/path-based routing, redirects, and rewrites
+
+> **Note**: The Ingress Controller is separate from Kubernetes core and must be installed.
 
 ### What is an Ingress Resource?
 An **Ingress resource** defines routing rules for `ibtisam-iq.com`, specifying:
