@@ -4,7 +4,8 @@ You can create an Ingress resource in Kubernetes using the CLI with the followin
 
 ```bash
 kubectl create ingress NAME \
-  --rule=host/path=service:port[,tls[=secret]]
+  --rule=host/path=service:port[,tls[=secret]] \
+  --class <> --annotation <>
 ```
 
 This creates an **Ingress** object using an *imperative* approach (without writing a YAML file).
