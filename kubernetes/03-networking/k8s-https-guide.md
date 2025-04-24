@@ -4,7 +4,7 @@ This documentation guides you how to configure **secure HTTPS traffic** for `htt
 
 ---
 
-## 🧠 Lesson 1: Understanding TLS/SSL Certificates
+## 🧠 Lesson 1: [Understanding TLS/SSL Certificates](ssl-tls-cert-guide.md)
 
 ### What is TLS?
 **TLS (Transport Layer Security)**, often called SSL, encrypts communication between a client (e.g., browser) and a server, ensuring:
