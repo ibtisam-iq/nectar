@@ -159,7 +159,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 
 ---
 
-## 8. Cluster Management Objects
+## 8. Cluster Management Objects 
 
 ### **Namespace**
 - Provides logical partitioning of cluster resources.
