@@ -317,54 +317,7 @@ In the web application use case (`my-app` with ClusterIP and NodePort Services),
 
 ---
 
-## 8. Endpoints and Jobs
-
-Given your focus on Kubernetes Jobs (e.g., the `comprehensive-computation` Job), Endpoints are particularly relevant for **headless Services** used with **Indexed Jobs**. The `compute-service` from the Jobs documentation (`spec.clusterIP: None`) relies on an Endpoints resource to provide direct Pod IPs for communication.
-
-### Example
-- **Job**:
-  - `comprehensive-computation` with 12 Pods, labeled `app: distributed-compute`, using Indexed completion mode.
-- **Headless Service**:
-  ```yaml
-  apiVersion: v1
-  kind: Service
-  metadata:
-    name: compute-service
-  spec:
-    clusterIP: None
-    selector:
-      app: distributed-compute
-    ports:
-    - port: 8080
-      targetPort: 8080
-  ```
-- **Endpoints** (auto-managed):
-  ```yaml
-  apiVersion: v1
-  kind: Endpoints
-  metadata:
-    name: compute-service
-  subsets:
-  - addresses:
-    - ip: 192.168.2.1
-      targetRef:
-        kind: Pod
-        name: comprehensive-computation-0
-    - ip: 192.168.2.2
-      targetRef:
-        kind: Pod
-        name: comprehensive-computation-1
-    ports:
-    - port: 8080
-      protocol: TCP
-  ```
-- **Connectivity**:
-  - Pods resolve `comprehensive-computation-0.compute-service.default.svc.cluster.local` to `192.168.2.1:8080`.
-  - The Endpoints resource lists each Pod’s IP, enabling direct communication for distributed tasks (e.g., MPI).
-
----
-
-## 9. Troubleshooting Endpoints
+## 8. Troubleshooting Endpoints
 
 Endpoints issues can disrupt Service connectivity. Common problems and fixes include:
 
@@ -383,7 +336,7 @@ Endpoints issues can disrupt Service connectivity. Common problems and fixes inc
 
 ---
 
-## 10. Best Practices for Endpoints
+## 9. Best Practices for Endpoints
 
 1. **Rely on Auto-Management**: For Services with a `selector`, let Kubernetes manage the Endpoints resource to avoid manual errors.
 2. **Use Headless Services for Jobs**: For Indexed Jobs, create headless Services to leverage Endpoints for direct Pod communication.
@@ -393,6 +346,6 @@ Endpoints issues can disrupt Service connectivity. Common problems and fixes inc
 
 ---
 
-## 11. Conclusion
+## Conclusion
 
 The **Endpoints** resource is a critical component of Kubernetes Services, translating the Service’s logical configuration (ClusterIP, `port`, `targetPort`) into concrete network targets (Pod IPs, `containerPort`). It enables dynamic load balancing for ClusterIP, NodePort, and LoadBalancer Services and direct Pod access for headless Services, as seen in Jobs like `comprehensive-computation`. In the context of the web application use case, Endpoints ensure traffic reaches `my-app` Pods, whether via internal ClusterIP, NodePort testing, or Ingress for production. By understanding Endpoints’ structure, placeholders, and integration with Service types, Ingress, and LoadBalancer, you can troubleshoot connectivity issues and optimize networking for your SilverKube repository or CKA exam scenarios. This explanation complements the Services documentation, providing a complete picture of Kubernetes networking.
