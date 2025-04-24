@@ -169,18 +169,3 @@ sequenceDiagram
 >
 > cert-manager continuously **watches** ClusterIssuer, Certificate, and optionally Ingress resources — and when it detects a new or updated certificate request, it interacts with the CA to request, validate, and retrieve the signed certificate, storing it securely inside a Kubernetes Secret.
 
----
-
-## Further Reading
-
-- **Kubernetes Ingress + TLS + Cert-Manager + SSL Termination** 
-    - [Guide # 1](ingress-1.md)
-    - [Guide # 2](ingress-2.md)
-    - [Guide # 3](ingress-3.md)
-    - [Guide # 4](ingress-4.md)
-    - [Guide # 5](ingress-5.md)
-- [**Cert-Manager**](cert-manager.md)
-- [**Certificate**](certificate-guide.md)
-- [**Kubernetes Ingress + Let's Encrypt TLS Setup (Banking App)**](ingress-letsencrypt.md)
-- [**Kubernetes Ingress FAQs**](ingress-faq.md)
-- [**Imperative Ingress Creation in Kubernetes**](ingress-cli.md)
