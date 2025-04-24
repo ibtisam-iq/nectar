@@ -479,7 +479,7 @@ Follow these steps to secure `https://ibtisam-iq.com`:
 
 ---
 
-## ⛑️ Lesson 10: Debugging and Troubleshooting
+## ⛑️ Lesson 11: Debugging and Troubleshooting
 
 If `https://ibtisam-iq.com` doesn’t work, check these:
 
