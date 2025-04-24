@@ -286,7 +286,7 @@ User Browser (HTTPS)
 Ingress Controller (NGINX/Traefik)
   ├── Uses Secret (my-site-tls)
   ├── Performs SSL Termination
-  ├── Matches Ingress Rule (host/path ```plaintext
+  ├── Matches Ingress Rule (host/path)
   │
   └── Forwards HTTP
        │
