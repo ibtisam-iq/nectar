@@ -83,6 +83,17 @@ Understanding both meanings is essential for managing workloads efficiently.
 
 ---
 
+## 4. [Networking](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/03-networking/networking-in-k8s.md) Objects
+
+### [**NetworkPolicy**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/03-networking/network-policy-guide.md)
+- Defines rules for pod-to-pod communication.
+- Controls traffic flow within the cluster.
+
+| Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
+|------------------------------------|------------------|--------------------------------|-----------------------------|
+| NetworkPolicies                    | -               | `kubectl get networkpolicies`  | - |
+
+
 ## 4. Configuration Objects
 
 ### [**ConfigMap**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/06-resource-management/configmap-guide.md)
@@ -144,18 +155,6 @@ Understanding both meanings is essential for managing workloads efficiently.
 | ClusterRoles                        | -               | `kubectl get clusterroles`    | `kubectl create clusterrole <name> --verb=get --resource=pods` |
 | ClusterRoleBindings                | -               | `kubectl get clusterrolebindings` | `kubectl create clusterrolebinding <name> --clusterrole=<cluster-role-name> --serviceaccount=<sa-name>` |
 | Secret (for ServiceAccount tokens)  | -               | `kubectl get secrets`         | `kubectl create secret generic <name> --from-literal=key=value` |
-
----
-
-## 7. [Networking](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/03-networking/networking-in-k8s.md) Objects
-
-### [**NetworkPolicy**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/03-networking/network-policy-guide.md)
-- Defines rules for pod-to-pod communication.
-- Controls traffic flow within the cluster.
-
-| Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
-|------------------------------------|------------------|--------------------------------|-----------------------------|
-| NetworkPolicies                    | -               | `kubectl get networkpolicies`  | - |
 
 ---
 
