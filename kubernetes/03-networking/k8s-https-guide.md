@@ -538,7 +538,7 @@ These components enable **automated, secure HTTPS** in Kubernetes.
 
 ---
 
-## 🎯 Lesson 13: Analogy – The Airport
+## 🎯 Lesson 14: Analogy – The Airport
 
 - **Cert-Manager**: Security team verifying passenger identities
 - **ClusterIssuer**: Security policy for issuing boarding passes
