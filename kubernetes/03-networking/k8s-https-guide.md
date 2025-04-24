@@ -1,6 +1,6 @@
 # 📖 Securing Kubernetes with Ingress, TLS, Cert-Manager, and Let’s Encrypt: A Complete Guide
 
-This guide teaches you how to configure **secure HTTPS traffic** for `https://ibtisam-iq.com` in Kubernetes using **Ingress**, **TLS certificates**, **Cert-Manager**, and an **Ingress Controller** with **SSL termination**. Designed like a lesson plan, it walks you through concepts, setup, workflows, and debugging in a logical order, connecting all components to prepare you for real-world deployment or certifications like CKA.
+This documentation guides you how to configure **secure HTTPS traffic** for `https://ibtisam-iq.com` in Kubernetes using **Ingress**, **TLS certificates**, **Cert-Manager**, and an **Ingress Controller** with **SSL termination**. Designed like a lesson plan, it walks you through concepts, setup, workflows, and debugging in a logical order, connecting all components to prepare you for real-world deployment or certifications like CKA.
 
 ---
 
