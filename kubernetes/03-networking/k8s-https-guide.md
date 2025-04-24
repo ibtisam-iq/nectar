@@ -443,10 +443,48 @@ Cert-Manager
 
 Follow these steps to secure `https://ibtisam-iq.com`:
 
-1. **Ensure your application is running**:
-   - Deploy `bankapp-service` and confirm it’s reachable internally.
+1. **Deploy Application Service**:
+   - Create `ibtisam-service` (e.g., an NGINX container).
    ```bash
-   kubectl get svc bankapp-service
+   kubectl apply -f - <<EOF
+   apiVersion: v1
+   kind: Service
+   metadata:
+     name: ibtisam-service
+     namespace: default
+   spec:
+     selector:
+       app: ibtisam
+     ports:
+     - port: 80
+       targetPort: 80
+   ---
+   apiVersion: apps/v1
+   kind: Deployment
+   metadata:
+     name: ibtisam-deployment
+     namespace: default
+   spec:
+     replicas: 1
+     selector:
+       matchLabels:
+         app: ibtisam
+     template:
+       metadata:
+         labels:
+           app: ibtisam
+       spec:
+         containers:
+         - name: nginx
+           image: nginx:latest
+           ports:
+           - containerPort: 80
+   EOF
+   ```
+   Verify:
+   ```bash
+   kubectl get svc ibtisam-service
+   kubectl get pods -l app=ibtisam
    ```
 
 2. **Install Cert-Manager**:
