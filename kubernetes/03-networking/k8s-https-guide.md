@@ -512,7 +512,7 @@ If `https://ibtisam-iq.com` doesn’t work, check these:
 
 ---
 
-## ✅ Lesson 11: Key Components and Roles
+## ✅ Lesson 12: Key Components and Roles
 
 | Component            | Role                                                                 |
 |---------------------|----------------------------------------------------------------------|
