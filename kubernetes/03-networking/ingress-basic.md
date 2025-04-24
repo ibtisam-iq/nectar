@@ -1,4 +1,4 @@
-# 🌐 Understanding Ingress, Ingress Controller, TLS, Cert-Manager, Let's Encrypt, and HTTP-01 Challenge
+# 🌐 Understanding Ingress, Ingress Controller, TLS, Cert-Manager, Let's Encrypt, and HTTP-01 Challenge: A Basic Guide
 
 ## 🧠 1. What is an Ingress Resource?
 An Ingress resource is a Kubernetes object that defines rules for routing HTTP and HTTPS traffic to your services based on the domain name or path.
