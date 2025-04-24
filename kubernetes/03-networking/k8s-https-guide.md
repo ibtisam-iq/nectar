@@ -648,3 +648,5 @@ For more details:
 - [Ingress Basic Guide](ingress-basic.md)
 - [Understading Ingress — A Simple Example with `chatgpt.com`](ingress-example.md)
 - [How to Create an Ingress Resource Imperatively?](ingress-cli.md)
+- [Understading Ingress YAML Stack](ingress-manifest.md)
+- [Ingress FAQs — A Detailed Guide](k8s-https-faqs.md)
