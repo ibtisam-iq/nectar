@@ -527,7 +527,7 @@ If `https://ibtisam-iq.com` doesn’t work, check these:
 
 ---
 
-## 🛠️ Lesson 12: Why Separate Components?
+## 🛠️ Lesson 13: Why Separate Components?
 
 - **Cert-Manager**: Manages certificate lifecycle
 - **Ingress Controller**: Routes traffic and terminates SSL
