@@ -342,7 +342,7 @@ kubectl expose deployment my-app --port=80 --selector="app=my-app,version=v2"
 - It also contains the references to the Ingress controller (e.g., NGINX) and any specific configurations for TLS certificates (via `ClusterIssuer`).
 
 ```bash
-kubectl create ingress NAME --class <> --annotations <>
+kubectl create ingress NAME --class <> --annotation <>
     --rule ibtisam-iq.com/=svc1:8080,tls=my-cert    # TLS       # Exact
     --rule ibtisam-iq.com/=svc2:8081                # Non-TLS   # Exact
     --rule ibtisam-iq.com/*=svc3:8082               # Wildcard  # Prefix
