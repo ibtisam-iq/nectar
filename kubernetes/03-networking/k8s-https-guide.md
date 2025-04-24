@@ -645,6 +645,6 @@ These components enable **automated, secure HTTPS** in Kubernetes.
 **Cert-Manager** is a Kubernetes add-on that automates the issuance, renewal, and management of TLS certificates for `ibtisam-iq.com`. It integrates with Certificate Authorities (CAs) like Let’s Encrypt to simplify securing HTTPS traffic. Using the **ClusterIssuer** resource, Cert-Manager defines how to communicate with Let’s Encrypt, specifying the ACME endpoint, email (`admin@ibtisam-iq.com`), HTTP-01 challenge solver, and private key storage. Cert-Manager watches **ClusterIssuer**, **Certificate**, and annotated **Ingress** resources in Kubernetes’ declarative model, triggering certificate requests when needed. Once issued, certificates are stored in **Kubernetes Secrets** (e.g., `ibtisam-tls`) for use by the Ingress Controller. This automation ensures `ibtisam-iq.com` remains secure with minimal manual effort, paving the way for testing and advanced configurations.
 
 For more details:
-- [Cert-Manager Documentation](https://cert-manager.io/docs/)
-- [Kubernetes Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+- [Ingress Basic Guide](ingress-basic.md)
+- [In](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 - [Let’s Encrypt](https://letsencrypt.org/)
