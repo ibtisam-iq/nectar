@@ -237,11 +237,140 @@ spec:
     - ibtisam-iq.com
 ```
 
-Cert-Manager watches this resource, requests a certificate from Let’s Encrypt, and stores it in `ibtisam-tls`.
+---
+
+### 🔐 `privateKeySecretRef` in `ClusterIssuer`
+This specifies the **name of the Secret where the ClusterIssuer will store the private key** it uses to sign CSRs (Certificate Signing Requests) or manage challenges (like ACME for Let’s Encrypt).  
+
+```yaml
+spec:
+  privateKeySecretRef:
+    name: my-issuer-private-key
+```
+
+➡️ This secret is **used internally** by the `ClusterIssuer` (or `Issuer`).  
+It is **not** the same as the TLS secret used by Ingress.
 
 ---
 
-## 🔄 Lesson 7: End-to-End Workflow
+### 📄 `spec.secretName` in `Certificate` resource
+This is where the **actual TLS certificate (and private key) will be stored** once the certificate is issued for your domain. The Ingress will reference this secret.
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ibtisam-iq-tls
+spec:
+  secretName: ibtisam-iq-tls # <--- this will be referenced in Ingress
+```
+
+---
+
+### 🌐 `spec.tls[].secretName` in `Ingress`
+This is where your Ingress expects the TLS cert + key to exist:
+
+```yaml
+spec:
+  tls:
+    - hosts:
+        - ibtisam-iq.com
+      secretName: ibtisam-iq-tls
+```
+
+➡️ This **must match the `spec.secretName` in the Certificate** object.
+
+---
+
+#### ✅ Summary
+
+| Concept                  | Purpose                                         | Should Match |
+|--------------------------|-------------------------------------------------|--------------|
+| `privateKeySecretRef` in ClusterIssuer | Internal secret for signing/auth     | ❌ NO        |
+| `spec.secretName` in Certificate      | Where cert-manager stores TLS cert  | ✅ YES       |
+| `tls[].secretName` in Ingress         | Where Ingress looks for cert+key     | ✅ YES       |
+
+#### 🧠 Rule of Thumb
+- `privateKeySecretRef` → for the **issuer**'s private key.  
+- `secretName` in `Certificate` → for the **website's TLS cert**, also referenced by Ingress.
+
+---
+
+## Lesson 7: Two Ways to Issue TLS Certificates using `cert-manager`
+
+cert-manager **supports two methods** for issuing TLS certificates, and each affects how Secrets and Certificates are created. Let’s break them down:
+
+### 🅰️ **Method 1: Explicit Certificate YAML (Recommended for control)**
+
+You manually create a `Certificate` resource like this:
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ibtisam-iq-tls
+spec:
+  secretName: ibtisam-iq-tls          # 👈 Secret Ingress will use
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: ibtisam-iq.com
+  dnsNames:
+    - ibtisam-iq.com
+    - www.ibtisam-iq.com
+```
+
+Then in your Ingress:
+
+```yaml
+spec:
+  tls:
+    - hosts:
+        - ibtisam-iq.com
+      secretName: ibtisam-iq-tls      # 👈 Must match the above
+```
+
+🔍 **Advantage**: More control (e.g. multiple DNS names, renewals, etc.)
+📁 The `Certificate` object is created by you, not inferred.
+
+### 🅱️ **Method 2: Ingress Annotations (Auto-Certificate Issuance)**
+
+Here, you **skip creating a `Certificate` YAML** — cert-manager automatically creates one for you behind the scenes, based on your Ingress annotations:
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+    - hosts:
+        - ibtisam-iq.com
+      secretName: ibtisam-iq-tls     # 👈 cert-manager will auto-create a Certificate object for this
+```
+
+📦 cert-manager **watches this Ingress**, sees that a certificate is needed, and automatically:
+- Creates a `Certificate` resource behind the scenes,
+- Triggers issuance using the specified ClusterIssuer,
+- Stores the cert in the specified `secretName`.
+
+🔍 **Advantage**: Faster, less YAML.
+🔻 **Disadvantage**: Less transparent & customizable — good for simple use cases only.
+
+### ✅ Summary Table
+
+| Feature                        | Manual `Certificate` YAML | Ingress Annotations |
+|-------------------------------|----------------------------|----------------------|
+| YAML required?                | Yes                        | No                   |
+| Custom SANs, lifetimes?       | Yes                        | Limited              |
+| Auto-managed Certificate?     | No                         | Yes                  |
+| Secret for Ingress required?  | Yes                        | Yes                  |
+| Better for production?        | ✅ Yes                     | ❌ Only for simple use |
+
+---
+
+## 🔄 Lesson 8: End-to-End Workflow
 
 ### HTTPS Request Flow
 1. A user visits `https://ibtisam-iq.com`.
@@ -262,7 +391,7 @@ Cert-Manager watches this resource, requests a certificate from Let’s Encrypt,
 
 ---
 
-## 📊 Lesson 8: Visual Diagram
+## 📊 Lesson 9: Visual Diagram
 
 **Mermaid Diagram**:
 ```mermaid
