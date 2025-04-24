@@ -505,7 +505,7 @@ If `https://ibtisam-iq.com` doesn’t work, check these:
 - **DNS and ports**:
   Confirm `ibtisam-iq.com` resolves to the Ingress Controller and ports 80/443 are open.
 
-**Pro Tip for CKA**:
+**Pro Tip for CKS**:
 - Use `kubectl describe` and `kubectl logs` to diagnose issues.
 - Check if the Ingress Controller is routing `.well-known` paths correctly.
 - Verify DNS settings for `ibtisam-iq.com`.
