@@ -95,7 +95,7 @@ spec:
 
 ---
 
-### ✅ Example: CSI Volume (Generic CSI Plugin)
+## ✅ Example: CSI Volume (Generic CSI Plugin)
 
 ```yaml
 apiVersion: v1
@@ -114,6 +114,7 @@ spec:
     volumeHandle: vol-0abcd1234cdef5678  # Unique volume ID
     fsType: ext4
 ```
+
 ### Why It's Static Provisioning:
 
 - **Manual EBS Volume Reference**: The `csi.volumeHandle` points to a pre-existing EBS volume (e.g., `vol-0abcd1234cdef5678`). This volume is manually created in AWS.
