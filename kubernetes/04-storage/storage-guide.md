@@ -82,7 +82,7 @@ So setting `fsGroup` helps **ensure correct access control** over mounted storag
 
 ---
 
-## 📦 1. [PersistentVolume (PV)](pv-guide.md)
+## 📦 2. [PersistentVolume (PV)](pv-guide.md)
 
 A **PersistentVolume (PV)** is a piece of storage in the cluster that has been provisioned by an administrator or dynamically by Kubernetes using a **StorageClass**. It’s a cluster-wide resource.
 
