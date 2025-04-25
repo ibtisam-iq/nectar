@@ -28,6 +28,7 @@ volumeBindingMode: WaitForFirstConsumer  # Delay volume binding until pod is sch
 ---
 
 ### StorageClass Example for NFS
+
 ```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
