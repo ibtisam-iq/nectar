@@ -27,11 +27,13 @@ spec:
 # storageClassName: aws-ebs
 # storageClassName: nfs
 # storageClassName: csi-sc
-
 ```
+
 - The value of `storageClassName` is not fixed; it can be any name, but it **must match** the name of the `StorageClass` or the value in the PV and PVC manifest for proper binding.
-- 🔄 This PVC will only bind to a PV that also has `storageClassName: manual`.
+- This PVC will only bind to a PV that also has `storageClassName: manual`.
+
 > 📌 PVC binds to a suitable PV if `accessModes`, `storageClassName`, and `requests.storage` match.
+
 ---
 
 ## ⚙️ Using PVC in a Pod (Claims As Volumes)
@@ -63,7 +65,3 @@ spec:
 | PVC                                           | Must exist and be bound to a suitable PV or use a dynamic StorageClass      |
 
 This ensures data persists even if the Pod is restarted or rescheduled on a different node.
-
----
-
-## Futher Reading
