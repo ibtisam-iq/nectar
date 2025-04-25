@@ -67,6 +67,7 @@ spec:
 ```
 - ✅ Simpler format
 - ❗ Applies when the image doesn't specify `requests` or `limits`, or for limiting **overall consumption**
+
 🧠 This format applies to **total resource consumption** without specifying `requests` or `limits`. Kubernetes calculates total usage by summing both `requests` and `limits`.
 
 ### 🔹 Format 2A: Flat Style for Requests and Limits (Using `requests.` and `limits.` Prefixes)
