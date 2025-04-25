@@ -141,7 +141,7 @@ This ensures data persists even if the Pod is restarted or rescheduled on a diff
 
 ---
 
-## ⚡ 4. Dynamic Provisioning with [StorageClass](storage-class.md) (e.g., AWS EBS)
+## ⚡ 5. Dynamic Provisioning with [StorageClass](storage-class.md) (e.g., AWS EBS)
 
 A `StorageClass` defines how storage should be provisioned dynamically. It provides a way to **dynamically provision PVs**. Defines how PVs are created on-demand.
 
