@@ -78,6 +78,7 @@ spec:
       storage: 10Gi
   storageClassName: ebs-sc  # Links to the above StorageClass # This will trigger dynamic provisioning
 ```
-- The StorageClass must be created before the PVC. The PVC will then use the StorageClass to dynamically provision a PV.
+
+- The `StorageClass` must be created before the PVC. The PVC will then use the `StorageClass` to dynamically provision a PV.
+
 > ⏳ As soon as this PVC is applied, Kubernetes will **automatically provision an EBS volume**, create a matching PV, and bind it to this PVC.
----
