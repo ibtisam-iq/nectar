@@ -92,7 +92,7 @@ Kubernetes secures workloads through:
 - **[Security Contexts](./07-security/securityContext.md)** for pod-level restrictions  
 - **Secrets** for API keys and credentials  
 - **Pod Security Policies (deprecated)** and **admission controllers** for policy enforcement  
-- **[Taints and Tolerations](./05-scheduling-and-affinity/taints-affinity-guide-1.md)** for node workload isolation  
+- **[Taints and Tolerations](./05-scheduling-and-affinity/taints-affinity-guide-a.md)** for node workload isolation  
 
 ---
 
@@ -117,7 +117,7 @@ Troubleshooting essentials:
 ## 🎛️ Advanced Features
 
 For production-ready clusters:
-- **[Taints & Tolerations](./05-scheduling-and-affinity/taints-affinity-guide-1.md)** for node scheduling  
+- **[Taints & Tolerations](./05-scheduling-and-affinity/taints-affinity-guide-b.md)** for node scheduling  
 - **Affinity/Anti-Affinity rules** for workload colocation and separation  
 - **Custom Resource Definitions (CRDs)** and **Operators** for extending Kubernetes  
 - Node-specific scheduling with **Node Affinity**  
