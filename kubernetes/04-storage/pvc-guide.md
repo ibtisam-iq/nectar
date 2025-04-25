@@ -8,6 +8,8 @@ A **PersistentVolumeClaim (PVC)** is a request for storage by a user. It specifi
 - Describes **how much space** is needed and **how it should be accessed** (ReadWriteOnce, ReadOnlyMany, etc).
 - Kubernetes **will bind a matching PV** with the PVC.
 
+---
+
 ### Key Fields in PVC YAML
 
 ```yaml
