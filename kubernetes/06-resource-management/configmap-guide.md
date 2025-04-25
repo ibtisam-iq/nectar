@@ -60,6 +60,7 @@ metadata:
   name: my-config
 data:
   app_mode: "production"
+  log_level: "debug"
 ```
 
 📌 **Result**: `MY_MODE=production` in the container  
