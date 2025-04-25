@@ -98,6 +98,7 @@ spec:
 📦 A matching PV is created **automatically**, and `storageClassName` in PV is filled behind the scenes.
 
 ---
+
 ## 💡 Pro Tips
 
 ❗ **If `storageClassName` is missing from the PVC**, it uses the default `StorageClass` (unless you explicitly set it to `""`).
