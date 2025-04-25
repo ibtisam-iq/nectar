@@ -14,11 +14,9 @@ In Kubernetes, mounted volumes are used to:
 - Share data between containers
 - Inject configuration (like ConfigMaps, Secrets, etc.)
 
-### 🧠 Real Analogy
+#### 🧠 Real Analogy
 
 Imagine a blank house. You bring a cabinet (volume) and place it inside the house’s kitchen (mountPath). Now, anything you store in that cabinet is persistent **because it’s not part of the house itself — it's your external cabinet**.
-
----
 
 ## 🔧 Example: Mounted Volume in Kubernetes
 
