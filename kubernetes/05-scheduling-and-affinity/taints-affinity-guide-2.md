@@ -296,6 +296,6 @@ spec:
 - You can combine **toleration + affinity** to precisely target nodes.
 - **Multi-taints or labels** work by satisfying *all* conditions.
 
-This layering gives you **surgical scheduling control** for real-world production environments.
+This layering gives you **surgical scheduling control** for real-world production environments. 
 
 
