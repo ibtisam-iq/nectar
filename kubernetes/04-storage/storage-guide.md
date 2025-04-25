@@ -36,6 +36,14 @@ This means:
 
 Now, when the container writes files into `/data`, it's writing them into the mounted volume.
 
+### Mounted Volumes
+
+- **EmptyDir**: A temporary directory that exists only while the Pod is running.
+- **HostPath**: A directory on the host machine.
+- **ConfigMap**: A way to store configuration data as key-value pairs.
+- **Secret**: A way to store sensitive information (e.g., passwords, API keys).
+- **PersistentVolumeClaim**: A request for storage that can be fulfilled by a PersistentVolume.
+
 #### 🛡️ Where `fsGroup` Comes In
 
 By default, when the container writes files into `/data`, they are owned by the **user** running the container (say UID 1000), and group might be root or unset.
@@ -179,13 +187,7 @@ spec:
   storageClassName: ebs-sc  # Links to the above StorageClass # This will trigger dynamic provisioning
 ```
 
-## ⚡ 5. Mounted Volumes
 
-- **EmptyDir**: A temporary directory that exists only while the Pod is running.
-- **HostPath**: A directory on the host machine.
-- **ConfigMap**: A way to store configuration data as key-value pairs.
-- **Secret**: A way to store sensitive information (e.g., passwords, API keys).
-- **PersistentVolumeClaim**: A request for storage that can be fulfilled by a PersistentVolume.
 
 ### How to Mount Volumes
 ```yaml
