@@ -109,7 +109,7 @@ A **PersistentVolumeClaim (PVC)** is a request for storage by a user. It specifi
 
 ---
 
-## ⚙️ 3. Using PVC in a Pod (Claims As Volumes)
+## ⚙️ 4. Using PVC in a Pod (Claims As Volumes)
 
 ```yaml
 apiVersion: v1
