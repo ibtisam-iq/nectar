@@ -90,6 +90,7 @@ spec:
     path: /exported/path # points to the exported path of the NFS server, which is already set up manually.
     server: nfs-server.example.com # indicates a static NFS server, which is managed outside Kubernetes.
 ```
+
 > **Note:** The **entire PV** is defined by the user, meaning **you're manually provisioning the volume**. Kubernetes isn't responsible for creating this storage; you're simply informing Kubernetes to use the specified NFS server.
 
 ---
