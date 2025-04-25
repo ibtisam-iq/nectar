@@ -15,7 +15,7 @@ A **PersistentVolume (PV)** is a piece of storage in the cluster that has been p
 
 ---
 
-### ✅ Example: HostPath (for local testing only; static provisioning)
+## ✅ Example: HostPath (for local testing only; static provisioning)
 
 ```yaml
 apiVersion: v1
@@ -42,7 +42,7 @@ spec:
 
 ---
 
-### ✅ Example: AWS EBS (Elastic Block Store) (static provisioning)
+## ✅ Example: AWS EBS (Elastic Block Store) (static provisioning)
 
 ```yaml
 apiVersion: v1
@@ -61,7 +61,7 @@ spec:
     fsType: ext4
 ```
 
-## 📘 TL;DR:
+### 📘 TL;DR:
 
 | Property                | Value                                     |
 |-------------------------|-------------------------------------------|
@@ -69,6 +69,8 @@ spec:
 | storageClassName role  | Tag to match with PVC                    |
 | Who provisions the volume? | **You** (manually in AWS or on local node)  |
 | Provisioning type       | ✅ **Static provisioning**                    |
+
+---
 
 ### ✅ Example: NFS (ReadWriteMany)
 ```yaml
