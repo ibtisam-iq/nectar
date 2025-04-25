@@ -25,6 +25,8 @@ reclaimPolicy: Delete  # Automatically delete volume when PVC is deleted
 volumeBindingMode: WaitForFirstConsumer  # Delay volume binding until pod is scheduled
 ```
 
+---
+
 ### StorageClass Example for NFS
 ```yaml
 apiVersion: storage.k8s.io/v1
