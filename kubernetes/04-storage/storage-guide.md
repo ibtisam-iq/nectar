@@ -58,21 +58,19 @@ mkdir /data/demo
 ls -l /data
 ```
 
-### Without `fsGroup`:
+#### Without `fsGroup`:
 ```bash
 drwxr-xr-x 2 1000 root 4096 Apr 8 18:30 demo
 ```
 👎 Group is root (not ideal for sharing)
 
-### With `fsGroup: 2000`:
+#### With `fsGroup: 2000`:
 ```bash
 drwxrwsrwx 2 1000 2000 4096 Apr 8 18:30 demo
 ```
 👍 Now the group is set to **2000**, as expected
 
----
-
-## 🧠 Why Is This Important?
+##### 🧠 Why Is This Important?
 
 In multi-user environments or permission-sensitive apps, group ownership matters:
 
