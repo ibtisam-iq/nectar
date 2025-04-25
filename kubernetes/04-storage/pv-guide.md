@@ -26,7 +26,7 @@ spec:
   capacity:
     storage: 10Gi  # Total size of the volume
   accessModes:
-    - ReadWriteOnce  # Can be mounted as read-write by a single node
+    - ReadWriteOnce  # Can be mounted as read-write by a single pod
   persistentVolumeReclaimPolicy: Retain  # Keeps the volume data after PVC is deleted
   storageClassName: manual  # Matches with PVC's storageClassName
   hostPath:
