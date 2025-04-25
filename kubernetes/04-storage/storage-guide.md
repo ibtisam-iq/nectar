@@ -187,19 +187,6 @@ spec:
   storageClassName: ebs-sc  # Links to the above StorageClass # This will trigger dynamic provisioning
 ```
 
-
-
-### How to Mount Volumes
-```yaml
-volumeMounts:
-  - name: demo-volume # name of volume mentioned in volumes.name
-    mountPath: /data
-volumes:
-  - name: demo-volume
-    emptyDir: {}
-```
-Click [here](volume-mounting.md) for more information on volume mounting.
-
 ---
 
 ## 📌 6. Pod Example Using Dynamic PVC
