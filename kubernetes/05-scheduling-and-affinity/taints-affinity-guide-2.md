@@ -95,6 +95,7 @@ kubectl label node ibtisam-worker2 cpu=large
 ```
 
 ### 🧪 YAML: nodeSelector
+
 ```yaml
 apiVersion: v1
 kind: Pod
