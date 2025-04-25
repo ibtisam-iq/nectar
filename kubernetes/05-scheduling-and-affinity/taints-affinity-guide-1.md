@@ -8,7 +8,7 @@
 
 Imagine you have a **special node** meant only for specific workloads — high CPU, sensitive data, or GPU jobs. But Kubernetes, by default, sees every node as equal and might schedule general-purpose Pods there too.
 
-### 🔧 SOLUTION — Taint the Node & Tolerate in Pod
+### 🔧 SOLUTION — Taint the Node & Add Tolerate in Pod
 
 A **taint** repels all Pods unless those Pods have a matching **toleration**.
 
