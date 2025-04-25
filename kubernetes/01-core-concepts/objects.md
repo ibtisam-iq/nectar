@@ -93,25 +93,9 @@ Understanding both meanings is essential for managing workloads efficiently.
 |------------------------------------|------------------|--------------------------------|-----------------------------|
 | NetworkPolicies                    | -               | `kubectl get networkpolicies`  | - |
 
-
-## 5. Configuration Objects
-
-### [**ConfigMap**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/06-resource-management/configmap-guide.md)
-- Stores non-sensitive configuration data as key-value pairs.
-- Can be mounted as environment variables or volumes.
-
-### [**Secret**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/06-resource-management/secret-guide.md)
-- Stores sensitive data like passwords or API keys.
-- Encrypted at rest and accessible only to authorized pods.
-
-| Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
-|------------------------------------|------------------|--------------------------------|-----------------------------|
-| ConfigMaps                         | cm              | `kubectl get configmaps`       | `kubectl create configmap <name> --from-literal=key=value` |
-| Secrets                            | -               | `kubectl get secrets`         | `kubectl create secret generic <name> --from-literal=key=value` |
-
 ---
 
-## 6. [Storage](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/04-storage/storage-guide.md) Objects
+## 5. [Storage](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/04-storage/storage-guide.md) Objects
 
 ### [**PersistentVolume (PV)**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/04-storage/pv-guide.md)
 - Represents a physical storage resource in a cluster.
@@ -131,6 +115,23 @@ Understanding both meanings is essential for managing workloads efficiently.
 | PersistentVolumeClaims             | pvc             | `kubectl get pvc`             | - |
 | StorageClasses                     | -               | `kubectl get storageclasses`  | -                           |
 | LocalPVs                            | -               | `kubectl get localpv`         | -                           |
+
+---
+
+## 6. Configuration Objects
+
+### [**ConfigMap**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/06-resource-management/configmap-guide.md)
+- Stores non-sensitive configuration data as key-value pairs.
+- Can be mounted as environment variables or volumes.
+
+### [**Secret**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/06-resource-management/secret-guide.md)
+- Stores sensitive data like passwords or API keys.
+- Encrypted at rest and accessible only to authorized pods.
+
+| Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
+|------------------------------------|------------------|--------------------------------|-----------------------------|
+| ConfigMaps                         | cm              | `kubectl get configmaps`       | `kubectl create configmap <name> --from-literal=key=value` |
+| Secrets                            | -               | `kubectl get secrets`         | `kubectl create secret generic <name> --from-literal=key=value` |
 
 ---
 
