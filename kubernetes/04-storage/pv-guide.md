@@ -72,7 +72,8 @@ spec:
 
 ---
 
-### ✅ Example: NFS (ReadWriteMany)
+## ✅ Example: NFS (ReadWriteMany)
+
 ```yaml
 apiVersion: v1
 kind: PersistentVolume
@@ -90,6 +91,8 @@ spec:
     server: nfs-server.example.com # indicates a static NFS server, which is managed outside Kubernetes.
 ```
 > **Note:** The **entire PV** is defined by the user, meaning **you're manually provisioning the volume**. Kubernetes isn't responsible for creating this storage; you're simply informing Kubernetes to use the specified NFS server.
+
+---
 
 ### ✅ Example: CSI Volume (Generic CSI Plugin)
 ```yaml
