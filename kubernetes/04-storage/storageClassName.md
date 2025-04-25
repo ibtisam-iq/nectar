@@ -42,6 +42,8 @@ These names are arbitrary labels that are defined in your `StorageClass` objects
 
 **Note:** When you say `storageClassName: gp2` in your PVC, Kubernetes looks for a `StorageClass` with `metadata.name: gp2`.
 
+---
+
 ## 📌 How It Affects PV Manifests
 
 ### 🔹 Static Provisioning PV Example
