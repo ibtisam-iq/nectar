@@ -18,7 +18,7 @@ In Kubernetes, mounted volumes are used to:
 
 Imagine a blank house. You bring a cabinet (volume) and place it inside the house’s kitchen (mountPath). Now, anything you store in that cabinet is persistent **because it’s not part of the house itself — it's your external cabinet**.
 
-## 🔧 Example: Mounted Volume in Kubernetes
+### 🔧 Example: Mounted Volume in Kubernetes
 
 Let’s say your Pod has a volume mounted like this:
 
@@ -36,9 +36,7 @@ This means:
 
 Now, when the container writes files into `/data`, it's writing them into the mounted volume.
 
----
-
-## 🛡️ Where `fsGroup` Comes In
+#### 🛡️ Where `fsGroup` Comes In
 
 By default, when the container writes files into `/data`, they are owned by the **user** running the container (say UID 1000), and group might be root or unset.
 
