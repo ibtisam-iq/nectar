@@ -65,7 +65,7 @@ Important resources:
 Kubernetes manages various workloads:
 - **[Jobs](./09-workloads/jobs-guide.md)** & **[CronJobs](./09-workloads/cron-job-guide.md)** for batch/scheduled tasks  
 - **Deployments** & **ReplicaSets** for stateless apps  
-- **[Persistent Volumes (PVs)](./04-storage/pv-guide.md)** & **[PVCs](./04-storage/pvc-guide.md)** for stable [storage](./04-storage/storage-guide.md)
+- **[Persistent Volumes (PVs)](./04-storage/pv-guide.md)** & **[PVCs](./04-storage/pvc-guide.md)** for stable [storage](./04-storage/README.md)
 - **[StorageClasses](./04-storage/storage-class.md)** for dynamic provisioning  
 
 Advanced storage:
