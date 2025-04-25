@@ -164,7 +164,7 @@ spec:
 
 ---
 
-## 📡 7. ReadWriteMany Example with NFS
+## 📡 7. `ReadWriteMany` Example with NFS
 
 Sometimes, we underwent **a situation where multiple pods need to read and write to the same storage location concurrently**.
 
