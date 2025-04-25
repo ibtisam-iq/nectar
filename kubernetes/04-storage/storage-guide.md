@@ -4,7 +4,7 @@ This documentation provides a production-grade understanding of Kubernetes stora
 
 ---
 
-## 📦 1. PersistentVolume (PV)
+## 📦 1. [PersistentVolume (PV)](pv-guide.md)
 
 A **PersistentVolume (PV)** is a piece of storage in the cluster that has been provisioned by an administrator or dynamically by Kubernetes using a **StorageClass**. It’s a cluster-wide resource.
 
@@ -17,12 +17,9 @@ A **PersistentVolume (PV)** is a piece of storage in the cluster that has been p
 #### ❗ Key Hint
 > If you **manually write a PV**, it’s static provisioning. If you only write a PVC and `StorageClass` handles volume creation, it’s dynamic.
 
-- See [here](mounted-volume-guide.md) the complete documentation on `Persistent Volumes`.
-- See [here]() for the manifest files.
-
 ---
 
-## 📄 2. PersistentVolumeClaim (PVC)
+## 📄 2. [PersistentVolumeClaim (PVC)](pvc-guide.md)
 
 A **PersistentVolumeClaim (PVC)** is a request for storage by a user. It specifies size, access modes, and storage class. The **developer** or **app owner**, usually within a namespace, creates a PVC.
 
@@ -66,7 +63,7 @@ This ensures data persists even if the Pod is restarted or rescheduled on a diff
 
 ---
 
-## ⚡ 4. Dynamic Provisioning with StorageClass (e.g., AWS EBS)
+## ⚡ 4. Dynamic Provisioning with [StorageClass](storage-class.md) (e.g., AWS EBS)
 
 A `StorageClass` defines how storage should be provisioned dynamically. It provides a way to **dynamically provision PVs**. Defines how PVs are created on-demand.
 
@@ -115,7 +112,7 @@ spec:
 ### How to Mount Volumes
 ```yaml
 volumeMounts:
-  - name: demo-volume
+  - name: demo-volume # name of volume mentioned in volumes.name
     mountPath: /data
 volumes:
   - name: demo-volume
