@@ -127,6 +127,7 @@ spec:
 - `preferredDuringSchedulingIgnoredDuringExecution`: **Soft rule** — try to match, but can skip.
 
 ### 🧪 Hard Node Affinity (Required)
+
 ```yaml
 apiVersion: v1
 kind: Pod
