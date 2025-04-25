@@ -252,6 +252,7 @@ Labels are universal selectors. Taints are strict gatekeepers on nodes.
 ---
 
 ## 🧪 YAML Lab: Multi-Taint + Multi-Affinity Example
+
 ```yaml
 apiVersion: v1
 kind: Pod
