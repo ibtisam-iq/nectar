@@ -43,6 +43,8 @@ reclaimPolicy: Retain
 volumeBindingMode: Immediate
 ```
 
+---
+
 ### StorageClass Example for CSI (EBS CSI Driver)
 ```yaml
 apiVersion: storage.k8s.io/v1
