@@ -8,7 +8,7 @@ A **PersistentVolume (PV)** is a piece of storage in the cluster that has been p
 - Has details about **capacity, access modes, storage backend**, etc.
 - Can be **manually created** (Static) or created on demand via **StorageClass** (Dynamic).
 
-### 🔍 Is `storageClassName` required in a PV?
+### 🔍 Is [`storageClassName`](storageClassName.md) required in a PV?
 - **Static provisioning**: Recommended to include it and match the PVC's `storageClassName`.
 - **Manual binding (no dynamic provisioning)**: Set to `""` (empty string) to prevent Kubernetes from dynamic provisioning.
 - **Dynamic provisioning**: You even do **not** create the PV. Kubernetes auto-creates it using the `StorageClass`.
