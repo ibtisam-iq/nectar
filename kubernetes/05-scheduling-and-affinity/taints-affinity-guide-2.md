@@ -151,6 +151,7 @@ spec:
 ```
 
 ### 🧪 Soft Node Affinity (Preferred)
+
 ```yaml
 apiVersion: v1
 kind: Pod
