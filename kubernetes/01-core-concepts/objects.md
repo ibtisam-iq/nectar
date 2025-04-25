@@ -95,7 +95,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 
 ---
 
-## 5. [Storage](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/04-storage/storage-guide.md) Objects
+## 5. [Storage](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/04-storage/README.md) Objects
 
 ### [**PersistentVolume (PV)**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/04-storage/pv-guide.md)
 - Represents a physical storage resource in a cluster.
