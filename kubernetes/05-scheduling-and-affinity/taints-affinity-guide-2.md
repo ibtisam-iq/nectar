@@ -39,6 +39,7 @@ kubectl describe node ibtisam-control-plane | grep -i taint -5
 - **NoExecute**: Existing pods without toleration will be *evicted* from the node.
 
 ### 🧪 YAML Example: Tolerated vs Non-Tolerated
+
 ```yaml
 # Plain pod (no toleration)
 apiVersion: v1
