@@ -49,9 +49,7 @@ securityContext:
 
 Then Kubernetes **automatically changes the group ownership** of all files created **inside mounted volumes** (like `/data`) to GID 2000.
 
----
-
-## 🔍 Visual Example
+#### 🔍 Visual Example
 
 Imagine your container creates a folder inside `/data`:
 
