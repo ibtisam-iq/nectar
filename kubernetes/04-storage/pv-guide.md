@@ -43,6 +43,7 @@ spec:
 ---
 
 ### ✅ Example: AWS EBS (Elastic Block Store) (static provisioning)
+
 ```yaml
 apiVersion: v1
 kind: PersistentVolume
