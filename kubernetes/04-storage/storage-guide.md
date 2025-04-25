@@ -97,7 +97,7 @@ A **PersistentVolume (PV)** is a piece of storage in the cluster that has been p
 
 ---
 
-## 📄 2. [PersistentVolumeClaim (PVC)](pvc-guide.md)
+## 📄 3. [PersistentVolumeClaim (PVC)](pvc-guide.md)
 
 A **PersistentVolumeClaim (PVC)** is a request for storage by a user. It specifies size, access modes, and storage class. The **developer** or **app owner**, usually within a namespace, creates a PVC.
 
