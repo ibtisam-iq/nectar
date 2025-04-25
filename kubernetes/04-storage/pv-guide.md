@@ -96,6 +96,7 @@ spec:
 ---
 
 ### ✅ Example: CSI Volume (Generic CSI Plugin)
+
 ```yaml
 apiVersion: v1
 kind: PersistentVolume
