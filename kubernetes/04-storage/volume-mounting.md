@@ -21,9 +21,9 @@ Imagine a blank house. You bring a cabinet (volume) and place it inside the hous
 Let’s say your Pod has a volume mounted like this:
 
 ```yaml
-volumeMounts:
-  - name: demo-volume
-    mountPath: /data
+  volumeMounts:
+    - name: demo-volume # This is the name of the volume, must match volumes.name
+      mountPath: /data  # Also called mounted volume
 volumes:
   - name: demo-volume
     emptyDir: {}
