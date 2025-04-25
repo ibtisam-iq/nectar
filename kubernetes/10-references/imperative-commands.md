@@ -178,7 +178,7 @@ Here, `echo "Hello, Kubernetes!"` runs inside the container every 5 minutes.
 > error: either `--image` or `--from` must be specified
 ---
 
-## ConfigMap and Secret
+## [ConfigMap]() and Secret
 
 ```bash
 kubectl create configmap NAME \
