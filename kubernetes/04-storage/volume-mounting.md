@@ -86,12 +86,4 @@ So setting `fsGroup` helps **ensure correct access control** over mounted storag
 
 ---
 
-## 🧪 Summary
-
-| Term         | What It Does                                             | Where It Applies                                 |
-|--------------|----------------------------------------------------------|--------------------------------------------------|
-| `fsGroup`    | Sets group ownership of files inside **mounted volumes** | Affects storage like `emptyDir`, `hostPath`, PVCs, etc. |
-| `runAsUser`  | Sets the UID for processes in container                  | Affects who owns the running processes           |
-| `runAsGroup` | Sets the GID for processes in container                  | Affects primary group of the process             |
-
 
