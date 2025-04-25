@@ -40,6 +40,8 @@ spec:
 - `10Gi` capacity is used here for demonstration purposes; in production, use a suitable capacity value.
 > 🔥 **Note:** In production, this might use `awsElasticBlockStore`, `nfs`, or `csi drivers` instead of hostPath.
 
+---
+
 ### ✅ Example: AWS EBS (Elastic Block Store) (static provisioning)
 ```yaml
 apiVersion: v1
