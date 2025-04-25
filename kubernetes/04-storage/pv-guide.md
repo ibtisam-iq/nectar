@@ -138,8 +138,5 @@ spec:
 | PV created manually by admin | ✅ Yes | ❌ No |
 
 ### ❗ Key Hint
+
 > If you **manually write a PV**, it’s static provisioning. If you only write a PVC and `StorageClass` handles volume creation, it’s dynamic.
-
----
-
-### 📚 Further Reading
