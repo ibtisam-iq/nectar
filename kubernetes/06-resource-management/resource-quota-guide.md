@@ -399,6 +399,6 @@ memory: "512M"
 ## Next Read
 
 - [Limit Range Guide](limit-range-guide.md)
+- [Limit Range and Resource Quota Together in Kubernetes](limitrange-resourcequota-together.md)
 - [Limit Range and Pod Sheduling](limitrange-and-pod-scheduling.md)
 - [Limit Range and Resource Quota Demo](limitrange-resourcequota-demo.md)
-- [Limit Range and Resource Quota Together in Kubernetes](limitrange-resourcequota-together.md)
