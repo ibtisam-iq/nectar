@@ -57,6 +57,7 @@ Result:
 - 🚫 **Invalid**: `requests.cpu (700m)` > `limits.cpu (500m)` → Violates policy
 - ❌ **Pod will not be scheduled**
 - ❗ Error message:
+  
   ```
   spec.containers[].resources.requests.cpu: Invalid value: "700m": must be less than or equal to cpu limit
   ```
