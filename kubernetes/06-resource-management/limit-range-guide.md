@@ -30,7 +30,7 @@ metadata:
   namespace: dev
 spec:
   limits:
-    - type: Container  # Applies to individual containers (not whole pods)
+    - type: Container       # Applies to individual containers (not whole pods)
       max:                  # Upper bound for requests and limits
         cpu: "1"            # Container can't request more than 1 CPU core
         memory: "1Gi"       # Container can't use more than 1Gi of memory
