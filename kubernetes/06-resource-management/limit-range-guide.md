@@ -117,6 +117,7 @@ resources:
 ## 🔧 CLI Flags vs YAML for LimitRange
 
 There is no direct `kubectl create limitrange` command with full feature flags like `--hard` in `ResourceQuota`. You need to apply YAML manifest.
+
 ---
 
 ## ⚖️ CPU & Memory Units Reference
