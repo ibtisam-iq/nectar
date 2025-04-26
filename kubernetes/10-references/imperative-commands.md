@@ -247,7 +247,9 @@ kubectl create role NAME --verb=verb --resource=resource.group [--resource-name=
 kubectl create clusterrole NAME --verb=verb --resource=resource.group [--resource-name=resourcename]
 [--dry-run=server|client|none] [options]
 
-kubectl create rolebinding|clusterrolebinding NAME --clusterrole=NAME|--role=NAME [--user=username1,username2] [--group=groupname] [--serviceaccount=namespace:serviceaccountname] [--dry-run=server|client|none] [options]
+kubectl create rolebinding|clusterrolebinding NAME --clusterrole=NAME|--role=NAME 
+    [--user=username1,username2] [--group=groupname] [--serviceaccount=namespace:serviceaccountname] 
+    [--dry-run=server|client|none] [options]
 ```
 
 When using the `--resource` flag in `kubectl create role`, you're defining the exact API target the role will apply to. This flag can have **three components**:
