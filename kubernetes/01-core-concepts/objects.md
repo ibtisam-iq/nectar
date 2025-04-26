@@ -169,7 +169,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 - Defines the minimum number of pods that must remain available during voluntary disruptions (e.g., upgrades).
 - Helps maintain high availability of applications.
 
-### **PriorityClass**
+### [**PriorityClass**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/05-scheduling-and-affinity/priority-class.md)
 - Assigns priorities to pods, ensuring higher-priority pods get scheduled first when resources are scarce.
 - Used to prevent starvation of critical workloads.
 
