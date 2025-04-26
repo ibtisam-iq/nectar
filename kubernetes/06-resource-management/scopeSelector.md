@@ -29,6 +29,7 @@ You want to:
 - In the `dev` namespace
 
 ### 🧱 PriorityClass (must exist):
+
 ```yaml
 apiVersion: scheduling.k8s.io/v1
 kind: PriorityClass
