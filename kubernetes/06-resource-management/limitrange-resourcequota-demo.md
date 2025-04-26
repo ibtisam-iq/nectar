@@ -132,6 +132,7 @@ spec:
   - `requests.memory: 1Gi > quota of 512Mi`
   - `limits.memory: 2Gi > quota of 1Gi`
 - ❌ Kubernetes **denies creation**:
+  
   ```
   failed quota: team-quota: exceeded quota
   ```
