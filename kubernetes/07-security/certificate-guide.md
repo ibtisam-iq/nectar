@@ -1,4 +1,3 @@
-
 ## 📌 Who Actually Creates the `Certificate` Resource in Kubernetes?
 
 There are **two possible ways** a `Certificate` resource appears in your cluster:
