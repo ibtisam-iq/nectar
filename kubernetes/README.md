@@ -117,10 +117,10 @@ Troubleshooting essentials:
 ## 🎛️ Advanced Features
 
 For production-ready clusters:
-- **[Taints & Tolerations](./05-scheduling-and-affinity/taints-affinity-guide-b.md)** for node scheduling  
+- **[Taints & Tolerations](./05-scheduling-and-affinity/taints-affinity-guide-a.md)** for node scheduling  
 - **Affinity/Anti-Affinity rules** for workload colocation and separation  
 - **Custom Resource Definitions (CRDs)** and **Operators** for extending Kubernetes  
-- Node-specific scheduling with **Node Affinity**  
+- Node-specific scheduling with [**Node Affinity** ](./05-scheduling-and-affinity/taints-affinity-guide-b.md) 
 
 ---
 
