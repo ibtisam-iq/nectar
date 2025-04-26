@@ -141,7 +141,7 @@ spec:
 
 ---
 
-## ⚙️ Advanced Filtering with `scopeSelector`
+## ⚙️ Advanced Filtering with [`scopeSelector`](scopeSelector.md)
 
 `scopeSelector` allows more advanced filtering logic, similar to label selectors. Useful when applying quotas based on `PriorityClass`, etc.
 
