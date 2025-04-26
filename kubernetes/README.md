@@ -90,7 +90,7 @@ Key concepts:
 Kubernetes secures workloads through:
 - **[RBAC](./07-security/rbac.md)** for user/workload permissions  
 - **[Security Contexts](./07-security/securityContext.md)** for pod-level restrictions  
-- **Secrets** for API keys and credentials  
+- [**Secrets**](./06-resource-management/secret-guide.md) for API keys and credentials  
 - **Pod Security Policies (deprecated)** and **admission controllers** for policy enforcement  
 - **[Taints and Tolerations](./05-scheduling-and-affinity/taints-affinity-guide-a.md)** for node workload isolation  
 
