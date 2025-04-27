@@ -220,7 +220,7 @@ Understanding when to use a **list** versus a **dictionary** is crucial in YAML:
 
 - **Use a List When:**
   - You have multiple values that belong to the same category.
-  - The order of items matters (e.g., steps in a process, a list of tasks).
+  - The **order** of items matters (e.g., steps in a process, a list of tasks).
   - You do not need named keys for each item.
   
   **Example:** List of colors
