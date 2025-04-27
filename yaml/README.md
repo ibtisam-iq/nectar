@@ -114,7 +114,7 @@ app: MyApp  # Inline comment
 
 ---
 
-## Key-Value Pairs in YAML
+# Key-Value Pairs in YAML
 
 In YAML, key-value pairs represent data where:
 - **Keys** are always strings (quotes are optional but not required).
