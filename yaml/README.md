@@ -43,7 +43,10 @@ Scalars are single-value data types such as strings, numbers, booleans, and null
   ```
 
 ### [2. Lists (Arrays)](list-in-yml.md)
+
 Lists are **ordered** collections of items, each item prefixed with a hyphen (`-`).
+
+YAML allows some flexibility in indentation — both styles below are valid and accepted by Kubernetes.
 
 ```yaml
 colors:
@@ -51,6 +54,16 @@ colors:
   - green
   - blue
 ```
+or
+```yaml
+colors:
+- red
+- green
+- blue
+```
+
+> **Tip:**  
+> While both are correct, using **2 spaces** indentation (first style) is the common convention in Kubernetes YAML files for better readability.
 
 ### [3. Dictionaries (Mappings)](dictionary-in-yml.md)
 Dictionaries, also known as maps, store key-value pairs.
