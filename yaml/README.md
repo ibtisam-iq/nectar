@@ -70,9 +70,9 @@ Dictionaries, also known as maps, store key-value pairs.
 
 ```yaml
 person:
-  name: Alice
-  age: 30
-  occupation: Engineer
+  name: Ibtisam
+  age: 25
+  occupation: DevOps Engineer
 ```
 
 ---
