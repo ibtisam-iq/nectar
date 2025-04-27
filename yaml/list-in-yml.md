@@ -1,6 +1,6 @@
 # Chapter 2: Lists and Arrays
 
-In this chapter, we’ll dive into YAML lists and arrays, which are used to represent **ordered collections** of items. This chapter will explore different ways to define lists, including *single-level lists*, *nested lists*, and inline lists. All concepts will be explained with examples, including comments for better understanding.
+In this chapter, we’ll dive into YAML lists and arrays, which are used to represent **ordered collections** of items. This chapter will explore different ways to define lists, including *single-level lists*, *nested lists*, and *inline lists*. All concepts will be explained with examples, including comments for better understanding.
 
 ## 2.1 Single-Level Lists
 
