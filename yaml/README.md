@@ -142,7 +142,7 @@ In YAML, key-value pairs represent data where:
 ```yaml
 app_name: MyApp
 version: 1.0
-owner: "John Doe"
+owner: "Muhammad Ibtisam"
 ```
 
 ---
@@ -207,7 +207,7 @@ Dictionaries (mappings) allow complex structures where a value itself is a set o
 
 ```yaml
 person:
-  name: Alice
+  name: Ibtisam
   age: 30
   "home address": "123 Main St"  # Quotes required due to space
 ```
