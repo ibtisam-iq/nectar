@@ -43,7 +43,7 @@ Scalars are single-value data types such as strings, numbers, booleans, and null
   ```
 
 ### [2. Lists (Arrays)](list-in-yml.md)
-Lists are ordered collections of items, each item prefixed with a hyphen (`-`).
+Lists are **ordered** collections of items, each item prefixed with a hyphen (`-`).
 
 ```yaml
 colors:
