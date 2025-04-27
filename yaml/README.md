@@ -276,13 +276,13 @@ YAML uses indentation to define structure, and mixing spaces with tabs or using 
 
 **Incorrect:**
 ```yaml
-name: John
+name: Ibtisam
   age: 25  # Inconsistent indentation
 ```
 
 **Correct:**
 ```yaml
-name: John
+name: Ibtisam
 age: 25  # Consistent indentation
 ```
 
