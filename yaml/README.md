@@ -304,7 +304,21 @@ comment: "Be careful with # symbols!"
 
 ---
 
+## YAML Validation Tip 🚀
+
+Before applying your YAML files (especially in Kubernetes), **always validate your YAML syntax**.  
+Tiny mistakes — like bad indentation or quoting numbers as strings — can cause big headaches during deployments!
+
+You can quickly validate your YAML at [**yamllint.com**](https://www.yamllint.com/).  
+
+It automatically checks for:
+- Syntax errors
+- Bad formatting
+- Incorrect data types
+- Indentation mistakes
+
+---
+
 ## Conclusion
 
 YAML is a powerful and human-friendly format that supports scalars, lists, and dictionaries. Understanding its syntax and common pitfalls is essential for writing error-free YAML files. Additionally, mastering different types of values in YAML helps create more structured and readable configurations. In the next chapters, we will explore lists, dictionaries, and their real-world applications.
-
