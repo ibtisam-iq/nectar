@@ -20,12 +20,30 @@ Scalars are single-value data types such as strings, numbers, booleans, and null
   title: "My YAML Guide"
   ```
 
-- **Number**: Supports integers and floating-point values.
-  
-  ```yaml
-  version: 1
-  pi: 3.14159
-  ```
+- **Number**: YAML supports both integers (whole numbers) and floating-point (decimal) values.  
+  Numbers should be written **without quotes**. If quotes are used, the value will be treated as a **string**, not a number.
+
+```yaml
+version: 1       # Integer
+pi: 3.14159      # Floating-point number
+temp: "3.5"      # string, NOT a number
+```
+
+> **Tip:**  
+> In Kubernetes YAMLs, fields like `replicas`, `ports`, and `resource limits` expect real numbers without quotes.
+
+```yaml
+# ✅ Correct (numbers without quotes)
+replicas: 3
+cpuLimit: 2.5
+
+# ❌ Incorrect (numbers inside quotes — treated as strings)
+replicas: "3"
+cpuLimit: "2.5"
+```
+
+> **Note:**  
+> Always write numbers without quotes unless you intentionally want them to behave like strings.
 
 - **Boolean**: Must be written in lowercase (`true` or `false`).
   
