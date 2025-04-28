@@ -216,7 +216,7 @@ person:
 
 ---
 
-### When to Use a List vs. a Dictionary?
+## When to Use a List vs. a Dictionary?
 
 Understanding when to use a **list** versus a **dictionary** is crucial in YAML:
 
@@ -246,7 +246,9 @@ Understanding when to use a **list** versus a **dictionary** is crucial in YAML:
     occupation: "neuroscientist and educator"
   ```
 
-### How Lists and Dictionaries Work Together
+---
+
+## [How Lists and Dictionaries Work Together](list-and-dict.md)
 Often, lists and dictionaries are used in combination to create more structured data.
 
 **Example:** A list of people, where each person has a dictionary of attributes:
