@@ -33,9 +33,9 @@ fruits:
 
 ```yaml
 person:
-  name: John Doe
-  age: 30
-  occupation: Engineer
+  name: Muhammad Ibtisam
+  age: 25
+  occupation: DevOps Engineer
 ```
 
 **Explanation:**
