@@ -86,7 +86,7 @@ fruit:
 
 ---
 
-## Part 3: 'fruit:' as a Key for a Nested List
+## Case 3: 'fruit:' as a Key for a Nested List
 Assume we need to represent multiple categories of fruit-related data, each with a list of items, under `fruit:`.
 
 ### 1. Nested List
