@@ -4,7 +4,7 @@ YAML uses key-value pairs, where keys are strings and values can be strings, num
 
 ---
 
-## Part 1: 'fruit' as a Key with Direct Values
+## Case 1: 'fruit' as a Key with Direct Values
 Here, `fruit` is a key directly mapped to a single value. We assume we need to represent fruit-related data in the simplest form.
 
 ### 1. String Value
