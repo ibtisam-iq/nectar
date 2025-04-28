@@ -32,7 +32,7 @@ fruit:
 - **Explanation**: `fruit` maps to a list `[apple, orange, banana]`. Use this for collections.
 
 ### 4. Dictionary Value
-Let, we have the same no of fruits, but each has pricing attribute too. Use a dictionary to pair fruits with prices.
+Let, we have the same no. of fruits, but each has **pricing attribute** too. Use a dictionary to pair fruits with prices.
 ```yaml
 fruit:
   apple: 10
