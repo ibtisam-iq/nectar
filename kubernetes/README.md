@@ -37,7 +37,7 @@ Kubernetes follows a **cluster-based [architecture](./01-core-concepts/architect
 - **Worker Nodes:** Run containerized applications  
 
 Key [objects](./01-core-concepts/objects.md) include:
-- **Pods:** Smallest deployable units, encapsulating containers  
+- **[Pods](./09-workloads/pod-guide.md):** Smallest deployable units, encapsulating containers  
 - **Deployments:** Manage stateless applications  
 - **StatefulSets:** Manage stateful workloads  
 
