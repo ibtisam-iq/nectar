@@ -85,7 +85,7 @@ colors:
 > **Tip:**  
 > While both are correct, using **2 spaces** indentation (first style) is the common convention in Kubernetes YAML files for better readability.
 
-### [3. Dictionaries (Mappings)](dictionary-in-yml.md)
+### [3. Dictionaries (Mappings)](dict-in-yml.md)
 Dictionaries, also known as maps, store key-value pairs.
 
 ```yaml
