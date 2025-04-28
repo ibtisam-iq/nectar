@@ -32,7 +32,7 @@ Imagine a **pod** like a **shared room** where different **containers (people)**
 |:--------|:--------|
 | `apiVersion` | API group/version |
 | `kind` | Always `Pod` here |
-| `metadata` | Name, namespace, labels, annotations, uid, resourceVersion, generation, creationTimestamp,  deletionTimestamp, deletionGracePeriodSeconds etc. |
+| `metadata` | name, namespace, labels, annotations, uid, resourceVersion, generation, creationTimestamp,  deletionTimestamp, deletionGracePeriodSeconds etc. |
 | `spec` | Pod specification (containers, volumes, etc.) |
 
 ---
