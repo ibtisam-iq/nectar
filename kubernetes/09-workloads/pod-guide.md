@@ -43,13 +43,13 @@ Imagine a **pod** like a **shared room** where different **containers (people)**
 apiVersion: v1
 kind: Pod
 metadata:
-  name: mypod
+  name: mypod            # mandatory
   labels:
     app: myapp
 spec:
   containers:
   - name: mycontainer
-    image: nginx
+    image: nginx         # mandatory
 ```
 
 ✅ Minimal viable Pod!  
