@@ -1,5 +1,7 @@
 # Introduction to YAML
 
+!()
+
 ## What is YAML?
 
 YAML (YAML Ain't Markup Language) is a human-readable data serialization format commonly used for configuration files, data exchange, and structured storage. Unlike traditional markup languages like XML or JSON, YAML focuses on simplicity and readability, making it an ideal choice for configuration management.
