@@ -43,7 +43,7 @@ fruit:
 
 ---
 
-## Part 2: 'fruit:' as a Top-Level Dictionary Key
+## Case 2: 'fruit:' as a Top-Level Dictionary Key
 Here, `fruit:` is a key that serves as a top-level identifier for a dictionary, with nested key-value pairs. We assume we need to group multiple attributes about a fruit under `fruit:`. The nested values vary by type.
 
 ### 1. String Value (Nested)
