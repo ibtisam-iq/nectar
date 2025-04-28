@@ -22,7 +22,7 @@ fruit: 10
 - **Explanation**: `fruit` maps to the number `10` (e.g., $10). Use this for quantities.
 
 ### 3. List Value
-Let, we have a no. of fruits now with no additional attributes. So, to list all fruits, use a list with hyphens.
+Let, we have a no. of fruits now with **no additional attributes**. So, to list all fruits, use a list with hyphens.
 ```yaml
 fruit:
   - apple
