@@ -17,7 +17,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 ## 2. Core Kubernetes Objects
 
 ### [**Pod**](https://github.com/ibtisam-iq/nectar/blob/main/kubernetes/09-workloads/pod-guide.md)
-- The smallest and simplest deployable unit in Kubernetes.
+- The smallest and simplest deployable unit in Kubernetes. 
 - Can contain one or more containers that share storage and network.
 - Managed by higher-level controllers like `Deployments` or `StatefulSets`.
 
