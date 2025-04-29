@@ -34,10 +34,8 @@ envFrom:
   - name: config-vol
     configMap:
       name: my-config
-  - name: config-vol
-  configMap:
-    name: my-config
-    items:
-    - key: app_mode
-      path: mode.txt
+
+      items:
+      - key: app_mode
+        path: mode.txt
 ```
