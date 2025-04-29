@@ -14,7 +14,7 @@ In Kubernetes, mounted volumes are used to:
 - Share data between containers
 - Inject configuration (like ConfigMaps, Secrets, etc.)
 
-> 
+> When we say **"persist data"** using Kubernetes volumes, we’re referring to **any data generated inside the container** that you **don’t want to lose** when the Pod is deleted, restarted, or rescheduled.
 
 #### 🧠 Real Analogy
 
