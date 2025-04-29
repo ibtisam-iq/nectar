@@ -14,12 +14,12 @@ Container runs: `<command or ENTRYPOINT> <args or CMD>`
     env:
     - name: PLAYER_INITIAL_LIVES
       valueFrom:
-        configMapKeyRef:
+        configMapKeyRef:                # secretMapKeyRef
             name: game-demo           
             key: player_initial_lives
 
     envFrom:
-    - configMapRef:
+    - configMapRef:                     # secretMapRef
         name: myconfigmap
 
     volumeMounts:
@@ -29,8 +29,8 @@ Container runs: `<command or ENTRYPOINT> <args or CMD>`
 
   volumes:
   - name: config-vol
-    configMap:
-      name: my-config
+    configMap:                              # secret
+      name: my-config                       # secretName
 
       items:
       - key: app_mode
