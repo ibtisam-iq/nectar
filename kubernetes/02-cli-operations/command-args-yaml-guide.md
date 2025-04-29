@@ -109,7 +109,31 @@ command:
 
 ---
 
-## ✨ Variation 8: Using `&&` to chain commands
+You're absolutely right — that **is** a valid and distinct variation! Let's call it **✨ Variation 8: Split Command as List + Args**.
+
+This form is subtly different from the others and worth including for both completeness and clarity. Here’s how you can document it to match your existing style:
+
+---
+
+## ✨ Variation 8: Split Command as List + Args
+
+```yaml
+command:
+  - sh
+  - -c
+args:
+  - echo 'this is ibtisam'; while true; do sleep 5; done
+```
+
+- 🧩 `command` is split into individual list items (`sh`, `-c`) for clarity.
+- 🧵 `args` holds the actual shell script, making script updates isolated and cleaner.
+- 🛠️ Useful when automating or templating values — you can inject logic into `args` without touching the entrypoint logic.
+- 🧠 Functionally identical to Variation 6, but more YAML-native and readable.
+
+---
+
+
+## ✨ Variation 9: Using `&&` to chain commands
 
 ```yaml
 command: ['sh', '-c', 'echo $USER && echo $PWD']
@@ -134,7 +158,7 @@ command: ['sh', '-c', 'echo $PWD', 'sleep 3600']
 
 ---
 
-## ✨ Variation 9: Using Multi-line Script (`|`)
+## ✨ Variation 10: Using Multi-line Script (`|`)
 
 ```yaml
 command:
@@ -166,22 +190,6 @@ command:
 
 ---
 
-## 🛆 Bonus: Minimal Examples per Style
-
-| Variation | Syntax Example |
-|----------|----------------|
-| 1 | `command: ["sleep", "1000"]` |
-| 2 | `command: ["sleep"], args: ["1000"]` |
-| 3 | `command:\n  - sleep\n  - "1000"` |
-| 4 | `command:\n  - sleep\nargs:\n  - "1000"` |
-| 5 | `command: ["sh", "-c", "echo Hello && sleep 5"]` |
-| 6 | `command: ["sh", "-c"], args: ["echo Hello && sleep 5"]` |
-| 7 | `command:\n  - sh\n  - -c\n  - echo Hello && sleep 5` |
-| 8 | `command: ["sh", "-c", "echo $USER && echo $PWD"]` |
-| 9 | `command:\n  - sh\n  - -c\n  - |\n    echo $PWD\n    sleep 3600` |
-
----
-
 ## ✅ Conclusion
 
 Kubernetes gives you a lot of flexibility in how you write `command` and `args`. The best practice depends on:
@@ -189,7 +197,5 @@ Kubernetes gives you a lot of flexibility in how you write `command` and `args`.
 - **Your use case** (simple command vs shell scripting).
 - **Need for readability** (use multiline `|` when scripts grow).
 - **Clarity** (split `command` and `args` for modularity).
-
-> 🛠️ Pro Tip: Always test with `kubectl logs` and `kubectl describe pod` to debug the behavior.
 
 
