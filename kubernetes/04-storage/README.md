@@ -11,7 +11,7 @@ In Linux (and in Kubernetes), a **mounted volume** refers to **external storage*
 In Kubernetes, mounted volumes are used to:
 
 - Persist data **produced by the application inside the container**, such as logs, databases, or build artifacts
-- Share data between containers
+- Share data between containers in the same Pod
 - Inject configuration (like ConfigMaps, Secrets, etc.)
 
 > When we say **"persist data"** using Kubernetes volumes, we’re referring to **any data generated inside the container** that you **don’t want to lose** when the Pod is deleted, restarted, or rescheduled.
