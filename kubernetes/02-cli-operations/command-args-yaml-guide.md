@@ -109,12 +109,6 @@ command:
 
 ---
 
-You're absolutely right — that **is** a valid and distinct variation! Let's call it **✨ Variation 8: Split Command as List + Args**.
-
-This form is subtly different from the others and worth including for both completeness and clarity. Here’s how you can document it to match your existing style:
-
----
-
 ## ✨ Variation 8: Split Command as List + Args
 
 ```yaml
