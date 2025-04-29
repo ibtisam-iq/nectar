@@ -11,26 +11,22 @@
 Container runs: `<command or ENTRYPOINT> <args or CMD>`
 
 ```bash
-env:
+    env:
     - name: PLAYER_INITIAL_LIVES
       valueFrom:
         configMapKeyRef:
             name: game-demo           
             key: player_initial_lives
-```
 
-```bash
-envFrom:
+    envFrom:
     - configMapRef:
         name: myconfigmap
-```
 
-```bash
     volumeMounts:
     - name: config-vol
       mountPath: "/config"
       readOnly: true
-      
+
   volumes:
   - name: config-vol
     configMap:
