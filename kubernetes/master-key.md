@@ -30,6 +30,7 @@ envFrom:
     - name: config-vol
       mountPath: "/config"
       readOnly: true
+      
   volumes:
   - name: config-vol
     configMap:
