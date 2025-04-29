@@ -84,14 +84,20 @@ kubectl run shellpod --image=busybox --command -- sh -c "echo Hello && date"
 
 - ✅ Correct Usage: `--command` is used.
 - 🔍 Behavior:
-  - Command: `sh`
-  - Args: `-c "echo Hello && date"`
+  - Command: `["sh", "-c"]`
+  - Args: `"echo Hello && date"`
 
 📄 YAML Equivalent:
 ```yaml
-command: ["sh"]
-args: ["-c", "echo Hello && date"]
+command: ["sh", "-c"]
+args: ["echo Hello && date"]
 ```
+
+**🧠 Rule of Thumb:**
+
+- When using `sh -c "script"`, put:
+  - `sh`, `-c` → in `command`
+  - `"script"` → in `args`
 
 ---
 
