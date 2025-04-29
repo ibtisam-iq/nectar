@@ -27,8 +27,6 @@ command: ["sleep", "1000"]
 
 ✅ **Works with:** array syntax (square brackets).
 
----
-
 ## ✨ Variation 2: Split `command` and `args`
 
 ```yaml
@@ -42,8 +40,6 @@ args: ["1000"]
 - 💡 More flexible if you want to override just `args` at runtime.
 - ✅ Preferred way if you plan to reuse the image with different parameters.
 
----
-
 ## ✨ Variation 3: List Syntax without Brackets
 
 ```yaml
@@ -54,8 +50,6 @@ command:
 
 - ✅ Same as Variation 1, but using YAML's list format.
 - 🔒 Note: Quotation `"1000"` ensures it's treated as a **string** (important if the value starts with zero or special characters).
-
----
 
 ## ✨ Variation 4: List Syntax with Split `args`
 
@@ -81,8 +75,6 @@ command: ["sh", "-c", "echo 'this is ibtisam'; while true; do sleep 5; done"]
 - 🔥 Everything must be combined in one string (like a one-liner).
 - ⚠️ If using shell features like loops or env vars (`$VAR`), this is the go-to style.
 
----
-
 ## ✨ Variation 6: Split Shell and Script
 
 ```yaml
@@ -92,8 +84,6 @@ args: ["echo 'this is ibtisam'; while true; do sleep 5; done"]
 
 - ✅ More modular: `command` starts the shell, `args` passes the actual script.
 - ♻️ Easier to change the script later without touching the shell config.
-
----
 
 ## ✨ Variation 7: Long List with Shell
 
@@ -106,8 +96,6 @@ command:
 
 - 📚 Readable version of Variation 5.
 - ⚠️ Remember: entire script is still one string — no need to break it down unless you’re using `|`.
-
----
 
 ## ✨ Variation 8: Split Command as List + Args
 
@@ -138,8 +126,6 @@ command: ['sh', '-c', 'echo $USER && echo $PWD']
 
 ✅ **Good for:** chaining commands with environment variables or multiple steps.
 
----
-
 ## ❌ Common Pitfall: Multiple strings inside one shell `-c`
 
 ```yaml
@@ -149,8 +135,6 @@ command: ['sh', '-c', 'echo $PWD', 'sleep 3600']
 
 - ⚠️ Only the **first string** after `-c` will be treated as script.
 - ✅ Fix: Combine all into **one string** using `&&`, `;`, or multiline string (`|`).
-
----
 
 ## ✨ Variation 10: Using Multi-line Script (`|`)
 
