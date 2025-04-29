@@ -40,7 +40,7 @@ Now, when the container writes files into `/data`, it's writing them into the mo
 
 ---
 
-## 🤔 Where is `emptyDir` actually created?
+### 🤔 Where is `emptyDir` actually created?
 
 **`emptyDir` is created on the Node's filesystem** where the Pod is scheduled to run.
 
