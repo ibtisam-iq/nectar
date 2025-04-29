@@ -269,8 +269,3 @@ Look under `.Config.Entrypoint` and `.Config.Cmd`
   - `kubectl create deployment ... -- 10`: Sets `command: ["10"]` (fails).
   - `kubectl run ... -- 10`: Sets `args: ["10"]` (fails).
   - `kubectl run ... -- sleep 10`: Sets `args: ["sleep", "10"]` (works).
-
-**Your Confusion Resolved**:
-- `/bin/sh` is the `ENTRYPOINT` (not `command` unless specified).
-- `sh -c` is not the `CMD` or `args`; it’s a behavior of `/bin/sh` with arguments.
-- `command` and `args` in Kubernetes override Docker’s `ENTRYPOINT` and `CMD`, respectively.S
