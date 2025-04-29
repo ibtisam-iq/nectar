@@ -10,3 +10,17 @@
 
 Container runs: `<command or ENTRYPOINT> <args or CMD>`
 
+```bash
+env:
+    - name: PLAYER_INITIAL_LIVES
+      valueFrom:
+        configMapKeyRef:
+            name: game-demo           
+            key: player_initial_lives
+```
+
+```bash
+envFrom:
+    - configMapRef:
+        name: myconfigmap
+```
