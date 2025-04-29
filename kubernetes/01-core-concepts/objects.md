@@ -10,7 +10,7 @@ In Kubernetes, the term **"resource"** has two meanings:
 
 2. **Cluster Resources (Compute Resources)** – These refer to system capabilities like CPU, memory (RAM), storage, and networking bandwidth. Kubernetes schedules workloads based on these resources and ensures fair distribution among different workloads.
 
-Understanding both meanings is essential for managing workloads efficiently.
+Understanding both meanings is essential for managing workloads efficiently. 
 
 ---
 
