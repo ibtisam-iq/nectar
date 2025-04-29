@@ -6,7 +6,7 @@ This documentation provides a production-grade understanding of Kubernetes stora
 
 ## 🔍 1. What Is a "Mounted Volume"?
 
-In Linux (and in Kubernetes), a **mounted volume** refers to **external storage** (like a directory or disk) that gets **attached** to a specific location in the container’s filesystem — sort of like "plugging in a USB drive" and seeing it appear under `/mnt/usb` or `/media`.
+In Linux (and in Kubernetes), a **mounted volume** refers to **external storage** (like a directory or disk) that gets **attached** to a *specific location in the container’s filesystem* — sort of like "plugging in a USB drive" and seeing it appear under `/mnt/usb` or `/media`.
 
 In Kubernetes, mounted volumes are used to:
 
