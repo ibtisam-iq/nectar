@@ -24,3 +24,20 @@ envFrom:
     - configMapRef:
         name: myconfigmap
 ```
+
+```bash
+    volumeMounts:
+    - name: config-vol
+      mountPath: "/config"
+      readOnly: true
+  volumes:
+  - name: config-vol
+    configMap:
+      name: my-config
+  - name: config-vol
+  configMap:
+    name: my-config
+    items:
+    - key: app_mode
+      path: mode.txt
+```
