@@ -102,7 +102,7 @@ kubectl version
 kubectl version --client false -o yaml
 ```
 
-#### Basic Commands:
+#### Basic Commands: 
 ```bash
 Beginner:
   create          Create a resource from a file or from stdin
