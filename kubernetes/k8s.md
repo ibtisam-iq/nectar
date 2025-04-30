@@ -60,7 +60,7 @@ minikube start --driver docker
 minikube status/start/stop/delete/dashboard/pause/unpause 
 
 minikube addons enable metrics-server 	# for minikube	
-# only one Metrics Server for one cluster whether minikube or other.
+# only one Metrics Server for one cluster whether minikube or other. 
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml # install Metrics-server	
 kubectl patch -n kube-system deployment metrics-server --type=json -p '[{"op":"add","path":"/spec/template/spec/containers/0/args/-","value":"--kubelet-insecure-tls"}]'
 ```
