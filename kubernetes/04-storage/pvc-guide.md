@@ -1,6 +1,6 @@
 ## PersistentVolumeClaim (PVC)
 
-A **PersistentVolumeClaim (PVC)** is a request for storage by a user. It specifies size, access modes, and storage class. The **developer** or **app owner**, usually within a namespace, creates a PVC.
+A **PersistentVolumeClaim (PVC)** is a request for storage by a user. It specifies *size*, *access modes*, and *storage class*. The **developer** or **app owner**, usually within a namespace, creates a PVC.
 
 ### Key Characteristics:
 
