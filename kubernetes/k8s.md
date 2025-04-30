@@ -91,7 +91,7 @@ Kubectl will be configured to use the "minikube" cluster and "default" namespace
 
 ---
 
-## Kubernetes CLI Tools
+## Kubernetes CLI Tools 
 
 ### Kubectl
 - [Install Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
