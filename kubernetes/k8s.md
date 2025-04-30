@@ -40,7 +40,7 @@ kind create/delete cluster [flags]
 
 --wait duration           wait for control plane node to be ready (default 0s) 
 
-kind create cluster --name <ibtisam>            # Ensuring node image (kindest/node:v1.30.0)
+kind create cluster --name <ibtisam>            # Ensuring node image (kindest/node:v1.30.0) 
 kind create cluster --name <ibtisam> --image <abc>
 kind create cluster --config /path/to/file
 kind get clusters/nodes/kubeconfig
