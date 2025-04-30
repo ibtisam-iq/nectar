@@ -4,7 +4,7 @@
 
 ### Control Plane (Master Node): 
 - **API Server** (kube-apiserver) 
-- **etcd**
+- **etcd** 
 - **Scheduler** (kube-scheduler)
 - **Controller Manager**
 
