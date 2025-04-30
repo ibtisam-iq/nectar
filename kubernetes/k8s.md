@@ -57,7 +57,7 @@ lsmod | grep kvm; sudo modprobe -r kvm kvm_intel; sudo reboot
 minikube start --driver virtualbox
 minikube start --driver docker
 
-minikube status/start/stop/delete/dashboard/pause/unpause
+minikube status/start/stop/delete/dashboard/pause/unpause 
 
 minikube addons enable metrics-server 	# for minikube	
 # only one Metrics Server for one cluster whether minikube or other.
