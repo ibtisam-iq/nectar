@@ -160,7 +160,7 @@ Other Commands:
 ### Resources:
 - Cluster
 - Pod (po)
-- Deployment (deploy)
+- Deployment (deploy) 
 - Service (svc)
 - Namespace (ns)
 - ConfigMap (cm)
