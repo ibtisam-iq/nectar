@@ -2,7 +2,7 @@
 
 This documentation provides a production-grade understanding of Kubernetes storage management using Persistent Volumes (PV), Persistent Volume Claims (PVC), and Storage Classes.
 
----
+--- 
 
 ## 🔍 1. What Is a "Mounted Volume"?
 
