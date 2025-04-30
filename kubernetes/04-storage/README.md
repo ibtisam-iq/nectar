@@ -288,7 +288,7 @@ Here's how they work together:
 
 ### 📦 Static Provisioning
 - You **create a PersistentVolume (PV)** manually.
-- Then a **PersistentVolumeClaim (PVC)** binds to it based on specs (e.g., size, access mode).
+- Then a **PersistentVolumeClaim (PVC)** binds to it based on specs (e.g., size, access mode and storage class).
 - ❌ **No StorageClass** is needed.
 
 ### ⚙️ Dynamic Provisioning *(Most Common in Production)*
