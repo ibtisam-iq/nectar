@@ -36,3 +36,34 @@ Container runs: `<command or ENTRYPOINT> <args or CMD>`
       - key: app_mode
         path: mode.txt
 ```
+
+```bash
+
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
+
+  hostPath:
+    path: "/mnt/data"
+    type: DirectoryOrCreate
+
+  awsElasticBlockStore:
+    volumeID: vol-0123456789abcdef0
+    fsType: ext4
+    readOnly: true
+
+  nfs:
+    path: /exported/path
+    server: nfs-server.ibtisam-iq.com
+    readOnly: true
+
+  csi:
+    driver: ebs.csi.aws.com
+    volumeHandle: vol-0abcd1234cdef5678
+    fsType: ext4
+    readOnly: true
+```
