@@ -48,7 +48,7 @@ Now, when the container writes files into `/data`, it's writing them into the mo
 
 - When your Pod starts, Kubernetes creates a **temporary directory on the Node's local storage** (like `/var/lib/kubelet/pods/.../volumes/kubernetes.io~empty-dir/`).
 - Then, that folder is **mounted into the container** at the `mountPath` you specify (e.g., `/data`).
-- Any files the container writes to `/data` are actually being stored **on the Node** inside that temporary `emptyDir`.
+- Any files the container writes to `/data` are actually being stored **on the Node** inside that temporary `emptyDir`. 
 
 ### 📌 Key Properties of `emptyDir`:
 
