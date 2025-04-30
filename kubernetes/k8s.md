@@ -9,7 +9,7 @@
 - **Controller Manager**
 
 ### Worker Nodes: 
-- **Kubelet**
+- **Kubelet** 
 - **Kube-proxy**
 - **Container Runtime**
 
