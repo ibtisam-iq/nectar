@@ -33,7 +33,7 @@ volumes:
     emptyDir: {}
 ```
 
-This means:
+This means: 
 📦 A temporary volume (emptyDir) is created and mounted into the container's `/data` folder.
 
 Now, when the container writes files into `/data`, it's writing them into the mounted volume.
