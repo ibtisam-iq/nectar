@@ -8,7 +8,7 @@
 - **Scheduler** (kube-scheduler)
 - **Controller Manager**
 
-### Worker Nodes:
+### Worker Nodes: 
 - **Kubelet**
 - **Kube-proxy**
 - **Container Runtime**
