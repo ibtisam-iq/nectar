@@ -1,6 +1,6 @@
 # Kubernetes Documentation 
 
-## Kubernetes Architecture
+## Kubernetes Architecture 
 
 ### Control Plane (Master Node):
 - **API Server** (kube-apiserver)
