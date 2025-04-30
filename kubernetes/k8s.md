@@ -26,7 +26,7 @@ Useful links:
 
 #### Commands:
 ```bash
-kind create/delete cluster [flags]
+kind create/delete cluster [flags] 
 
 --config string           path to a kind config file
 
