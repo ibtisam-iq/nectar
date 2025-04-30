@@ -105,7 +105,7 @@ kubectl version --client false -o yaml
 #### Basic Commands: 
 ```bash
 Beginner: 
-  create          Create a resource from a file or from stdin
+  create          Create a resource from a file or from stdin 
   expose          Take a replication controller, service, deployment or pod and expose it as a new Kubernetes service
   run             Run a particular image on the cluster
   set             Set specific features on objects
