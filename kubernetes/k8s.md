@@ -66,7 +66,7 @@ kubectl patch -n kube-system deployment metrics-server --type=json -p '[{"op":"a
 ```
 #### Minikube Context Setup
 ```bash
-kubectl config get-contexts # to get all available clusters
+kubectl config get-contexts # to get all available clusters 
 kubectl config get-clusters		
 kubectl cluster-info
 kubectl config use-context <minikube>	# use, not set			
