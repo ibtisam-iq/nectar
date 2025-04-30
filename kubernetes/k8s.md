@@ -145,7 +145,7 @@ Advanced Commands:
   wait            Experimental: Wait for a specific condition on one or many resources
   kustomize       Build a kustomization target from a directory or URL
 Settings Commands:
-  label           Update the labels on a resource
+  label           Update the labels on a resource 
   annotate        Update the annotations on a resource
   completion      Output shell completion code for the specified shell (bash, zsh, fish, or powershell)
 Other Commands:
