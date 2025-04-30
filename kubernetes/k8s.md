@@ -11,7 +11,7 @@
 ### Worker Nodes:  
 - **Kubelet** 
 - **Kube-proxy** 
-- **Container Runtime** 
+- **Container Runtime**  
 
 Useful links:
 - [Play with Kubernetes](https://labs.play-with-k8s.com/)
