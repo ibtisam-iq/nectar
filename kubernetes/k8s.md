@@ -10,7 +10,7 @@
 
 ### Worker Nodes:  
 - **Kubelet** 
-- **Kube-proxy**
+- **Kube-proxy** 
 - **Container Runtime** 
 
 Useful links:
