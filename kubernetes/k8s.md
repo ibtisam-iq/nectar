@@ -107,7 +107,7 @@ kubectl version --client false -o yaml
 Beginner: 
   create          Create a resource from a file or from stdin 
   expose          Take a replication controller, service, deployment or pod and expose it as a new Kubernetes service
-  run             Run a particular image on the cluster
+  run             Run a particular image on the cluster 
   set             Set specific features on objects
 Intermediate:
   explain         Get documentation for a resource
