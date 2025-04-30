@@ -2,7 +2,7 @@
 
 ## Kubernetes Architecture 
 
-### Control Plane (Master Node):
+### Control Plane (Master Node): 
 - **API Server** (kube-apiserver)
 - **etcd**
 - **Scheduler** (kube-scheduler)
