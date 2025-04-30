@@ -60,7 +60,7 @@ Now, when the container writes files into `/data`, it's writing them into the mo
 | Use Cases            | Temporary scratch space, inter-container file sharing, caching, etc.        |
 | Backing Medium       | By default, it uses **disk** (but you can specify `medium: Memory`)         |
 
-### 🔍 Diagram (Mental Model):
+### 🔍 Diagram (Mental Model): 
 
 ```
 [Node]
