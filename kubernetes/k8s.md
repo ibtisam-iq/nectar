@@ -55,7 +55,7 @@ systemctl stop docker; systemctl stop docker.socket; systemctl --user stop docke
 lsmod | grep kvm; sudo modprobe -r kvm kvm_intel; sudo reboot
 
 minikube start --driver virtualbox
-minikube start --driver docker
+minikube start --driver docker 
 
 minikube status/start/stop/delete/dashboard/pause/unpause 
 
