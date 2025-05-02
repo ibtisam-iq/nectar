@@ -684,3 +684,4 @@ spec:
 | `hostPath`   | Persistent | Node          | ❌            |
 | `nfs`        | Persistent | External NFS  | ❌            |
 | `csi`        | Ephemeral / Persistent | External system | ✅            |
+
