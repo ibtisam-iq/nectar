@@ -326,3 +326,5 @@ It automatically checks for:
 ## Conclusion
 
 YAML is a powerful and human-friendly format that supports scalars, lists, and dictionaries. Understanding its syntax and common pitfalls is essential for writing error-free YAML files. Additionally, mastering different types of values in YAML helps create more structured and readable configurations. In the next chapters, we will explore lists, dictionaries, and their real-world applications.
+
+[Official Documentation](https://yaml.org/spec/history/2003-09-01.html)
