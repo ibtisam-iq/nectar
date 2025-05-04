@@ -6,7 +6,7 @@ Kubernetes volumes provide a mechanism for containers within a Pod to access and
 
 ### Why Volumes Matter
 
-1. **Data Persistence**: Containers are inherently stateless, and their local files are lost when a container crashes or restarts. Volumes allow data to persist beyond the container's lifecycle, ensuring continuity for applications [[>-]]().
+1. **Data Persistence**: Containers are inherently stateless, and their local files are lost when a container crashes or restarts. Volumes allow data to persist beyond the container's lifecycle, ensuring continuity for applications.
 2. **Shared Storage**: Multiple containers within a Pod, or even across Pods, may need to share data. Volumes facilitate seamless file sharing, overcoming the challenges of coordinating filesystem access.
 3. **Flexibility**: Volumes support various use cases, such as configuration injection, temporary scratch space, and durable storage, catering to diverse application requirements.
 
@@ -20,7 +20,7 @@ A Kubernetes volume is a directory, potentially containing data, that is accessi
 
 ### Key Concepts
 
-- **Mounting**: Volumes are mounted at specific paths within a container's filesystem, overlaying the container image's root filesystem. Writes to these paths affect the volume, not the image.
+- **Mounting**: Volumes are mounted at specific paths within a container's filesystem, overlaying the container image's root filesystem. Writes to these paths affect the volume, not the image [[>-]]().
 - **Ephemeral vs. Persistent Volumes**:
   - **Ephemeral Volumes**: Tied to a Pod's lifecycle, they are created and destroyed with the Pod (e.g., `emptyDir`).
   - **Persistent Volumes**: Exist independently of Pods, preserving data across Pod restarts or deletions (e.g., `persistentVolumeClaim`).
