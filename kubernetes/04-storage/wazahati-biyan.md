@@ -2,6 +2,8 @@
 
 *Mounting: Volumes are mounted at specific paths within a container's filesystem, overlaying the container image's root filesystem. Writes to these paths affect the volume, not the image.*
 
+**Breakdown of the concept:**
+
 * **"Mounting"**: volume ko container ke andar kisi specific path pe attach karna.
 * **"Overlaying the container image's root filesystem"**: Ye path pe pehle se jo bhi files image me thi, wo override ho jati hain — volume us jagah le leta hai.
 * **"Writes to these paths affect the volume, not the image"**: Jab aap likhte ho (e.g., log generate karna), to wo container image me permanent nahi hota, balki volume me store hota hai — jo zyada durable hota hai.
