@@ -23,6 +23,8 @@ Yeh file unhi unclear concepts ki **simple, deeply explained aur sochi-samjhi wa
 > "Dil se likhi gayi har wazahat – Muhammad Ibtisam Iqbal"
 > – ek learner jo kabhi khud bhi confuse tha.
 
+---
+
 ## Wazahat-1
 
 *Mounting: Volumes are mounted at specific paths within a container's filesystem, overlaying the container image's root filesystem. Writes to these paths affect the volume, not the image.*
