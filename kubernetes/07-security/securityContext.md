@@ -264,18 +264,31 @@ spec:
 
 ---
 
+### 🔐 Kubernetes `securityContext` Key Reference
 
-## ✅ Summary Table
+| 🧩 Field Name              | 📍 Applies To        | 📘 Description                                                      |
+| -------------------------- | -------------------- | ------------------------------------------------------------------- |
+| `runAsUser`                | ✅ Pod & ✅ Container  | Runs the process inside container as a specific UID.                |
+| `runAsGroup`               | ✅ Pod & ✅ Container  | Runs the process with specified GID.                                |
+| `fsGroup`                  | ✅ Pod Only           | Sets GID for mounted volumes (shared among containers).             |
+| `fsGroupChangePolicy`      | ✅ Pod Only           | Controls when `fsGroup` is applied to volume files.                 |
+| `supplementalGroups`       | ✅ Pod Only           | Additional GIDs added to all containers in the Pod.                 |
+| `supplementalGroupsPolicy` | ✅ Pod Only *(Alpha)* | Controls how supplementalGroups are applied (only in strict mode).  |
+| `capabilities.add`         | ✅ Container Only     | Add Linux capabilities (e.g., `NET_ADMIN`, `SYS_TIME`).             |
+| `allowPrivilegeEscalation` | ✅ Container Only     | Prevents gaining more privileges than parent process.               |
+| `privileged`                | ✅ Container Only     | Gives full host privileges to the container (dangerous!). |
+| `runAsNonRoot` | ✅ Pod & ✅ Container  | Ensures container doesn't run as UID 0 (root). |
+| `seccompProfile.type`      | ✅ Pod & ✅ Container  | Defines seccomp profile (`RuntimeDefault`, `Unconfined`, etc.).     |
+| `appArmorProfile.type`     | ✅ Pod & ✅ Container  | Specifies AppArmor profile to apply (usually only on supported OS). |
+| `seLinuxOptions.level`     | ✅ Pod & ✅ Container  | Sets SELinux context for more fine-grained control.                 |
 
-| Field                    | Purpose                                     | Pod Level | Container Level | Example Impact |
-|--------------------------|---------------------------------------------|------------|------------------|----------------|
-| `runAsUser`              | Process runs as specific UID               | ✅         | ✅               | `ps aux` shows UID |
-| `runAsGroup`             | Runs process with specific GID             | ✅         | ✅               | `id` shows GID  |
-| `fsGroup`                | Group ownership of volumes                 | ✅         | ❌               | `ls -l /mount` shows GID |
-| `supplementalGroups`     | Extra groups to which process belongs      | ✅         | ❌               | Useful in shared scenarios |
-| `allowPrivilegeEscalation`| Prevent `setuid`-based escalation          | ❌         | ✅               | Set `false` for security |
-| `capabilities`           | Add/drop Linux capabilities                | ❌         | ✅               | Drop `ALL`, add `NET_ADMIN` |
-| `runAsNonRoot`           | Ensures UID ≠ 0                            | ✅         | ✅               | Pod fails if UID is 0 |
-| `readOnlyRootFilesystem` | Make `/` read-only                         | ❌         | ✅               | Cannot write to root |
-| `seLinuxOptions` | SELinux context                             |✅          | ✅               | `getenforce ` shows context |
+---
+
+### 🎯 Summary
+
+| Scope              | Fields                                                                             |
+| ------------------ | ---------------------------------------------------------------------------------- |
+| **Pod Only**       | `fsGroup`, `fsGroupChangePolicy`, `supplementalGroups`, `supplementalGroupsPolicy` |
+| **Container Only** | `capabilities`, `allowPrivilegeEscalation`, `privileged`                                         |
+| **Both**           | `runAsUser`, `runAsGroup`, `seccompProfile`, `appArmorProfile`, `seLinuxOptions`, `runAsNonRoot`   |
 

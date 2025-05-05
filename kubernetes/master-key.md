@@ -150,5 +150,10 @@ volumes:
       reference: quay.io/crio/artifact:v2
       pullPolicy: IfNotPresent
 
-
 ```
+
+| Scope              | Fields                                                                             |
+| ------------------ | ---------------------------------------------------------------------------------- |
+| **Pod Only**       | `fsGroup`, `fsGroupChangePolicy`, `supplementalGroups`, `supplementalGroupsPolicy` |
+| **Container Only** | `capabilities`, `allowPrivilegeEscalation`, `privileged`                                         |
+| **Both**           | `runAsUser`, `runAsGroup`, `seccompProfile`, `appArmorProfile`, `seLinuxOptions`, `runAsNonRoot`   |
