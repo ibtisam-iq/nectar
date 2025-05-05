@@ -155,5 +155,5 @@ volumes:
 | Scope              | Fields                                                                             |
 | ------------------ | ---------------------------------------------------------------------------------- |
 | **Pod Only**       | `fsGroup`, `fsGroupChangePolicy`, `supplementalGroups`, `supplementalGroupsPolicy` |
-| **Container Only** | `capabilities`, `allowPrivilegeEscalation`, `privileged`                                         |
+| **Container Only** | `capabilities`, `allowPrivilegeEscalation`, `privileged`, `readOnlyRootFilesystem`                                         |
 | **Both**           | `runAsUser`, `runAsGroup`, `seccompProfile`, `appArmorProfile`, `seLinuxOptions`, `runAsNonRoot`   |
