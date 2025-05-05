@@ -168,7 +168,7 @@ Dynamic provisioning can be configured to apply automatically to PVCs that donâ€
    - Ensure the API server includes `DefaultStorageClass` in its `--enable-admission-plugins` flag.
    - This controller automatically sets the `storageClassName` field of PVCs without it to the default Storage Class.
 
-### Behavior
+### Behavior [[->]]()
 
 - **With a Default Storage Class**:
   - PVCs without `storageClassName` use the default Storage Class, triggering dynamic provisioning.
