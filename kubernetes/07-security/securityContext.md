@@ -276,6 +276,7 @@ spec:
 | `supplementalGroupsPolicy` | ✅ Pod Only *(Alpha)* | Controls how supplementalGroups are applied (only in strict mode).  |
 | `capabilities.add`         | ✅ Container Only     | Add Linux capabilities (e.g., `NET_ADMIN`, `SYS_TIME`).             |
 | `allowPrivilegeEscalation` | ✅ Container Only     | Prevents gaining more privileges than parent process.               |
+| `readOnlyRootFilesystem`   | ✅ Container Only     | Mounts the container's root filesystem as **read-only** to prevent tampering. |
 | `privileged`                | ✅ Container Only     | Gives full host privileges to the container (dangerous!). |
 | `runAsNonRoot` | ✅ Pod & ✅ Container  | Ensures container doesn't run as UID 0 (root). |
 | `seccompProfile.type`      | ✅ Pod & ✅ Container  | Defines seccomp profile (`RuntimeDefault`, `Unconfined`, etc.).     |
@@ -289,6 +290,6 @@ spec:
 | Scope              | Fields                                                                             |
 | ------------------ | ---------------------------------------------------------------------------------- |
 | **Pod Only**       | `fsGroup`, `fsGroupChangePolicy`, `supplementalGroups`, `supplementalGroupsPolicy` |
-| **Container Only** | `capabilities`, `allowPrivilegeEscalation`, `privileged`                                         |
+| **Container Only** | `capabilities`, `allowPrivilegeEscalation`, `privileged`, `readOnlyRootFilesystem`                                           |
 | **Both**           | `runAsUser`, `runAsGroup`, `seccompProfile`, `appArmorProfile`, `seLinuxOptions`, `runAsNonRoot`   |
 
