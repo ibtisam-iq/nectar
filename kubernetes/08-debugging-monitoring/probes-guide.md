@@ -343,3 +343,10 @@ Probes are Kubernetes’ mechanism for ensuring application health and availabil
 - Avoid premature restarts during startup (`startupProbe`).
 
 Following best practices, such as using lightweight probes, tuning thresholds, and testing failure scenarios, ensures your applications remain stable and performant in production.
+
+---
+
+## Further Reading
+
+- [Probes Case Studies](probes-case-studies.md)
+- [Debugging and Troubleshooting](probe-debugging.md)
