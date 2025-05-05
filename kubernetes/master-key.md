@@ -38,14 +38,22 @@ Container runs: `<command or ENTRYPOINT> <args or CMD>`
 ```
 
 ```bash
-
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: foo-pv
 spec:
   capacity:
     storage: 10Gi
+  volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: manual
+
+  claimRef:             # Reserves foo-pv for foo-pvc, preventing other PVCs from binding.
+    name: foo-pvc
+    namespace: foo
 
   hostPath:
     path: "/mnt/data"
@@ -66,4 +74,81 @@ spec:
     volumeHandle: vol-0abcd1234cdef5678
     fsType: ext4
     readOnly: true
+```
+
+```bash
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: myclaim
+spec:
+  accessModes:
+  - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 8Gi
+  storageClassName: slow
+  # No storageClassName; Triggers dynamic provisioning and uses default (if any available, else remains unbound)
+  # storageClassName: "" Opt-out of default/dynamic provisioning, Only binds to PVs with no SC
+  
+  selector:               # Filters PVs by labels (e.g., matchLabels, matchExpressions). Cannot be used with dynamic provisioning.
+    matchLabels:
+      release: "stable"
+  volumeName: foo-pv      # Explicitly binds to a named PV, bypassing matching criteria except for validation.
+```
+
+```bash
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: fast
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+# provisioner: kubernetes.io/no-provisioner ; No provisioner, only static provisioning, for local storage
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-ssd
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer # Delays provisioning until a Pod using the PVC is scheduled.
+                   # Immediate (default): Provisions the PV as soon as the PVC is created.
+```
+
+
+```bash
+volumes:
+  - name: cache-volume
+    emptyDir:
+      sizeLimit: 500Mi
+      medium: Memory
+
+volumes:
+  - name: config-vol
+    configMap:
+      name: my-config
+      items:
+      - key: log_level
+        path: log_level.conf
+
+volumes:
+  - name: secret-vol
+    secret:
+      secretName: my-secret
+
+volumes:
+  - name: pod-info
+    downwardAPI:
+      items:
+      - path: "labels"
+        fieldRef:
+          fieldPath: metadata.labels
+
+volumes:
+  - name: image-vol
+    image:
+      reference: quay.io/crio/artifact:v2
+      pullPolicy: IfNotPresent
+
+
 ```

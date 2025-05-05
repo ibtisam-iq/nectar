@@ -69,4 +69,15 @@ Ab jab tak bedsheet bichhi hai, **aapko newspaper dikhai nahi dega** — lekin w
 Jab bedsheet hataoge (volume remove), to newspaper phir se dikhne lagega.
 
 ---
+## Wazahat-2
 
+### 📦 PVC Behavior with and without Default StorageClass
+
+| 🔍 PVC Configuration                 | 💡 Behavior                                                                                 | ⚠️ Notes                                                                  |
+| ------------------------------------ | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `storageClassName` **not set**       | - Uses the **default** StorageClass (if available) <br> - Triggers **dynamic provisioning** | Acts like: “Jo default hai, wohi chalega.”                                |
+| `storageClassName: ""` *(empty)*     | - **Opt-out** of default/dynamic provisioning <br> - Only binds to **PVs with no SC**       | Behaves like: “Mujhe manually bana hua PV chahiye jisme koi SC na ho.”    |
+| No default StorageClass present      | - PVCs without `storageClassName` **remain unbound**                                        | System doesn’t know what to do unless default SC is created later.        |
+| After default SC is created (v1.28+) | - **Old PVCs (without SC)** get **auto-assigned** new default SC                            | Only applies if PVC didn’t explicitly opt-out with `storageClassName: ""` |
+
+---
