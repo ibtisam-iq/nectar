@@ -133,8 +133,4 @@ kubectl get pods -o=jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.status.co
 - Start with loose probe configs (e.g., higher delays), tighten them over time.
 - Avoid setting overly aggressive probe values in production.
 
----
-
-📘 Continue reading: [probes-best-practices.md](./probes-best-practices.md)
-
 
