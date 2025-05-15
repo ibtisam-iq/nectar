@@ -98,8 +98,14 @@ spec:
          - containerPort: 8080
            name: http
      ```
+7. [**hostPort**](hostPort.md) (Pod-level):
+   - Defined in the Pod’s `spec.containers[].ports` (not in the Service spec).
+   - Allows a container port to be **exposed directly on the IP address of the Node** (host machine) where the Pod is running. This bypasses the Service’s port mapping, it means, traffic sent to the Node’s IP at `hostPort` is routed directly to the container’s `containerPort`.
+   - Enables **host-level access** without requiring a Kubernetes `Service` or `kubectl port-forward`.
 
-7. **Other Optional Placeholders**:
+
+
+8. **Other Optional Placeholders**:
    - **spec.clusterIP**: The virtual IP for the Service (auto-allocated or set to `None` for headless Services).
    - **spec.externalIPs**: Manually assigned external IPs (not managed by Kubernetes).
    - **spec.sessionAffinity**: Sets session stickiness (`ClientIP` or `None`; default: `None`).
