@@ -42,7 +42,7 @@ Create and run a particular image.
 
 ```bash
 kubectl run <name> --image=<image> \
-    --port=<port> \       # specifies the port that the container inside the Pod listens on.
+    --port=<port> \       # The port that this container exposes.
     --expose =<expose> \
     -l, --labels=<key>=<value>,<key>=<value> \  # -l, --labels=''
     --env=<key>=<value> --env=<key>=<value> \   # --env=[]:
@@ -277,7 +277,7 @@ kubectl create service clusterip|externalname|loadbalancer|nodeport NAME --tcp=p
     --clusterip='Assign your own ClusterIP or set to 'None' for a 'headless' service (no loadbalancing)'
     --node-port=0
 
-kubectl expose (-f FILENAME | TYPE NAME) --port=<> \
+kubectl expose (-f FILENAME | TYPE NAME) --port=<> \ # The port that the service should serve on
     --target-port=<port> \
     --name=<name> \
     --type=<type> \
