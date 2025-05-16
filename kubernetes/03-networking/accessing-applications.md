@@ -78,7 +78,7 @@ These methods enable access from a local machine, external network, or cloud env
     ```bash
     curl http://localhost:<nodePort>
     curl http://<private-node-ip>:<nodePort>
-    # Example: curl http://10.0.0.5:30000
+    # Example: curl http://172.31.29.71:30000
     ```
 - **Cluster-Specific Notes**:
   - **Minikube**: Access the NodePort using `minikube ip` to get the node IP, then `curl http://<minikube-ip>:<nodePort>`. Alternatively, use `minikube service <service-name> --url` to get a direct URL.
