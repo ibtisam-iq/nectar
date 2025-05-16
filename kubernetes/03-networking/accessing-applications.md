@@ -15,7 +15,7 @@ These methods are used when you have direct access to cluster nodes or Pods, suc
   ```bash
   # Access a Pod directly
   curl http://<pod-ip>:<container-port>
-  # Example: curl http://10.244.0.5:8080
+  # Example: curl http://10.244.0.5:8081
 
   # Access a Service via ClusterIP
   curl http://<service-cluster-ip>:<service-port>
@@ -43,8 +43,8 @@ These methods are used when you have direct access to cluster nodes or Pods, suc
   kubectl run test --image=busybox -it --rm --restart=Never -- sh
 
   # Inside the Pod shell, test Service access
-  wget -qO- http://<service-name>.<namespace>.svc.cluster.local:<port>
-  # Example: wget -qO- http://amor.default.svc.cluster.local:80
+  wget <service-name>.<namespace>.svc.cluster.local:<port>
+  # Example: wget amor.amor.svc.cluster.local:80
   ```
 - **Cluster-Specific Notes**:
   - **Minikube**: DNS is preconfigured (e.g., CoreDNS). Use the full Service DNS name (`<service-name>.<namespace>.svc.cluster.local`).
