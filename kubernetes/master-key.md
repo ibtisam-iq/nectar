@@ -157,3 +157,23 @@ volumes:
 | **Pod Only**       | `fsGroup`, `fsGroupChangePolicy`, `supplementalGroups`, `supplementalGroupsPolicy` |
 | **Container Only** | `capabilities`, `allowPrivilegeEscalation`, `privileged`, `readOnlyRootFilesystem`                                         |
 | **Both**           | `runAsUser`, `runAsGroup`, `seccompProfile`, `appArmorProfile`, `seLinuxOptions`, `runAsNonRoot`   |
+
+
+### ✅ 1. SSH into Node
+`minikube ssh`	  `ssh -i key username@ip`		 `docker exec -it <node name> </bin/bash> or <bash> or </bin/sh> or <sh>`
+curl <pod_IP:service_port / service IP:servive_port>
+
+
+
+# NodePort    30000 => container's 8081
+curl http://localhost:30000 OR curl http://<worker-node-private-ip>:30000
+# ClusterIP
+kubectl run test --image=busybox -it --rm --restart=Never -- sh # and then inside the shell: wget <service-name>.<namespace>.svc.cluster.local:<port>
+
+# ✅ 2. Access from Laptop via Public IP + NodePort
+curl http://<node-ip>:<nodePort> OR http://54.242.167.17:30000
+```
+
+kubectl port-forward svc/my-service 8080:80 # <local-port>:<remote-port> # open in browser: http://localhost:8080
+
+
