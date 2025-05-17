@@ -114,3 +114,53 @@ Then create an Ingress:
 ```bash
 curl https://secure.ckatest.com --resolve secure.ckatest.com:<port>:<node-ip> --insecure
 ```
+
+---
+
+### ✅ **Pods – Hands-on Questions**
+
+1. Create a pod named `nginx-pod` using the `nginx` image.
+2. Create a pod that runs a `busybox` container and sleeps for 3600 seconds.
+3. Create a pod with two containers: `nginx` and `busybox` (running `sleep 3600`).
+4. Create a pod with a specific label `app=web`, and verify it using `kubectl get pods --show-labels`.
+5. Create a pod with a volume mounted at `/data` using `emptyDir`.
+6. Run a pod with environment variables set (e.g., `ENV=prod`, `DEBUG=true`).
+7. Create a pod that uses a config map as environment variables.
+8. Create a pod with a command override that runs `echo Hello Kubernetes && sleep 3600`.
+9. Create a pod with a liveness probe that checks `/health` on port 80 every 5 seconds.
+10. Create a pod with a readiness probe using `exec` to check file existence.
+11. Create a pod and limit its CPU to 500m and memory to 128Mi.
+12. Create a pod that mounts a secret to `/etc/secret-data`.
+
+---
+
+### ✅ **Services – Hands-on Questions**
+
+13. Create a service of type ClusterIP that exposes `nginx-pod` on port 80.
+14. Create a service of type NodePort for a `httpd` deployment.
+15. Create a headless service for a StatefulSet.
+16. Create a service with `app=backend` selector that points to port 8080 on pods.
+17. Create a service with multiple ports exposed (e.g., 80 and 443).
+18. Expose a deployment as a ClusterIP service named `web-service`.
+19. Expose a pod directly using a service (without a deployment).
+20. Create an ExternalName service pointing to `my.external.com`.
+21. Verify service endpoints and understand why they may be empty.
+22. Create a service using YAML with explicit `targetPort`, `port`, and `nodePort`.
+
+---
+
+### ✅ **Ingress – Hands-on Questions**
+
+23. Deploy ingress-nginx controller using the official YAML.
+24. Create an Ingress resource routing:
+
+    * `/frontend` → service `frontend:80`
+    * `/backend` → service `backend:80`
+25. Create an Ingress with host `myapp.com` pointing `/` to service `web`.
+26. Create an Ingress resource with TLS using a Kubernetes Secret.
+27. Use pathType: `Prefix` and `Exact` in two different rules and explain the difference.
+28. Configure multiple hosts in a single Ingress: `api.domain.com`, `admin.domain.com`.
+29. Debug an Ingress showing 404 — how to identify whether the issue is with rules, service, or ingress controller.
+30. Use annotations to enable HTTPS redirect in Ingress.
+31. Add custom headers in an Ingress using annotations.
+32. Configure Ingress to use a default backend.
