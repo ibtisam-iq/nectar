@@ -147,6 +147,35 @@ kubectl create deployment my-dep --image=busybox:latest --image=ubuntu:latest --
 
 ---
 
+## kubectl scale
+
+Manage the rollout of one or many resources. Valid resource types include: deployments, daemonsets, statefulsets
+
+```bash
+kubectl rollout history (TYPE NAME | TYPE/NAME) -l, --selector --revision=0
+kubectl rollout pause|resume|restart (TYPE NAME | TYPE/NAME) -l, --selector
+kubectl rollout status (TYPE NAME | TYPE/NAME) -l, --selector --revision=0 -w, --watch=true
+kubectl rollout undo (TYPE NAME | TYPE/NAME) -l, --selector --dry-run='none' --to-revision=0
+```
+
+## kubectl scale
+
+Set a new size for a deployment, replica set, replication controller, or stateful set.
+
+```bash
+kubectl scale [--resource-version=version] [--current-replicas=count] --replicas=COUNT -l, --selector='' --dry-run='none' (-f FILENAME | TYPE NAME)
+```
+
+## kubectl autoscale
+
+Creates an autoscaler that automatically chooses and sets the number of pods that run in a Kubernetes cluster.
+
+```bash
+kubectl autoscale (-f FILENAME | TYPE NAME | TYPE/NAME) [--min=MINPODS] --max=MAXPODS [--cpu-percent=CPU] --name='' --dry-run='none'
+```
+
+---
+
 ## Jobs & CronJobs
 ```bash
 kubectl create job NAME --image=image \
