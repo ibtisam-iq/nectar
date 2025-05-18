@@ -579,6 +579,65 @@ spec:
 ubuntu@ip-172-31-29-122:~$ 
 ```
 
+### ✅ **Question**
+
+> Create a pod with a **liveness probe** that checks `/health` on port `80` every `5 seconds`.
+
+#### ✅ **Solution**: `liveness-pod.yaml`
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: liveness-pod
+  labels:
+    app: liveness-demo
+spec:
+  containers:
+  - name: myapp
+    image: nginx
+    ports:
+    - containerPort: 80
+    livenessProbe:
+      httpGet:
+        path: /health      # <-- Probe will hit http://localhost/health
+        port: 80           # <-- On container's port 80
+      initialDelaySeconds: 5  # <-- Delay before first probe after container starts
+      periodSeconds: 5        # <-- Probes every 5 seconds
+```
+
+> 💡 Note: `/health` must be a valid endpoint for this to succeed. In a real app, you'd ensure this route exists.
+
+
+### ✅ **Question**
+
+> Create a pod with a **readiness probe** using `exec` to check **file existence**.
+
+#### ✅ **Solution**: `readiness-exec-pod.yaml`
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: readiness-pod
+  labels:
+    app: readiness-demo
+spec:
+  containers:
+  - name: myapp
+    image: busybox
+    command: ["/bin/sh", "-c", "touch /tmp/ready && sleep 3600"]
+    readinessProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/ready       # <-- Check if this file exists
+      initialDelaySeconds: 5
+      periodSeconds: 10
+```
+
+> 💡 The `touch /tmp/ready` ensures the file exists when the probe starts. Without it, the pod would be marked *NotReady*.
+
 ---
 
 ### ✅ **Services – Hands-on Questions**
