@@ -100,7 +100,7 @@ spec:
 
 ---
 
-## 🔄 Let's Add a `ResourceQuota` for Combined Demo
+## 🔄 Let's Add a `ResourceQuota`
 
 ```yaml
 apiVersion: v1
