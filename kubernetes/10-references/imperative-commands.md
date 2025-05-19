@@ -455,6 +455,15 @@ kubectl autoscale -f deployment.yaml --namespace=my-namespace --min=2 --max=10 -
 kubectl create quota NAME --hard cpu=1,memory=1G,pods=2,services=3,replicationcontrollers=2,resourcequotas=1,secrets=5,persistentvolumeclaims=10 --namespace <> \
     --scopes BestEffort,Scope2
 ```
+
+```bash
+kubectl create quota abc --hard cpu=1,memory=512Mi,
+requests.cpu=4,limits.cpu=8,requests.memory=8Gi,limits.memory=16Gi,
+requests.storage=100Gi,persistentvolumeclaims=10,
+pods=20,services=20,configmaps=20,secrets=20,replicationcontrollers=4,services.nodeports=2,
+count/deployments.apps=10,count/replicasets.apps=10,count/statefulsets.apps=10,count/jobs.batch=10
+```
+
 ---
 
 ## PriorityClass
