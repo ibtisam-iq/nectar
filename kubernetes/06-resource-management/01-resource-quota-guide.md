@@ -40,6 +40,7 @@ hard:
   secrets: "15"              # Max secrets
   replicationcontrollers: "4"
   services.nodeports: "2"
+  count/deployments.apps: "10"
 ```
 
 📌 This example limits:
