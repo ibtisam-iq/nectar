@@ -9,14 +9,13 @@ They **complement** each other in a cluster’s resource policy setup.
 
 ## 🧠 Key Purpose of `LimitRange`
 
-| Feature             | Purpose                                                                 |
-|---------------------|-------------------------------------------------------------------------|
-| `default`           | Sets default `requests` and `limits` if not specified in pod specs.     |
-| `defaultRequest`    | Sets default `requests` only.                                           |
-| `min`               | Minimum resource requests or limits a container must specify.           |
-| `max`               | Maximum resource requests or limits a container can specify.           |
-| `maxLimitRequestRatio` | Defines a max ratio between limit and request for CPU/memory.       |
-
+| Field                  | Purpose                                                                                             |
+| ---------------------- | --------------------------------------------------------------------------------------------------  |
+| `default`              | ✅ **Sets default `limits` only** (not requests), if a container doesn’t specify them.              |
+| `defaultRequest`       | ✅ **Sets default `requests` only**, if a container doesn’t specify them.                           |
+| `min`                  | ✅ Enforces a **minimum allowed value** for requests or limits (must be explicitly set in the Pod). |
+| `max`                  | ✅ Enforces a **maximum allowed value** for requests or limits (must be explicitly set in the Pod). |
+| `maxLimitRequestRatio` | ✅ Defines maximum ratio of `limit / request`. (Useful to prevent overprovisioning)                 |
 
 ---
 
