@@ -312,6 +312,8 @@ resources:
 
 ResourceQuota tracks either or both via the `.spec.hard` section.
 
+> **Note:** When a **ResourceQuota** is defined in a namespace, every Pod must **request/limit** the listed resources.
+
 ## 🧮 Units in CPU and Memory
 
 Understanding resource units is essential when defining `requests`, `limits`, or `ResourceQuota`.
