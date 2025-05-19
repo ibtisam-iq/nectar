@@ -12,16 +12,89 @@ This guide explains how quotas work, what `scopeSelector` does, and how to apply
 
 ---
 
+## 💡 What Are `requests` and `limits`?
+
+| Field     | Meaning                         | Think of it as...               |
+| --------- | ------------------------------- | ------------------------------- |
+| `request` | **Minimum guaranteed** resource | Your **reservation**            |
+| `limit`   | **Maximum allowed** resource    | Your **ceiling / throttle cap** |
+
+
+### 🧠 What Happens:
+
+* Kubernetes uses `requests` during **scheduling** (i.e., finding a node).
+* Kubernetes uses `limits` during **runtime** (i.e., restricting usage).
+
+> ✅ “Request is the guaranteed minimum amount of resource Kubernetes will reserve for the container at scheduling time.”
+>
+> ✅ “Limit is the absolute maximum amount of resource the container is allowed to use at runtime. It cannot exceed this.”
+
+### 🏨 Real-World Analogy: Hotel Room
+
+Imagine you're booking a hotel room with flexible budget.
+
+* **Request**: You tell the hotel, “I **need at least 1 room** with 1 bed — guaranteed.”
+* **Limit**: You say, “But I **won’t pay for more than 2 beds** — cap it there.”
+
+> Kubernetes does the same:
+>
+> * It guarantees the container at least the resources specified in `request`.
+> * But if the container tries to use more than `limit`, it's throttled or OOMKilled.
+
+### ⚙️ In Terms of a Single Pod:
+
+Let’s say your pod defines:
+
+```yaml
+resources:
+  requests:
+    cpu: "500m"
+  limits:
+    cpu: "1000m"
+```
+
+* Scheduler finds a node with **at least 500m free CPU**.
+* Pod is scheduled.
+* At runtime, the container can use up to **1000m**, but **no more**.
+
+  * If it tries more, it will be **throttled** (for CPU).
+  * If memory exceeds `limit`, it can be **OOMKilled**.
+
+### ✅ Summary
+
+| Concept                  | Request | Limit |
+| ------------------------ | ------- | ----- |
+| Scheduler uses it?       | ✅ Yes   | ❌ No  |
+| Runtime enforces it?     | ❌ No    | ✅ Yes |
+| Guarantees availability? | ✅ Yes   | ❌ No  |
+| Defines max usage?       | ❌ No    | ✅ Yes |
+
+| Term    | Kubernetes Reserves | Container Can Use | Type                 |
+| ------- | ------------------- | ----------------- | -------------------- |
+| Request | ✅ Yes               | ✅ At least this   | Minimum (Guaranteed) |
+| Limit   | ❌ No                | ✅ At most this    | Maximum (Cap)        |
+
+---
+
 ## 🧮 Types of Resources You Can Limit
 
 ### 🔹 1. **Compute Resources**
 ```yaml
 hard:
-  requests.cpu: "4"
-  limits.cpu: "8"
-  requests.memory: 8Gi
-  limits.memory: 16Gi
+  requests.cpu: "4"      # All pods in this namespace together can request up to 4 CPUs
+  limits.cpu: "8"        # All pods can use up to 8 CPUs, but no more
+  requests.memory: 8Gi   # All pods can request up to 8Gi memory
+  limits.memory: 16Gi    # All pods cannot go over 16Gi usage
 ```
+
+### Meaning:
+
+| Behavior                      | Effect                                                           |
+| ----------------------------- | ---------------------------------------------------------------- |
+| Scheduler behavior            | Will only schedule pods if total `requests` of all pods ≤ 4 CPUs |
+| Runtime behavior              | All running pods cannot use more than 8 CPUs at once             |
+| Same logic applies for memory | Total `requests.memory` ≤ 8Gi and `limits.memory` ≤ 16Gi         |
+
 
 ### 🔹 2. **Storage Resources**
 ```yaml
