@@ -1,7 +1,7 @@
 # 📘 Kubernetes LimitRange Deep Dive
 
 ## 🌟 Introduction
-`LimitRange` is a Kubernetes resource that sets **default**, **minimum**, and **maximum** resource constraints for containers and pods within a **namespace**. While `[ResourceQuota](resource-quota-guide.md)` enforces **aggregate resource usage limits**, `LimitRange` controls the **per-container/pod** resource policies.
+`LimitRange` is a Kubernetes resource that sets **default**, **minimum**, and **maximum** resource constraints for containers and pods within a **namespace**. While `[ResourceQuota](01-resource-quota-guide.md)` enforces **aggregate resource usage limits**, `LimitRange` controls the **per-container/pod** resource policies.
 
 They **complement** each other in a cluster’s resource policy setup.
 
