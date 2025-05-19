@@ -51,47 +51,50 @@ You can even combine them all in one quota.
 
 ---
 
-## 📐 🧩 Understanding `spec.hard` YAML Variations
+## ✅ Guide: `spec.hard` in ResourceQuota
 
-There are different formats for specifying compute resources, and they are **functionally equivalent**. Let’s break them down.
-
-### 🔹 Format 1: Simpler Flat Limits (No `requests` / `limits` Keys)
+### 🔹 Format 1: Basic Resource Consumption Limits (No `requests.` or `limits.` prefixes)
 
 ```yaml
 spec:
   hard:
-    cpu: "2"                             # Total CPU across all pods
-    memory: 5Gi                          # Total Memory
-    pods: "10"                           # Max number of pods
-    services: "5"                        # Max number of services
-    persistentvolumeclaims: "2"         # Max number of PVCs
+    cpu: "2"                   # ❌ INVALID (Deprecated and usually ignored)
+    memory: 5Gi                # ❌ INVALID (Deprecated and usually ignored)
+    pods: "10"                 # ✅ Valid
+    services: "5"              # ✅ Valid
+    persistentvolumeclaims: "2" # ✅ Valid
 ```
-- ✅ Simpler format
-- ❗ Applies when the image doesn't specify `requests` or `limits`, or for limiting **overall consumption**
 
-🧠 This format applies to **total resource consumption** without specifying `requests` or `limits`. Kubernetes calculates total usage by summing both `requests` and `limits`.
+* ❌ `cpu` and `memory` without prefix (`requests.` or `limits.`) are **not valid anymore** for `ResourceQuota`.
+* ✅ Object count quotas like `pods`, `services`, `configmaps`, etc., are **fully valid**.
 
-### 🔹 Format 2A: Flat Style for Requests and Limits (Using `requests.` and `limits.` Prefixes)
+🔍 **Why not valid?**
+
+> Since Kubernetes v1.2+, you must specify CPU and Memory with `requests.` or `limits.` prefixes inside `ResourceQuota`. Bare `cpu`/`memory` fields are ignored or trigger validation errors.
+
+
+
+### 🔹 Format 2A: ✅ ✅ Flat Key Style (Canonical and Correct)
 
 ```yaml
 spec:
   hard:
-    requests.cpu: "4"                     # Total CPU requested
-    limits.cpu: "8"                       # Total CPU limit
-    requests.memory: 8Gi                  # Total memory requested
-    limits.memory: 16Gi                   # Total memory limit
+    requests.cpu: "4"
+    limits.cpu: "8"
+    requests.memory: 8Gi
+    limits.memory: 16Gi
 ```
-- ✅ Fine-grained control over request vs limit for both CPU and Memory
-- 📦 Useful when workloads specify resources in `requests` and `limits`
 
-### 🔹 Format 2B: Nested Style for Requests and Limits
+✅ **This is the only valid way** to enforce compute resource quotas in Kubernetes.
+
+* Uses flat key format like `requests.cpu`, `limits.memory`
+* This is how Kubernetes parses and enforces CPU and memory quotas
+
+
+
+### 🔹 Format 2B: ❌ INVALID — Nested Style
 
 ```yaml
-apiVersion: v1
-kind: ResourceQuota
-metadata:
-  name: compute-quota-nested
-  namespace: dev
 spec:
   hard:
     requests:
@@ -102,20 +105,74 @@ spec:
       memory: 16Gi
 ```
 
-✅ Both Format 2A and 2B are equivalent. The only difference is the **YAML structure**.
+❌ **This is invalid YAML for ResourceQuota**, even though it looks readable.
 
-- Flat style is concise and more common in examples.
-- Nested style may be easier to read and modify for large configs.
+* **Not supported** by Kubernetes API.
+* Will cause this error:
 
-## ✅ Summary Table
+  ```
+  quantities must match the regular expression '^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$'
+  ```
 
-| Format Type        | Description                                | Field Example                                |
-|--------------------|--------------------------------------------|----------------------------------------------|
-| Format 1           | Basic limits, no distinction               | `cpu: "2"`, `memory: 5Gi`                    |
-| Format 2A (Flat)   | Explicit requests & limits (flat keys)     | `requests.cpu: "4"`, `limits.memory: 16Gi`  |
-| Format 2B (Nested) | Same as above, written with nesting        | `requests: { cpu: "4", memory: 8Gi }`       |
-| Object Quotas      | Limits number of resources                 | `pods: "10"`, `services: "5"`               |
-| ScopeSelector      | Applies quota to matching scopes only      | `scopeName: PriorityClass`, `values: [...]` |
+🔍 **Why not valid?**
+
+> Kubernetes expects all keys inside `.spec.hard` to be flat strings like `requests.cpu`, not nested maps like `requests: { cpu: "4" }`.
+
+
+
+### ✅ Valid Object Count Quotas
+
+These are always allowed inside `.spec.hard`:
+
+```yaml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: abc
+  namespace: default
+spec:
+  hard:
+    configmaps: "20"
+    count/deployments.apps: "10"
+    count/jobs.batch: "10"
+    count/replicasets.apps: "10"
+    count/statefulsets.apps: "10"
+    limits.cpu: "8"
+    limits.memory: 16Gi
+    persistentvolumeclaims: "10"
+    pods: "20"
+    replicationcontrollers: "4"
+    requests.cpu: "4"
+    requests.memory: 8Gi
+    requests.storage: 100Gi
+    secrets: "20"
+    services: "20"
+    services.nodeports: "2"
+```
+
+
+
+### ✅ Summary Table (Corrected)
+
+| Format Type         | Example                                    | Valid? | Why                                   |
+| ------------------- | ------------------------------------------ | ------ | ------------------------------------- |
+| Flat Resources      | `requests.cpu: "4"`, `limits.memory: 16Gi` | ✅      | Required format for compute resources |
+| Nested Resources    | `requests: { cpu: "4" }`                   | ❌      | Not valid YAML — not parsed by API    |
+| Object Quotas       | `pods: "10"`, `services: "5"`              | ✅      | Fully valid for object-count limits   |
+| Deprecated Bare CPU | `cpu: "2"`, `memory: "5Gi"`                | ❌      | Not valid — must use requests/limits  |
+
+
+
+### 💡 Recommendation
+
+Always use **flat key syntax** for resource-based quotas:
+
+```yaml
+requests.cpu: "4"
+limits.memory: 16Gi
+```
+
+And avoid nesting under `requests:` or `limits:` in `ResourceQuota` YAMLs.
 
 ---
 
