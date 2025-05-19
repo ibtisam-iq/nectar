@@ -329,12 +329,10 @@ metadata:
   namespace: dev
 spec:
   hard:
-    requests:
-      cpu: "2"
-      memory: 4Gi
-    limits:
-      cpu: "4"
-      memory: 8Gi
+    requests.cpu: "2"
+    requests.memory: 4Gi
+    limits.cpu: "4"
+    limits.memory: 8Gi
     persistentvolumeclaims: "3"
     pods: "20"
     services: "10"
