@@ -69,7 +69,7 @@ kubectl label node ibtisam-worker cpu- # remove the label
 ```
 
 ### Example: Node Name
-```bash
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
