@@ -61,12 +61,27 @@ Even after a Pod tolerates a taint, Kubernetes might still schedule it **on any 
 
 > You want a Pod to go to a specific node — but toleration alone doesn't guarantee *where* it goes, just that it *can* go.
 
-### 🧠 SOLUTION — Add a Node Label & Use `nodeSelector` or `affinity`
+### 🧠 SOLUTION — Add a Node Label & Use `nodeName`, `nodeSelector` or `affinity`
 
 ```bash
 kubectl label node ibtisam-worker cpu=large
 kubectl label node ibtisam-worker cpu- # remove the label
 ```
+
+### Example: Node Name
+```bash
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+  nodeName: kube-01
+```
+
+The above Pod will only run on the node `kube-01`.
 
 ### 🌱 Example: Node Selector
 ```yaml
