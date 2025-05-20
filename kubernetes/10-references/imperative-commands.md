@@ -266,10 +266,7 @@ kubectl create role foo --verb=get,list,watch --resource=rs.apps
 # Create a role named "foo" with SubResource specified
 kubectl create role foo --verb=get,list,watch --resource=pods,pods/status
 
-kubectl create role NAME --verb=verb --resource=resource.group [--resource-name=resourcename]
-[--dry-run=server|client|none] [options]
-
-kubectl create clusterrole NAME --verb=verb --resource=resource.group [--resource-name=resourcename]
+kubectl create role|clusterrole NAME --verb=verb --resource=resource.group [--resource-name=resourcename]
 [--dry-run=server|client|none] [options]
 
 kubectl create rolebinding|clusterrolebinding NAME --clusterrole=NAME|--role=NAME 
