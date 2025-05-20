@@ -90,7 +90,7 @@ securityContext:
 🧪 Example Walkthrough:
 ```bash
 $ id
-uid=1000 gid=1000 groups=1000,2000
+uid=1000 gid=3000 groups=3000,2000
 
 $ ls -ld /data
 # Directory shows group ID = 2000 (from fsGroup)
