@@ -48,7 +48,7 @@ metadata:
     app: myapp
 spec:
   containers:
-  - name: mycontainer
+  - name: mycontainer 
     image: nginx         # mandatory
 ```
 
@@ -83,6 +83,7 @@ Inside `containers:`
 |:------|:--------|
 | `name` | Name of the container |
 | `image` | Docker image name |
+| `imagePullPolicy` | 
 | `ports` | Exposed ports |
 | `env` | Manually set environment variables |
 | `envFrom` | Import env vars from ConfigMap/Secret |
@@ -313,6 +314,8 @@ spec:                         # --> POD-LEVEL SPEC STARTS HERE
   containers:                  # --> CONTAINER LIST STARTS HERE
   - name: mycontainer          # Container-level (required)
     image: nginx:latest        # Container-level (required)
+    imagePullPolicy: Always    # Container-level (Always, IfNotPresent, Never)
+    imagePullSecrets:           # Container-level (secret for private registry)
     ports:                     # Container-level (optional)
     - containerPort: 80
 
