@@ -213,7 +213,7 @@ securityContext:
 - `runAsUser` → container runs as specific user.
 - `fsGroup` → shared ownership for volumes.
 
----
+--- 
 
 # 13. Pod Management with kubectl
 
