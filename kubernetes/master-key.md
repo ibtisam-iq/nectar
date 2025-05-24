@@ -137,6 +137,11 @@ volumes:
       secretName: my-secret
 
 volumes:
+    - name: mypd
+      persistentVolumeClaim:
+        claimName: myclaim
+
+volumes:
   - name: pod-info
     downwardAPI:
       items:
