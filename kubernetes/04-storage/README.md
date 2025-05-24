@@ -116,6 +116,57 @@ So setting `fsGroup` helps **ensure correct access control** over mounted storag
 
 ---
 
+### 💥 Root Cause (From Error)
+
+```bash
+volume task-pv-storage has volumeMode Block, but is specified in volumeMounts
+```
+
+This means:
+
+* Your **PersistentVolume** is defined as `volumeMode: Block` ❌
+* But your **Pod** is trying to **mount** it like a regular filesystem (e.g., `mountPath: /usr/share/nginx/html`) ✅
+
+These two are **not compatible**.
+
+### 🎯 What’s Happening
+
+| You Have                  | But You're Trying To                             |
+| ------------------------- | ------------------------------------------------ |
+| `volumeMode: Block` in PV | Use it as a **Filesystem mount** in the Pod      |
+| Block devices             | Require usage like raw disk, not as a mount path |
+
+### ✅ Two Ways to Fix It
+
+#### **Option 1: Most Common Fix (Recommended)**
+
+👉 Change your **PersistentVolume** to `volumeMode: Filesystem`:
+
+```yaml
+volumeMode: Filesystem
+```
+
+> Because you're using:
+
+```yaml
+volumeMounts:
+  - mountPath: /usr/share/nginx/html
+```
+
+#### **Option 2: Advanced Use Case**
+
+If you *really* want `volumeMode: Block`, then you **cannot use `volumeMounts`** — you must use:
+
+```yaml
+volumeDevices:
+  - devicePath: /dev/xvdf
+    name: task-pv-storage
+```
+
+But this is very rare and mostly used for raw disk access (like databases or custom storage systems).
+
+---
+
 ### Mounted Volumes
 
 - **EmptyDir**: A temporary directory that exists only while the Pod is running.
