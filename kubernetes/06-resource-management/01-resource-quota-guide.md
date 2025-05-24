@@ -492,6 +492,16 @@ memory: "512M"
 
 ---
 
+If the exam question **just says "total allowed CPU: 500m"**, and **doesn't say limits**, the best assumption is:
+
+> 💡 It refers to `requests.cpu`, not `limits.cpu`.
+
+If it were meant to be a cap, the exam would say:
+
+> “maximum CPU limit per namespace” — in which case you’d use `limits.cpu`.
+
+---
+
 ## ✅ Best Practices
 
 - Use `requests.*` and `limits.*` to control fine-grained consumption
