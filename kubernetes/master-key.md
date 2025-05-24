@@ -59,6 +59,10 @@ spec:
     path: "/mnt/data"
     type: DirectoryOrCreate
 
+hostPath:
+    path: /dev/nvme0n1     # ✅ Use this raw block device
+    type: BlockDevice      # ✅ Must be BlockDevice
+
   awsElasticBlockStore:
     volumeID: vol-0123456789abcdef0
     fsType: ext4
