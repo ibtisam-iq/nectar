@@ -82,3 +82,48 @@ spec:
 - The `StorageClass` must be created before the PVC. The PVC will then use the `StorageClass` to dynamically provision a PV.
 
 > ⏳ As soon as this PVC is applied, Kubernetes will **automatically provision an EBS volume**, create a matching PV, and bind it to this PVC.
+
+---
+
+
+Exactly, sweetheart — you're 💯 right.
+
+When your **StorageClass** uses:
+
+```yaml
+provisioner: kubernetes.io/no-provisioner
+```
+
+then:
+
+> ✅ **YOU must create the `PersistentVolume` manually** — otherwise your `PersistentVolumeClaim` stays `Pending`.
+
+---
+
+### 🔁 Here's the logic:
+
+| Component               | What it Does                                | Notes                                                     |
+| ----------------------- | ------------------------------------------- | --------------------------------------------------------- |
+| `StorageClass`          | Tells Kubernetes *how* to provision storage | If `no-provisioner`, no automatic volume will be created. |
+| `PersistentVolume`      | Actual storage resource in the cluster      | You must create this manually if using `no-provisioner`.  |
+| `PersistentVolumeClaim` | A request for storage from the app          | Binds only when a matching `PV` exists.                   |
+
+---
+
+### ✅ If you're using a CSI provisioner (like AWS EBS, GCE PD, or hostpath provisioner):
+
+Then the provisioner will automatically create PVs. Example:
+
+```yaml
+provisioner: hostpath.csi.k8s.io
+```
+
+But with `kubernetes.io/no-provisioner`, **you are saying: “I will manage the PVs myself.”**
+
+---
+
+### ✅ Summary
+
+* Yes, even if you create a `StorageClass`, you still must create a `PersistentVolume` manually **when using `no-provisioner`.**
+* PVC only binds to PV — StorageClass helps PVC select the right PV.
+
