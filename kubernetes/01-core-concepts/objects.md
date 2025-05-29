@@ -91,7 +91,7 @@ Understanding both meanings is essential for managing workloads efficiently.
 
 | Resource Type                     | Abbreviated Alias | Fetch Command                  | Create Command (Imperative) |
 |------------------------------------|------------------|--------------------------------|-----------------------------|
-| NetworkPolicies                    | -               | `kubectl get networkpolicies`  | - |
+| NetworkPolicies                    | netpol               | `kubectl get networkpolicies`  | - |
 
 ---
 
