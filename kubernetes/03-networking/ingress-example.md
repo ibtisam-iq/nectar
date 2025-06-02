@@ -118,3 +118,87 @@ In Kubernetes — your Ingress Controller presents an almost identical certifica
 
 ---
 
+```text
+controlplane ~ ➜  kubectl get all -n critical-space
+NAME                              READY   STATUS    RESTARTS   AGE
+pod/webapp-pay-7df499586f-8l8f9   1/1     Running   0          17m
+
+NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/pay-service   ClusterIP   172.20.220.107   <none>        8282/TCP   17m
+
+NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/webapp-pay   1/1     1            1           17m
+
+NAME                                    DESIRED   CURRENT   READY   AGE
+replicaset.apps/webapp-pay-7df499586f   1         1         1       17m
+
+controlplane ~ ➜  kubectl describe svc pay-service -n critical-space
+Name:                     pay-service
+Namespace:                critical-space
+Labels:                   <none>
+Annotations:              <none>
+Selector:                 app=webapp-pay
+Type:                     ClusterIP
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       172.20.220.107
+IPs:                      172.20.220.107
+Port:                     <unset>  8282/TCP
+TargetPort:               8080/TCP
+Endpoints:                172.17.0.11:8080
+Session Affinity:         None
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+
+controlplane ~ ➜  cat abc.yaml 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-resource-backend
+  namespace: critical-space
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: / # add this line
+spec:
+  ingressClassName: nginx-example  # mistake
+  rules:
+  - http:
+      paths:
+      - path: /pay
+        pathType: Prefix
+        backend:
+          service:
+            name: pay-service
+            port:
+              number: 8282
+
+controlplane ~ ➜  kubectl describe ingress.networking.k8s.io/ingress-resource-backend -n critical-space
+Name:             ingress-resource-backend
+Labels:           <none>
+Namespace:        critical-space
+Address:          
+Ingress Class:    nginx-example
+Default backend:  <default>
+Rules:
+  Host        Path  Backends
+  ----        ----  --------
+  *           
+              /pay   pay-service:8282 (172.17.0.11:8080)
+Annotations:  <none>
+Events:       <none>
+
+controlplane ~ ➜  curl 172.17.0.11:8080
+<!doctype html>
+<title>Hello from Flask</title>
+<body style="background: #2980b9;">
+
+<div style="color: #e4e4e4;
+    text-align:  center;
+    height: 90px;
+    vertical-align:  middle;">
+    <img src="https://res.cloudinary.com/cloudusthad/image/upload/v1547306802/a-customer-making-wireless-or-contactless-payment-PSWG6FE-low.jpg">
+
+</div>
+
+</body>
+controlplane ~ ➜  
+```

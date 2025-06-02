@@ -226,6 +226,19 @@ spec:
 
 ---
 
+## By-default Taint on Control Plane Nodes
+
+```bash
+Taints:             node-role.kubernetes.io/control-plane:NoSchedule
+
+kubectl get nodes --show-labels
+NAME           STATUS   ROLES           AGE   VERSION   LABELS
+controlplane   Ready    control-plane   10m   v1.32.0   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=controlplane,kubernetes.io/os=linux,node-role.kubernetes.io/control-plane=,node.kubernetes.io/exclude-from-external-load-balancers=
+
+node01         Ready    <none>          10m   v1.32.0   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=node01,kubernetes.io/os=linux
+```
+---
+
 ## 📌 Final Thoughts — When to Use What?
 
 | Use Case                                      | Use This Feature                  |
