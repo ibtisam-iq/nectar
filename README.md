@@ -9,7 +9,7 @@ Welcome to **Nectar**, a meticulously curated repository dedicated to providing 
 **Nectar** serves as a knowledge hub to:
 - Offer exhaustive documentation for DevOps tools.
 - Provide clear instructions on installation, configuration, and usage.
-- Enable mastery of tools through practical examples and real-world commands.
+- Enable mastery of tools through practical examples and real-world commands. 
 
 This repository is designed to empower learners and professionals to excel in DevOps by understanding the tools inside and out.
 
