@@ -165,3 +165,89 @@ kubectl create -f network-policy.yaml
 ---
 
 
+Create a network policy to allow traffic from the Internal application only to the payroll-service and db-service.
+
+
+Use the spec given below. You might want to enable ingress traffic to the pod to test your rules in the UI.
+
+Also, ensure that you allow egress traffic to DNS ports TCP and UDP (port 53) to enable DNS resolution from the internal pod.
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: internal-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      name: internal
+  policyTypes:
+  - Egress
+  - Ingress
+  ingress:
+    - {}
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          name: mysql
+    ports:
+    - protocol: TCP
+      port: 3306
+
+  - to:
+    - podSelector:
+        matchLabels:
+          name: payroll
+    ports:
+    - protocol: TCP
+      port: 8080
+
+  - ports:
+    - port: 53
+      protocol: UDP
+    - port: 53
+      protocol: TCP
+```
+
+```text
+controlplane ~ ➜  kubectl describe netpol internal-policy
+Name:         internal-policy
+Namespace:    default
+Created on:   2025-05-29 12:09:20 +0000 UTC
+Labels:       <none>
+Annotations:  <none>
+Spec:
+  PodSelector:     name=internal
+  Allowing ingress traffic:
+    To Port: <any> (traffic allowed to all ports)
+    From: <any> (traffic not restricted by source)
+  Allowing egress traffic:
+    To Port: 8080/TCP
+    To:
+      PodSelector: name=payroll
+    ----------
+    To Port: 3306/TCP
+    To:
+      PodSelector: name=mysql
+  Policy Types: Egress, Ingress
+
+```
+
+```text
+controlplane ~ ➜  kubectl describe netpol payroll-policy
+Name:         payroll-policy
+Namespace:    default
+Created on:   2025-05-29 11:19:08 +0000 UTC
+Labels:       <none>
+Annotations:  <none>
+Spec:
+  PodSelector:     name=payroll
+  Allowing ingress traffic:
+    To Port: 8080/TCP
+    From:
+      PodSelector: name=internal
+  Not affecting egress traffic
+  Policy Types: Ingress
+```
