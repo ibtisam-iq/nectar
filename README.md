@@ -4,7 +4,7 @@ Welcome to **Nectar**, a meticulously curated repository dedicated to providing 
 
 ---
 
-## 🎯 Purpose
+## 🎯 Purpose 
 
 **Nectar** serves as a knowledge hub to:
 - Offer exhaustive documentation for DevOps tools.
