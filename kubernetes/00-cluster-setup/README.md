@@ -22,7 +22,7 @@ These tools are ideal for developers, testers, or learners running Kubernetes lo
 - **Prerequisites**:
   - Hypervisor (e.g., Docker, VirtualBox)
   - 4GB RAM, 2 CPUs, 20GB disk
-  - `kubectl` (optional)
+  - `kubectl`
 - **Setup**:
   ```bash
   minikube start
@@ -38,7 +38,7 @@ These tools are ideal for developers, testers, or learners running Kubernetes lo
 - **Use Case**: Testing multi-node clusters, CI/CD integration, or custom CNI configurations (e.g., Calico).
 - **Prerequisites**:
   - Docker (`docker --version`)
-  - `kubectl` (optional)
+  - `kubectl`
   - 8GB RAM, 4 CPUs, 20GB disk
 - **Setup**:
   1. Install Kind:
