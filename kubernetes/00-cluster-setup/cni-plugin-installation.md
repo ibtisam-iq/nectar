@@ -12,7 +12,7 @@ Your cluster setup uses:
 - **kubeadm**: Initializes clusters with `--pod-network-cidr=10.244.0.0/16` (preferred over `192.168.0.0/16` to avoid VPC conflicts).
 - **Kind**: Configures `podSubnet: "10.244.0.0/16"` and `disableDefaultCNI: true`.
 - **Calico**: Primary CNI, requiring `CALICO_IPV4POOL_CIDR: "10.244.0.0/16"`.
-- **Environment**: Ubuntu 22.04, containerd, Kubernetes v1.32.
+- **Environment**: Ubuntu 24.04, containerd, Kubernetes v1.32.
 - **Past Issue**: Errors with Calico due to commented-out `CALICO_IPV4POOL_CIDR` when using `--pod-network-cidr=192.168.0.0/16`; resolved by switching to Weave.
 
 This guide prioritizes `10.244.0.0/16`, addresses your Calico experience, and compares other CNIs for clarity.
