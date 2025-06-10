@@ -92,7 +92,7 @@ nodes:
         nodeRegistration:
           name: worker-1
 networking:
-  disableDefaultCNI: true          # Changed: Disable Flannel to use Calico
+  disableDefaultCNI: true         # Changed: Disable Flannel to use Calico
   podSubnet: "10.244.0.0/16"      # Unchanged: IPv4 pod subnet
   serviceSubnet: "10.96.0.0/12"   # Unchanged
   apiServerAddress: "127.0.0.1"   # Unchanged
