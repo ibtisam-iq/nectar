@@ -1,6 +1,6 @@
 # Comprehensive Guide to CNI Plugins for Kubernetes Cluster Networking
 
-This guide provides an in-depth exploration of Container Network Interface (CNI) plugins, essential for enabling pod communication in Kubernetes clusters. Tailored for seamless cluster setup using `kubeadm` on Ubuntu 22.04 with Calico as the primary CNI, it covers why CNIs are necessary, their purpose, types, configurations, and troubleshooting. Designed for learners and practitioners, it addresses common pitfalls (e.g., Calico’s commented-out CIDR) and aligns with your setup (e.g., `--pod-network-cidr=10.244.0.0/16`). By the end, you’ll understand how to choose, configure, and deploy CNI plugins to ensure robust cluster networking.
+This guide provides an in-depth exploration of Container Network Interface (CNI) plugins, essential for enabling pod communication in Kubernetes clusters. Tailored for seamless cluster setup using `kubeadm` on Ubuntu 24.04 with Calico as the primary CNI, it covers why CNIs are necessary, their purpose, types, configurations, and troubleshooting. Designed for learners and practitioners, it addresses common pitfalls (e.g., Calico’s commented-out CIDR) and aligns with your setup (e.g., `--pod-network-cidr=10.244.0.0/16`). By the end, you’ll understand how to choose, configure, and deploy CNI plugins to ensure robust cluster networking.
 
 ## Introduction
 
