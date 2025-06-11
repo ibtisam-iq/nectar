@@ -311,7 +311,7 @@ kubectl expose (-f FILENAME | TYPE NAME) --port=<> \ # The port that the service
     --protocol=<protocol> \ # Sets TCP, UDP, or SCTP (default: TCP)
     -l, --labels='': Labels to apply to the service created by this call
     --selector='': A label selector to use for this service. Only equality-based selector requirements are supported.
-    --external-ip='': ClusterIP to be assigned to the service. Leave empty to auto-allocate, or set to 'None'
+    --cluster-ip='': ClusterIP to be assigned to the service. Leave empty to auto-allocate, or set to 'None'
     --external-ip='': Additional external IP address (not managed by Kubernetes) to accept for the service
 ```
 
