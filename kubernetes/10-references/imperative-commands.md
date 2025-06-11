@@ -301,6 +301,7 @@ When using the `--resource` flag in `kubectl create role`, you're defining the e
 ```bash
 kubectl create service clusterip|externalname|loadbalancer|nodeport NAME --tcp=port:targetPort
     --clusterip='Assign your own ClusterIP or set to 'None' for a 'headless' service (no loadbalancing)'
+    --external-name='External name of service'
     --node-port=0
 
 kubectl expose (-f FILENAME | TYPE NAME) --port=<> \ # The port that the service should serve on
