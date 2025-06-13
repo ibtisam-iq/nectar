@@ -72,6 +72,7 @@ Only **name** and **containers/image** are mandatory.
 | `serviceAccountName` | Attach a Service Account for permissions |
 | `hostNetwork` | Share node's network namespace (true/false) |
 | `dnsPolicy` | Set how DNS is handled |
+| `priorityClassName` |  |
 
 ---
 
