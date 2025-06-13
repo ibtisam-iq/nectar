@@ -65,6 +65,7 @@ Only **name** and **containers/image** are mandatory.
 |:------|:--------|
 | `restartPolicy` | How containers restart (Always, OnFailure, Never) |
 | `nodeSelector` | Select Node with matching labels |
+| `nodeName` | Select a Node directly with its name |
 | `affinity` | Advanced scheduling rules (preferred/required) |
 | `tolerations` | Allow Pod to run on tainted nodes |
 | `volumes` | Define shared volumes |
