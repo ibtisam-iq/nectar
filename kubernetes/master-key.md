@@ -59,7 +59,7 @@ spec:
     path: "/mnt/data"
     type: DirectoryOrCreate
 
-hostPath:
+  hostPath:
     path: /dev/nvme0n1     # ✅ Use this raw block device
     type: BlockDevice      # ✅ Must be BlockDevice
 
@@ -78,6 +78,8 @@ hostPath:
     volumeHandle: vol-0abcd1234cdef5678
     fsType: ext4
     readOnly: true
+    volumeAttributes:
+          foo: bar
 ```
 
 ```bash
