@@ -97,6 +97,7 @@ spec:
   storageClassName: slow
   # No storageClassName; Triggers dynamic provisioning and uses default (if any available, else remains unbound)
   # storageClassName: "" Opt-out of default/dynamic provisioning, Only binds to PVs with no SC
+  volumeAttributesClassName: gold
   
   selector:               # Filters PVs by labels (e.g., matchLabels, matchExpressions). Cannot be used with dynamic provisioning.
     matchLabels:
