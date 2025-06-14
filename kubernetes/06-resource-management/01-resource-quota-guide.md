@@ -100,7 +100,7 @@ hard:
 ```yaml
 hard:
   requests.storage: 100Gi              # Sum of PVC storage requests
-  persistentvolumeclaims: "10"        # Max PVCs allowed
+  persistentvolumeclaims: "10"         # Max PVCs allowed
 ```
 
 ### 🔹 3. **Object Count** (Case Study: Limiting Number of Objects)
