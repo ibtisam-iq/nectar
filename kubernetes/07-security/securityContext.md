@@ -175,6 +175,11 @@ securityContext:
 📌 **Effect:**
 Disallows tools like `sudo`, `setuid`, etc. Useful for untrusted containers.
 
+**Note**: 
+`allowPrivilegeEscalation` is always true when the container:
+- is run as privileged, or
+- has `CAP_SYS_ADMIN`
+
 ---
 
 ### 8. `readOnlyRootFilesystem`
