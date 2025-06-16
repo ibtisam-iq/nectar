@@ -75,6 +75,8 @@ Output:
 ```
 uid=1000 gid=3000 groups=3000
 ```
+**Note:**
+The `runAsGroup` field specifies the primary group ID of 3000 for all processes within any containers of the Pod. If this field is omitted, the primary group ID of the containers will be root(0). Any files created will also be owned by user 1000 and group 3000 when `runAsGroup` is specified.
 
 ---
 
