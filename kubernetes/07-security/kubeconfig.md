@@ -102,7 +102,7 @@ preferences: {}
 
 ---
 
-controlplane ~ ➜  cat .kube/config  # this config is not used now, as we set KUBECONFIG env to ~/.kube/config
+controlplane ~ ➜  cat .kube/config  # this config is not used now, as we set **KUBECONFIG** env to `/root/my-kube-config`
 apiVersion: v1
 clusters:
 - cluster:
