@@ -294,6 +294,8 @@ When using the `--resource` flag in `kubectl create role`, you're defining the e
 
 > ✅ You can specify multiple values for flags like `--verb`, `--resource`, or `--resource-name` either by repeating the flag (`--verb=get --verb=list`) or by providing comma-separated values (`--verb=get,list`) — both approaches are functionally equivalent.
 
+> Run `kubectl api-resources` for fetching details. 
+
 ---
 
 ## Service
