@@ -100,6 +100,8 @@ users:
 current-context: test-user@development
 preferences: {}
 
+---
+
 controlplane ~ ➜  cat .kube/config  # this config is not used now, as we set KUBECONFIG env to ~/.kube/config
 apiVersion: v1
 clusters:
@@ -120,4 +122,22 @@ users:
   user:
     client-certificate-data: LS0tL
     client-key-data: LS0tL
+
+---
+
+controlplane ~ ➜  kubectl get po
+error: unable to read client-cert /etc/kubernetes/pki/users/dev-user/developer-user.crt for dev-user due to open /etc/kubernetes/pki/users/dev-user/developer-user.crt: no such file or directory
+
+controlplane ~ ✖ ls -al /etc/kubernetes/pki/users
+total 20
+drwxr-xr-x 5 root root 4096 Jun 23 00:00 .
+drwxr-xr-x 4 root root 4096 Jun 23 00:00 ..
+drwxr-xr-x 2 root root 4096 Jun 23 00:00 aws-user
+drwxr-xr-x 2 root root 4096 Jun 23 00:00 dev-user
+drwxr-xr-x 2 root root 4096 Jun 23 00:00 test-user
+
+controlplane ~ ➜  vi /root/my-kube-config 
+
+controlplane ~ ➜  kubectl get po
+No resources found in default namespace.
 ```
