@@ -1,13 +1,18 @@
-Add the my-kube-config file to the KUBECONFIG environment variable.
+```text
+controlplane ~ ➜  kubectl config use-context research --kubeconfig=/root/my-kube-config
+Switched to context "research".
+```
 
-Open your shell configuration file:
+We don't want to specify the kubeconfig file option on each kubectl command.
+
+Set the my-kube-config file as the default kubeconfig file and make it persistent across all sessions without overwriting the existing ~/.kube/config. Ensure any configuration changes persist across reboots and new shell sessions.
+
+1. Open your shell configuration file:
 vi ~/.bashrc
-Add the following line to export the variable:
+2. Add the following line to export the variable:
 export KUBECONFIG=/root/my-kube-config
-Apply the Changes:
-
-Reload the shell configuration to apply the changes in the current session:
-
+3. Apply the Changes:
+4. Reload the shell configuration to apply the changes in the current session:
 source ~/.bashrc
 
 ```text
@@ -95,8 +100,24 @@ users:
 current-context: test-user@development
 preferences: {}
 
-controlplane ~ ➜  kubectl config use-context research --kubeconfig=/root/my-kube-config
-Switched to context "research".
-
-controlplane ~ ➜  vi ~/.bashrc
-source ~/.bashrc
+controlplane ~ ➜  cat .kube/config  # this config is not used now, as we set KUBECONFIG env to ~/.kube/config
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: LS0tL
+    server: https://controlplane:6443
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: kubernetes-admin
+  name: kubernetes-admin@kubernetes
+current-context: kubernetes-admin@kubernetes
+kind: Config
+preferences: {}
+users:
+- name: kubernetes-admin
+  user:
+    client-certificate-data: LS0tL
+    client-key-data: LS0tL
+```
