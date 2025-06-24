@@ -355,7 +355,7 @@ A curated collection of official Kubernetes documentation links for quick naviga
 - Extend Kubernetes
     - Configure the Aggregation Layer
     - Use Custom Resources
-        - Extend the Kubernetes API with CustomResourceDefinitions
+        - [Extend the Kubernetes API with CustomResourceDefinitions](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/)
         - Versions in CustomResourceDefinitions
     - Set up an Extension API Server
     - Configure Multiple Schedulers
