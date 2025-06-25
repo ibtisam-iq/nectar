@@ -228,8 +228,8 @@ CNI plugins usually deploy as **DaemonSets** so each node has a pod.
 ### 11.2 Control Plane Communication
 ```
 [kubectl] -> [kube-apiserver] -> [scheduler/controller] -> [kubelet on node]
-                                        |
-                                    [etcd]
+                     |
+                  [etcd]
 ```
 
 ---
