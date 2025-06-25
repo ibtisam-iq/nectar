@@ -74,6 +74,7 @@ Only **name** and **containers/image** are mandatory.
 | `hostNetwork` | Share node's network namespace (true/false) |
 | `dnsPolicy` | Set how DNS is handled |
 | `priorityClassName` |  |
+| `schedularName` |  |
 
 ---
 
