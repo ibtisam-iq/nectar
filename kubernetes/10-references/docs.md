@@ -358,7 +358,7 @@ A curated collection of official Kubernetes documentation links for quick naviga
         - [Extend the Kubernetes API with CustomResourceDefinitions](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/)
         - Versions in CustomResourceDefinitions
     - Set up an Extension API Server
-    - Configure Multiple Schedulers
+    - [Configure Multiple Schedulers](https://kubernetes.io/docs/tasks/extend-kubernetes/configure-multiple-schedulers/)
     - Use an HTTP Proxy to Access the Kubernetes API
     - Use a SOCKS5 Proxy to Access the Kubernetes API
     - Set up Konnectivity service
