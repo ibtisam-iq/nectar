@@ -72,7 +72,7 @@ A curated collection of official Kubernetes documentation links for quick naviga
         - Automatic Cleanup for Finished Jobs
         - CronJob
         - ReplicationController
-    - Autoscaling Workloads
+    - [Autoscaling Workloads](https://kubernetes.io/docs/concepts/workloads/autoscaling/)
     - Managing Workloads
 - Services, Load Balancing, and Networking
     - Service
