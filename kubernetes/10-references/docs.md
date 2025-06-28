@@ -258,7 +258,7 @@ A curated collection of official Kubernetes documentation links for quick naviga
     - Assign CPU Resources to Containers and Pods
     - Assign Pod-level CPU and memory resources
     - Configure GMSA for Windows Pods and containers
-    - Resize CPU and Memory Resources assigned to Containers
+    - [Resize CPU and Memory Resources assigned to Containers](https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources/)
     - Configure RunAsUserName for Windows pods and containers
     - Create a Windows HostProcess Pod
     - Configure Quality of Service for Pods
