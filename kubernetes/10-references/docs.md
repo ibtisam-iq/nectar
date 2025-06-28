@@ -185,7 +185,7 @@ A curated collection of official Kubernetes documentation links for quick naviga
     - Administration with kubeadm
         - Adding Linux worker nodes
         - Adding Windows worker nodes
-        - Upgrading kubeadm clusters
+        - [Upgrading kubeadm clusters](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/)
         - Upgrading Linux nodes
         - Upgrading Windows nodes
         - Configuring a cgroup driver
