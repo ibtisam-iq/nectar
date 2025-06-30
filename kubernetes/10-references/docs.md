@@ -365,7 +365,7 @@ A curated collection of official Kubernetes documentation links for quick naviga
 - TLS
     - [Issue a Certificate for a Kubernetes API Client Using A CertificateSigningRequest](https://kubernetes.io/docs/tasks/tls/certificate-issue-client-csr/)
     - Configure Certificate Rotation for the Kubelet
-    - Manage TLS Certificates in a Cluster
+    - [Manage TLS Certificates in a Cluster](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/)
     - Manual Rotation of CA Certificates
 - Manage Cluster Daemons
     - Building a Basic DaemonSet
