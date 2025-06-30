@@ -243,4 +243,4 @@ CNI plugins usually deploy as **DaemonSets** so each node has a pod.
 - CoreDNS is a deployment created post-cluster-init
 - EKS and other managed services simplify the cluster but still use kubeconfig
 
-
+> Correct! That's because 2379 is the port of ETCD to which all control plane components connect to. 2380 is only for etcd peer-to-peer connectivity. When you have multiple controlplane nodes. In this case we don't.
