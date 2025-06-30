@@ -75,6 +75,7 @@ Only **name** and **containers/image** are mandatory.
 | `dnsPolicy` | Set how DNS is handled |
 | `priorityClassName` |  |
 | `schedularName` |  |
+| `imagePullSecrets` |  |
 
 ---
 
