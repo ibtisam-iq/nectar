@@ -251,3 +251,6 @@ Spec:
   Not affecting egress traffic
   Policy Types: Ingress
 ```
+> The curl command times out following the installation of the Calico CNI, which supports Network Policies. As a result, the deny-backend policy began to take effect after the deployed applications were restarted.
+> 
+> kubectl exec -it frontend -- curl -m 5 172.17.49.71
