@@ -363,7 +363,7 @@ A curated collection of official Kubernetes documentation links for quick naviga
     - Use a SOCKS5 Proxy to Access the Kubernetes API
     - Set up Konnectivity service
 - TLS
-    - Issue a Certificate for a Kubernetes API Client Using A CertificateSigningRequest
+    - [Issue a Certificate for a Kubernetes API Client Using A CertificateSigningRequest](https://kubernetes.io/docs/tasks/tls/certificate-issue-client-csr/)
     - Configure Certificate Rotation for the Kubelet
     - Manage TLS Certificates in a Cluster
     - Manual Rotation of CA Certificates
