@@ -1,10 +1,4 @@
-Here’s a **complete, detailed YAML stack** for deploying a `GatewayClass`, a `Gateway`, and an `HTTPRoute` using the **Kubernetes Gateway API** (as of `v1`). This stack is annotated with in-depth comments to help you fully understand how each section works and how they interconnect.
-
----
-
-## 🌐 Step-by-step Gateway API YAML Stack with Comments
-
----
+# 🌐 Gateway API
 
 ### 📁 1. `GatewayClass`: Defines the controller that manages Gateways.
 
