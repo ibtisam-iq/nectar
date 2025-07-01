@@ -109,17 +109,18 @@ CNI plugins vary in networking models, features, and use cases. Below is a compa
 ### 2. Flannel
 - **Overview**: A simple Layer 2 overlay CNI using VXLAN or host-gateway modes. Lightweight and easy to deploy.
 - **Configuration**:
-  - YAML: `https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml`
+  - YAML: `curl -LO kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml`
   - Default CIDR: `10.244.0.0/16` (set in `net-conf.json` within the YAML).
   - To Change: Edit `net-conf.json`:
     ```json
     {
-      "Network": "10.244.0.0/16",
+      "Network": "10.244.0.0/16", # kubeadm init --pod-network-cidr 10.244.0.0/16
       "Backend": {
         "Type": "vxlan"
       }
     }
     ```
+    - Locate the args section within the kube-flannel container definition. Add the additional argument `- --iface=eth0` to the existing list of arguments.
 - **Use Case**: Small to medium clusters needing simple networking without advanced policies.
 - **In Your Setup**: Matches your preferred `10.244.0.0/16`, requiring no edits if `--pod-network-cidr=10.244.0.0/16`.
 
