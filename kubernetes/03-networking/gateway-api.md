@@ -33,6 +33,11 @@ spec:
     protocol: HTTP
     port: 80
     hostname: example.com
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: tls-secret
     allowedRoutes:
       namespaces:
         from: Same
