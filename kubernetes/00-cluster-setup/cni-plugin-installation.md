@@ -127,11 +127,11 @@ CNI plugins vary in networking models, features, and use cases. Below is a compa
 ### 3. Weave
 - **Overview**: A Layer 2 overlay CNI with automatic peer discovery and encryption. Simpler than Calico, worked in your past setup.
 - **Configuration**:
-  - YAML: `https://cloud.weave.works/k8s/net`
+  - Replace v1.29 with the version on Kubernetes on your cluster.
   - Default CIDR: Auto-configured (e.g., `10.32.0.0/12`), adaptable to `--pod-network-cidr`.
-  - To Set CIDR: Use environment variable:
+  - 
     ```bash
-    kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')&env.IPALLOC_RANGE=10.244.0.0/16"
+    kubectl apply -f https://reweave.azurewebsites.net/k8s/v1.29/net.yaml
     ```
 - **Why It Worked for You**: Weave’s auto-configuration likely adapted to `192.168.0.0/16` or used a non-conflicting default, avoiding Calico’s IP pool issue.
 - **Use Case**: Quick setups, small clusters, or environments needing encryption.
