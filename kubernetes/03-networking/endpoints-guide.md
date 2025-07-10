@@ -345,7 +345,88 @@ Endpoints issues can disrupt Service connectivity. Common problems and fixes inc
 5. **Manual Endpoints for External Services**: Use manual Endpoints for external resources, but document IPs and ports clearly to avoid misconfiguration.
 
 ---
+We have an external webserver running on student-node which is exposed at port 9999. We have created a service called external-webserver-cka03-svcn that can connect to our local webserver from within the kubernetes cluster3, but at the moment, it is not working as expected.
 
+```bash
+cluster3-controlplane ~ ✖ curl student-node:9999
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+
+cluster3-controlplane ~ ➜  k describe svc -n kube-public external-webserver-cka03-svcn 
+Name:                     external-webserver-cka03-svcn
+Namespace:                kube-public
+Labels:                   <none>
+Annotations:              <none>
+Selector:                 <none>
+Type:                     ClusterIP
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.43.109.238
+IPs:                      10.43.109.238
+Port:                     <unset>  80/TCP
+TargetPort:               80/TCP
+Endpoints:                <none>
+Session Affinity:         None
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+
+cluster3-controlplane ~ ➜  k get no -o wide
+NAME                    STATUS   ROLES                  AGE    VERSION        INTERNAL-IP      EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION    CONTAINER-RUNTIME
+cluster3-controlplane   Ready    control-plane,master   154m   v1.32.0+k3s1   192.168.141.31   <none>        Alpine Linux v3.16   5.15.0-1083-gcp   containerd://1.6.8
+
+cluster3-controlplane ~ ➜  ifconfig eth0 | grep inet | head -n1 | awk '{print $2}'
+addr:192.168.141.31
+
+```
+
+```yaml
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: external-webserver-cka03-svcn
+  namespace: kube-public
+  labels:
+    kubernetes.io/service-name: external-webserver-cka03-svcn
+addressType: IPv4
+ports:
+  - protocol: TCP
+    port: 9999
+endpoints:
+  - addresses:
+      - 192.168.141.31   # IP of student node
+```
+
+```bash
+cluster3-controlplane ~ ➜  vi 14.yaml
+
+cluster3-controlplane ~ ➜  k apply -f 14.yaml 
+endpointslice.discovery.k8s.io/external-webserver-cka03-svcn configured
+
+cluster3-controlplane ~ ➜  k describe svc -n kube-public external-webserver-cka03-svcn
+Name:                     external-webserver-cka03-svcn
+Namespace:                kube-public
+Labels:                   <none>
+Annotations:              <none>
+Selector:                 <none>
+Type:                     ClusterIP
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.43.109.238
+IPs:                      10.43.109.238
+Port:                     <unset>  80/TCP
+TargetPort:               80/TCP
+Endpoints:                192.168.141.31:9999
+Session Affinity:         None
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+```
+---
 ## Conclusion
 
 The **Endpoints** resource is a critical component of Kubernetes Services, translating the Service’s logical configuration (ClusterIP, `port`, `targetPort`) into concrete network targets (Pod IPs, `containerPort`). It enables dynamic load balancing for ClusterIP, NodePort, and LoadBalancer Services and direct Pod access for headless Services, as seen in Jobs like `comprehensive-computation`. In the context of the web application use case, Endpoints ensure traffic reaches `my-app` Pods, whether via internal ClusterIP, NodePort testing, or Ingress for production. By understanding Endpoints’ structure, placeholders, and integration with Service types, Ingress, and LoadBalancer, you can troubleshoot connectivity issues and optimize networking for your SilverKube repository or CKA exam scenarios. This explanation complements the Services documentation, providing a complete picture of Kubernetes networking.
