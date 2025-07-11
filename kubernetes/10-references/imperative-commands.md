@@ -565,3 +565,23 @@ kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER] [options]
 
 
 ## kubectl apply (should add in quick ref)
+
+## kubectl port-forward
+
+```bash
+# Listen on port 5000 on the local machine and forward to port 6000 on my-pod
+kubectl port-forward my-pod 5000:6000 
+# listen on local port 5000 and forward to port 5000 on Service backend
+kubectl port-forward svc/my-service 5000                  
+# listen on local port 5000 and forward to Service target port with name <my-service-port>
+kubectl port-forward svc/my-service 5000:my-service-port
+# listen on local port 5000 and forward to port 6000 on a Pod created by <my-deployment>
+kubectl port-forward deploy/my-deployment 5000:6000
+```
+
+## kubectl auth
+```bash
+# kubectl auth can-i <verb> <resource>
+kubectl auth whoami
+kubectl auth can-i list pods --as <user>
+kubectl auth can-i list pods --as=system:serviceaccount:<sa name>:<ns name>
