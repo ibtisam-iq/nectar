@@ -1,5 +1,14 @@
 # 🌐 Gateway API
 
+## Install the Gateway API CRDs
+
+```bash
+kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.3.0/standard-install.yaml
+```
+> **Official Link:** https://github.com/kubernetes-sigs/gateway-api/releases
+
+---
+
 ### 📁 1. `GatewayClass`: Defines the controller that manages Gateways.
 
 ```yaml
