@@ -256,6 +256,9 @@ kubectl create token SERVICE_ACCOUNT_NAME
 ```bash
 # Create a role named "pod-reader" that allows user to perform "get", "watch" and "list" on pods
 kubectl create role pod-reader --verb=get,list,watch --resource=pods
+
+# Create a role that allows all verbs, and all resources
+kubectl create role ibtisam -n ibtisam --verb=* --resource=*
   
 # Create a role named "pod-reader" with ResourceName specified
 kubectl create role pod-reader --verb=get --resource=pods --resource-name=readablepod,anotherpod
