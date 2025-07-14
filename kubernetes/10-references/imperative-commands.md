@@ -588,6 +588,6 @@ kubectl port-forward deploy/my-deployment 5000:6000
 kubectl auth whoami
 kubectl auth can-i list pods --as <user>
 kubectl auth can-i list pods --as-group <> --as <user>
-# kubectl auth can-i list pods --as=system:serviceaccount:<sa name>:<ns name>
+# kubectl auth can-i list pods --as=system:serviceaccount:<ns name>:<sa name>
 kubectl auth can-i list pods --as system:serviceaccount:ibtisam:ibtisam -n ibtisam
 ```
