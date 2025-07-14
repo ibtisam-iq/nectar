@@ -76,7 +76,7 @@ Only **name** and **containers/image** are mandatory.
 | `priorityClassName` |  |
 | `schedularName` |  |
 | `imagePullSecrets` |  |
-
+| `enableServiceLinks` | Indicates whether information about services should be injected into pod's environment variables, matching the syntax of Docker links. Optional: Defaults to true.  |
 ---
 
 ### 5.2 Container-Level Fields
