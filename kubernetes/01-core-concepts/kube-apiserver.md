@@ -16,11 +16,6 @@ This simply starts the Kubernetes API server binary. Everything else are flags m
 
 ## 🧩 Pairwise Breakdown of Each Flag with Explanation
 
-| Flag | Purpose | Multicontroller Cluster Differences |
-| ---- | ------- | ----------------------------------- |
-
----
-
 ### 🔹 `--advertise-address=192.168.102.134`
 
 📌 **Purpose**: IP for other control-plane components to reach this API server.
