@@ -410,7 +410,8 @@ users:
     client-certificate: /var/lib/kubelet/pki/kubelet-client-current.pem
     client-key: /var/lib/kubelet/pki/kubelet-client-current.pem
 
-controlplane ~ ➜
-```
-controlplane ~ ➜  
+
+controlplane ~ ➜  ps -aux | grep -i kube-proxy
+bad data in /proc/uptime
+root        4382  0.0  0.0 1298512 16032 ?       Ssl  13:22   0:01 /usr/local/bin/kube-proxy --config=/var/lib/kube-proxy/config.conf --hostname-override=controlplane
 ```
