@@ -116,6 +116,7 @@ COMMANDS:
 OPTIONS:
       --cacert=""                               verify certificates of TLS-enabled secure servers using this CA bundle
       --cert=""                                 identify secure client using this TLS certificate file
+      --data-dir=""                             path to the data directory
       --endpoints=[127.0.0.1:2379]              gRPC endpoints
   -h, --help[=false]                            help for etcdctl
       --insecure-skip-tls-verify[=false]        skip server certificate verification (CAUTION: this option should be enabled only for testing purposes)
