@@ -331,5 +331,86 @@ bad data in /proc/uptime
 root        3516  0.0  0.0 1319952 63472 ?       Ssl  13:22   0:43 kube-controller-manager --allocate-node-cidrs=true --authentication-kubeconfig=/etc/kubernetes/controller-manager.conf --authorization-kubeconfig=/etc/kubernetes/controller-manager.conf --bind-address=127.0.0.1 --client-ca-file=/etc/kubernetes/pki/ca.crt --cluster-cidr=172.17.0.0/16 --cluster-name=kubernetes --cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt --cluster-signing-key-file=/etc/kubernetes/pki/ca.key --controllers=*,bootstrapsigner,tokencleaner --kubeconfig=/etc/kubernetes/controller-manager.conf --leader-elect=true --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt --root-ca-file=/etc/kubernetes/pki/ca.crt --service-account-private-key-file=/etc/kubernetes/pki/sa.key --service-cluster-ip-range=172.20.0.0/16 --use-service-account-credentials=true
 root       57132  0.0  0.0   6940  2360 pts/5    S+   14:30   0:00 grep --color=auto kube-controller-manager
 
+
+controlplane ~ ➜  ps -aux | grep kubelet
+bad data in /proc/uptime
+root        3465  0.0  0.4 1529316 278060 ?      Ssl  13:22   2:37 kube-apiserver --advertise-address=192.168.121.223 --allow-privileged=true --authorization-mode=Node,RBAC --client-ca-file=/etc/kubernetes/pki/ca.crt --enable-admission-plugins=NodeRestriction --enable-bootstrap-token-auth=true --etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt --etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt --etcd-keyfile=/etc/kubernetes/pki/apiserver-etcd-client.key --etcd-servers=https://127.0.0.1:2379 --kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt --kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt --proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key --requestheader-allowed-names=front-proxy-client --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User --secure-port=6443 --service-account-issuer=https://kubernetes.default.svc.cluster.local --service-account-key-file=/etc/kubernetes/pki/sa.pub --service-account-signing-key-file=/etc/kubernetes/pki/sa.key --service-cluster-ip-range=172.20.0.0/16 --tls-cert-file=/etc/kubernetes/pki/apiserver.crt --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
+root        3993  0.0  0.1 3010708 93140 ?       Ssl  13:22   1:29 /usr/bin/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf --config=/var/lib/kubelet/config.yaml --container-runtime-endpoint=unix:///var/run/containerd/containerd.sock --pod-infra-container-image=registry.k8s.io/pause:3.10
+root       64091  0.0  0.0   6932  2328 pts/5    S+   14:40   0:00 grep --color=auto kubelet
+
+controlplane ~ ➜  cat /var/lib/kubelet/config.yaml 
+apiVersion: kubelet.config.k8s.io/v1beta1
+authentication:
+  anonymous:
+    enabled: false
+  webhook:
+    cacheTTL: 0s
+    enabled: true
+  x509:
+    clientCAFile: /etc/kubernetes/pki/ca.crt
+authorization:
+  mode: Webhook
+  webhook:
+    cacheAuthorizedTTL: 0s
+    cacheUnauthorizedTTL: 0s
+cgroupDriver: cgroupfs
+clusterDNS:
+- 172.20.0.10
+clusterDomain: cluster.local
+containerRuntimeEndpoint: ""
+cpuManagerReconcilePeriod: 0s
+crashLoopBackOff: {}
+evictionPressureTransitionPeriod: 0s
+fileCheckFrequency: 0s
+healthzBindAddress: 127.0.0.1
+healthzPort: 10248
+httpCheckFrequency: 0s
+imageMaximumGCAge: 0s
+imageMinimumGCAge: 0s
+kind: KubeletConfiguration
+logging:
+  flushFrequency: 0
+  options:
+    json:
+      infoBufferSize: "0"
+    text:
+      infoBufferSize: "0"
+  verbosity: 0
+memorySwap: {}
+nodeStatusReportFrequency: 0s
+nodeStatusUpdateFrequency: 0s
+resolvConf: /run/systemd/resolve/resolv.conf
+rotateCertificates: true
+runtimeRequestTimeout: 0s
+shutdownGracePeriod: 0s
+shutdownGracePeriodCriticalPods: 0s
+staticPodPath: /etc/kubernetes/manifests
+streamingConnectionIdleTimeout: 0s
+syncFrequency: 0s
+volumeStatsAggPeriod: 0s
+
+controlplane ~ ➜  cat /etc/kubernetes/kubelet.conf 
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJVENOYjlPMHNmTHN3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TlRBM01UY3hNekUzTURKYUZ3MHpOVEEzTVRVeE16SXlNREphTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUUREMmptTFVqYkg4UTZmVnRDOGtlelQxYjk1R2J6VXZKM0E5MFppczdkQzQwdkdiTzZlMW42cHVVQ0sKRDVWWE51Y2lWbXQySWlhZFduV0pDS2x0U2RlbUNtVVV6eDd4a1lHdE1ReGxSU2N6V2hwekxCNXVBNWR3Rm9CMApGdWRqQldrcFg0NCtiTmVQVmVYRWRndjFMQTBPOTBqandkOVVDL0pPOTY2UFlxSkp3U2RsT3BRSFA4T0VGa2tTCmZZRnBYK1B4T241cHB6NEZlakY0MlZaZUlxZHNyOG1XMUlFL3UwRmxQVmtxUmJaMnhqTnlnWnNhaUpIMC9qV2YKMnZBZW5qVENkSkxvdEZodlV1WGk2MlRhMWJYL3JCdzBMb1ZST252Vzgyam9uTTJPY0ZpQ2pibC80Y0lSb2FMUwpWS3B0Z3FOMUEwc29FQXJxWlBmcUIwK3c5eUZqQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJRdURyUDZvU25sWXNCcWZ5QS9MbDhsTjRlYXlqQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQkhTaUhGdDdTWgpiTm10T0JnOTFRck5SUElDV1ZJdFljQlpBblRqWEVVSTU5UUx3a2NOZjNWVlB4THd2YUpqV1ZOS3VRZnFDeW9pClRvWnQxaFduQTFqVUp3b0t6cUdGeWV3NkRTa3drSy9wUHByL2prLzVhNXBDZHRkSzllOURTYlh2SXJKNHlSZ0UKYWoyUzllOGRSMkpQZEZENEkrd2Q2U3kvTW1KQUxIYVEybzJ4N1ZSMXFIV0t2V2dKelpRWktZTG1vV0d1RzMwRQpCWGpvT1lHRDM2dzR1dGFGaUFwZmtJVWpQUG1DR3VnQjBJdG9aSkRpYzU2aHdNZU12UVlaQ1o0M2FCRE1JNExMCkV6Qkw1Um5ReEVBN2dzRER2SGdoa1NDaXQrMzI3Q2t5MWFiZXQrM3RoaUdLTzRDTUs5Mjd2RHFFdGlrcEtmbHAKbDl0SzE0elY3U0ZMCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://192.168.121.223:6443
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: system:node:controlplane
+  name: system:node:controlplane@kubernetes
+current-context: system:node:controlplane@kubernetes
+kind: Config
+preferences: {}
+users:
+- name: system:node:controlplane
+  user:
+    client-certificate: /var/lib/kubelet/pki/kubelet-client-current.pem
+    client-key: /var/lib/kubelet/pki/kubelet-client-current.pem
+
+controlplane ~ ➜
+```
 controlplane ~ ➜  
 ```
