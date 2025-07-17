@@ -96,6 +96,37 @@ status: {}
 
 ---
 
+```bash
+COMMANDS:
+        auth disable            Disables authentication
+        auth enable             Enables authentication
+        auth status             Returns authentication status
+        del                     Removes the specified key or range of keys [key, range_end)
+        endpoint health         Checks the healthiness of endpoints specified in `--endpoints` flag
+        endpoint status         Prints out the status of endpoints specified in `--endpoints` flag
+        get                     Gets the key or a range of keys
+        help                    Help about any command
+        put                     Puts the given key into the store
+        snapshot restore        Restores an etcd member snapshot to an etcd directory
+        snapshot save           Stores an etcd node backend snapshot to a given file
+        snapshot status         [deprecated] Gets backend snapshot status of a given file
+        txn                     Txn processes all the requests in one transaction
+        version                 Prints the version of etcdctl
+
+OPTIONS:
+      --cacert=""                               verify certificates of TLS-enabled secure servers using this CA bundle
+      --cert=""                                 identify secure client using this TLS certificate file
+      --endpoints=[127.0.0.1:2379]              gRPC endpoints
+  -h, --help[=false]                            help for etcdctl
+      --insecure-skip-tls-verify[=false]        skip server certificate verification (CAUTION: this option should be enabled only for testing purposes)
+      --key=""                                  identify secure client using this TLS key file
+      --password=""                             password for authentication (if this option is used, --user option shouldn't include password)
+      --user=""                                 username[:password] for authentication (prompt if password is not supplied)
+  -w, --write-out="simple"                      set the output format (fields, json, protobuf, simple, table)
+```
+
+---
+
 | **Group**                   | **Flag(s)**                                            | **Purpose**                                                 | **Multi-Node Setup**                                | **Reference with `kube-apiserver`**        |
 | --------------------------- | ------------------------------------------------------ | ----------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------ |
 | 🚀 **Core Startup**         | `etcd`                                                 | Starts etcd binary.                                         | Same on all nodes.                                  | N/A                                        |
