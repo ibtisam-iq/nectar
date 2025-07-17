@@ -304,3 +304,32 @@ CNI plugins usually deploy as **DaemonSets** so each node has a pod.
 | `/etc/kubernetes/*.conf`     | Kubeconfigs for control-plane components     |
 | `/var/lib/etcd`              | The actual key-value data store for etcd     |
 
+---
+
+```bash
+controlplane ~ ➜  ps -aux | grep kube-apiserver
+bad data in /proc/uptime
+root        3465  0.0  0.4 1529060 280128 ?      Ssl  13:22   2:09 kube-apiserver --advertise-address=192.168.121.223 --allow-privileged=true --authorization-mode=Node,RBAC --client-ca-file=/etc/kubernetes/pki/ca.crt --enable-admission-plugins=NodeRestriction --enable-bootstrap-token-auth=true --etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt --etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt --etcd-keyfile=/etc/kubernetes/pki/apiserver-etcd-client.key --etcd-servers=https://127.0.0.1:2379 --kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt --kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt --proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key --requestheader-allowed-names=front-proxy-client --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User --secure-port=6443 --service-account-issuer=https://kubernetes.default.svc.cluster.local --service-account-key-file=/etc/kubernetes/pki/sa.pub --service-account-signing-key-file=/etc/kubernetes/pki/sa.key --service-cluster-ip-range=172.20.0.0/16 --tls-cert-file=/etc/kubernetes/pki/apiserver.crt --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
+root       53524  0.0  0.0   6932  2384 pts/5    S+   14:25   0:00 grep --color=auto kube-apiserver
+
+controlplane ~ ➜  ps -aux | grep etcd
+bad data in /proc/uptime
+root        3551  0.0  0.0 11740560 57776 ?      Ssl  13:22   1:09 etcd --advertise-client-urls=https://192.168.121.223:2379 --cert-file=/etc/kubernetes/pki/etcd/server.crt --client-cert-auth=true --data-dir=/var/lib/etcd --experimental-initial-corrupt-check=true --experimental-watch-progress-notify-interval=5s --initial-advertise-peer-urls=https://192.168.121.223:2380 --initial-cluster=controlplane=https://192.168.121.223:2380 --key-file=/etc/kubernetes/pki/etcd/server.key --listen-client-urls=https://127.0.0.1:2379,https://192.168.121.223:2379 --listen-metrics-urls=http://127.0.0.1:2381 --listen-peer-urls=https://192.168.121.223:2380 --name=controlplane --peer-cert-file=/etc/kubernetes/pki/etcd/peer.crt --peer-client-cert-auth=true --peer-key-file=/etc/kubernetes/pki/etcd/peer.key --peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt --snapshot-count=10000 --trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+root       54353  0.0  0.0   6932  2304 pts/5    S+   14:26   0:00 grep --color=auto etcd
+
+controlplane ~ ➜  ps -aux | grep kube-scheduler
+bad data in /proc/uptime
+root        3523  0.0  0.0 1298564 30804 ?       Ssl  13:22   0:26 kube-scheduler --authentication-kubeconfig=/etc/kubernetes/scheduler.conf --authorization-kubeconfig=/etc/kubernetes/scheduler.conf --bind-address=127.0.0.1 --kubeconfig=/etc/kubernetes/scheduler.conf --leader-elect=true
+root       55679  0.0  0.0   6932  2292 pts/5    S+   14:28   0:00 grep --color=auto kube-scheduler
+
+controlplane ~ ➜  ps -aux | grep kube-control-manager
+bad data in /proc/uptime
+root       56292  0.0  0.0   6936  2296 pts/5    S+   14:29   0:00 grep --color=auto kube-control-manager
+
+controlplane ~ ➜  ps -aux | grep kube-controller-manager
+bad data in /proc/uptime
+root        3516  0.0  0.0 1319952 63472 ?       Ssl  13:22   0:43 kube-controller-manager --allocate-node-cidrs=true --authentication-kubeconfig=/etc/kubernetes/controller-manager.conf --authorization-kubeconfig=/etc/kubernetes/controller-manager.conf --bind-address=127.0.0.1 --client-ca-file=/etc/kubernetes/pki/ca.crt --cluster-cidr=172.17.0.0/16 --cluster-name=kubernetes --cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt --cluster-signing-key-file=/etc/kubernetes/pki/ca.key --controllers=*,bootstrapsigner,tokencleaner --kubeconfig=/etc/kubernetes/controller-manager.conf --leader-elect=true --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt --root-ca-file=/etc/kubernetes/pki/ca.crt --service-account-private-key-file=/etc/kubernetes/pki/sa.key --service-cluster-ip-range=172.20.0.0/16 --use-service-account-credentials=true
+root       57132  0.0  0.0   6940  2360 pts/5    S+   14:30   0:00 grep --color=auto kube-controller-manager
+
+controlplane ~ ➜  
+```
