@@ -190,4 +190,9 @@ kubectl port-forward svc/my-service 8080:80 # <local-port>:<remote-port> # open 
 
 service-name.dev.svc.cluster.local
 
- kubectl config set-context $(kubectl config current-context) --namespace=prod
+kubectl config set-context $(kubectl config current-context) --namespace=prod
+
+```bash
+node01 ~ ➜  cat /var/lib/kubelet/config.yaml | grep -i staticPodPath:
+staticPodPath: /etc/kubernetes/manifestss
+```
