@@ -189,3 +189,5 @@ curl http://<node-ip>:<nodePort> OR http://54.242.167.17:30000
 kubectl port-forward svc/my-service 8080:80 # <local-port>:<remote-port> # open in browser: http://localhost:8080
 
 service-name.dev.svc.cluster.local
+
+ kubectl config set-context $(kubectl config current-context) --namespace=prod
