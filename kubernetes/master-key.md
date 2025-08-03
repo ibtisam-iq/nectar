@@ -195,4 +195,7 @@ kubectl config set-context $(kubectl config current-context) --namespace=prod
 ```bash
 node01 ~ ➜  cat /var/lib/kubelet/config.yaml | grep -i staticPodPath:
 staticPodPath: /etc/kubernetes/manifestss
+
+sudo ls /opt/cni/bin/
+sudo ls /etc/cni/net.d/
 ```
