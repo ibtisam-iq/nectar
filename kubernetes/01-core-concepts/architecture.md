@@ -149,6 +149,11 @@ CNI plugins usually deploy as **DaemonSets** so each node has a pod.
 - Managed by **kubelet**, not by API server directly
 - Used for core control plane components (apiserver, etcd, etc.)
 
+```bash
+controlplane ~ ➜  cat /var/lib/kubelet/config.yaml | grep -i staticPodPath:
+staticPodPath: /etc/kubernetes/manifests
+```
+
 ### Deployments
 - Managed by API server
 - Created dynamically
