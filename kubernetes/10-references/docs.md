@@ -3,6 +3,11 @@
 A curated collection of official Kubernetes documentation links for quick navigation and CKA prep. Grouped by topic, sorted by importance.
 
 ---
+## Keywords
+
+ports, 
+
+---
 
 ## 📌 General Docs
 - [Kubernetes Documentation (Home)](https://kubernetes.io/docs/home/)
