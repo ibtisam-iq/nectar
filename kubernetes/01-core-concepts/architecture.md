@@ -92,7 +92,7 @@ users:
 | `kube-scheduler`     | Control Plane    | Static Pod  | Assigns pods to nodes |
 | `controller-manager` | Control Plane    | Static Pod  | Manages background tasks (e.g., replicaset) |
 | `kubelet`            | All Nodes        | Process     | Manages containers on node, not a pod |
-| `kube-proxy`         | All Nodes        | Pod         | Handles network routing |
+| `kube-proxy`         | All Nodes        | Pod/DaemonSet         | Handles network routing |
 | `CNI Plugin`         | All Nodes        | Pod/DaemonSet | Manages pod-to-pod networking |
 | `CoreDNS`            | Control Plane    | Deployment  | Resolves internal DNS names |
 
