@@ -135,7 +135,7 @@ CNI plugins usually deploy as **DaemonSets** so each node has a pod.
 
 - Deployed by kubeadm or managed services
 - It’s a **Deployment**, not static pod
-- Typically runs on control plane but scheduled like a normal pod
+- Typically runs on **control plane** but scheduled like a normal pod
 - Requirements:
   - Cluster must have functional networking
   - kubelet + container runtime + scheduler must work
