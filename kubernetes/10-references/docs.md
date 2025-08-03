@@ -5,7 +5,8 @@ A curated collection of official Kubernetes documentation links for quick naviga
 ---
 ## Keywords
 
-ports, Network Plugins, 
+ports, network plugins, etcd
+kubelet, kube-apiserver, kube-controller-manager, kube-proxy
 
 ---
 
