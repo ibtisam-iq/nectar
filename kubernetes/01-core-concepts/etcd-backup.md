@@ -11,10 +11,6 @@ etcdctl snapshot save /opt/ibtisam.db
 
 # restore
 etcdutl snapshot restore /opt/ibtisam.db --data-dir /var/lib/etcd/backup
-    --endpoints 127.0.0.1:2379
-    --cert=/etc/kubernetes/pki/etcd/server.crt
-    --key=/etc/kubernetes/pki/etcd/server.key
-    --cacert=/etc/kubernetes/pki/etcd/ca.crt
 
 # Now, edit `--data-dir` location (mandatory) and Volume Mounts (if required) in `/etc/kubernetes/manifests/etcd.yaml`.
 systemctl restart kubelet
