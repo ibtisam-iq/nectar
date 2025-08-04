@@ -60,5 +60,15 @@ controlplane ~ ➜  cp /var/lib/etcd/ibtisam.db /opt/ibtisam.db
 controlplane ~ ➜  ls -l /opt/ibtisam.db 
 -rw------- 1 root root 4218912 Aug  4 08:17 /opt/ibtisam.db
 
-controlplane ~ ➜  
+# restore
+controlplane ~ ➜  k exec -n kube-system etcd-controlplane -- etcdutl snapshot restore /var/lib/etcd/ibtisam.db --data-dir /var/lib/etcd/backup
+error: exec: "etcdutl": executable file not found in $PATH: unknown
+
+controlplane ~ ✖ k exec -n kube-system etcd-controlplane -- etcdctl snapshot restore /var/lib/etcd/ibtisam.db --data-dir /var/lib/etcd/backup
+Deprecated: Use `etcdutl snapshot restore` instead.
+
+2025-08-04T08:26:37Z    info    snapshot/v3_snapshot.go:265     restoring snapshot      {"path": "/var/lib/etcd/ibtisam.db", "wal-dir": "/var/lib/etcd/backup/member/wal", "data-dir": "/var/lib/etcd/backup", "snap-dir": "/var/lib/etcd/backup/member/snap", "initial-memory-map-size": 0}
+2025-08-04T08:26:37Z    info    membership/store.go:138 Trimming membership information from the backend...
+2025-08-04T08:26:37Z    info    membership/cluster.go:421       added member    {"cluster-id": "cdf818194e3a8c32", "local-member-id": "0", "added-peer-id": "8e9e05c52164694d", "added-peer-peer-urls": ["http://localhost:2380"], "added-peer-is-learner": false}
+2025-08-04T08:26:37Z    info    snapshot/v3_snapshot.go:293     restored snapshot       {"path": "/var/lib/etcd/ibtisam.db", "wal-dir": "/var/lib/etcd/backup/member/wal", "data-dir": "/var/lib/etcd/backup", "snap-dir": "/var/lib/etcd/backup/member/snap", "initial-memory-map-size": 0} 
 ```
