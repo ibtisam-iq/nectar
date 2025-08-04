@@ -71,4 +71,32 @@ Deprecated: Use `etcdutl snapshot restore` instead.
 2025-08-04T08:26:37Z    info    membership/store.go:138 Trimming membership information from the backend...
 2025-08-04T08:26:37Z    info    membership/cluster.go:421       added member    {"cluster-id": "cdf818194e3a8c32", "local-member-id": "0", "added-peer-id": "8e9e05c52164694d", "added-peer-peer-urls": ["http://localhost:2380"], "added-peer-is-learner": false}
 2025-08-04T08:26:37Z    info    snapshot/v3_snapshot.go:293     restored snapshot       {"path": "/var/lib/etcd/ibtisam.db", "wal-dir": "/var/lib/etcd/backup/member/wal", "data-dir": "/var/lib/etcd/backup", "snap-dir": "/var/lib/etcd/backup/member/snap", "initial-memory-map-size": 0} 
+
+
+
+Every 2.0s: crictl ps                                                                                                                controlplane: Mon Aug  4 08:42:45 2025
+
+CONTAINER           IMAGE               CREATED             STATE               NAME                      ATTEMPT             POD ID              POD
+                  NAMESPACE
+9dc476ef26bba       499038711c081       42 seconds ago      Running             etcd                      0                   faa2552bcf491       etcd-controlplane
+                  kube-system
+6518ecab33fa5       8d72586a76469       43 seconds ago      Running             kube-scheduler            2                   f696e6c7eff61       kube-scheduler-controlpla
+ne                kube-system
+b62ea4b95d1b0       1d579cb6d6967       2 minutes ago       Running             kube-controller-manager   2                   2786dd75a9711       kube-controller-manager-c
+ontrolplane       kube-system
+2aacb9fa0e4f0       6331715a2ae96       2 hours ago         Running             calico-kube-controllers   0                   857e400da0314       calico-kube-controllers-5
+745477d4d-cvh4q   kube-system
+11cf37d306af6       ead0a4a53df89       2 hours ago         Running             coredns                   0                   15fc43ad65062       coredns-7484cd47db-dpdtg
+                  kube-system
+bb1da48d9e35f       ead0a4a53df89       2 hours ago         Running             coredns                   0                   066b0d2818b2c       coredns-7484cd47db-pwjqg
+                  kube-system
+d8be9b6e3e150       c9fe3bce8a6d8       2 hours ago         Running             kube-flannel              0                   b633c57f49b33       canal-bn9v4
+                  kube-system
+ebf595f67642d       feb26d4585d68       2 hours ago         Running             calico-node               0                   b633c57f49b33       canal-bn9v4
+                  kube-system
+cc9ddc27d1910       f1184a0bd7fe5       2 hours ago         Running             kube-proxy                0                   79a58dea2612c       kube-proxy-7wb5z
+                  kube-system
+9efa8a481d67d       6ba9545b2183e       2 hours ago         Running             kube-apiserver            0                   f9cde1f1f1329       kube-apiserver-controlpla
+ne                kube-system
+
 ```
