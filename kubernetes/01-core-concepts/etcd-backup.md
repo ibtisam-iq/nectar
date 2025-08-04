@@ -17,3 +17,5 @@ systemctl restart kubelet
 watch crictl ps
 # it can take a few mintues.
 ```
+> controlplane ~ ✖ etcdutl snapshot restore /opt/ibtisam.db --data-dir=/var/lib/etcd/
+> Error: data-dir "/var/lib/etcd/" not empty or could not be read
