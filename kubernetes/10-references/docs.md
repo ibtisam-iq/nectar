@@ -7,6 +7,7 @@ A curated collection of official Kubernetes documentation links for quick naviga
 
 ports, network plugins, etcd
 kubelet, kube-apiserver, kube-controller-manager, kube-proxy
+Upgrading kubeadm
 
 ---
 
