@@ -210,4 +210,17 @@ spec:
   backoffLimit: 4                 # Specifies the number of retries for failed Pods (default: 6)
   activeDeadlineSeconds: 600      # Limits the Job duration to 600 seconds
   ttlSecondsAfterFinished: 300    # automatic deletetion of job & its pods after completion
+---
+# Default
+  backoffLimit: 6
+  completionMode: NonIndexed
+  completions: 1
+  manualSelector: false
+  parallelism: 1
+  podReplacementPolicy: TerminatingOrFailed
+  selector:
+    matchLabels:
+      batch.kubernetes.io/controller-uid: e9892e6c-33c0-4dc8-a6ff-d557b9d7a67c
+  suspend: false
+
 ```
