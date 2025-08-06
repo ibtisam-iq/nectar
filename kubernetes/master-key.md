@@ -207,7 +207,7 @@ spec:
   completionMode: Indexed         # Default: nonIndexed  
   backoffLimitPerIndex: 1         # Allows 1 retry per index
   maxFailedIndexes: 5             # Terminates the Job if 5 indices fail
-  backoffLimit: 4                 # Specifies the number of retries for failed Pods
+  backoffLimit: 4                 # Specifies the number of retries for failed Pods (default: 6)
   activeDeadlineSeconds: 600      # Limits the Job duration to 600 seconds
   ttlSecondsAfterFinished: 300    # automatic deletetion of job & its pods after completion
 ```
