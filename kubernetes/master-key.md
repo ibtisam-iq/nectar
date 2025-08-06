@@ -199,3 +199,15 @@ staticPodPath: /etc/kubernetes/manifestss
 sudo ls /opt/cni/bin/
 sudo ls /etc/cni/net.d/
 ```
+```yaml
+spec:
+  suspend: true                   # Starts the Job in a suspended state (default: false)
+  completions: 12                 # Default: 1
+  parallelism: 4                  # Default: 1
+  completionMode: Indexed         # Default: nonIndexed  
+  backoffLimitPerIndex: 1         # Allows 1 retry per index
+  maxFailedIndexes: 5             # Terminates the Job if 5 indices fail
+  backoffLimit: 4                 # Specifies the number of retries for failed Pods
+  activeDeadlineSeconds: 600      # Limits the Job duration to 600 seconds
+  ttlSecondsAfterFinished: 300    # automatic deletetion of job & its pods after completion
+```
