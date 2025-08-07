@@ -320,12 +320,17 @@ spec:                         # --> POD-LEVEL SPEC STARTS HERE
     image: nginx:latest        # Container-level (required)
     imagePullPolicy: Always    # Container-level (Always, IfNotPresent, Never)
     imagePullSecrets:           # Container-level (secret for private registry)
+    - ibtisam-secret
     ports:                     # Container-level (optional)
     - containerPort: 80
 
     env:                        # Container-level (manual env vars)
     - name: ENVIRONMENT
       value: production
+    - name: MY_NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
 
     envFrom:                    # Container-level (import from ConfigMap/Secret)
     - configMapRef:
