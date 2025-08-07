@@ -222,8 +222,11 @@ spec:
     matchLabels:
       batch.kubernetes.io/controller-uid: e9892e6c-33c0-4dc8-a6ff-d557b9d7a67c
   suspend: false
-
 ```
 - `key=value` then operator: `Equal`
 - If only the `key`, and not `value` then operator: `Exists`
 - Affinity: You can use `In`, `NotIn`, `Exists`, `DoesNotExist`, `Gt` and `Lt`.
+```yaml
+env:
+    - name:
+      value or valueFrom
