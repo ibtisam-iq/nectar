@@ -9,6 +9,7 @@ A curated collection of official Kubernetes documentation links for quick naviga
 - kubelet, kube-apiserver, kube-controller-manager, kube-proxy
 - Upgrading kubeadm
 - Quota: Configure Memory and CPU Quotas for a Namespace
+- environment variables: Define Environment Variables for a Container (value), Expose Pod Information to Containers Through Environment Variables (valueFrom)
 
 ---
 
