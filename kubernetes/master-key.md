@@ -12,14 +12,20 @@ Container runs: `<command or ENTRYPOINT> <args or CMD>`
 
 ```bash
     env:
+    - name: ENVIRONMENT
+      value: production
+    - name: MY_NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
     - name: PLAYER_INITIAL_LIVES
       valueFrom:
-        configMapKeyRef:                # secretMapKeyRef
+        configMapKeyRef:                # secretKeyRef
             name: game-demo           
             key: player_initial_lives
 
     envFrom:
-    - configMapRef:                     # secretMapRef
+    - configMapRef:                     # secretRef
         name: myconfigmap
 
     volumeMounts:
