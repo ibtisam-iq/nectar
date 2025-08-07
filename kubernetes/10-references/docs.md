@@ -13,6 +13,7 @@ A curated collection of official Kubernetes documentation links for quick naviga
 - configmap: ConfigMaps, Configure a Pod to Use a ConfigMap
 - secret: Secrets, Distribute Credentials Securely Using Secrets
 - metrics server: Resource metrics pipeline (`- --kubelet-insecure-tls`)
+- hpa: Horizontal Pod Autoscaling, HorizontalPodAutoscaler Walkthrough
 
 ---
 
