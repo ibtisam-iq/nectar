@@ -224,3 +224,5 @@ spec:
   suspend: false
 
 ```
+- `key=value` then operator: `Equal`
+- If only the `key`, and not `value` then operator: `Exists`
