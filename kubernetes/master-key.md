@@ -51,10 +51,10 @@ metadata:
 spec:
   capacity:
     storage: 10Gi
-  volumeMode: Filesystem
+  volumeMode: Filesystem    # Default
   accessModes:
     - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
+  persistentVolumeReclaimPolicy: Retain    # Default
   storageClassName: manual
 
   claimRef:             # Reserves foo-pv for foo-pvc, preventing other PVCs from binding.
