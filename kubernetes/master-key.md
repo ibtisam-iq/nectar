@@ -96,7 +96,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
-  volumeMode: Filesystem
+  volumeMode: Filesystem     # Default
   resources:
     requests:
       storage: 8Gi
@@ -123,7 +123,7 @@ provisioner: kubernetes.io/gce-pd
 parameters:
   type: pd-ssd
 reclaimPolicy: Retain
-allowVolumeExpansion: true
+allowVolumeExpansion: true    # You can only expand a PVC if its storage class's allowVolumeExpansion field is set to true.
 volumeBindingMode: WaitForFirstConsumer # Delays provisioning until a Pod using the PVC is scheduled.
                    # Immediate (default): Provisions the PV as soon as the PVC is created.
 ```
