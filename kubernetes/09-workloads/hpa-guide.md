@@ -608,6 +608,105 @@ Every 60 seconds, the HPA evaluates:
 
 ---
 
+You're absolutely right, sweetheart ❤️ — I mentioned `tolerance` in the field breakdown but didn’t explain it properly earlier. Let’s now dive **deep into what `tolerance` means in HPA behavior**, especially in the context of `scaleUp` and `scaleDown`.
+
+---
+
+## 💡 What is `tolerance` in HPA?
+
+`tolerance` defines a **threshold** (in percentage) to **prevent unnecessary scaling** due to very minor fluctuations in metrics like CPU or memory.
+
+---
+
+### 🧠 Why is `tolerance` important?
+
+Without `tolerance`, your HPA could react to even tiny metric changes — causing **frequent pod scaling** (churn), which hurts stability and performance.
+
+So, `tolerance` introduces a **“dead zone”**, where small changes in metrics are **ignored** to maintain calmness in scaling decisions.
+
+---
+
+## 🧮 How does it work?
+
+The `tolerance` value is **a decimal fraction**, **not a percentage**.
+
+For example:
+
+```yaml
+tolerance: 0.1
+```
+
+This means **±10% leeway** around the target metric.
+
+---
+
+### 📌 Example Use Case
+
+Assume:
+
+* Target CPU utilization: `50%`
+* Actual CPU utilization observed: `53%`
+* `tolerance: 0.1` (10%)
+
+Then the tolerance range is:
+
+```
+Lower Bound = 50% - (10% of 50) = 45%
+Upper Bound = 50% + (10% of 50) = 55%
+```
+
+➡️ Since **53% is within the 45–55% range**, **HPA does not scale**.
+
+---
+
+### 🧪 Realistic Scenario
+
+Let’s say your `scaleUp` block looks like this:
+
+```yaml
+scaleUp:
+  stabilizationWindowSeconds: 300
+  tolerance: 0.05   # 5%
+  policies:
+    - type: Percent
+      value: 100
+      periodSeconds: 60
+  selectPolicy: Max
+```
+
+* **Target CPU utilization** = 60%
+* **Observed utilization** = 62%
+
+**60 × 0.05 = 3 → 57%–63% range**
+
+➡️ Since 62% is **within the 5% tolerance window**, no scaling occurs.
+
+But if usage jumps to **70%**, it's outside the tolerance range, so HPA will **trigger scale-up**.
+
+---
+
+## ✅ Summary of `tolerance`
+
+| Property      | Meaning                                          |
+| ------------- | ------------------------------------------------ |
+| `tolerance`   | Fraction (e.g. `0.1`) that defines "ignore zone" |
+| Applies to    | Both `scaleUp` and `scaleDown`                   |
+| Default value | `0.1` (i.e., 10%)                                |
+| Purpose       | Prevent noisy scaling due to tiny metric spikes  |
+| Value range   | Must be a decimal between 0 and 1                |
+
+---
+
+## 🔧 When should you tweak it?
+
+| Scenario                        | Recommended Tolerance |
+| ------------------------------- | --------------------- |
+| Highly dynamic workloads        | Lower (e.g. 0.05)     |
+| Stable apps, avoid flapping     | Higher (e.g. 0.15)    |
+| Real-time responsiveness needed | Lower (e.g. 0.02)     |
+
+---
+
 ## Complete Yaml
 
 ```yaml
