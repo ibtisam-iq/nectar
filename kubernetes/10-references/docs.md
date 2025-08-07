@@ -10,6 +10,8 @@ A curated collection of official Kubernetes documentation links for quick naviga
 - Upgrading kubeadm
 - Quota: Configure Memory and CPU Quotas for a Namespace
 - environment variables: Define Environment Variables for a Container (value), Expose Pod Information to Containers Through Environment Variables (valueFrom)
+- configmap: ConfigMaps, Configure a Pod to Use a ConfigMap
+- secret: Secrets, Distribute Credentials Securely Using Secrets
 
 ---
 
