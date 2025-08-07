@@ -72,7 +72,7 @@ metrics:
 
 ---
 
-#### 3. `external`
+#### 5. `external` Autoscaling on metrics not related to Kubernetes objects
 
 ```yaml
 - type: External
@@ -111,10 +111,11 @@ You need a **custom metrics adapter** (e.g. Prometheus Adapter) to use this.
 ```
 
 * **Use-case**: Scale based on a metric **associated with a specific Kubernetes object**, like a Service or Ingress.
+* Object metrics support `target` types of both `Value` and `AverageValue`.
 
 ---
 
-#### 5. `pods`
+#### 3. `pods`
 
 ```yaml
 - type: Pods
@@ -128,6 +129,7 @@ You need a **custom metrics adapter** (e.g. Prometheus Adapter) to use this.
 
 * **Use-case**: Scale based on **per-pod metrics** like request count, queue depth, etc.
 * You’ll use this with **custom metrics**.
+* They work much like resource metrics, except that they only support a `target` type of `AverageValue`.
 
 ---
 
