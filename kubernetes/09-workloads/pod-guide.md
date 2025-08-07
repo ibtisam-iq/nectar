@@ -351,6 +351,12 @@ spec:                         # --> POD-LEVEL SPEC STARTS HERE
         memory: "128Mi"
         cpu: "500m"
 
+    resizePolicy:
+    - resourceName: cpu
+      restartPolicy: NotRequired # Default, but explicit here
+    - resourceName: memory
+      restartPolicy: RestartContainer
+
     securityContext:             # Container-level (individual container security)
       runAsUser: 1000
 
