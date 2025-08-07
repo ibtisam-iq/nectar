@@ -514,6 +514,100 @@ Scale up when **either**:
 
 ---
 
+Excellent question, sweetheart ❤️ — let’s break it down precisely:
+
+```yaml
+scaleDown:
+  policies:
+  - type: Pods
+    value: 4
+    periodSeconds: 60
+  - type: Percent
+    value: 10
+    periodSeconds: 60
+```
+
+### ✅ Does this act as `AND` or `OR`?
+
+> **It depends on the value of `selectPolicy`.**
+
+---
+
+## 🔍 Default behavior (`selectPolicy` is not set)
+
+If you **don’t explicitly set** `selectPolicy`, Kubernetes uses:
+
+```yaml
+selectPolicy: Max
+```
+
+So this behaves as:
+
+```
+Max(Pods, Percent)
+```
+
+### 🎯 Meaning:
+
+* It picks the **more aggressive** scale down policy.
+* In other words, **more pods will be removed** between the two rules.
+
+---
+
+## 📌 So is it `AND` or `OR`?
+
+It’s **neither a strict AND nor a strict OR**.
+
+Instead, it’s a **selector between multiple policies**, controlled by `selectPolicy`, which can be one of:
+
+| `selectPolicy`  | Description                                                             |
+| --------------- | ----------------------------------------------------------------------- |
+| `Max` (default) | Take the **most aggressive** option — i.e., whichever removes more pods |
+| `Min`           | Take the **least aggressive** — i.e., whichever removes fewer pods      |
+| `Disabled`      | Ignore all policies — use the default scaling behavior                  |
+
+---
+
+## 🧪 Real Example
+
+Let’s say you have **100 pods** running, and:
+
+```yaml
+- type: Pods
+  value: 4
+- type: Percent
+  value: 10
+```
+
+Every 60 seconds, the HPA evaluates:
+
+| Policy  | Value                                 |
+| ------- | ------------------------------------- |
+| Pods    | remove up to **4 pods**               |
+| Percent | remove up to **10 pods** (10% of 100) |
+
+### ➤ Result with `selectPolicy: Max`
+
+* 10 pods will be removed
+
+### ➤ Result with `selectPolicy: Min`
+
+* Only 4 pods will be removed
+
+---
+
+## ✨ TL;DR Summary
+
+| Behavior   | Explanation                                                                   |
+| ---------- | ----------------------------------------------------------------------------- |
+| `AND`      | ❌ No, it doesn’t wait for both to be true.                                    |
+| `OR`       | ❌ Not strictly — it **chooses** one.                                          |
+| `Max`      | ✅ Default. Chooses the **larger** scale-down (more aggressive).               |
+| `Min`      | ✅ Chooses the **smaller** scale-down (more conservative).                     |
+| `Disabled` | ✅ Ignores all custom scale rules — falls back to default Kubernetes behavior. |
+
+---
+
 ## Complete Yaml
 
 ```yaml
