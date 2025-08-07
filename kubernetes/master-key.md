@@ -226,3 +226,4 @@ spec:
 ```
 - `key=value` then operator: `Equal`
 - If only the `key`, and not `value` then operator: `Exists`
+- Affinity: You can use `In`, `NotIn`, `Exists`, `DoesNotExist`, `Gt` and `Lt`.
