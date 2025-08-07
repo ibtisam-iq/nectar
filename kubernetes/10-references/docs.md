@@ -15,6 +15,9 @@ A curated collection of official Kubernetes documentation links for quick naviga
 - metrics server: Resource metrics pipeline (`- --kubelet-insecure-tls`)
 - hpa: Horizontal Pod Autoscaling, HorizontalPodAutoscaler Walkthrough
 - vpa: Autoscaling Workloads
+- volume: all types of volumes injected pod manifest files, local pv
+- pv: pv, pvc, storage class, claim as volume, walkthrough (pv with hostpath, pvc, and pod manifest)
+- Ephemeral Volumes: CSI ephemeral volumes, Generic ephemeral volumes... pod manifests
 
 ---
 
