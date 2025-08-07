@@ -5,9 +5,10 @@ A curated collection of official Kubernetes documentation links for quick naviga
 ---
 ## Keywords
 
-ports, network plugins, etcd
-kubelet, kube-apiserver, kube-controller-manager, kube-proxy
-Upgrading kubeadm
+- ports, network plugins, etcd
+- kubelet, kube-apiserver, kube-controller-manager, kube-proxy
+- Upgrading kubeadm
+- Quota: Configure Memory and CPU Quotas for a Namespace
 
 ---
 
