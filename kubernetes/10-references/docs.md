@@ -19,6 +19,7 @@ A curated collection of official Kubernetes documentation links for quick naviga
 - pv: pv, pvc, storage class, claim as volume, walkthrough (pv with hostpath, pvc, and pod manifest)
 - Ephemeral Volumes: CSI ephemeral volumes, Generic ephemeral volumes... pod manifests
 - csr/certificate: Issue a Certificate for a Kubernetes API Client Using A CertificateSigningRequest (Manage TLS Certificates in a Cluster)
+- role: Using RBAC Authorization
 
 ---
 
