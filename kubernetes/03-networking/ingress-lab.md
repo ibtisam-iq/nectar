@@ -83,31 +83,7 @@ controlplane ~ ➜  vi ingress.yaml
 controlplane ~ ➜  k describe deploy -n ingress-nginx 
 Name:                   ingress-nginx-controller
 Namespace:              ingress-nginx
-CreationTimestamp:      Fri, 08 Aug 2025 12:49:44 +0000
-Labels:                 app.kubernetes.io/component=controller
-                        app.kubernetes.io/instance=ingress-nginx
-                        app.kubernetes.io/name=ingress-nginx
-                        app.kubernetes.io/part-of=ingress-nginx
-                        app.kubernetes.io/version=1.13.0
-Annotations:            deployment.kubernetes.io/revision: 1
-Selector:               app.kubernetes.io/component=controller,app.kubernetes.io/instance=ingress-nginx,app.kubernetes.io/name=ingress-nginx
-Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
-StrategyType:           RollingUpdate
-MinReadySeconds:        0
-RollingUpdateStrategy:  1 max unavailable, 25% max surge
-Pod Template:
-  Labels:           app.kubernetes.io/component=controller
-                    app.kubernetes.io/instance=ingress-nginx
-                    app.kubernetes.io/name=ingress-nginx
-                    app.kubernetes.io/part-of=ingress-nginx
-                    app.kubernetes.io/version=1.13.0
-  Service Account:  ingress-nginx
-  Containers:
-   controller:
-    Image:           registry.k8s.io/ingress-nginx/controller:v1.13.0@sha256:dc75a7baec7a3b827a5d7ab0acd10ab507904c7dad692365b3e3b596eca1afd2
-    Ports:           80/TCP, 443/TCP, 8443/TCP
-    Host Ports:      0/TCP, 0/TCP, 0/TCP
-    SeccompProfile:  RuntimeDefault
+
     Args:
       /nginx-ingress-controller
       --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller
@@ -118,31 +94,6 @@ Pod Template:
       --validating-webhook=:8443
       --validating-webhook-certificate=/usr/local/certificates/cert
       --validating-webhook-key=/usr/local/certificates/key
-    Requests:
-      cpu:      100m
-      memory:   90Mi
-    Liveness:   http-get http://:10254/healthz delay=10s timeout=1s period=10s #success=1 #failure=5
-    Readiness:  http-get http://:10254/healthz delay=10s timeout=1s period=10s #success=1 #failure=3
-    Environment:
-      POD_NAME:        (v1:metadata.name)
-      POD_NAMESPACE:   (v1:metadata.namespace)
-      LD_PRELOAD:     /usr/local/lib/libmimalloc.so
-    Mounts:
-      /usr/local/certificates/ from webhook-cert (ro)
-  Volumes:
-   webhook-cert:
-    Type:          Secret (a volume populated by a Secret)
-    SecretName:    ingress-nginx-admission
-    Optional:      false
-  Node-Selectors:  kubernetes.io/os=linux
-  Tolerations:     <none>
-Conditions:
-  Type           Status  Reason
-  ----           ------  ------
-  Available      True    MinimumReplicasAvailable
-  Progressing    True    NewReplicaSetAvailable
-OldReplicaSets:  <none>
-NewReplicaSet:   ingress-nginx-controller-95f6586c6 (1/1 replicas created)
 Events:
   Type    Reason             Age    From                   Message
   ----    ------             ----   ----                   -------
