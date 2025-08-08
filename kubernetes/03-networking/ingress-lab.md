@@ -5,6 +5,8 @@ controlplane   Ready    control-plane   41m   v1.33.0   192.168.121.223   <none>
 node01         Ready    <none>          40m   v1.33.0   192.168.102.168   <none>        Ubuntu 22.04.5 LTS   5.15.0-1083-gcp   containerd://1.6.26
 node02         Ready    <none>          40m   v1.33.0   192.168.121.196   <none>        Ubuntu 22.04.5 LTS   5.15.0-1083-gcp   containerd://1.6.26
 
+# installation
+
 controlplane ~ ➜  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.13.0/deploy/static/provider/cloud/deploy.yaml
 namespace/ingress-nginx created
 serviceaccount/ingress-nginx created
@@ -171,7 +173,7 @@ controlplane ~ ➜  k apply -f ingress.yaml
 ingress.networking.k8s.io/ibtisam-ingress created
 
 controlplane ~ ➜  k get ingress
-NAME              CLASS   HOSTS   ADDRESS   PORTS   AGE
+NAME              CLASS   HOSTS   ADDRESS   PORTS   AGE      # because service type of ingress is Loadbalancer.
 ibtisam-ingress   nginx   *                 80      9s
 
 controlplane ~ ➜  k describe ingress ibtisam-ingress 
@@ -203,7 +205,7 @@ NAME                                 TYPE           CLUSTER-IP      EXTERNAL-IP 
 ingress-nginx-controller             LoadBalancer   172.20.36.22    <pending>     80:31987/TCP,443:31268/TCP   8m41s
 ingress-nginx-controller-admission   ClusterIP      172.20.215.37   <none>        443/TCP                      8m41s
 
-controlplane ~ ➜  curl http://192.168.121.223:31987/ibtisam
+controlplane ~ ➜  curl http://192.168.121.223:31987/ibtisam      # accessible on controlplane node only 
 <!DOCTYPE html>
 <html>
 <head>
@@ -228,27 +230,27 @@ Commercial support is available at
 </body>
 </html>
 
-controlplane ~ ➜  curl http://192.168.102.168:31987/ibtisam
+controlplane ~ ➜  curl http://192.168.102.168:31987/ibtisam     # ip of node01
 ^C
 
 controlplane ~ ✖ curl https://192.168.121.223:31987/ibtisam
 curl: (35) error:0A00010B:SSL routines::wrong version number
 
-controlplane ~ ✖ k edit svc -n ingress-nginx ingress-nginx-controller
+controlplane ~ ✖ k edit svc -n ingress-nginx ingress-nginx-controller       # type is changed.
 service/ingress-nginx-controller edited
 
-controlplane ~ ➜  k get svc -n ingress-nginx ingress-nginx-controller
+controlplane ~ ➜  k get svc -n ingress-nginx ingress-nginx-controller      # External ip don't assign even you changed the type.
 NAME                       TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
 ingress-nginx-controller   NodePort   172.20.36.22   <none>        80:31987/TCP,443:31268/TCP   11m
 
-controlplane ~ ➜  k get ingress ibtisam-ingress 
+controlplane ~ ➜  k get ingress ibtisam-ingress         # IP is assigned, after changing the servive type
 NAME              CLASS   HOSTS   ADDRESS        PORTS   AGE
 ibtisam-ingress   nginx   *       172.20.36.22   80      5m15s
 
 controlplane ~ ➜  curl http://192.168.102.168:31987/ibtisam
 ^C
 
-controlplane ~ ✖ k run testpod --image busybox --restart=Never --it -- sh
+controlplane ~ ✖ k run testpod --image busybox --restart=Never --it -- sh   # we got the ip assigned, so testing it from inside the cluster
 error: unknown flag: --it
 See 'kubectl run --help' for usage.
 
@@ -323,6 +325,10 @@ Events:
   ----    ------  ----               ----                      -------
   Normal  Sync    11m (x2 over 16m)  nginx-ingress-controller  Scheduled for sync
 
+
+# New ingress is applied to test the host.
+
+
 controlplane ~ ➜  vi ingress-2.yaml
 
 controlplane ~ ➜  cat ingress-2.yaml 
@@ -355,7 +361,7 @@ NAME               CLASS   HOSTS            ADDRESS        PORTS   AGE
 ibtisam-ingress    nginx   *                172.20.36.22   80      26m
 ibtisam-ingress2   nginx   ibtisam-iq.com                  80      25s
 
-controlplane ~ ➜  curl http://192.168.121.223:31987/ibtisam
+controlplane ~ ➜  curl http://192.168.121.223:31987/ibtisam    # it shouldn't access this way, accessing because it points to first ingress
 <!DOCTYPE html>
 <html>
 <head>
@@ -380,6 +386,9 @@ Commercial support is available at
 </body>
 </html>
 
+# Create new deployment, new service, and update the 2nd ingress accordingly, and delete the first ingress,
+# so that curl http://192.168.121.223:31987/ibtisam remain no longer accessible?
+
 controlplane ~ ➜  k expose create deploy nginx2 --image nginx -r 3
 error: unknown flag: --image
 See 'kubectl expose --help' for usage.
@@ -398,7 +407,7 @@ NAME               CLASS   HOSTS            ADDRESS        PORTS   AGE
 ibtisam-ingress    nginx   *                172.20.36.22   80      32m
 ibtisam-ingress2   nginx   ibtisam-iq.com   172.20.36.22   80      6m37s
 
-controlplane ~ ➜  curl http://192.168.121.223:31987/ibtisam
+controlplane ~ ➜  curl http://192.168.121.223:31987/ibtisam    # still accessible, because first ingress is not deleted yet
 <!DOCTYPE html>
 <html>
 <head>
@@ -458,7 +467,7 @@ controlplane ~ ➜  k get svc -n ingress-nginx ingress-nginx-controller
 NAME                       TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
 ingress-nginx-controller   NodePort   172.20.36.22   <none>        80:31987/TCP,443:31268/TCP   43m
 
-controlplane ~ ➜  curl http://192.168.121.223:31987/ibtisam
+controlplane ~ ➜  curl http://192.168.121.223:31987/ibtisam        # first ingress is deleted, so it is no longer accessible.
 <html>
 <head><title>404 Not Found</title></head>
 <body>
@@ -467,7 +476,7 @@ controlplane ~ ➜  curl http://192.168.121.223:31987/ibtisam
 </body>
 </html>
 
-controlplane ~ ➜  curl -H "Host: ibtisam-iq.com" http://192.168.121.223:31987/ibtisam
+controlplane ~ ➜  curl -H "Host: ibtisam-iq.com" http://192.168.121.223:31987/ibtisam     # required output, accessible now with - H
 <!DOCTYPE html>
 <html>
 <head>
@@ -492,7 +501,7 @@ Commercial support is available at
 </body>
 </html>
 
-controlplane ~ ➜  vi /etc/hosts
+controlplane ~ ➜  vi /etc/hosts        # add the host to /etc/hosts, if you want to accessible it without -H flag
 
 controlplane ~ ➜  cat /etc/hosts
 # Kubernetes-managed hosts file.
