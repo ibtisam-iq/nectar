@@ -105,6 +105,58 @@ NAME            CLASS   ADDRESS   PROGRAMMED   AGE
 nginx-gateway   nginx             True         33s
 ```
 
+```yaml
+controlplane ~ ➜  k explain gateway.spec --recursive 
+GROUP:      gateway.networking.k8s.io
+KIND:       Gateway
+VERSION:    v1
+
+FIELD: spec <Object>
+
+
+DESCRIPTION:
+    Spec defines the desired state of Gateway.
+    
+FIELDS:
+  addresses     <[]Object>
+    type        <string>
+    value       <string> -required-
+  gatewayClassName      <string> -required-
+  infrastructure        <Object>
+    annotations <map[string]string>
+    labels      <map[string]string>
+    parametersRef       <Object>
+      group     <string> -required-
+      kind      <string> -required-
+      name      <string> -required-
+  listeners     <[]Object> -required-
+    allowedRoutes       <Object>
+      kinds     <[]Object>
+        group   <string>
+        kind    <string> -required-
+      namespaces        <Object>
+        from    <string>
+        enum: All, Selector, Same
+        selector        <Object>
+          matchExpressions      <[]Object>
+            key <string> -required-
+            operator    <string> -required-
+            values      <[]string>
+          matchLabels   <map[string]string>
+    hostname    <string>
+    name        <string> -required-
+    port        <integer> -required-
+    protocol    <string> -required-
+    tls <Object>
+      certificateRefs   <[]Object>
+        group   <string>
+        kind    <string>
+        name    <string> -required-
+        namespace       <string>
+      mode      <string>
+      enum: Terminate, Passthrough
+      options   <map[string]string>
+```
 ---
 
 A new pod named `frontend-app` and a service called `frontend-svc` have been deployed in the `default` namespace.
