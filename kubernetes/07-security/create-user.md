@@ -253,5 +253,86 @@ Error from server (Forbidden): users "ibtisam" is forbidden: User "ibtisam" cann
 controlplane ~ ✖ kubectl auth can-i list deployments --as ibtisam --namespace default
 no
 
-controlplane ~ ✖ 
+controlplane ~ ✖ kubectl auth can-i --as=ibtisam --list --namespace=default
+Resources                                       Non-Resource URLs   Resource Names   Verbs
+*                                               []                  []               [*]
+selfsubjectreviews.authentication.k8s.io        []                  []               [create]
+selfsubjectaccessreviews.authorization.k8s.io   []                  []               [create]
+selfsubjectrulesreviews.authorization.k8s.io    []                  []               [create]
+                                                [/api/*]            []               [get]
+                                                [/api]              []               [get]
+                                                [/apis/*]           []               [get]
+                                                [/apis]             []               [get]
+                                                [/healthz]          []               [get]
+                                                [/healthz]          []               [get]
+                                                [/livez]            []               [get]
+                                                [/livez]            []               [get]
+                                                [/openapi/*]        []               [get]
+                                                [/openapi]          []               [get]
+                                                [/readyz]           []               [get]
+                                                [/readyz]           []               [get]
+                                                [/version/]         []               [get]
+                                                [/version/]         []               [get]
+                                                [/version]          []               [get]
+                                                [/version]          []               [get]
+
+controlplane ~ ➜  kubectl auth can-i list deployments --as ibtisam --namespace default
+no
+
+controlplane ~ ✖ k describe role ibtisam 
+Name:         ibtisam
+Labels:       <none>
+Annotations:  <none>
+PolicyRule:
+  Resources  Non-Resource URLs  Resource Names  Verbs
+  ---------  -----------------  --------------  -----
+  *          []                 []              [*]
+
+controlplane ~ ➜  k get role ibtisam -o yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  creationTimestamp: "2025-08-08T06:02:11Z"
+  name: ibtisam
+  namespace: default
+  resourceVersion: "5650"
+  uid: a8eb0c8b-7014-4d09-bbf7-bdb8f84c5026
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - '*'
+  verbs:
+  - '*'
+
+controlplane ~ ➜  k edit role ibtisam 
+role.rbac.authorization.k8s.io/ibtisam edited
+
+controlplane ~ ➜  k get role ibtisam -o yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  creationTimestamp: "2025-08-08T06:02:11Z"
+  name: ibtisam
+  namespace: default
+  resourceVersion: "6676"
+  uid: a8eb0c8b-7014-4d09-bbf7-bdb8f84c5026
+rules:
+- apiGroups:
+  - ""
+  - apps
+  - batch
+  - extensions
+  resources:
+  - '*'
+  verbs:
+  - '*'
+
+controlplane ~ ➜  kubectl auth can-i list deployments --as ibtisam --namespace default
+yes
+
+controlplane ~ ➜  kubectl auth can-i list jobs --as ibtisam --namespace default
+yes
+
+controlplane ~ ➜   
 ```
