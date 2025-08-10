@@ -30,7 +30,7 @@
 
 ---
 
-## **4. Creating & Managing Your Own Application Chart**
+## [**4. Creating & Managing Your Own Application Chart**](https://github.com/ibtisam-iq/nectar/blob/main/helm/helm-guide.md#section-4-creating--managing-your-own-application-chart)
 
 * Creating a chart (`helm create`)
 * Chart directory structure explained
@@ -100,6 +100,7 @@
 
   * Installing from repo
   * Creating & installing your own chart
+
 
 
 
