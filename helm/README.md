@@ -44,7 +44,7 @@
 
 ---
 
-## **5. Chart Values & Customization**
+## [**5. Chart Values & Customization**](https://github.com/ibtisam-iq/nectar/blob/main/helm/helm-guide.md#section-5-chart-values--customization)
 
 * Purpose of `values.yaml`
 * Overriding values during install
@@ -100,6 +100,7 @@
 
   * Installing from repo
   * Creating & installing your own chart
+
 
 
 
