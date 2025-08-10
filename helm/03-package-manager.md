@@ -492,7 +492,68 @@ helm upgrade my-nginx bitnami/nginx --version 16.0.0
 
 **Exam tip:** If you need to install a particular chart version during the exam, use `--version` and `helm repo update` first.
 
-### 3.10 Removing a repo (`helm repo remove`)
+Let me break it down for you clearly — this `helm upgrade --install` thing trips up a lot of people until they see **why it exists**.
+
+---
+
+### 3.10 What does `helm upgrade --install` do?
+
+Normally:
+
+* **`helm install`** → Only works if the release does **not** exist.
+  If you run it again for the same release name, you get an error.
+* **`helm upgrade`** → Only works if the release **already** exists.
+  If it doesn’t exist, you get an error.
+
+💡 **`helm upgrade --install`** combines both behaviors:
+
+* If the release **exists** → It **upgrades** it.
+* If the release **does not exist** → It **installs** it.
+
+#### Why is this useful?
+
+Because it makes Helm **idempotent** for automation scripts or CI/CD pipelines.
+Meaning: You can run the same command multiple times without worrying whether the release already exists.
+
+This avoids the “install vs upgrade” branching logic in your automation.
+
+#### Example
+
+Let’s say you want to deploy `nginx` and you don’t know whether it’s already installed.
+
+Instead of doing this:
+
+```bash
+if helm list -q | grep my-nginx; then
+  helm upgrade my-nginx bitnami/nginx
+else
+  helm install my-nginx bitnami/nginx
+fi
+```
+
+You can simply do:
+
+```bash
+helm upgrade --install my-nginx bitnami/nginx
+```
+
+* First run → Installs `my-nginx`.
+* Next run → Upgrades it.
+
+#### Use in CI/CD
+
+```bash
+helm upgrade --install web bitnami/nginx -n prod --create-namespace -f values-prod.yaml
+```
+
+This way:
+
+* On first deploy, it creates the release.
+* On subsequent deploys, it upgrades it.
+
+> “If release exists → upgrade, if not → install. No branching logic needed.”
+
+### 3.11 Removing a repo (`helm repo remove`)
 
 * To remove one or more repos from your Helm client:
 
@@ -508,7 +569,7 @@ Check with:
 helm repo list
 ```
 
-### 3.11 Useful companion commands
+### 3.12 Useful companion commands
 
 * `helm repo update` — refresh local index cache.
 * `helm show values repo/chart` — view default `values.yaml` of a chart without pulling.
@@ -518,7 +579,7 @@ helm repo list
 * `helm history <release>` — view revision history.
 * `helm uninstall <release>` — remove a release.
 
-### 3.12 Step-by-step Practice Flow (CKA-friendly)
+### 3.13 Step-by-step Practice Flow (CKA-friendly)
 
 1. Search Hub to find candidate charts:
 
@@ -570,7 +631,7 @@ helm repo list
    helm repo remove ingress-nginx
    ```
 
-### 3.13 Common pitfalls & exam tips
+### 3.14 Common pitfalls & exam tips
 
 * **Cache stale results:** If `helm search repo` doesn’t show a newly-published chart, run `helm repo update`.
 * **Artifact Hub is search-only:** You still need to `helm repo add` the chart’s repo URL found on Artifact Hub.
