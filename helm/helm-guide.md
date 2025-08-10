@@ -8,8 +8,6 @@
 
 Short metaphor: **Chart = recipe**, **Release = meal you cooked from that recipe**, **Repo = cookbook store**.
 
----
-
 ## 1.2 Key concepts (quick reference)
 
 * **Chart** — A package (directory or `.tgz`) containing `Chart.yaml`, `values.yaml`, and `templates/` (K8s manifests as templates).
@@ -17,8 +15,6 @@ Short metaphor: **Chart = recipe**, **Release = meal you cooked from that recipe
 * **Repository (repo)** — A web-hosted index + collection of packaged charts (e.g. Bitnami, stable repos).
 * **Values** — Configuration values (`values.yaml`) used to fill templates. Overridable at install/upgrade.
 * **Templates** — Go-template formatted YAML files under `templates/` that expand into k8s manifests using `.Values`, `.Release`, and built-in functions.
-
----
 
 ## 1.3 Why Helm? — problems it solves
 
@@ -56,15 +52,11 @@ Helm solves a bunch of practical problems that become painful if you only use ra
 
    * Use conditionals and loops in templates so a single chart can support many deployment shapes.
 
----
-
 ## 1.4 What Helm DOES NOT replace
 
 * Helm does **not** replace `kubectl` — you still use `kubectl` to inspect objects, debug pods, or apply low-level changes.
 * Helm does **not** change Kubernetes primitives — it generates them from templates.
 * For trivial single-file manifests, Helm is often overkill.
-
----
 
 ## 1.5 Quick examples — show the difference (raw YAML vs Helm)
 
@@ -102,8 +94,6 @@ kubectl apply -f nginx-deployment.yaml
 
 To change image or replicas you must edit the file (or `kubectl set image` / `kubectl scale`) — manual and error-prone across environments.
 
----
-
 ### Example B — Install nginx via Helm (chart from repo)
 
 Commands:
@@ -130,8 +120,6 @@ helm install my-nginx bitnami/nginx --set service.type=NodePort --set replicaCou
 helm upgrade my-nginx bitnami/nginx --set image.tag=1.26.0
 helm rollback my-nginx 1  # rollback to revision 1
 ```
-
----
 
 ### Example C — Create & install your own chart (local app)
 
@@ -176,8 +164,6 @@ Rollback if needed:
 helm rollback myapp-release 1
 ```
 
----
-
 ## 1.6 Mini hands-on workflow (practice sequence for CKA)
 
 1. `helm repo add bitnami https://charts.bitnami.com/bitnami`
@@ -192,8 +178,6 @@ helm rollback myapp-release 1
 
 Practice these commands until you can run them quickly without looking them up.
 
----
-
 ## 1.7 Short ASCII flow diagram
 
 ```
@@ -206,16 +190,12 @@ Practice these commands until you can run them quickly without looking them up.
                          `-- helm upgrade / helm rollback / helm uninstall
 ```
 
----
-
 ## 1.8 Common exam tips (CKA)
 
 * Practice `helm install`, `helm upgrade`, `helm rollback`, and `helm uninstall` until muscle memory forms.
 * Use `helm template` to render manifests locally when you want to inspect what Helm will apply (useful during the exam if `kubectl apply -f -` is faster).
 * If you need time-critical installs, prefer well-known chart repos (Bitnami, ingress-nginx) — but remember repo URLs may change in real life; in the exam use repo names/URLs provided by the task.
 * Use `--dry-run --debug` when testing a change locally.
-
----
 
 ### 1.9 Chart vs Release vs Repo [Recap]
 
