@@ -1,8 +1,6 @@
 # Helm
 
-## Section 1
-
-## 1. Introduction to Helm
+## Section 1:  Introduction to Helm
 
 ## 1.1 What is Helm?
 
