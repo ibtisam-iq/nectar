@@ -402,6 +402,21 @@ helm install my-nginx bitnami/nginx --version 15.5.2
 * Use `--devel` if you want pre-release versions (alpha/beta/rc) included in search & install results.
 
 **Note:** Always run `helm repo update` if you expect a newly-published chart version to be available.
+Yes — that’s correct in Helm terminology.
+
+#### Breakdown:
+
+* **bitnami** → **Repository name** (an alias you add when you run `helm repo add bitnami https://charts.bitnami.com/bitnami`)
+* **nginx** → **Chart name** (the name of the package containing NGINX’s Kubernetes manifests)
+* **bitnami/nginx** → **Chart reference** (repository alias + chart name)
+
+When you install it:
+
+```bash
+helm install my-release bitnami/nginx
+```
+
+Helm looks inside the `bitnami` repo for the `nginx` chart.
 
 ### 3.6 Installing from a local chart directory
 
