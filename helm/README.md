@@ -56,7 +56,7 @@
 
 ---
 
-## **6. Release Management**
+## [**6. Release Management**](https://github.com/ibtisam-iq/nectar/blob/main/helm/helm-guide.md#section-6--upgrading-rolling-back--uninstalling-releases)
 
 * Listing releases (`helm list`)
 * Viewing release details (`helm status`)
@@ -100,6 +100,7 @@
 
   * Installing from repo
   * Creating & installing your own chart
+
 
 
 
