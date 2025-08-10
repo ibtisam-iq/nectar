@@ -1,8 +1,5 @@
-# Helm — Introduction, Architecture & Package Manager
+# Helm
 
-> **Purpose:** Cover what Helm is, why it exists, how it works (Helm v3), and a deep, hands‑on, step‑by‑step guide to using Helm as a **package manager** — searching, adding/removing repos, installing from repos, pulling and installing locally, and installing specific chart versions. Includes practical examples and CKA-oriented tips.
-
----
 ## Section 1
 
 ## 1. Introduction to Helm
