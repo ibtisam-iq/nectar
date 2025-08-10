@@ -489,3 +489,163 @@ yamllint values.yaml
 #### **Exam Tip**
 
 In the CKA exam, always run `helm install` with `--dry-run --debug` first. This saves you from wasting time deleting broken resources.
+
+---
+
+## **9. Helm in CKA Exam Context**
+
+### **9.1 Common Scenarios in the Exam**
+
+These are the *most likely* Helm tasks you’ll see in the CKA exam, based on how Kubernetes is tested:
+
+1. **Install an application from a Helm repo**
+
+   * You’ll be given a repo URL and a chart name.
+   * Example:
+
+     ```bash
+     helm repo add bitnami https://charts.bitnami.com/bitnami
+     helm install mynginx bitnami/nginx
+     ```
+
+     ✅ *Tip*: Always run `helm repo update` after adding repos in the exam.
+
+2. **Install a specific version of a chart**
+
+   * Example:
+
+     ```bash
+     helm install mynginx bitnami/nginx --version 13.2.5
+     ```
+
+3. **Customize installation using values**
+
+   * They might give you a `values.yaml` file or a single key-value override.
+   * Example:
+
+     ```bash
+     helm install myapp ./mychart -f custom-values.yaml
+     ```
+
+     or
+
+     ```bash
+     helm install myapp ./mychart --set replicaCount=3
+     ```
+
+4. **Upgrade an existing release**
+
+   * Example:
+
+     ```bash
+     helm upgrade myapp ./mychart -f new-values.yaml
+     ```
+
+5. **Roll back to a previous version**
+
+   * Example:
+
+     ```bash
+     helm rollback myapp 1
+     ```
+
+6. **Pull a chart and install it locally**
+
+   * Example:
+
+     ```bash
+     helm pull bitnami/nginx --untar
+     helm install mynginx ./nginx
+     ```
+
+7. **List all Helm releases**
+
+   * Example:
+
+     ```bash
+     helm list -A
+     ```
+
+8. **Uninstall a release**
+
+   * Example:
+
+     ```bash
+     helm uninstall myapp
+     ```
+
+---
+
+### **9.2 Fast Installation Tricks**
+
+When the clock is ticking:
+
+* **Skip the repo search** if the exam question already gives you chart path or URL.
+* Use **`--set` for small changes** instead of creating a `values.yaml`.
+* Always append `--dry-run --debug` first if unsure — avoids deleting later.
+* Use **short names** for release to type less:
+
+  ```bash
+  helm install a bitnami/nginx
+  ```
+* For upgrades with multiple overrides, combine:
+
+  ```bash
+  helm upgrade a bitnami/nginx -f val1.yaml -f val2.yaml
+  ```
+
+---
+
+### **9.3 Repo Management Under Time Pressure**
+
+1. **Check which repos are configured:**
+
+   ```bash
+   helm repo list
+   ```
+2. **Add missing repos quickly:**
+
+   ```bash
+   helm repo add myrepo https://example.com/charts && helm repo update
+   ```
+3. **Remove unnecessary repos:**
+
+   ```bash
+   helm repo remove oldrepo
+   ```
+4. **Search in all repos:**
+
+   ```bash
+   helm search repo nginx
+   ```
+
+---
+
+### **9.4 Common Exam Pitfalls**
+
+* **Forgetting `--namespace`**: If the question specifies a namespace, install with:
+
+  ```bash
+  helm install myapp ./mychart -n custom-ns --create-namespace
+  ```
+* **Wrong chart name**: Always confirm with `helm search repo`.
+* **Values merge confusion**: Remember that `--set` overrides `values.yaml`, and later `-f` files override earlier ones.
+* **Time waste on YAML edits**: For small edits, `--set` is faster than editing and saving.
+
+---
+
+### **9.5 “Exam-Speed” Helm Commands Cheatsheet**
+
+| Task                       | Command                                           |
+| -------------------------- | ------------------------------------------------- |
+| Add repo                   | `helm repo add NAME URL && helm repo update`      |
+| Search chart               | `helm search repo keyword`                        |
+| Install chart              | `helm install RELNAME REPO/CHART`                 |
+| Install with custom values | `helm install RELNAME ./chart -f values.yaml`     |
+| Install specific version   | `helm install RELNAME REPO/CHART --version X.Y.Z` |
+| Upgrade release            | `helm upgrade RELNAME ./chart`                    |
+| Rollback release           | `helm rollback RELNAME REVISION`                  |
+| List releases              | `helm list -A`                                    |
+| Uninstall release          | `helm uninstall RELNAME`                          |
+
+---
