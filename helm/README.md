@@ -92,7 +92,7 @@
 
 ---
 
-## **10. Helm Quick Reference**
+## [**10. Helm Quick Reference**](https://github.com/ibtisam-iq/nectar/blob/main/helm/quick-ref.md)
 
 * Most used commands
 * Common flags
@@ -100,6 +100,7 @@
 
   * Installing from repo
   * Creating & installing your own chart
+
 
 
 
