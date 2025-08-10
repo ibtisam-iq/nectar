@@ -9,7 +9,7 @@
 
 ---
 
-## **2. Helm Architecture**
+## [**2. Helm Architecture**](https://github.com/ibtisam-iq/nectar/blob/main/helm/helm-guide.md#section-2--helm-architecture)
 
 * Helm v3 workflow (client-side)
 * Interaction with Kubernetes API
@@ -100,6 +100,7 @@
 
   * Installing from repo
   * Creating & installing your own chart
+
 
 
 
