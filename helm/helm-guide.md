@@ -891,7 +891,7 @@ kubectl get pods
 
 ---
 
-## Section 08:  Troubleshooting Helm**
+## Section 8:  Troubleshooting Helm
 
 When working with Helm in production or during the CKA exam, troubleshooting skills can save valuable time. Here’s how to diagnose and fix common issues.
 
