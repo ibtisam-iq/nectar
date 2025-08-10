@@ -84,7 +84,7 @@
 
 ---
 
-## **9. Helm in CKA Exam Context**
+## [**9. Helm in CKA Exam Context**](https://github.com/ibtisam-iq/nectar/blob/main/helm/helm-guide.md#section-9--helm-in-cka-exam-context)
 
 * Common scenarios in the exam
 * Fast installation tricks
@@ -100,6 +100,7 @@
 
   * Installing from repo
   * Creating & installing your own chart
+
 
 
 
