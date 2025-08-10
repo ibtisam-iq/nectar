@@ -225,9 +225,7 @@ Practice these commands until you can run them quickly without looking them up.
 
 ---
 
-## Section 2 
-
-## Helm Architecture
+## Section 2:  Helm Architecture
 
 ### 2.1 Helm v2 vs v3
 
