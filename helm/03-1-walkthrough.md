@@ -299,3 +299,126 @@ kubectl get svc
 ---
 
 **Exam Tip:** Be comfortable switching between `--set` and `-f` methods quickly, and remember `helm get values` for troubleshooting.
+---
+
+## Section 6 — Upgrading, Rolling Back & Uninstalling Releases
+
+### 6.1 **Why This Matters**
+
+Managing the lifecycle of a Helm release involves not just installing charts, but also upgrading them to newer versions, rolling back if issues occur, and cleanly uninstalling when no longer needed. In production, this is critical to ensure smooth application updates and minimize downtime.
+
+---
+
+### 6.2 **Upgrading a Release**
+
+**Syntax:**
+
+```bash
+helm upgrade <release_name> <chart> [flags]
+```
+
+* `release_name`: The existing release to upgrade.
+* `<chart>`: Chart reference (repo/chart, local path, or URL).
+
+**Example:**
+
+```bash
+helm upgrade my-nginx bitnami/nginx --version 15.2.3
+```
+
+* Here, we are upgrading the `my-nginx` release to the `15.2.3` chart version.
+
+**Using values during upgrade:**
+
+```bash
+helm upgrade my-nginx bitnami/nginx -f custom-values.yaml
+```
+
+* Applies the custom configuration during upgrade.
+
+**Dry-run before upgrading:**
+
+```bash
+helm upgrade my-nginx bitnami/nginx --dry-run --debug
+```
+
+---
+
+### 6.3 **Rolling Back a Release**
+
+**Syntax:**
+
+```bash
+helm rollback <release_name> [revision] [flags]
+```
+
+* If `[revision]` is omitted, Helm rolls back to the previous revision.
+
+**Example:**
+
+```bash
+helm rollback my-nginx 2
+```
+
+* Rolls back `my-nginx` to revision 2.
+
+**Listing release history:**
+
+```bash
+helm history my-nginx
+```
+
+---
+
+### 6.4 **Uninstalling a Release**
+
+**Syntax:**
+
+```bash
+helm uninstall <release_name> [flags]
+```
+
+**Example:**
+
+```bash
+helm uninstall my-nginx
+```
+
+* Removes all Kubernetes resources created by the release.
+
+**Keep history after uninstall:**
+
+```bash
+helm uninstall my-nginx --keep-history
+```
+
+* Useful for auditing or rollback purposes.
+
+---
+
+### 6.5 **End-to-End Example — Upgrade & Rollback Workflow**
+
+```bash
+# Step 1: Install an older version
+helm install my-nginx bitnami/nginx --version 15.2.0
+
+# Step 2: Upgrade to newer version
+helm upgrade my-nginx bitnami/nginx --version 15.2.3
+
+# Step 3: View history
+helm history my-nginx
+
+# Step 4: Rollback to previous version
+helm rollback my-nginx 1
+
+# Step 5: Verify rollback
+kubectl get pods
+```
+
+---
+
+### 6.6 **Exam Tip**
+
+* Always use `--dry-run` before a risky upgrade.
+* In troubleshooting, combine `helm history` + `helm get values` + `helm get manifest` for quick diagnosis.
+* For CKA, you might be asked to roll back a failed deployment — know the `helm rollback` syntax by heart.
