@@ -17,7 +17,7 @@
 
 ---
 
-## **3. Helm as a Package Manager (Pre-Built Charts)**
+## [**3. Helm as a Package Manager (Pre-Built Charts)**](https://github.com/ibtisam-iq/nectar/blob/main/helm/helm-guide.md#section-3--helm-as-a-package-manager-pre-built-charts)
 
 * **Definition**: Installing & managing existing charts (apps/controllers)
 * Adding a repo (`helm repo add`)
@@ -100,6 +100,7 @@
 
   * Installing from repo
   * Creating & installing your own chart
+
 
 
 
