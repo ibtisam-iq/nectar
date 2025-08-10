@@ -1,6 +1,6 @@
 # **Helm Notes — Table of Contents**
 
-## **1. Introduction to Helm**
+[## **1. Introduction to Helm**](https://github.com/ibtisam-iq/nectar/blob/main/helm/helm-guide.md#section-1--introduction-to-helm)
 
 * What is Helm?
 * Why use Helm in Kubernetes?
@@ -100,4 +100,5 @@
 
   * Installing from repo
   * Creating & installing your own chart
+
 
