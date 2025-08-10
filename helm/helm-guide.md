@@ -673,11 +673,9 @@ Renders the manifests locally without installing.
 
 ---
 
-## 5. Chart Values & Customization
+## Section 5: Chart Values & Customization
 
 In Helm, **values** define the customizable configuration for a chart. This section explains how to work with `values.yaml` files, override defaults, and use multiple values files.
-
----
 
 ### 5.1 Understanding `values.yaml`
 
@@ -695,8 +693,6 @@ service:
   type: ClusterIP
   port: 80
 ```
-
----
 
 ### 5.2 Overriding Values at Install Time
 
@@ -721,8 +717,6 @@ image:
 helm install mynginx bitnami/nginx -f custom-values.yaml
 ```
 
----
-
 ### 5.3 Using Multiple Values Files
 
 When using multiple `-f` flags, Helm merges them in order — later files override earlier ones.
@@ -730,8 +724,6 @@ When using multiple `-f` flags, Helm merges them in order — later files overri
 ```bash
 helm install myapp ./mychart -f base.yaml -f prod.yaml
 ```
-
----
 
 ### 5.4 Viewing Effective Values
 
@@ -747,8 +739,6 @@ To see all values, including defaults:
 helm get values mynginx --all
 ```
 
----
-
 ### 5.5 Updating Values After Installation
 
 You can change values without reinstalling:
@@ -762,8 +752,6 @@ Or with inline:
 ```bash
 helm upgrade mynginx bitnami/nginx --set replicaCount=5
 ```
-
----
 
 ### 5.6 Real-World Example — Changing NGINX Service Type
 
@@ -785,18 +773,15 @@ helm upgrade mynginx bitnami/nginx --set service.type=LoadBalancer
 kubectl get svc
 ```
 
----
-
 **Exam Tip:** Be comfortable switching between `--set` and `-f` methods quickly, and remember `helm get values` for troubleshooting.
+
 ---
 
-## Section 6 — Upgrading, Rolling Back & Uninstalling Releases
+## Section 6:  Upgrading, Rolling Back & Uninstalling Releases
 
 ### 6.1 **Why This Matters**
 
 Managing the lifecycle of a Helm release involves not just installing charts, but also upgrading them to newer versions, rolling back if issues occur, and cleanly uninstalling when no longer needed. In production, this is critical to ensure smooth application updates and minimize downtime.
-
----
 
 ### 6.2 **Upgrading a Release**
 
@@ -831,8 +816,6 @@ helm upgrade my-nginx bitnami/nginx -f custom-values.yaml
 helm upgrade my-nginx bitnami/nginx --dry-run --debug
 ```
 
----
-
 ### 6.3 **Rolling Back a Release**
 
 **Syntax:**
@@ -856,8 +839,6 @@ helm rollback my-nginx 2
 ```bash
 helm history my-nginx
 ```
-
----
 
 ### 6.4 **Uninstalling a Release**
 
@@ -883,8 +864,6 @@ helm uninstall my-nginx --keep-history
 
 * Useful for auditing or rollback purposes.
 
----
-
 ### 6.5 **End-to-End Example — Upgrade & Rollback Workflow**
 
 ```bash
@@ -904,8 +883,6 @@ helm rollback my-nginx 1
 kubectl get pods
 ```
 
----
-
 ### 6.6 **Exam Tip**
 
 * Always use `--dry-run` before a risky upgrade.
@@ -914,13 +891,11 @@ kubectl get pods
 
 ---
 
-## Section 07
-
-### **8. Troubleshooting Helm**
+## Section 08:  Troubleshooting Helm**
 
 When working with Helm in production or during the CKA exam, troubleshooting skills can save valuable time. Here’s how to diagnose and fix common issues.
 
-#### **8.1 Using `--dry-run` and `--debug`**
+### **8.1 Using `--dry-run` and `--debug`**
 
 * **Purpose**: Test a Helm install or upgrade without actually deploying resources.
 
@@ -931,7 +906,7 @@ helm install myapp ./mychart --dry-run --debug
 * **`--dry-run`**: Simulates the action without making changes.
 * **`--debug`**: Shows detailed output, including rendered manifests and API requests.
 
-#### **8.2 Viewing Rendered Manifests Before Install**
+### **8.2 Viewing Rendered Manifests Before Install**
 
 * **Purpose**: See the exact Kubernetes YAML that Helm will apply.
 
@@ -975,13 +950,13 @@ helm uninstall myapp
 yamllint values.yaml
 ```
 
-#### **Exam Tip**
+### **Exam Tip**
 
 In the CKA exam, always run `helm install` with `--dry-run --debug` first. This saves you from wasting time deleting broken resources.
 
 ---
 
-## **9. Helm in CKA Exam Context**
+## Section 9:  Helm in CKA Exam Context
 
 ### **9.1 Common Scenarios in the Exam**
 
@@ -1063,8 +1038,6 @@ These are the *most likely* Helm tasks you’ll see in the CKA exam, based on ho
      helm uninstall myapp
      ```
 
----
-
 ### **9.2 Fast Installation Tricks**
 
 When the clock is ticking:
@@ -1082,8 +1055,6 @@ When the clock is ticking:
   ```bash
   helm upgrade a bitnami/nginx -f val1.yaml -f val2.yaml
   ```
-
----
 
 ### **9.3 Repo Management Under Time Pressure**
 
@@ -1108,8 +1079,6 @@ When the clock is ticking:
    helm search repo nginx
    ```
 
----
-
 ### **9.4 Common Exam Pitfalls**
 
 * **Forgetting `--namespace`**: If the question specifies a namespace, install with:
@@ -1120,8 +1089,6 @@ When the clock is ticking:
 * **Wrong chart name**: Always confirm with `helm search repo`.
 * **Values merge confusion**: Remember that `--set` overrides `values.yaml`, and later `-f` files override earlier ones.
 * **Time waste on YAML edits**: For small edits, `--set` is faster than editing and saving.
-
----
 
 ### **9.5 “Exam-Speed” Helm Commands Cheatsheet**
 
@@ -1136,6 +1103,4 @@ When the clock is ticking:
 | Rollback release           | `helm rollback RELNAME REVISION`                  |
 | List releases              | `helm list -A`                                    |
 | Uninstall release          | `helm uninstall RELNAME`                          |
-
----
 
