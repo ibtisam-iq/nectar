@@ -463,10 +463,6 @@ helm upgrade my-nginx bitnami/nginx --version 16.0.0
 
 **Exam tip:** If you need to install a particular chart version during the exam, use `--version` and `helm repo update` first.
 
-Let me break it down for you clearly — this `helm upgrade --install` thing trips up a lot of people until they see **why it exists**.
-
----
-
 ### 3.10 What does `helm upgrade --install` do?
 
 Normally:
