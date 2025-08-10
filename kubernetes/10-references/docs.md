@@ -20,6 +20,7 @@ A curated collection of official Kubernetes documentation links for quick naviga
 - Ephemeral Volumes: CSI ephemeral volumes, Generic ephemeral volumes... pod manifests
 - csr/certificate: Issue a Certificate for a Kubernetes API Client Using A CertificateSigningRequest (Manage TLS Certificates in a Cluster)
 - role: Using RBAC Authorization
+- crd: Extend the Kubernetes API with CustomResourceDefinitions
 
 ---
 
