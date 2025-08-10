@@ -5,7 +5,7 @@ A curated collection of official Kubernetes documentation links for quick naviga
 ---
 ## Keywords
 
-- ports, network plugins, etcd, static pod, ingress, gateapi, netpol, probe, security context
+- ports, network plugins, etcd, static pod, ingress, gateapi, netpol, probe, security context, Sidecar Containers, Init Containers (Creating a Pod that has an init container) 
 - kubelet, kube-apiserver, kube-controller-manager, kube-proxy
 - Upgrading kubeadm
 - Quota: Configure Memory and CPU Quotas for a Namespace
