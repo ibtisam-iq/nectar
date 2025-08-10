@@ -116,3 +116,69 @@ helm uninstall my-ingress
 ```
 
 **Exam Tip:** Always check `helm repo list` to confirm which repo Helm is pulling from, especially if you have multiple repos containing charts with the same name.
+
+---
+
+## Section 4: Creating & Managing Your Own Application Chart
+
+### 4.1 Create a New Chart
+
+```bash
+helm create myapp
+```
+
+This generates a standard Helm chart folder structure with templates, values.yaml, and Chart.yaml.
+
+### 4.2 Understand the Structure
+
+* **Chart.yaml** → Metadata (name, version, description)
+* **values.yaml** → Default configuration values
+* **templates/** → Kubernetes manifest templates (Deployment, Service, etc.)
+* **charts/** → Dependency charts
+* **.helmignore** → Ignore files during packaging
+
+### 4.3 Install Your Local Chart
+
+```bash
+helm install myapp ./myapp
+```
+
+### 4.4 Upgrade Your Chart
+
+```bash
+helm upgrade myapp ./myapp
+```
+
+### 4.5 Package Your Chart
+
+```bash
+helm package myapp
+```
+
+Produces a `.tgz` file for sharing or uploading to a Helm repository.
+
+### 4.6 Push to a Repository (Example with ChartMuseum)
+
+```bash
+helm repo add myrepo https://mychartrepo.example.com
+helm push myapp-0.1.0.tgz myrepo
+```
+
+### 4.7 Using Custom Values
+
+```bash
+helm install myapp ./myapp -f custom-values.yaml
+```
+
+Overrides default values in `values.yaml`.
+
+### 4.8 Debugging Templates
+
+```bash
+helm template ./myapp
+```
+
+Renders the manifests locally without installing.
+
+**Exam Tip:** Expect tasks requiring you to modify `values.yaml` to change application behavior, package and install a local chart, and perform upgrades with zero downtime.
+
