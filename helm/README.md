@@ -76,7 +76,7 @@
 
 ---
 
-## **8. Troubleshooting Helm**
+## [**8. Troubleshooting Helm**](https://github.com/ibtisam-iq/nectar/blob/main/helm/helm-guide.md#section-8--troubleshooting-helm)
 
 * `--dry-run` and `--debug`
 * Viewing rendered manifests before install (`helm template`)
@@ -100,6 +100,7 @@
 
   * Installing from repo
   * Creating & installing your own chart
+
 
 
 
