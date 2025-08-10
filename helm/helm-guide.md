@@ -284,9 +284,7 @@ Release metadata stored as Secret in namespace
 
 ---
 
-## Section 3
-
-## 3. Helm as a Package Manager (Pre-Built Charts)
+## Section 3:  Helm as a Package Manager (Pre-Built Charts)
 
 **Goal:** Learn every way to find and install pre-built charts: searching Artifact Hub (the global index), adding repos, searching locally, installing from repos, pulling and installing locally, and installing a particular version.
 
