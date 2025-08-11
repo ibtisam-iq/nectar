@@ -309,6 +309,21 @@ Release metadata stored as Secret in namespace
   helm repo update
   helm search repo nginx
   # shows results like bitnami/nginx and repo/chartName in NAME column
+
+  controlplane ~ ➜  helm repo list
+  Error: no repositories to show
+
+  controlplane ~ ✖ helm repo add bitnami https://charts.bitnami.com/bitnami
+  "bitnami" has been added to your repositories
+
+  controlplane ~ ➜  helm repo list
+  NAME    URL                               
+  bitnami https://charts.bitnami.com/bitnami
+
+  controlplane ~ ➜  helm search repo wordpress
+  NAME                    CHART VERSION   APP VERSION     DESCRIPTION                                       
+  bitnami/wordpress       25.0.8          6.8.2           WordPress is the world's most popular blogging ...
+  bitnami/wordpress-intel 2.1.31          6.1.1           DEPRECATED WordPress for Intel is the most popu...
   ```
 
 ### 3.3 Add a repository (`helm repo add`)
