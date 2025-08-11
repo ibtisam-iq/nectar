@@ -284,9 +284,18 @@ Release metadata stored as Secret in namespace
 
   Example:
 
+  Search for a `consul` helm chart package from the Artifact Hub and identify the `APP VERSION` for the `Official HashiCorp Consul Chart`.
+
   ```bash
-  helm search hub ingress-nginx
+  controlplane ~ ➜  helm search hub consul
+  URL                                                     CHART VERSION   APP VERSION     DESCRIPTION                                       
+  https://artifacthub.io/packages/helm/warjiang/c...      1.3.0           1.17.0          Official HashiCorp Consul Chart                   
+  https://artifacthub.io/packages/helm/hashicorp/...      1.8.0           1.21.3          Official HashiCorp Consul Chart                   
+  https://artifacthub.io/packages/helm/bitnami-ak...      10.9.2          1.13.2          HashiCorp Consul is a tool for discovering and ...
   # returns matching charts and the repository URL to add
+
+  controlplane ~ ➜  helm search hub consul | grep hashicorp
+  https://artifacthub.io/packages/helm/hashicorp/...      1.8.0           1.21.3          Official HashiCorp Consul Chart
   ```
 
 * **Search local repos — `helm search repo`**
