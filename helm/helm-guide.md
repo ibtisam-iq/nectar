@@ -544,6 +544,45 @@ This way:
 
 > “If release exists → upgrade, if not → install. No branching logic needed.”
 
+**Example:**
+The DevOps team has decided to upgrade the `nginx` version to `1.27.x` and use the Helm chart version `18.3.6` from the Bitnami repository.
+
+```bash
+controlplane ~ ➜  helm repo list
+NAME    URL                               
+bitnami https://charts.bitnami.com/bitnami
+
+controlplane ~ ➜  helm list -A
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART        APP VERSION
+dazzling-web    default         3               2025-08-11 08:48:06.340552784 +0000 UTC deployed        nginx-12.0.4 1.22.0     
+
+controlplane ~ ➜  helm upgrade --install dazzling-web bitnami/nginx --version 18.3.6
+Pulled: us-central1-docker.pkg.dev/kk-lab-prod/helm-charts/bitnami/nginx:18.3.6
+Digest: sha256:19a3e4578765369a8c361efd98fe167cc4e4d7f8b4ee42da899ae86e5f2be263
+Release "dazzling-web" has been upgraded. Happy Helming!
+NAME: dazzling-web
+LAST DEPLOYED: Mon Aug 11 08:50:58 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 4
+TEST SUITE: None
+NOTES:
+CHART NAME: nginx
+CHART VERSION: 18.3.6
+APP VERSION: 1.27.4    
+
+controlplane ~ ➜  helm list -A
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART          APP VERSION
+dazzling-web    default         4               2025-08-11 08:50:58.759206727 +0000 UTC deployed        nginx-18.3.6   1.27.4     
+
+controlplane ~ ➜  helm rollback dazzling-web
+Rollback was a success! Happy Helming!
+
+controlplane ~ ➜  helm list -A
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART          APP VERSION
+dazzling-web    default         5               2025-08-11 08:59:17.581280594 +0000 UTC deployed        nginx-12.0.4   1.22.0
+```
+
 ### 3.11 Removing a repo (`helm repo remove`)
 
 * To remove one or more repos from your Helm client:
