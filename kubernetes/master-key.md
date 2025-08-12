@@ -68,24 +68,6 @@ spec:
   hostPath:
     path: /dev/nvme0n1     # ✅ Use this raw block device
     type: BlockDevice      # ✅ Must be BlockDevice
-
-  awsElasticBlockStore:
-    volumeID: vol-0123456789abcdef0
-    fsType: ext4
-    readOnly: true
-
-  nfs:
-    path: /exported/path
-    server: nfs-server.ibtisam-iq.com
-    readOnly: true
-
-  csi:
-    driver: ebs.csi.aws.com
-    volumeHandle: vol-0abcd1234cdef5678
-    fsType: ext4
-    readOnly: true
-    volumeAttributes:
-          foo: bar
 ```
 
 ```bash
