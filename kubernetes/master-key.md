@@ -109,8 +109,6 @@ allowVolumeExpansion: true    # You can only expand a PVC if its storage class's
 volumeBindingMode: WaitForFirstConsumer # Delays provisioning until a Pod using the PVC is scheduled.
                    # Immediate (default): Provisions the PV as soon as the PVC is created.
 ```
-
-
 ```bash
 volumes:
   - name: cache-volume
@@ -135,21 +133,6 @@ volumes:
     - name: mypd
       persistentVolumeClaim:
         claimName: myclaim
-
-volumes:
-  - name: pod-info
-    downwardAPI:
-      items:
-      - path: "labels"
-        fieldRef:
-          fieldPath: metadata.labels
-
-volumes:
-  - name: image-vol
-    image:
-      reference: quay.io/crio/artifact:v2
-      pullPolicy: IfNotPresent
-
 ```
 
 | Scope              | Fields                                                                             |
