@@ -7,6 +7,7 @@
 **Deployments:** `deployment.apps/calico-kube-controllers (1/1), deployment.apps/coredns (2/2), deployment.apps/local-path-provisioner (1/1)`
 
 `busybox` has a default entrypoint of `/bin/sh`, no `CMD` and a default command of `sh -c`.
+kubeadm init --pod-network-cidr 10.244.0.0/16
 
 Container runs: `<command or ENTRYPOINT> <args or CMD>`
 
