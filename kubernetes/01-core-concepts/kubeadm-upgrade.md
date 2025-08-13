@@ -8,7 +8,19 @@
 - To allow downgrading with apt, explicitly pass --allow-downgrades
 - `sudo apt-get install -y kubeadm=1.31.0-1.1 --allow-downgrades`
 4. Verify the upgrade plan, and choose a version to upgrade it
-- Specified version to downgrade to "v1.31.0" is too low; kubeadm can downgrade only 1 minor version at a time 
+```text
+Specified version to downgrade to "v1.31.0" is too low; kubeadm can downgrade only 1 minor version at a time
+
+error execution phase preflight: [preflight] Some fatal errors occurred:
+        [ERROR CoreDNSUnsupportedPlugins]: start version '1.12.0' not supported
+        [ERROR CoreDNSMigration]: CoreDNS will not be upgraded: start version '1.12.0' not supported
+[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
+To see the stack trace of this error execute with --v=5 or higher
+laborant@cplane-01:~$ sudo kubeadm upgrade apply v1.32.3 --ignore-preflight-errors
+flag needs an argument: --ignore-preflight-errors
+To see the stack trace of this error execute with --v=5 or higher
+laborant@cplane-01:~$ sudo kubeadm upgrade apply v1.32.3 --ignore-preflight-errors=CoreDNSUnsupportedPlugins,CoreDNSMigration 
+```
 5. Drain the node
 6. Upgrade kubelet and kubectl binaries
 7. Restart the kubelet & uncordon the node
