@@ -37,7 +37,7 @@ So, how you structure them **impacts whether the command works or fails** — es
 ### 🔹 1. Shell Inline Script — CLI
 
 ```bash
-kubectl run shellpod --image=busybox --command -- sh -c "echo Hello && date"
+kubectl run shellpod --image=busybox --restart=Never --command -- sh -c "echo Hello && date"
 ```
 
 ### 📄 YAML Equivalent
