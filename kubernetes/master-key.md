@@ -13,7 +13,7 @@
 --apiserver-advertise-address: Control plane’s private IP.
 
 Container runs: `<command or ENTRYPOINT> <args or CMD>`
-`kubectl run mypod --image=busybox --restart=Never -- echo "Hello from BusyBox"`
+`kubectl run mypod --image=busybox --restart=Never -- echo "Hi"` # args: ["echo", "Hi"]
 `kubectl run mypod --image=busybox --restart=Never --command -- echo "Hello from BusyBox"`
 `kubectl run shellpod --image=busybox --restart=Never --command -- sh -c "echo Hello && date"` # Using Shell Logic with sh -c 
 
