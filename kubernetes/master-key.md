@@ -13,6 +13,7 @@
 --apiserver-advertise-address: Control plane’s private IP.
 
 Container runs: `<command or ENTRYPOINT> <args or CMD>`
+`kubectl run shellpod --image=busybox --restart=Never --command -- sh -c "echo Hello && date"`
 
 ```bash
     env:
