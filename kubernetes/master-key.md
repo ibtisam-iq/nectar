@@ -14,6 +14,7 @@
 
 Container runs: `<command or ENTRYPOINT> <args or CMD>`
 `kubectl run shellpod --image=busybox --restart=Never --command -- sh -c "echo Hello && date"`
+`kubectl run mypod --image=busybox --restart=Never --command -- echo "Hello from BusyBox"`
 
 ```bash
     env:
