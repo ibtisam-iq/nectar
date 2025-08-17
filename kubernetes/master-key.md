@@ -24,6 +24,8 @@ k run test-pod --image busybox --restart=Never -it -- sh
     nslookup pod-id-address.namespace.pod.cluster.local
 # If you're only using static provisioning and want the PV to be bound to a PVC without any storage class,
 # you can leave it out or set it explicitly to an empty string ("").    storageClassName: ""  # This disables dynamic provisioning for this PV
+
+openssl x509 -in ibtisam.crt -text -noout
 ```
 
 ```bash
