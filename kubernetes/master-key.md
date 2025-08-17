@@ -146,7 +146,9 @@ spec:
 - `key=value` then operator: `Equal`
 - If only the `key`, and not `value` then operator: `Exists`
 - Affinity: You can use `In`, `NotIn`, `Exists`, `DoesNotExist`, `Gt` and `Lt`.
+- Guaranteed: values of requests must equal limits, Burstable: At least one resource request or limit, BestEffort: No requests or limits are defined in any container 
 ```yaml
 env:
     - name:
       value or valueFrom
+```
