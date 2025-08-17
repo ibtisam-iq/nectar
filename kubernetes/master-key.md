@@ -6,6 +6,8 @@
 
 **Deployments:** `deployment.apps/calico-kube-controllers (1/1), deployment.apps/coredns (2/2), deployment.apps/local-path-provisioner (1/1)`
 
+- targetPort: The port on the Pod where traffic is forwarded (e.g., 8080). Can be a numeric port or a named port (e.g., http) defined in the Pod’s containerPort.
+
 ```bash
 `busybox` has a default entrypoint of `/bin/sh`, no `CMD` and a default command of `sh -c`.
 --control-plane-endpoint: Stable API server endpoint for HA (supports DNS or load balancer).
