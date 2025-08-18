@@ -35,6 +35,7 @@
 * Creating a chart (`helm create`)
 * Chart directory structure explained
 * Editing templates & values
+* Linting your chart (`helm lint ./chart-dir`)
 * Installing your own chart locally
 * Upgrading your own chart locally
 * Packaging your chart (`helm package`)
@@ -100,6 +101,7 @@
 
   * Installing from repo
   * Creating & installing your own chart
+
 
 
 
