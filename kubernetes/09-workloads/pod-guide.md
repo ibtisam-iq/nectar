@@ -314,13 +314,12 @@ spec:                         # --> POD-LEVEL SPEC STARTS HERE
   volumes:                     # Pod-level volumes
   - name: myvolume
     emptyDir: {}
-
+  imagePullSecrets:            # Pod-level (secret for private registry)
+    - ibtisam-secret
   containers:                  # --> CONTAINER LIST STARTS HERE
   - name: mycontainer          # Container-level (required)
     image: nginx:latest        # Container-level (required)
     imagePullPolicy: Always    # Container-level (Always, IfNotPresent, Never)
-    imagePullSecrets:           # Container-level (secret for private registry)
-    - ibtisam-secret
     ports:                     # Container-level (optional)
     - containerPort: 80
 
