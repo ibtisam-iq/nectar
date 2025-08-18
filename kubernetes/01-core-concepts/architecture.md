@@ -420,3 +420,69 @@ controlplane ~ ➜  ps -aux | grep -i kube-proxy
 bad data in /proc/uptime
 root        4382  0.0  0.0 1298512 16032 ?       Ssl  13:22   0:01 /usr/local/bin/kube-proxy --config=/var/lib/kube-proxy/config.conf --hostname-override=controlplane
 ```
+
+---
+
+**Q. Identify the pod CIDR network of the full kubernetes cluster. This information is crucial for configuring the CNI plugin during installation. 
+Output the pod CIDR network to a file at `/root/pod-cidr.txt`.**
+
+```bash
+controlplane ~ ✖ k get cm -n kube-system 
+NAME                                                   DATA   AGE
+canal-config                                           6      89m
+coredns                                                1      89m
+extension-apiserver-authentication                     6      89m
+kube-apiserver-legacy-service-account-token-tracking   1      89m
+kube-proxy                                             2      89m
+kube-root-ca.crt                                       1      88m
+kubeadm-config                                         1      89m
+kubelet-config                                         1      89m
+
+controlplane ~ ➜  k describe cm -n kube-system kubeadm-config 
+Name:         kubeadm-config
+Namespace:    kube-system
+Labels:       <none>
+Annotations:  <none>
+
+Data
+====
+ClusterConfiguration:
+----
+apiServer:
+  certSANs:
+  - controlplane
+apiVersion: kubeadm.k8s.io/v1beta4
+caCertificateValidityPeriod: 87600h0m0s
+certificateValidityPeriod: 8760h0m0s
+certificatesDir: /etc/kubernetes/pki
+clusterName: kubernetes
+controlPlaneEndpoint: controlplane:6443
+controllerManager: {}
+dns: {}
+encryptionAlgorithm: RSA-2048
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+imageRepository: registry.k8s.io
+kind: ClusterConfiguration
+kubernetesVersion: v1.33.0
+networking:
+  dnsDomain: cluster.local
+  podSubnet: 172.17.0.0/16
+  serviceSubnet: 172.20.0.0/16
+proxy: {}
+scheduler: {}
+
+
+
+BinaryData
+====
+
+Events:  <none>
+
+controlplane ~ ➜  kubectl get configmap kubeadm-config -n kube-system  -o jsonpath="{.data.ClusterConfiguration}" | grep podSubnet  | awk '{print $2}' > /root/pod-cidr.txt
+
+controlplane ~ ➜  cat pod-cidr.txt 
+172.17.0.0/16
+```
+---
