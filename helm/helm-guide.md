@@ -730,7 +730,32 @@ Overrides default values in `values.yaml`.
 helm template ./myapp
 ```
 
-Renders the manifests locally without installing.
+#### Linting your chart (`helm lint`)
+
+* **Purpose** → Validates the structure and syntax of your chart before installing it. Think of it like a **spell-checker for charts**.
+* **When to use** → After creating or editing templates/values, always run `helm lint` to catch errors early.
+
+**Command:**
+
+```bash
+helm lint ./mychart
+```
+
+**Example Output:**
+
+```
+==> Linting ./mychart
+[INFO] Chart.yaml: icon is recommended
+1 chart(s) linted, 0 chart(s) failed
+```
+
+**Key points:**
+
+* Warns if `Chart.yaml` is missing required fields.
+* Detects invalid YAML/templating errors.
+* Prevents broken deployments before you run `helm install` or `helm upgrade`.
+
+⚡ **Exam Tip (CKA/CKAD)**: If you’re asked to create a chart, always run `helm lint` first. It’s faster than debugging a failed install during the exam timer.
 
 **Exam Tip:** Expect tasks requiring you to modify `values.yaml` to change application behavior, package and install a local chart, and perform upgrades with zero downtime.
 
