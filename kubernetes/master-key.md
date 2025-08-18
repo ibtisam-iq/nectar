@@ -130,8 +130,8 @@ spec:
   backoffLimitPerIndex: 1         # Allows 1 retry per index
   maxFailedIndexes: 5             # Terminates the Job if 5 indices fail
   backoffLimit: 4                 # Specifies the number of retries for failed Pods (default: 6)
-  activeDeadlineSeconds: 600      # Limits the Job duration to 600 seconds
-  ttlSecondsAfterFinished: 300    # automatic deletetion of job & its pods after completion
+  activeDeadlineSeconds: 600      # Limits the Job duration to 600 seconds    # overrides backoffLimit
+  ttlSecondsAfterFinished: 300    # automatic deletetion of job & its pods after completion    # cleanup
 ---
 # Default
   backoffLimit: 6
