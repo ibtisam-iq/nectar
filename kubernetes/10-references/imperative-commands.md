@@ -145,7 +145,7 @@ kubectl create deployment my-dep --image=busybox -- date
 # Create a deployment named my-dep that runs multiple containers
 kubectl create deployment my-dep --image=busybox:latest --image=ubuntu:latest --image=nginx
 
-# controlplane ~ ➜  kubectl create deployment my-dep --image=busybox:latest --image=ubuntu:latest --image=nginx --dry-run=client -o yaml -- date
+# controlplane ~ ➜  kubectl create deployment my-dep --image=busybox:latest --image=ubuntu:latest --image=nginx -- date
 error: cannot specify multiple --image options and command
 ```
 - `--image=[]`: Image names to run. A deployment can have multiple images set for multi-container pod.
