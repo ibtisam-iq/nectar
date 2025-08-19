@@ -199,6 +199,7 @@ In commands like `kubectl create cronjob`, the format `-- [COMMAND] [args...] [f
 - **args...**: Arguments passed to the command (e.g., "Hello, Kubernetes!")
 - **flags**: Command-specific flags inside the container (e.g., `-c` for `sh`)
 - **options**: Extra settings for the command inside the container (e.g., `--verbose`)
+- Like deployment, it supports only `-- <command> <arg>`, not pod like `--command -- <arg>`.
 
 Example:
 ```sh
