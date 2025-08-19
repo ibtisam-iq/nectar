@@ -82,7 +82,7 @@ kubectl run <> --image busybox -- sleep 1000
 kubectl run <> --image kodekloud/webapp-color --dry-run=client -o yaml -- --color red # Parsed as two args: ["--color", "red"]
 
 # Override the Command and Arguments
-kubectl run nginx --image=nginx --command -- /bin/sh -c "echo Hello Sweetheart, Ibtisam; sleep 10"
+kubectl run nginx --image=nginx --restart=Never --command -- /bin/sh -c "echo Hello Sweetheart, Ibtisam; sleep 10"
 kubectl run <> --image kodekloud/webapp-color --dry-run client -o yaml --command -- color red
 kubectl run <> --image busybox --dry-run client -o yaml --command -- sleep 1000
 
