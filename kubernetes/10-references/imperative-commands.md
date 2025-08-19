@@ -521,6 +521,8 @@ Update the taints on one or more nodes.
 dots, and underscores, up to 63 characters.
 - The effect must be NoSchedule, PreferNoSchedule or NoExecute.
 - Currently taint can only apply to node.
+- `key=value` then operator: `Equal`
+- If only the `key`, and not `value` then operator: `Exists`
 
 ```bash
 kubectl taint NODE NAME KEY_1=VAL_1:TAINT_EFFECT_1 ... KEY_N=VAL_N:TAINT_EFFECT_N [options]
