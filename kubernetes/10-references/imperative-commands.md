@@ -245,6 +245,20 @@ kubectl create secret docker-registry my-secret --from-file=path/to/.docker/conf
 ```bash
 kubectl create ns NAME [--dry-run=server|client|none] [options]
 kubectl config view --minify --output yaml | grep namespace:
+
+controlplane ~ ➜  k describe ns ibtisam 					# Resource Quotas & LimitRange resources are found, if applied.
+Name:         ibtisam
+Labels:       kubernetes.io/metadata.name=ibtisam
+Annotations:  <none>
+Status:       Active
+
+Resource Quotas
+  Name:           rq
+  Resource        Used  Hard
+  --------        ---   ---
+  resourcequotas  1     1
+
+No LimitRange resource.
 ```
 ---
 
