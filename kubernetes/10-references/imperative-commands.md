@@ -78,13 +78,16 @@ kubectl run my-nginx --image nginx:1.14.2 --port 80 --expose \
 
 # Override Only Arguments (Keeping Default Command)
 kubectl run <> --image nginx -- -g "daemon off;"
-kubectl run <> --image busybox -- sleep 1000
+kubectl run <> --image busybox -- sleep 1000							# args: ["sleep", "1000"]
+kubectl run <> --image busybox -- "sleep 1000"							# args: ["sleep 1000"]
+kubectl run test --image busybox -- echo "hello sweetheart, ibtisam"	# args: ["echo", "hello sweetheart, ibtisam"]
 kubectl run <> --image kodekloud/webapp-color --dry-run=client -o yaml -- --color red # Parsed as two args: ["--color", "red"]
 
 # Override the Command and Arguments
 kubectl run nginx --image=nginx --restart=Never --command -- /bin/sh -c "echo Hello Sweetheart, Ibtisam; sleep 10"
-kubectl run <> --image kodekloud/webapp-color --dry-run client -o yaml --command -- color red
-kubectl run <> --image busybox --dry-run client -o yaml --command -- sleep 1000
+kubectl run <> --image kodekloud/webapp-color --dry-run=client -o yaml --command -- color red
+kubectl run <> --image busybox --dry-run client -o yaml --command -- sleep 1000			# wrong
+kubectl run <> --image busybox --dry-run=client -o yaml --command -- sleep 1000			# right
 
 # Start a busybox pod and keep it in the foreground, don't restart it if it exits
 kubectl run -i -t busybox --image=busybox --restart=Never
