@@ -200,54 +200,146 @@ nslookup 172-17-3-2.amor.pod.cluster.local  # → 172.17.3.2
 ---
 
 ```bash
-controlplane ~ ➜ k create ns amor namespace/amor created
-controlplane ~ ➜ k run nginx -n amor --image nginx --port 80 --expose
-service/nginx created
-pod/nginx created
-controlplane ~ ➜ k get all -n amor
-NAME READY STATUS RESTARTS AGE
-pod/nginx 1/1 Running 0 41s
-NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE
-service/nginx ClusterIP 172.20.173.104 <none> 80/TCP 41s
-controlplane ~ ➜ k get all -n amor -o wide
-NAME READY STATUS RESTARTS AGE IP NODE NOMINATED NODE READINESS GATES
-pod/nginx 1/1 Running 0 55s 172.17.3.2 node02 <none> <none>
-NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE SELECTOR
-service/nginx ClusterIP 172.20.173.104 <none> 80/TCP 55s run=nginx
-controlplane ~ ➜ k run test-pod --image busybox --restart=Never -it -- sh
-If you don't see a command prompt, try pressing enter. /
+controlplane ~ ➜  k get po,svc
+NAME           READY   STATUS    RESTARTS   AGE
+pod/my-nginx   1/1     Running   0          42s
 
-# nslookup nginx
-Server: 172.20.0.10
-Address: 172.20.0.10:53
-** server can't find nginx.jjmk3mhvn4fa6vbk.svc.cluster.local: NXDOMAIN
+NAME                 TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   172.20.0.1     <none>        443/TCP   36m
+service/my-nginx     ClusterIP   172.20.195.2   <none>        80/TCP    42s
 
-# nslookup nginx.amor.svc.cluster.local
-Server: 172.20.0.10
-Address: 172.20.0.10:53
-Name: nginx.amor.svc.cluster.local
-Address: 172.20.173.104 /
+controlplane ~ ➜  k get po -o wide
+NAME       READY   STATUS    RESTARTS   AGE   IP           NODE     NOMINATED NODE   READINESS GATES
+my-nginx   1/1     Running   0          52s   172.17.2.3   node02   <none>           <none>
 
-# wget nginx.amor.svc.cluster.local
-Connecting to nginx.amor.svc.cluster.local (172.20.173.104:80)
-saving to 'index.html' index.html 100% |***************************************************************************************************************************| 615 0:00:00 ETA 'index.html' saved /
+controlplane ~ ➜  curl http//:172.17.2.3:80
+curl: (6) Could not resolve host: http
 
-# wget 172-17-3-2.amor.pod.cluster.local
-Connecting to 172-17-3-2.amor.pod.cluster.local (172.17.3.2:80)
-wget: can't open 'index.html': File exists /
+controlplane ~ ✖ curl http://172.17.2.3:80                        # 1) Accessing via pod ip directly
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
 
-# wget 172-17-3-2.amor.pod.cluster.local:80
-Connecting to 172-17-3-2.amor.pod.cluster.local:80 (172.17.3.2:80)
-wget: can't open 'index.html': File exists /
+controlplane ~ ➜  curl http://172.20.195.2:80                    # 2) Accessing via service ip
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
 
-# nslookup 172-17-3-2.amor.pod.cluster.local:80
-Server: 172.20.0.10 Address: 172.20.0.10:53
-** server can't find 172-17-3-2.amor.pod.cluster.local:80:
+controlplane ~ ➜  k run test --image busybox --restart=Never --rm -it -- sh
+If you don't see a command prompt, try pressing enter.
 
-# nslookup 172-17-3-2.amor.pod.cluster.local
-Server: 172.20.0.10
-Address: 172.20.0.10:53
-Name: 172-17-3-2.amor.pod.cluster.local
-Address: 172.17.3.2 /
-#
+/ # wget my-nginx                                                              # service name
+Connecting to my-nginx (172.20.195.2:80)
+saving to 'index.html'
+index.html           100% |***************************************************************************************************************************|   615  0:00:00 ETA
+'index.html' saved
+
+/ # nslookup my-nginx.default.svc.cluster.local                                # service name (provide full adddress)
+Server:         172.20.0.10
+Address:        172.20.0.10:53
+
+Name:   my-nginx.default.svc.cluster.local
+Address: 172.20.195.2
+
+
+/ # nslookup 172-17-2-3.default.pod.cluster.local                            # pod-ip
+Server:         172.20.0.10
+Address:        172.20.0.10:53
+
+
+Name:   172-17-2-3.default.pod.cluster.local
+Address: 172.17.2.3
+
+/ # wget 172-17-2-3.default.pod.cluster.local                                # pod-ip
+Connecting to 172-17-2-3.default.pod.cluster.local (172.17.2.3:80)
+wget: can't open 'index.html': File exists
+
+/ # wget --spider http://172-17-2-3.default.pod.cluster.local
+Connecting to 172-17-2-3.default.pod.cluster.local (172.17.2.3:80)
+remote file exists
+
+/ # wget -qO- http://172-17-2-3.default.pod.cluster.local
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+/ # 
 ```
+
+---
+
+I see what’s happening here 👍
+
+Let’s break it down:
+
+### 🔎 Step 1: Your `nslookup` output
+
+```bash
+/ # nslookup 172-17-2-3.default.pod.cluster.local
+Server:         172.20.0.10
+Address:        172.20.0.10:53
+
+Name:   172-17-2-3.default.pod.cluster.local
+Address: 172.17.2.3
+```
+
+✅ This shows that **ClusterDNS (`coredns`) correctly resolved** the Pod DNS name into its Pod IP `172.17.2.3`.
+
+### 🔎 Step 2: Your `wget` output
+
+```bash
+/ # wget 172-17-2-3.default.pod.cluster.local
+Connecting to 172-17-2-3.default.pod.cluster.local (172.17.2.3:80)
+wget: can't open 'index.html': File exists
+```
+
+* `wget` tries to **save the response into `index.html`** by default.
+* The error `File exists` means that there is already a file named `index.html` in your current directory inside the container/pod.
+* So, this is **not a networking problem** — your Pod is reachable, but `wget` just refuses to overwrite the file.
+
+### ✅ How to fix it
+
+You have several options:
+
+1. **Overwrite the existing file**
+
+   ```bash
+   wget -O index.html http://172-17-2-3.default.pod.cluster.local
+   ```
+
+   (forces saving to `index.html` again)
+
+2. **Save with a different filename**
+
+   ```bash
+   wget -O pod.html http://172-17-2-3.default.pod.cluster.local
+   ```
+
+3. **Just test connectivity without saving**
+
+   ```bash
+   wget --spider http://172-17-2-3.default.pod.cluster.local
+   ```
+
+   (checks if it’s reachable but doesn’t save the file)
+
+4. **See what’s inside the response**
+
+   ```bash
+   wget -qO- http://172-17-2-3.default.pod.cluster.local
+   ```
+
+   (prints response to stdout)
+
+---
