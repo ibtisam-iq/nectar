@@ -251,7 +251,7 @@ kubectl config view --minify --output yaml | grep namespace:
 ## Service Account & Token
 ```bash
 # create a service account with the specified name
-kubectl create sa my-service-account
+kubectl create sa my-service-account -n ibtisam
 
 # Request a service account token
 kubectl create token SERVICE_ACCOUNT_NAME
