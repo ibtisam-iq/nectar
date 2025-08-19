@@ -95,7 +95,7 @@ kubectl run -i -t busybox --image=busybox --restart=Never
 - Useful for **quick testing** but not flexible for customizing the Service.
 - For external access, manually expose the Pod using `kubectl expose` and change `--type` to `NodePort` or `LoadBalancer`.
 - If more than one `--port` flag is mentioned, the last `--port` flag overrides all first mentioned `--port` flags.
-- The `--` separator indicates that everything after it (`--sleep 1000`) is passed as arguments to the container. `--sleep 1000` is interpreted as two separate arguments: `--sleep` and `1000`. To pass a single argument, use quotes: `-- "sleep 1000"`.
+- The `--` separator indicates that everything after it (`-- sleep 1000`) is passed as arguments to the container. `-- sleep 1000` is interpreted as two separate arguments: `sleep` and `1000`. To pass a single argument, use quotes: `-- "sleep 1000"`.
 - Use `--command --` to define custom commands in containers.
 - The `command` field overrides the container image’s default **entrypoint**.
 - When using `--command`, both command and arguments must be explicitly defined.
