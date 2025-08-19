@@ -495,8 +495,8 @@ count/deployments.apps=10,count/replicasets.apps=10,count/statefulsets.apps=10,c
 Create a priority class with the specified name, value, globalDefault and description.
 
 ```bash
-kubectl create priorityclass NAME --value=VALUE --global-default=BOOL --description=''			# Namespaced: false
-    --preemption-policy 'PreemptLowerPriority' | 'PreemptNoPriority' | 'PreemptNoSchedule'
+kubectl create pc NAME --value=VALUE --global-default=BOOL --description=''					# Namespaced: false
+    --preemption-policy 'PreemptLowerPriority' | 'PreemptNoPriority' | 'PreemptNoSchedule'	# default: PreemptLowerPriority
 ```
 
 ---
