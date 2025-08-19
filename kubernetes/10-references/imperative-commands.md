@@ -185,11 +185,11 @@ kubectl autoscale (-f FILENAME | TYPE NAME | TYPE/NAME) [--min=MINPODS] --max=MA
 ## Jobs & CronJobs
 ```bash
 kubectl create job NAME --image=image \
-    -- [COMMAND] [args...] \
-    --from=cronjob/name     # create a job from a cron job
+	--from=cronjob/name \    	# create a job from a cron job
+	-- [COMMAND] [args...]
 
 kubectl create cronjob NAME --image=image --schedule='0/5 * * * ?' \
-    --restart \     # supported values: OnFailure, Never
+    --restart \     			# supported values: OnFailure, Never
     -- [COMMAND] [args...] [flags] [options] 
 ```
 
