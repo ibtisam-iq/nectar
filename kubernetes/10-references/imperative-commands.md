@@ -97,7 +97,7 @@ kubectl run -i -t busybox --image=busybox --restart=Never
 - Requires `--port`, otherwise, Kubernetes won't know what port to expose.
 - Useful for **quick testing** but not flexible for customizing the Service.
 - For external access, manually expose the Pod using `kubectl expose` and change `--type` to `NodePort` or `LoadBalancer`.
-- If more than one `--port` or `--image` flag is mentioned, the last `--port` and `--image` flag overrides all first mentioned `--port` and `--image` flags.
+- If more than one `--port` or `--image` flag is mentioned, the last `--port` or `--image` flag overrides all first mentioned `--port` and `--image` flags.
 - The `--` separator indicates that everything after it (`-- sleep 1000`) is passed as arguments to the container. `-- sleep 1000` is interpreted as two separate arguments: `sleep` and `1000`. To pass a single argument, use quotes: `-- "sleep 1000"`.
 - Use `--command --` to define custom commands in containers.
 - The `command` field overrides the container image’s default **entrypoint**.
@@ -144,6 +144,9 @@ kubectl create deployment my-dep --image=busybox -- date
 
 # Create a deployment named my-dep that runs multiple containers
 kubectl create deployment my-dep --image=busybox:latest --image=ubuntu:latest --image=nginx
+
+# controlplane ~ ➜  kubectl create deployment my-dep --image=busybox:latest --image=ubuntu:latest --image=nginx --dry-run=client -o yaml -- date
+error: cannot specify multiple --image options and command
 ```
 - `--image=[]`: Image names to run. A deployment can have multiple images set for multi-container pod.
 - `kubectl create deployment` treats arguments after `--` as the container’s command, replacing the image’s default ENTRYPOINT. However, `kubectl run` interprets arguments after `--` as **arguments** to the container’s Entrypoint (not the command itself, and replacing ENTRYPOINT), unless `--command` is specified.
