@@ -200,10 +200,7 @@ nslookup 172-17-3-2.amor.pod.cluster.local  # → 172.17.3.2
 ---
 
 ```bash
-controlplane ~ ➜  k get po,svc
-NAME           READY   STATUS    RESTARTS   AGE
-pod/my-nginx   1/1     Running   0          42s
-
+controlplane ~ ➜  k get svc
 NAME                 TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
 service/kubernetes   ClusterIP   172.20.0.1     <none>        443/TCP   36m
 service/my-nginx     ClusterIP   172.20.195.2   <none>        80/TCP    42s
