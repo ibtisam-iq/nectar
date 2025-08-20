@@ -229,7 +229,22 @@ controlplane ~ ➜  curl http://172.20.195.2:80                    # 2) Accessin
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
+-----------------------------------------------------------------
+controlplane ~ ➜  k port-forward deployment.apps/abc 7070:80    # 3) Port-forwarding (just ignore, another example)
+Forwarding from 127.0.0.1:7070 -> 80
+Forwarding from [::1]:7070 -> 80
+Handling connection for 7070
+Handling connection for 7070
 
+controlplane ~ ➜  curl http://localhost:7070/
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+------------------------------------------------------------------
 controlplane ~ ➜  k run test --image busybox --restart=Never --rm -it -- sh
 If you don't see a command prompt, try pressing enter.
 
