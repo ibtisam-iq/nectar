@@ -162,6 +162,7 @@ kubectl rollout history (TYPE NAME | TYPE/NAME) -l, --selector --revision=0
 kubectl rollout pause|resume|restart (TYPE NAME | TYPE/NAME) -l, --selector
 kubectl rollout status (TYPE NAME | TYPE/NAME) -l, --selector --revision=0 -w, --watch=true
 kubectl rollout undo (TYPE NAME | TYPE/NAME) -l, --selector --dry-run='none' --to-revision=0
+kubectl annotate deploy <> kubernetes.io/change-cause="Updated to nginx:1.29.1"
 ```
 
 ## kubectl scale
@@ -579,7 +580,6 @@ kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER] [options]
 
 ---
 
-
 ## Frequently Used Flags
 
 --dry-run='none':
@@ -613,4 +613,22 @@ kubectl auth can-i list pods --as <user>
 kubectl auth can-i list pods --as-group <> --as <user>
 # kubectl auth can-i list pods --as=system:serviceaccount:<ns name>:<sa name>
 kubectl auth can-i list pods --as system:serviceaccount:ibtisam:ibtisam -n ibtisam
+```
+---
+
+## kubectl set
+
+```bash
+controlplane ~ ➜  k set --help
+
+Available Commands:
+  env              Update environment variables on a pod template
+  image            Update the image of a pod template
+  resources        Update resource requests/limits on objects with pod templates
+  selector         Set the selector on a resource
+  serviceaccount   Update the service account of a resource
+  subject          Update the user, group, or service account in a role binding or cluster role binding
+
+kubectl set image (-f FILENAME | TYPE NAME) CONTAINER_NAME_1=CONTAINER_IMAGE_1 ... CONTAINER_NAME_N=CONTAINER_IMAGE_N
+[options]
 ```
