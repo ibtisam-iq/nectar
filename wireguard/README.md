@@ -137,12 +137,13 @@ This script asks a few questions, then sets up server + client config automatica
 
 ```bash
 ubuntu@ip-172-31-83-184:~$ curl ifconfig.me
-54.163.181.14ubuntu@ip-172-curl -O https://raw.githubusercontent.com/angristan/wireguard-install/master/wireguard-install.shrd-install.sh
+54.163.181.14ubuntu@ip-172-31-83-184:~$
+ubuntu@ip-172-31-83-184:~$ curl -O https://raw.githubusercontent.com/angristan/wireguard-install/master/wireguard-install.sh
 chmod +x wireguard-install.sh
 ./wireguard-install.sh
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100 20487  100 20487    0     0   281k      0 --:--:-- --:--:-- --:--:--  285k
+100 20487  100 20487    0     0   411k      0 --:--:-- --:--:-- --:--:--  416k
 You need to run this script as root
 ubuntu@ip-172-31-83-184:~$ sudo ./wireguard-install.sh
 Welcome to the WireGuard installer!
@@ -417,3 +418,4 @@ ubuntu@ip-172-31-83-184:~$ curl ipinfo.io
   "readme": "https://ipinfo.io/missingauth"
 }ubuntu@ip-172-31-83-184:~$
 ```
+
