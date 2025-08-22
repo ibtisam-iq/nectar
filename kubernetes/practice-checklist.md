@@ -18,7 +18,7 @@ Use it as a **roadmap + progress tracker**.
 - [ ] NetworkPolicy  `Network Policy, Declare Network Policy`
 - [ ] ResourceQuota, LimitRange, PriorityClass, PodDisruptionBudgets (PDB)
 - [ ] CustomResourceDefinition (CRD)     `crd: Extend the Kubernetes API with CustomResourceDefinitions`
-- [ ] HorizontalPodAutoscaler (HPA), VerticalPodAutoscaler (VPA) 
+- [ ] HorizontalPodAutoscaler (HPA), `hpa: Horizontal Pod Autoscaling, HorizontalPodAutoscaler Walkthrough` VerticalPodAutoscaler (VPA) `vpa: Autoscaling Workloads`
 
 ---
 
