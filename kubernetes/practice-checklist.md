@@ -33,9 +33,10 @@ Use it as a **roadmap + progress tracker**.
 - [ ] affinity / antiAffinity (nodeAffinity, podAffinity, podAntiAffinity)
 - [ ] tolerations
 - [ ] nodeSelector, nodeName, priorityClassName, schedularName, serviceAccountName, imagePullSecrets
+- [ ] labels & selectors, matchLabels & matchExpressions
+- [ ] restartPolicy
 - [ ] topologySpreadConstraints
 - [ ] lifecycle hooks (postStart, preStop)
-- [ ] restartPolicy
 - [ ] terminationGracePeriodSeconds
 - [ ] dnsPolicy / hostNetwork / hostPID
 
