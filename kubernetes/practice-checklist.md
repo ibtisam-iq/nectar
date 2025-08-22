@@ -10,7 +10,7 @@ Use it as a **roadmap + progress tracker**.
 - [ ] Pod, Deployment, ReplicaSet, StatefulSet, DaemonSet
 - [ ] Job, CronJob
 - [ ] Service (ClusterIP, NodePort, LoadBalancer, ExternalName)
-- [ ] IngressClass, Ingress, ClusterIssuer
+- [ ] IngressClass, `Ingress`, ClusterIssuer > plus IngressClass, ingress-nginx controller, and all annotations 
 - [ ] GatewayClass, Gateway, HTTPRoute 
 - [ ] ConfigMap, Secret
 - [ ] PersistentVolume (PV), PersistentVolumeClaim (PVC), StorageClass
