@@ -73,3 +73,25 @@ Use it as a **roadmap + progress tracker**.
 
 ---
 
+## 5. Kubectl Administrative Commands
+
+- [ ] kubectl get (pods, svc, deployments, nodes, etc.)
+- [ ] kubectl describe (pods, nodes, events)
+- [ ] kubectl logs (single & multi-container pods, previous logs)
+- [ ] kubectl exec (run commands inside containers, open interactive shell)
+- [ ] kubectl port-forward
+- [ ] kubectl scale (deployments, statefulsets, replicasets)
+- [ ] kubectl set image (rolling update pods)
+- [ ] kubectl rollout (status, history, undo)
+- [ ] kubectl top (pods, nodes — requires metrics-server)
+- [ ] kubectl drain / cordon / uncordon
+- [ ] kubectl edit (live edit resources)
+- [ ] kubectl delete (resources, labels, selectors)
+- [ ] kubectl apply -f (idempotent)
+- [ ] kubectl replace -f (force replace)
+- [ ] kubectl diff -f (compare manifests with live state)
+- [ ] kubectl label (add/remove labels)
+- [ ] kubectl annotate (add/remove annotations)
+- [ ] kubectl config (view/set contexts, users, clusters)
+- [ ] kubectl api-resources / api-versions
+- [ ] kubectl explain (understand fields)
