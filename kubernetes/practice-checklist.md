@@ -7,50 +7,37 @@ Use it as a **roadmap + progress tracker**.
 
 ## 1. Kubernetes Resources (API Objects)
 
-- [ ] Pod
-- [ ] Deployment
-- [ ] ReplicaSet
-- [ ] StatefulSet
-- [ ] DaemonSet
-- [ ] Job
-- [ ] CronJob
+- [ ] Pod, Deployment, ReplicaSet, StatefulSet, DaemonSet
+- [ ] Job, CronJob
 - [ ] Service (ClusterIP, NodePort, LoadBalancer, ExternalName)
-- [ ] Ingress
-- [ ] ConfigMap
-- [ ] Secret
-- [ ] PersistentVolume (PV)
-- [ ] PersistentVolumeClaim (PVC)
-- [ ] StorageClass
-- [ ] Namespace
-- [ ] ServiceAccount
-- [ ] Role
-- [ ] RoleBinding
-- [ ] ClusterRole
-- [ ] ClusterRoleBinding
+- [ ] IngressClass, Ingress, ClusterIssuer
+- [ ] GatewayClass, Gateway, HTTPRoute 
+- [ ] ConfigMap, Secret
+- [ ] PersistentVolume (PV), PersistentVolumeClaim (PVC), StorageClass
+- [ ] Namespace, ServiceAccount, Role, RoleBinding, ClusterRole, ClusterRoleBinding
 - [ ] NetworkPolicy
-- [ ] LimitRange
-- [ ] ResourceQuota
+- [ ] ResourceQuota, LimitRange, PriorityClass
+- [ ] CustomResourceDefinition (CRD)
+- [ ] HorizontalPodAutoscaler (HPA)
+- [ ] VerticalPodAutoscaler (VPA) 
 
 ---
 
 ## 2. PodSpec Concepts (Fields / Sections)
 
-- [ ] containers
-- [ ] initContainers
-- [ ] sidecar containers
+- [ ] containers, initContainers, sidecar containers
 - [ ] volumes (emptyDir, hostPath, configMap, secret, PVC, projected, downwardAPI)
 - [ ] securityContext (pod-level & container-level)
 - [ ] resources (requests & limits)
 - [ ] probes (livenessProbe, readinessProbe, startupProbe)
 - [ ] affinity / antiAffinity (nodeAffinity, podAffinity, podAntiAffinity)
 - [ ] tolerations
-- [ ] nodeSelector
+- [ ] nodeSelector, nodeName, priorityClassName, schedularName, serviceAccountName, imagePullSecrets
 - [ ] topologySpreadConstraints
 - [ ] lifecycle hooks (postStart, preStop)
 - [ ] restartPolicy
 - [ ] terminationGracePeriodSeconds
 - [ ] dnsPolicy / hostNetwork / hostPID
-- [ ] priorityClassName
 
 ---
 
@@ -78,12 +65,9 @@ Use it as a **roadmap + progress tracker**.
 
 ## 4. Extra (Advanced / Nice-to-Have)
 
-- [ ] Helm basics
-- [ ] CustomResourceDefinition (CRD)
+- [ ] Helm, Kustomize
 - [ ] Operators
 - [ ] PodDisruptionBudgets (PDB)
-- [ ] HorizontalPodAutoscaler (HPA)
-- [ ] VerticalPodAutoscaler (VPA)
 - [ ] Cluster Autoscaler
 - [ ] Admission Controllers (Mutating & Validating webhooks)
 - [ ] API Aggregation & Extension
