@@ -74,7 +74,45 @@ Use it as a **roadmap + progress tracker**.
 
 ---
 
-## 5. Kubectl Administrative Commands
+## 5. Controllers, Operators & CRDs
+
+> 📌 **Note:**  
+> - **Controller** → manages **built-in Kubernetes resources** (Pods, Deployments, Services, etc.).  
+> - **Operator** → is also a **controller**, but it manages **Custom Resources (CRDs)** that extend Kubernetes (like Prometheus, MySQLCluster, VPA, etc.).  
+> - 👉 Every **Operator is a Controller**, but not every Controller is an Operator.
+
+### Built-in Controllers
+- [ ] Deployment Controller, ReplicaSet Controller, StatefulSet Controller, DaemonSet Controller
+- [ ] Job & CronJob Controller
+- [ ] Node Controller
+- [ ] Namespace Controller
+- [ ] Service Controller
+- [ ] PV & PVC Controllers
+- [ ] EndpointSlice Controller
+- [ ] HPA Controller (Horizontal Pod Autoscaler)
+
+### Add-on Controllers
+- [ ] Ingress Controller (NGINX, HAProxy, Traefik, etc.)
+- [ ] Cert-Manager Controller (TLS certificates)
+- [ ] Cluster Autoscaler
+
+### CRDs (Custom Resource Definitions)
+- [ ] VerticalPodAutoscaler (VPA)
+- [ ] PodDisruptionBudget (PDB)
+- [ ] Custom Metrics CRDs
+- [ ] External Secrets CRD
+- [ ] Monitoring CRDs (Prometheus, Alertmanager, ServiceMonitor, etc.)
+
+### Operators
+- [ ] Prometheus Operator
+- [ ] MySQL/Postgres Operators
+- [ ] etcd Operator
+- [ ] ElasticSearch Operator
+- [ ] ArgoCD Operator
+
+---
+
+## 6. Kubectl Administrative Commands
 
 - [ ] kubectl get (pods, svc, deployments, nodes, etc.)
 - [ ] kubectl describe (pods, nodes, events)
