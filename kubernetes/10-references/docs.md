@@ -3,26 +3,6 @@
 A curated collection of official Kubernetes documentation links for quick navigation and CKA prep. Grouped by topic, sorted by importance.
 
 ---
-## Keywords
-
-- ports, network plugins, etcd, static pod, ingress, gateapi, netpol, probe, security context, Sidecar Containers, Init Containers (Creating a Pod that has an init container), kubectl auth 
-- kubelet, kube-apiserver, kube-controller-manager, kube-proxy
-- Upgrading kubeadm
-- Quota: Configure Memory and CPU Quotas for a Namespace
-- environment variables: Define Environment Variables for a Container (value), Expose Pod Information to Containers Through Environment Variables (valueFrom)
-- configmap: ConfigMaps, Configure a Pod to Use a ConfigMap
-- secret: Secrets, Distribute Credentials Securely Using Secrets
-- metrics server: Resource metrics pipeline (`- --kubelet-insecure-tls`)
-- hpa: Horizontal Pod Autoscaling, HorizontalPodAutoscaler Walkthrough
-- vpa: Autoscaling Workloads
-- volume: all types of volumes injected pod manifest files, local pv
-- pv: pv, pvc, storage class, claim as volume, walkthrough (pv with hostpath, pvc, and pod manifest)
-- Ephemeral Volumes: CSI ephemeral volumes, Generic ephemeral volumes... pod manifests
-- csr/certificate: Issue a Certificate for a Kubernetes API Client Using A CertificateSigningRequest (Manage TLS Certificates in a Cluster)
-- role: Using RBAC Authorization
-- crd: Extend the Kubernetes API with CustomResourceDefinitions
-
----
 
 ## 📌 General Docs
 - [Kubernetes Documentation (Home)](https://kubernetes.io/docs/home/)
