@@ -10,14 +10,14 @@ Use it as a **roadmap + progress tracker**.
 - [ ] Pod, Deployment, ReplicaSet, StatefulSet, DaemonSet
 - [ ] Job, CronJob
 - [ ] Service (ClusterIP, NodePort, LoadBalancer, ExternalName)
-- [ ] IngressClass, `Ingress`, ClusterIssuer > plus IngressClass, ingress-nginx controller, and all annotations 
+- [ ] IngressClass, `Ingress`, ClusterIssuer     `includes IngressClass, ingress-nginx controller, and all annotations` 
 - [ ] GatewayClass, Gateway, HTTPRoute 
 - [ ] ConfigMap, Secret
 - [ ] PersistentVolume (PV), PersistentVolumeClaim (PVC), StorageClass
 - [ ] Namespace, ServiceAccount, Role, RoleBinding, ClusterRole, ClusterRoleBinding
 - [ ] NetworkPolicy
 - [ ] ResourceQuota, LimitRange, PriorityClass, PodDisruptionBudgets (PDB)
-- [ ] CustomResourceDefinition (CRD) `crd: Extend the Kubernetes API with CustomResourceDefinitions`
+- [ ] CustomResourceDefinition (CRD)     `crd: Extend the Kubernetes API with CustomResourceDefinitions`
 - [ ] HorizontalPodAutoscaler (HPA), VerticalPodAutoscaler (VPA) 
 
 ---
