@@ -16,10 +16,9 @@ Use it as a **roadmap + progress tracker**.
 - [ ] PersistentVolume (PV), PersistentVolumeClaim (PVC), StorageClass
 - [ ] Namespace, ServiceAccount, Role, RoleBinding, ClusterRole, ClusterRoleBinding
 - [ ] NetworkPolicy
-- [ ] ResourceQuota, LimitRange, PriorityClass
+- [ ] ResourceQuota, LimitRange, PriorityClass, PodDisruptionBudgets (PDB)
 - [ ] CustomResourceDefinition (CRD)
-- [ ] HorizontalPodAutoscaler (HPA)
-- [ ] VerticalPodAutoscaler (VPA) 
+- [ ] HorizontalPodAutoscaler (HPA), VerticalPodAutoscaler (VPA) 
 
 ---
 
@@ -68,7 +67,6 @@ Use it as a **roadmap + progress tracker**.
 
 - [ ] Helm, Kustomize
 - [ ] Operators
-- [ ] PodDisruptionBudgets (PDB)
 - [ ] Cluster Autoscaler
 - [ ] Admission Controllers (Mutating & Validating webhooks)
 - [ ] API Aggregation & Extension
