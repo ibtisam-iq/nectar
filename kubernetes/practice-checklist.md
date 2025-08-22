@@ -11,7 +11,7 @@ Use it as a **roadmap + progress tracker**.
 - [ ] Job, CronJob
 - [ ] Service (ClusterIP, NodePort, LoadBalancer, ExternalName)
 - [ ] IngressClass, `Ingress`, ClusterIssuer     `includes IngressClass, ingress-nginx controller, and all annotations` 
-- [ ] GatewayClass, Gateway, HTTPRoute 
+- [ ] GatewayClass, Gateway, HTTPRoute `Gateway API`
 - [ ] ConfigMap, Secret
 - [ ] PersistentVolume (PV), PersistentVolumeClaim (PVC), StorageClass
 - [ ] Namespace, ServiceAccount, Role, RoleBinding, ClusterRole, ClusterRoleBinding
