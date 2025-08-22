@@ -18,7 +18,7 @@ Use it as a **roadmap + progress tracker**.
 - [ ] NetworkPolicy  `Network Policy, Declare Network Policy`
 - [ ] ResourceQuota, LimitRange, PriorityClass, PodDisruptionBudgets (PDB)
 - [ ] CustomResourceDefinition (CRD)     `crd: Extend the Kubernetes API with CustomResourceDefinitions`
-- [ ] HorizontalPodAutoscaler (HPA), `hpa: Horizontal Pod Autoscaling, HorizontalPodAutoscaler Walkthrough` VerticalPodAutoscaler (VPA) `vpa: Autoscaling Workloads`
+- [ ] HorizontalPodAutoscaler (HPA), `hpa: Horizontal Pod Autoscaling, HorizontalPodAutoscaler Walkthrough` VerticalPodAutoscaler (VPA) `vpa: Autoscaling Workloads`, `resize`
 
 ---
 
@@ -29,6 +29,7 @@ Use it as a **roadmap + progress tracker**.
 - [ ] volumes (emptyDir, hostPath, configMap, secret, PVC, projected, downwardAPI)
 - [ ] securityContext (pod-level & container-level)
 - [ ] resources (requests & limits)
+- [ ] resizePolicy `resize: Resize CPU and Memory Resources assigned to Containers`
 - [ ] probes (livenessProbe, readinessProbe, startupProbe)
 - [ ] affinity / antiAffinity (nodeAffinity, podAffinity, podAntiAffinity)
 - [ ] tolerations
