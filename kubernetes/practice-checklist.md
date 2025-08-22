@@ -52,18 +52,18 @@ Use it as a **roadmap + progress tracker**.
 - [ ] etcd backup & restore
 - [ ] Manage static pods
 - [ ] Authentication, Authorization, RBAC setup (Roles, RoleBindings, ClusterRoles, ClusterRoleBindings), Admission Controllers, Certificate Signing Requests
-  -  Controlling Access to the Kubernetes API
-    - [Authenticating](https://kubernetes.io/docs/reference/access-authn-authz/authentication/)
-       - [Authenticating with Bootstrap Tokens](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/)
-    - [Admission Controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/)
-       - [Dynamic Admission Control](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/)
-    - [Authorization](https://kubernetes.io/docs/reference/access-authn-authz/authorization/)
-       - [Role Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
-       - [Attribute Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/abac/)
-       - [Node Authorization](https://kubernetes.io/docs/reference/access-authn-authz/node/)
-       - [Webhook Authorization](https://kubernetes.io/docs/reference/access-authn-authz/webhook/)
-    - [Certificate Signing Requests](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/)
-        - `csr/certificate: Issue a Certificate for a Kubernetes API Client Using A CertificateSigningRequest (Manage TLS Certificates in a Cluster)`   
+    -  Controlling Access to the Kubernetes API
+      - [Authenticating](https://kubernetes.io/docs/reference/access-authn-authz/authentication/)
+         - [Authenticating with Bootstrap Tokens](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/)
+      - [Admission Controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/)
+         - [Dynamic Admission Control](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/)
+      - [Authorization](https://kubernetes.io/docs/reference/access-authn-authz/authorization/)
+         - [Role Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
+         - [Attribute Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/abac/)
+         - [Node Authorization](https://kubernetes.io/docs/reference/access-authn-authz/node/)
+         - [Webhook Authorization](https://kubernetes.io/docs/reference/access-authn-authz/webhook/)
+      - [Certificate Signing Requests](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/)
+          - `csr/certificate: Issue a Certificate for a Kubernetes API Client Using A CertificateSigningRequest (Manage TLS Certificates in a Cluster)`   
 - [ ] Certificate management (renew, inspect, troubleshoot)
 - [ ] Node maintenance (drain, cordon, uncordon)
 - [ ] Cluster troubleshooting (Pods pending, CrashLoopBackOff, Node NotReady, DNS issues)
