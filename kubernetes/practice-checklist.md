@@ -17,7 +17,7 @@ Use it as a **roadmap + progress tracker**.
 - [ ] Namespace, ServiceAccount, Role, RoleBinding, ClusterRole, ClusterRoleBinding
 - [ ] NetworkPolicy
 - [ ] ResourceQuota, LimitRange, PriorityClass, PodDisruptionBudgets (PDB)
-- [ ] CustomResourceDefinition (CRD)
+- [ ] CustomResourceDefinition (CRD) `crd: Extend the Kubernetes API with CustomResourceDefinitions`
 - [ ] HorizontalPodAutoscaler (HPA), VerticalPodAutoscaler (VPA) 
 
 ---
@@ -25,6 +25,7 @@ Use it as a **roadmap + progress tracker**.
 ## 2. PodSpec Concepts (Fields / Sections)
 
 - [ ] containers, initContainers, sidecar containers
+- [ ] env, envFrom
 - [ ] volumes (emptyDir, hostPath, configMap, secret, PVC, projected, downwardAPI)
 - [ ] securityContext (pod-level & container-level)
 - [ ] resources (requests & limits)
