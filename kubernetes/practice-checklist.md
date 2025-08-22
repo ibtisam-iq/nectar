@@ -11,8 +11,8 @@ Use it as a **roadmap + progress tracker**.
 - [ ] Job, CronJob
 - [ ] Service (ClusterIP, NodePort, LoadBalancer, ExternalName)
 - [ ] IngressClass, `Ingress`, ClusterIssuer     `includes IngressClass, ingress-nginx controller, and all annotations` 
-- [ ] GatewayClass, Gateway, HTTPRoute `Gateway API`
-- [ ] ConfigMap, Secret
+- [ ] GatewayClass, `Gateway`, HTTPRoute
+- [ ] ConfigMap `ConfigMaps, Configure a Pod to Use a ConfigMap`, Secret `Secrets, Distribute Credentials Securely Using Secrets`
 - [ ] PersistentVolume (PV), PersistentVolumeClaim (PVC), StorageClass
   - volume: all types of volumes injected pod manifest files, local pv
   - pv: pv, pvc, storage class, claim as volume, walkthrough (pv with hostpath, pvc, and pod manifest)
@@ -21,19 +21,19 @@ Use it as a **roadmap + progress tracker**.
 - [ ] NetworkPolicy  `Network Policy, Declare Network Policy`
 - [ ] ResourceQuota, LimitRange, PriorityClass, PodDisruptionBudgets (PDB)
 - [ ] CustomResourceDefinition (CRD)     `crd: Extend the Kubernetes API with CustomResourceDefinitions`
-- [ ] HorizontalPodAutoscaler (HPA), `hpa: Horizontal Pod Autoscaling, HorizontalPodAutoscaler Walkthrough` VerticalPodAutoscaler (VPA) `vpa: Autoscaling Workloads`, `resize`
+- [ ] HorizontalPodAutoscaler (HPA) `hpa: Horizontal Pod Autoscaling, HorizontalPodAutoscaler Walkthrough (Metrics Server)`, VerticalPodAutoscaler (VPA) `vpa: Autoscaling Workloads`, `resize`
 
 ---
 
 ## 2. PodSpec Concepts (Fields / Sections)
 
-- [ ] containers, initContainers, sidecar containers
-- [ ] env, envFrom
+- [ ] containers, `initContainers`, sidecar containers `+ Creating a Pod that has an init container + sidecar containers`
+- [ ] env, envFrom `environment variables: Define Environment Variables for a Container (value) + Expose Pod Information to Containers Through Environment Variables (valueFrom)`
 - [ ] volumes (emptyDir, hostPath, configMap, secret, PVC, projected, downwardAPI)
-- [ ] securityContext (pod-level & container-level)
-- [ ] resources (requests & limits)
+- [ ] `securityContext` (pod-level & container-level)
+- [ ] resources (requests & limits) `Quota: Configure Memory and CPU Quotas for a Namespace`
 - [ ] resizePolicy `resize: Resize CPU and Memory Resources assigned to Containers`
-- [ ] probes (livenessProbe, readinessProbe, startupProbe)
+- [ ] `probes` (livenessProbe, readinessProbe, startupProbe)
 - [ ] affinity / antiAffinity (nodeAffinity, podAffinity, podAntiAffinity)
 - [ ] tolerations
 - [ ] nodeSelector, nodeName, priorityClassName, schedularName, `serviceAccountName`, imagePullSecrets
@@ -49,8 +49,14 @@ Use it as a **roadmap + progress tracker**.
 ## 3. Cluster Ops Topics (Administration / CKA)
 
 - [ ] kubeadm init / join, kubeadm upgrade, kubeadm reset
-- [ ] etcd backup & restore
-- [ ] Manage static pods
+  - Installing kubeadm `container runtimes`
+  - Troubleshooting kubeadm
+  - Creating a cluster with kubeadm `container runtimes`
+  - Creating Highly Available Clusters with kubeadm
+  - Set up a High Availability etcd Cluster with kubeadm
+  - Upgrading kubeadm clusters
+- [ ] `etcd` backup & restore
+- [ ] Manage `static pods`
 - [ ] Authentication, Authorization, RBAC setup (Roles, RoleBindings, ClusterRoles, ClusterRoleBindings), Admission Controllers, Certificate Signing Requests
   -  Controlling Access to the Kubernetes API
     - [Authenticating](https://kubernetes.io/docs/reference/access-authn-authz/authentication/)
@@ -67,7 +73,7 @@ Use it as a **roadmap + progress tracker**.
 - [ ] Certificate management (renew, inspect, troubleshoot)
 - [ ] Node maintenance (drain, cordon, uncordon)
 - [ ] Cluster troubleshooting (Pods pending, CrashLoopBackOff, Node NotReady, DNS issues)
-- [ ] Network plugin install (Calico, Flannel, Cilium, etc.)
+- [ ] `Network plugin` install (Calico, Flannel, Cilium, etc.)
 - [ ] CoreDNS config & troubleshooting
 - [ ] kubeconfig management (contexts, users, clusters)
 - [ ] Scheduling debugging (taints, tolerations, affinity)
@@ -75,10 +81,11 @@ Use it as a **roadmap + progress tracker**.
 - [ ] Upgrading worker nodes
 - [ ] Backup & restore manifests
 - [ ] Resource usage monitoring (kubectl top, metrics-server)
+- [ ] - kubelet, kube-apiserver, kube-controller-manager, kube-proxy, ports
 
 ---
 
-## 4. Extra (Advanced / Nice-to-Have)
+## 4. Advanced
 
 - [ ] Helm, Kustomize
 - [ ] Operators
@@ -149,3 +156,4 @@ Use it as a **roadmap + progress tracker**.
 - [ ] kubectl config (view/set contexts, users, clusters)
 - [ ] kubectl api-resources / api-versions
 - [ ] kubectl explain (understand fields)
+- [ ] `kubectl auth` 
