@@ -81,6 +81,7 @@ Use it as a **roadmap + progress tracker**.
 - [ ] kubectl exec (run commands inside containers, open interactive shell)
 - [ ] kubectl port-forward
 - [ ] kubectl scale (deployments, statefulsets, replicasets)
+- [ ] kubectl autoscale (deployments, statefulsets, replicasets)
 - [ ] kubectl set image (rolling update pods)
 - [ ] kubectl rollout (status, history, undo)
 - [ ] kubectl top (pods, nodes — requires metrics-server)
