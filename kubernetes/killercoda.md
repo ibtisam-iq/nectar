@@ -113,3 +113,23 @@ KUBELET_KUBEADM_ARGS="--container-runtime-endpoint=unix:///var/run/containerd/co
 1) --kubeconfig=/etc/kubernetes/kubelet.conf
 2) --config=/var/lib/kubelet/config.yaml
 3) cat /var/lib/kubelet/kubeadm-flags.env
+```
+---
+## Application Misconfigured 1
+
+```bash
+controlplane:~$ k describe po -n application1 api-6768cbb9cc-hz5wt 
+Events:
+  Warning  Failed     1s (x7 over 62s)  kubelet            Error: configmap "category" not found
+controlplane:~$ k get cm -n application1
+NAME                 DATA   AGE
+configmap-category   1      4m25s
+
+controlplane:~$ k edit deploy -n application1
+deployment.apps/api edited
+controlplane:~$ k rollout restart deployment -n application1 api 
+deployment.apps/api restarted
+controlplane:~$ k get deployments.apps -n application1
+NAME   READY   UP-TO-DATE   AVAILABLE   AGE
+api    3/3     3            3           10m
+```
