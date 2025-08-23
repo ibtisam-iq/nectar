@@ -246,6 +246,68 @@ BinaryData
 ====
 
 Events:  <none>
+```
 
-# 5 
+## Ingress
+
+The Nginx Ingress Controller has been installed.
+
+Create a new Ingress resource called `world` for domain name `world.universe.mine` . The domain points to the K8s Node IP via `/etc/hosts` .
+
+The Ingress resource should have two routes pointing to the existing Services:
+
+`http://world.universe.mine:30080/europe/`
+
+and
+
+`http://world.universe.mine:30080/asia/`
+
+```bash
+controlplane:~$ k get deploy -n world 
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE
+asia     2/2     2            2           105s
+europe   2/2     2            2           105s
+controlplane:~$ k expose deployment asia -n world --port 80
+service/asia exposed
+controlplane:~$ k expose deployment europe -n world --port 80
+service/europe exposed
+controlplane:~$ k get svc -n world 
+NAME     TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+asia     ClusterIP   10.104.4.232     <none>        80/TCP    27s
+europe   ClusterIP   10.103.132.146   <none>        80/TCP    11s
+controlplane:~$ k get ingressclasses.networking.k8s.io 
+NAME    CONTROLLER             PARAMETERS   AGE
+nginx   k8s.io/ingress-nginx   <none>       8m44s
+controlplane:~$ vi ingress.yaml
+controlplane:~$ k apply -f ingress.yaml 
+ingress.networking.k8s.io/world created
+controlplane:~$ k get ingress
+No resources found in default namespace.
+controlplane:~$ k get ingress -n world 
+NAME    CLASS   HOSTS                 ADDRESS      PORTS   AGE
+world   nginx   world.universe.mine   172.30.1.2   80      15s
+controlplane:~$ k get svc -n ingress-nginx
+NAME                                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+ingress-nginx-controller             NodePort    10.109.137.75   <none>        80:30080/TCP,443:30443/TCP   17m
+ingress-nginx-controller-admission   ClusterIP   10.104.104.54   <none>        443/TCP                      17m
+controlplane:~$ cat /etc/hosts
+127.0.0.1 localhost
+
+# The following lines are desirable for IPv6 capable hosts
+::1 ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+127.0.0.1 ubuntu
+127.0.0.1 host01
+127.0.0.1 controlplane
+172.30.1.2 world.universe.mine
+controlplane:~$ http://world.universe.mine:30080/europe/
+bash: http://world.universe.mine:30080/europe/: No such file or directory
+controlplane:~$ curl http://world.universe.mine:30080/europe/
+hello, you reached EUROPE
+controlplane:~$ curl http://world.universe.mine:30080/asia/
+hello, you reached ASIA
 ```
