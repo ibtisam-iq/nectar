@@ -1,9 +1,4 @@
-```bash
-set expandtab
-set tabstop=2
-set shiftwidth=2
-```
----
+
 - `/var/log/pods`
 - `/var/log/containers`
 - `crictl ps` + `crictl logs`
@@ -14,6 +9,16 @@ journalctl | grep apiserver
 cat /var/log/syslog | grep apiserver
 ```
 ---
+
+## vim setup
+```bash
+set expandtab
+set tabstop=2
+set shiftwidth=2
+```
+---
+
+## Apiserver Crash 
 ```bash
 #1 incorrect flag
 controlplane:~$ k get po
