@@ -441,4 +441,11 @@ spec:
       protocol: TCP
     - port: 53
       protocol: UDP
+
+controlplane:~$ k get po
+NAME       READY   STATUS    RESTARTS   AGE
+tester-0   1/1     Running   0          12m
+kubectl exec tester-0 -- curl tester.level-1000.svc.cluster.local
+kubectl exec tester-0 -- curl tester.level-1001.svc.cluster.local
+kubectl exec tester-0 -- curl tester.level-1002.svc.cluster.local
 ```
