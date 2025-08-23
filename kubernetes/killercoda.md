@@ -449,3 +449,57 @@ kubectl exec tester-0 -- curl tester.level-1000.svc.cluster.local
 kubectl exec tester-0 -- curl tester.level-1001.svc.cluster.local
 kubectl exec tester-0 -- curl tester.level-1002.svc.cluster.local
 ```
+---
+
+## RBAC
+There are existing Namespaces `ns1` and `ns2`. Create ServiceAccount `pipeline` in both Namespaces.
+
+These SAs should be allowed to view almost everything in the whole cluster. You can use the default ClusterRole `view` for this.
+
+These SAs should be allowed to `create` and `delete` Deployments in their Namespace.
+
+Verify everything using `kubectl auth can-i` .
+```bash
+controlplane:~$ k create sa pipeline -n ns1 
+serviceaccount/pipeline created
+controlplane:~$ k create sa pipeline -n ns2 
+serviceaccount/pipeline created
+controlplane:~$ k get clusterrole
+NAME                                                                   CREATED AT
+view                                                                   2025-08-19T09:03:53Z
+controlplane:~$ k create clusterrolebinding abc --help
+
+Usage:
+  kubectl create clusterrolebinding NAME --clusterrole=NAME [--user=username] [--group=groupname]
+[--serviceaccount=namespace:serviceaccountname] [--dry-run=server|client|none] [options]
+
+controlplane:~$ k create clusterrolebinding abc --clusterrole view --serviceaccount=ns2:pipeline --serviceaccount=ns1:pipeline
+clusterrolebinding.rbac.authorization.k8s.io/abc created
+controlplane:~$ k create role abc -n ns1 --verb=create,delete --resource=deployments
+role.rbac.authorization.k8s.io/abc created
+controlplane:~$ k create role abc -n ns2 --verb=create,delete --resource=deployments
+role.rbac.authorization.k8s.io/abc created
+controlplane:~$ k create rolebinding abc -n ns1 --role abc --serviceaccount=ns1:pipeline   
+rolebinding.rbac.authorization.k8s.io/abc created
+controlplane:~$ k create rolebinding abc -n ns2 --role abc --serviceaccount=ns2:pipeline
+rolebinding.rbac.authorization.k8s.io/abc created
+
+# namespace ns1 deployment manager
+k auth can-i delete deployments --as system:serviceaccount:ns1:pipeline -n ns1 # YES
+k auth can-i create deployments --as system:serviceaccount:ns1:pipeline -n ns1 # YES
+k auth can-i update deployments --as system:serviceaccount:ns1:pipeline -n ns1 # NO
+k auth can-i update deployments --as system:serviceaccount:ns1:pipeline -n default # NO
+
+# namespace ns2 deployment manager
+k auth can-i delete deployments --as system:serviceaccount:ns2:pipeline -n ns2 # YES
+k auth can-i create deployments --as system:serviceaccount:ns2:pipeline -n ns2 # YES
+k auth can-i update deployments --as system:serviceaccount:ns2:pipeline -n ns2 # NO
+k auth can-i update deployments --as system:serviceaccount:ns2:pipeline -n default # NO
+
+# cluster wide view role
+k auth can-i list deployments --as system:serviceaccount:ns1:pipeline -n ns1 # YES
+k auth can-i list deployments --as system:serviceaccount:ns1:pipeline -A # YES
+k auth can-i list pods --as system:serviceaccount:ns1:pipeline -A # YES
+k auth can-i list pods --as system:serviceaccount:ns2:pipeline -A # YES
+k auth can-i list secrets --as system:serviceaccount:ns2:pipeline -A # NO (default view-role doesn't allow)
+```
