@@ -115,7 +115,7 @@ KUBELET_KUBEADM_ARGS="--container-runtime-endpoint=unix:///var/run/containerd/co
 3) cat /var/lib/kubelet/kubeadm-flags.env
 ```
 ---
-## Application Misconfigured 1
+## Application Misconfigured
 
 ```bash
 #1
@@ -310,4 +310,92 @@ controlplane:~$ curl http://world.universe.mine:30080/europe/
 hello, you reached EUROPE
 controlplane:~$ curl http://world.universe.mine:30080/asia/
 hello, you reached ASIA
+```
+---
+
+## NetworkPolicy
+
+There are existing Pods in Namespace `space1` and `space2` .
+
+```bash
+controlplane:~$ k get po -n space1 
+NAME     READY   STATUS    RESTARTS   AGE     
+app1-0   1/1     Running   0          4m44s   
+controlplane:~$ k get po -n space2  
+NAME              READY   STATUS    RESTARTS   AGE    
+microservice1-0   1/1     Running   0          5m3s   
+microservice2-0   1/1     Running   0          5m3s   
+
+controlplane:~$ k get svc -n space1
+NAME   TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+app1   ClusterIP   10.111.213.35   <none>        80/TCP    33m
+controlplane:~$ k get svc -n space2
+NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+microservice1   ClusterIP   10.109.230.189   <none>        80/TCP    33m
+microservice2   ClusterIP   10.110.221.96    <none>        80/TCP    33m
+
+controlplane:~$ k get ns --show-labels
+NAME                 STATUS   AGE    LABELS
+space1               Active   6m5s   kubernetes.io/metadata.name=space1
+space2               Active   6m5s   kubernetes.io/metadata.name=space2
+```
+
+We need a new NetworkPolicy named `np` that restricts all Pods in Namespace `space1` to only have outgoing traffic to Pods in Namespace `space2` . Incoming traffic not affected.
+
+We also need a new NetworkPolicy named `np` that restricts all Pods in Namespace `space2` to only have incoming traffic from Pods in Namespace `space1` . Outgoing traffic not affected.
+
+The NetworkPolicies should still allow outgoing DNS traffic on port `53` TCP and UDP.
+
+```bash
+controlplane:~$ cat netpol.yaml 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+  namespace: space1
+spec:
+  podSelector:
+    matchLabels: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:        
+        matchLabels:
+         kubernetes.io/metadata.name: space2
+  - ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+  namespace: space2
+spec:
+  podSelector:
+    matchLabels: {}
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector: 
+       matchLabels:
+         kubernetes.io/metadata.name: space1
+
+# these should work
+k -n space1 exec app1-0 -- curl -m 1 microservice1.space2.svc.cluster.local
+k -n space1 exec app1-0 -- curl -m 1 microservice2.space2.svc.cluster.local
+k -n space1 exec app1-0 -- nslookup tester.default.svc.cluster.local
+k -n kube-system exec -it validate-checker-pod -- curl -m 1 app1.space1.svc.cluster.local
+
+# these should not work
+k -n space1 exec app1-0 -- curl -m 1 tester.default.svc.cluster.local
+k -n kube-system exec -it validate-checker-pod -- curl -m 1 microservice1.space2.svc.cluster.local
+k -n kube-system exec -it validate-checker-pod -- curl -m 1 microservice2.space2.svc.cluster.local
+k -n default run nginx --image=nginx:1.21.5-alpine --restart=Never -i --rm  -- curl -m 1 microservice1.space2.svc.cluster.local
 ```
