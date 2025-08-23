@@ -150,4 +150,22 @@ controlplane:~$
 
 ---
 
+## Kubernetes PKI Essentials
+
+```bash
+ls /etc/kubernetes/
+admin.conf  controller-manager.conf  kubelet.conf  manifests  pki  scheduler.conf  super-admin.conf
+controlplane:~$ ls /etc/kubernetes/pki/
+apiserver-etcd-client.crt     apiserver-kubelet-client.key  ca.crt  front-proxy-ca.crt      front-proxy-client.key
+apiserver-etcd-client.key     apiserver.crt                 ca.key  front-proxy-ca.key      sa.key
+apiserver-kubelet-client.crt  apiserver.key                 etcd    front-proxy-client.crt  sa.pub
+
+controlplane:~$ sudo openssl x509 -in /etc/kubernetes/pki/apiserver.crt -noout -text | egrep 'Subject:|Issuer:|DNS:|IP Address:'
+        Issuer: CN = kubernetes
+        Subject: CN = kube-apiserver
+                DNS:controlplane, DNS:kubernetes, DNS:kubernetes.default, DNS:kubernetes.default.svc, DNS:kubernetes.default.svc.cluster.local, IP Address:10.96.0.1, IP Address:172.30.1.2
+controlplane:~$ sudo openssl x509 -in /etc/kubernetes/pki/ca.crt -noout -text | egrep 'Subject:|Issuer:'
+        Issuer: CN = kubernetes
+        Subject: CN = kubernetes
+```
 
