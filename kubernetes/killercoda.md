@@ -118,6 +118,7 @@ KUBELET_KUBEADM_ARGS="--container-runtime-endpoint=unix:///var/run/containerd/co
 ## Application Misconfigured 1
 
 ```bash
+#1
 controlplane:~$ k describe po -n application1 api-6768cbb9cc-hz5wt 
 Events:
   Warning  Failed     1s (x7 over 62s)  kubelet            Error: configmap "category" not found
@@ -132,4 +133,59 @@ deployment.apps/api restarted
 controlplane:~$ k get deployments.apps -n application1
 NAME   READY   UP-TO-DATE   AVAILABLE   AGE
 api    3/3     3            3           10m
+
+#2
+controlplane:~$ k get no
+NAME           STATUS   ROLES           AGE    VERSION
+controlplane   Ready    control-plane   4d7h   v1.33.2
+controlplane:~$ k describe po management-frontend-7b897f454f-2zpgh 
+Name:             management-frontend-7b897f454f-2zpgh
+Node:             staging-node1/      # cause
+Status:           Pending
+IP:               
+IPs:              <none>
+Events:            <none>            # effect, no events, not scheduled yet
+controlplane:~$ k get events         # nothing special
+
+controlplane:~$ k edit deploy management-frontend 
+deployment.apps/management-frontend edited
+controlplane:~$ k rollout restart deployment management-frontend 
+deployment.apps/management-frontend restarted
+controlplane:~$ k get po
+NAME                                   READY   STATUS        RESTARTS   AGE
+management-frontend-5987bc84b5-9hnsd   1/1     Running       0          4s
+management-frontend-5987bc84b5-fczz4   1/1     Running       0          4s
+management-frontend-5987bc84b5-gbr5k   1/1     Running       0          7s
+management-frontend-5987bc84b5-h9mzz   1/1     Running       0          6s
+management-frontend-5987bc84b5-ms7hl   1/1     Running       0          6s
+
+#4
+There is a deployment with two containers, one is running, and other restarting...
+
+k describe deployments.apps -n management collect-data # no clue
+k describe po -n management collect-data-5759c5c888-gvf2z
+Warning  BackOff    14s (x13 over 2m35s)  kubelet            Back-off restarting failed container httpd in pod collect-data-5759c5c888-gvf2z_management(9d91ca38-197d-48fc-8916-d22e54cd899b)
+controlplane:~$ k logs -n management deploy/collect-data -c nginx # all good
+controlplane:~$ k logs -n management deploy/collect-data -c httpd
+Found 2 pods, using pod/collect-data-5759c5c888-gvf2z
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 192.168.0.7. Set the 'ServerName' directive globally to suppress this message
+(98)Address in use: AH00072: make_sock: could not bind to address [::]:80
+(98)Address in use: AH00072: make_sock: could not bind to address 0.0.0.0:80
+no listening sockets available, shutting down
+AH00015: Unable to open logs
+
+The issue seems that both containers have processes that want to listen on port 80. Depending on container creation order and speed, the first will succeed, the other will fail.
+
+Solution: remove one container.
+
+controlplane:~$ k get deploy -n management 
+NAME           READY   UP-TO-DATE   AVAILABLE   AGE
+collect-data   0/2     2            0           29m
+controlplane:~$ k edit deploy -n management collect-data 
+deployment.apps/collect-data edited
+controlplane:~$ k rollout restart deployment -n management collect-data 
+deployment.apps/collect-data restarted
+controlplane:~$ k get deploy -n management collect-data 
+NAME           READY   UP-TO-DATE   AVAILABLE   AGE
+collect-data   2/2     2            2           31m
 ```
