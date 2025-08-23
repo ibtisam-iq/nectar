@@ -32,7 +32,7 @@ controlplane:~$ cat /var/log/containers/kube-apiserver-controlplane_kube-system_
 c03c.log   # see carefully, you will see > 1 log files # the lowest
 2025-08-23T08:26:41.615226434Z stderr F Error: unknown flag: --this-is-very-wrong
 
-#2 incorrect flag value:     # --etcd-servers=hhttps://127.0.0.1:2379
+#2 incorrect flag value:    # --etcd-servers=hhttps://127.0.0.1:2379
 controlplane:~$ k get po    # no result, stuck
 watch crictl ps             #  kube-apiserver pod is not found
 
@@ -54,3 +54,15 @@ journalctl | grep apiserver # same message like tail -f /var/log/syslog | grep a
 ```
 ---
 
+## Apiserver Misconfigured
+
+```bash
+#1      # There is wrong YAML in the manifest at metadata;
+controlplane:~$ cat /var/log/syslog | grep apiserver
+2025-08-23T11:21:56.530696+00:00 controlplane kubelet[1504]: E0823 11:21:56.530513    1504 file.go:187] "Could not process manifest file" err="/etc/kubernetes/manifests/kube-apiserver.yaml: couldn't parse as pod(yaml: line 4: could not find expected ':'), please check config file" path="/etc/kubernetes/manifests/kube-apiserver.yaml"
+
+#2
+cat /var/log/containers/kube-apiserver-controlplane_kube-system_kube-apiserver-95d67ca47280ee0bd9599c6ba2a166fffd4e4d6138d8caaed8
+2ec77c40bc8ef3.log 
+2025-08-23T11:39:36.36137879Z stderr F Error: unknown flag: --authorization-modus
+```
