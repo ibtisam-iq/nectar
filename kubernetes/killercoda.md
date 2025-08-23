@@ -188,4 +188,23 @@ deployment.apps/collect-data restarted
 controlplane:~$ k get deploy -n management collect-data 
 NAME           READY   UP-TO-DATE   AVAILABLE   AGE
 collect-data   2/2     2            2           31m
+
+# 4
+Create a Pod named pod1 of image nginx:alpine
+Make key tree of ConfigMap trauerweide available as environment variable TREE1
+Mount all keys of ConfigMap birke as volume. The files should be available under /etc/birke/*
+Test env+volume access in the running Pod
+
+k run pod1 --image nginx:alpine
+pod/pod1 created
+k edit po pod1 
+error: pods "pod1" is invalid
+A copy of your changes has been stored to "/tmp/kubectl-edit-654694799.yaml"
+error: Edit cancelled, no valid changes were saved.
+controlplane:~$ k replace -f /tmp/kubectl-edit-654694799.yaml --force
+pod "pod1" deleted
+pod/pod1 replaced
+controlplane:~$ k get po
+NAME   READY   STATUS    RESTARTS   AGE
+pod1   1/1     Running   0          5s
 ```
