@@ -399,3 +399,46 @@ k -n kube-system exec -it validate-checker-pod -- curl -m 1 microservice1.space2
 k -n kube-system exec -it validate-checker-pod -- curl -m 1 microservice2.space2.svc.cluster.local
 k -n default run nginx --image=nginx:1.21.5-alpine --restart=Never -i --rm  -- curl -m 1 microservice1.space2.svc.cluster.local
 ```
+
+All Pods in Namespace `default` with label `level=100x` should be able to communicate with Pods with label `level=100x` in Namespaces `level-1000` , `level-1001` and `level-1002` . Fix the existing NetworkPolicy np-100x to ensure this.
+
+```bash
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np-100x
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      level: 100x
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+     - namespaceSelector:
+        matchLabels:
+         kubernetes.io/metadata.name: level-1000
+       podSelector:
+         matchLabels:
+           level: 100x
+  - to:
+     - namespaceSelector:
+        matchLabels:
+         kubernetes.io/metadata.name: level-1000 # CHANGE to level-1001
+       podSelector:
+         matchLabels:
+           level: 100x
+  - to:
+     - namespaceSelector:
+        matchLabels:
+         kubernetes.io/metadata.name: level-1002
+       podSelector:
+         matchLabels:
+           level: 100x
+  - ports:
+    - port: 53
+      protocol: TCP
+    - port: 53
+      protocol: UDP
+```
