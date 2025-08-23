@@ -503,3 +503,57 @@ k auth can-i list pods --as system:serviceaccount:ns1:pipeline -A # YES
 k auth can-i list pods --as system:serviceaccount:ns2:pipeline -A # YES
 k auth can-i list secrets --as system:serviceaccount:ns2:pipeline -A # NO (default view-role doesn't allow)
 ```
+There is existing Namespace `applications`.
+User `smoke` should be allowed to `create` and `delete` `Pods, Deployments and StatefulSets` in Namespace `applications`.
+User smoke should have `view` permissions (like the permissions of the default `ClusterRole` named `view` ) in all Namespaces but not in `kube-system`.
+
+```bash
+controlplane:~$ k create role abc --verb=create,delete --resource=pods,deployments,statefulsets -n applications 
+role.rbac.authorization.k8s.io/abc created
+controlplane:~$ k create rolebinding -n applications abc --user=smoke --role=abc    
+rolebinding.rbac.authorization.k8s.io/abc created
+
+controlplane:~$ k get ns
+NAME                 STATUS   AGE
+applications         Active   20m
+default              Active   4d11h
+kube-node-lease      Active   4d11h
+kube-public          Active   4d11h
+kube-system          Active   4d11h
+local-path-storage   Active   4d11h
+
+controlplane:~$ k create rolebinding abc -n applications --clusterrole=view --user=smoke
+error: failed to create rolebinding: rolebindings.rbac.authorization.k8s.io "abc" already exists
+controlplane:~$ k create rolebinding abcd -n applications --clusterrole=view --user=smoke
+rolebinding.rbac.authorization.k8s.io/abcd created
+controlplane:~$ k create rolebinding abcd -n default --clusterrole=view --user=smoke
+rolebinding.rbac.authorization.k8s.io/abcd created
+controlplane:~$ k create rolebinding abcd -n kube-node-lease --clusterrole=view --user=smoke
+rolebinding.rbac.authorization.k8s.io/abcd created
+controlplane:~$ k create rolebinding abcd -n kube-public --clusterrole=view --user=smoke
+rolebinding.rbac.authorization.k8s.io/abcd created
+controlplane:~$ k create rolebinding abcd -n local-path-storage --clusterrole=view --user=smoke
+rolebinding.rbac.authorization.k8s.io/abcd created
+
+controlplane:~$ k auth can-i create deployments --as smoke -n applications
+yes
+controlplane:~$ k auth can-i get secrets --as smoke -n applications
+no
+
+# applications
+k auth can-i create deployments --as smoke -n applications # YES
+k auth can-i delete deployments --as smoke -n applications # YES
+k auth can-i delete pods --as smoke -n applications # YES
+k auth can-i delete sts --as smoke -n applications # YES
+k auth can-i delete secrets --as smoke -n applications # NO
+k auth can-i list deployments --as smoke -n applications # YES
+k auth can-i list secrets --as smoke -n applications # NO
+k auth can-i get secrets --as smoke -n applications # NO
+
+# view in all namespaces but not kube-system
+k auth can-i list pods --as smoke -n default # YES
+k auth can-i list pods --as smoke -n applications # YES
+k auth can-i list pods --as smoke -n kube-public # YES
+k auth can-i list pods --as smoke -n kube-node-lease # YES
+k auth can-i list pods --as smoke -n kube-system # NO
+```
