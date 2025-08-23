@@ -66,3 +66,50 @@ cat /var/log/containers/kube-apiserver-controlplane_kube-system_kube-apiserver-9
 2ec77c40bc8ef3.log 
 2025-08-23T11:39:36.36137879Z stderr F Error: unknown flag: --authorization-modus
 ```
+---
+
+## Kube Controller Manager Misconfigured
+
+```bash
+# kube-controller-manager-controlplane restarting...
+
+crictl logs 9cef2cf7061d6  # no clue
+cat /var/log/syslog | grep kube-controller-manager # no clue
+journalctl | grep kube-controller-manager
+cat /var/log/containers/kube-controller-manager-controlplane_kube-system_kube-controller-manager-d559f74bec79087e6e77a69ff8a9c42f46c4666b7310898f2132eea9b6e72dce.log
+2025-08-23T13:10:02.535173834Z stderr F Error: unknown flag: --project-sidecar-insertion
+```
+
+---
+
+## Kubelet Misconfigured
+
+```bash
+k get po -A   # all good, all running
+controlplane:~$ k run nginx --image nginx
+pod/nginx created
+controlplane:~$ k describe po nginx
+Events:
+  Type     Reason            Age   From               Message
+  ----     ------            ----  ----               -------
+  Warning  FailedScheduling  35s   default-scheduler  0/2 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }, 1 node(s) had untolerated taint {node.kubernetes.io/unreachable: }. preemption: 0/2 nodes are available: 2 Preemption is not helpful for scheduling.
+
+controlplane:~$ systemctl status kubelet    # all running...
+controlplane:~$ k get no                    
+NAME           STATUS     ROLES           AGE    VERSION
+controlplane   Ready      control-plane   4d4h   v1.33.2
+node01         NotReady   <none>          4d4h   v1.33.2
+
+node01:~$ journalctl -u kubelet -f
+Aug 23 13:53:14 node01 kubelet[8691]: E0823 13:53:14.926448    8691 run.go:72] "command failed" err="failed to parse kubelet flag: unknown flag: --improve-speed"
+Aug 23 13:53:14 node01 systemd[1]: kubelet.service: Main process exited, code=exited, status=1/FAILURE
+
+node01:~$ ls /var/lib/kubelet/    
+actuated_pods_state   checkpoints  cpu_manager_state  kubeadm-flags.env     pki      plugins_registry  pods
+allocated_pods_state  config.yaml  device-plugins     memory_manager_state  plugins  pod-resources
+node01:~$ cat /var/lib/kubelet/kubeadm-flags.env     # remove --improve-speed
+KUBELET_KUBEADM_ARGS="--container-runtime-endpoint=unix:///var/run/containerd/containerd.sock --pod-infra-container-image=registry.k8s.io/pause:3.10 --improve-speed"
+
+1) --kubeconfig=/etc/kubernetes/kubelet.conf
+2) --config=/var/lib/kubelet/config.yaml
+3) cat /var/lib/kubelet/kubeadm-flags.env
