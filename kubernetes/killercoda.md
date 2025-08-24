@@ -255,6 +255,13 @@ deployment.apps/goapp-deployment edited
 controlplane:~$ k get po
 NAME                              READY   STATUS    RESTARTS   AGE
 goapp-deployment-9d4fb95f-rq2fc   1/1     Running   0          7s
+controlplane:~$ k get svc
+NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+goapp-service   ClusterIP   10.111.109.109   <none>        8080/TCP   11m
+kubernetes      ClusterIP   10.96.0.1        <none>        443/TCP    5d
+controlplane:~$ curl http://10.111.109.109:8080
+Hello, Kubernetes! Here is a UUID: f3f5e0f0-7786-4f2d-90a2-2510b737aec3
+controlplane:~$ 
 
       env:
         - name: PORT
