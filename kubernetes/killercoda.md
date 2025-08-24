@@ -577,6 +577,21 @@ k auth can-i list pods --as smoke -n kube-public # YES
 k auth can-i list pods --as smoke -n kube-node-lease # YES
 k auth can-i list pods --as smoke -n kube-system # NO
 ```
+
+Create a new role named “sa-creator” that will allow creating service accounts in the default namespace.
+```bash
+controlplane:~$ k create sa sa-creator
+serviceaccount/sa-creator created
+
+controlplane:~$ k api-resources | grep -i serviceacc
+serviceaccounts                     sa           v1                                true         ServiceAccount
+
+controlplane:~$ k create role sa-creator --verb create --resource serviceaccounts
+role.rbac.authorization.k8s.io/sa-creator created
+
+controlplane:~$ k create role sa-creatorr --verb create --resource sa
+role.rbac.authorization.k8s.io/sa-creatorr created
+```
 ---
 
 ## Affinity
