@@ -108,6 +108,17 @@ controlplane:~$
 
 ---
 
+## Linux Services
+
+List the services on your Linux operating system that are associated with Kubernetes. Save the output to a file named `services.csv`.
+
+```bash
+controlplane:~$ sudo systemctl list-unit-files --type service --all | grep kube
+kubelet.service                              enabled         enabled
+podman-kube@.service                         disabled        enabled
+controlplane:~$ sudo systemctl list-unit-files --type service --all | grep kube > services.csv
+```
+
 ## Kubeadm Certification Management
 
 Using kubeadm, read out the expiration date of the apiserver certificate and write it into `/root/apiserver-expiration`.
