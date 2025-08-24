@@ -306,6 +306,7 @@ spec:                         # --> POD-LEVEL SPEC STARTS HERE
             values:
             - node1
   serviceAccountName: myserviceaccount  # Pod-level (IAM link)
+  automountServiceAccountToken: true
   hostNetwork: false           # Pod-level (true/false, shares Node's network?)
   dnsPolicy: ClusterFirst      # Pod-level (DNS rules)
   securityContext:             # Pod-level security (applies to all containers)
