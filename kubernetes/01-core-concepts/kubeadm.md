@@ -1,3 +1,33 @@
+
+## Install Containerd
+
+```bash
+ubuntu:~$ wget https://github.com/containerd/containerd/releases/download/v2.0.4/containerd-2.0.4-linux-amd64.tar.gz
+ubuntu:~$ ls
+containerd-2.0.4-linux-amd64.tar.gz  filesystem
+ubuntu:~$ sudo tar Cxzvf /usr/local containerd-2.0.4-linux-amd64.tar.gz
+bin/
+bin/ctr
+bin/containerd-stress
+bin/containerd
+bin/containerd-shim-runc-v2
+ubuntu:~$ containerd --version
+containerd github.com/containerd/containerd/v2 v2.0.4 1a43cb6a1035441f9aca8f5666a9b3ef9e70ab20
+
+# Set System Parameters
+
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.ipv4.ip_forward = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+
+sudo sysctl --system
+sysctl net.ipv4.ip_forward
+sysctl net.bridge.bridge-nf-call-iptables
+```
+
+---
+
 ## Cluster Setup
 
 There are two VMs `controlplane` and `node-summer`, create a two Node Kubeadm Kubernetes cluster with them. Kubeadm, kubelet and kubectl are already installed.
