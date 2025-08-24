@@ -491,6 +491,104 @@ spec:
 ```
 
 ---
+Create a pod named redis-pod that uses the image redis:7 and exposes port 6379 . Use the command redis-server /redis-master/redis.conf to store redis configuration data and store this in an emptyDir volume. Mount the redis-config configmap as a volume to the pod for use within the container.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-pod
+  labels:
+    app: redis
+spec:
+  containers:
+  - name: redis
+    image: redis:7
+    # Start Redis with a custom config file path
+    command: ["redis-server", "/redis-master/redis.conf"]
+
+    ports:
+    - containerPort: 6379  # Redis default port
+
+    volumeMounts:
+    # Mount the emptyDir volume for Redis data persistence (lifetime = Pod's lifecycle)
+    - name: redis-data
+      mountPath: /data
+
+    # Mount ConfigMap containing redis.conf into the container
+    - name: redis-config
+      mountPath: /redis-master
+      # Each key in ConfigMap becomes a file, here /redis-master/redis.conf
+      # Ensure your ConfigMap has a key named 'redis.conf'
+
+  volumes:
+  # EmptyDir for ephemeral Redis storage (wiped when Pod is deleted)
+  - name: redis-data
+    emptyDir: {}
+
+  # ConfigMap for Redis configuration
+  - name: redis-config
+    configMap:
+      name: redis-config   # This must exist beforehand
+      # Optional: specify key-to-path mapping
+      items:
+      - key: redis.conf    # key inside ConfigMap
+        path: redis.conf   # file created inside container
+```
+```bash
+controlplane:~$ k logs redis-pod 
+1:C 24 Aug 2025 15:38:20.095 # Fatal error, can't open config file '/redis-master/redis.conf': No such file or directory
+controlplane:~$ k describe cm redis-config 
+Name:         redis-config
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+
+Data
+====
+maxmemory:
+----
+2mb
+
+maxmemory-policy:
+----
+allkeys-lru
+
+
+BinaryData
+====
+
+Events:  <none>
+controlplane:~$ k delete cm redis-config 
+configmap "redis-config" deleted
+controlplane:~$ vi 1.yaml
+controlplane:~$ cat 1.yaml 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+data:
+  redis.conf: |-
+    # Redis configuration file
+    bind 0.0.0.0
+    port 6379
+    dir /data
+    maxmemory 2mb
+    maxmemory-policy allkeys-lru
+controlplane:~$ k apply -f 1.yaml 
+configmap/redis-config created
+controlplane:~$ k get po
+NAME        READY   STATUS              RESTARTS   AGE
+redis-pod   0/1     ContainerCreating   0          96s
+controlplane:~$ k replace -f abcd.yaml --force
+pod "redis-pod" deleted
+pod/redis-pod replaced
+controlplane:~$ k get po
+NAME        READY   STATUS    RESTARTS   AGE
+redis-pod   1/1     Running   0          5s
+```
+
+---
 
 # 🛡️ Important Tip for CKA
 
