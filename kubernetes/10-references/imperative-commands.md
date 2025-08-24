@@ -291,6 +291,10 @@ kubectl create role foo --verb=get,list,watch --resource=rs.apps
 # Create a role named "foo" with SubResource specified
 kubectl create role foo --verb=get,list,watch --resource=pods,pods/status
 
+# Create a new cluster role named “abc” that can create deployments, replicasets and daemonsets
+controlplane:~$ k create clusterrole abc --verb create --resource=deploy,rs,ds
+clusterrole.rbac.authorization.k8s.io/acme-corp-clusterrole created
+
 kubectl create role|clusterrole NAME --verb=verb --resource=resource.group [--resource-name=resourcename]
 [--dry-run=server|client|none] [options]
 
