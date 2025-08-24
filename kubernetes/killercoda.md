@@ -159,7 +159,7 @@ management-frontend-5987bc84b5-gbr5k   1/1     Running       0          7s
 management-frontend-5987bc84b5-h9mzz   1/1     Running       0          6s
 management-frontend-5987bc84b5-ms7hl   1/1     Running       0          6s
 
-#4
+#3
 There is a deployment with two containers, one is running, and other restarting...
 
 k describe deployments.apps -n management collect-data # no clue
@@ -246,6 +246,19 @@ BinaryData
 ====
 
 Events:  <none>
+
+# 5
+controlplane:~$ k logs goapp-deployment-77549cf8d6-rr5q4
+Error: PORT environment variable not set
+controlplane:~$ k edit deployments.apps goapp-deployment 
+deployment.apps/goapp-deployment edited
+controlplane:~$ k get po
+NAME                              READY   STATUS    RESTARTS   AGE
+goapp-deployment-9d4fb95f-rq2fc   1/1     Running   0          7s
+
+      env:
+        - name: PORT
+          value: "8080"         # MUST match the port your app expects
 ```
 
 ## Ingress
