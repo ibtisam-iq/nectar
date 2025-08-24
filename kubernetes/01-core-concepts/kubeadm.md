@@ -210,3 +210,56 @@ controlplane:~$ sudo openssl x509 -in /etc/kubernetes/pki/ca.crt -noout -text | 
         Subject: CN = kubernetes
 ```
 
+---
+
+## Check the current version and the target version
+
+Run the appropriate command to check the current version of the API server, controller manager, scheduler, kube-proxy, CoreDNS, and etcd.
+
+```bash
+controlplane:~$ kubeadm upgrade plan
+[preflight] Running pre-flight checks.
+[upgrade/config] Reading configuration from the "kubeadm-config" ConfigMap in namespace "kube-system"...
+[upgrade/config] Use 'kubeadm init phase upload-config --config your-config-file' to re-upload it.
+[upgrade] Running cluster health checks
+[upgrade] Fetching available versions to upgrade to
+[upgrade/versions] Cluster version: 1.33.2
+[upgrade/versions] kubeadm version: v1.33.2
+[upgrade/versions] Target version: v1.33.4
+[upgrade/versions] Latest version in the v1.33 series: v1.33.4
+
+Components that must be upgraded manually after you have upgraded the control plane with 'kubeadm upgrade apply':
+COMPONENT   NODE           CURRENT   TARGET
+kubelet     controlplane   v1.33.2   v1.33.4
+
+Upgrade to the latest version in the v1.33 series:
+
+COMPONENT                 NODE           CURRENT    TARGET
+kube-apiserver            controlplane   v1.33.2    v1.33.4
+kube-controller-manager   controlplane   v1.33.2    v1.33.4
+kube-scheduler            controlplane   v1.33.2    v1.33.4
+kube-proxy                               1.33.2     v1.33.4
+CoreDNS                                  v1.12.0    v1.12.0
+etcd                      controlplane   3.5.21-0   3.5.21-0
+
+You can now apply the upgrade by executing the following command:
+
+        kubeadm upgrade apply v1.33.4
+
+Note: Before you can perform this upgrade, you have to update kubeadm to v1.33.4.
+
+_____________________________________________________________________
+
+
+The table below shows the current state of component configs as understood by this version of kubeadm.
+Configs that have a "yes" mark in the "MANUAL UPGRADE REQUIRED" column require manual config upgrade or
+resetting to kubeadm defaults before a successful upgrade can be performed. The version to manually
+upgrade to is denoted in the "PREFERRED VERSION" column.
+
+API GROUP                 CURRENT VERSION   PREFERRED VERSION   MANUAL UPGRADE REQUIRED
+kubeproxy.config.k8s.io   v1alpha1          v1alpha1            no
+kubelet.config.k8s.io     v1beta1           v1beta1             no
+_____________________________________________________________________
+
+controlplane:~$
+```
