@@ -177,3 +177,39 @@ Kubernetes gives you a lot of flexibility in how you write `command` and `args`.
 - **Clarity** (split `command` and `args` for modularity).
 
 
+---
+
+### What you wrote:
+
+```yaml
+command:
+  - sh
+  - -c
+  - echo '$ABC' && sleep 3600
+```
+
+Here, `'$ABC'` is wrapped in **single quotes** → that means the shell will literally print **`$ABC`**, not the value of the environment variable.
+
+---
+
+### ✅ Correct way:
+
+You should **not** quote with single quotes. Use either no quotes or double quotes so that `$ABC` gets expanded:
+
+```yaml
+command:
+  - sh
+  - -c
+  - echo $ABC && sleep 3600
+```
+
+or:
+
+```yaml
+command:
+  - sh
+  - -c
+  - "echo $ABC && sleep 3600"
+```
+
+Both will properly expand the environment variable `ABC`.
