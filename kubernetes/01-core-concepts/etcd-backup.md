@@ -1,3 +1,282 @@
+# ETCD Backup & Restore (kubeadm) — SilverKube Guide
+
+A repo-ready, copy‑paste runbook for backing up and restoring **etcd** on a kubeadm‑managed control plane. Written to match the workflow we practiced (single-node etcd, static pod) and to avoid common crashloops after a restore.
+
+---
+
+## ✅ Scope & Assumptions
+
+* **Single-node etcd** deployed by **kubeadm** as a **static pod** (`/etc/kubernetes/manifests/etcd.yaml`).
+* You have root or sudo access on the **control plane node**.
+* Certs at default kubeadm paths: `/etc/kubernetes/pki/etcd/`.
+* Backup destination (as per task): `/opt/cluster_backup.db`.
+* Restore data dir (as per task): `/root/default.etcd`.
+* Save restore console output to: `restore.txt`.
+
+> For HA/multi-node etcd, see **When to use extra flags** below.
+
+---
+
+## TL;DR (Cheat Sheet)
+
+```bash
+# 0) env
+export ETCDCTL_API=3
+export EP=https://127.0.0.1:2379
+export CERT=/etc/kubernetes/pki/etcd/server.crt
+export KEY=/etc/kubernetes/pki/etcd/server.key
+export CACERT=/etc/kubernetes/pki/etcd/ca.crt
+
+# 1) backup
+etcdctl --endpoints=$EP --cert=$CERT --key=$KEY --cacert=$CACERT \
+  snapshot save /opt/cluster_backup.db
+
+# 2) verify snapshot
+etcdctl snapshot status /opt/cluster_backup.db -w table
+
+# 3) stop etcd (static pod): pause kubelet from recreating it
+mv /etc/kubernetes/manifests/etcd.yaml /etc/kubernetes/
+
+# 4) clean data dir then restore
+rm -rf /root/default.etcd
+etcdctl snapshot restore /opt/cluster_backup.db \
+  --data-dir=/root/default.etcd \
+  --name=controlplane \
+  --initial-advertise-peer-urls=https://<CONTROLPLANE_IP>:2380 \
+  --initial-cluster=controlplane=https://<CONTROLPLANE_IP>:2380 \
+  --initial-cluster-token=etcd-cluster-1 \
+  --initial-cluster-state=new \
+
+# 5) permissions
+chown -R root:root /root/default.etcd
+chmod -R 700 /root/default.etcd
+
+# 6) put manifest back and restart kubelet
+mv /etc/kubernetes/etcd.yaml /etc/kubernetes/manifests/
+systemctl restart kubelet
+
+# 7) health checks
+etcdctl --endpoints=$EP --cert=$CERT --key=$KEY --cacert=$CACERT endpoint health
+kubectl get pods -A
+```
+
+---
+
+## 1) Prepare Environment
+
+```bash
+export ETCDCTL_API=3
+export EP=https://127.0.0.1:2379
+export CERT=/etc/kubernetes/pki/etcd/server.crt
+export KEY=/etc/kubernetes/pki/etcd/server.key
+export CACERT=/etc/kubernetes/pki/etcd/ca.crt
+```
+
+* `ETCDCTL_API=3` ensures v3 API.
+* `EP` points to the local secured endpoint used by kubeadm setups.
+
+---
+
+## 2) Take a Backup (Snapshot)
+
+```bash
+etcdctl --endpoints=$EP --cert=$CERT --key=$KEY --cacert=$CACERT \
+  snapshot save /opt/cluster_backup.db
+```
+
+**Verify snapshot file:**
+
+```bash
+etcdctl snapshot status /opt/cluster_backup.db -w table
+```
+
+> Keep `/opt/cluster_backup.db` safe/off-node for disaster recovery.
+
+---
+
+## 3) Stop etcd (Static Pod) Before Restore
+
+Kubelet recreates static pods automatically from `/etc/kubernetes/manifests`. Temporarily move the etcd manifest:
+
+```bash
+mv /etc/kubernetes/manifests/etcd.yaml /etc/kubernetes/
+```
+
+> This *stops* the etcd pod cleanly while you restore the data directory.
+
+---
+
+## 4) Restore Snapshot into a Fresh Data Dir
+
+**Always** start from an empty data directory:
+
+```bash
+rm -rf /root/default.etcd
+```
+
+### Recommended (explicit) restore — robust and matches manifest
+
+```bash
+etcdctl snapshot restore /opt/cluster_backup.db \
+  --data-dir=/root/default.etcd \
+  --name=controlplane \
+  --initial-advertise-peer-urls=https://<CONTROLPLANE_IP>:2380 \
+  --initial-cluster=controlplane=https://<CONTROLPLANE_IP>:2380 \
+  --initial-cluster-token=etcd-cluster-1 \
+  --initial-cluster-state=new
+```
+
+* Replace `<CONTROLPLANE_IP>` with the node IP your manifest uses (e.g., `172.30.1.2`).
+* Output is saved to `/root/restore.txt` as required.
+
+### Minimal restore — fine for same-node single-member
+
+If you’re restoring on the **same** node with **same** IP/name and single-member etcd:
+
+```bash
+etcdctl snapshot restore /opt/cluster_backup.db \
+  --data-dir=/root/default.etcd
+```
+
+> Use minimal only when nothing changed. If you hit member/cluster mismatch errors, rerun the **explicit** restore above.
+
+### Fix permissions (critical)
+
+```bash
+chown -R root:root /root/default.etcd
+chmod -R 700 /root/default.etcd
+```
+
+---
+
+## 5) Update/Confirm the Static Pod Manifest
+
+Open `/etc/kubernetes/etcd.yaml` (the file you moved) and ensure these flags **exist and match the restore**:
+
+```yaml
+    - --data-dir=/root/default.etcd
+    - --name=controlplane
+    - --initial-advertise-peer-urls=https://<CONTROLPLANE_IP>:2380
+    - --initial-cluster=controlplane=https://<CONTROLPLANE_IP>:2380
+    - --initial-cluster-token=etcd-cluster-1
+    - --initial-cluster-state=new
+```
+
+Also ensure these volume mounts/hostPaths are set:
+
+```yaml
+  volumeMounts:
+  - mountPath: /root/default.etcd
+    name: etcd-data
+  - mountPath: /etc/kubernetes/pki/etcd
+    name: etcd-certs
+
+  volumes:
+  - hostPath:
+      path: /etc/kubernetes/pki/etcd
+      type: DirectoryOrCreate
+    name: etcd-certs
+  - hostPath:
+      path: /root/default.etcd
+      type: DirectoryOrCreate
+    name: etcd-data
+```
+
+> If your manifest already contains these (common in kubeadm), just confirm they match your restore values/IP and data-dir.
+
+---
+
+## 6) Bring etcd Back
+
+```bash
+mv /etc/kubernetes/etcd.yaml /etc/kubernetes/manifests/
+systemctl restart kubelet
+```
+
+Kubelet will detect the manifest and recreate the pod.
+
+---
+
+## 7) Verify Health
+
+**etcd health**
+
+```bash
+etcdctl --endpoints=$EP --cert=$CERT --key=$KEY --cacert=$CACERT endpoint health
+```
+
+**Cluster basics**
+
+```bash
+kubectl get nodes
+kubectl get pods -A
+```
+
+**If the pod restarts**, inspect logs:
+
+```bash
+kubectl -n kube-system logs etcd-$(hostname) --previous
+# or container runtime logs
+crictl ps | grep etcd
+crictl logs <CONTAINER_ID>
+```
+
+---
+
+## When You Need Extra Flags vs. Minimal Restore
+
+**Minimal restore** (only `--data-dir`) works when **all** are true:
+
+* Single-node etcd (no peers).
+* Restoring on the **same node** with the **same IP/hostname**.
+* Your static pod manifest’s etcd flags match what etcd auto-derives.
+
+Use **explicit flags** (`--name`, `--initial-*`, token, state) when:
+
+* HA/multi-node etcd.
+* Node **IP/hostname changed**, or moving to new hardware/VM.
+* You see errors like *name mismatch*, *inconsistent cluster ID*, *mismatch member ID*.
+* You want deterministic, reproducible restores that match the manifest exactly (recommended).
+
+**Golden Rule:** single-node same-node → minimal is OK; anything else → explicit.
+
+---
+
+## Common Pitfalls & Fixes
+
+* **CrashLoopBackOff after restore**
+
+  * ✅ Fix permissions:
+
+    ```bash
+    chown -R root:root /root/default.etcd
+    chmod -R 700 /root/default.etcd
+    systemctl restart kubelet
+    ```
+  * Ensure manifest `--data-dir` matches restored dir.
+  * Ensure `--initial-cluster=controlplane=https://<IP>:2380` and `--initial-cluster-state=new` exist.
+
+* **`initial-cluster` empty in logs**
+
+  * Restore again with explicit flags (see step 4), and confirm manifest includes them.
+
+* **Name/cluster ID mismatch**
+
+  * Wipe data dir and re-restore with the **same `--name`** used in manifest and correct `--initial-cluster`.
+
+* **Probes killing etcd too early**
+
+  * Temporarily increase `startupProbe`/`livenessProbe` thresholds while troubleshooting, then revert.
+
+* **Old default dir left behind**
+
+  * If you changed data-dir, consider archiving the old one to avoid confusion:
+
+    ```bash
+    mv /var/lib/etcd /var/lib/etcd.bak-$(date +%F-%H%M)
+    ```
+---
+
 ## `etcdctl` and `etcdutl` binaries are installed
 
 ```bash
