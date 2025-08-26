@@ -642,3 +642,51 @@ Another way to solve the same requirement would be:
               level: restricted
           topologyKey: kubernetes.io/hostname
 ```
+
+
+---
+
+## Persistant volume
+
+Perfect exam-style YAML task ❤️ Let’s carefully construct the pod definition.
+
+---
+
+### 🔹 Requirements Breakdown
+
+* Pod name: **`alpine-pod-pod`**
+* Image: **`alpine:latest`**
+* Container name: **`alpine-container`**
+* Use **command**: `/bin/sh`
+* Use **args**: `["-c", "tail -f /config/log.txt"]`
+* Mount a **volume** named `config-volume` from an existing **ConfigMap** `log-configmap`
+* Mount path: `/config`
+* Restart policy: **Never**
+
+---
+
+### ✅ Final YAML
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: alpine-pod-pod
+spec:
+  restartPolicy: Never
+  containers:
+  - name: alpine-container
+    image: alpine:latest
+    command:
+    - /bin/sh
+    - -c
+    - tail -f /config/log.txt
+    volumeMounts:
+    - name: config-volume
+      mountPath: /config
+  volumes:
+  - name: config-volume
+    configMap:
+      name: log-configmap
+```
+---
