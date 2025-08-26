@@ -1,4 +1,4 @@
-# ETCD Backup & Restore (kubeadm) — SilverKube Guide
+# ETCD Backup & Restore
 
 A repo-ready, copy‑paste runbook for backing up and restoring **etcd** on a kubeadm‑managed control plane. Written to match the workflow we practiced (single-node etcd, static pod) and to avoid common crashloops after a restore.
 
