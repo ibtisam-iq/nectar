@@ -266,6 +266,35 @@ controlplane:~$
       env:
         - name: PORT
           value: "8080"         # MUST match the port your app expects
+
+# 6 # wrong configmap name
+
+Events:
+  Type     Reason       Age                From               Message
+  ----     ------       ----               ----               -------
+  Normal   Scheduled    25s                default-scheduler  Successfully assigned default/nginx-deployment-756cb747fb-9w28f to node01
+  Warning  FailedMount  10s (x6 over 25s)  kubelet            MountVolume.SetUp failed for volume "nginx-config" : configmap "nginx-config" not found
+controlplane:~$ k get cm
+NAME               DATA   AGE
+kube-root-ca.crt   1      8d
+nginx-configmap    1      5m12s
+
+controlplane:~$ k edit deployments.apps nginx-deployment 
+error: deployments.apps "nginx-deployment" is invalid
+A copy of your changes has been stored to "/tmp/kubectl-edit-110261693.yaml"
+error: Edit cancelled, no valid changes were saved.
+controlplane:~$ k replace -f /tmp/kubectl-edit-110261693.yaml --force
+deployment.apps "nginx-deployment" deleted
+The Deployment "nginx-deployment" is invalid: spec.template.spec.initContainers[0].volumeMounts[0].name: Not found: "nginx-config"
+controlplane:~$ vi /tmp/kubectl-edit-110261693.yaml
+controlplane:~$ k replace -f /tmp/kubectl-edit-110261693.yaml --force
+deployment.apps/nginx-deployment replaced
+
+controlplane:~$ k get po
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-6bc9ddf66b-z2h67   1/1     Running   0          17s
+controlplane:~$ 
+
 ```
 
 ## Ingress
