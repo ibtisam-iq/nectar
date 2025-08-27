@@ -808,3 +808,143 @@ is **all that’s required** ✅
 So in your pod update, just keep the **PVC reference** exactly as you showed — **no `hostPath` needed**.
 
 ---
+
+Your task involves setting up storage components in a Kubernetes cluster. Follow these steps:
+
+Step 1: Create a Storage Class named blue-stc-cka with the following properties:
+
+- Provisioner: kubernetes.io/no-provisioner
+- Volume binding mode: WaitForFirstConsumer
+Step 2: Create a Persistent Volume (PV) named blue-pv-cka with the following properties:
+
+- Capacity: 100Mi
+- Access mode: ReadWriteOnce
+- Reclaim policy: Retain
+- Storage class: blue-stc-cka
+- Local path: /opt/blue-data-cka
+- Node affinity: Set node affinity to create this PV on controlplane .
+Step 3: Create a Persistent Volume Claim (PVC) named blue-pvc-cka with the following properties:
+
+- Access mode: ReadWriteOnce
+- Storage class: blue-stc-cka
+- Storage request: 50Mi
+The volume should be bound to blue-pv-cka 
+
+```bash
+controlplane:~$ k get pv,pvc,sc
+NAME                           CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   VOLUMEATTRIBUTESCLASS   REASON   AGE
+persistentvolume/blue-pv-cka   100Mi      RWO            Retain           Available           blue-stc-cka   <unset>                          9s
+
+NAME                                 STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/blue-pvc-cka   Pending                                      blue-stc-cka   <unset>                 9s
+
+NAME                                               PROVISIONER                    RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+storageclass.storage.k8s.io/blue-stc-cka           kubernetes.io/no-provisioner   Delete          WaitForFirstConsumer   false                  9s
+storageclass.storage.k8s.io/local-path (default)   rancher.io/local-path          Delete          WaitForFirstConsumer   false                  8d
+
+Events:
+  Type    Reason                Age                   From                         Message    # you haven't yet created pod 
+  ----    ------                ----                  ----                         -------
+  Normal  WaitForFirstConsumer  88s (x12 over 4m12s)  persistentvolume-controller  waiting for first consumer to be created before binding
+
+Events:
+  Type     Reason            Age   From               Message    # Your PV has node affinity set to controlplane.
+  ----     ------            ----  ----               -------    # You need to add a toleration so your Pod can land on the controlplane node.
+  Warning  FailedScheduling  2m1s  default-scheduler  0/2 nodes are available: 1 node(s) didn't find available persistent volumes to bind, 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/2 nodes are available: 2 Preemption is not helpful for scheduling.
+
+Events:
+  Type     Reason       Age               From               Message  # You’re using a local PV pointing to /opt/blue-data-cka on the controlplane node.
+  ----     ------       ----              ----               -------  # It does not create the directory automatically. For a local PV, the path must already exist on the node.
+  Normal   Scheduled    32s               default-scheduler  Successfully assigned default/test-pod-cka to controlplane
+  Warning  FailedMount  1s (x7 over 32s)  kubelet            MountVolume.NewMounter initialization failed for volume "blue-pv-cka" : path "/opt/blue-data-cka" does not exist
+
+controlplane:~$ sudo mkdir -p /opt/blue-data-cka
+controlplane:~$ sudo chmod 777 /opt/blue-data-cka
+
+controlplane:~$ k delete pvc blue-pvc-cka 
+persistentvolumeclaim "blue-pvc-cka" deleted          # can't delete, pod is using this pvc
+^Ccontrolplane:~$ k delete po test-pod-cka 
+pod "test-pod-cka" deleted
+
+controlplane:~$ k apply -f abc.yaml 
+storageclass.storage.k8s.io/blue-stc-cka created
+persistentvolume/blue-pv-cka created
+persistentvolumeclaim/blue-pvc-cka created
+pod/test-pod-cka created
+
+controlplane:~$ k get po
+NAME           READY   STATUS              RESTARTS   AGE
+test-pod-cka   0/1     ContainerCreating   0          5s
+controlplane:~$ k get po
+NAME           READY   STATUS    RESTARTS   AGE
+test-pod-cka   1/1     Running   0          8s
+controlplane:~$ cat abc.yaml 
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: blue-stc-cka
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: blue-pv-cka
+spec:
+  capacity:
+    storage: 100Mi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: blue-stc-cka
+  local:
+    path: /opt/blue-data-cka
+#  type: DirectoryOrCreate   # Error from server (BadRequest): strict decoding error: unknown field "spec.local.type"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - controlplane
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: blue-pvc-cka
+spec:
+  storageClassName: blue-stc-cka
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod-cka
+spec:
+  tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Exists"
+    effect: "NoSchedule"
+  containers:
+  - name: test-container
+    image: busybox
+    command: ["sleep", "3600"]
+    volumeMounts:
+    - name: test-volume
+      mountPath: /data
+  volumes:
+  - name: test-volume
+    persistentVolumeClaim:
+      claimName: blue-pvc-cka
+controlplane:~$ vi abc.yaml 
+controlplane:~$ 
