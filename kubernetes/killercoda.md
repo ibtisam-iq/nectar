@@ -681,10 +681,6 @@ Another way to solve the same requirement would be:
 
 ## Persistant volume
 
-Perfect exam-style YAML task ❤️ Let’s carefully construct the pod definition.
-
----
-
 ### 🔹 Requirements Breakdown
 
 * Pod name: **`alpine-pod-pod`**
@@ -695,8 +691,6 @@ Perfect exam-style YAML task ❤️ Let’s carefully construct the pod definiti
 * Mount a **volume** named `config-volume` from an existing **ConfigMap** `log-configmap`
 * Mount path: `/config`
 * Restart policy: **Never**
-
----
 
 ### ✅ Final YAML
 
@@ -721,5 +715,31 @@ spec:
   - name: config-volume
     configMap:
       name: log-configmap
+```
+```bash
+ volumes:
+  - name: shared-storage
+    hostPath:
+      path: "/var/www/shared"
+      type: DirectoryOrCreate
+  - name: shared-storage
+    persistentVolumeClaim:
+      claimName: my-pvc-cka
+
+controlplane:~$ k replace -f /tmp/kubectl-edit-3424260573.yaml --force
+pod "my-pod-cka" deleted
+The Pod "my-pod-cka" is invalid: spec.volumes[1].name: Duplicate value: "shared-storage"
+
+  volumes:
+  - name: shared-storage
+    hostPath:
+      path: "/var/www/shared"
+      type: DirectoryOrCreate
+    persistentVolumeClaim:
+      claimName: my-pvc-cka
+
+controlplane:~$ k replace -f /tmp/kubectl-edit-3424260573.yaml --force
+The Pod "my-pod-cka" is invalid: 
+* spec.volumes[0].persistentVolumeClaim: Forbidden: may not specify more than 1 volume type
 ```
 ---
