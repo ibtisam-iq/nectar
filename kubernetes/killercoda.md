@@ -293,6 +293,125 @@ deployment.apps/nginx-deployment replaced
 controlplane:~$ k get po
 NAME                                READY   STATUS    RESTARTS   AGE
 nginx-deployment-6bc9ddf66b-z2h67   1/1     Running   0          17s
+controlplane:~$
+
+# 7 wrong command
+
+Events:
+  Type     Reason     Age                From               Message
+  ----     ------     ----               ----               -------
+
+  Warning  Failed     10s (x2 over 11s)  kubelet            Error: failed to create containerd task: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: error during container init: exec: "shell": executable file not found in $PATH: unknown
+  Warning  BackOff    9s (x2 over 10s)   kubelet            Back-off restarting failed container echo-container in pod hello-kubernetes_default(547408a1-1adb-44eb-bee2-b2bbfa1d0449)
+
+spec:
+  containers:
+  - command:
+    - shell                  # sh not shell
+    - -c
+    - while true; do echo 'Hello Kubernetes'; sleep 5; done
+
+# 8 wrong image tag
+
+Events:
+  Type     Reason     Age   From               Message
+  ----     ------     ----  ----               -------
+  Normal   Scheduled  14s   default-scheduler  Successfully assigned default/nginx-pod to node01
+  Normal   Pulling    14s   kubelet            Pulling image "nginx:ltest"
+  Warning  Failed     4s    kubelet            Failed to pull image "nginx:ltest": rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/library/nginx:ltest": failed to resolve reference "docker.io/library/nginx:ltest": docker.io/library/nginx:ltest: not found
+  Warning  Failed     4s    kubelet            Error: ErrImagePull
+  Normal   BackOff    3s    kubelet            Back-off pulling image "nginx:ltest"
+  Warning  Failed     3s    kubelet            Error: ImagePullBackOff
+
+# 9
+
+Events:
+  Type     Reason            Age                 From               Message   # wrong pvc name, then wrong pvc storageClassName, then wrong tag
+  ----     ------            ----                ----               -------
+  Warning  FailedScheduling  21s   default-scheduler  0/2 nodes are available: persistentvolumeclaim "pvc-redis" not found. preemption: 0/2 nodes are available: 2 Preemption is not helpful for scheduling.
+
+  Warning  FailedScheduling  5m54s               default-scheduler  0/2 nodes are available: pod has unbound immediate PersistentVolumeClaims. preemption: 0/2 nodes are available: 2 Preemption is not helpful for scheduling.
+
+  Normal   Scheduled         2m5s                default-scheduler  Successfully assigned default/redis-pod to node01
+  Normal   Pulling           66s (x3 over 2m5s)  kubelet            Pulling image "redis:latested"
+  Warning  Failed            55s (x3 over 113s)  kubelet            Failed to pull image "redis:latested": rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/library/redis:latested": failed to resolve reference "docker.io/library/redis:latested": docker.io/library/redis:latested: not found
+  Warning  Failed            55s (x3 over 113s)  kubelet            Error: ErrImagePull
+  Normal   BackOff           30s (x4 over 113s)  kubelet            Back-off pulling image "redis:latested"
+  Warning  Failed            30s (x4 over 113s)  kubelet            Error: ImagePullBackOff
+
+# 10 wrong node label (it is restricted to change any pod feature)
+
+Events:
+  Type     Reason            Age   From               Message
+  ----     ------            ----  ----               -------
+  Warning  FailedScheduling  72s   default-scheduler  0/2 nodes are available: 1 node(s) didn't match Pod's node affinity/selector, 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/2 nodes are available: 2 Preemption is not helpful for scheduling.
+
+controlplane:~$ k get po -o yaml frontend 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: NodeName
+            operator: In
+            values:
+            - frontend
+
+controlplane:~$ k label no node01 NodeName=frontend
+error: 'NodeName' already has a value (frontendnodes), and --overwrite is false
+controlplane:~$ k label no node01 NodeName=frontend --overwrite 
+node/node01 labeled
+
+NAME       READY   STATUS    RESTARTS   AGE
+frontend   1/1     Running   0          5m26s
+controlplane:~$
+
+# 11 wrong accesssMode in PVC
+
+controlplane:~$ k get pvc,pv
+NAME                               STATUS    VOLUME      CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/my-pvc-cka   Pending   my-pv-cka   0                         standard       <unset>                 82s
+
+NAME                         CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   VOLUMEATTRIBUTESCLASS   REASON   AGE
+persistentvolume/my-pv-cka   100Mi      RWO            Retain           Available           standard       <unset>                          83s
+controlplane:~$ k get sc
+NAME                   PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+local-path (default)   rancher.io/local-path   Delete          WaitForFirstConsumer   false                  8d
+controlplane:~$ k get po
+NAME         READY   STATUS    RESTARTS   AGE
+my-pod-cka   0/1     Pending   0          2m14s
+
+Events:
+  Type     Reason            Age    From               Message
+  ----     ------            ----   ----               -------
+  Warning  FailedScheduling  2m31s  default-scheduler  0/2 nodes are available: pod has unbound immediate PersistentVolumeClaims. preemption: 0/2 nodes are available: 2 Preemption is not helpful for scheduling.
+
+controlplane:~$ k describe pvc my-pvc-cka 
+Name:          my-pvc-cka
+Events:
+  Type     Reason          Age                  From                         Message
+  ----     ------          ----                 ----                         -------
+  Warning  VolumeMismatch  8s (x15 over 3m30s)  persistentvolume-controller  Cannot bind to requested volume "my-pv-cka": incompatible accessMode
+
+controlplane:~$ k edit pvc my-pvc-cka 
+error: persistentvolumeclaims "my-pvc-cka" is invalid
+A copy of your changes has been stored to "/tmp/kubectl-edit-2244335843.yaml"
+error: Edit cancelled, no valid changes were saved.
+controlplane:~$ k replace -f /tmp/kubectl-edit-2244335843.yaml --force
+persistentvolumeclaim "my-pvc-cka" deleted
+persistentvolumeclaim/my-pvc-cka replaced
+
+controlplane:~$ k get pvc
+NAME         STATUS   VOLUME      CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+my-pvc-cka   Bound    my-pv-cka   100Mi      RWO            standard       <unset>                 13s
+controlplane:~$ k get po
+NAME         READY   STATUS    RESTARTS   AGE
+my-pod-cka   1/1     Running   0          5m34s
 controlplane:~$ 
 
 ```
