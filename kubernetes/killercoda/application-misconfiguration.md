@@ -384,3 +384,31 @@ spec:
                   key: db_password                    # password
           ports:
             - containerPort: 5432
+```
+
+---
+
+stream-deployment deployment is not up to date. observed 0  under the UP-TO-DATE it should be 1 , Troubleshoot, fix the issue and make sure deployment is up to date.
+
+```bash
+
+controlplane:~$ k get po
+No resources found in default namespace.
+controlplane:~$ k get deployments.apps 
+NAME                READY   UP-TO-DATE   AVAILABLE   AGE
+stream-deployment   0/0     0            0           4m25s
+controlplane:~$ k describe deployments.apps stream-deployment 
+Name:                   stream-deployment
+Replicas:               0 desired | 0 updated | 0 total | 0 available | 0 unavailable   # replica is 0
+NewReplicaSet:   stream-deployment-79cb7b68c (0/0 replicas created)
+Events:          <none>
+
+controlplane:~$ k edit deployments.apps stream-deployment     # change replica: 1
+deployment.apps/stream-deployment edited
+controlplane:~$ k get deployments.apps 
+NAME                READY   UP-TO-DATE   AVAILABLE   AGE
+stream-deployment   0/1     1            0           5m5s
+controlplane:~$ k get deployments.apps 
+NAME                READY   UP-TO-DATE   AVAILABLE   AGE
+stream-deployment   1/1     1            1           5m9s
+controlplane:~$ 
