@@ -469,6 +469,39 @@ kubectl exec tester-0 -- curl tester.level-1000.svc.cluster.local
 kubectl exec tester-0 -- curl tester.level-1001.svc.cluster.local
 kubectl exec tester-0 -- curl tester.level-1002.svc.cluster.local
 ```
+
+my-app-deployment and cache-deployment deployed, and my-app-deployment deployment exposed through a service named my-app-service . Create a NetworkPolicy named my-app-network-policy to restrict incoming and outgoing traffic to my-app-deployment pods with the following specifications:
+
+Allow incoming traffic only from pods.
+Allow incoming traffic from a specific pod with the label app=trusted
+Allow outgoing traffic to pods.
+Deny all other incoming and outgoing traffic.
+
+```bash
+controlplane:~$ vi abc.yaml
+controlplane:~$ k apply -f abc.yaml 
+networkpolicy.networking.k8s.io/my-app-network-policy created
+controlplane:~$ cat abc.yaml 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: my-app-network-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: my-app   # Select my-app-deployment pods
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: trusted   # Allow incoming from trusted pods only
+  egress:
+  - to:
+    - podSelector: {}     # Allow outgoing to any pods
+```
 ---
 
 ## RBAC
