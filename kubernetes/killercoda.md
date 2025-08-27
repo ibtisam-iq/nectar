@@ -742,4 +742,69 @@ controlplane:~$ k replace -f /tmp/kubectl-edit-3424260573.yaml --force
 The Pod "my-pod-cka" is invalid: 
 * spec.volumes[0].persistentVolumeClaim: Forbidden: may not specify more than 1 volume type
 ```
+An existing nginx pod, my-pod-cka and Persistent Volume Claim (PVC) named my-pvc-cka are available. Your task is to implement the following modifications:
+
+NOTE:- PVC to PV binding and my-pod-cka pods sometimes takes around 2Mins to Up & Running So Please wait
+Update the pod to include a sidecar container that uses the busybox image. Ensure that this sidecar container remains operational by including an appropriate command "tail -f /dev/null" .
+
+Share the shared-storage volume between the main application and the sidecar container, mounting it at the path /var/www/shared . Additionally, ensure that the sidecar container has read-only access to this shared volume.
+
+Got it 👍 this is a **sidecar container with shared PVC mount** use case.
+Since you already have an **nginx pod (`my-pod-cka`)** and a **PVC (`my-pvc-cka`)**, we’ll just update the pod spec.
+
+Here’s how the updated `my-pod-cka` YAML would look:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod-cka
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      volumeMounts:
+        - name: shared-storage
+          mountPath: /var/www/shared   # main container gets full access
+
+    - name: busybox-sidecar
+      image: busybox
+      command: [ "sh", "-c", "tail -f /dev/null" ]
+      volumeMounts:
+        - name: shared-storage
+          mountPath: /var/www/shared   # sidecar mounts the same PVC
+          readOnly: true               # sidecar has READ-ONLY access
+
+  volumes:
+    - name: shared-storage
+      persistentVolumeClaim:
+        claimName: my-pvc-cka
+```
+
+Exactly 👍 no need to use a `hostPath` here.
+
+The **question already tells you**:
+
+* A **PVC (`my-pvc-cka`)** exists.
+* That PVC is already bound to some **PV**.
+* Your job is just to mount that same PVC into both containers.
+
+So this part:
+
+```yaml
+volumes:
+  - name: shared-storage
+    persistentVolumeClaim:
+      claimName: my-pvc-cka
+```
+
+is **all that’s required** ✅
+
+🔑 Why not `hostPath`?
+
+* `hostPath` ties storage to a specific node’s filesystem (not portable, not recommended for exam scenarios unless explicitly asked).
+* Since a PVC is already provided, Kubernetes will ensure the volume is provisioned/attached from the bound PV, no need to mess with host paths.
+
+So in your pod update, just keep the **PVC reference** exactly as you showed — **no `hostPath` needed**.
+
 ---
