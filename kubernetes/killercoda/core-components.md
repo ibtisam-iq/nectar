@@ -107,7 +107,53 @@ controlplane:~$
 ```
 ---
 
-## Kubelet Misconfigured
+## Kubelet
+
+```bash
+controlplane:~$ systemctl status kubelet
+○ kubelet.service - kubelet: The Kubernetes Node Agent
+     Loaded: loaded (/usr/lib/systemd/system/kubelet.service; enabled; preset: enabled)
+    Drop-In: /usr/lib/systemd/system/kubelet.service.d
+             └─10-kubeadm.conf
+     Active: inactive (dead) since Thu 2025-08-28 00:38:35 UTC; 34s ago
+   Duration: 19min 57.555s
+       Docs: https://kubernetes.io/docs/
+    Process: 1557 ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELET_KUBEADM_ARGS $KUBELET_EXTRA_ARGS (code=exite>
+   Main PID: 1557 (code=exited, status=0/SUCCESS)
+        CPU: 12.016s
+
+Aug 28 00:19:24 controlplane kubelet[1557]: E0828 00:19:24.090558    1557 kuberuntime_manager.go:1161] "killPodWithSyncResult failed" err="faile>
+Aug 28 00:38:35 controlplane systemd[1]: Stopping kubelet.service - kubelet: The Kubernetes Node Agent...
+Aug 28 00:38:35 controlplane systemd[1]: kubelet.service: Deactivated successfully.
+Aug 28 00:38:35 controlplane systemd[1]: Stopped kubelet.service - kubelet: The Kubernetes Node Agent.
+Aug 28 00:38:35 controlplane systemd[1]: kubelet.service: Consumed 12.016s CPU time.
+
+It means:
+- The kubelet process with PID 1557 has exited.
+- Exit code 0/SUCCESS = it did not crash; it just stopped cleanly.
+- So right now, kubelet is not running.
+
+controlplane:~$ systemctl restart kubelet
+controlplane:~$ systemctl status kubelet
+● kubelet.service - kubelet: The Kubernetes Node Agent
+     Loaded: loaded (/usr/lib/systemd/system/kubelet.service; enabled; preset: enabled)
+    Drop-In: /usr/lib/systemd/system/kubelet.service.d
+             └─10-kubeadm.conf
+     Active: active (running) since Thu 2025-08-28 00:39:23 UTC; 9s ago
+       Docs: https://kubernetes.io/docs/
+   Main PID: 13299 (kubelet)
+      Tasks: 10 (limit: 2614)
+     Memory: 73.7M (peak: 73.9M)
+        CPU: 300ms
+     CGroup: /system.slice/kubelet.service
+             └─13299 /usr/bin/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf -->
+
+Aug 28 00:39:25 controlplane kubelet[13299]: E0828 00:39:25.406898   13299 kubelet.go:3311] "Failed creating a mirror pod" err="pods \"kube-cont>
+
+controlplane:~$ 
+```
+
+---
 
 ```bash
 k get po -A   # all good, all running
