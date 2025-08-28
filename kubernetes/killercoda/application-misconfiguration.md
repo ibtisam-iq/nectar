@@ -494,3 +494,36 @@ At minimum, one of these must be provided:
 Since none are set → container fails instantly.
 
 ✅ After adding `POSTGRES_PASSWORD`, the pod should start properly and stay in `Running` state.
+
+---
+The deployment named video-app has experienced multiple rolling updates and rollbacks. Your task is to total revision of this deployment and record the image name used in 3rd revision to file app-file.txt in this format REVISION_TOTAL_COUNT,IMAGE_NAME .
+
+```bash
+controlplane:~$ k rollout history deployment video-app 
+deployment.apps/video-app 
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+3         <none>
+
+controlplane:~$ k rollout history deployment video-app --revision 3
+deployment.apps/video-app with revision #3
+Pod Template:
+  Labels:       app=video-app
+        pod-template-hash=775488848c
+  Containers:
+   redis:
+    Image:      redis:7.0.13
+    Port:       <none>
+    Host Port:  <none>
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+  Node-Selectors:       <none>
+  Tolerations:  <none>
+
+controlplane:~$ echo "3,redis:7.0.13" > app-file.txt
+controlplane:~$ cat app-file.txt 
+3,redis:7.0.13
+controlplane:~$ 
+```
