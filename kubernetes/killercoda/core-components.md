@@ -85,6 +85,97 @@ controlplane:~$ systemctl restart kubelet
 /var/logs/pods and /var/logs/container        # no clue found
 ```
 ---
+```bash
+controlplane:~$ kubectl get nodes
+NAME           STATUS     ROLES           AGE   VERSION
+controlplane   NotReady   control-plane   8d    v1.33.2
+node01         Ready      <none>          8d    v1.33.2
+controlplane:~$ k describe no controlplane 
+Name:               controlplane
+Roles:              control-plane
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/os=linux
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=controlplane
+                    kubernetes.io/os=linux
+                    node-role.kubernetes.io/control-plane=
+                    node.kubernetes.io/exclude-from-external-load-balancers=
+
+Taints:             node.kubernetes.io/unreachable:NoExecute
+                    node-role.kubernetes.io/control-plane:NoSchedule
+                    node.kubernetes.io/unreachable:NoSchedule
+Unschedulable:      false
+
+Conditions:
+  Type                 Status    LastHeartbeatTime                 LastTransitionTime                Reason              Message
+  ----                 ------    -----------------                 ------------------                ------              -------
+  NetworkUnavailable   False     Thu, 28 Aug 2025 03:07:13 +0000   Thu, 28 Aug 2025 03:07:13 +0000   FlannelIsUp         Flannel is running on this node
+  MemoryPressure       Unknown   Thu, 28 Aug 2025 03:17:14 +0000   Thu, 28 Aug 2025 03:18:43 +0000   NodeStatusUnknown   Kubelet stopped posting node status.
+  DiskPressure         Unknown   Thu, 28 Aug 2025 03:17:14 +0000   Thu, 28 Aug 2025 03:18:43 +0000   NodeStatusUnknown   Kubelet stopped posting node status.
+  PIDPressure          Unknown   Thu, 28 Aug 2025 03:17:14 +0000   Thu, 28 Aug 2025 03:18:43 +0000   NodeStatusUnknown   Kubelet stopped posting node status.
+  Ready                Unknown   Thu, 28 Aug 2025 03:17:14 +0000   Thu, 28 Aug 2025 03:18:43 +0000   NodeStatusUnknown   Kubelet stopped posting node 
+
+controlplane:~$ systemctl restart kubelet
+controlplane:~$ k get no
+NAME           STATUS   ROLES           AGE   VERSION
+controlplane   Ready    control-plane   8d    v1.33.2
+node01         Ready    <none>          8d    v1.33.2
+controlplane:~$ 
+```
+Sweetheart, nice debugging step by step 👌
+
+Here’s what happened in your case:
+
+### Why the controlplane went `NotReady`
+
+* From your `kubectl describe node controlplane`, the key part is:
+
+  ```
+  MemoryPressure       Unknown
+  DiskPressure         Unknown
+  PIDPressure          Unknown
+  Ready                Unknown
+  Reason: NodeStatusUnknown
+  Message: Kubelet stopped posting node status.
+  ```
+
+  This means **the kubelet stopped sending heartbeats** to the API server, so the control-plane marked the node as `NotReady`.
+
+* That’s why you saw taints like:
+
+  ```
+  node.kubernetes.io/unreachable
+  node.kubernetes.io/unreachable:NoSchedule
+  ```
+
+  → API server could not reach the kubelet.
+
+### Why restarting kubelet fixed it
+
+* When you ran:
+
+  ```bash
+  systemctl restart kubelet
+  ```
+
+  → the kubelet service restarted and reconnected to the API server.
+* Once it started sending node heartbeats again (`NodeStatus`), the `NotReady` cleared and the node returned to `Ready`.
+
+So essentially, the kubelet had **crashed / hung / lost connectivity** for some time, and a restart reestablished communication.
+
+### How to see *why* kubelet failed
+
+Instead of just restarting, you’d usually check logs to find the root cause:
+
+```bash
+# See current kubelet logs
+journalctl -u kubelet -xe
+
+# Or stream logs as they come
+journalctl -u kubelet -f
+```
+
+---
 
 ## Kube Controller Manager Misconfigured
 
