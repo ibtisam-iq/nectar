@@ -391,7 +391,6 @@ spec:
 stream-deployment deployment is not up to date. observed 0  under the UP-TO-DATE it should be 1 , Troubleshoot, fix the issue and make sure deployment is up to date.
 
 ```bash
-
 controlplane:~$ k get po
 No resources found in default namespace.
 controlplane:~$ k get deployments.apps 
@@ -412,3 +411,86 @@ controlplane:~$ k get deployments.apps
 NAME                READY   UP-TO-DATE   AVAILABLE   AGE
 stream-deployment   1/1     1            1           5m9s
 controlplane:~$ 
+```
+
+---
+
+postgres-deployment deployment pods are not running, fix that issue
+
+```bash
+  Warning  Failed     12s (x2 over 13s)  kubelet            Error: configmap "postgres-db-config" not found
+  Normal   Pulled     12s                kubelet            Successfully pulled image "postgres:latest" in 759ms (759ms including waiting). Image size: 161430709 bytes.
+
+controlplane:~$ k get cm
+NAME               DATA   AGE
+kube-root-ca.crt   1      8d
+postgres-config    2      52s
+controlplane:~$ k edit deploy postgres-deployment 
+deployment.apps/postgres-deployment edited
+
+Events:
+  Type     Reason     Age                From               Message
+  ----     ------     ----               ----               -------
+  Warning  BackOff    10s (x3 over 24s)  kubelet            Back-off restarting failed container postgres-container in pod postgres-deployment-558f7db69-ht8mc_default(2973d420-da17-4e8a-81b3-536b16d6abc8)
+
+controlplane:~$ crictl ps -a                 # nothing found, just core components
+controlplane:~$ ls /var/log/pods/            # nothing found, just core components
+controlplane:~$ ls /var/log/containers/      # nothing found, just core components
+controlplane:~$ k get events                 # nothing new, just the same as mentions in pod's Events
+
+controlplane:~$ kubectl logs postgres-deployment-558f7db69-ht8mc
+Error: Database is uninitialized and superuser password is not specified.
+       You must specify POSTGRES_PASSWORD to a non-empty value for the
+       superuser. For example, "-e POSTGRES_PASSWORD=password" on "docker run".
+
+controlplane:~$ k edit deployments.apps postgres-deployment       # add  --env=POSTGRES_PASSWORD=<any-value>
+deployment.apps/postgres-deployment edited
+controlplane:~$ k get po
+NAME                                   READY   STATUS    RESTARTS   AGE
+postgres-deployment-846744d649-lhpcm   1/1     Running   0          4s
+controlplane:~$
+```
+
+Sweetheart, this Postgres pod is in **CrashLoopBackOff**, which means the container starts, fails immediately, and kubelet keeps retrying. Let’s debug step by step:
+
+### 🔑 Key Observations
+
+1. **Exit Code: 1**
+
+   ```
+   Last State: Terminated
+   Reason:     Error
+   Exit Code:  1
+   ```
+
+   → Postgres process is failing during startup (not killed by kubelet like your apiserver earlier).
+
+2. **Environment Variables**
+
+   ```yaml
+   POSTGRES_DB:    <set to the key 'POSTGRES_DB' of config map 'postgres-config'>
+   POSTGRES_USER:  <set to the key 'POSTGRES_USER' of config map 'postgres-config'>
+   ```
+
+   * You’re passing DB name and user from a **ConfigMap** called `postgres-config`.
+   * But there is **no `POSTGRES_PASSWORD` set** — which is **mandatory** for the `postgres` image.
+     Without it, the container exits with error.
+
+3. **Events**
+
+   * No image pull error (image is pulled fine).
+   * No scheduling issue.
+   * Just keeps restarting because of **Postgres startup failure**.
+
+### 🎯 Root Cause
+
+The official `postgres` image requires a password for the database superuser unless you enable passwordless mode.
+At minimum, one of these must be provided:
+
+* `POSTGRES_PASSWORD`
+* `POSTGRES_PASSWORD_FILE`
+* `POSTGRES_HOST_AUTH_METHOD=trust` (for testing only, insecure)
+
+Since none are set → container fails instantly.
+
+✅ After adding `POSTGRES_PASSWORD`, the pod should start properly and stay in `Running` state.
