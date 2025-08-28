@@ -104,7 +104,7 @@ controlplane:~$ k get deploy
 NAME        READY   UP-TO-DATE   AVAILABLE   AGE
 video-app   2/2     2            2           4m18s
 controlplane:~$ 
-
+```
 ---
 
 ## Kubelet Misconfigured
