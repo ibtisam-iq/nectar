@@ -48,6 +48,44 @@ cat /var/log/containers/kube-apiserver-controlplane_kube-system_kube-apiserver-9
 ```
 ---
 
+when you run kubectl get nodes OR kubectl get pod -A threw :- The connection to the server 172.30.1.2:6443 was refused - did you specify the right host or port?
+
+need to wait for few seconds to make above command work again but above error will come again after few second
+
+```bash
+controlplane:~$ k describe po -n kube-system kube-apiserver-controlplane 
+Name:                 kube-apiserver-controlplane
+    State:          Running
+      Started:      Thu, 28 Aug 2025 01:06:29 +0000
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    137
+      Started:      Thu, 28 Aug 2025 01:01:59 +0000
+      Finished:     Thu, 28 Aug 2025 01:06:29 +0000
+    Ready:          False
+    Restart Count:  2
+    Liveness:     http-get https://172.30.1.2:6433/livez delay=10s timeout=15s period=10s #success=1 #failure=8
+    Readiness:    http-get https://172.30.1.2:6433/readyz delay=0s timeout=15s period=1s #success=1 #failure=3
+    Startup:      http-get https://172.30.1.2:6433/livez delay=10s timeout=15s period=10s #success=1 #failure=24
+Events:
+  Type     Reason          Age                  From     Message
+  ----     ------          ----                 ----     -------
+  Normal   Killing         9m39s (x2 over 11m)  kubelet  Stopping container kube-apiserver
+  Normal   SandboxChanged  9m7s (x2 over 10m)   kubelet  Pod sandbox changed, it will be killed and re-created.
+  Warning  Unhealthy       117s (x77 over 17m)  kubelet  Startup probe failed: Get "https://172.30.1.2:6433/livez": dial tcp 172.30.1.2:6433: connect: connection refused
+  Normal   Killing         37s (x3 over 13m)    kubelet  Container kube-apiserver failed startup probe, will be restarted
+  Normal   Pulled          7s (x6 over 17m)     kubelet  Container image "registry.k8s.io/kube-apiserver:v1.33.2" already present on machine
+  Normal   Created         7s (x6 over 17m)     kubelet  Created container: kube-apiserver
+  Normal   Started         7s (x6 over 17m)     kubelet  Started container kube-apiserver
+
+# The liveness, readiness, and startup probes are incorrectly configured to use port 6433 instead of the actual API server port 6443.
+controlplane:~$ vi /etc/kubernetes/manifests/kube-apiserver.yaml     
+controlplane:~$ systemctl restart kubelet
+
+/var/logs/pods and /var/logs/container        # no clue found
+```
+---
+
 ## Kube Controller Manager Misconfigured
 
 ```bash
