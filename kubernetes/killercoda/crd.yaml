@@ -1,0 +1,19 @@
+Write the list of all installed CRDs into /root/crds .
+
+Write the list of all DbBackup objects into /root/db-backups .
+
+```bash
+controlplane:~$ k get crd > /root/crds
+controlplane:~$ k get crd | grep -i backup
+db-backups.stable.killercoda.com                      2025-08-28T07:48:31Z
+
+controlplane:~$ k describe crd db-backups.stable.killercoda.com | grep -i singular
+    Singular:   db-backup
+    Singular:   db-backup
+controlplane:~$ k get db-backups.stable.killercoda.com -A
+NAMESPACE     NAME                       AGE
+default       postgres-sunny-sunshine    2m55s
+default       postgres-walking-waveart   2m55s
+kube-system   mysql-total-tolly          2m55s
+controlplane:~$ k get db-backups.stable.killercoda.com -A > /root/db-backups
+```
