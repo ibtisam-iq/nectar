@@ -48,7 +48,7 @@ Use it as a **roadmap + progress tracker**.
 
 ## 3. Cluster Ops Topics (Administration / CKA)
 
-- [ ] kubeadm init / join, kubeadm upgrade, kubeadm reset
+- [ ] kubeadm init / join, kubeadm upgrade, kubeadm reset `kubeadm init` *https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/*
   - Installing kubeadm `container runtimes`
   - Troubleshooting kubeadm
   - Creating a cluster with kubeadm `container runtimes`
