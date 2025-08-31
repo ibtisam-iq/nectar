@@ -1,4 +1,4 @@
-Most of the \*\*ConfigMaps (`cm`) you see in `kube-system` are not created manually but generated automatically during cluster bootstrapping (via `kubeadm`, add-ons, or the control plane components themselves). Let’s break them down one by one so you can see **how they’re formed** and what files/configs contributed:
+Most of the **ConfigMaps** (`cm`) you see in `kube-system` are not created manually but generated automatically during cluster bootstrapping (via `kubeadm`, add-ons, or the control plane components themselves). Let’s break them down one by one so you can see **how they’re formed** and what files/configs contributed:
 
 ## 📌 Breakdown of ConfigMaps in `kube-system`
 
