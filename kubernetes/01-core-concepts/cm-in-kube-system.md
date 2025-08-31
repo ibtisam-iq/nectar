@@ -37,6 +37,8 @@ Most of the **ConfigMaps** (`cm`) you see in `kube-system` are not created manua
    * Created by: The **Controller Manager**.
    * Source: Automatically injected into every namespace so pods can talk to the API server securely.
    * Contents: Cluster root CA certificate.
+   * `cat /etc/kubernetes/pki/ca.crt`
+     
 
 7. **`kubeadm-config`**
 
@@ -44,12 +46,13 @@ Most of the **ConfigMaps** (`cm`) you see in `kube-system` are not created manua
    * Source: Whatever you passed in your `kubeadm init` config file (like `ClusterConfiguration`, `InitConfiguration`).
    * Contents: Cluster-wide settings (API server, networking, certificates directory, etc.).
 
-8. **`kubelet-config`**     `/var/lib/kubelet/config.yaml`
+8. **`kubelet-config`**     
 
    * Created by: **kubeadm**.
    * Source: Derived from your kubeadm init configuration.
    * Contents: The Kubelet’s configuration (cgroup driver, TLS settings, cluster DNS, etc.).
    * Used by the `kubelet-config-x.y` ConfigMap, which kubeadm uses for upgrading kubelet configs.
+   * `cat /var/lib/kubelet/config.yaml`
 
 ---
 
@@ -104,3 +107,56 @@ Most of the **ConfigMaps** (`cm`) you see in `kube-system` are not created manua
 * **Cluster DNS values** → `coredns`
 * **Kubelet params** → `kubelet-config`
 * **Certs/aggregation** → `extension-apiserver-authentication`, `kube-root-ca.crt`
+
+---
+
+### 📌 kube-proxy Config Summary (CKA Prep)
+
+1. **Where does the config come from?**
+
+   * `kube-proxy` uses a **ConfigMap** in the `kube-system` namespace called **`kube-proxy`**.
+   * This ConfigMap has two keys:
+
+     * **`config.conf`** → `KubeProxyConfiguration` (mode: iptables/ipvs, clusterCIDR, etc.)
+     * **`kubeconfig.conf`** → kubeconfig for talking to the API server.
+
+2. **Are these real files on the host?**
+
+   * ❌ No.
+   * On the **host node**, `/var/lib/kube-proxy/` does **not exist**.
+   * These keys are mounted as **virtual files only inside the kube-proxy Pod container**.
+
+3. **Where do they appear?**
+
+   * Inside each kube-proxy Pod at:
+
+     ```
+     /var/lib/kube-proxy/config.conf
+     /var/lib/kube-proxy/kubeconfig.conf
+     ```
+   * Mounted by the DaemonSet from the `kube-proxy` ConfigMap.
+   * That’s why the container’s `--config` flag points to `/var/lib/kube-proxy/config.conf`.
+
+4. **How to inspect them?**
+
+   * From the cluster (fastest):
+
+     ```bash
+     kubectl -n kube-system get cm kube-proxy -o yaml
+     ```
+   * From inside a Pod (runtime view):
+
+     ```bash
+     kubectl -n kube-system exec -it <kube-proxy-pod> -- cat /var/lib/kube-proxy/config.conf
+     ```
+
+5. **CKA exam angle:**
+
+   * If asked about **proxy mode**, **clusterCIDR**, or how kube-proxy connects to the API server → check the **`kube-proxy` ConfigMap**.
+   * Don’t waste time searching `/etc/kubernetes/` or `/var/lib/` on the host — these files only live in the kube-proxy Pod.
+
+---
+
+✅ **Final takeaway:**
+`config.conf` and `kubeconfig.conf` are **not host files**. They are **keys in the `kube-proxy` ConfigMap**, which Kubernetes mounts into the kube-proxy Pods at `/var/lib/kube-proxy/`. To check them in the exam, read the ConfigMap (`kubectl get cm`) or exec into a kube-proxy Pod — not on the host.
+
