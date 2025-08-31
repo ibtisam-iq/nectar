@@ -44,7 +44,7 @@ Most of the **ConfigMaps** (`cm`) you see in `kube-system` are not created manua
    * Source: Whatever you passed in your `kubeadm init` config file (like `ClusterConfiguration`, `InitConfiguration`).
    * Contents: Cluster-wide settings (API server, networking, certificates directory, etc.).
 
-8. **`kubelet-config`**
+8. **`kubelet-config`**     `/var/lib/kubelet/config.yaml`
 
    * Created by: **kubeadm**.
    * Source: Derived from your kubeadm init configuration.
