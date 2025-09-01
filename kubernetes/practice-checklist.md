@@ -75,7 +75,7 @@ Use it as a **roadmap + progress tracker**.
 - [ ] Cluster troubleshooting (Pods pending, CrashLoopBackOff, Node NotReady, DNS issues)
 - [ ] `Network plugin` install (Calico, Flannel, Cilium, etc.)
 - [ ] CoreDNS config & troubleshooting
-- [ ] kubeconfig management (contexts, users, clusters)
+- [ ] kubeconfig management (contexts, users, clusters)   `kubeconfig` *https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/*
 - [ ] Scheduling debugging (taints, tolerations, affinity)
 - [ ] Logging & monitoring basics ``
 - [ ] Upgrading worker nodes
