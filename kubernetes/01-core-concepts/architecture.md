@@ -256,7 +256,7 @@ staticPodPath: /etc/kubernetes/manifests
 
 | Component                   | What It Does                                                           | Listens On | Local Only | Talks to API Server?       | AuthN/AuthZ | Health Port             |
 | --------------------------- | ---------------------------------------------------------------------- | ---------- | ---------- | -------------------------- | ----------- | ----------------------- |
-| **kube-apiserver**          | Front door to the cluster; receives and validates all requests         | 6443       | ❌ No       | ✅ It's the API server      | ✅ Yes       | 10250 (/healthz)        |
+| **kube-apiserver**          | Front door to the cluster; receives and validates all requests         | 6443       | ❌ No       | ✅ It's the API server      | ✅ Yes       | 6443 (/healthz)        |
 | **kube-scheduler**          | Assigns Pods to nodes based on resource needs and policies             | 10259      | ✅ Yes      | ✅ Yes                      | ✅ Yes       | 10259 (/livez, /readyz) |
 | **kube-controller-manager** | Ensures desired state by running controllers (replicas, nodes, tokens) | 10257      | ✅ Yes      | ✅ Yes                      | ✅ Yes       | 10257 (/healthz)        |
 | **etcd**                    | Key-value store for all cluster data                                   | 2379       | ✅ Yes      | ❌ (API server talks to it) | ❌ No        | 2381 (/health)          |
