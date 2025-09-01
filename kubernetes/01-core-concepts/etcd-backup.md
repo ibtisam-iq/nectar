@@ -277,6 +277,15 @@ Use **explicit flags** (`--name`, `--initial-*`, token, state) when:
     ```
 ---
 
+## `etcdctl` binary installation
+
+```bash
+wget https://github.com/etcd-io/etcd/releases/download/v3.5.15/etcd-v3.5.15-linux-amd64.tar.gz
+tar --no-same-owner -xvf etcd-v3.5.15-linux-amd64.tar.gz
+sudo mv etcd-v3.5.15-linux-amd64/etcd* /usr/local/bin/
+etcdctl version
+```
+
 ## `etcdctl` and `etcdutl` binaries are installed
 
 ```bash
