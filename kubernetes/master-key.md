@@ -151,3 +151,19 @@ overlay
 br_netfilter
 EOF
 ```
+
+```bash
+kubeadm init --help
+kubeadm init --kubernetes-version=1.33.3 --pod-network-cidr 192.168.0.0/16 --ignore-preflight-errors=NumCPU
+cp /etc/kubernetes/admin.conf /root/.kube/config
+kubectl version
+kubectl get pod -A
+kubeadm token create --print-join-command
+ssh node-summer
+    kubeadm join 172.30.1.2:6443 --token ...
+kubeadm certs check-expiration
+kubeadm certs renew <>
+kubeadm upgrade plan
+sudo openssl x509 -in /etc/kubernetes/pki/apiserver.crt -noout -text
+sudo systemctl list-unit-files --type service --all | grep kube
+```
