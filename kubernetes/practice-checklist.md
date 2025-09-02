@@ -9,7 +9,7 @@ Use it as a **roadmap + progress tracker**.
 
 - [ ] Pod, Deployment, ReplicaSet, StatefulSet, DaemonSet
 - [ ] Job, CronJob
-- [ ] Service (ClusterIP, NodePort, LoadBalancer, ExternalName)
+- [ ] Service (ClusterIP, NodePort, LoadBalancer, ExternalName), EndpointSlice
 - [ ] IngressClass, `Ingress`, ClusterIssuer     `includes IngressClass, ingress-nginx controller, and all annotations` 
 - [ ] GatewayClass, `Gateway`, HTTPRoute
 - [ ] ConfigMap `ConfigMaps, Configure a Pod to Use a ConfigMap`, Secret `Secrets, Distribute Credentials Securely Using Secrets`
