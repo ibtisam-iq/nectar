@@ -324,7 +324,7 @@ spec:                         # --> POD-LEVEL SPEC STARTS HERE
     imagePullPolicy: Always    # Container-level (Always, IfNotPresent, Never)
     ports:                     # Container-level (optional)
     - containerPort: 80        # Port inside the container
-      hostPort: 8080           # Port on the Node's IP
+      hostPort: 8080           # Port on the Node's IP      # http://<node-ip>:8080
       name: http
       protocol: TCP
 
