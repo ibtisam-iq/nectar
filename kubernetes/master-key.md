@@ -167,3 +167,13 @@ kubeadm upgrade plan
 sudo openssl x509 -in /etc/kubernetes/pki/apiserver.crt -noout -text
 sudo systemctl list-unit-files --type service --all | grep kube
 ```
+```bash
+controlplane ~ ➜  echo '$USER' && sleep 5
+$USER
+controlplane ~ ➜  echo $USER && sleep 5
+root
+controlplane ~ ➜  echo "$USER && sleep 5"
+root && sleep 5
+controlplane ~ ➜  echo "$USER" && sleep 5
+root
+```
