@@ -194,7 +194,7 @@ root
   kubectl run test --image=busybox -it --rm --restart=Never -- sh
 
   # Inside the Pod shell, test Service access
-  wget <service-name>.<namespace>.svc.cluster.local:<port>
+  wget -qO- <service-name>.<namespace>.svc.cluster.local:<port>
   # Example: wget amor.amor.svc.cluster.local:80
 
 ## 2. Accessing from **Outside the Cluster**
