@@ -177,3 +177,67 @@ root && sleep 5
 controlplane ~ ➜  echo "$USER" && sleep 5
 root
 ```
+
+
+```bash
+## 1. Accessing from **Inside the Cluster**
+### A. Direct `curl` from a Node or Control Plane
+  # Access a Pod directly
+  curl http://<pod-ip>:<container-port>
+  # Example: curl http://10.244.0.5:8081
+
+  # Access a Service via ClusterIP
+  curl http://<service-cluster-ip>:<service-port>
+  # Example: curl http://10.96.0.15:80
+### B. From a Temporary Pod
+  # Launch a temporary Pod with an interactive shell
+  kubectl run test --image=busybox -it --rm --restart=Never -- sh
+
+  # Inside the Pod shell, test Service access
+  wget <service-name>.<namespace>.svc.cluster.local:<port>
+  # Example: wget amor.amor.svc.cluster.local:80
+
+## 2. Accessing from **Outside the Cluster**
+
+### A. Using NodePort
+  - From a local machine or external network:
+    ```bash
+    curl http://<node-public-ip>:<nodePort>
+    # Example: curl http://54.242.167.17:30000
+    ```
+  - From the node itself (via SSH):
+
+    curl http://localhost:<nodePort>
+    curl http://<private-node-ip>:<nodePort>
+    # Example: curl http://172.31.29.71:30000
+
+### B. Port Forwarding
+
+  # Forward to a Service
+  kubectl port-forward svc/<service-name> <local-port>:<service-port>
+  # Example: kubectl port-forward svc/amor 8080:80
+
+  # Forward to a Pod
+  kubectl port-forward pod/<pod-name> <local-port>:<pod-port>
+  # Example: kubectl port-forward pod/amor-pod 8080:80
+
+  # On your local machine, access the application
+  curl http://localhost:8080
+  # Or open in browser: http://localhost:8080
+
+### C. Using Ingress
+  - If the IngressController is exposed via NodePort:
+
+    curl http://<node-ip>:<nodePort>
+    # Example: curl http://54.242.167.17:30080
+
+  - If DNS is configured:
+
+    curl http://<domain-name>
+    # Example: curl http://local.ibtisam-iq.com
+
+  - For testing with a specific host header (bypassing DNS):
+
+    curl -H "Host: local.ibtisam-iq.com" http://<node-ip>:<ingress-nodePort>
+    # Example: curl -H "Host: local.ibtisam-iq.com" http://54.242.167.17:30080
+```
