@@ -323,7 +323,10 @@ spec:                         # --> POD-LEVEL SPEC STARTS HERE
     image: nginx:latest        # Container-level (required)
     imagePullPolicy: Always    # Container-level (Always, IfNotPresent, Never)
     ports:                     # Container-level (optional)
-    - containerPort: 80
+    - containerPort: 80        # Port inside the container
+      hostPort: 8080           # Port on the Node's IP
+      name: http
+      protocol: TCP
 
     env:                        # Container-level (manual env vars)
     - name: ENVIRONMENT
