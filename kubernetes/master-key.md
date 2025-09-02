@@ -22,9 +22,9 @@ set shiftwidth=2
 --apiserver-advertise-address: Control plane’s private IP.
 
 Container runs: `<command or ENTRYPOINT> <args or CMD>`
-`kubectl run mypod --image=busybox --restart=Never -- echo "Hi"` # args: ["echo", "Hi"]
-`kubectl run mypod --image=busybox --restart=Never --command -- echo "Hello from BusyBox"`
-`kubectl run shellpod --image=busybox --restart=Never --command -- sh -c "echo Hello && date"` # Using Shell Logic with sh -c
+kubectl run mypod --image=busybox --restart=Never -- echo "Hi"` # args: ["echo", "Hi"]
+kubectl run mypod --image=busybox --restart=Never --command -- echo "Hello from BusyBox"
+kubectl run shellpod --image=busybox --restart=Never --command -- sh -c "echo Hello && date" # Using Shell Logic with sh -c
 k run test-pod --image busybox --restart=Never -it -- sh
     wget or nslookup serviceName.ns.svc.cluster.local
     nslookup pod-id-address.namespace.pod.cluster.local
