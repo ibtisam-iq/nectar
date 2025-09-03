@@ -197,6 +197,8 @@ root
   wget -qO- <service-name>.<namespace>.svc.cluster.local:<port>
   # Example: wget amor.amor.svc.cluster.local:80
 
+  # wget 172-17-2-2.default.pod.cluster.local
+
 ## 2. Accessing from **Outside the Cluster**
 
 ### A. Using NodePort
