@@ -63,6 +63,47 @@ kubectl create secret tls my-tls-secret \
 ```
 - This is used to store a TLS certificate (`tls.crt`) and private key (`tls.key`) securely.
 
+Good question 👍
+
+The **file extension does not matter** to Kubernetes.
+What matters is the **content** inside the file:
+
+* `--cert` → must be a **PEM-encoded certificate** (it could be named `cert.pem`, `cert.crt`, or even `myserver.cert`).
+* `--key` → must be a **PEM-encoded private key** (usually `key.pem` or `key.key`).
+
+So both of these work the same way:
+
+```bash
+kubectl create secret tls my-tls-secret \
+  --cert=cert.pem \
+  --key=key.pem
+```
+
+or
+
+```bash
+kubectl create secret tls my-tls-secret \
+  --cert=cert.crt \
+  --key=cert.key
+```
+
+✅ As long as:
+
+* The cert file contains something like:
+
+  ```
+  -----BEGIN CERTIFICATE-----
+  ...
+  -----END CERTIFICATE-----
+  ```
+* The key file contains:
+
+  ```
+  -----BEGIN PRIVATE KEY-----
+  ...
+  -----END PRIVATE KEY-----
+  ```
+
 ### 3.3 Creating a Docker Registry Secret
 ```sh
 kubectl create secret docker-registry my-reg-secret \
@@ -135,4 +176,8 @@ kubectl get secret my-secret -o jsonpath='{.data.key1}' | base64 --decode
 - Secrets are base64-encoded, not encrypted—additional security measures (RBAC, encryption at rest) should be applied.
 
 By mastering secrets, you can ensure secure configuration management within your Kubernetes cluster. 🚀
+
+
+
+
 
