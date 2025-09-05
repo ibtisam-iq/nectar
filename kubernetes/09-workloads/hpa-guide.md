@@ -758,6 +758,7 @@ spec:
   behavior:                              # 🎛️ Fine-tune how scaling happens
     scaleUp:
       stabilizationWindowSeconds: 30     # ⏳ Wait this long before considering another scale-up
+      tolerance: 0.05                    # ±5% around the target metric
       selectPolicy: Max                  # 🧠 If multiple policies match, pick the most aggressive
       policies:
         - type: Percent
