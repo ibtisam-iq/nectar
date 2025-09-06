@@ -258,6 +258,7 @@ spec:
   - key: maintenance
     value: "true"
     effect: NoSchedule
+    operator: Equal
   containers:
   - name: nginx
     image: nginx
