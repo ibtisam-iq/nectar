@@ -153,7 +153,7 @@ error: cannot specify multiple --image options and command
 
 ---
 
-## kubectl scale
+## kubectl rollout
 
 Manage the rollout of one or many resources. Valid resource types include: deployments, daemonsets, statefulsets
 
@@ -171,14 +171,6 @@ Set a new size for a deployment, replica set, replication controller, or statefu
 
 ```bash
 kubectl scale [--resource-version=version] [--current-replicas=count] --replicas=COUNT -l, --selector='' --dry-run='none' (-f FILENAME | TYPE NAME)
-```
-
-## kubectl autoscale
-
-Creates an autoscaler that automatically chooses and sets the number of pods that run in a Kubernetes cluster.
-
-```bash
-kubectl autoscale (-f FILENAME | TYPE NAME | TYPE/NAME) [--min=MINPODS] --max=MAXPODS [--cpu-percent=CPU] --name='' --dry-run='none'
 ```
 
 ---
