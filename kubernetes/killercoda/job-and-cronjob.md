@@ -167,3 +167,40 @@ Events:
   Normal  SuccessfulDelete  103s (x23 over 22m)  cronjob-controller  (combined from similar events): Deleted job cka-cronjob-29272496
 controlplane:~$ 
 ```
+
+---
+
+Create a job named countdown-devops.
+
+The spec template should be named countdown-devops (under metadata), and the container should be named container-countdown-devops
+
+Utilize image debian with latest tag (ensure to specify as debian:latest), and set the restart policy to Never.
+
+Execute the command sleep 5
+
+```bash
+thor@jumphost ~$ vi avc.yaml
+thor@jumphost ~$ k apply -f avc.yaml 
+job.batch/countdown-devops created
+thor@jumphost ~$ k get po
+NAME                     READY   STATUS    RESTARTS   AGE
+countdown-devops-qhwbh   1/1     Running   0          4s
+thor@jumphost ~$ cat avc.yaml 
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: countdown-devops
+spec:
+  template:
+    metadata:
+      name: countdown-devops   # Pod template name
+    spec:
+      containers:
+      - name: container-countdown-devops
+        image: debian:latest
+        command: ["sleep", "5"]
+      restartPolicy: Never
+
+thor@jumphost ~$
+```
+```
