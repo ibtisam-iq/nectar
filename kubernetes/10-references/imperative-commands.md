@@ -181,7 +181,7 @@ kubectl create job NAME --image=image \
 	--from=cronjob/name \    	# create a job from a cron job
 	-- [COMMAND] [args...]
 
-kubectl create cronjob NAME --image=image --schedule='0/5 * * * ?' \
+kubectl create cronjob NAME --image=image --schedule='0/5 * * * ?' \			# schedule must be surrounded with ""
     --restart \     			# supported values: OnFailure, Never
     -- [COMMAND] [args...] [flags] [options] 
 ```
