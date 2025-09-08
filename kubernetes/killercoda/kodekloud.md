@@ -200,3 +200,24 @@ Events:            <none>
 thor@jumphost ~$ curl http://172.18.0.5:30008/index.php
 Connected successfullythor@jumphost ~$ 
 ```
+---
+## Q4
+Got it 👍 You need a Pod with an `httpd:latest` container, mounting a PVC (`pvc-datacenter`) at Apache’s **document root** (`/usr/local/apache2/htdocs`).
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-datacenter
+spec:
+  containers:
+    - name: container-datacenter
+      image: httpd:latest
+      volumeMounts:
+        - name: web-content
+          mountPath: /usr/local/apache2/htdocs
+  volumes:
+    - name: web-content
+      persistentVolumeClaim:
+        claimName: pvc-datacenter
+```
