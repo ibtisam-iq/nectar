@@ -40,32 +40,13 @@ spec:
     - configMapRef:
         name: time-config
     volumeMounts:
-    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-      name: kube-api-access-tnwt6
-      readOnly: true
     - mountPath: /opt/dba/time
       name: log-volume
   volumes:
   - name: log-volume
-    emptyDir: {}
-  - name: kube-api-access-tnwt6
-    projected:
-      defaultMode: 420
-      sources:
-      - serviceAccountToken:
-          expirationSeconds: 3607
-          path: token
-      - configMap:
-          items:
-          - key: ca.crt
-            path: ca.crt
-          name: kube-root-ca.crt
-      - downwardAPI:
-          items:
-          - fieldRef:
-              apiVersion: v1
-              fieldPath: metadata.namespace
-            path: namespace
+#   emptyDir: {}   # wrong, but the pod will run fine...
+    hostPath: /opt/dba/time
+    type: DirectoryOrCreate
 thor@jumphost ~$ 
 ```
 
