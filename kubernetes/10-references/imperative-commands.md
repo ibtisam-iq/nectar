@@ -183,7 +183,9 @@ kubectl create job NAME --image=image \
 
 kubectl create cronjob NAME --image=image --schedule='0/5 * * * ?' \			# schedule must be surrounded with ""
     --restart \     			# supported values: OnFailure, Never
-    -- [COMMAND] [args...] [flags] [options] 
+    -- [COMMAND] [args...] [flags] [options]
+
+k create cj nautilus --image nginx:latest --restart OnFailure --schedule "*/9 * * * *" -- "echo Welcome!" 	# "" important
 ```
 
 In commands like `kubectl create cronjob`, the format `-- [COMMAND] [args...] [flags] [options]` dictates what runs inside the container:
