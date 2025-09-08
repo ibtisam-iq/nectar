@@ -198,7 +198,55 @@ Session Affinity:  None
 Events:            <none>
 
 thor@jumphost ~$ curl http://172.18.0.5:30008/index.php
-Connected successfullythor@jumphost ~$ 
+Connected successfullythor@jumphost ~$
+
+---
+
+thor@jumphost ~$ kubectl delete svc mysql-service
+kubectl expose deploy lemp-wp --name=mysql-service --port=3306 --target-port=3306
+service "mysql-service" deleted
+service/mysql-service exposed
+
+thor@jumphost ~$ k get svc
+NAME            TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+kubernetes      ClusterIP   10.96.0.1      <none>        443/TCP        73m
+lemp-service    NodePort    10.96.206.12   <none>        80:30008/TCP   24m
+mysql-service   ClusterIP   10.96.215.98   <none>        3306/TCP       3m26s
+thor@jumphost ~$ k describe svc mysql-service 
+Name:              mysql-service
+Namespace:         default
+Labels:            app=lemp-wp
+Annotations:       <none>
+Selector:          app=lemp-wp
+Type:              ClusterIP
+IP Family Policy:  SingleStack
+IP Families:       IPv4
+IP:                10.96.215.98
+IPs:               10.96.215.98
+Port:              <unset>  3306/TCP
+TargetPort:        3306/TCP
+Endpoints:         10.244.0.7:3306
+Session Affinity:  None
+Events:            <none>
+thor@jumphost ~$ k describe svc lemp-service 
+Name:                     lemp-service
+Namespace:                default
+Labels:                   app=lemp-wp
+Annotations:              <none>
+Selector:                 app=lemp-wp
+Type:                     NodePort
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.96.206.12
+IPs:                      10.96.206.12
+Port:                     <unset>  80/TCP
+TargetPort:               80/TCP
+NodePort:                 <unset>  30008/TCP
+Endpoints:                10.244.0.7:80
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+thor@jumphost ~$  
 ```
 ---
 ## Q4
@@ -221,3 +269,5 @@ spec:
       persistentVolumeClaim:
         claimName: pvc-datacenter
 ```
+
+
