@@ -551,3 +551,16 @@ k get pod # use pod name
 k exec space-alien-welcome-message-generator-5c945bc5f9-m9nkb -- touch /tmp/ready
 ```
 
+---
+
+```bash
+k apply -f /home/thor/mysql_deployment.yml
+
+# ns is missing, wrong kind & its version
+[resource mapping not found for name: "mysql-pv" namespace: "" from "/home/thor/mysql_deployment.yml": no matches for kind "Persistentvolume" in version "apps/v1"
+
+ensure CRDs are installed first, resource mapping not found for name: "mysql-pv-claim" namespace: "" from "/home/thor/mysql_deployment.yml": no matches for kind "Persistentvolumeclaim" in version "v1"
+
+# wrong field
+Error from server (BadRequest): error when creating "/home/thor/mysql_deployment.yml": Service in version "v1" cannot be handled as a Service: strict decoding error: unknown field "metadata.app"
+``` 
