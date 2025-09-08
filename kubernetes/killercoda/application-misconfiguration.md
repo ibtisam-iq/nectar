@@ -564,3 +564,39 @@ ensure CRDs are installed first, resource mapping not found for name: "mysql-pv-
 # wrong field
 Error from server (BadRequest): error when creating "/home/thor/mysql_deployment.yml": Service in version "v1" cannot be handled as a Service: strict decoding error: unknown field "metadata.app"
 ``` 
+---
+
+The error is pretty clear:
+
+```
+spec.ports[0].nodePort: Invalid value: 32345: provided port is already allocated
+```
+
+That means **another Service in your cluster is already using NodePort `32345`**, and Kubernetes won’t allow duplicates.
+
+### 🔧 Fix options:
+
+1. **Check which Service is already using that NodePort:**
+
+   ```bash
+   kubectl get svc -A | grep 32345
+   ```
+
+   This will show you the service that already has `32345` assigned.
+
+2. **Pick a different NodePort in the range 30000–32767**
+   Example, edit your YAML and change:
+
+   ```yaml
+   ports:
+   - port: 80
+     targetPort: 80
+     nodePort: 32346   # change this
+   type: NodePort
+   ```
+
+3. **Reapply the Service:**
+
+   ```bash
+   kubectl apply -f /tmp/kubectl-edit-76677757.yaml
+   ```
