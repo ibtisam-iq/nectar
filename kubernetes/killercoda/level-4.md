@@ -392,6 +392,8 @@ spec:
 thor@jumphost ~$ 
 ```
 
+---
+
 ## Q3 Kubernetes Nginx and PhpFPM Setup
 
 1) Create a service to expose this app, the service type must be NodePort, nodePort should be 30012.
@@ -523,3 +525,527 @@ spec:
 
 thor@jumphost ~$ 
 ```
+
+---
+
+## Q4 Deploy Drupal App on Kubernetes
+
+1) Configure a persistent volume drupal-mysql-pv with hostPath = /drupal-mysql-data (/drupal-mysql-data directory already exists on the worker Node i.e jump host), 5Gi of storage and ReadWriteOnce access mode.
+
+
+2) Configure one PersistentVolumeClaim named drupal-mysql-pvc with storage request of 3Gi and ReadWriteOnce access mode.
+
+
+3) Create a deployment drupal-mysql with 1 replica, use mysql:5.7 image. Mount the claimed PVC at /var/lib/mysql.
+
+
+4) Create a deployment drupal with 1 replica and use drupal:8.6 image.
+
+
+4) Create a NodePort type service which should be named as drupal-service and nodePort should be 30095.
+
+
+5) Create a service drupal-mysql-service to expose mysql deployment on port 3306.
+
+```bash
+thor@jumphost ~$ ls -ld /drupal-mysql-data/
+drwxr-xr-x 2 thor thor 4096 Sep  9 16:15 /drupal-mysql-data/
+thor@jumphost ~$ vi ibtisam.yaml
+thor@jumphost ~$ k apply -f ibtisam.yaml 
+persistentvolume/drupal-mysql-pv created
+persistentvolumeclaim/drupal-mysql-pvc created
+deployment.apps/drupal-mysql created
+deployment.apps/drupal created
+service/drupal-service created
+service/drupal-mysql-service created
+thor@jumphost ~$ k get po
+NAME                            READY   STATUS    RESTARTS   AGE
+drupal-f5499f965-dnk27          1/1     Running   0          42s
+drupal-mysql-78dfcb7c5d-lkqf9   1/1     Running   0          42s
+thor@jumphost ~$ cat ibtisam.yaml 
+---
+# 1) PersistentVolume for MySQL
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: drupal-mysql-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /drupal-mysql-data   # Path already exists on the node
+---
+# 2) PersistentVolumeClaim for MySQL
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: drupal-mysql-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+---
+# 3) MySQL Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drupal-mysql
+  template:
+    metadata:
+      labels:
+        app: drupal-mysql
+    spec:
+      containers:
+        - name: drupal-mysql
+          image: mysql:5.7
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: drupalpass       # You can replace with Secret for real setups
+            - name: MYSQL_DATABASE
+              value: drupaldb
+            - name: MYSQL_USER
+              value: drupaluser
+            - name: MYSQL_PASSWORD
+              value: drupalpass
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-storage
+          persistentVolumeClaim:
+            claimName: drupal-mysql-pvc
+---
+# 4) Drupal Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drupal
+  template:
+    metadata:
+      labels:
+        app: drupal
+    spec:
+      containers:
+        - name: drupal
+          image: drupal:8.6
+          ports:
+            - containerPort: 80
+          env:
+            - name: DRUPAL_DB_HOST
+              value: drupal-mysql-service   # Must match MySQL service name
+            - name: DRUPAL_DB_NAME
+              value: drupaldb
+            - name: DRUPAL_DB_USER
+              value: drupaluser
+            - name: DRUPAL_DB_PASSWORD
+              value: drupalpass
+---
+# 5) Drupal NodePort Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: drupal-service
+spec:
+  type: NodePort
+  selector:
+    app: drupal
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30095
+---
+# 5) MySQL ClusterIP Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: drupal-mysql-service
+spec:
+  selector:
+    app: drupal-mysql
+  ports:
+    - port: 3306
+      targetPort: 3306
+
+thor@jumphost ~$ 
+```
+
+Good catch 👍
+
+Let’s clarify:
+
+* In **MySQL deployment**, we **must** provide `MYSQL_ROOT_PASSWORD`, `MYSQL_DATABASE`, `MYSQL_USER`, and `MYSQL_PASSWORD` → these set up the DB.
+* In **Drupal deployment**, we only need the **connection details** (`host`, `dbname`, `user`, `password`). Drupal doesn’t care about MySQL’s root password.
+
+That’s why:
+
+* I **included `MYSQL_ROOT_PASSWORD`** inside the MySQL deployment.
+* I **did not include it in Drupal deployment**, because Drupal should connect with the application user (`drupaluser`), not the MySQL root user.
+* For **host**, I set it in Drupal (`DRUPAL_DB_HOST=drupal-mysql-service`) because Drupal must know where to reach the DB.
+
+👉 If you’d like to make this setup **more consistent and secure**, we can:
+
+1. Store all DB creds in a **Secret** (root password, user, password, db name).
+2. Reference them via `env.valueFrom.secretKeyRef` in both deployments.
+3. Keep `host` as plain value (since it’s just a service name).
+
+---
+
+Exactly 💡 — you’ve noticed the difference between **multi-container Pods** (like your Nginx + PHP-FPM case) and **multi-Pod Deployments** (like Drupal + MySQL).
+
+Here’s why:
+
+### 🔹 Case 1: Same Pod (sidecar/multi-container)
+
+* All containers **share the same network namespace**.
+* That means:
+
+  * `localhost` or `127.0.0.1` is enough to connect between containers.
+  * No Service is required for internal communication.
+* Example (your Nginx + PHP-FPM):
+
+  ```nginx
+  fastcgi_pass 127.0.0.1:9000;
+  ```
+
+  because both are inside **one Pod**, so the network is shared.
+
+### 🔹 Case 2: Different Pods (separate Deployments)
+
+* Each Pod has its **own IP address** (ephemeral).
+* To ensure stable communication, we expose one Pod (MySQL) via a **Service**.
+* The **Service DNS name** (e.g., `drupal-mysql-service`) is used by Drupal to connect to MySQL.
+* Example (your Drupal deployment):
+
+  ```yaml
+  - name: DRUPAL_DB_HOST
+    value: drupal-mysql-service
+  ```
+
+✅ So:
+
+* **Same Pod → use `localhost`**
+* **Different Pods → use Kubernetes Service name**
+
+---
+
+## Q5 Deploy Guest Book App on Kubernetes
+
+**BACK-END TIER**
+
+1. Create a deployment named redis-master for Redis master.
+
+a.) Replicas count should be 1.
+
+b.) Container name should be master-redis-nautilus and it should use image redis.
+
+c.) Request resources as CPU should be 100m and Memory should be 100Mi.
+
+d.) Container port should be redis default port i.e 6379.
+
+2. Create a service named redis-master for Redis master. Port and targetPort should be Redis default port i.e 6379.
+
+3. Create another deployment named redis-slave for Redis slave.
+
+a.) Replicas count should be 2.
+
+b.) Container name should be slave-redis-nautilus and it should use gcr.io/google_samples/gb-redisslave:v3 image.
+
+c.) Requests resources as CPU should be 100m and Memory should be 100Mi.
+
+d.) Define an environment variable named GET_HOSTS_FROM and its value should be dns.
+
+e.) Container port should be Redis default port i.e 6379.
+
+4. Create another service named redis-slave. It should use Redis default port i.e 6379.
+
+**FRONT END TIER**
+
+1. Create a deployment named frontend.
+
+a.) Replicas count should be 3.
+
+b.) Container name should be php-redis-nautilus and it should use gcr.io/google-samples/gb-frontend@sha256:a908df8486ff66f2c4daa0d3d8a2fa09846a1fc8efd65649c0109695c7c5cbff image.
+
+c.) Request resources as CPU should be 100m and Memory should be 100Mi.
+
+d.) Define an environment variable named as GET_HOSTS_FROM and its value should be dns.
+
+e.) Container port should be 80.
+
+2. Create a service named frontend. Its type should be NodePort, port should be 80 and its nodePort should be 30009.
+
+```bash
+thor@jumphost ~$ k apply -f ibtisam.yaml 
+deployment.apps/redis-master created
+service/redis-master created
+deployment.apps/redis-slave created
+service/redis-slave created
+deployment.apps/frontend created
+service/frontend created
+thor@jumphost ~$ k get po
+NAME                            READY   STATUS    RESTARTS   AGE
+frontend-7c9d48bc4-hg6b9        1/1     Running   0          2m47s
+frontend-7c9d48bc4-lqc94        1/1     Running   0          2m47s
+frontend-7c9d48bc4-q2jqh        1/1     Running   0          2m47s
+redis-master-58d4c6498b-fbf9m   1/1     Running   0          2m47s
+redis-slave-7fd75644dc-bf7bj    1/1     Running   0          2m47s
+redis-slave-7fd75644dc-hsnhc    1/1     Running   0          2m47s
+
+thor@jumphost ~$ k get no -o wide
+NAME                      STATUS   ROLES           AGE   VERSION                     INTERNAL-IP   EXTERNAL-IP   OS-IMAGE       KERNEL-VERSION   CONTAINER-RUNTIME
+kodekloud-control-plane   Ready    control-plane   35m   v1.27.16-1+f5da3b717fc217   172.17.0.2    <none>        Ubuntu 23.10   5.4.0-1106-gcp   containerd://1.7.1-2-g8f682ed69
+
+thor@jumphost ~$ curl http://172.17.0.2:30009
+curl: (28) Failed to connect to 172.17.0.2 port 30009: Connection timed out
+
+thor@jumphost ~$ kubectl run tmp --rm -it --image=busybox:1.28 -- /bin/sh
+If you don't see a command prompt, try pressing enter.
+/ # wget -qO- http://frontend:80
+<html ng-app="redis">
+  <head>
+    <title>Guestbook</title>
+  </body>
+</html>
+/ # exit
+Session ended, resume using 'kubectl attach tmp -c tmp -i -t' command when the pod is running
+pod "tmp" deleted
+thor@jumphost ~$ kubectl port-forward svc/frontend 8080:80
+Forwarding from [::1]:8080 -> 80
+```
+
+Perfect ✅ This looks like a **3-tier guestbook application** (Redis master → Redis slaves → Frontend).
+Here’s the **full YAML manifest** with comments explaining each section:
+
+```yaml
+---
+# BACK-END TIER
+# Redis Master Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+      role: master
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: master
+    spec:
+      containers:
+        - name: master-redis-nautilus
+          image: redis
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "100Mi"
+          ports:
+            - containerPort: 6379
+---
+# Redis Master Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-master
+spec:
+  selector:
+    app: redis
+    role: master
+  ports:
+    - port: 6379
+      targetPort: 6379
+---
+# Redis Slave Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-slave
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: redis
+      role: slave
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: slave
+    spec:
+      containers:
+        - name: slave-redis-nautilus
+          image: gcr.io/google_samples/gb-redisslave:v3
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "100Mi"
+          env:
+            - name: GET_HOSTS_FROM
+              value: "dns"
+          ports:
+            - containerPort: 6379
+---
+# Redis Slave Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-slave
+spec:
+  selector:
+    app: redis
+    role: slave
+  ports:
+    - port: 6379
+      targetPort: 6379
+---
+# FRONT END TIER
+# Frontend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: php-redis-nautilus
+          image: gcr.io/google-samples/gb-frontend@sha256:a908df8486ff66f2c4daa0d3d8a2fa09846a1fc8efd65649c0109695c7c5cbff
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "100Mi"
+          env:
+            - name: GET_HOSTS_FROM
+              value: "dns"
+          ports:
+            - containerPort: 80
+---
+# Frontend Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  type: NodePort
+  selector:
+    app: frontend
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30009
+```
+
+---
+
+### ⚡ Workflow Recap
+
+* **Redis Master** runs on `redis-master` service.
+* **Redis Slaves** connect to master and expose via `redis-slave` service.
+* **Frontend** (PHP app) queries Redis through service names (`redis-master`, `redis-slave`).
+* Externally, the app is accessible at:
+
+  ```
+  http://<NodeIP>:30009
+  ```
+
+---
+
+  Got it 👍 If your `curl http://172.17.0.2:30009` is **hanging (no response)**, that means the **NodePort service isn’t able to connect to your frontend pods**.
+
+Let’s troubleshoot step by step 🔎:
+
+### Test inside the cluster
+
+Run a temporary pod to check if service is reachable internally:
+
+```bash
+kubectl run tmp --rm -it --image=busybox:1.28 -- /bin/sh
+wget -qO- http://frontend:80
+```
+
+* If this works, then the frontend service is fine and the NodePort may be blocked.
+* If it fails, the frontend pods aren’t serving properly.
+
+⚡ Common causes of `curl` hanging:
+
+* Frontend pods crashed (`CrashLoopBackOff`).
+* NodePort (30009) is exposed but pods aren’t backing it (wrong selector).
+* Redis master/slave not available → frontend blocks waiting.
+* You’re testing from **jump host**, but the NodePort is bound to another node IP.
+
+---
+
+Nice work 🚀 You just proved something important:
+
+* ✅ Inside the cluster (`busybox pod`) → `wget http://frontend:80` **works fine** and returns the Guestbook HTML.
+* ❌ From outside (`curl http://172.17.0.2:30009`) → connection **times out**.
+
+That means:
+👉 Your **frontend pods and service are working**, but the **NodePort is not reachable from the jump host**.
+
+### Why this happens
+
+* You’re running on a **single-node cluster (control-plane only)**.
+* Some CKA/CKAD playgrounds (like KodeKloud) run the control-plane inside Docker-in-Docker, so **NodePorts aren’t exposed to your jump host**.
+* That’s why inside the cluster you see the app, but outside the cluster you get timeout.
+
+### 🔧 How to Fix / Work Around
+
+You have 3 options:
+
+1. **Use `kubectl port-forward` (easiest in labs):**
+
+   ```bash
+   kubectl port-forward svc/frontend 8080:80
+   ```
+
+   Then open:
+
+   ```
+   http://127.0.0.1:8080
+   ```
+
+   from the jump host.
+
+2. **Use `kubectl proxy`:**
+
+   ```bash
+   kubectl proxy --port=8001 &
+   curl http://127.0.0.1:8001/api/v1/namespaces/default/services/frontend/proxy/
+   ```
+
+3. **Check cluster networking (advanced):**
+   Sometimes the jump host can’t reach `NodePort` because traffic isn’t routed to the container’s network namespace. In that case, only in-cluster traffic works.
+
+⚡ In short:
+
+* Your YAML is correct ✅
+* The app runs fine ✅
+* NodePort doesn’t work from jump host because of **lab environment network restrictions** ❌
