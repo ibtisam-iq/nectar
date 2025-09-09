@@ -12,6 +12,7 @@
 set expandtab
 set tabstop=2
 set shiftwidth=2
+k config set-context --current --namespace <tomcat-namespace-devops> # set the ns permanently
 ```
 
 ```bash
