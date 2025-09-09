@@ -431,3 +431,28 @@ Events:
 
   Warning  VolumeMismatch  7s (x3 over 37s)  persistentvolume-controller  Cannot bind to requested volume "postgres-pv": incompatible accessMode
 ```
+---
+
+Volume name should be volume-share of type emptyDir.
+
+After creating the pod, exec into the first container i.e volume-container-devops-1, and just for testing create a file blog.txt with any content under the mounted path of first container i.e /tmp/blog.
+
+The file blog.txt should be present under the mounted path /tmp/games on the second container volume-container-devops-2 as well, since they are using a shared volume.
+
+```bash
+thor@jumphost ~$ k get po
+NAME                  READY   STATUS    RESTARTS   AGE
+volume-share-devops   2/2     Running   0          9s
+
+thor@jumphost ~$ k exec volume-share-devops -it -c volume-container-devops-1 -- sh
+sh-5.2# touch /tmp/blog/blog.txt
+sh-5.2# ls /tmp/blog/blog.txt 
+/tmp/blog/blog.txt
+sh-5.2# exit
+exit
+
+thor@jumphost ~$ k exec volume-share-devops -it -c volume-container-devops-2 -- sh
+sh-5.2# ls /tmp/games/
+blog.txt
+sh-5.2# 
+```
