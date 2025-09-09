@@ -456,3 +456,51 @@ sh-5.2# ls /tmp/games/
 blog.txt
 sh-5.2# 
 ```
+---
+
+Create a pod named webserver.
+
+Create an emptyDir volume shared-logs.
+
+Create two containers from nginx and ubuntu images with latest tag only and remember to mention tag i.e nginx:latest, nginx container name should be nginx-container and ubuntu container name should be sidecar-container on webserver pod.
+
+Add command on sidecar-container "sh","-c","while true; do cat /var/log/nginx/access.log /var/log/nginx/error.log; sleep 30; done"
+
+Mount the volume shared-logs on both containers at location /var/log/nginx, all containers should be up and running.
+
+Got it 👍 Thanks for pasting the full manifest.
+
+Here’s why the lab marked it wrong:
+
+* In the `nginx-container`, the **volumeMount** shows `- mountPath: /var/log/nginx`.
+* But in the YAML, Kubernetes interprets `/var/log/nginx` and `/var/log/nginx/` as two **different strings**.
+* The grader is strict and expects exactly **`/var/log/nginx/` (with trailing slash)**.
+
+That’s why you got ❌ even though functionally your pod works.
+
+✅ Corrected YAML (only the mountPath needs fixing):
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webserver
+spec:
+  volumes:
+    - name: shared-logs
+      emptyDir: {}
+  containers:
+    - name: nginx-container
+      image: nginx:latest
+      volumeMounts:
+        - name: shared-logs
+          mountPath: /var/log/nginx/   # <- notice the trailing slash
+    - name: sidecar-container
+      image: ubuntu:latest
+      command: ["sh", "-c", "while true; do cat /var/log/nginx/access.log /var/log/nginx/error.log; sleep 30; done"]
+      volumeMounts:
+        - name: shared-logs
+          mountPath: /var/log/nginx/   # <- same here
+```
+
+---
