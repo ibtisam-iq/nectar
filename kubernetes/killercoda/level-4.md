@@ -216,4 +216,180 @@ The only difference is **workflow**:
 
 ## Q2 Deploy MySQL on Kubernetes
 
+1.) Create a PersistentVolume mysql-pv, its capacity should be 250Mi, set other parameters as per your preference.
+
+
+2.) Create a PersistentVolumeClaim to request this PersistentVolume storage. Name it as mysql-pv-claim and request a 250Mi of storage. Set other parameters as per your preference.
+
+
+3.) Create a deployment named mysql-deployment, use any mysql image as per your preference. Mount the PersistentVolume at mount path /var/lib/mysql.
+
+
+4.) Create a NodePort type service named mysql and set nodePort to 30007.
+
+
+5.) Create a secret named mysql-root-pass having a key pair value, where key is password and its value is YUIidhb667, create another secret named mysql-user-pass having some key pair values, where frist key is username and its value is kodekloud_top, second key is password and value is dCV3szSGNA, create one more secret named mysql-db-url, key name is database and value is kodekloud_db9
+
+
+6.) Define some Environment variables within the container:
+
+
+a) name: MYSQL_ROOT_PASSWORD, should pick value from secretKeyRef name: mysql-root-pass and key: password
+
+
+b) name: MYSQL_DATABASE, should pick value from secretKeyRef name: mysql-db-url and key: database
+
+
+c) name: MYSQL_USER, should pick value from secretKeyRef name: mysql-user-pass key key: username
+
+
+d) name: MYSQL_PASSWORD, should pick value from secretKeyRef name: mysql-user-pass and key: password
+
+```bash
+thor@jumphost ~$ vi abc.yaml
+thor@jumphost ~$ k apply -f abc.yaml 
+persistentvolume/mysql-pv created
+persistentvolumeclaim/mysql-pv-claim created
+secret/mysql-root-pass created
+secret/mysql-user-pass created
+secret/mysql-db-url created
+deployment.apps/mysql-deployment created
+service/mysql created
+thor@jumphost ~$ k get po
+NAME                               READY   STATUS              RESTARTS   AGE
+mysql-deployment-68c9b5947-xprzj   0/1     ContainerCreating   0          20s
+thor@jumphost ~$ k get po -w
+NAME                               READY   STATUS              RESTARTS   AGE
+mysql-deployment-68c9b5947-xprzj   0/1     ContainerCreating   0          28s
+mysql-deployment-68c9b5947-xprzj   1/1     Running             0          34s
+^Cthor@jumphost ~$ k get po
+NAME                               READY   STATUS    RESTARTS   AGE
+mysql-deployment-68c9b5947-xprzj   1/1     Running   0          49s
+thor@jumphost ~$ cat abc.yaml 
+---
+# 1.) PersistentVolume: mysql-pv
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+spec:
+  capacity:
+    storage: 250Mi          # Storage capacity
+  accessModes:
+    - ReadWriteOnce         # Only one node can mount at a time
+  hostPath:                 # Using hostPath for simplicity (good for learning/demo)
+    path: "/mnt/data/mysql" # Path on the worker node where data is stored
+---
+# 2.) PersistentVolumeClaim: mysql-pv-claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 250Mi        # Must match PV size
+---
+# 5.) Secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-root-pass
+type: Opaque
+stringData:
+  password: YUIidhb667
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-user-pass
+type: Opaque
+stringData:
+  username: kodekloud_top
+  password: dCV3szSGNA
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-db-url
+type: Opaque
+stringData:
+  database: kodekloud_db9
+---
+# 3.) Deployment: mysql-deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0   # You can change to another version if needed
+          ports:
+            - containerPort: 3306
+          env:
+            # 6a) Root password
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-root-pass
+                  key: password
+
+            # 6b) Database
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-db-url
+                  key: database
+
+            # 6c) Username
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-user-pass
+                  key: username
+
+            # 6d) User password
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-user-pass
+                  key: password
+
+          volumeMounts:
+            - name: mysql-storage
+              mountPath: /var/lib/mysql   # MySQL data directory
+      volumes:
+        - name: mysql-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim
+---
+# 4.) Service: mysql (NodePort)
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  type: NodePort
+  selector:
+    app: mysql
+  ports:
+    - port: 3306       # Service port inside cluster
+      targetPort: 3306 # Container port
+      nodePort: 30007  # Exposed port on node
+
+thor@jumphost ~$ 
+```
+
 
