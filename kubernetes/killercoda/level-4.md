@@ -392,4 +392,134 @@ spec:
 thor@jumphost ~$ 
 ```
 
+## Q3 Kubernetes Nginx and PhpFPM Setup
 
+1) Create a service to expose this app, the service type must be NodePort, nodePort should be 30012.
+
+
+2.) Create a config map named nginx-config for nginx.conf as we want to add some custom settings in nginx.conf.
+
+
+a) Change the default port 80 to 8093 in nginx.conf.
+
+
+b) Change the default document root /usr/share/nginx to /var/www/html in nginx.conf.
+
+
+c) Update the directory index to index  index.html index.htm index.php in nginx.conf.
+
+
+3.) Create a pod named nginx-phpfpm .
+
+
+b) Create a shared volume named shared-files that will be used by both containers (nginx and phpfpm) also it should be a emptyDir volume.
+
+
+c) Map the ConfigMap we declared above as a volume for nginx container. Name the volume as nginx-config-volume, mount path should be /etc/nginx/nginx.conf and subPath should be nginx.conf
+
+
+d) Nginx container should be named as nginx-container and it should use nginx:latest image. PhpFPM container should be named as php-fpm-container and it should use php:8.1-fpm-alpine image.
+
+
+e) The shared volume shared-files should be mounted at /var/www/html location in both containers. Copy /opt/index.php from jump host to the nginx document root inside the nginx container, once done you can access the app using App button on the top bar.
+
+```bash
+thor@jumphost ~$ k get deploy
+No resources found in default namespace.
+thor@jumphost ~$ cat /opt/index.php 
+It works!thor@jumphost ~$ 
+thor@jumphost ~$ vi ibtisam.yaml
+thor@jumphost ~$ k apply -f ibtisam.yaml 
+configmap/nginx-config created
+pod/nginx-phpfpm created
+service/nginx-phpfpm-service created
+thor@jumphost ~$ k get po -w
+NAME           READY   STATUS    RESTARTS   AGE
+nginx-phpfpm   2/2     Running   0          19s
+^Cthor@jumphost ~kubectl cp /opt/index.php nginx-phpfpm:/var/www/html/index.php -c nginx-container
+thor@jumphost ~$ cat ibtisam.yaml 
+---
+# 2.) ConfigMap for custom nginx.conf
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  nginx.conf: |
+    events {}
+    http {
+      server {
+        listen 8093;                           # (a) Changed from 80 → 8093
+        root /var/www/html;                    # (b) Changed document root
+        index index.html index.htm index.php;  # (c) Updated index
+
+        location / {
+          try_files $uri $uri/ =404;
+        }
+
+        location ~ \.php$ {
+          fastcgi_pass 127.0.0.1:9000; # PHP-FPM runs inside same pod
+          fastcgi_index index.php;
+          fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+          include fastcgi_params;
+        }
+      }
+    }
+---
+# 3.) Pod with two containers (nginx + php-fpm)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-phpfpm
+  labels:
+    app: nginx-phpfpm
+spec:
+  volumes:
+    # b) Shared volume for both containers
+    - name: shared-files
+      emptyDir: {}
+
+    # c) ConfigMap volume for nginx.conf
+    - name: nginx-config-volume
+      configMap:
+        name: nginx-config
+        items:
+          - key: nginx.conf
+            path: nginx.conf
+
+  containers:
+    # d) Nginx container
+    - name: nginx-container
+      image: nginx:latest
+      ports:
+        - containerPort: 8093
+      volumeMounts:
+        - name: shared-files
+          mountPath: /var/www/html
+        - name: nginx-config-volume
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+
+    # d) PHP-FPM container
+    - name: php-fpm-container
+      image: php:8.1-fpm-alpine
+      volumeMounts:
+        - name: shared-files
+          mountPath: /var/www/html
+---
+# 1.) Service to expose the app
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-phpfpm-service
+spec:
+  type: NodePort
+  selector:
+    app: nginx-phpfpm
+  ports:
+    - port: 8093        # Service port inside cluster
+      targetPort: 8093  # Container port (nginx)
+      nodePort: 30012   # NodePort on the worker node
+
+thor@jumphost ~$ 
+```
