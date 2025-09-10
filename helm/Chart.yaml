@@ -1,0 +1,66 @@
+# The API version of the Chart.yaml format.
+# - v1: legacy charts (Helm 2)
+# - v2: current charts (Helm 3), which support dependencies and other modern features.
+apiVersion: v2
+
+# The name of your chart.
+# This should be unique within a Helm repository.
+name: webapp-color-apd
+
+# A human-readable description of your chart.
+# This is used when listing/searching charts in a repo.
+description: A Helm chart for deploying the Webapp Color Application
+
+# The type of chart:
+# - application: a deployable application (most common)
+# - library: a chart that defines helpers/functions to be used by other charts, but not deployed by itself.
+type: application
+
+# The chart version (of *this* chart, not the app).
+# This must follow Semantic Versioning (MAJOR.MINOR.PATCH).
+# You bump this whenever you change chart templates, helpers, values, etc.
+version: 0.1.0
+
+# The version of the application this chart deploys.
+# This does NOT need to follow semver.
+# It should match the upstream application’s version (e.g., the Docker image tag).
+# Recommended to keep it quoted as a string.
+appVersion: "1.20.0"
+
+# A single-sentence summary of what this chart is about.
+# Used in some Helm UIs.
+annotations:
+  category: Web Application
+
+# Optional: keywords help when searching for the chart in repositories.
+keywords:
+  - webapp
+  - color
+  - frontend
+  - example
+
+# Optional: the home page for your application/project.
+home: https://example.com/webapp-color
+
+# Optional: sources is a list of URLs to the source code of the application.
+sources:
+  - https://github.com/example/webapp-color
+
+# Optional: maintainers list, useful for chart repositories.
+# Each maintainer has a name and (optionally) email/URL.
+maintainers:
+  - name: Muhammad Ibtisam Iqbal
+    email: youremail@example.com
+    url: https://ibtisam-iq.com
+
+# Optional: dependencies on other charts.
+# Each dependency can specify a repository, version, alias, and condition.
+# Example shown for learning, not required if you have no dependencies.
+#dependencies:
+#  - name: redis
+#    version: 16.8.0
+#    repository: https://charts.bitnami.com/bitnami
+#    condition: redis.enabled
+
+# Optional: icon (URL to an image, e.g. logo).
+icon: https://example.com/webapp-color-logo.png
