@@ -220,3 +220,47 @@ wget -qO- external-webserver-ckad01-svcn.default.svc.cluster.local:9999
 
 ---
 
+For this scenario, create a Service called ckad12-service that routes traffic to an external IP address.
+
+
+Please note that service should listen on port 53 and be of type ExternalName. Use the external IP address 8.8.8.8
+
+```bash
+root@student-node ~ ✖ vi external.yaml
+
+root@student-node ~ ➜  k apply -f external.yaml 
+service/ckad12-service created
+
+root@student-node ~ ➜  cat external.yaml 
+apiVersion: v1
+kind: Service
+metadata:
+  name: ckad12-service
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: dns.google   # DNS name instead of IP
+  ports:
+    - port: 53
+      protocol: UDP
+
+
+root@student-node ~ ➜  k describe svc ckad12-service 
+Name:              ckad12-service
+Namespace:         default
+Labels:            <none>
+Annotations:       <none>
+Selector:          <none>
+Type:              ExternalName
+IP Families:       <none>
+IP:                
+IPs:               <none>
+External Name:     dns.google
+Port:              <unset>  53/UDP
+TargetPort:        53/UDP
+Endpoints:         <none>
+Session Affinity:  None
+Events:            <none>
+
+root@student-node ~ ➜  
+```
