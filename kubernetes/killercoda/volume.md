@@ -504,3 +504,62 @@ spec:
 ```
 
 ---
+
+In the `ckad14-sa-projected` namespace, configure the `ckad14-api-pod` Pod to include a **projected volume** named `vault-token`.
+
+Mount the service account token to the container at `/var/run/secrets/tokens`, with an expiration time of `7000` seconds.
+
+Additionally, set the intended audience for the token to `vault` and path to `vault-token`.
+
+Got it ✅
+You want to configure a Pod (`ckad14-api-pod`) in the **`ckad14-sa-projected`** namespace so that it uses a **projected volume** for a ServiceAccount token, with:
+
+* **Volume name:** `vault-token`
+* **Mount path:** `/var/run/secrets/tokens`
+* **Expiration:** `7000s`
+* **Audience:** `vault`
+* **Path inside projected volume:** `vault-token`
+
+Here’s the YAML you should edit/apply (key parts are the `projected` volume and its mount):
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ckad14-api-pod
+  namespace: ckad14-sa-projected
+spec:
+  containers:
+  - name: main
+    image: nginx   # or whatever the original image is
+    volumeMounts:
+    - name: vault-token
+      mountPath: /var/run/secrets/tokens
+      readOnly: true
+  volumes:
+  - name: vault-token
+    projected:
+      sources:
+      - serviceAccountToken:
+          path: vault-token
+          expirationSeconds: 7000
+          audience: vault
+```
+
+### Explanation
+
+* `volumes.projected` → lets you combine sources; here we use `serviceAccountToken`.
+* `path: vault-token` → the token file name inside `/var/run/secrets/tokens`.
+* `expirationSeconds: 7000` → sets token validity.
+* `audience: vault` → sets the intended audience claim in the JWT.
+* `volumeMounts` → mounts the projected volume into the container.
+
+👉 You can patch the existing pod like this if it already exists:
+
+```bash
+kubectl -n ckad14-sa-projected edit pod ckad14-api-pod
+```
+
+and add the **`volumeMounts`** + **`volumes`** sections exactly as above.
+
+---
