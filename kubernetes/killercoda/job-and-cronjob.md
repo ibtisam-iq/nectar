@@ -209,25 +209,14 @@ thor@jumphost ~$
 In the ckad-job namespace, create a cronjob named simple-node-job to run every 30 minutes to list all the running processes inside a container that used node image (the command needs to be run in a shell).
 In Unix-based operating systems, ps -eaf can be use to list all the running processes.
 
-```yaml
+```bash
+root@student-node ~ ➜  k create cj simple-node-job -n ckad-job --schedule "*/30 * * * *" --image node -- sh -c "ps -eaf"
+cronjob.batch/simple-node-job created
+
 apiVersion: batch/v1
 kind: CronJob
-metadata:
-  name: simple-node-job
-  namespace: ckad-job
-spec:
-  schedule: "*/30 * * * *"
-  jobTemplate:
-    spec:
-      template:
-        spec:
-          containers:
-          - name: simple-node-job
-            image: node
-            imagePullPolicy: IfNotPresent
             command:
             - /bin/sh
             - -c
             - ps -eaf
-          restartPolicy: OnFailure
 ```
