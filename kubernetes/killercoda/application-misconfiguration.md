@@ -600,3 +600,12 @@ That means **another Service in your cluster is already using NodePort `32345`**
    ```bash
    kubectl apply -f /tmp/kubectl-edit-76677757.yaml
    ```
+
+---
+wrong apiVersion
+
+```bash
+root@student-node ~ ➜  helm install webapp-color-apd /opt/webapp-color-apd/ -n frontend-apd
+Error: INSTALLATION FAILED: unable to build kubernetes objects from release manifest: resource mapping not found for name: "webapp-color-apd" namespace: "frontend-apd" from "": no matches for kind "Deployment" in version "v1"
+ensure CRDs are installed first
+```
