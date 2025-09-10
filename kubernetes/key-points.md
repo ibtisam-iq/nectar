@@ -2,7 +2,7 @@
 root@student-node ~ ➜  k describe svc route-apd-svc
 Name:                     route-apd-svc
 Labels:                   app=route-apd-svc
-Selector:                 version=v1                         # one label, which shares between 2 pods, so it routed the traffic to both pods.
+Selector:                 version=v1         # one label, which shares between 2 pods, so it routed the traffic to both pods.
 Type:                     NodePort
 
 Endpoints:                172.17.1.5:8080,172.17.1.7:8080    # 2 pods
