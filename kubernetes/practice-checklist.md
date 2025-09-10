@@ -32,6 +32,7 @@ Use it as a **roadmap + progress tracker**.
 - [ ] volumes (emptyDir, hostPath, configMap, secret, PVC, projected, downwardAPI)
 - [ ] `securityContext` (pod-level & container-level)
 - [ ] resources (requests & limits) `Quota: Configure Memory and CPU Quotas for a Namespace`
+- [ ] qosClass `qos: Configure Quality of Service for Pods`
 - [ ] resizePolicy `resize: Resize CPU and Memory Resources assigned to Containers`
 - [ ] `probes` (livenessProbe, readinessProbe, startupProbe)
 - [ ] affinity / antiAffinity (nodeAffinity, podAffinity, podAntiAffinity)
