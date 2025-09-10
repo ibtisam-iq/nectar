@@ -1,4 +1,4 @@
-Perfect — we’re debugging a **Helm templating issue** now 👍
+## 1
 
 Your error:
 
@@ -20,30 +20,30 @@ Since `.Values.service.Name` doesn’t exist in your `values.yaml`, it resolves 
 
 ### ✅ Fix
 
-1. In your `values.yaml`, define service config properly:
+```bash
+root@student-node ~ ➜  vi /opt/webapp-color-apd/templates/service.yaml 
 
-```yaml
-service:
-  name: webapp-color-apd
-  type: ClusterIP
-  port: 8080
-  targetPort: 8080
-```
+root@student-node ~ ➜  helm install -n frontend-apd webapp-color-apd /opt/webapp-color-apd/
+NAME: webapp-color-apd
+LAST DEPLOYED: Wed Sep 10 10:18:31 2025
+NAMESPACE: frontend-apd
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
 
-2. Update your `service.yaml` template to reference those correctly (all lowercase keys):
-
-```yaml
+root@student-node ~ ➜  cat /opt/webapp-color-apd/templates/service.yaml 
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.service.name }}
+  name: {{ .Values.service.name }}    # corrected
 spec:
   ports:
-    - port: {{ .Values.service.port }}
-      protocol: TCP
-      targetPort: {{ .Values.service.targetPort }}
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
   selector:
     app: webapp-color-apd
   type: {{ .Values.service.type }}
 ```
+
 ---
