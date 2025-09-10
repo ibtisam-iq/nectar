@@ -356,3 +356,45 @@ geo-location-app   1/1     Running   0          5m53s   172.17.1.2   cluster3-no
 
 root@student-node ~ ➜  
 ```
+
+---
+
+Configure a service named nginx-svcn for the application, which exposes the pods on multiple ports with different protocols.
+
+Expose port 80 using TCP with the name http
+Expose port 443 using TCP with the name https
+
+```bash
+root@student-node ~ ➜  k get deploy nginx-app-ckad 
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-app-ckad   3/3     3            3           38s
+
+root@student-node ~ ➜  k expose deployment nginx-app-ckad --name nginx-svcn --port 80 --port 443         # only last --port added.
+service/nginx-svcn exposed
+
+root@student-node ~ ➜  k edit svc nginx-svcn         
+service/nginx-svcn edited
+
+root@student-node ~ ➜  k describe svc nginx-svcn 
+Name:                     nginx-svcn
+Namespace:                default
+Labels:                   app=nginx-app-ckad
+Annotations:              <none>
+Selector:                 app=nginx-app-ckad
+Type:                     ClusterIP
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.43.48.237
+IPs:                      10.43.48.237
+Port:                     http  80/TCP
+TargetPort:               80/TCP
+Endpoints:                10.42.0.16:80,10.42.2.13:80,10.42.1.14:80
+Port:                     https  443/TCP
+TargetPort:               443/TCP
+Endpoints:                10.42.0.16:443,10.42.2.13:443,10.42.1.14:443
+Session Affinity:         None
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+
+root@student-node ~ ➜  
+```
