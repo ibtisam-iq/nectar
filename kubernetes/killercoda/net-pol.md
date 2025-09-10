@@ -71,3 +71,54 @@ spec:
 * All other pods in the namespace will be **denied** automatically because once a policy selects a pod, **deny-all is the default** unless explicitly allowed.
 
 ---
+
+create a NetworkPolicy .i.e. ckad-allow so that only pods with label criteria: allow can access the deployment on port 80 and apply it.
+
+```bash
+root@student-node ~ ➜  k get po --show-labels -n nginx-deployment 
+NAME                            READY   STATUS    RESTARTS   AGE     LABELS
+nginx-ckad11-5b864dcf9f-f9dvg   1/1     Running   0          3m33s   app=nginx-ckad,pod-template-hash=5b864dcf9f
+nginx-ckad11-5b864dcf9f-v69f6   1/1     Running   0          3m33s   app=nginx-ckad,pod-template-hash=5b864dcf9f
+test-pod                        1/1     Running   0          8m22s   criteria=allow
+
+root@student-node ~ ➜  k apply -f 12.yaml 
+deployment.apps/nginx-ckad11 configured
+service/nginx-ckad11-service configured
+networkpolicy.networking.k8s.io/ckad-allow created
+```
+
+Nice one 👍 this is again a **NetworkPolicy** that restricts access to your nginx Deployment.
+
+Here’s the YAML for `ckad-allow`:
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ckad-allow
+  namespace: nginx-deployment
+spec:
+  podSelector:
+    matchLabels:
+      app: nginx-ckad   # Selects nginx deployment pods
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+      - podSelector:
+          matchLabels:
+            criteria: allow   # Only allow pods with this label
+    ports:
+      - protocol: TCP
+        port: 80             # Only allow on port 80
+```
+
+### 🔑 Explanation
+
+* **`podSelector: app=nginx-ckad`** → this policy applies to your nginx deployment pods.
+* **`ingress.from.podSelector`** → only pods with `criteria=allow` can reach nginx.
+* **`ports: 80`** → limits allowed traffic to TCP port 80 only.
+* Once this policy is active, all other traffic will be blocked by default.
+
+---
+
