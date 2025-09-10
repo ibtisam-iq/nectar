@@ -278,3 +278,81 @@ Events:            <none>
 
 root@student-node ~ ➜  
 ```
+---
+
+We have deployed several applications in the ns-ckad17-svcn namespace that are exposed inside the cluster via ClusterIP.
+
+
+Your task is to create a LoadBalancer type service that will serve traffic to the applications based on its labels. Create the resources as follows:
+
+Service lb1-ckad17-svcn for serving traffic at port 31890 to pods with labels "exam=ckad, criteria=location".
+
+Service lb2-ckad17-svcn for serving traffic at port 31891 to pods with labels "exam=ckad, criteria=cpu-high".
+
+```bash
+root@student-node ~ ➜  k get po -n ns-ckad17-svcn 
+NAME               READY   STATUS    RESTARTS   AGE
+cpu-load-app       1/1     Running   0          81s
+geo-location-app   1/1     Running   0          81s
+
+root@student-node ~ ➜  k get po -n ns-ckad17-svcn --show-labels
+NAME               READY   STATUS    RESTARTS   AGE   LABELS
+cpu-load-app       1/1     Running   0          90s   criteria=cpu-high,exam=ckad
+geo-location-app   1/1     Running   0          90s   criteria=location,exam=ckad
+
+root@student-node ~ ➜  k expose po -n ns-ckad17-svcn cpu-load-app --name lb2-ckad17-svcn --type LoadBalancer --port 31891
+service/lb2-ckad17-svcn exposed
+
+root@student-node ~ ➜  k expose po -n ns-ckad17-svcn geo-location-app --name lb1-ckad17-svcn 
+--type LoadBalancer --port 31890
+service/lb1-ckad17-svcn exposed
+
+root@student-node ~ ➜  k describe svc -n ns-ckad17-svcn lb1-ckad17-svcn lb2-ckad17-svcn 
+Name:                     lb1-ckad17-svcn
+Namespace:                ns-ckad17-svcn
+Labels:                   criteria=location
+                          exam=ckad
+Annotations:              <none>
+Selector:                 criteria=location,exam=ckad
+Type:                     LoadBalancer
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       172.20.169.157
+IPs:                      172.20.169.157
+Port:                     <unset>  31890/TCP
+TargetPort:               31890/TCP
+NodePort:                 <unset>  32421/TCP
+Endpoints:                172.17.1.2:31890
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+
+
+Name:                     lb2-ckad17-svcn
+Namespace:                ns-ckad17-svcn
+Labels:                   criteria=cpu-high
+                          exam=ckad
+Annotations:              <none>
+Selector:                 criteria=cpu-high,exam=ckad
+Type:                     LoadBalancer
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       172.20.162.244
+IPs:                      172.20.162.244
+Port:                     <unset>  31891/TCP
+TargetPort:               31891/TCP
+NodePort:                 <unset>  31754/TCP
+Endpoints:                172.17.1.3:31891
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+
+root@student-node ~ ➜  k get po -n ns-ckad17-svcn -o wide
+NAME               READY   STATUS    RESTARTS   AGE     IP           NODE              NOMINATED NODE   READINESS GATES
+cpu-load-app       1/1     Running   0          5m53s   172.17.1.3   cluster3-node01   <none>           <none>
+geo-location-app   1/1     Running   0          5m53s   172.17.1.2   cluster3-node01   <none>           <none>
+
+root@student-node ~ ➜  
+```
