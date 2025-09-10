@@ -17,7 +17,7 @@ Use it as a **roadmap + progress tracker**.
   - volume: all types of volumes injected pod manifest files, local pv
   - pv: pv, pvc, storage class, claim as volume, walkthrough (pv with hostpath, pvc, and pod manifest)
   - Ephemeral Volumes: CSI ephemeral volumes, Generic ephemeral volumes... pod manifests
-- [ ] Namespace, ServiceAccount, Role, RoleBinding, ClusterRole, ClusterRoleBinding
+- [ ] Namespace, ServiceAccount `sa: Configure Service Accounts for Pods`, Role, RoleBinding, ClusterRole, ClusterRoleBinding
 - [ ] NetworkPolicy  `Network Policy, Declare Network Policy`
 - [ ] ResourceQuota, LimitRange, PriorityClass, PodDisruptionBudgets (PDB)
 - [ ] CustomResourceDefinition (CRD)     `crd: Extend the Kubernetes API with CustomResourceDefinitions`
