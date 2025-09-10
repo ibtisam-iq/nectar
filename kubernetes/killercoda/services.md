@@ -290,24 +290,31 @@ Service lb1-ckad17-svcn for serving traffic at port 31890 to pods with labels "e
 Service lb2-ckad17-svcn for serving traffic at port 31891 to pods with labels "exam=ckad, criteria=cpu-high".
 
 ```bash
-root@student-node ~ ➜  k get po -n ns-ckad17-svcn 
-NAME               READY   STATUS    RESTARTS   AGE
-cpu-load-app       1/1     Running   0          81s
-geo-location-app   1/1     Running   0          81s
-
 root@student-node ~ ➜  k get po -n ns-ckad17-svcn --show-labels
-NAME               READY   STATUS    RESTARTS   AGE   LABELS
-cpu-load-app       1/1     Running   0          90s   criteria=cpu-high,exam=ckad
-geo-location-app   1/1     Running   0          90s   criteria=location,exam=ckad
+NAME               READY   STATUS    RESTARTS   AGE    LABELS                         IP
+cpu-load-app       1/1     Running   0          109m   criteria=cpu-high,exam=ckad    172.17.1.3
+geo-location-app   1/1     Running   0          109m   criteria=location,exam=ckad    172.17.1.2
 
-root@student-node ~ ➜  k expose po -n ns-ckad17-svcn cpu-load-app --name lb2-ckad17-svcn --type LoadBalancer --port 31891
-service/lb2-ckad17-svcn exposed
+root@student-node ~ ➜  k describe po -n ns-ckad17-svcn cpu-load-app geo-location-app | grep -i port
+    Port:           80/TCP
+    Host Port:      0/TCP
+    Port:           80/TCP
+    Host Port:      0/TCP
 
-root@student-node ~ ➜  k expose po -n ns-ckad17-svcn geo-location-app --name lb1-ckad17-svcn 
---type LoadBalancer --port 31890
+root@student-node ~ ➜  k expose po -n ns-ckad17-svcn geo-location-app --name lb1-ckad17-svcn --type LoadBalancer
 service/lb1-ckad17-svcn exposed
 
-root@student-node ~ ➜  k describe svc -n ns-ckad17-svcn lb1-ckad17-svcn lb2-ckad17-svcn 
+root@student-node ~ ➜  k edit svc -n ns-ckad17-svcn lb1-ckad17-svcn                 # nodePort edited.
+service/lb1-ckad17-svcn edited
+
+root@student-node ~ ➜  k expose po -n ns-ckad17-svcn cpu-load-app --name lb2-ckad17-svcn --type LoadBalancer
+service/lb2-ckad17-svcn exposed
+
+root@student-node ~ ➜  k edit svc -n ns-ckad17-svcn lb2-ckad17-svcn 
+service/lb2-ckad17-svcn edited
+
+root@student-node ~ ➜  k describe svc -n ns-ckad17-svcn lb1-ckad17-svcn lb2-ckad17-svcn
+
 Name:                     lb1-ckad17-svcn
 Namespace:                ns-ckad17-svcn
 Labels:                   criteria=location
@@ -317,12 +324,12 @@ Selector:                 criteria=location,exam=ckad
 Type:                     LoadBalancer
 IP Family Policy:         SingleStack
 IP Families:              IPv4
-IP:                       172.20.169.157
-IPs:                      172.20.169.157
-Port:                     <unset>  31890/TCP
-TargetPort:               31890/TCP
-NodePort:                 <unset>  32421/TCP
-Endpoints:                172.17.1.2:31890
+IP:                       172.20.179.143
+IPs:                      172.20.179.143
+Port:                     <unset>  80/TCP
+TargetPort:               80/TCP
+NodePort:                 <unset>  31890/TCP
+Endpoints:                172.17.1.2:80
 Session Affinity:         None
 External Traffic Policy:  Cluster
 Internal Traffic Policy:  Cluster
@@ -338,23 +345,16 @@ Selector:                 criteria=cpu-high,exam=ckad
 Type:                     LoadBalancer
 IP Family Policy:         SingleStack
 IP Families:              IPv4
-IP:                       172.20.162.244
-IPs:                      172.20.162.244
-Port:                     <unset>  31891/TCP
-TargetPort:               31891/TCP
-NodePort:                 <unset>  31754/TCP
-Endpoints:                172.17.1.3:31891
+IP:                       172.20.139.184
+IPs:                      172.20.139.184
+Port:                     <unset>  80/TCP
+TargetPort:               80/TCP
+NodePort:                 <unset>  31891/TCP
+Endpoints:                172.17.1.3:80
 Session Affinity:         None
 External Traffic Policy:  Cluster
 Internal Traffic Policy:  Cluster
-Events:                   <none>
-
-root@student-node ~ ➜  k get po -n ns-ckad17-svcn -o wide
-NAME               READY   STATUS    RESTARTS   AGE     IP           NODE              NOMINATED NODE   READINESS GATES
-cpu-load-app       1/1     Running   0          5m53s   172.17.1.3   cluster3-node01   <none>           <none>
-geo-location-app   1/1     Running   0          5m53s   172.17.1.2   cluster3-node01   <none>           <none>
-
-root@student-node ~ ➜  
+Events:                   <none>  
 ```
 
 ---
