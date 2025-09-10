@@ -398,3 +398,33 @@ Events:                   <none>
 
 root@student-node ~ ➜  
 ```
+---
+
+Create a ClusterIP service .i.e. service-3421-svcn in the spectra-1267 ns which should expose the pods namely pod-23 and pod-21 with port set to 8080 and targetport to 80.
+
+```bash
+root@student-node ~ ➜  k get po -o wide -n spectra-1267 pod-21 pod-23 --show-labels 
+NAME     READY   STATUS    RESTARTS   AGE   IP            NODE                 LABELS
+pod-21   1/1     Running   0          16m   172.17.1.11   cluster3-node01      env=prod,mode=exam,type=external
+pod-23   1/1     Running   0          16m   172.17.1.10   cluster3-node01      env=dev,mode=exam,type=external
+
+root@student-node ~ ➜  k describe svc -n spectra-1267 service-3421-svcn 
+Name:                     service-3421-svcn
+Namespace:                spectra-1267
+Labels:                   env=prod
+                          mode=exam
+                          type=external
+Annotations:              <none>
+Selector:                 mode=exam,type=external       # important point, env is skipped, because it different for both pods.
+Type:                     ClusterIP
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       172.20.182.195
+IPs:                      172.20.182.195
+Port:                     <unset>  8080/TCP
+TargetPort:               80/TCP
+Endpoints:                172.17.1.11:80,172.17.1.10:80
+Session Affinity:         None
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+```
