@@ -122,3 +122,32 @@ spec:
 
 ---
 
+We have created a Network Policy netpol-ckad13-svcn that allows traffic only to specific pods and it allows traffic only from pods with specific labels.
+
+Your task is to edit the policy so that it allows traffic from pods with labels access = allowed.
+
+Do not change the existing rules in the policy.
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: netpol-ckad13-svcn
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: kk-app
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+           tier: server
+# add the following in the manifest
+    - podSelector:
+        matchLabels:
+           access: allowed
+```
