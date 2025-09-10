@@ -146,7 +146,57 @@ Session Affinity:         None
 Internal Traffic Policy:  Cluster
 Events:                   <none>
 
-root@student-node ~ ➜  
+root@student-node ~ ➜
+
+root@student-node ~ ➜  ifconfig eth0 | grep 'inet ' | awk '{print $2}'
+192.168.81.157
+
+root@student-node ~ ➜  ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1410
+        inet 192.168.81.157  netmask 255.255.255.255  broadcast 0.0.0.0
+        inet6 fe80::3c97:32ff:fe95:b66b  prefixlen 64  scopeid 0x20<link>
+        ether 3e:97:32:95:b6:6b  txqueuelen 0  (Ethernet)
+        RX packets 33593  bytes 52447719 (52.4 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 24067  bytes 3396390 (3.3 MB)
+        TX errors 0  dropped 1 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+
+root@student-node ~ ➜  curl student-node:9999
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+
+root@student-node ~ ➜    
 ```
 
 Nice one 🚀 you’re on the right track — this is a classic case of connecting an **external (non-cluster) service** to Kubernetes using an **ExternalName service** or manually creating an **Endpoints object** (not EndpointSlice).
@@ -236,13 +286,13 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ckad12-service
-  namespace: default
 spec:
   type: ExternalName
-  externalName: dns.google   # DNS name instead of IP
+  externalName: 8.8.8.8
   ports:
-    - port: 53
-      protocol: UDP
+    - name: http
+      port: 53
+      targetPort: 53
 
 
 root@student-node ~ ➜  k describe svc ckad12-service 
@@ -255,9 +305,9 @@ Type:              ExternalName
 IP Families:       <none>
 IP:                
 IPs:               <none>
-External Name:     dns.google
-Port:              <unset>  53/UDP
-TargetPort:        53/UDP
+External Name:     8.8.8.8
+Port:              http  53/TCP
+TargetPort:        53/TCP
 Endpoints:         <none>
 Session Affinity:  None
 Events:            <none>
