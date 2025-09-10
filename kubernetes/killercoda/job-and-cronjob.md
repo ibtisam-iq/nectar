@@ -220,3 +220,48 @@ kind: CronJob
             - -c
             - ps -eaf
 ```
+
+---
+
+In the ckad-job namespace, create a job named very-long-pi that simply computes a π (pi) to 1024 places and prints it out.
+
+This job should be configured to retry maximum 5 times before marking this job failed, and the duration of this job should not exceed 100 seconds.
+
+The job should use the container image perl:5.34.0.
+
+The container should run a Perl command that calculates π (pi) to 1024 decimal places using:
+
+`perl -Mbignum=bpi -wle 'print bpi(1024)'`
+
+```bash
+root@student-node ~ ➜  vi 2.yaml
+
+root@student-node ~ ➜  k apply -f 2.yaml 
+job.batch/very-long-pi created
+
+root@student-node ~ ➜  k get job -n ckad-job 
+NAME           STATUS    COMPLETIONS   DURATION   AGE
+very-long-pi   Running   0/1           16s        16s
+
+root@student-node ~ ➜  cat 2.yaml 
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: very-long-pi
+  namespace: ckad-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: pi
+        image: perl:5.34.0
+        command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(1024)"]
+      restartPolicy: Never
+  backoffLimit: 5                # retries before marking failed
+  activeDeadlineSeconds: 100     # max duration
+
+
+root@student-node ~ ➜  k get job -n ckad-job 
+NAME           STATUS     COMPLETIONS   DURATION   AGE
+very-long-pi   Complete   1/1           20s        46s
+```
