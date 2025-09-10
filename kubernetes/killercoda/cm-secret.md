@@ -9,6 +9,10 @@ configmap/ckad04-config-multi-env-files-aecs created
 root@student-node ~ ➜  ls /root/ckad04-multi-cm/
 file1.properties  file2.properties
 
+root@student-node ~ ➜  k get cm ckad04-config-multi-env-files-aecs 
+NAME                                 DATA   AGE
+ckad04-config-multi-env-files-aecs   6      39s
+
 root@student-node ~ ➜  k describe cm ckad04-config-multi-env-files-aecs 
 Name:         ckad04-config-multi-env-files-aecs
 Namespace:    default
