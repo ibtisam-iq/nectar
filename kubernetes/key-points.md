@@ -12,3 +12,16 @@ NAME                         READY   STATUS    RESTARTS   AGE     IP            
 blue-apd-5ffd7768b8-lt2jj    1/1     Running   0          17m     172.17.1.5    cluster3-node01      type-one=blue,version=v1
 green-apd-84bb78c876-k9bnr   1/1     Running   0          12m     172.17.1.7    cluster3-node01      type-two=green,version=v1
 ```
+---
+
+Create two environment variables for the above pod with below specifications:
+`GREETINGS` with the data from configmap `ckad02-config1-aecs`
+
+```bash
+env:                                # not envFrom, it doesn't support key value.
+      - name: GREETINGS
+        valueFrom:
+          configMapKeyRef:
+            key: greetings.how
+            name: ckad02-config1-aecs
+```
