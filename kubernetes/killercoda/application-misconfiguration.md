@@ -609,3 +609,75 @@ root@student-node ~ ➜  helm install webapp-color-apd /opt/webapp-color-apd/ -n
 Error: INSTALLATION FAILED: unable to build kubernetes objects from release manifest: resource mapping not found for name: "webapp-color-apd" namespace: "frontend-apd" from "": no matches for kind "Deployment" in version "v1"
 ensure CRDs are installed first
 ```
+---
+
+```bash
+Warning Failed 3s (x3 over 17s) kubelet Error: failed to create containerd task: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: error during container init: error setting cgroup config for procHooks process: failed to write "200000": write /sys/fs/cgroup/cpu,cpuacct/kubepods/burstable/podb5fa3b05-88ce-4e7b-b796-069f341002ce/ubuntu/cpu.cfs_quota_us: invalid argument: unknown Warning BackOff 3s (x3 over 15s) kubelet Back-off restarting failed container ubuntu in pod resou-limit-aom_default(b5fa3b05-88ce-4e7b-b796-069f341002ce)
+```
+
+Ah, I see what’s happening here 🚨
+
+The key part of the error is:
+
+```
+failed to write "200000": .../cpu.cfs_quota_us: invalid argument
+```
+
+This is a **cgroup / CPU quota issue**.
+
+### 🔹 Why it happens
+
+* Kubernetes applies **CPU limits** via the Linux cgroup mechanism.
+* The error means that the **CPU limit set in your pod spec** is **not valid** for your system.
+* For example, you probably set something like:
+
+  ```yaml
+  resources:
+    limits:
+      cpu: "200000"
+  ```
+
+  But in Kubernetes, CPU is not specified in microseconds or raw numbers — it uses **millicores** (`m`).
+
+  * `1` = 1 vCPU core
+  * `500m` = half a CPU core
+
+If you put a large integer like `200000`, kubelet tries to write that directly to cgroup, and the OS rejects it.
+
+### 🔹 How to fix
+
+1. Edit your deployment/pod YAML:
+
+   ```bash
+   kubectl edit pod resou-limit-aom
+   ```
+
+   Or, if it’s controlled by a Deployment:
+
+   ```bash
+   kubectl edit deploy <deployment-name>
+   ```
+
+2. Fix the resource block.
+   Example (correct way):
+
+   ```yaml
+   resources:
+     requests:
+       cpu: "200m"       # request 0.2 CPU
+       memory: "128Mi"
+     limits:
+       cpu: "500m"       # limit 0.5 CPU
+       memory: "256Mi"
+   ```
+
+   ❌ Wrong: `cpu: "200000"`
+   ✅ Right: `cpu: "200m"` or `cpu: "2"`
+
+3. Save & exit, then check if the pod restarts correctly:
+
+   ```bash
+   kubectl get pods
+   ```
+
+---
