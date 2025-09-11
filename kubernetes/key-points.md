@@ -183,3 +183,22 @@ spec:
 
 root@student-node ~ ➜  
 ```
+## Use quotes ""
+
+```bash
+resources:
+      requests:
+        memory: "10Gi"
+        cpu: "500m"
+      limits:
+        memory: "10Gi"
+        cpu: "500m"
+
+commnad:
+- sleep
+- "3600"
+
+command: ["sleep", "5"]
+
+root@student-node ~ ➜  k create cj simple-node-job -n ckad-job --schedule "*/30 * * * *" --image node -- sh -c "ps -eaf"
+```
