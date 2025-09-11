@@ -333,6 +333,9 @@ learning-every-hour   0 * * * *   <none>     False     0        <none>          
 
 root@student-node ~ ➜  
 ```
+
+---
+
 Good catch 🌟
 
 Here’s the difference:
@@ -346,4 +349,24 @@ Your task explicitly said:
 
 So ✅ the correct cron expression is **`0 * * * *`**, not `* * * * *`.
 
----
+Nice 👌 this is a subtle but important **cron expression** detail.
+
+### 🔹 `0 0 * * 0`
+
+* First `0` → **minute 0**
+* Second `0` → **hour 0** (midnight)
+* `*` → any day of month
+* `*` → any month
+* Last `0` → **Sunday** (in cron, Sunday = 0 or 7)
+
+✅ This means: **run once, exactly at 00:00 (midnight) on Sunday**.
+
+### 🔹 `* 0 * * 0`
+
+* First `*` → **every minute** (0–59)
+* Second `0` → **hour 0** (midnight)
+* Last `0` → Sunday
+
+❌ This means: **run every minute between 00:00 and 00:59 on Sunday** (so 60 times in that hour).
+
+👉 That’s why `0 0 * * 0` is the correct one for **“every Sunday at midnight”**.
