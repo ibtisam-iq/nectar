@@ -563,3 +563,170 @@ kubectl -n ckad14-sa-projected edit pod ckad14-api-pod
 and add the **`volumeMounts`** + **`volumes`** sections exactly as above.
 
 ---
+
+
+A persistent volume called papaya-pv-ckad09-str is already created with a storage capacity of 150Mi. It's using the papaya-stc-ckad09-str storage class with the path /opt/papaya-stc-ckad09-str.
+
+Also, a persistent volume claim named papaya-pvc-ckad09-str has been created on this cluster. This PVC has requested 50Mi of storage from papaya-pv-ckad09-str volume.
+Resize the PVC to 80Mi and make sure the PVC is in Bound state.
+
+Got it 👍 Let’s solve this step by step.
+
+### 🔹 Situation
+
+* **PV:** `papaya-pv-ckad09-str`
+
+  * Size: `150Mi`
+  * StorageClass: `papaya-stc-ckad09-str`
+  * Path: `/opt/papaya-stc-ckad09-str`
+
+* **PVC:** `papaya-pvc-ckad09-str`
+
+  * Size: `50Mi`
+  * Bound to the above PV.
+  * Task: **Resize PVC from `50Mi` → `80Mi`**.
+
+### 🔹 Steps to Resize the PVC
+
+1. **Check if storage class allows expansion**
+   Run:
+
+   ```bash
+   kubectl get sc papaya-stc-ckad09-str -o yaml | grep allowVolumeExpansion
+   ```
+
+   If `allowVolumeExpansion: true` is present → you can resize directly.
+   If not present → you may need to edit the StorageClass and add:
+
+   ```yaml
+   allowVolumeExpansion: true
+   ```
+
+2. **Edit the PVC to request more storage**
+
+   ```bash
+   kubectl edit pvc papaya-pvc-ckad09-str
+   ```
+
+   Change:
+
+   ```yaml
+   resources:
+     requests:
+       storage: 50Mi
+   ```
+
+   To:
+
+   ```yaml
+   resources:
+     requests:
+       storage: 80Mi
+   ```
+Thanks for the details ❤️ this explains why your PVC is **Pending** instead of **Bound**.
+
+👉 The issue is:
+
+* The **PV** is created with the name `papaya-pv-ckad09-str`.
+* The **PVC** is trying to bind to a PV with the name **`papaya-pvc-ckad09-str`** (notice the mismatch).
+* Because of this, the PVC is stuck in **Pending**.
+
+```bash
+root@student-node ~ ➜  k describe pvc papaya-pvc-ckad09-str 
+Name:          papaya-pvc-ckad09-str
+Namespace:     default
+StorageClass:  papaya-stc-ckad09-str
+Status:        Pending
+Volume:        papaya-pvc-ckad09-str              # wrong name
+Labels:        <none>
+Annotations:   <none>
+Finalizers:    [kubernetes.io/pvc-protection]
+Capacity:      0
+Access Modes:  
+VolumeMode:    Filesystem
+Used By:       <none>
+Events:        <none>
+
+root@student-node ~ ➜  k get pv
+NAME                   CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM                           STORAGECLASS            VOLUMEATTRIBUTESCLASS   REASON   AGE
+papaya-pv-ckad09-str   150Mi      RWO            Retain           Available   default/papaya-pvc-ckad09-str   papaya-stc-ckad09-str   <unset>                          2m30s
+
+root@student-node ~ ➜  vi 2.yaml
+
+root@student-node ~ ✖ k replace -f 2.yaml  --force
+persistentvolumeclaim "papaya-pvc-ckad09-str" deleted
+persistentvolume "papaya-pv-ckad09-str" deleted
+persistentvolumeclaim/papaya-pvc-ckad09-str replaced
+persistentvolume/papaya-pv-ckad09-str replaced
+
+root@student-node ~ ➜  k describe pvc papaya-pvc-ckad09-str 
+Name:          papaya-pvc-ckad09-str
+Namespace:     default
+StorageClass:  papaya-stc-ckad09-str
+Status:        Bound
+Volume:        papaya-pv-ckad09-str
+Labels:        <none>
+Annotations:   pv.kubernetes.io/bind-completed: yes
+Finalizers:    [kubernetes.io/pvc-protection]
+Capacity:      150Mi
+Access Modes:  RWO
+VolumeMode:    Filesystem
+Used By:       <none>
+Events:        <none>
+
+root@student-node ~ ➜  k get pv,pvc
+NAME                                    CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                           STORAGECLASS            VOLUMEATTRIBUTESCLASS   REASON   AGE
+persistentvolume/papaya-pv-ckad09-str   150Mi      RWO            Retain           Bound    default/papaya-pvc-ckad09-str   papaya-stc-ckad09-str   <unset>                          43s
+
+NAME                                          STATUS   VOLUME                 CAPACITY   ACCESS MODES   STORAGECLASS            VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/papaya-pvc-ckad09-str   Bound    papaya-pv-ckad09-str   150Mi      RWO            papaya-stc-ckad09-str   <unset>                 44s
+
+root@student-node ~ ➜  cat 2.yaml 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: papaya-pvc-ckad09-str
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 80Mi
+  storageClassName: papaya-stc-ckad09-str
+  volumeMode: Filesystem
+  volumeName: papaya-pv-ckad09-str
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: papaya-pv-ckad09-str
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 150Mi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: papaya-pvc-ckad09-str
+    namespace: default
+  local:
+    path: /opt/papaya-stc-ckad09-str
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - cluster1-controlplane
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: papaya-stc-ckad09-str
+  volumeMode: Filesystem
+
+root@student-node ~ ➜    
+```
+
+---
