@@ -127,3 +127,10 @@ kubectl -n alpha-ns-apd describe svc alpha-apd-service
 You should see only **8 pods (5 ruby + 3 cube)** or **7 pods (5 ruby + 2 cube)** behind the service.
 
 ---
+
+An application called results-apd is running on cluster2. In the weekly meeting, the team decides to upgrade the version of the existing image to 1.23.3 and wants to store the new version of the image in a file /root/records/new-image-records.txt on the cluster2-controlplane instance.
+
+```bash
+echo "1.23.3" > /root/records/new-image-records.txt   # wrong, but is tag only.
+echo "nginx:1.23.3" > /root/records/new-image-records.txt
+```
