@@ -151,3 +151,149 @@ spec:
         matchLabels:
            access: allowed
 ```
+
+---
+
+We have deployed an application in the ns-new-ckad namespace. We also configured services, namely frontend-ckad-svcn and backend-ckad-svcn.
+
+
+However, there are some issues:
+
+backend-ckad-svcn is not able to access backend pods
+
+frontend-ckad-svcn is not accessible from backend pods.
+
+```bash
+root@student-node ~ ➜  k get all -n ns-new-ckad 
+NAME                READY   STATUS    RESTARTS   AGE
+pod/backend-pods    1/1     Running   0          48s
+pod/frontend-pods   1/1     Running   0          47s
+pod/testpod         1/1     Running   0          46s
+
+NAME                         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/backend-ckad-svcn    ClusterIP   172.20.38.208   <none>        80/TCP    48s
+service/frontend-ckad-svcn   ClusterIP   172.20.38.56    <none>        80/TCP    47s
+
+root@student-node ~ ➜  k get netpo -n ns-new-ckad 
+error: the server doesn't have a resource type "netpo"
+
+root@student-node ~ ✖ k get netpol -n ns-new-ckad 
+NAME                        POD-SELECTOR                 AGE
+backend-egress-restricted   app=backend,tier=ckad-exam   76s
+
+root@student-node ~ ➜  k describe netpol -n ns-new-ckad 
+Name:         backend-egress-restricted
+Namespace:    ns-new-ckad
+Created on:   2025-09-11 12:32:28 -0400 EDT
+Labels:       <none>
+Annotations:  <none>
+Spec:
+  PodSelector:     app=backend,tier=ckad-exam
+  Not affecting ingress traffic
+  Allowing egress traffic:
+    To Port: <any> (traffic allowed to all ports)
+    To:
+      PodSelector: app=frontend,tier=ckad-exam
+  Policy Types: Egress
+
+root@student-node ~ ➜  k get po -n ns-new-ckad --show-labels 
+NAME            READY   STATUS    RESTARTS   AGE     LABELS
+backend-pods    1/1     Running   0          3m54s   app=backend,tier=ckad-exam
+frontend-pods   1/1     Running   0          3m53s   app=frontend,tier=ckad-exam
+testpod         1/1     Running   0          3m52s   run=testpod
+
+root@student-node ~ ➜  k edit netpol -n ns-new-ckad 
+networkpolicy.networking.k8s.io/backend-egress-restricted edited
+```
+
+Nice debugging info ❤️ Let’s walk through this carefully.
+
+### 🔹 Current situation
+
+* **Pods**
+
+  * `backend-pods` → labels: `app=backend, tier=ckad-exam`
+  * `frontend-pods` → labels: `app=frontend, tier=ckad-exam`
+* **Services**
+
+  * `backend-ckad-svcn` → ClusterIP service, port 80
+  * `frontend-ckad-svcn` → ClusterIP service, port 80
+* **NetworkPolicy**
+
+  ```yaml
+  Name: backend-egress-restricted
+  PodSelector: app=backend,tier=ckad-exam
+  Policy Types: Egress
+  Allow Egress:
+    - To pods with app=frontend,tier=ckad-exam
+  ```
+
+  👉 So: **backend pods can only talk to frontend pods**, nothing else.
+
+### 🔹 Issues you saw
+
+1. **backend-ckad-svcn is not able to access backend pods**
+
+   * Because your NetworkPolicy on backend blocks **all egress except frontend pods**.
+   * That means `backend-pods` cannot even talk to their own service (ClusterIP) or DNS.
+
+2. **frontend-ckad-svcn is not accessible from backend pods**
+
+   * The policy only allows backend → frontend **pods**, but **NOT the service IP (ClusterIP)**.
+   * Services use **ClusterIP**, which resolves to a virtual IP, not a pod label.
+   * Your NetworkPolicy doesn’t allow egress to that IP.
+
+### 🔹 Fix
+
+You need to update or add a **NetworkPolicy** that allows:
+
+* Backend → backend service (for self-access if required)
+* Backend → frontend service (so they can use `frontend-ckad-svcn`)
+
+### ✅ Example fix (replace or patch policy)
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backend-egress-restricted
+  namespace: ns-new-ckad
+spec:
+  podSelector:
+    matchLabels:
+      app: backend
+      tier: ckad-exam
+  policyTypes:
+  - Egress
+  egress:
+  # allow backend pods to talk to frontend pods (same as before)
+  - to:
+    - podSelector:
+        matchLabels:
+          app: frontend
+          tier: ckad-exam
+    ports:
+    - protocol: TCP
+      port: 80
+  # allow backend pods to talk to backend pods (their own service)
+  - to:
+    - podSelector:
+        matchLabels:
+          app: backend
+          tier: ckad-exam
+    ports:
+    - protocol: TCP
+      port: 80
+```
+
+### 🔹 Apply & Verify
+
+```bash
+kubectl apply -f fixed-netpol.yaml
+kubectl exec -n ns-new-ckad backend-pods -- wget -qO- http://frontend-ckad-svcn
+kubectl exec -n ns-new-ckad backend-pods -- wget -qO- http://backend-ckad-svcn
+```
+
+Both should now respond correctly. ✅
+
+---
