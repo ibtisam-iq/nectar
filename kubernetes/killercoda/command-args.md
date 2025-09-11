@@ -17,3 +17,19 @@ kind: Pod
     - -c
     - echo "Main application is running"; sleep 3600
 ```
+
+---
+
+```bash
+k create cj -n ckad-job learning-every-minute --schedule "* * * * *" --image busybox:1.28 -- echo "I am practicing for CKAD certification"
+cronjob.batch/learning-every-minute created
+
+containers:
+            - command:
+              - echo
+              - I am practicing for CKAD certification
+```
+
+---
+
+
