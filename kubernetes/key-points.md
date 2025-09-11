@@ -206,8 +206,50 @@ spec:
         - mountPath: "/usr/share/nginx/html"
           name: task-pv-storage
 
+# PVC is bound, pod is not deployed, but specify the volumeName, and storageClassName: ""
+
+root@student-node ~ ➜  vi 1.yaml
+
+root@student-node ~ ➜  k apply -f 1.yaml 
+persistentvolume/data-pv-ckad02-str created
+persistentvolumeclaim/data-pvc-ckad02-str created
+
+root@student-node ~ ➜  k get pvc
+NAME                  STATUS   VOLUME               CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+data-pvc-ckad02-str   Bound    data-pv-ckad02-str   128Mi      RWO                           <unset>                 5s
+
+root@student-node ~ ➜  cat 1.yaml 
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: data-pv-ckad02-str
+spec:
+  capacity:
+    storage: 128Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/data-pv-ckad02-str"
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-pvc-ckad02-str
+spec:
+  storageClassName: ""                                    # added
+  volumeName: data-pv-ckad02-str                          # added
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+
 root@student-node ~ ➜  
 ```
+---
+
 ## Use quotes ""
 
 ```bash
