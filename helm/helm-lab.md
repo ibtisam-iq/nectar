@@ -247,3 +247,87 @@ lvm-crystal-apd crystal-apd-ns  1          ...       deployed nginx-18.1.0  1.27
    That’s how we know `18.1.15` exists.
 
 ---
+
+One application, webpage-server-01, is deployed on the Kubernetes cluster by the Helm tool. Now, the team wants to deploy a new version of the application by replacing the existing one. A new version of the helm chart is given in the /root/new-version directory on the student-node. Validate the chart before installing it on the Kubernetes cluster. 
+Use the helm command to validate and install the chart. After successfully installing the newer version, uninstall the older version. 
+
+```bash
+root@student-node ~ ➜  helm lint ./new-version/
+==> Linting ./new-version/
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, 0 chart(s) failed
+
+root@student-node ~ ➜  helm list -A
+NAME                    NAMESPACE       REVISION        UPDATED                                 STATUS      CHART                            APP VERSION
+traefik                 kube-system     1               2025-09-11 11:07:23.720674237 +0000 UTC deployed    traefik-34.2.1+up34.2.0          v3.3.2     
+traefik-crd             kube-system     1               2025-09-11 11:07:03.597608191 +0000 UTC deployed    traefik-crd-34.2.1+up34.2.0      v3.3.2     
+webpage-server-01       default         1               2025-09-11 08:48:20.951166062 -0400 EDT deployed    webpage-server-01-0.1.0          v1         
+
+root@student-node ~ ✖ helm upgrade --install webpage-server-01 ./new-version/
+Release "webpage-server-01" has been upgraded. Happy Helming!
+NAME: webpage-server-01
+LAST DEPLOYED: Thu Sep 11 08:51:16 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 2
+TEST SUITE: None
+
+root@student-node ~ ➜  helm uninstall webpage-server-01 -n default
+helm install webpage-server-01 ./new-version/ -n default
+release "webpage-server-01" uninstalled
+NAME: webpage-server-01
+LAST DEPLOYED: Thu Sep 11 08:53:51 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+
+root@student-node ~ ➜  
+```
+
+Perfect 👌 you already nailed the workflow! Let me recap and highlight the key points the exam usually wants:
+
+### 🔹 Steps You Did (and why)
+
+1. **Validate the chart before installing**
+
+   ```bash
+   helm lint ./new-version/
+   ```
+
+   ✅ Output showed no failures (just a warning about missing icon). That means the chart is valid.
+
+2. **Upgrade the release with the new chart**
+
+   ```bash
+   helm upgrade --install webpage-server-01 ./new-version/
+   ```
+
+   ✅ This replaced the old version with the new one in the **same release name** (`webpage-server-01`), revision bumped to `2`.
+
+   * `--install` makes sure if the release didn’t exist, it would install.
+   * In your case, since it existed, it upgraded instead.
+
+3. **Check release**
+
+   ```bash
+   helm list -n default
+   ```
+
+   You’ll see `REVISION: 2`, confirming upgrade worked.
+
+### 🔹 About uninstalling the old release
+
+You don’t actually need to uninstall the old one separately because `helm upgrade` overwrites it in place (keeping history).
+
+But if the requirement is to **completely remove the old release and keep only the new one**, the sequence would have been:
+
+```bash
+helm uninstall webpage-server-01 -n default
+helm install webpage-server-01 ./new-version/ -n default
+```
+
+This destroys the old release first, then installs fresh.
+
+---
