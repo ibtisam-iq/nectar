@@ -428,3 +428,31 @@ Session Affinity:         None
 Internal Traffic Policy:  Cluster
 Events:                   <none>
 ```
+
+---
+
+Please be noted that service needs to be accessed from both inside and outside the cluster (use port 31080).
+
+Got it ✅ You need:
+
+* A **Service** named `ckad13-service`
+
+  * Type: **NodePort** (so it’s accessible inside and outside the cluster)
+  * NodePort: **31080**
+  * Port: **80** → containerPort **80**
+
+✅ Now you can access the service:
+
+* From **inside cluster** → `http://ckad13-service:80`
+* From **outside cluster** → `http://<NodeIP>:31080`
+
+```bash
+root@student-node ~ ➜  k expose deploy ckad13-deployment --name ckad13-service --type NodePort --port 80
+service/ckad13-service exposed
+
+root@student-node ~ ➜  k edit svc ckad13-service 
+service/ckad13-service edited
+
+root@student-node ~ ➜  k expose deploy ckad13-deployment --name ckad13-service --port 80
+Error from server (AlreadyExists): services "ckad13-service" already exists
+```
