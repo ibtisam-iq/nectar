@@ -265,3 +265,85 @@ root@student-node ~ ➜  k get job -n ckad-job
 NAME           STATUS     COMPLETIONS   DURATION   AGE
 very-long-pi   Complete   1/1           20s        46s
 ```
+
+---
+
+In the ckad-job namespace, schedule a job called learning-every-hour that prints this message in the shell every hour at 0 minutes: I will pass CKAD certification.
+
+In case the container in pod failed for any reason, it should be restarted automatically.
+
+Use alpine image for the cronjob!
+
+```bash
+root@student-node ~ ➜  k create cj learning-every-hour -n ckad-job --image alpine --schedule "* * * * *" -- "echo 'I will pass CKAD certification'" # wrong
+cronjob.batch/learning-every-hour created # wrong
+
+root@student-node ~ ➜  k get cj -n ckad-job 
+NAME                  SCHEDULE    TIMEZONE   SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+learning-every-hour   * * * * *   <none>     False     1        11s             24s
+
+root@student-node ~ ➜  k get cj -n ckad-job
+NAME                  SCHEDULE    TIMEZONE   SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+learning-every-hour   * * * * *   <none>     False     1        41s             54s
+
+root@student-node ~ ➜  k get cj -n ckad-job
+NAME                  SCHEDULE    TIMEZONE   SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+learning-every-hour   * * * * *   <none>     False     1        51s             64s
+
+root@student-node ~ ➜  k get cj -n ckad-job
+NAME                  SCHEDULE    TIMEZONE   SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+learning-every-hour   * * * * *   <none>     False     2        11s             84s
+
+root@student-node ~ ➜  k logs -n ckad-job learning-every-hour-2929321
+error: error from server (NotFound): pods "learning-every-hour-2929321" not found in namespace "ckad-job"
+
+root@student-node ~ ✖ k logs -n ckad-job learning-every-hour-2929321
+error: error from server (NotFound): pods "learning-every-hour-2929321" not found in namespace "ckad-job"
+
+root@student-node ~ ✖ k get po -n ckad-job 
+NAME                                 READY   STATUS              RESTARTS      AGE
+learning-every-hour-29293210-5dxks   0/1     CrashLoopBackOff    4 (47s ago)   2m15s
+learning-every-hour-29293211-4vth7   0/1     CrashLoopBackOff    3 (33s ago)   75s
+learning-every-hour-29293212-mrx6f   0/1     RunContainerError   2 (2s ago)    15s
+
+root@student-node ~ ➜  k edit cj -n ckad-job learning-every-hour 
+Edit cancelled, no changes made.
+
+root@student-node ~ ➜  k delete cj -n ckad-job learning-every-hour 
+cronjob.batch "learning-every-hour" deleted
+
+root@student-node ~ ➜  kubectl create cronjob learning-every-hour \
+  --image=alpine \
+  --schedule="0 * * * *" \
+  --namespace=ckad-job \
+  -- /bin/sh -c "echo 'I will pass CKAD certification.'"
+cronjob.batch/learning-every-hour created
+
+root@student-node ~ ➜  k get cj -n ckad-job 
+NAME                  SCHEDULE    TIMEZONE   SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+learning-every-hour   0 * * * *   <none>     False     0        <none>          16s
+
+root@student-node ~ ➜  k get cj -n ckad-job 
+NAME                  SCHEDULE    TIMEZONE   SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+learning-every-hour   0 * * * *   <none>     False     0        <none>          44s
+
+root@student-node ~ ➜  k get cj -n ckad-job 
+NAME                  SCHEDULE    TIMEZONE   SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+learning-every-hour   0 * * * *   <none>     False     0        <none>          84s
+
+root@student-node ~ ➜  
+```
+Good catch 🌟
+
+Here’s the difference:
+
+* `* * * * *` → **every minute** (runs 60 times in an hour).
+* `0 * * * *` → **every hour at minute 0** (runs once per hour, exactly on the hour).
+
+Your task explicitly said:
+
+> "every hour at 0 minutes"
+
+So ✅ the correct cron expression is **`0 * * * *`**, not `* * * * *`.
+
+---
