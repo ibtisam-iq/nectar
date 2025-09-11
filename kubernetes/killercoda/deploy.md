@@ -134,3 +134,111 @@ An application called results-apd is running on cluster2. In the weekly meeting,
 echo "1.23.3" > /root/records/new-image-records.txt   # wrong, but is tag only.
 echo "nginx:1.23.3" > /root/records/new-image-records.txt
 ```
+
+---
+
+On cluster1, a new deployment called cube-alpha-apd has been created in the alpha-ns-apd namespace using the image kodekloud/webapp-color:v2. This deployment will test a newer version of the alpha app.
+
+Configure the deployment in such a way that the alpha-apd-service service routes less than 40% of traffic to the new deployment.
+
+
+NOTE: - Do not increase the replicas of the ruby-alpha-apd deployment.
+
+```bash
+root@student-node ~ ➜  k get po -n alpha-ns-apd --show-labels
+NAME                              READY   STATUS    RESTARTS   AGE    LABELS
+cube-alpha-apd-6f8fd88867-l7tx9   1/1     Running   0          100s   alpha=v1,pod-template-hash=6f8fd88867
+cube-alpha-apd-6f8fd88867-swr84   1/1     Running   0          100s   alpha=v1,pod-template-hash=6f8fd88867
+cube-alpha-apd-6f8fd88867-t4sch   1/1     Running   0          100s   alpha=v1,pod-template-hash=6f8fd88867
+cube-alpha-apd-6f8fd88867-xg8jw   1/1     Running   0          100s   alpha=v1,pod-template-hash=6f8fd88867
+cube-alpha-apd-6f8fd88867-xt6ph   1/1     Running   0          100s   alpha=v1,pod-template-hash=6f8fd88867
+ruby-alpha-apd-684b685879-48b8x   1/1     Running   0          100s   alpha=v1,pod-template-hash=684b685879
+ruby-alpha-apd-684b685879-br644   1/1     Running   0          100s   alpha=v1,pod-template-hash=684b685879
+ruby-alpha-apd-684b685879-dcfkl   1/1     Running   0          100s   alpha=v1,pod-template-hash=684b685879
+ruby-alpha-apd-684b685879-h64pl   1/1     Running   0          100s   alpha=v1,pod-template-hash=684b685879
+ruby-alpha-apd-684b685879-lt8jt   1/1     Running   0          100s   alpha=v1,pod-template-hash=684b685879
+
+root@student-node ~ ➜  k describe svc -n alpha-ns-apd 
+Name:                     alpha-apd-service
+Namespace:                alpha-ns-apd
+Labels:                   app=alpha-apd-service
+Annotations:              <none>
+Selector:                 alpha=v1
+Type:                     NodePort
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.43.97.93
+IPs:                      10.43.97.93
+Port:                     <unset>  8080/TCP
+TargetPort:               8080/TCP
+NodePort:                 <unset>  31194/TCP
+Endpoints:                10.42.3.17:8080,10.42.3.16:8080,10.42.3.18:8080 + 7 more...
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+
+root@student-node ~ ➜  kubectl -n alpha-ns-apd scale deployment cube-alpha-apd --replicas=3
+deployment.apps/cube-alpha-apd scaled
+
+root@student-node ~ ➜  
+```
+
+Got it 👍 Let’s break this down step by step.
+
+### Current Situation
+
+* **Namespace:** `alpha-ns-apd`
+* **New Deployment:** `cube-alpha-apd` (5 pods)
+* **Old Deployment:** `ruby-alpha-apd` (5 pods)
+* **Service:** `alpha-apd-service`
+
+  * Selector → `alpha=v1`
+  * Currently matching **all pods** from both deployments since they both have `alpha=v1`.
+
+👉 This means **all 10 pods** (5 old + 5 new) are behind the service.
+👉 That results in **50% traffic** to each deployment.
+
+### Requirement
+
+* Send **less than 40% traffic** to the new deployment (`cube-alpha-apd`).
+* Cannot increase replicas of `ruby-alpha-apd`.
+
+### Solution
+
+Since the service is distributing traffic evenly across all pods that match its selector, the **only way to control traffic split** is by adjusting the **replica count of the new deployment**.
+
+#### Step 1. Scale down `cube-alpha-apd`
+
+If we scale `cube-alpha-apd` to **3 pods**, we get:
+
+* 5 pods → `ruby-alpha-apd`
+* 3 pods → `cube-alpha-apd`
+
+Traffic distribution:
+
+* `cube-alpha-apd`: 3 / (5 + 3) = **37.5%** ✅
+* `ruby-alpha-apd`: 62.5%
+
+#### Step 2. Apply scaling
+
+```bash
+kubectl -n alpha-ns-apd scale deployment cube-alpha-apd --replicas=3
+```
+
+#### Step 3. Verify
+
+```bash
+kubectl get pods -n alpha-ns-apd -o wide
+kubectl describe svc alpha-apd-service -n alpha-ns-apd
+```
+
+Check that:
+
+* `cube-alpha-apd` has **3 pods**.
+* `ruby-alpha-apd` still has **5 pods**.
+* Service Endpoints show 8 total (5 old + 3 new).
+
+✅ Now the new deployment receives **<40% traffic** through the service.
+
+---
