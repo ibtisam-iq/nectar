@@ -399,3 +399,6 @@ helm install nginx-server polar/nginx \
 ```
 
 ---
+`helm install --generate-name ./new-version`
+
+We haven't got any release name in the task, so we can generate the random name from the `--generate-name` option.
