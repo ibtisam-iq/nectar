@@ -31,5 +31,11 @@ containers:
 ```
 
 ---
-
-
+> **NOTE:** By default NGINX web server default location is at `/usr/share/nginx/html` which is located on the default file system of the Linux.
+```bash
+root@student-node ~ ✖ k exec -n ckad-pod-design basic-nginx -it -- sh
+# echo "Hello from KodeKloud!" > /usr/share/nginx/html.index.html
+# cat /usr/share/nginx/html.index.html
+Hello from KodeKloud!
+# exit
+```
