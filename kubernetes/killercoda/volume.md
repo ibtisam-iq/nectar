@@ -564,11 +564,14 @@ and add the **`volumeMounts`** + **`volumes`** sections exactly as above.
 
 ---
 
+## PVC/PV Resizing
 
 A persistent volume called papaya-pv-ckad09-str is already created with a storage capacity of 150Mi. It's using the papaya-stc-ckad09-str storage class with the path /opt/papaya-stc-ckad09-str.
 
 Also, a persistent volume claim named papaya-pvc-ckad09-str has been created on this cluster. This PVC has requested 50Mi of storage from papaya-pv-ckad09-str volume.
 Resize the PVC to 80Mi and make sure the PVC is in Bound state.
+
+**Solution:** Delete the pv and pvc, get -o yaml and do editing, make sure remove all the extra fields.
 
 Got it 👍 Let’s solve this step by step.
 
