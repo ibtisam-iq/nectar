@@ -297,3 +297,66 @@ kubectl exec -n ns-new-ckad backend-pods -- wget -qO- http://backend-ckad-svcn
 Both should now respond correctly. ✅
 
 ---
+
+We have deployed some pods in the namespaces ckad-alpha and ckad-beta.
+
+You need to create a NetworkPolicy named ns-netpol-ckad that will restrict all Pods in Namespace ckad-alpha to only have outgoing traffic to Pods in Namespace ckad-beta . Ingress traffic should not be affected.
+
+
+However, the NetworkPolicy you create should allow egress traffic on port 53 TCP and UDP.
+
+```bash
+root@student-node ~ ➜  k get po -n ckad-alpha --show-labels 
+NAME         READY   STATUS    RESTARTS   AGE     LABELS
+ckad-pod-1   1/1     Running   0          3m48s   run=ckad-pod-1
+
+root@student-node ~ ➜  k get po -n ckad-beta --show-labels 
+NAME         READY   STATUS    RESTARTS   AGE     LABELS
+ckad-pod-2   1/1     Running   0          3m59s   run=ckad-pod-2
+
+root@student-node ~ ➜  k get ns ckad-alpha --show-labels 
+NAME         STATUS   AGE     LABELS
+ckad-alpha   Active   4m34s   kubernetes.io/metadata.name=ckad-alpha
+
+root@student-node ~ ➜  k get ns ckad-beta --show-labels 
+NAME        STATUS   AGE     LABELS
+ckad-beta   Active   4m48s   kubernetes.io/metadata.name=ckad-beta
+
+root@student-node ~ ➜  vi 12.yaml
+
+root@student-node ~ ➜  k apply -f 12.yaml 
+networkpolicy.networking.k8s.io/ns-netpol-ckad created
+
+root@student-node ~ ➜  cat 12.yaml 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ns-netpol-ckad
+  namespace: ckad-alpha   # This policy applies to all Pods inside the ckad-alpha namespace
+spec:
+  # podSelector: {} means ALL Pods in ckad-alpha are selected by this policy
+  podSelector: {}
+  policyTypes:
+  - Egress               # Only restrict outbound (egress) traffic. Ingress is unaffected.
+  egress:
+  # ----------------------------
+  # Rule 1: Allow traffic from ckad-alpha Pods -> Pods in ckad-beta namespace
+  # ----------------------------
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: ckad-beta
+    # No ports defined → means ALL ports to Pods in ckad-beta are allowed
+
+  # ----------------------------
+  # Rule 2: Allow DNS resolution (UDP/TCP port 53)
+  # ----------------------------
+  - ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+    # No "to:" here → means Pods in ckad-alpha can contact ANY destination,
+    # but ONLY on port 53. This is needed because DNS is usually in kube-system (CoreDNS).
+root@student-node ~ ➜  
+```
