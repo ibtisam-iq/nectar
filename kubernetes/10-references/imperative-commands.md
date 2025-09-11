@@ -289,6 +289,13 @@ kubectl create role foo --verb=get,list,watch --resource=pods,pods/status
 controlplane:~$ k create clusterrole abc --verb create --resource=deploy,rs,ds
 clusterrole.rbac.authorization.k8s.io/acme-corp-clusterrole created
 
+# Create a ClusterRole named healthz-access that allows GET and POST requests to the non-resource endpoint /healthz and all subpaths
+root@student-node ~ ➜  kubectl create clusterrole healthz-access \
+  --verb=get,post \
+  --non-resource-url=/healthz \
+  --non-resource-url=/healthz/*
+clusterrole.rbac.authorization.k8s.io/healthz-access created
+
 kubectl create role|clusterrole NAME --verb=verb --resource=resource.group [--resource-name=resourcename]
 [--dry-run=server|client|none] [options]
 
