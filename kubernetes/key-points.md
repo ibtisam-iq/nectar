@@ -25,3 +25,55 @@ env:                                # not envFrom, it doesn't support key value.
             key: greetings.how
             name: ckad02-config1-aecs
 ```
+---
+
+## same namespace of backed as of targeted service
+
+```bash
+root@student-node ~ ➜  k get svc -n global-space 
+NAME                      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+default-backend-service   ClusterIP   10.43.232.194   <none>        80/TCP     3m36s
+food-service              ClusterIP   10.43.167.191   <none>        8080/TCP   3m36s
+
+root@student-node ~ ➜  kubectl config use-context cluster2
+Switched to context "cluster2".
+
+root@student-node ~ ➜  k get po -n ingress-nginx 
+NAME                                       READY   STATUS      RESTARTS   AGE
+ingress-nginx-admission-create-56p6j       0/1     Completed   0          5m58s
+ingress-nginx-admission-patch-ktwd8        0/1     Completed   0          5m58s
+ingress-nginx-controller-7446d746c-596xt   1/1     Running     0          5m58s
+
+root@student-node ~ ➜  k describe deploy -n ingress-nginx ingress-nginx-controller | grep -i Args -5
+    Args:
+      /nginx-ingress-controller
+      --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller
+      --election-id=ingress-controller-leader
+      --watch-ingress-without-class=true
+      --default-backend-service=global-space/default-backend-service
+
+root@student-node ~ ➜  cat 11.yaml 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-resource-xnz
+  namespace: global-space
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /eat
+        pathType: Prefix
+        backend: 
+          service:
+            name: food-service
+            port:
+              number: 8080
+
+root@student-node ~ ➜  k apply -f 11.yaml 
+ingress.networking.k8s.io/ingress-resource-xnz created
+```
