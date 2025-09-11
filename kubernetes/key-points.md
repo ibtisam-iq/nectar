@@ -78,7 +78,39 @@ root@student-node ~ ➜  k apply -f 11.yaml
 ingress.networking.k8s.io/ingress-resource-xnz created
 ```
 ---
-When we create pv and pvc without specifing any `storageClassName`, it by-default picks, `local-path` storageClass, which specifies `VolumeBindingMode:     WaitForFirstConsumer`, so pvc remains pending, unless you deployed a pod.
+
+## Reserving a PersistentVolume
+
+If the PersistentVolume exists and has not reserved PersistentVolumeClaims through its `claimRef` field, then the PersistentVolume and PersistentVolumeClaim will be bound.
+
+The binding happens regardless of some volume matching criteria, including node affinity. The control plane still checks that storage class, access modes, and requested storage size are valid.
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: foo-pvc
+  namespace: foo
+spec:
+  storageClassName: "" # Empty string must be explicitly set otherwise default StorageClass will be set
+  volumeName: foo-pv
+```
+
+This method does not guarantee any binding privileges to the PersistentVolume. If other PersistentVolumeClaims could use the PV that you specify, you first need to reserve that storage volume. Specify the relevant PersistentVolumeClaim in the claimRef field of the PV so that other PVCs can not bind to it.
+
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: foo-pv
+spec:
+  storageClassName: ""
+  claimRef:
+    name: foo-pvc
+    namespace: foo
+```
+
+When we create pv and pvc without specifing any `storageClassName`, it by-default picks, `local-path` storageClass for pvc, which specifies `VolumeBindingMode:     WaitForFirstConsumer`, so pvc remains pending, unless you deployed a pod.
 
 ```bash
 root@student-node ~ ➜  vi 4.yaml
@@ -100,13 +132,6 @@ Namespace:     default
 StorageClass:  local-path
 Status:        Pending
 Volume:        
-Labels:        <none>
-Annotations:   <none>
-Finalizers:    [kubernetes.io/pvc-protection]
-Capacity:      
-Access Modes:  
-VolumeMode:    Filesystem
-Used By:       <none>
 Events:
   Type    Reason                Age                From                         Message
   ----    ------                ----               ----                         -------
