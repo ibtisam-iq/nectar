@@ -28,6 +28,7 @@ Use it as a **roadmap + progress tracker**.
 ## 2. PodSpec Concepts (Fields / Sections)
 
 - [ ] containers, `initContainers`, sidecar containers `+ Creating a Pod that has an init container + sidecar containers`
+- [ ] command and args `command: Define a Command and Arguments for a Container`
 - [ ] env, envFrom `environment variables: Define Environment Variables for a Container (value) + Expose Pod Information to Containers Through Environment Variables (valueFrom)`
 - [ ] volumes (emptyDir, hostPath, configMap, secret, PVC, projected, downwardAPI)
 - [ ] `securityContext` (pod-level & container-level)
