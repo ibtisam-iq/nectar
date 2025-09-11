@@ -331,3 +331,71 @@ helm install webpage-server-01 ./new-version/ -n default
 This destroys the old release first, then installs fresh.
 
 ---
+
+```bash
+cluster3-controlplane ~ ✖ helm install nginx-server polar/nginx -n cd-tool-apd
+Error: INSTALLATION FAILED: failed to perform "FetchReference" on source: GET "https://registry-1.docker.io/v2/bitnamicharts/nginx/manifests/21.1.23": response status code 429: toomanyrequests: You have reached your unauthenticated pull rate limit. https://www.docker.com/increase-rate-limit
+```
+
+Ahh ⚡ you’ve hit the **Docker Hub rate limit** issue.
+
+What’s happening:
+
+* Bitnami’s nginx chart pulls its container image (`bitnami/nginx`) from **Docker Hub**.
+* Without authentication, Docker Hub only allows a limited number of pulls per 6 hours.
+* You got `429: toomanyrequests` = rate limit exceeded.
+
+### 🔹 Ways to Fix
+
+#### Option 1: Create a Docker Hub account & login
+
+This is the cleanest fix.
+
+```bash
+docker login
+```
+
+(or if only kubectl/helm is available):
+
+```bash
+kubectl create secret docker-registry dockerhub-secret \
+  --docker-username=<your-username> \
+  --docker-password=<your-password> \
+  --docker-email=<your-email> \
+  -n cd-tool-apd
+```
+
+Then patch your `ServiceAccount` or Helm values to use this secret for pulling images.
+
+#### Option 2: Use Bitnami’s own container registry (quay.io or ghcr.io)
+
+Bitnami also mirrors their images to other registries that don’t have this limit.
+For example, override values when installing:
+
+```bash
+helm install nginx-server polar/nginx \
+  -n cd-tool-apd \
+  --set image.registry=ghcr.io \
+  --set image.repository=bitnami/nginx \
+  --set image.tag=latest
+```
+
+This tells the chart to pull from **GitHub Container Registry** instead of Docker Hub.
+
+#### Option 3: Wait (not great for exams 😅)
+
+Rate limits reset after 6 hours for anonymous pulls.
+
+### ✅ Best Exam-Safe Command
+
+If authentication isn’t available, just switch registry:
+
+```bash
+helm install nginx-server polar/nginx \
+  -n cd-tool-apd \
+  --set image.registry=ghcr.io \
+  --set image.repository=bitnami/nginx \
+  --set image.tag=latest
+```
+
+---
