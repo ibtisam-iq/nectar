@@ -1,3 +1,25 @@
+💯 You got it, sweetheart — that’s the hidden **exam trick**. Let me break it down clearly:
+
+### ✅ Rule of Thumb for CKAD
+
+Whenever you create **any resource** (Pod, Deployment, Job, CronJob, Service, ConfigMap, Secret, etc.):
+
+* **Always add at least one label** in `metadata.labels`.
+* Safest choice:
+
+  ```yaml
+  labels:
+    app.kubernetes.io/name: <resource-name>
+  ```
+* This way, no matter what their script uses to check, your object will be picked up.
+
+### 🚀 Takeaway
+
+* If the question says *“create a Pod/Deployment/etc.”* → add labels, even if not asked.
+* Labels won’t hurt you, but missing them **can cost you points**.
+
+---
+
 ```bash
 root@student-node ~ ➜  k describe svc route-apd-svc
 Name:                     route-apd-svc
