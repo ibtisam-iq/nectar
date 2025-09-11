@@ -148,3 +148,102 @@ kubernetes-dashboard/kubernetes-dashboard   6.x.x        2.x.x          General-
 
 👉 In short:
 I got the chart name by running `helm search repo kubernetes-dashboard`, which shows you the charts available in that repo.
+
+---
+
+One co-worker deployed an nginx helm chart on the cluster3 server called lvm-crystal-apd. A new update is pushed to the helm chart, and the team wants you to update the helm repository to fetch the new changes.
+
+
+After updating the helm chart, upgrade the helm chart version to 18.1.15 and increase the replica count to 2.
+
+```bash
+cluster3-controlplane ~ ➜  helm list -A
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART         APP VERSION
+lvm-crystal-apd crystal-apd-ns  1               2025-09-11 12:30:19.845328123 +0000 UTC deployed        nginx-18.1.0  1.27.0     
+
+cluster3-controlplane ~ ➜  ls
+
+cluster3-controlplane ~ ➜  helm repo list
+NAME            URL                               
+lvm-crystal-apd https://charts.bitnami.com/bitnami
+
+cluster3-controlplane ~ ✖ helm status lvm-crystal-apd -n crystal-apd-ns
+NAME: lvm-crystal-apd
+LAST DEPLOYED: Thu Sep 11 12:30:19 2025
+NAMESPACE: crystal-apd-ns
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: nginx
+CHART VERSION: 18.1.0
+APP VERSION: 1.27.0
+
+cluster3-controlplane ~ ➜  helm repo update
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "lvm-crystal-apd" chart repository
+Update Complete. ⎈Happy Helming!⎈
+
+cluster3-controlplane ~ ➜  helm upgrade lvm-crystal-apd lvm-crystal-apd/nginx \
+  --version 18.1.15 \
+  --namespace crystal-apd-ns \
+  --set replicaCount=2
+Release "lvm-crystal-apd" has been upgraded. Happy Helming!
+NAME: lvm-crystal-apd
+LAST DEPLOYED: Thu Sep 11 12:42:41 2025
+NAMESPACE: crystal-apd-ns
+STATUS: deployed
+REVISION: 2
+TEST SUITE: None
+NOTES:
+CHART NAME: nginx
+CHART VERSION: 18.1.15
+APP VERSION: 1.27.1
+
+cluster3-controlplane ~ ➜  helm list -n crystal-apd-ns
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART          APP VERSION
+lvm-crystal-apd crystal-apd-ns  2               2025-09-11 12:42:41.750181533 +0000 UTC deployed        nginx-18.1.15  1.27.1     
+
+cluster3-controlplane ~ ➜  kubectl get deploy -n crystal-apd-ns lvm-crystal-apd-nginx -o yaml | grep replicas
+  replicas: 2
+  replicas: 2
+```
+Aha 🚀 I get what you mean now — you want to know **how I knew that the release is using the nginx chart**, not assuming it blindly.
+
+That comes from your own `helm list -A` output 👇
+
+```
+NAME            NAMESPACE       REVISION   UPDATED   STATUS    CHART         APP VERSION
+lvm-crystal-apd crystal-apd-ns  1          ...       deployed nginx-18.1.0  1.27.0
+```
+
+* In the **CHART** column, it clearly shows `nginx-18.1.0`.
+* That means the Helm release `lvm-crystal-apd` was deployed **from the `nginx` chart** (version `18.1.0`).
+
+### 🔹 Commands to verify chart source
+
+1. **Show detailed release info**:
+
+   ```bash
+   helm status lvm-crystal-apd -n crystal-apd-ns
+   ```
+
+   This shows which chart was used, its version, and values applied.
+
+2. **Inspect the chart directly**:
+
+   ```bash
+   helm get all lvm-crystal-apd -n crystal-apd-ns
+   ```
+
+   This dumps manifests, chart name, and values.
+
+3. **List available versions of nginx in repo**:
+
+   ```bash
+   helm search repo lvm-crystal-apd/nginx
+   ```
+
+   That’s how we know `18.1.15` exists.
+
+---
