@@ -77,3 +77,109 @@ spec:
 root@student-node ~ ➜  k apply -f 11.yaml 
 ingress.networking.k8s.io/ingress-resource-xnz created
 ```
+---
+When we create pv and pvc without specifing any `storageClassName`, it by-default picks, `local-path` storageClass, which specifies `VolumeBindingMode:     WaitForFirstConsumer`, so pvc remains pending, unless you deployed a pod.
+
+```bash
+root@student-node ~ ➜  vi 4.yaml
+
+root@student-node ~ ➜  k apply -f 4.yaml 
+persistentvolume/cloudstack-pv created
+persistentvolumeclaim/cloudstack-pvc created
+
+root@student-node ~ ➜  k get pv,pvc
+NAME                             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   VOLUMEATTRIBUTESCLASS   REASON   AGE
+persistentvolume/cloudstack-pv   128Mi      RWO            Retain           Available                          <unset>                          7s
+
+NAME                                   STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/cloudstack-pvc   Pending                                      local-path     <unset>                 7s
+
+root@student-node ~ ➜  k describe pvc cloudstack-pvc 
+Name:          cloudstack-pvc
+Namespace:     default
+StorageClass:  local-path
+Status:        Pending
+Volume:        
+Labels:        <none>
+Annotations:   <none>
+Finalizers:    [kubernetes.io/pvc-protection]
+Capacity:      
+Access Modes:  
+VolumeMode:    Filesystem
+Used By:       <none>
+Events:
+  Type    Reason                Age                From                         Message
+  ----    ------                ----               ----                         -------
+  Normal  WaitForFirstConsumer  11s (x5 over 66s)  persistentvolume-controller  waiting for first consumer to be created before binding
+
+root@student-node ~ ➜  k describe sc local-path 
+Name:                  local-path
+IsDefaultClass:        Yes
+Provisioner:           rancher.io/local-path
+Parameters:            <none>
+AllowVolumeExpansion:  <unset>
+MountOptions:          <none>
+ReclaimPolicy:         Delete
+VolumeBindingMode:     WaitForFirstConsumer
+Events:                <none>
+
+root@student-node ~ ➜  vi 4.yaml                               # pod manifest is added now.
+
+root@student-node ~ ➜  k apply -f 4.yaml 
+persistentvolume/cloudstack-pv unchanged
+persistentvolumeclaim/cloudstack-pvc unchanged
+pod/task-pv-pod created
+
+root@student-node ~ ➜  k get pvc                               # pod is deployed, and pvc is bound.
+NAME             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+cloudstack-pvc   Bound    pvc-0466a964-3e52-40b4-b4ba-9ab0fa84c663   50Mi       RWO            local-path     <unset>                 3m11s
+
+root@student-node ~ ➜  cat 4.yaml 
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: cloudstack-pv
+spec:
+  capacity:
+    storage: 128Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/cloudstack-pv"
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cloudstack-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: task-pv-pod
+spec:
+  volumes:
+    - name: task-pv-storage
+      persistentVolumeClaim:
+        claimName: cloudstack-pvc
+  containers:
+    - name: task-pv-container
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: "http-server"
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: task-pv-storage
+
+root@student-node ~ ➜  
+```
