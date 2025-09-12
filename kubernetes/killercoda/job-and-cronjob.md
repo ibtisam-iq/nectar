@@ -370,3 +370,41 @@ Nice 👌 this is a subtle but important **cron expression** detail.
 ❌ This means: **run every minute between 00:00 and 00:59 on Sunday** (so 60 times in that hour).
 
 👉 That’s why `0 0 * * 0` is the correct one for **“every Sunday at midnight”**.
+
+---
+
+***In the ckad-job namespace, schedule a job called learning-every-minute that prints this message in the shell every minute: I am practicing for CKAD certification.**
+
+Perfect — let me explain why the CKAD grader insists on `*/1` instead of `*` for “every minute”:
+
+### 1️⃣ `* * * * *` vs `*/1 * * * *`
+
+* **`* * * * *`** → Literally means “every value of minute, hour, day, month, weekday” → works fine in standard Cron.
+* **`*/1 * * * *`** → Means “every 1 minute” → also runs every minute.
+
+Functionally, both are **identical**.
+
+### 2️⃣ Why the grader rejects `* * * * *`
+
+CKAD exam auto-graders are **scripted to check for exact text matches**, not the Cron logic itself.
+
+* If the instructions say:
+
+  > schedule a job every minute
+  > the grader expects **`*/1 * * * *`** literally in the YAML.
+* `* * * * *` will run correctly in Kubernetes, but the grader sees a mismatch in the string value.
+
+### 3️⃣ Practical lesson
+
+* Always **follow the exact syntax requested** in CKAD tasks.
+* Logical equivalence doesn’t matter for auto-graders; **textual equivalence does**.
+
+✅ So, for CKAD, always write:
+
+```yaml
+schedule: "*/1 * * * *"
+```
+
+Even though `* * * * *` works in real clusters.
+
+---
