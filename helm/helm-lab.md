@@ -402,3 +402,122 @@ helm install nginx-server polar/nginx \
 `helm install --generate-name ./new-version`
 
 We haven't got any release name in the task, so we can generate the random name from the `--generate-name` option.
+
+---
+
+## Deployment name is changed after helm updgade
+
+```bash
+cluster1-controlplane ~ ➜  helm list -A
+NAME                            NAMESPACE       REVISION        UPDATED                                STATUS          CHART                           APP webpage-server-01               default         1               2025-09-12 16:11:55.860540337 +0000 UTCdeployed        webpage-server-01-0.1.0         v1         
+
+cluster1-controlplane ~ ➜  helm lint /root/new-version/
+==> Linting /root/new-version/
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, 0 chart(s) failed
+
+cluster1-controlplane ~ ➜  helm upgrade --install webpage-server-01 /root/new-version/
+Release "webpage-server-01" has been upgraded. Happy Helming!
+NAME: webpage-server-01
+LAST DEPLOYED: Fri Sep 12 16:14:24 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 2
+TEST SUITE: None
+
+cluster1-controlplane ~ ➜  helm list -A
+NAME                            NAMESPACE       REVISION        UPDATED                                STATUS          CHART                           APP VERSION     
+webpage-server-01               default         2               2025-09-12 16:14:24.180738228 +0000 UTCdeployed        webpage-server-02-0.1.1         v2  
+
+cluster1-controlplane ~ ➜  k get deploy
+NAME                                              READY   UP-TO-DATE   AVAILABLE   AGE
+webpage-server-02                                 3/3     3            3           3m2s     # name does not pick release name
+
+cluster1-controlplane ~ ➜  cat /root/new-version/templates/deployment.yaml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    version: v2-cds
+  name: {{ .Values.name }}
+
+cluster1-controlplane ~ ➜  cat /root/new-version/values.yaml 
+
+name: webpage-server-02
+```
+
+Nice, you shared the chart 🙌 — now it’s crystal clear why the Deployment comes out as `webpage-server-02`:
+
+In **`deployment.yaml`**, the name is set like this:
+
+```yaml
+metadata:
+  name: {{ .Values.name }}
+```
+
+…and in **`values.yaml`**, you’ve got:
+
+```yaml
+name: webpage-server-02
+```
+
+So Helm is simply substituting the value, which explains the mismatch.
+
+### 🔧 How to tie it to the release name
+
+Option **1 — simplest (exam friendly)**
+Change the `deployment.yaml` line to:
+
+```yaml
+metadata:
+  name: {{ .Release.Name }}
+```
+
+Now, when you run:
+
+```bash
+helm upgrade --install webpage-server-01 /root/new-version
+```
+
+Your Deployment will be named **`webpage-server-01`**.
+
+Option **2 — values-driven (best practice)**
+Instead of hardcoding `name` in `values.yaml`, use Helm’s built-in `fullnameOverride`.
+
+1. In `values.yaml`, add:
+
+```yaml
+fullnameOverride: ""
+```
+
+2. In `deployment.yaml`, replace:
+
+```yaml
+name: {{ .Values.name }}
+```
+
+with:
+
+```yaml
+name: {{ include "new-version.fullname" . }}
+```
+
+…and in `_helpers.tpl` (if your chart has it), `fullname` is usually defined like this:
+
+```yaml
+{{- define "new-version.fullname" -}}
+{{- if .Values.fullnameOverride }}
+{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- .Release.Name }}
+{{- end }}
+{{- end }}
+```
+
+This way:
+
+* By default, the Deployment will follow the release name (`webpage-server-01`).
+* If you want to override, you just set `fullnameOverride` in `values.yaml`.
+
+---
