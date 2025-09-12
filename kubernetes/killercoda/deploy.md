@@ -242,3 +242,71 @@ Check that:
 ✅ Now the new deployment receives **<40% traffic** through the service.
 
 ---
+
+```bash
+cluster1-controlplane ~ ➜  k get po -n kube-system   # No clue
+NAMESPACE     NAME                                            READY   STATUS    RESTARTS   AGE
+kube-system   calico-kube-controllers-5745477d4d-bs7tc        1/1     Running   0          117m
+kube-system   canal-5k7vk                                     2/2     Running   0          117m
+kube-system   canal-jnvlq                                     2/2     Running   0          117m
+kube-system   canal-v5k88                                     2/2     Running   0          117m
+kube-system   coredns-7484cd47db-ftpkp                        1/1     Running   0          117m
+kube-system   coredns-7484cd47db-qqkdp                        1/1     Running   0          117m
+kube-system   etcd-cluster1-controlplane                      1/1     Running   0          117m
+kube-system   kube-apiserver-cluster1-controlplane            1/1     Running   0          117m
+kube-system   kube-controller-manager-cluster1-controlplane   1/1     Running   0          117m
+kube-system   kube-proxy-l75zs                                1/1     Running   0          117m
+kube-system   kube-proxy-pxd5v                                1/1     Running   0          117m
+kube-system   kube-proxy-sc89b                                1/1     Running   0          117m
+kube-system   kube-scheduler-cluster1-controlplane            1/1     Running   0          117m
+kube-system   metrics-server-6f7dd4c4c4-2m9jn                 1/1     Running   0          97m
+
+cluster1-controlplane ~ ➜  k get deploy black-cka25-trb 
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE             # Problem UP-TO-DATE=0
+black-cka25-trb   1/1     0            1           76s
+
+cluster1-controlplane ~ ➜  k describe deployments.apps black-cka25-trb 
+Name:                   black-cka25-trb
+Replicas:               1 desired | 0 updated | 1 total | 1 available | 0 unavailable
+Conditions:
+  Type           Status   Reason
+  ----           ------   ------
+  Available      True     MinimumReplicasAvailable
+  Progressing    Unknown  DeploymentPaused                         # Found the culprit
+OldReplicaSets:  black-cka25-trb-7bdc648c8c (1/1 replicas created)
+NewReplicaSet:   <none>
+
+cluster1-controlplane ~ ➜  k get deploy black-cka25-trb -o yaml
+apiVersion: apps/v1
+spec:
+  paused: true                                                    # Spotted
+  replicas: 1
+
+cluster1-controlplane ~ ➜  k get po black-cka25-trb-7bdc648c8c-q94t9 -o yaml
+apiVersion: v1
+kind: Pod
+spec:
+  nodeName: cluster1-node02
+
+cluster1-controlplane ~ ➜  k rollout status deployment black-cka25-trb  # Oh, I got it...
+Waiting for deployment "black-cka25-trb" rollout to finish: 0 out of 1 new replicas have been updated...
+^C
+
+cluster1-controlplane ~ ➜  k get pods -o wide | grep black-cka25-trb
+black-cka25-trb-7bdc648c8c-q94t9           1/1     Running   0               9m48s   172.17.2.20   cluster1-node02   <none>           <none>
+
+cluster1-controlplane ~ ➜  k logs black-cka25-trb-7bdc648c8c-q94t9 
+
+cluster1-controlplane ~ ➜  k rollout restart deployment black-cka25-trb 
+error: deployments.apps "black-cka25-trb" can't restart paused deployment (run rollout resume first)
+
+cluster1-controlplane ~ ✖ k rollout resume deployment black-cka25-trb 
+deployment.apps/black-cka25-trb resumed
+
+cluster1-controlplane ~ ➜  k rollout restart deployment black-cka25-trb 
+deployment.apps/black-cka25-trb restarted
+
+cluster1-controlplane ~ ➜  k get deploy black-cka25-trb 
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+black-cka25-trb   1/1     1            1           18m 
+```
