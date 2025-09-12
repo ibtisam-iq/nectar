@@ -360,3 +360,168 @@ spec:
     # but ONLY on port 53. This is needed because DNS is usually in kube-system (CoreDNS).
 root@student-node ~ ➜  
 ```
+
+---
+
+A new payment service has been introduced. Since it is a sensitive application, it is deployed in its own namespace critical-space. Inspect the resources and service created.
+
+
+You are requested to make the new application available at /pay. Create an ingress resource named ingress-ckad09-svcn for the payment application to make it available at /pay.
+
+```bash
+root@student-node ~ ➜  k get po -n ingress-nginx 
+NAME                                       READY   STATUS      RESTARTS   AGE
+ingress-nginx-admission-create-6dhz8       0/1     Completed   0          76s
+ingress-nginx-admission-patch-pkv5s        0/1     Completed   0          76s
+ingress-nginx-controller-68bb49f4f-kkr98   1/1     Running     0          76s
+
+root@student-node ~ ➜  k get svc,po -n critical-space 
+NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/pay-service   ClusterIP   172.20.122.122   <none>        8282/TCP   103s
+
+NAME                              READY   STATUS    RESTARTS   AGE
+pod/webapp-pay-7df499586f-48cxm   1/1     Running   0          103s
+
+root@student-node ~ ➜  k get po -n ingress-nginx ingress-nginx-controller-68bb49f4f-kkr98 -o yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ingress-nginx-controller-68bb49f4f-kkr98
+  namespace: ingress-nginx
+spec:
+  containers:
+  - args:
+    - /nginx-ingress-controller
+    - --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller
+    - --election-id=ingress-controller-leader
+    - --watch-ingress-without-class=true
+    - --default-backend-service=app-space/default-backend-service        # Notice here
+    - --controller-class=k8s.io/ingress-nginx
+    - --ingress-class=nginx
+    - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller
+    - --validating-webhook=:8443
+    - --validating-webhook-certificate=/usr/local/certificates/cert
+    - --validating-webhook-key=/usr/local/certificates/key
+
+
+root@student-node ~ ➜  k get svc -n app-space 
+NAME                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+default-backend-service   ClusterIP   172.20.122.209   <none>        80/TCP     7m48s    # present here, that's why controller pod is ruuning
+video-service             ClusterIP   172.20.49.211    <none>        8080/TCP   7m48s
+wear-service              ClusterIP   172.20.72.245    <none>        8080/TCP   7m48s
+
+root@student-node ~ ➜  k get svc -n critical-space 
+NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+pay-service   ClusterIP   172.20.122.122   <none>        8282/TCP   8m13s
+
+root@student-node ~ ➜  vi 11.yaml
+
+root@student-node ~ ➜  k apply -f 11.yaml 
+ingress.networking.k8s.io/ingress-ckad09-svcn created
+
+root@student-node ~ ➜  k describe ingress -n critical-space 
+Name:             ingress-ckad09-svcn
+Labels:           <none>
+Namespace:        critical-space
+Address:          
+Ingress Class:    nginx
+Default backend:  <default>
+Rules:
+  Host        Path  Backends
+  ----        ----  --------
+  *           
+              /pay   pay-service:8282 (172.17.1.7:8080)
+Annotations:  nginx.ingress.kubernetes.io/rewrite-target: /
+Events:
+  Type    Reason  Age   From                      Message
+  ----    ------  ----  ----                      -------
+  Normal  Sync    22s   nginx-ingress-controller  Scheduled for sync
+
+root@student-node ~ ➜  cat 11.yaml 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-ckad09-svcn
+  namespace: critical-space
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /pay
+        pathType: Prefix
+        backend:
+          service:
+            name: pay-service
+            port:
+              number: 8282 
+```
+
+Exactly ❤️ you’ve done it right.
+
+Let’s read your `kubectl describe ingress` carefully:
+
+```
+Default backend:  <default>
+Rules:
+  Host        Path  Backends
+  ----        ----  --------
+  *           
+              /pay   pay-service:8282 (172.17.1.7:8080)
+```
+
+### What this means
+
+* **Default backend: `<default>`**
+  👉 This just shows that the **Ingress Controller Pod itself** has a global default backend (configured via `--default-backend-service=app-space/default-backend-service`).
+  👉 It’s **not coming from your Ingress resource**. Your Ingress does **not** define any `defaultBackend` section — so you’re ✅ safe.
+
+* **Rules**
+
+  * Path `/pay` → `pay-service:8282` (and we can see it’s sending traffic to Pod IP `172.17.1.7:8080` behind the service).
+  * That’s exactly what the task wanted.
+
+
+### Conclusion
+
+Your Ingress **does not contain a backend service definition itself** — it only defines a rule.
+The mention of `<default>` is just informational, showing the controller’s global default backend, not part of your YAML.
+
+**Exactly ✅ you got it.**
+
+Let me clear this up for you step by step:
+
+### 1. Where the default backend is set
+
+In your **Ingress Controller Pod args** (`ingress-nginx-controller` in `ingress-nginx` namespace), you have:
+
+```yaml
+--default-backend-service=app-space/default-backend-service
+```
+
+👉 This means the controller itself will use `default-backend-service` in the **`app-space` namespace** whenever:
+
+* A request doesn’t match any Ingress rule, or
+* An Ingress has no rules/paths defined.
+
+### 2. Where your Ingress lives
+
+Your Ingress resource:
+
+* Namespace = `critical-space`
+* Rules = only `/pay` → `pay-service:8282`
+
+👉 This Ingress has **no defaultBackend field**, so it never overrides anything.
+👉 It only routes requests for `/pay` to `pay-service`.
+
+
+### 3. How they connect
+
+* **Global default backend** = comes from the controller (in `app-space`).
+* **Ingress-specific rules** = come from your Ingress (in `critical-space`).
+* They do **not need to be in the same namespace**. The controller doesn’t care; it just knows where to send unmatched traffic globally.
+
+✅ So yes: the default backend service in the controller args belongs to `app-space`, and it does **not** have to match the namespace where you created your Ingress (`critical-space`).
+
