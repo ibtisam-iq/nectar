@@ -681,3 +681,115 @@ If you put a large integer like `200000`, kubelet tries to write that directly t
    ```
 
 ---
+
+```bash
+root@student-node ~ ➜  cat ckad-flash89.yaml 
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ckad-flash89-aom
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      volumeMounts:
+        - name: flash-logs
+          mountPath: /var/log
+    - name: busybox
+      image: busybox
+      command:
+        - /bin/sh
+        - -c
+        - sleep 10000
+      volumeMounts:
+        - name: flash-logs
+          mountPath: /usr/src
+  volumes:
+    - name: flash-logs
+      emptyDir: {}
+
+root@student-node ~ ➜  k get po ckad-flash89-aom 
+NAME               READY   STATUS             RESTARTS      AGE
+ckad-flash89-aom   1/2     CrashLoopBackOff   6 (89s ago)   7m3s
+
+root@student-node ~ ➜  k describe po ckad-flash89-aom 
+Name:             ckad-flash89-aom
+Events:
+  Type     Reason     Age                    From               Message
+  ----     ------     ----                   ----               -------
+  Warning  BackOff    115s (x26 over 7m15s)  kubelet            Back-off restarting failed container nginx in pod ckad-flash89-aom_default(b0a635cf-ba87-4c02-952c-d1dc1c542037)  
+
+root@student-node ~ ➜  k logs ckad-flash89-aom --all-containers 
+nginx: [alert] could not open error log file: open() "/var/log/nginx/error.log" failed (2: No such file or directory)
+2025/09/12 00:59:52 [emerg] 1#1: open() "/var/log/nginx/error.log" failed (2: No such file or directory)
+
+root@student-node ~ ➜  vi ckad-flash89.yaml         # mountPath: /var/log/ to /var/log/nginx
+
+root@student-node ~ ➜  k replace -f ckad-flash89.yaml --force
+pod "ckad-flash89-aom" deleted
+pod/ckad-flash89-aom replaced
+
+root@student-node ~ ➜  k get po
+NAME               READY   STATUS    RESTARTS   AGE
+ckad-flash89-aom   2/2     Running   0          11s 
+```
+
+Nice catch — let’s debug this one together 👇
+
+### What’s happening
+
+* You created a Pod with **2 containers**:
+
+  * `nginx` (mounts `/var/log`)
+  * `busybox` (mounts `/usr/src`)
+* Both share the same `emptyDir` volume `flash-logs`.
+
+### Why it’s failing
+
+* The `nginx` container expects to write logs into `/var/log/nginx/error.log`.
+* But since `/var/log` is mounted with an **emptyDir volume**, the **original `/var/log` contents from the nginx image are hidden/overwritten**.
+* That means the `/var/log/nginx/` directory doesn’t exist anymore → nginx fails to open its log file → container crashes.
+
+👉 That’s why you see:
+
+```
+nginx: [alert] could not open error log file: open() "/var/log/nginx/error.log" failed (2: No such file or directory)
+```
+
+### How to fix it
+
+Instead of mounting over **`/var/log`** (which wipes nginx’s expected directories), mount over a **subdirectory**, e.g. `/var/log/nginx`.
+
+#### Fixed Pod spec:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ckad-flash89-aom
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    volumeMounts:
+    - name: flash-logs
+      mountPath: /var/log/nginx   # mount at subdir, not /var/log
+  - name: busybox
+    image: busybox
+    command: ["/bin/sh", "-c", "sleep 10000"]
+    volumeMounts:
+    - name: flash-logs
+      mountPath: /usr/src
+  volumes:
+  - name: flash-logs
+    emptyDir: {}
+```
+
+### Why this works
+
+* The nginx container keeps its `/var/log` folder structure intact.
+* Your shared `emptyDir` volume now just replaces `/var/log/nginx`.
+* Both containers can still write/read logs into the shared volume.
+
+---
