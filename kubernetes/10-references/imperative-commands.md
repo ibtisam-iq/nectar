@@ -296,6 +296,10 @@ root@student-node ~ ➜  kubectl create clusterrole healthz-access \
   --non-resource-url=/healthz/*
 clusterrole.rbac.authorization.k8s.io/healthz-access created
 
+# Update the permissions of this service account so that it can only `get` all the `namespaces`
+cluster1-controlplane ~ ➜  k create clusterrole green-role-cka22-arch --verb get --resource namespaces
+clusterrole.rbac.authorization.k8s.io/green-role-cka22-arch created
+
 kubectl create role|clusterrole NAME --verb=verb --resource=resource.group [--resource-name=resourcename]
 [--dry-run=server|client|none] [options]
 
