@@ -520,4 +520,26 @@ This way:
 * By default, the Deployment will follow the release name (`webpage-server-01`).
 * If you want to override, you just set `fullnameOverride` in `values.yaml`.
 
+Exactly 💯
+
+If you switch to:
+
+```yaml
+metadata:
+  name: {{ .Release.Name }}
+```
+
+👉 then you **don’t need to add anything in `values.yaml`**.
+`Release.Name` is a built-in Helm object — it’s always available, no matter what’s in `values.yaml`.
+
+So:
+
+* `{{ .Values.* }}` → pulls from your `values.yaml` (or from `--set`, `-f`).
+* `{{ .Release.Name }}` → comes directly from Helm itself (whatever name you used in `helm install <release-name> ...`).
+
+That’s why it’s often the easiest fix: you just tie the Deployment (and Service, ConfigMap, etc.) names to the release name, and you don’t have to maintain a `name:` field in `values.yaml` at all.
+
+👉 Helm also ships with helpers like `fullnameOverride` and `nameOverride` (defined in `_helpers.tpl` when you create a chart with `helm create`). Those **are not built-in**, they’re just conventions that the starter chart scaffolds for you.
+
+
 ---
