@@ -60,3 +60,28 @@ Namespace:            kube-system
       --allocate-node-cidrs=true
 Warning  Failed   19s (x6 over 3m6s)  kubelet  Error: failed to create containerd task: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: exec: "kube-controller-manage": executable file not found in $PATH: unknown
 ```
+
+## Wrong arg
+
+```bash
+cluster4-controlplane ~ ➜  k get po -n kube-system kube-scheduler-cluster4-controlplane 
+NAME                                   READY   STATUS             RESTARTS       AGE
+kube-scheduler-cluster4-controlplane   0/1     CrashLoopBackOff   5 (117s ago)   4m50s
+
+cluster4-controlplane ~ ➜  k describe po -n kube-system kube-scheduler-cluster4-controlplane 
+Name:                 kube-scheduler-cluster4-controlplane
+Namespace:            kube-system
+Events:
+  Type     Reason   Age                   From     Message
+  ----     ------   ----                  ----     -------
+  Warning  BackOff  2m2s (x25 over 5m)    kubelet  Back-off restarting failed container kube-scheduler in pod kube-scheduler-cluster4-controlplane_kube-system(5f465a06e04c6bd15f30009df81607d1)
+
+cluster4-controlplane ~ ➜  k logs -n kube-system kube-scheduler-cluster4-controlplane 
+I0912 10:41:23.738329       1 serving.go:386] Generated self-signed cert in-memory
+E0912 10:41:23.738713       1 run.go:72] "command failed" err="stat /etc/kubernetes/scheduler.config: no such file or directory"
+
+cluster4-controlplane ~ ➜  ls /etc/kubernetes/
+admin.conf  controller-manager.conf  kubelet.conf  manifests  pki  scheduler.conf  super-admin.conf
+
+cluster4-controlplane ~ ➜  
+```
