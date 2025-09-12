@@ -39,3 +39,10 @@ root@student-node ~ ✖ k exec -n ckad-pod-design basic-nginx -it -- sh
 Hello from KodeKloud!
 # exit
 ```
+---
+```bash
+command:
+  - "/bin/sh"          not "bin/sh"
+  - "-c"
+  - "sleep 10000"
+```
