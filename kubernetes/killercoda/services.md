@@ -456,3 +456,35 @@ service/ckad13-service edited
 root@student-node ~ ➜  k expose deploy ckad13-deployment --name ckad13-service --port 80
 Error from server (AlreadyExists): services "ckad13-service" already exists
 ```
+
+---
+## Endpoint is assigned, but wrong port 
+
+```bash
+cluster1-controlplane ~ ➜  k get po purple-app-cka27-trb -o yaml | grep -i image:
+  - image: nginx
+    image: docker.io/library/nginx:latest
+
+cluster1-controlplane ~ ➜  k get po purple-app-cka27-trb -o wide
+NAME                   READY   STATUS    RESTARTS   AGE   IP            NODE              NOMINATED NODE   READINESS GATES
+purple-app-cka27-trb   1/1     Running   0          32m   172.17.1.22   cluster1-node01   <none>           <none>
+
+cluster1-controlplane ~ ➜  k describe svc purple-svc-cka27-trb 
+Name:                     purple-svc-cka27-trb
+Namespace:                default
+Labels:                   <none>
+Annotations:              <none>
+Selector:                 app=purple-app-cka27-trb
+Type:                     ClusterIP
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       172.20.10.168
+IPs:                      172.20.10.168
+Port:                     app  8080/TCP                                # set it to 80
+TargetPort:               8080/TCP                                     # set it to 80
+Endpoints:                172.17.1.22:8080
+Session Affinity:         None
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+
+cluster1-controlplane ~ ➜  
