@@ -44,6 +44,8 @@ metadata:
   name: web-route
   namespace: nginx-gateway
 spec:
+  hostnames:
+  - cluster2-controlplane                   # not added, so the question is marked wrong.
   parentRefs:
   - name: web-gateway
     namespace: nginx-gateway
