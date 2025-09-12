@@ -46,3 +46,17 @@ command:
   - "-c"
   - "sleep 10000"
 ```
+
+---
+
+## Wrong command
+
+```bash
+cluster4-controlplane ~ ➜  k describe po -n kube-system kube-controller-manager-cluster4-controlplane 
+Name:                 kube-controller-manager-cluster4-controlplane
+Namespace:            kube-system
+    Command:
+      kube-controller-manage
+      --allocate-node-cidrs=true
+Warning  Failed   19s (x6 over 3m6s)  kubelet  Error: failed to create containerd task: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: exec: "kube-controller-manage": executable file not found in $PATH: unknown
+```
