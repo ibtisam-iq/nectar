@@ -487,4 +487,26 @@ Session Affinity:         None
 Internal Traffic Policy:  Cluster
 Events:                   <none>
 
-cluster1-controlplane ~ ➜  
+cluster1-controlplane ~ ➜
+```
+## Endpoint is not yet assigned, wrong label
+
+```bash
+cluster1-controlplane ~ ➜  k describe svc curlme-cka01-svcn 
+Name:                     curlme-cka01-svcn
+Namespace:                default
+Selector:                 run=curlme-ckaO1-svcn                 # 0 not O 
+Type:                     ClusterIP
+IP:                       172.20.218.134
+IPs:                      172.20.218.134
+Port:                     <unset>  80/TCP
+TargetPort:               80/TCP
+Endpoints:                
+Events:                   <none>
+
+
+cluster1-controlplane ~ ➜  k get po -o wide curlme-cka01-svcn curlpod-cka01-svcn --show-labels 
+NAME                 READY   STATUS    RESTARTS   AGE    IP            NODE              NOMINATED NODE   READINESS GATES   LABELS
+curlme-cka01-svcn    1/1     Running   0          4m4s   172.17.1.11   cluster1-node01   <none>           <none>            run=curlme-cka01-svcn
+curlpod-cka01-svcn   1/1     Running   0          4m4s   172.17.3.12   cluster1-node02   <none>           <none>            run=curlpod-cka01-svcn
+```
