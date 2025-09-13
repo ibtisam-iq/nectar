@@ -543,3 +543,50 @@ That’s why it’s often the easiest fix: you just tie the Deployment (and Serv
 
 
 ---
+
+One application, webpage-server-01, is deployed on the Kubernetes cluster by the Helm tool in default namespace. Now, the team wants to deploy a new version of the application by replacing the existing one. A new version of the helm chart is given in the /root/new-version directory on the cluster1-controlplane. Validate the chart before installing it on the Kubernetes cluster.
+
+```bash
+cluster1-controlplane ~ ➜  k get deploy
+NAME                                              READY   UP-TO-DATE   AVAILABLE   AGE
+webpage-server-02                                 3/3     3            3           7s
+
+cluster1-controlplane ~ ➜  helm list
+NAME                            NAMESPACE       REVISION        UPDATED                                       STATUS          CHART                        webpage-server-01               default         4               2025-09-13 19:18:06.215784958 +0000 UTC       deployed        webpage-server-02-0.1.1         v2         
+cluster1-controlplane ~ ➜  cat /root/new-version/values.yaml 
+name: webpage-server-02
+
+cluster1-controlplane ~ ➜  cat /root/new-version/templates/deployment.yaml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    version: v2-cds
+  name: {{ .Values.name }}
+
+cluster1-controlplane ~ ➜  helm install --generate-name /root/new-version/
+Error: INSTALLATION FAILED: Unable to continue with install: ServiceAccount "webapp-sa-apd" in namespace "default" exists and cannot be imported into the current release: invalid ownership metadata; annotation validation error: key "meta.helm.sh/release-name" must equal "new-version-1757791172": current value is "webpage-server-01"
+
+cluster1-controlplane ~ ✖ helm uninstall webpage-server-01 -n default
+release "webpage-server-01" uninstalled
+
+cluster1-controlplane ~ ➜  helm install --generate-name /root/new-version/
+NAME: new-version-1757791197
+LAST DEPLOYED: Sat Sep 13 19:19:57 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+
+cluster1-controlplane ~ ➜  k get deploy
+NAME                                              READY   UP-TO-DATE   AVAILABLE   AGE
+webpage-server-02                                 3/3     3            3           7s
+
+cluster1-controlplane ~ ➜  helm list
+NAME                            NAMESPACE       REVISION        UPDATED                                       STATUS          CHART                           APP VERSION
+new-version-1757791197          default         1               2025-09-13 19:19:57.02837142 +0000 UTC        deployed        webpage-server-02-0.1.1         v2         
+```
+
+We haven't got any release name in the task, so we can generate the random name from the --generate-name option.
+
+---
