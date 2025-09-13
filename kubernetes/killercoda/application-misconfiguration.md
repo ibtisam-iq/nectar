@@ -793,3 +793,235 @@ spec:
 * Both containers can still write/read logs into the shared volume.
 
 ---
+Troubleshoot and resolve the issue with the deployment named nginx-frontend in the cka4974 namespace, which is currently failing to run. Note that the application is intended to serve traffic on port 81.
+
+
+```bash
+cluster4-controlplane ~ ➜  k get deploy -n cka4974 nginx-frontend 
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-frontend   0/1     1            0           50s
+
+cluster4-controlplane ~ ➜  k describe svc -n cka4974 
+Name:                     nginx-frontend
+Namespace:                cka4974
+Labels:                   <none>
+Annotations:              <none>
+Selector:                 app=nginx-broken
+Type:                     NodePort
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       172.20.38.155
+IPs:                      172.20.38.155
+Port:                     <unset>  81/TCP
+TargetPort:               81/TCP
+NodePort:                 <unset>  30081/TCP
+Endpoints:                
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+
+cluster4-controlplane ~ ➜  k describe po -n cka4974 nginx-frontend-64f67d769f-rw5jr 
+Name:             nginx-frontend-64f67d769f-rw5jr
+    Mounts:
+      /etc/nginx/conf.d/default.conf from nginx-conf-vol (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-xccn4 (ro)
+Events:
+  
+  Warning  Failed     42s (x6 over 3m42s)   kubelet            Error: failed to create containerd task: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: error during container init: error mounting "/var/lib/kubelet/pods/0765e28b-3faf-4e1a-97e2-dfa193977b96/volumes/kubernetes.io~configmap/nginx-conf-vol" to rootfs at "/etc/nginx/conf.d/default.conf": mount /var/lib/kubelet/pods/0765e28b-3faf-4e1a-97e2-dfa193977b96/volumes/kubernetes.io~configmap/nginx-conf-vol:/etc/nginx/conf.d/default.conf (via /proc/self/fd/6), flags: 0x5001: not a directory: unknown
+  
+cluster4-controlplane ~ ➜  k get cm -n cka4974 
+NAME                 DATA   AGE
+kube-root-ca.crt     1      7m11s
+nginx-default-conf   1      7m11s
+
+cluster4-controlplane ~ ➜  k describe cm -n cka4974 nginx-default-conf 
+Name:         nginx-default-conf
+Namespace:    cka4974
+Labels:       <none>
+Annotations:  <none>
+
+Data
+====
+default.conf:
+----
+server {
+listen       81;
+listen  [::]:81;
+server_name  localhost;
+
+#access_log  /var/log/nginx/host.access.log  main;
+
+location / {
+    root   /usr/share/nginx/html;
+    index  index.html index.htm;
+}
+
+#error_page  404              /404.html;
+
+# redirect server error pages to the static page /50x.html
+#
+error_page   500 502 503 504  /50x.html;
+location = /50x.html {
+    root   /usr/share/nginx/html;
+}
+
+# proxy the PHP scripts to Apache listening on 127.0.0.1:80
+#
+#location ~ \.php$ {
+#    proxy_pass   http://127.0.0.1;
+#}
+
+# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+#
+#location ~ \.php$ {
+#    root           html;
+#    fastcgi_pass   127.0.0.1:9000;
+#    fastcgi_index  index.php;
+#    fastcgi_param  SCRIPT_FILENAME  /scripts;
+#    include        fastcgi_params;
+#}
+
+# deny access to .htaccess files, if Apache's document root
+# concurs with nginx's one
+#
+#location ~ /\.ht {
+#    deny  all;
+#}
+}
+
+
+
+BinaryData
+====
+
+Events:  <none>
+
+cluster4-controlplane ~ ➜  k get po -o yaml -n cka4974 nginx-frontend-64f67d769f-rw5jr 
+apiVersion: v1
+
+    volumeMounts:
+    - mountPath: /etc/nginx/conf.d/default.conf
+      name: nginx-conf-vol
+
+cluster4-controlplane ~ ➜  k edit deploy -n cka4974 nginx-frontend 
+deployment.apps/nginx-frontend edited
+
+cluster4-controlplane ~ ➜  k rollout restart deployment -n cka4974 nginx-frontend 
+deployment.apps/nginx-frontend restarted
+
+cluster4-controlplane ~ ➜  k get deploy -n cka4974 
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-frontend   1/1     1            1           10m
+
+cluster4-controlplane ~ ➜  k describe svc -n cka4974
+Name:                     nginx-frontend
+Namespace:                cka4974
+Labels:                   <none>
+Annotations:              <none>
+Selector:                 app=nginx-broken
+Type:                     NodePort
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       172.20.38.155
+IPs:                      172.20.38.155
+Port:                     <unset>  81/TCP
+TargetPort:               81/TCP
+NodePort:                 <unset>  30081/TCP
+Endpoints:                172.17.1.13:81
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+
+cluster4-controlplane ~ ➜  k describe po -n cka4974 nginx-frontend-6d7b9b8987-rnxqb 
+Name:             nginx-frontend-6d7b9b8987-rnxqb
+    Mounts:
+      /etc/nginx/conf.d/default.conf from nginx-conf-vol (rw,path="default.conf")
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-6hnqj (ro)  
+```
+
+This error is a **mounting issue** between your Pod and the ConfigMap. Let’s dissect it step by step:
+
+### 🔎 Error Explanation
+
+```
+error mounting "/var/lib/kubelet/pods/.../volumes/kubernetes.io~configmap/nginx-conf-vol" 
+to rootfs at "/etc/nginx/conf.d/default.conf": 
+not a directory: unknown
+```
+
+👉 This means Kubernetes is trying to mount a **ConfigMap volume** into **`/etc/nginx/conf.d/default.conf`**, but:
+
+* The **source** (`nginx-conf-vol`) is a directory (ConfigMaps are mounted as dirs by default).
+* The **target** (`/etc/nginx/conf.d/default.conf`) is expected to be a file, not a directory.
+
+So kubelet complains: *"not a directory"*.
+
+### 🛠 Common Causes
+
+1. **You mounted the whole ConfigMap volume directly into a file path.**
+
+   * Example:
+
+     ```yaml
+     volumeMounts:
+       - name: nginx-conf-vol
+         mountPath: /etc/nginx/conf.d/default.conf
+     ```
+
+     This is invalid unless you use `subPath`.
+
+2. **Wrong use of ConfigMap keys.**
+
+   * By default, a ConfigMap mounts as a folder where each key becomes a file.
+
+### ✅ How to Fix
+
+#### Option 1: Use `subPath` (when mounting one specific key to a file path)
+
+If your ConfigMap has a key like `default.conf`, mount it like this:
+
+```yaml
+volumeMounts:
+  - name: nginx-conf-vol
+    mountPath: /etc/nginx/conf.d/default.conf  # Target file path inside container
+    subPath: default.conf                      # Key from ConfigMap
+```
+
+Your ConfigMap should look like:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+  namespace: cka24456
+data:
+  default.conf: |
+    server {
+      listen 80;
+      server_name localhost;
+      ...
+    }
+```
+
+#### Option 2: Mount the whole directory (if multiple configs)
+
+```yaml
+volumeMounts:
+  - name: nginx-conf-vol
+    mountPath: /etc/nginx/conf.d
+```
+
+This way, all ConfigMap keys become files under `/etc/nginx/conf.d/`.
+
+### ⚡ Summary
+
+* **Problem**: You’re mounting a ConfigMap (directory) into a file path.
+* **Fix**:
+
+  * Use `subPath` if mounting a **single file**.
+  * Or mount the ConfigMap into a **directory**, not into a file path.
+
+---
