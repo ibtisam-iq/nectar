@@ -291,3 +291,6 @@ command: ["sleep", "5"]
 
 root@student-node ~ ➜  k create cj simple-node-job -n ckad-job --schedule "*/30 * * * *" --image node -- sh -c "ps -eaf"
 ```
+
+- PVC requires some time for binding. So, be patient.
+- The manifest related to volume (pvc, pv), and resource field in pod/deployment.... delete all fields, and the apply.
