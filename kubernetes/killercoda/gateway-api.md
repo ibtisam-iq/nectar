@@ -1223,5 +1223,50 @@ Here’s what’s happening:
 
 👉 Since you’re working in a **lab/exam environment**, I’d recommend **removing `hostnames:`** (Option 2) to avoid needing `-H "Host: ..."`.
 
----
+--
+
+```bash
+# this question was wrong.. it is what it is...
+cluster2-controlplane ~ ➜  k get httproutes.gateway.networking.k8s.io -A
+NAMESPACE   NAME                   HOSTNAMES                   AGE
+cka3658     web-portal-httproute   ["cluster2-controlplane"]   26m
+
+cluster2-controlplane ~ ➜  ls
+12.yaml  7.yaml  vpa-crds.txt  web-portal-httproute.yaml
+
+cluster2-controlplane ~ ➜  vi web-portal-httproute.yaml 
+
+cluster2-controlplane ~ ➜  k replace -f web-portal-httproute.yaml --force
+httproute.gateway.networking.k8s.io "web-portal-httproute" deleted
+httproute.gateway.networking.k8s.io/web-portal-httproute replaced
+
+cluster2-controlplane ~ ➜  k get httproutes.gateway.networking.k8s.io -A
+NAMESPACE   NAME                   HOSTNAMES   AGE
+cka3658     web-portal-httproute               20s
+
+cluster2-controlplane ~ ➜  cat web-portal-httproute.yaml 
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: web-portal-httproute
+  namespace: cka3658
+spec:
+  parentRefs:
+  - name: nginx-gateway
+    namespace: nginx-gateway
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: portal-service-v1
+      port: 80
+      weight: 80
+    - name: portal-service-v2
+      port: 80
+      weight: 20
+
+cluster2-controlplane ~ ➜  
+```
 
