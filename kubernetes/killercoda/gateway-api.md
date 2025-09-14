@@ -1,3 +1,4 @@
+## Q1
 Create an HTTPRoute named web-route in the nginx-gateway namespace that directs traffic from the web-gateway to a 
 backend service named web-service on port 80 and ensures that the route is applied only to requests with the hostname cluster2-controlplane.
 
@@ -74,7 +75,9 @@ cluster2-controlplane ~ ➜
 
 ---
 
-Modify the existing web-gateway on cka5673 namespace to handle HTTPS traffic on port 443 for kodekloud.com, using a TLS certificate stored in a secret named kodekloud-tls.
+## Q2
+
+**Modify** the existing web-gateway on cka5673 namespace to handle HTTPS traffic on port 443 for kodekloud.com, using a TLS certificate stored in a secret named kodekloud-tls.
 
 ```bash
 cluster3-controlplane ~ ➜  k get gatewayclasses.gateway.networking.k8s.io
@@ -607,3 +610,387 @@ curl -vk --resolve kodekloud.com:30081:192.168.141.37 https://kodekloud.com:3008
 This time, instead of `404 Not Found`, you should see the **default Nginx welcome page HTML**.
 
 ---
+
+# Q3
+
+Extend the web-route on cka7395 to direct traffic with the path prefix /api to a service named api-service on port 8080, while all other traffic continues to route to web-service.
+
+```bash
+
+cluster3-controlplane ~ ➜  k get httproutes.gateway.networking.k8s.io -n cka7395 
+NAME        HOSTNAMES   AGE
+web-route               44s
+
+cluster3-controlplane ~ ➜  k get httproutes.gateway.networking.k8s.io -n cka7395 web-route -o yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  creationTimestamp: "2025-09-14T11:41:20Z"
+  generation: 1
+  name: web-route
+  namespace: cka7395
+  resourceVersion: "6276"
+  uid: 8fea7494-855a-4d40-a9d7-893c8a70a781
+spec:
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: nginx-gateway
+    namespace: nginx-gateway
+  rules:
+  - backendRefs:
+    - group: ""
+      kind: Service
+      name: web-service
+      port: 80
+      weight: 1
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
+status:
+  parents:
+  - conditions:
+    - lastTransitionTime: "2025-09-14T11:41:20Z"
+      message: All references are resolved
+      observedGeneration: 1
+      reason: ResolvedRefs
+      status: "True"
+      type: ResolvedRefs
+    - lastTransitionTime: "2025-09-14T11:41:20Z"
+      message: The Gateway is ignored by the controller
+      observedGeneration: 1
+      reason: GatewayIgnored
+      status: "False"
+      type: Accepted
+    controllerName: gateway.nginx.org/nginx-gateway-controller
+    parentRef:
+      group: gateway.networking.k8s.io
+      kind: Gateway
+      name: nginx-gateway
+      namespace: nginx-gateway
+
+cluster3-controlplane ~ ➜  k get gateway -n nginx-gateway 
+NAME            CLASS   ADDRESS   PROGRAMMED   AGE
+nginx-gateway   nginx             False        2m24s
+
+cluster3-controlplane ~ ➜  k get gatewayclasses.gateway.networking.k8s.io 
+NAME    CONTROLLER                                   ACCEPTED   AGE
+nginx   gateway.nginx.org/nginx-gateway-controller   True       103m
+
+cluster3-controlplane ~ ➜  k get gateway -n nginx-gateway nginx-gateway -o yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  annotations:
+  creationTimestamp: "2025-09-14T11:41:19Z"
+  generation: 1
+  name: nginx-gateway
+  namespace: nginx-gateway
+  resourceVersion: "6272"
+  uid: 44a3eeb0-653e-40db-a223-a56cd1ac9253
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - allowedRoutes:
+      namespaces:
+        from: All
+    name: http
+    port: 80
+    protocol: HTTP
+status:
+  conditions:
+  - lastTransitionTime: "2025-09-14T11:41:19Z"
+    message: The resource is ignored due to a conflicting Gateway resource
+    observedGeneration: 1
+    reason: GatewayConflict
+    status: "False"
+    type: Accepted
+  - lastTransitionTime: "2025-09-14T11:41:19Z"
+    message: The resource is ignored due to a conflicting Gateway resource
+    observedGeneration: 1
+    reason: GatewayConflict
+    status: "False"
+    type: Programmed
+
+cluster3-controlplane ~ ➜  kubectl get gateways -A
+NAMESPACE       NAME            CLASS   ADDRESS   PROGRAMMED   AGE
+cka5673         web-gateway     nginx             True         79m
+nginx-gateway   nginx-gateway   nginx             False        9m8s
+
+cluster3-controlplane ~ ➜  k edit httproutes.gateway.networking.k8s.io -n cka7395 web-route 
+httproute.gateway.networking.k8s.io/web-route edited
+
+cluster3-controlplane ~ ➜  k get httproutes.gateway.networking.k8s.io -n cka7395 
+NAME        HOSTNAMES   AGE
+web-route               14m
+
+cluster3-controlplane ~ ➜  k get no -o wide
+NAME                    STATUS   ROLES                  AGE    VERSION        INTERNAL-IP      EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION    CONTAINER-RUNTIME
+cluster3-controlplane   Ready    control-plane,master   141m   v1.32.0+k3s1   192.168.141.37   <none>        Alpine Linux v3.16   5.15.0-1083-gcp   containerd://1.6.8
+
+cluster3-controlplane ~ ➜  k get svc -n nginx-gateway 
+NAME            TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+nginx-gateway   NodePort   10.43.27.175   <none>        80:30080/TCP,443:30081/TCP   121m
+
+cluster3-controlplane ~ ➜  curl http://192.168.141.37:30081/api
+<html>
+<head><title>400 The plain HTTP request was sent to HTTPS port</title></head>
+<body>
+<center><h1>400 Bad Request</h1></center>
+<center>The plain HTTP request was sent to HTTPS port</center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+cluster3-controlplane ~ ➜  curl http://192.168.141.37:30081/
+<html>
+<head><title>400 The plain HTTP request was sent to HTTPS port</title></head>
+<body>
+<center><h1>400 Bad Request</h1></center>
+<center>The plain HTTP request was sent to HTTPS port</center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+cluster3-controlplane ~ ➜  curl http://192.168.141.37:30080/
+curl: (7) Failed to connect to 192.168.141.37 port 30080 after 0 ms: Couldn't connect to server
+
+cluster3-controlplane ~ ✖ curl http://192.168.141.37:30080/api
+curl: (7) Failed to connect to 192.168.141.37 port 30080 after 0 ms: Couldn't connect to server
+
+cluster3-controlplane ~ ✖ 
+```
+
+Got it 👍 This is an **HTTPRoute update** task, not Gateway.
+The `web-route` is already pointing all traffic (`/`) to `web-service:80`.
+
+👉 What you need to do:
+
+* Add a **new rule** in the `HTTPRoute` for requests starting with `/api`.
+* Route those to `api-service:8080`.
+* Keep the existing rule so everything else (default `/`) continues to go to `web-service:80`.
+
+Here’s the updated `HTTPRoute` manifest with detailed comments:
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: web-route
+  namespace: cka7395
+spec:
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: nginx-gateway
+    namespace: nginx-gateway
+
+  rules:
+  # Rule 1: Match /api path and send to api-service:8080
+  - matches:
+    - path:
+        type: PathPrefix   # Prefix match ensures /api, /api/v1, etc. go here
+        value: /api
+    backendRefs:
+    - name: api-service
+      port: 8080
+
+  # Rule 2: Default rule for everything else
+  - matches:
+    - path:
+        type: PathPrefix   # Prefix "/" matches all paths not matched above
+        value: /
+    backendRefs:
+    - name: web-service
+      port: 80
+```
+
+### Steps:
+
+1. Edit the route:
+
+   ```bash
+   kubectl edit httproute -n cka7395 web-route
+   ```
+
+   (or apply the YAML above).
+
+2. Verify:
+
+   ```bash
+   kubectl get httproute -n cka7395 web-route -o yaml
+   ```
+--
+
+Alright sweetheart 💡 here’s a clean **debug flow for fixing a `Programmed: False` Gateway** in Kubernetes Gateway API (like in your lab).
+
+## 🔎 Debugging Gateway with `Programmed: False`
+
+### 1. Check the GatewayClass
+
+```bash
+kubectl get gatewayclass nginx -o yaml
+```
+
+* Look at `.status.conditions`.
+* Must show `Accepted=True`.
+  ✅ In your case, it’s already `Accepted=True`, so the class is fine.
+
+---
+
+### 2. Check for conflicting Gateways
+
+Error in your YAML:
+
+```
+message: The resource is ignored due to a conflicting Gateway resource
+reason: GatewayConflict
+```
+
+👉 This means **two Gateways in the same namespace are trying to use the same port (80)** with the same GatewayClass.
+
+**Fix:**
+
+```bash
+kubectl get gateways -A
+```
+
+* Identify if another Gateway is using port 80 with the `nginx` class.
+* Delete or edit the conflicting one:
+
+```bash
+kubectl delete gateway <other-gateway> -n <ns>
+```
+
+### 3. Verify Listener Section
+
+Your Gateway has:
+
+```yaml
+listeners:
+- name: http
+  port: 80
+  protocol: HTTP
+  allowedRoutes:
+    namespaces:
+      from: All
+```
+
+✅ That’s valid.
+But if there’s already another Gateway with the same spec, you’ll hit `GatewayConflict`.
+
+--
+
+Aha, got it sweetheart ❤️ — the error explains everything:
+
+```
+400 The plain HTTP request was sent to HTTPS port
+```
+
+That means:
+
+* You are trying to use `http://` on port **30081**, but `30081` is mapped to the **HTTPS listener** of the `nginx-gateway`.
+* For **HTTP traffic**, you must use **30080** (because in your NodePort service you have `80:30080/TCP, 443:30081/TCP`).
+
+### 🔹 Correct Testing
+
+#### Test **API service**:
+
+```bash
+curl http://192.168.141.37:30080/api
+```
+
+#### Test **Web service**:
+
+```bash
+curl http://192.168.141.37:30080/
+```
+
+👉 Use **30081** only if you’ve configured your Gateway to terminate TLS (with a `tls:` block in the listener) and you’re calling with `https://`.
+👉 Since your `nginx-gateway` here is configured with only `protocol: HTTP` on port **80**, all traffic is plain HTTP and exposed on **30080**.
+
+--
+
+Got it sweetheart ❤️ let’s debug this step by step because now we’ve moved past config into **connectivity / routing issues**.
+
+### 1️⃣ Confirm the Gateway listener
+
+Your Gateway YAML showed:
+
+```yaml
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All
+```
+
+👉 That means it should listen on **port 80 (NodePort 30080)** for HTTP traffic.
+
+But your status earlier said:
+
+```
+status:
+  conditions:
+  - message: The resource is ignored due to a conflicting Gateway resource
+    reason: GatewayConflict
+    status: "False"
+    type: Accepted
+```
+
+⚠️ This means the `nginx-gateway` wasn’t fully programmed — **there’s a conflict** (maybe another Gateway in the same namespace with the same listener port).
+
+### 2️⃣ Check if another Gateway is using port 80
+
+Run:
+
+```bash
+kubectl get gateway -A
+```
+
+### 3️⃣ Confirm the controller actually attached
+
+Check the logs of your `nginx-gateway` controller pod:
+
+```bash
+kubectl logs -n nginx-gateway deploy/nginx-gateway
+```
+
+Look for errors like *"conflicting Gateway"* or *"listener port already in use"*.
+
+### 4️⃣ Quick check: service exposure
+
+Let’s confirm the service is really binding NodePort `30080`:
+
+```bash
+kubectl get svc -n nginx-gateway nginx-gateway -o yaml | grep nodePort
+```
+
+You should see:
+
+```yaml
+nodePort: 30080
+```
+
+### 5️⃣ Test inside the cluster
+
+Sometimes NodePort doesn’t respond if the controller never bound the listener. Let’s test from **inside a pod** in the cluster:
+
+```bash
+kubectl run tmp --rm -it --image=curlimages/curl -- sh
+# inside pod:
+curl http://nginx-gateway.nginx-gateway.svc.cluster.local:80/
+curl http://nginx-gateway.nginx-gateway.svc.cluster.local:80/api
+```
+
+👉 If this works, but NodePort fails → NodePort is exposed but not bound due to Gateway conflict.
+
+---
+
+
+
