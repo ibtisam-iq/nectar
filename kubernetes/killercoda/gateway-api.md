@@ -992,5 +992,73 @@ curl http://nginx-gateway.nginx-gateway.svc.cluster.local:80/api
 
 ---
 
+Configure a web-portal-httproute within the cka3658 namespace to facilitate traffic distribution. Route 80% of the traffic to web-portal-service-v1 and 20% to the new version, web-portal-service-v2.
 
+> Note: Gateway has already been created in the nginx-gateway namespace.
+To test the gateway, execute the following command:
+
+`curl http://cluster2-controlplane:30080`
+
+```bash
+cluster2-controlplane ~ ➜  k get httproutes.gateway.networking.k8s.io -A
+No resources found
+
+cluster2-controlplane ~ ➜  k get gateway -A 
+NAMESPACE       NAME            CLASS   ADDRESS   PROGRAMMED   AGE
+nginx-gateway   nginx-gateway   nginx             True         77s
+
+cluster2-controlplane ~ ➜  k get svc -n cka3658 
+NAME                    TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+web-portal-service-v1   ClusterIP   172.20.34.1      <none>        80/TCP    106s
+web-portal-service-v2   ClusterIP   172.20.133.219   <none>        80/TCP    105s
+
+cluster2-controlplane ~ ➜  k get svc -n nginx-gateway 
+NAME            TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+nginx-gateway   NodePort   172.20.19.62   <none>        80:30080/TCP,443:30081/TCP   90m
+
+cluster2-controlplane ~ ➜  vi 9.yaml
+
+cluster2-controlplane ~ ➜  k apply -f 9.yaml 
+httproute.gateway.networking.k8s.io/web-portal-httproute created
+
+cluster2-controlplane ~ ➜  curl http://cluster2-controlplane:30080
+
+<html>
+<head><title>Welcome</title></head>
+<body>
+    <h1>Hello from Web Portal App 2</h1>
+</body>
+</html>
+cluster2-controlplane ~ ➜  cat 9.yaml 
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: web-portal-httproute
+  namespace: cka3658
+spec:
+  parentRefs:
+  - name: nginx-gateway
+    namespace: nginx-gateway
+  hostnames:
+  - "cluster2-controlplane"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: web-portal-service-v1
+      port: 80
+      weight: 80
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: web-portal-service-v2
+      port: 80
+      weight: 20
+
+cluster2-controlplane ~ ➜  
+```
 
