@@ -1,3 +1,38 @@
+Utilize helm to search for the repository URL of the Bitnami version of the nginx repository. Ensure that you save the repository URL in the file located at /root/nginx-helm-url.txt on the cluster3-controlplane.
+
+```bash
+cluster3-controlplane ~ ➜  helm repo list
+Error: no repositories to show
+
+cluster3-controlplane ~ ✖ helm search hub bitnami/nginx
+No results found
+
+cluster3-controlplane ~ ➜  echo "https://charts.bitnami.com/bitnami" > /root/nginx-helm-url.txt
+```
+
+Ahh 👍 I see the issue:
+
+* `helm search repo nginx` only works **after you’ve added repositories**.
+* `helm search hub` queries the **Artifact Hub**, but in some lab environments (like KodeKloud or exam setups), that can be disabled.
+
+Since the question is about *“finding the repository URL of the Bitnami nginx repo”*, you don’t actually need Helm Hub to be working — the official URL is fixed:
+
+👉 **Bitnami Helm repo URL:**
+
+```
+https://charts.bitnami.com/bitnami
+```
+
+⚡ If you want to test it for yourself, you can add and search like this:
+
+```bash
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+helm search repo nginx
+```
+
+---
+
 ## 1
 
 Your error:
