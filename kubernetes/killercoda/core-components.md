@@ -632,6 +632,40 @@ cluster4-controlplane ~ ➜  crictl logs 1d912d2a953bb
 
 cluster4-controlplane ~ ➜  cat /etc/kubernetes/manifests/kube-apiserver.yaml  | grep -i etcd-server
     - --etcd-servers=http://127.0.0.1:2379                    # culprit .. https, not http
+
+cluster4-controlplane ~ ➜  vi /etc/kubernetes/manifests/kube-apiserver.yaml  # change made
+
+cluster4-controlplane ~ ➜  systemctl restart kubelet
+
+cluster4-controlplane ~ ➜  k get po
+Get "https://cluster4-controlplane:6443/api/v1/namespaces/default/pods?limit=500": dial tcp 192.168.81.145:6443: connect: connection refused - error from a previous attempt: read tcp 192.168.81.145:55452->192.168.81.145:6443: read: connection reset by peer
+
+cluster4-controlplane ~ ✖ crictl ps -a
+CONTAINER           IMAGE               CREATED              STATE               NAME                      ATTEMPT             POD ID              POD                                             NAMESPACE
+c47aa33b10950       c2e17b8d0f4a3       4 seconds ago        Running             kube-apiserver            4                   aba098ebe3359       kube-apiserver-cluster4-controlplane            kube-system
+87ce0b18b25df       c2e17b8d0f4a3       About a minute ago   Exited              kube-apiserver            3                   aba098ebe3359       kube-apiserver-cluster4-controlplane            kube-system
+9a5ccba132327       c2e17b8d0f4a3       5 minutes ago        Exited              kube-apiserver            17                  cc3b894fd021e       kube-apiserver-cluster4-controlplane            kube-system
+
+cluster4-controlplane ~ ✖ crictl logs c47aa33b10950
+W0914 20:48:04.662949       1 registry.go:256] calling componentGlobalsRegistry.AddFlags more than once, the registry will be set by the latest flags
+I0914 20:48:04.663480       1 options.go:238] external host was not specified, using 192.168.81.145
+I0914 20:48:04.666544       1 server.go:143] Version: v1.32.0
+I0914 20:48:04.666583       1 server.go:145] "Golang settings" GOGC="" GOMAXPROCS="" GOTRACEBACK=""
+I0914 20:48:05.153525       1 shared_informer.go:313] Waiting for caches to sync for node_authorizer
+W0914 20:48:05.155285       1 logging.go:55] [core] [Channel #2 SubChannel #4]grpc: addrConn.createTransport failed to connect to {Addr: "127.0.0.1:2379", ServerName: "127.0.0.1:2379", }. Err: connection error: desc = "transport: authentication handshake failed: tls: failed to verify certificate: x509: certificate signed by unknown authority"
+
+cluster4-controlplane ~ ➜  vi /etc/kubernetes/manifests/kube-apiserver.yaml 
+
+cluster4-controlplane ~ ➜  cat /etc/kubernetes/manifests/kube-apiserver.yaml | grep -i etcd-cafile
+    - --etcd-cafile=/etc/kubernetes/pki/ca.crt
+
+cluster4-controlplane ~ ➜  ls /etc/kubernetes/pki/etcd/ca.crt 
+/etc/kubernetes/pki/etcd/ca.crt
+
+cluster4-controlplane ~ ➜  vi /etc/kubernetes/manifests/kube-apiserver.yaml         # path is corrected.
+
+cluster4-controlplane ~ ➜  systemctl restart kubelet
+
 ```
 
 Perfect, this gives us a much clearer picture ❤️
@@ -661,5 +695,19 @@ error: "error reading server preface: read tcp ... tls: first record does not lo
   ```
   --etcd-servers=https://127.0.0.1:2379
   ```
+--
+Sweetheart, we’ve moved one step forward ❤️
+
+Now kube-apiserver is indeed talking **over TLS**, but the error shows:
+
+```
+tls: failed to verify certificate: x509: certificate signed by unknown authority
+```
+
+👉 This means kube-apiserver is either:
+
+1. Using the wrong CA file (`--etcd-cafile`), or
+2. The CA used to sign etcd’s server cert is different from what kube-apiserver trusts, or
+3. The cert/key pair for `apiserver-etcd-client` doesn’t match the CA chain.
 
 ---
