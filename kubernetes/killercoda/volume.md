@@ -733,3 +733,58 @@ root@student-node ~ ➜
 ```
 
 ---
+
+In the cka-multi-containers namespace, proceed to create a pod named cka-sidecar-pod that adheres to the following specifications:
+
+The first container, labeled main-container, is required to run the nginx:1.27, which writes the current date along with a greeting message Hi I am from Sidecar container to /log/app.log.
+The second container, identified as sidecar-container, must use the nginx:1.25 image and serve the app.log file as a webpage located at /usr/share/nginx/html.
+
+Note: Do not rename app.log to index.html. The file name should remain app.log and be available at /app.log via the nginx server.
+
+```bash
+cluster2-controlplane ~ ➜  vi 4.yaml
+
+cluster2-controlplane ~ ➜  k apply -f 4.yaml 
+pod/cka-sidecar-pod created
+
+cluster2-controlplane ~ ➜  k get po -n cka-multi-containers
+NAME              READY   STATUS    RESTARTS   AGE
+cka-sidecar-pod   2/2     Running   0          23s
+
+cluster2-controlplane ~ ➜  cat 4.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cka-sidecar-pod
+  namespace: cka-multi-containers
+spec:
+  containers:
+    - name: main-container
+      image: nginx:1.27
+      command:
+        - sh
+        - -c
+        - |
+          while true; do
+            echo "$(date) - Hi I am from Sidecar container" >> /log/app.log
+            sleep 5
+          done
+      volumeMounts:
+        - name: shared-log
+          mountPath: /log
+    - name: sidecar-container
+      image: nginx:1.25
+      ports:
+        - containerPort: 80
+      volumeMounts:
+        - name: shared-log
+          mountPath: /usr/share/nginx/html/app.log
+          # Keep original file name
+          subPath: app.log
+  volumes:
+    - name: shared-log
+      emptyDir: {}
+
+
+cluster2-controlplane ~ ➜  
+```
