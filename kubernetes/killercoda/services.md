@@ -234,6 +234,8 @@ Session Affinity:         None
 Internal Traffic Policy:  Cluster
 Events:                   <none>
 ```
+
+**Servive and EndpointSlice, both must share the same namespace.
 ---
 
 For this scenario, create a Service called ckad12-service that routes traffic to an external IP address.
