@@ -345,3 +345,112 @@ Aug 27 22:45:11 controlplane kubelet[40112]: E0827 22:45:11.297088   40112 contr
 controlplane:~$ vi /etc/kubernetes/kubelet.conf     # correct 6443
 controlplane:~$ systemctl restart kubelet
 ```
+
+---
+
+As a Kubernetes administrator, you are unable to run any of the kubectl commands on the cluster. Troubleshoot the problem and get the cluster to a functioning state.
+
+```bash
+cluster2-controlplane ~ ➜  k get po
+The connection to the server cluster2-controlplane:6443 was refused - did you specify the right host or port?
+
+cluster2-controlplane ~ ✖ systemctl status kubelet
+Unit kubelet.service could not be found.
+
+cluster2-controlplane ~ ➜  systemctl restart kubelet
+Failed to restart kubelet.service: Unit kubelet.service not found.
+
+cluster2-controlplane ~ ✖ kubelet --version
+-bash: kubelet: command not found
+
+cluster2-controlplane ~ ✖ crictl ps -a            # kube-api is missing
+CONTAINER           IMAGE               CREATED             STATE               NAME                      ATTEMPT             POD ID              POD                                             NAMESPACE
+1113de67362a1       ead0a4a53df89       3 hours ago         Running             coredns                   0                   6b0e9856ba2cb       coredns-7484cd47db-d49n4                        kube-system
+d6007d7699fc0       6331715a2ae96       3 hours ago         Running             calico-kube-controllers   0                   28a813d9bfaf5       calico-kube-controllers-5745477d4d-f85nw        kube-system
+f132952240e20       ead0a4a53df89       3 hours ago         Running             coredns                   0                   bf10e9065f69b       coredns-7484cd47db-z9587                        kube-system
+aba9eb828077b       c9fe3bce8a6d8       3 hours ago         Running             kube-flannel              0                   69bb68b050027       canal-9rt2t                                     kube-system
+bab59c97d4639       feb26d4585d68       3 hours ago         Running             calico-node               0                   69bb68b050027       canal-9rt2t                                     kube-system
+92606c940e47b       7dd6ea186aba0       3 hours ago         Exited              install-cni               0                   69bb68b050027       canal-9rt2t                                     kube-system
+60301c825929b       040f9f8aac8cd       3 hours ago         Running             kube-proxy                0                   26c8826e3f4b3       kube-proxy-ztbtw                                kube-system
+3543947ce7882       a9e7e6b294baf       3 hours ago         Running             etcd                      0                   c63740a8910c6       etcd-cluster2-controlplane                      kube-system
+e6030f877ef30       a389e107f4ff1       3 hours ago         Exited              kube-scheduler            0                   2fff814eb5b2a       kube-scheduler-cluster2-controlplane            kube-system
+bf6948a625326       8cab3d2a8bd0f       3 hours ago         Exited              kube-controller-manager   0                   0e9a58616d301       kube-controller-manager-cluster2-controlplane   kube-system
+
+cluster2-controlplane ~ ➜  kubeadm version
+kubeadm version: &version.Info{Major:"1", Minor:"32", GitVersion:"v1.32.0", GitCommit:"70d3cc986aa8221cd1dfb1121852688902d3bf53", GitTreeState:"clean", BuildDate:"2024-12-11T18:04:20Z", GoVersion:"go1.23.3", Compiler:"gc", Platform:"linux/amd64"}
+
+cluster2-controlplane ~ ➜  sudo apt-mark unhold kubelet && \
+sudo apt-get update && sudo apt-get install -y kubelet='1.32.0' && \
+sudo apt-mark hold kubelet
+kubelet was already not on hold.
+Hit:2 http://archive.ubuntu.com/ubuntu jammy InRelease                                                                                                     
+Fetched 21.6 MB in 2s (8,802 kB/s)                           
+Reading package lists... Done
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Package kubelet is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+E: Version '1.32.0' for 'kubelet' was not found
+
+cluster2-controlplane ~ ✖ apt-cache madison kubelet
+   kubelet | 1.32.9-1.1 | https://pkgs.k8s.io/core:/stable:/v1.32/deb  Packages
+   kubelet | 1.32.8-1.1 | https://pkgs.k8s.io/core:/stable:/v1.32/deb  Packages
+   kubelet | 1.32.7-1.1 | https://pkgs.k8s.io/core:/stable:/v1.32/deb  Packages
+   kubelet | 1.32.6-1.1 | https://pkgs.k8s.io/core:/stable:/v1.32/deb  Packages
+   kubelet | 1.32.5-1.1 | https://pkgs.k8s.io/core:/stable:/v1.32/deb  Packages
+   kubelet | 1.32.4-1.1 | https://pkgs.k8s.io/core:/stable:/v1.32/deb  Packages
+   kubelet | 1.32.3-1.1 | https://pkgs.k8s.io/core:/stable:/v1.32/deb  Packages
+   kubelet | 1.32.2-1.1 | https://pkgs.k8s.io/core:/stable:/v1.32/deb  Packages
+   kubelet | 1.32.1-1.1 | https://pkgs.k8s.io/core:/stable:/v1.32/deb  Packages
+   kubelet | 1.32.0-1.1 | https://pkgs.k8s.io/core:/stable:/v1.32/deb  Packages
+
+cluster2-controlplane ~ ➜  sudo apt-mark unhold kubelet && sudo apt-get update && sudo apt-get install -y kubelet='1.32.0-1.1' && sudo apt-mark hold kubelet
+kubelet was already not on hold.
+Hit:2 https://download.docker.com/linux/ubuntu jammy InRelease                                                              
+The following NEW packages will be installed:
+  kubelet
+0 upgraded, 1 newly installed, 0 to remove and 80 not upgraded.
+Preparing to unpack .../kubelet_1.32.0-1.1_amd64.deb ...
+Unpacking kubelet (1.32.0-1.1) ...
+Setting up kubelet (1.32.0-1.1) ...
+kubelet set on hold.
+
+cluster2-controlplane ~ ➜  systemctl restart kubelet
+
+cluster2-controlplane ~ ➜  k get no
+NAME                    STATUS   ROLES           AGE    VERSION
+cluster2-controlplane   Ready    control-plane   171m   v1.32.0
+cluster2-node01         Ready    <none>          171m   v1.32.0
+
+cluster2-controlplane ~ ➜  kubelet --version
+Kubernetes v1.32.0 
+```
+
+Got it sweetheart ❤️ this is happening because the **new Kubernetes apt repo** (`pkgs.k8s.io`) does **not** package versions like plain `1.32.0`.
+Instead, the packages are named with the **full deb version string**, for example:
+
+```
+kubelet=1.32.0-1.1
+```
+
+That’s why `apt` couldn’t find `1.32.0` directly.
+
+### 🔹 Step 1: Check available kubelet versions
+
+Run:
+
+```bash
+apt-cache madison kubelet
+```
+
+You’ll see output like:
+
+```
+  kubelet | 1.32.0-1.1 | https://pkgs.k8s.io/core:/stable:/v1.32/deb/ ...
+  kubelet | 1.31.2-1.1 | https://pkgs.k8s.io/core:/stable:/v1.32/deb/ ...
+```
+
+---
