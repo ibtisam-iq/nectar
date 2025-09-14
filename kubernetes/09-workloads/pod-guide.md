@@ -291,7 +291,7 @@ spec:                         # --> POD-LEVEL SPEC STARTS HERE
   restartPolicy: Always       # Pod-level (Always, OnFailure, Never)
   nodeSelector:               # Pod-level (simple scheduling)
     disktype: ssd
-  nodeName: node01            # Even node is exposed to cordon or drain, and own the status: Ready,SchedulingDisabled
+  nodeName: node01            # Even node is exposed to cordon or drain or tainted, and own the status: Ready,SchedulingDisabled
   tolerations:                # Pod-level (to match node taints)
   - key: "key1"
     operator: "Equal"
