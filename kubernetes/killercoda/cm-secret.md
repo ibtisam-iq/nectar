@@ -123,3 +123,72 @@ cluster3-controlplane ~ ➜  curl http://cluster3-controlplane:31020
   
     <h2> Environment Variables: DB_Host=mysql-svc-wl05; DB_Database=Not Set; DB_User=root; DB_Password=password123;  </h2>
 ```
+
+Create a ConfigMap called db-user-pass-cka17-arch in the default namespace using the contents of the file /opt/db-user-pass on the cluster1-controlplane.
+
+```bash
+cluster1-controlplane ~ ➜  ls /opt/db-user-pass 
+/opt/db-user-pass
+
+cluster1-controlplane ~ ➜  cat /opt/db-user-pass 
+DB_USER
+admin
+
+cluster1-controlplane ~ ➜  k create cm db-user-pass-cka17-arch --from-literal DB_USER=admin   # wrong
+configmap/db-user-pass-cka17-arch created
+
+cluster1-controlplane ~ ✖ kubectl create cm db-user-pass-cka17-arch --from-file=/opt/db-user-pass
+error: failed to create configmap: configmaps "db-user-pass-cka17-arch" already exists
+
+cluster1-controlplane ~ ✖ k get cm 
+NAME                      DATA   AGE
+db-user-pass-cka17-arch   1      6m37s
+kube-root-ca.crt          1      140m
+
+cluster1-controlplane ~ ➜  k delete cm db-user-pass-cka17-arch 
+configmap "db-user-pass-cka17-arch" deleted
+
+cluster1-controlplane ~ ➜  kubectl create cm db-user-pass-cka17-arch --from-file=/opt/db-user-pass
+configmap/db-user-pass-cka17-arch created
+
+cluster1-controlplane ~ ➜  k get cm 
+NAME                      DATA   AGE
+db-user-pass-cka17-arch   1      4s
+kube-root-ca.crt          1      140m
+
+cluster1-controlplane ~ ➜  k describe cm db-user-pass-cka17-arch 
+Name:         db-user-pass-cka17-arch
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+
+Data
+====
+db-user-pass:
+----
+DB_USER
+admin
+
+
+
+BinaryData
+====
+
+Events:  <none>
+
+cluster1-controlplane ~ ➜  k get cm db-user-pass-cka17-arch -o yaml
+apiVersion: v1
+data:
+  db-user-pass: |
+    DB_USER
+    admin
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2025-09-14T15:25:39Z"
+  name: db-user-pass-cka17-arch
+  namespace: default
+  resourceVersion: "14038"
+  uid: a30dd633-65fd-4c2f-84e5-422a34f1c1c2
+
+cluster1-controlplane ~ ➜  
+```
