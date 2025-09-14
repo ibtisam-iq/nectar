@@ -1059,6 +1059,169 @@ spec:
       port: 80
       weight: 20
 
-cluster2-controlplane ~ ➜  
+cluster2-controlplane ~ ➜  k get no
+NAME                    STATUS   ROLES           AGE    VERSION
+cluster2-controlplane   Ready    control-plane   112m   v1.32.0
+cluster2-node01         Ready    <none>          111m   v1.32.0
+
+cluster2-controlplane ~ ➜  k get no -o wide
+NAME                    STATUS   ROLES           AGE    VERSION   INTERNAL-IP      EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION    CONTAINER-RUNTIME
+cluster2-controlplane   Ready    control-plane   112m   v1.32.0   192.168.13.232   <none>        Ubuntu 22.04.5 LTS   5.15.0-1083-gcp   containerd://1.6.26
+cluster2-node01         Ready    <none>          111m   v1.32.0   192.168.141.49   <none>        Ubuntu 22.04.4 LTS   5.15.0-1083-gcp   containerd://1.6.26
+
+cluster2-controlplane ~ ➜  curl http://192.168.13.232:30080
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+cluster2-controlplane ~ ➜  curl http://192.168.141.49:30080
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+cluster2-controlplane ~ ➜  curl -H "Host: cluster2-controlplane" http://192.168.13.232:30080
+
+<html>
+<head><title>Welcome</title></head>
+<body>
+    <h1>Hello from Web Portal App 1</h1>
+</body>
+</html>
+cluster2-controlplane ~ ➜   
 ```
+
+Great question sweetheart ❤️ — let’s break this down clearly.
+
+### 🔑 In Gateway API (like `HTTPRoute`)
+
+* The `hostnames:` field is **optional**.
+* If you don’t set it, the route will match **all hostnames** (wildcard).
+* If you do set it, you can specify either:
+
+  * A **fully qualified domain name (FQDN)** like `myapp.example.com`
+  * A **wildcard domain** like `*.example.com`
+  * Or even the **cluster node name / IP** if you test locally (but that’s not common practice).
+
+### ✅ For your lab environment (KodeKloud / CKAD-style cluster)
+
+* You don’t have a real domain (like `.com`) mapped.
+* You usually **don’t need to set `hostnames`** — just leave it out, and it will work with `curl http://cluster2-controlplane:30080`.
+
+So your YAML can simply skip the `hostnames:` block.
+
+### Example: Your `HTTPRoute` for traffic splitting
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: web-portal-httproute
+  namespace: cka3658
+spec:
+  parentRefs:
+    - name: nginx-gateway
+      namespace: nginx-gateway
+  rules:
+    - backendRefs:
+        - name: web-portal-service-v1
+          port: 80
+          weight: 80
+        - name: web-portal-service-v2
+          port: 80
+          weight: 20
+```
+
+Notice 👉 I did **not** include `hostnames:`.
+That way, when you test with:
+
+```bash
+curl http://cluster2-controlplane:30080
+```
+
+it will still work, because the Gateway is listening on all hostnames.
+
+### 📝 If you *had* a real DNS (e.g. `portal.example.com`)
+
+Then you’d add:
+
+```yaml
+hostnames:
+  - "portal.example.com"
+```
+
+But in your lab → not needed.
+
+--
+
+Nice catch ✅ — the behavior makes total sense.
+
+Here’s what’s happening:
+
+* When you curl **just the IP:30080**, you got `404 Not Found` → because your `HTTPRoute` has a `hostnames:` field.
+  The Gateway only routes traffic if the **Host header matches**.
+
+* When you curl with:
+
+  ```bash
+  curl -H "Host: cluster2-controlplane" http://192.168.13.232:30080
+  ```
+
+  you got a valid response → because now the Host header matches your YAML `hostnames`.
+
+### 🔑 Options to fix
+
+1. **Keep `hostnames:`**
+   ✅ Then you *must always* use:
+
+   ```bash
+   curl -H "Host: cluster2-controlplane" http://<NODE-IP>:30080
+   ```
+
+   (Exactly like you just did — this works.)
+
+2. **Remove `hostnames:` from your HTTPRoute YAML**
+   ✅ Then any request hitting the Gateway on port `30080` will be routed (no Host header required).
+   Example YAML adjustment:
+
+   ```yaml
+   spec:
+     parentRefs:
+     - name: nginx-gateway
+       namespace: nginx-gateway
+     rules:
+     - matches:
+       - path:
+           type: PathPrefix
+           value: /
+       backendRefs:
+       - name: web-portal-service-v1
+         port: 80
+         weight: 80
+     - matches:
+       - path:
+           type: PathPrefix
+           value: /
+       backendRefs:
+       - name: web-portal-service-v2
+         port: 80
+         weight: 20
+   ```
+
+   Now you can simply run:
+
+   ```bash
+   curl http://192.168.13.232:30080
+   ```
+
+👉 Since you’re working in a **lab/exam environment**, I’d recommend **removing `hostnames:`** (Option 2) to avoid needing `-H "Host: ..."`.
+
+---
 
