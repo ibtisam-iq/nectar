@@ -187,3 +187,23 @@ resources:
 
 ---
 
+Identify the CPU and memory resource capacity on cluster2-node01 node and save the results in /root/cluster2-node01-cpu.txt and /root/cluster2-node01-memory.txt, respectively, on the cluster2-controlplane.
+
+```bash
+cluster2-controlplane ~ ✖ k get no cluster2-node01 -o yaml
+
+status:
+  capacity:
+    cpu: "32"
+    ephemeral-storage: 1546531076Ki
+    hugepages-1Gi: "0"
+    hugepages-2Mi: "0"
+    memory: 131992568Ki
+    pods: "110"
+
+cluster2-controlplane ~ ➜  echo "131992568Ki" > /root/cluster2-node01-memory.txt
+
+cluster2-controlplane ~ ➜  echo "32" > /root/cluster2-node01-cpu.txt
+
+cluster2-controlplane ~ ➜  
+```
