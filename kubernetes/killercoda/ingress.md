@@ -223,3 +223,62 @@ Events:
 
 root@student-node ~ ➜  
 ```
+
+A deployment called nodeapp-dp-cka08-trb is created in the default namespace on cluster1. This app is using an ingress resource named nodeapp-ing-cka08-trb.
+From cluster1-controlplane host, we should be able to access this app using the command curl http://kodekloud-ingress.app. However, it is not working at the moment. Troubleshoot and fix the issue.
+
+```bash
+cluster1-controlplane ~ ➜  curl http://kodekloud-ingress.app
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+cluster1-controlplane ~ ➜  k get deploy 
+NAME                                              READY   UP-TO-DATE   AVAILABLE   AGE
+nodeapp-dp-cka08-trb                              1/1     1            1           2m44s
+
+cluster1-controlplane ~ ➜  k get ingress
+NAME                    CLASS   HOSTS         ADDRESS          PORTS   AGE
+nodeapp-ing-cka08-trb   nginx   example.com   192.168.141.49   80      2m37s
+
+cluster1-controlplane ~ ➜  k get svc
+NAME                                              TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)            AGE
+nodeapp-svc-cka08-trb                             ClusterIP   172.20.177.109   <none>        3000/TCP           3m24s
+
+cluster1-controlplane ~ ➜  k get ingressclasses.networking.k8s.io 
+NAME    CONTROLLER             PARAMETERS   AGE
+nginx   k8s.io/ingress-nginx   <none>       4m31s
+
+cluster1-controlplane ~ ➜  k get ingress nodeapp-ing-cka08-trb -o yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nodeapp-ing-cka08-trb
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: example.com                                        # wrong, change it to kodekloud-ingress.app
+    http:
+      paths:
+      - backend:
+          service:
+            name: example-service                            # wrong, change it to nodeapp-svc-cka08-trb
+            port:
+              number: 80                                     # wrong, change it to 3000
+        path: /
+        pathType: Prefix
+
+cluster1-controlplane ~ ➜  k edit ingress nodeapp-ing-cka08-trb
+ingress.networking.k8s.io/nodeapp-ing-cka08-trb edited
+
+cluster1-controlplane ~ ➜  curl http://kodekloud-ingress.app
+Hello World
+cluster1-controlplane ~ ➜  
+```
+
+---
