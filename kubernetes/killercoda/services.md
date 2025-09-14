@@ -235,7 +235,9 @@ Internal Traffic Policy:  Cluster
 Events:                   <none>
 ```
 
-**Servive and EndpointSlice, both must share the same namespace.
+- Servive and EndpointSlice, both must share the same namespace.
+- ip of node: `ping student-node` from the kubectl node `cluster3-controlplane` or  ssh into `student-node` and fetch it via `ip a` or `ifconfig`
+
 ---
 
 For this scenario, create a Service called ckad12-service that routes traffic to an external IP address.
