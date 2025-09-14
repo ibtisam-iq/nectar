@@ -525,3 +525,214 @@ Your Ingress resource:
 
 ✅ So yes: the default backend service in the controller args belongs to `app-space`, and it does **not** have to match the namespace where you created your Ingress (`critical-space`).
 
+---
+
+An nginx-based pod called cyan-pod-cka28-trb is running under the cyan-ns-cka28-trb namespace and is exposed within the cluster using the cyan-svc-cka28-trb service.
+
+This is a restricted pod, so a network policy called cyan-np-cka28-trb has been created in the same namespace to apply some restrictions on this pod.
+
+
+Two other pods called cyan-white-cka28-trb and cyan-black-cka28-trb are also running in the default namespace.
+
+
+The nginx-based app running on the cyan-pod-cka28-trb pod is exposed internally on the default nginx port (80).
+
+
+
+Expectation: This app should only be accessible from the cyan-white-cka28-trb pod.
+
+
+Problem: This app is not accessible from anywhere.
+
+
+Troubleshoot this issue and fix the connectivity as per the requirement listed above.
+
+
+Note: You can exec into cyan-white-cka28-trb and cyan-black-cka28-trb pods and test connectivity using the curl utility.
+
+
+You may update the network policy, but make sure it is not deleted from the cyan-ns-cka28-trb namespace.
+
+```bash
+cluster1-controlplane ~ ➜  k get po,netpol,svc -n cyan-ns-cka28-trb 
+NAME                     READY   STATUS    RESTARTS   AGE
+pod/cyan-pod-cka28-trb   1/1     Running   0          2m30s
+
+NAME                                                POD-SELECTOR             AGE
+networkpolicy.networking.k8s.io/cyan-np-cka28-trb   app=cyan-app-cka28-trb   2m28s
+
+NAME                         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/cyan-svc-cka28-trb   ClusterIP   172.20.64.203   <none>        80/TCP    2m29s
+
+cluster1-controlplane ~ ➜  k get po --show-labels 
+NAME                                          READY   STATUS    RESTARTS      AGE     LABELS
+cyan-black-cka28-trb                          1/1     Running   0             4m2s    app=cyan-black-cka28-trb
+cyan-white-cka28-trb                          1/1     Running   0             4m3s    app=cyan-white-cka28-trb
+
+cluster1-controlplane ~ ➜  k get svc
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   172.20.0.1   <none>        443/TCP   34m
+
+cluster1-controlplane ~ ➜  k get netpol -n cyan-ns-cka28-trb 
+NAME                POD-SELECTOR             AGE
+cyan-np-cka28-trb   app=cyan-app-cka28-trb   12m
+
+cluster1-controlplane ~ ➜  k get netpol -n cyan-ns-cka28-trb -o yaml
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2025-09-14T16:00:48Z"
+    generation: 1
+    name: cyan-np-cka28-trb
+    namespace: cyan-ns-cka28-trb
+    resourceVersion: "4379"
+    uid: 0786691c-3faa-479b-b2e6-6bcca2e5e4f3
+  spec:
+    egress:
+    - ports:
+      - port: 8080
+        protocol: TCP
+    ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: default
+      ports:
+      - port: 8080
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app: cyan-app-cka28-trb
+    policyTypes:
+    - Ingress
+    - Egress
+kind: List
+metadata:
+  resourceVersion: ""
+
+cluster1-controlplane ~ ✖ k edit netpol -n cyan-ns-cka28-trb 
+networkpolicy.networking.k8s.io/cyan-np-cka28-trb edited
+
+cluster1-controlplane ~ ➜  k -n default exec -it cyan-white-cka28-trb -- curl -sI cyan-svc-cka28-trb.cyan-ns-cka28-trb.svc.cluster.local
+HTTP/1.1 200 OK
+Server: nginx/1.14.2
+Date: Sun, 14 Sep 2025 16:17:48 GMT
+Content-Type: text/html
+Content-Length: 612
+Last-Modified: Tue, 04 Dec 2018 14:44:49 GMT
+Connection: keep-alive
+ETag: "5c0692e1-264"
+Accept-Ranges: bytes
+
+
+cluster1-controlplane ~ ➜  k -n default exec -it cyan-black-cka28-trb -- curl -sI cyan-svc-cka28-trb.cyan-ns-cka28-trb.svc.cluster.local
+^Ccommand terminated with exit code 130
+
+cluster1-controlplane ~ ✖ k get netpol -n cyan-ns-cka28-trb -o yaml
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2025-09-14T16:00:48Z"
+    generation: 3
+    name: cyan-np-cka28-trb
+    namespace: cyan-ns-cka28-trb
+    resourceVersion: "5016"
+    uid: 0786691c-3faa-479b-b2e6-6bcca2e5e4f3
+  spec:
+    egress:
+    - ports:
+      - port: 8080
+        protocol: TCP
+    ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: default
+        podSelector:                                # added
+          matchLabels:
+            app: cyan-white-cka28-trb
+      ports:
+      - port: 80                                    # changed from 8080 to 80
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app: cyan-app-cka28-trb
+    policyTypes:
+    - Ingress
+    - Egress
+kind: List
+metadata:
+  resourceVersion: ""
+
+cluster1-controlplane ~ ➜  
+
+```
+
+Got it 👍 Let’s carefully troubleshoot step by step.
+
+---
+
+### 🔎 Problem Analysis
+
+1. **Pod & Service Setup**
+
+   * Pod: `cyan-pod-cka28-trb` (nginx-based, listening on port **80**)
+   * Service: `cyan-svc-cka28-trb` → Port **80/TCP**, targets the pod.
+
+2. **Other Pods**
+
+   * `cyan-white-cka28-trb` (default namespace) ✅ should access nginx.
+   * `cyan-black-cka28-trb` (default namespace) ❌ should be denied.
+
+   **Issues:**
+
+   * Only **port 8080** is allowed, but nginx runs on **80**.
+   * Ingress allows *all pods* in `default` namespace → too permissive.
+   * Egress is restricted to port 8080 only, blocking DNS, kube API, etc.
+
+### ✅ Fix Plan
+
+We need:
+
+* Allow ingress **only from `cyan-white-cka28-trb` pod** in `default` namespace on port **80**.
+* Deny traffic from `cyan-black-cka28-trb`.
+
+### 🔬 Test After Applying
+
+```bash
+# From cyan-white pod
+k -n default exec -it cyan-white-cka28-trb -- curl -sI cyan-svc-cka28-trb.cyan-ns-cka28-trb.svc.cluster.local
+# Should return 200 OK
+
+# From cyan-black pod
+k -n default exec -it cyan-black-cka28-trb -- curl -sI cyan-svc-cka28-trb.cyan-ns-cka28-trb.svc.cluster.local
+# Should hang/deny
+```
+
+--
+
+Got it ✅ Let’s anchor back to the **exam question** itself:
+
+> *Expectation: This app should only be accessible from the cyan-white-cka28-trb pod.*
+> *Problem: This app is not accessible from anywhere.*
+> *You may update the network policy, but make sure it is not deleted.*
+
+That means the **grading script** will only check:
+
+* Can `cyan-white-cka28-trb` access the nginx service on port **80**? ✅
+* Is `cyan-black-cka28-trb` denied? ✅
+
+You already achieved both with your edited **Ingress rule**.
+The question never mentioned fixing or tightening **Egress**.
+
+### 🎯 Answer for the exam
+
+* **No, you don’t need to change the egress section** for this task.
+* The requirement is **only about ingress restrictions**, which you’ve already fixed.
+* Leave `egress` as-is unless the exam explicitly asks for it.
+
+---
