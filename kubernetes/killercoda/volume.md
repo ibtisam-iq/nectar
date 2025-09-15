@@ -788,3 +788,102 @@ spec:
 
 cluster2-controlplane ~ ➜  
 ```
+
+---
+
+A storage class called coconut-stc-cka01-str was created earlier.
+
+
+Use this storage class to create a persistent volume called coconut-pv-cka01-str as per below requirements:
+
+
+- Capacity should be 100Mi.
+
+- The volume type should be hostpath and the path should be /opt/coconut-stc-cka01-str.
+
+- Use coconut-stc-cka01-str storage class.
+
+- This volume must be created on cluster1-node01 (the /opt/coconut-stc-cka01-str directory already exists on this node).
+
+- It must have a label with key: storage-tier with value: gold.
+
+
+Also, create a persistent volume claim with the name coconut-pvc-cka01-str as per the below specs:
+
+
+- Request 50Mi of storage from coconut-pv-cka01-str PV. It must use matchLabels to use the PV.
+
+- Use coconut-stc-cka01-str storage class.
+
+- The access mode must be ReadWriteMany.
+
+
+```bash
+cluster1-controlplane ~ ➜  vi 10.yaml
+
+cluster1-controlplane ~ ➜  k apply -f 10.yaml 
+persistentvolume/coconut-pv-cka01-str created
+persistentvolumeclaim/coconut-pvc-cka01-str created
+
+cluster1-controlplane ~ ➜  k get pvc
+NAME                    STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS            VOLUMEATTRIBUTESCLASS   AGE
+coconut-pvc-cka01-str   Pending                                      coconut-stc-cka01-str   <unset>                 9s
+
+cluster1-controlplane ~ ➜  k describe sc coconut-stc-cka01-str 
+Name:            coconut-stc-cka01-str
+IsDefaultClass:  No
+Provisioner:           kubernetes.io/no-provisioner
+Parameters:            type=local
+AllowVolumeExpansion:  True
+MountOptions:          <none>
+ReclaimPolicy:         Delete
+VolumeBindingMode:     WaitForFirstConsumer
+Events:                <none>
+
+cluster1-controlplane ~ ➜  k get pvc
+NAME                    STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS            VOLUMEATTRIBUTESCLASS   AGE
+coconut-pvc-cka01-str   Pending                                      coconut-stc-cka01-str   <unset>                 49s
+
+cluster1-controlplane ~ ➜  cat 10.yaml 
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: coconut-pv-cka01-str
+  labels:
+    storage-tier: gold
+spec:
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteMany
+  storageClassName: coconut-stc-cka01-str
+  hostPath:
+    path: /opt/coconut-stc-cka01-str
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - cluster1-node01
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: coconut-pvc-cka01-str
+spec:
+  storageClassName: coconut-stc-cka01-str
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Mi
+  selector:
+    matchLabels:
+      storage-tier: gold
+```
+In short: with `hostPath`, the `nodeAffinity` is a precaution; with `local`, it’s mandatory.
+
+---
+
