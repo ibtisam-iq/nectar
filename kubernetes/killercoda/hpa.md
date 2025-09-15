@@ -145,3 +145,49 @@ spec:
 * Advanced features (`behavior`, multiple metrics, scaleDown policies, etc.) require `autoscaling/v2`.
 
 ---
+
+Create a Horizontal Pod Autoscaler (HPA) named backend-hpa in the cka0841 namespace for a deployment named backend-deployment, which scales based on CPU usage.
+
+The HPA should be configured with:
+
+A minimum of 3 replicas
+A maximum of 15 replicas
+Specify a resource-based metric to scale based on CPU utilization, maintaining the average utilization of the pods at 50% of the requested CPU.
+
+Additionally, set the scale-down behavior to allow:
+
+Reducing the number of pods by a maximum of 5 at a time
+Or by 20% of the current replica count, whichever results in fewer pods being removed
+This should occur within a time frame of 60 seconds.
+
+```yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: backend-hpa
+  namespace: cka0841
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: backend-deployment
+  minReplicas: 3
+  maxReplicas: 15
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+  behavior:
+    scaleDown:
+      policies:
+      - type: Pods
+        value: 5
+        periodSeconds: 60
+      - type: Percent
+        value: 20
+        periodSeconds: 60
+      selectPolicy: Min
+```
