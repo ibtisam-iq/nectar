@@ -112,3 +112,49 @@ cache-vpa   Initial                          10s
 * Existing pods stay untouched because of `Initial` mode.
 
 ---
+
+Create a VPA named api-vpa in Auto Mode for a deployment named api-deployment in the services namespace. The VPA should automatically adjust CPU and memory requests but must ensure that the CPU requests do not exceed 1 cores and memory requests do not exceed 1Gi. Additionally, set a minimum CPU request of 600m and a minimum memory request of 600Mi.
+
+The containerName in VPA should explicitly match the container name inside api-deployment.
+
+```bash
+cluster1-controlplane ~ ➜  k get deploy -n services api-deployment -o yaml | grep -i containers -5
+    spec:
+      containers:
+        name: api-container
+
+cluster1-controlplane ~ ➜  vi 5.yaml
+
+cluster1-controlplane ~ ➜  k apply -f 5.yaml 
+verticalpodautoscaler.autoscaling.k8s.io/api-vpa created
+
+cluster1-controlplane ~ ➜  k get vpa -n services 
+NAME      MODE   CPU    MEM     PROVIDED   AGE
+api-vpa   Auto   600m   600Mi   True       2m17s
+
+cluster1-controlplane ~ ➜  cat 5.yaml 
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+    name: api-vpa
+    namespace: services
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: api-deployment
+  updatePolicy:
+    updateMode: "Auto"
+  resourcePolicy:
+    containerPolicies:
+    - containerName: api-container
+      minAllowed:
+        cpu: 600m
+        memory: 600Mi
+      maxAllowed:
+        cpu: 1
+        memory: 1Gi
+      controlledResources: ["cpu", "memory"]
+
+cluster1-controlplane ~ ➜  
+```
