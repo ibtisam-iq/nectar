@@ -1270,3 +1270,45 @@ spec:
 cluster2-controlplane ~ ➜  
 ```
 
+---
+
+Create the web-app-route in the ck2145 namespace. This route should direct requests that contain the header X-Environment: canary to the web-service-canary on port 8080. All other traffic should continue to be routed to web-service also on port 8080.
+
+
+Note: Gateway has already been created in the nginx-gateway namespace.
+To test the gateway, execute the following command:
+
+curl -H 'X-Environment: canary' http://localhost:30080
+
+```bash
+cluster3-controlplane ~ ➜  k get svc -n ck2145 web-service
+NAME          TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)    AGE
+web-service   ClusterIP   10.43.32.48   <none>        8080/TCP   12m
+
+cluster3-controlplane ~ ➜  k get svc -n ck2145
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+web-service          ClusterIP   10.43.32.48     <none>        8080/TCP   12m
+web-service-canary   ClusterIP   10.43.150.157   <none>        8080/TCP   12m
+
+cluster3-controlplane ~ ➜  cat 13.yaml 
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: web-app-route
+  namespace: ck2145
+spec:
+  parentRefs:
+  - name: nginx-gateway 
+    namespace: nginx-gateway
+  rules:
+  - matches:
+    - headers:
+      - name: X-Environment
+        value: canary
+    backendRefs:
+    - name: web-service-canary
+      port: 8080
+  - backendRefs:
+    - name: web-service
+      port: 8080
+```
