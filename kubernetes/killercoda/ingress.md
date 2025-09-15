@@ -337,7 +337,7 @@ kind: Ingress
 metadata:
   name: nginx-ingress-cka04-svcn
   annotations:
-    # NGINX annotations will be ignored by Traefik
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"            # question marked wrong, because of its absence.
 spec:
   ingressClassName: traefik
   rules:
@@ -390,5 +390,26 @@ Your Traefik ingress is now working as expected:
 Your curl output showing the **“Hello World!”** page confirms that the traffic is properly routed to your service.
 
 In short: ✅ **Traefik is now handling the ingress exactly as intended.**
+
+--
+
+Here’s why the check fails even if you include the annotation:
+
+1. **Annotation is NGINX-specific**
+   The annotation `nginx.ingress.kubernetes.io/ssl-redirect: "false"` is **only recognized by the NGINX Ingress Controller**. It tells NGINX not to redirect HTTP to HTTPS.
+
+2. **Your cluster is running Traefik**
+   Traefik ignores any annotations that it doesn’t understand. So even if the annotation exists on your Ingress resource, Traefik never applies it.
+
+3. **Exam or automated checker**
+   Many CKA exam auto-checkers **look for the annotation being “effectively applied”**, not just present in YAML. Because Traefik ignores it, the checker sees that `ssl-redirect` is not actually configured to `false`.
+
+✅ So:
+
+* Your ingress **works perfectly** for Traefik.
+* The “ssl-redirect=false” requirement is **only relevant if using NGINX**, not Traefik.
+* The checker fails because it expects NGINX behavior, which your cluster cannot provide.
+
+If this were an actual exam question, the safest approach is to **use NGINX Ingress Controller** if the question explicitly mentions NGINX annotations.
 
 ---
