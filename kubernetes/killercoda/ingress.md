@@ -282,3 +282,113 @@ cluster1-controlplane ~ ➜
 ```
 
 ---
+
+Create an ingress resource nginx-ingress-cka04-svcn to load balance the incoming traffic with the following specifications:
+
+
+
+pathType: Prefix and path: /
+
+Backend Service Name: nginx-service-cka04-svcn
+
+Backend Service Port: 80
+
+ssl-redirect is set to false
+
+```bash
+cluster3-controlplane ~ ➜  k get svc
+NAME                        TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+kubernetes                  ClusterIP   10.43.0.1      <none>        443/TCP          136m
+nginx-service-cka04-svcn    ClusterIP   10.43.249.67   <none>        80/TCP           38s
+webapp-color-wl10-service   NodePort    10.43.94.88    <none>        8080:31354/TCP   50m
+
+cluster3-controlplane ~ ✖ k get ingressclass
+NAME      CONTROLLER                      PARAMETERS   AGE
+traefik   traefik.io/ingress-controller   <none>       140m
+
+cluster3-controlplane ~ ➜  kubectl get ingressclass -o yaml
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: IngressClass
+  metadata:
+    annotations:
+      ingressclass.kubernetes.io/is-default-class: "true"
+
+cluster3-controlplane ~ ➜  kubectl get svc -n kube-system
+NAME             TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                      AGE
+kube-dns         ClusterIP      10.43.0.10      <none>           53/UDP,53/TCP,9153/TCP       145m
+metrics-server   ClusterIP      10.43.69.78     <none>           443/TCP                      145m
+traefik          LoadBalancer   10.43.113.178   192.168.141.16   80:32029/TCP,443:31286/TCP   145m
+
+cluster3-controlplane ~ ➜  kubectl get svc -n kube-system
+NAME             TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                      AGE
+kube-dns         ClusterIP      10.43.0.10      <none>           53/UDP,53/TCP,9153/TCP       145m
+metrics-server   ClusterIP      10.43.69.78     <none>           443/TCP                      145m
+traefik          LoadBalancer   10.43.113.178   192.168.141.16   80:32029/TCP,443:31286/TCP   145m
+
+cluster3-controlplane ~ ➜  rm -f 9.yaml 
+
+cluster3-controlplane ~ ➜  vi 9.yaml
+
+cluster3-controlplane ~ ➜  cat 9.yaml 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress-cka04-svcn
+  annotations:
+    # NGINX annotations will be ignored by Traefik
+spec:
+  ingressClassName: traefik
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service-cka04-svcn
+            port:
+              number: 80
+
+
+cluster3-controlplane ~ ➜  k replace -f 9.yaml  --force
+ingress.networking.k8s.io "nginx-ingress-cka04-svcn" deleted
+ingress.networking.k8s.io/nginx-ingress-cka04-svcn replaced
+
+cluster3-controlplane ~ ➜  k get ingress
+NAME                       CLASS     HOSTS   ADDRESS          PORTS   AGE
+nginx-ingress-cka04-svcn   traefik   *       192.168.141.16   80      9s
+
+cluster3-controlplane ~ ➜  curl 192.168.141.16
+<html>
+<head><title>Hello World!</title>
+  <style>
+    html {
+      font-size: 500.0%;
+    }
+    div {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div>Hello World!</div>
+</body>
+</html>
+
+cluster3-controlplane ~ ➜  
+```
+Perfect! ✅
+
+Your Traefik ingress is now working as expected:
+
+* The **Ingress resource** `nginx-ingress-cka04-svcn` is using the **Traefik ingress class**.
+* Requests to `http://192.168.141.16/` are hitting the **`nginx-service-cka04-svcn` backend**.
+* Since you didn’t configure HTTPS, Traefik is serving plain HTTP by default, effectively mimicking `ssl-redirect: false`.
+
+Your curl output showing the **“Hello World!”** page confirms that the traffic is properly routed to your service.
+
+In short: ✅ **Traefik is now handling the ingress exactly as intended.**
+
+---
