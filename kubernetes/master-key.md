@@ -1,4 +1,8 @@
-[**YAML**](https://github.com/ibtisam-iq/nectar/blob/main/yaml/README.md) & [KodeKloud YAML Free One Hour Practice Lab](https://kodekloud.com/pages/free-labs/kubernetes/yaml), [**Objects**](./01-core-concepts/objects.md)
+**Reference**
+- Kubernetes API
+- Setup tools (kubeadm)
+- Command line tool (kubectl)
+- Component tools (etcd, kube-apiserver, kube-controller-manager, kube-scheduler)
 
 **Static Pods:** `pod/etcd-ibtisam-iq, pod/kube-apiserver-ibtisam-iq, pod/kube-controller-manager-ibtisam-iq, pod/kube-scheduler-ibtisam-iq`
 
