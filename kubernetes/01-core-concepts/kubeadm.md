@@ -5,7 +5,7 @@
 ubuntu:~$ wget https://github.com/containerd/containerd/releases/download/v2.0.4/containerd-2.0.4-linux-amd64.tar.gz
 ubuntu:~$ ls
 containerd-2.0.4-linux-amd64.tar.gz  filesystem
-ubuntu:~$ sudo tar Cxzvf /usr/local containerd-2.0.4-linux-amd64.tar.gz
+ubuntu:~$ sudo tar -xzvf -C /usr/local containerd-2.0.4-linux-amd64.tar.gz
 bin/
 bin/ctr
 bin/containerd-stress
