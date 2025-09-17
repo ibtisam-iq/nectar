@@ -1,4 +1,4 @@
-# 📦 Tar Command Notes
+# 📦 Tar Command
 
 ## What is `tar`?
 
