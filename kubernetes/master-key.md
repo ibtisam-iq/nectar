@@ -271,3 +271,4 @@ rules:
 ```
 
 `vi ~/.bashrc` → export KUBECONFIG=/root/my-kube-config → `source ~/.bashrc`
+controlplane:~$ kubectl exec secure-pod -- cat /var/run/secrets/kubernetes.io/serviceaccount/token
