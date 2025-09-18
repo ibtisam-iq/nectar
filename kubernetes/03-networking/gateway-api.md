@@ -84,6 +84,30 @@ spec:
 
 > ✅ `HTTPRoute` defines **routing rules** for HTTP traffic based on path, method, headers, etc. It forwards to a service.
 
+### 📌 Why You Got Confused
+
+Because:
+
+* **Sometimes rules have only `matches`.**
+* **Sometimes only `backendRefs`.**
+* **Sometimes multiple conditions (matches, headers, methods, query params).**
+
+It feels like “do I put it under `matches` or `backendRefs` or somewhere else?”
+
+👉 The trick:
+
+* **matches = when to send traffic** (conditions)
+* **backendRefs = where to send traffic** (destination)
+* **parentRefs = who listens and accepts this route**
+
+### ✅ Mental Formula for HTTPRoute
+
+* **parentRefs** = Gateway that owns the listener.
+* **rules** = collection of conditions + actions.
+
+  * **matches** = traffic conditions (path, headers, methods, query).
+  * **backendRefs** = destinations (Services).
+
 ---
 
 ## 📦 Optional: `frontend-svc` (Target service)
