@@ -106,8 +106,7 @@ kubectl run pyjob --image=python:3.9 --command -- python -c "print('Hello')"
 
 📄 YAML Equivalent:
 ```yaml
-command: ["python"]
-args: ["-c", "print('Hello')"]
+command: ["python", "-c", "print('Hello')"]
 ```
 
 ---
@@ -141,8 +140,7 @@ kubectl run test --image=busybox --command -- echo "Hi"
 
 🔍 Behavior:
 
-- Command: `["echo"]`
-- Args: `["Hi"]`
+- Command: `["echo", ["Hi"]`
 
 📄 YAML:
 ```yaml
