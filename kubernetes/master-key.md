@@ -268,6 +268,6 @@ rules:
   - '*'
   verbs:
   - '*'
-
-
 ```
+
+`vi ~/.bashrc` → export KUBECONFIG=/root/my-kube-config → `source ~/.bashrc`
