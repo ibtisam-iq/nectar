@@ -43,19 +43,10 @@ kubectl run shellpod --image=busybox --restart=Never --command -- sh -c "echo He
 ### 📄 YAML Equivalent
 
 ```yaml
-command: ["sh", "-c"]
-args: ["echo Hello && date"]
+command: ["sh", "-c", "echo Hello && date"]
 ```
 
 - ✅ `sh` and `-c` go together in `command`.
-- ✅ Script string follows in `args` (as a single item).
-
-### 💥 Common Mistake (❌ Wrong)
-
-```yaml
-command: ["sh"]
-args: ["-c", "echo Hello && date"]
-```
 
 This **won’t work as expected** because:
 - `sh` gets `-c` as an argument (not a flag), and `sh` expects `-c` to be part of its command-line flags.
@@ -72,19 +63,12 @@ kubectl run pyjob --image=python:3.9 --command -- python -c "print('Hello')"
 ### 📄 YAML Equivalent
 
 ```yaml
-command: ["python"]
-args: ["-c", "print('Hello')"]
+command: ["python", "-c", "print('Hello')"]
 ```
 
 - ✅ `-c` is an argument to `python`, not a shell flag.
 - ✅ Python expects `-c` as a **flag**, and the **next item** to be the script.
 
-### 💥 Common Mistake (❌ Wrong)
-
-```yaml
-command: ["python", "-c"]
-args: ["print('Hello')"]
-```
 
 This causes:
 - Python to treat `print('Hello')` as a **positional argument**, not the inline script.
@@ -102,7 +86,7 @@ This causes:
 
 ---
 
-## 🧪 Quick Matrix — CLI vs YAML
+## 🧪 Quick Matrix — CLI vs YAML  (This is written wrong.)
 
 | Tool     | CLI Command                                                                 | YAML `command`                | YAML `args`                        |
 |----------|------------------------------------------------------------------------------|-------------------------------|------------------------------------|
