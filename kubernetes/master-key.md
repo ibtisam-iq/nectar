@@ -248,3 +248,26 @@ root
     curl -H "Host: local.ibtisam-iq.com" http://<node-ip>:<ingress-nodePort>
     # Example: curl -H "Host: local.ibtisam-iq.com" http://54.242.167.17:30080
 ```
+
+```yaml
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - '*'
+  verbs:
+  - '*'
+
+rules:
+- apiGroups:
+  - ""
+  - apps
+  - batch
+  - extensions
+  resources:
+  - '*'
+  verbs:
+  - '*'
+
+
+```
