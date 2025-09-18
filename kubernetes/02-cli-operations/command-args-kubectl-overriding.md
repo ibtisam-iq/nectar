@@ -264,3 +264,5 @@ Look under `.Config.Entrypoint` and `.Config.Cmd`
   - `kubectl create deployment ... -- 10`: Sets `command: ["10"]` (fails).
   - `kubectl run ... -- 10`: Sets `args: ["10"]` (fails).
   - `kubectl run ... -- sleep 10`: Sets `args: ["sleep", "10"]` (works).
+ 
+- As long as `--command` is not passed, it is all treated as `args`, but once `--command` is passed, everything now becomes `command`, and no `args`.
