@@ -297,4 +297,5 @@ root@student-node ~ ➜  k create cj simple-node-job -n ckad-job --schedule "*/3
 
 ---
 
-An HTTPRoute does not have to be in the same namespace as the Gateway, but it does have to be in the same namespace as the Service it references (unless you explicitly allow cross-namespace routing via backendRefs.namespaces).
+- An `HTTPRoute` does not have to be in the same namespace as the `Gateway`, but it does have to be in the same namespace as the `Service` it references (unless you explicitly allow cross-namespace routing via `backendRefs.namespaces`).
+- Use `kubectl api-resource` for interacting the imperative commands for **ResourceQuota and Role, ClusterRole**. Resources are plural here.
