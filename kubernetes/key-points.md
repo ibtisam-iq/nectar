@@ -294,3 +294,7 @@ root@student-node ~ ➜  k create cj simple-node-job -n ckad-job --schedule "*/3
 
 - PVC requires some time for binding. So, be patient.
 - The manifest related to volume (pvc, pv), and resource field in pod/deployment.... delete all fields, and the apply.
+
+---
+
+An HTTPRoute does not have to be in the same namespace as the Gateway, but it does have to be in the same namespace as the Service it references (unless you explicitly allow cross-namespace routing via backendRefs.namespaces).
