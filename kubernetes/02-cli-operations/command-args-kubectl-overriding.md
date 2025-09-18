@@ -70,8 +70,7 @@ kubectl run mypod --image=busybox --command -- echo "Hello from BusyBox"
 
 📄 YAML Equivalent:
 ```yaml
-command: ["echo"]
-args: ["Hello from BusyBox"]
+command: ["echo", "Hello from BusyBox"]
 ```
 
 ---
