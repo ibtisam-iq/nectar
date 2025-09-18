@@ -22,7 +22,7 @@ spec:
           containers:
           - name: hello
             image: busybox
-            args:
+            command:
             - /bin/sh
             - -c
             - date; echo Hello from the Kubernetes cluster
