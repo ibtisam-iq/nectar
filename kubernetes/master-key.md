@@ -271,7 +271,7 @@ rules:
   - '*'
 ```
 
-`vi ~/.bashrc` → export KUBECONFIG=/root/my-kube-config → `source ~/.bashrc`
-```bash
-controlplane:~$ kubectl exec secure-pod -- cat /var/run/secrets/kubernetes.io/serviceaccount/token
-```
+- `vi ~/.bashrc` → export KUBECONFIG=/root/my-kube-config → `source ~/.bashrc`
+- Core K8s controllers (HPA, VPA, PDB) → same namespace only → no namespace allowed inside targetRef.
+- controlplane:~$ kubectl exec secure-pod -- cat /var/run/secrets/kubernetes.io/serviceaccount/token
+
