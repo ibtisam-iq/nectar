@@ -1,4 +1,4 @@
-Create a ConfigMap named ckad04-config-multi-env-files-aecs in the default namespace from the environment(env) files provided at /root/ckad04-multi-cm directory.
+Create a **ConfigMap** named `ckad04-config-multi-env-files-aecs` in the `default` namespace from the environment(env) files provided at `/root/ckad04-multi-cm directory`.
 
 ```bash
 root@student-node ~ ➜  kubectl create configmap ckad04-config-multi-env-files-aecs \
