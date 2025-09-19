@@ -290,6 +290,8 @@ commnad:
 command: ["sleep", "5"]
 
 root@student-node ~ ➜  k create cj simple-node-job -n ckad-job --schedule "*/30 * * * *" --image node -- sh -c "ps -eaf"
+
+nginx.ingress.kubernetes.io/ssl-redirect: "false"
 ```
 
 - PVC requires some time for binding. So, be patient.
