@@ -1,6 +1,32 @@
-cka-pod pod exposed internally within the service name cka-service and for cka-pod monitor(access through svc) purpose deployed cka-cronjob cronjob that run every minute .
 
-Now cka-cronjob cronjob not working as expected, fix that issue.
+* `* * * * *` → **every minute** (runs 60 times in an hour).
+* `*/1 * * * *` → **every minute** (runs 60 times in an hour). ## more accurate
+* `*/30 * * * *` → **every 30 minute** (runs 2 times in an hour).
+* `0 * * * *` → **every hour at minute 0** (runs once per hour, exactly on the hour).
+
+### 🔹 `0 0 * * 0`
+
+* First `0` → **minute 0**
+* Second `0` → **hour 0** (midnight)
+* `*` → any day of month
+* `*` → any month
+* Last `0` → **Sunday** (in cron, Sunday = 0 or 7)
+
+✅ This means: **run once, exactly at 00:00 (midnight) on Sunday**.
+
+### 🔹 `* 0 * * 0`
+
+* First `*` → **every minute** (0–59)
+* Second `0` → **hour 0** (midnight)
+* Last `0` → Sunday
+
+❌ This means: **run every minute between 00:00 and 00:59 on Sunday** (so 60 times in that hour).
+
+👉 That’s why `0 0 * * 0` is the correct one for **“every Sunday at midnight”**.
+
+## Q1
+
+`cka-pod` pod exposed internally within the service name `cka-service` and for cka-pod monitor(access through svc) purpose deployed `cka-cronjob` cronjob that run `every minute`. Now `cka-cronjob` cronjob not working as expected, fix that issue.
 
 ```bash
 controlplane:~$ k get cj
@@ -169,14 +195,15 @@ controlplane:~$
 ```
 
 ---
+## Q2
 
 Create a job named countdown-devops.
 
-The spec template should be named countdown-devops (under metadata), and the container should be named container-countdown-devops
+The spec template should be named `countdown-devops` (under metadata), and the container should be named `container-countdown-devops`
 
-Utilize image debian with latest tag (ensure to specify as debian:latest), and set the restart policy to Never.
+Utilize image `debian` with `latest` tag (ensure to specify as `debian:latest`), and set the restart policy to `Never`.
 
-Execute the command sleep 5
+Execute the command `sleep 5`
 
 ```bash
 thor@jumphost ~$ vi avc.yaml
@@ -206,8 +233,9 @@ thor@jumphost ~$
 
 ---
 
-In the ckad-job namespace, create a cronjob named simple-node-job to run every 30 minutes to list all the running processes inside a container that used node image (the command needs to be run in a shell).
-In Unix-based operating systems, ps -eaf can be use to list all the running processes.
+## Q3
+
+In the `ckad-job` namespace, create a cronjob named `simple-node-job` to run every `30 minutes` to list all the running processes inside a container that used `node image` (**the command needs to be run in a shell**). In Unix-based operating systems, `ps -eaf` can be use to list all the running processes.
 
 ```bash
 root@student-node ~ ➜  k create cj simple-node-job -n ckad-job --schedule "*/30 * * * *" --image node -- sh -c "ps -eaf"
@@ -222,12 +250,13 @@ kind: CronJob
 ```
 
 ---
+## Q4
 
-In the ckad-job namespace, create a job named very-long-pi that simply computes a π (pi) to 1024 places and prints it out.
+In the `ckad-job` namespace, create a job named `very-long-pi` that simply computes a π (pi) to 1024 places and prints it out.
 
-This job should be configured to retry maximum 5 times before marking this job failed, and the duration of this job should not exceed 100 seconds.
+This job should be configured to **retry maximum 5 times** before marking this job failed, and the duration of this job **should not exceed 100 seconds**.
 
-The job should use the container image perl:5.34.0.
+The job should use the container image `perl:5.34.0`.
 
 The container should run a Perl command that calculates π (pi) to 1024 decimal places using:
 
@@ -268,11 +297,8 @@ very-long-pi   Complete   1/1           20s        46s
 
 ---
 
-In the ckad-job namespace, schedule a job called learning-every-hour that prints this message in the shell every hour at 0 minutes: I will pass CKAD certification.
-
-In case the container in pod failed for any reason, it should be restarted automatically.
-
-Use alpine image for the cronjob!
+## Q5
+In the `ckad-job` namespace, schedule a job called `learning-every-hour` that prints this message in the shell every hour **at 0 minutes**: `I will pass CKAD certification`. In case the container in pod failed for any reason, it should be restarted automatically. Use `alpine` image for the cronjob!
 
 ```bash
 root@student-node ~ ➜  k create cj learning-every-hour -n ckad-job --image alpine --schedule "* * * * *" -- "echo 'I will pass CKAD certification'" # wrong
@@ -350,26 +376,6 @@ Your task explicitly said:
 So ✅ the correct cron expression is **`0 * * * *`**, not `* * * * *`.
 
 Nice 👌 this is a subtle but important **cron expression** detail.
-
-### 🔹 `0 0 * * 0`
-
-* First `0` → **minute 0**
-* Second `0` → **hour 0** (midnight)
-* `*` → any day of month
-* `*` → any month
-* Last `0` → **Sunday** (in cron, Sunday = 0 or 7)
-
-✅ This means: **run once, exactly at 00:00 (midnight) on Sunday**.
-
-### 🔹 `* 0 * * 0`
-
-* First `*` → **every minute** (0–59)
-* Second `0` → **hour 0** (midnight)
-* Last `0` → Sunday
-
-❌ This means: **run every minute between 00:00 and 00:59 on Sunday** (so 60 times in that hour).
-
-👉 That’s why `0 0 * * 0` is the correct one for **“every Sunday at midnight”**.
 
 ---
 
