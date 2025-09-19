@@ -2,7 +2,7 @@
 
 - **host: ibtisam-iq.com**
   `curl http://ibtisam-iq.com`
-- **host: <not-mentioned>**
+- **host: not-mentioned**
   `curl <ingress IP>` ## Requests to `http://192.168.141.16/` are hitting the **`nginx-service-cka04-svcn` backend**.
 
 ---
