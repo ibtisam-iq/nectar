@@ -1,6 +1,13 @@
-Write the list of all installed CRDs into /root/crds .
+**Important Points:**
 
-Write the list of all DbBackup objects into /root/db-backups .
+- CRD manifest is usually lenghty, so keep the **indetation** from the scratch.
+- `k get crd <> -o yaml` for writing **custom resource** manifest.
+
+---
+
+## Q 1
+
+Write the list of all installed CRDs into `/root/crds`. Write the list of all DbBackup objects into `/root/db-backups`.
 
 ```bash
 controlplane:~$ k get crd > /root/crds
@@ -20,14 +27,16 @@ controlplane:~$ k get db-backups.stable.killercoda.com -A > /root/db-backups
 
 ---
 
-Define a Kubernetes custom resource definition (CRD) for a new resource kind called Foo (plural form - foos) in the samplecontroller.example.com group.
+## Q 2
+Define a Kubernetes custom resource definition (CRD) for a new resource kind called `Foo` (plural form - foos) in the `samplecontroller.example.com group`.
 
-This CRD should have a version of v1alpha1 with a schema that includes two properties as given below:
+This CRD should have a version of `v1alpha1` with a schema that includes two properties as given below:
 
-deploymentName (a string type) and replicas (an integer type with minimum value of 1 and maximum value of 5).
+`deploymentName` (a `string` type) and `replicas` (an `integer` type with minimum value of `1` and maximum value of `5`).
 
-It should also include a status subresource which enables retrieving and updating the status of Foo object, including the availableReplicas property, which is an integer type.
-The Foo resource should be namespace scoped.
+It should also include a status subresource which enables retrieving and updating the status of Foo object, including the `availableReplicas` property, which is an `integer` type.
+
+The `Foo` resource should be namespace scoped.
 
 ```bash
 root@student-node ~ ➜  cat foo-crd-aecs.yaml 
@@ -67,18 +76,18 @@ root@student-node ~ ➜  cat foo-crd-aecs.yaml
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: foos.samplecontroller.example.com ## corrected
+  name: foos.samplecontroller.example.com                   ## corrected
 spec:
-  scope: Namespaced # corrected
+  scope: Namespaced                                         # corrected
   group: samplecontroller.example.com ## added
   names:
     kind: Foo
-    plural: foos ## added
-    singular: foo  ## added
+    plural: foos                                             ## added
+    singular: foo                                            ## added
   versions:
     - served: true
       storage: true
-      name: v1alpha1  ## added
+      name: v1alpha1                                         ## added
       schema:
         # schema used for validation
         openAPIV3Schema:
