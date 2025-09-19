@@ -1,6 +1,4 @@
-Find the node across all cluster1, cluster3, and cluster4 that consumes the most CPU and store the result to the file /opt/high_cpu_node in the following format cluster_name,node_name.
-
-The node could be in any clusters that are currently configured on the student-node.
+Find the node across all cluster1, cluster3, and cluster4 that **consumes the most CPU** and store the result to the file `/opt/high_cpu_node` in the following format `cluster_name,node_name`. The node could be in any clusters that are currently configured on the `student-node`.
 
 ```bash
 student-node ~ ➜  ssh cluster1-controlplane "kubectl top node"
