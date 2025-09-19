@@ -1,4 +1,4 @@
-
+```bash
 Warning  Failed       1s (x7 over 62s)  kubelet           Error: configmap "category" not found
 Warning  Failed     8s (x2 over 10s)  kubelet            Error: secret "postgres-secrte" not found
 Warning  Failed     2s (x3 over 18s)  kubelet            Error: couldn't find key db_user in Secret default/postgres-secret
@@ -55,3 +55,8 @@ volumeMounts:
   - name: nginx-conf-vol
     mountPath: /etc/nginx/conf.d/default.conf  # Target file path inside container
     subPath: default.conf                      # Key from ConfigMap
+
+
+
+
+```
