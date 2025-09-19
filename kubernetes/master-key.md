@@ -216,4 +216,5 @@ rules:
 - controlplane:~$ kubectl exec secure-pod -- cat /var/run/secrets/kubernetes.io/serviceaccount/token
 - If you're only using static provisioning and want the PV to be bound to a PVC without any storage class, you can leave it out or set it explicitly to an empty string ("").    storageClassName: ""  # This disables dynamic provisioning for this PV.
 - `busybox` has a default entrypoint of `/bin/sh`, no `CMD` and a default command of `sh -c`.
+- NGINX web server default location is at `/usr/share/nginx/html`.
 
