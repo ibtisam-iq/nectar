@@ -1,8 +1,7 @@
-Create an nginx pod called nginx-resolver-cka06-svcn using the image nginx, and expose it internally with a service called nginx-resolver-service-cka06-svcn.
+## Q 1
+Create an nginx pod called `nginx-resolver-cka06-svcn` using the image `nginx`, and expose it **internally** with a service called `nginx-resolver-service-cka06-svcn`.
 
-
-
-Test that you are able to look up the service and pod names from within the cluster. Use the image busybox:1.28 for dns lookup. Record results in /root/CKA/nginx.svc.cka06.svcn and /root/CKA/nginx.pod.cka06.svcn on cluster1-controlplane.
+Test that you are able to look up the service and pod names from within the cluster. Use the image `busybox:1.28` for dns lookup. Record results in `/root/CKA/nginx.svc.cka06.svcn` and `/root/CKA/nginx.pod.cka06.svcn` on cluster1-controlplane.
 
 ```bash
 cluster1-controlplane ~ ➜  k run nginx-resolver-cka06-svcn --image nginx --port 80
