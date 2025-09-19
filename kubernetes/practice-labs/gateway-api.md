@@ -1,6 +1,5 @@
 ## Q1
-Create an HTTPRoute named web-route in the nginx-gateway namespace that directs traffic from the web-gateway to a 
-backend service named web-service on port 80 and ensures that the route is applied only to requests with the hostname cluster2-controlplane.
+Create an **HTTPRoute** named `web-route` in the `nginx-gateway` namespace that directs traffic from the `web-gateway` to a backend service named `web-service` on port 80 and ensures that the route is applied only to requests with the hostname `cluster2-controlplane`.
 
 ```bash
 cluster2-controlplane ~ ➜  k get gateway -n nginx-gateway 
@@ -77,7 +76,7 @@ cluster2-controlplane ~ ➜
 
 ## Q2
 
-**Modify** the existing web-gateway on cka5673 namespace to handle HTTPS traffic on port 443 for kodekloud.com, using a TLS certificate stored in a secret named kodekloud-tls.
+**Modify** the existing `web-gateway` on `cka5673` namespace to handle HTTPS traffic on port 443 for `kodekloud.com`, using a TLS certificate stored in a secret named `kodekloud-tls`.
 
 ```bash
 cluster3-controlplane ~ ➜  k get gatewayclasses.gateway.networking.k8s.io
@@ -193,7 +192,7 @@ That means:
 
 👉 Until a controller binds to this `GatewayClass` (`kodekloud` in your case), the Gateway won’t get an IP/hostname, and you cannot curl it.
 
----
+--
 
 ### 🔎 How to Move Forward
 
@@ -613,7 +612,7 @@ This time, instead of `404 Not Found`, you should see the **default Nginx welcom
 
 # Q3
 
-Extend the web-route on cka7395 to direct traffic with the path prefix /api to a service named api-service on port 8080, while all other traffic continues to route to web-service.
+**Extend** the `web-route` on `cka7395` to direct traffic with the path prefix `/api` to a service named `api-service` on port `8080`, while all other traffic continues to route to `web-service`.
 
 ```bash
 
@@ -837,7 +836,7 @@ kubectl get gatewayclass nginx -o yaml
 * Must show `Accepted=True`.
   ✅ In your case, it’s already `Accepted=True`, so the class is fine.
 
----
+--
 
 ### 2. Check for conflicting Gateways
 
@@ -992,9 +991,12 @@ curl http://nginx-gateway.nginx-gateway.svc.cluster.local:80/api
 
 ---
 
-Configure a web-portal-httproute within the cka3658 namespace to facilitate traffic distribution. Route 80% of the traffic to web-portal-service-v1 and 20% to the new version, web-portal-service-v2.
+## Q4 
 
-> Note: Gateway has already been created in the nginx-gateway namespace.
+Configure a `web-portal-httproute` within the `cka3658` namespace to facilitate traffic distribution. Route **80%** of the traffic to `web-portal-service-v1` and **20%** to the new version, `web-portal-service-v2`.
+
+> **Note: Gateway has already been created in the `nginx-gateway` namespace.**
+
 To test the gateway, execute the following command:
 
 `curl http://cluster2-controlplane:30080`
@@ -1272,13 +1274,15 @@ cluster2-controlplane ~ ➜
 
 ---
 
-Create the web-app-route in the ck2145 namespace. This route should direct requests that contain the header X-Environment: canary to the web-service-canary on port 8080. All other traffic should continue to be routed to web-service also on port 8080.
+## Q 5
+Create the `web-app-route` in the `ck2145` namespace. This route should direct requests that contain the **header** `X-Environment: canary` to the `web-service-canary` on port `8080`. All other traffic should continue to be routed to `web-service` also on port `8080`.
 
 
-Note: Gateway has already been created in the nginx-gateway namespace.
+> Note: Gateway has already been created in the `nginx-gateway` namespace.
+
 To test the gateway, execute the following command:
 
-curl -H 'X-Environment: canary' http://localhost:30080
+`curl -H 'X-Environment: canary' http://localhost:30080`
 
 ```bash
 cluster3-controlplane ~ ➜  k get svc -n ck2145 web-service
