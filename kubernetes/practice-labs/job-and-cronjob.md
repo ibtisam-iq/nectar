@@ -24,6 +24,8 @@
 
 👉 That’s why `0 0 * * 0` is the correct one for **“every Sunday at midnight”**.
 
+---
+
 ## Q1
 
 `cka-pod` pod exposed internally within the service name `cka-service` and for cka-pod monitor(access through svc) purpose deployed `cka-cronjob` cronjob that run `every minute`. Now `cka-cronjob` cronjob not working as expected, fix that issue.
