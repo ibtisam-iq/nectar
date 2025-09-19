@@ -1,9 +1,14 @@
-We have deployed an application in the green-space namespace. we also deployed the ingress controller and the ingress resource.
+## Important point
 
+- host: ibtisam-iq.com
+  `curl http://ibtisam-iq.com`
+- host: <not-mentioned>
+  `curl <ingress IP>` ## Requests to `http://192.168.141.16/` are hitting the **`nginx-service-cka04-svcn` backend**.
 
-However, currently, the ingress controller is not working as expected. Inspect the ingress definitions and troubleshoot the issue so that the services are accessible as per the ingress resource definition.
+---
 
-Also, update the path for the app-wear-service to /app-wear and app-video-service to /app-video.
+## Q1 
+We have deployed an application in the `green-space` namespace. we also deployed the ingress controller and the ingress resource. However, currently, the **ingress controller is not working** as expected. Inspect the ingress definitions and troubleshoot the issue so that the services are accessible as per the ingress resource definition. Also, update the path for the `app-wear-service` to `/app-wear` and `app-video-service` to `/app-video`.
 
 ```bash
 root@student-node ~ ➜  k get po -n green-space 
@@ -59,67 +64,6 @@ W0911 00:54:25.993122      55 client_config.go:615] Neither --kubeconfig nor --m
 I0911 00:54:25.993223      55 main.go:223] "Creating API client" host="https://172.20.0.1:443"
 I0911 00:54:26.126554      55 main.go:267] "Running in Kubernetes cluster" major="1" minor="33" git="v1.33.0" state="clean" commit="60a317eadfcb839692a68eab88b2096f4d708f4f" platform="linux/amd64"
 F0911 00:54:26.128505      55 main.go:83] No service with name default-backend-service found in namespace default: services "default-backend-service" not found  # problem spotted
-goroutine 1 [running]:
-k8s.io/klog/v2.stacks(0x1)
-        k8s.io/klog/v2@v2.9.0/klog.go:1026 +0x8a
-k8s.io/klog/v2.(*loggingT).output(0x28b9100, 0x3, {0x0, 0x0}, 0xc00020a1c0, 0x1, {0x1f93534, 0x28b9c40}, 0xc0006a3290, 0x0)
-        k8s.io/klog/v2@v2.9.0/klog.go:975 +0x63d
-k8s.io/klog/v2.(*loggingT).printDepth(0x1, 0x0, {0x0, 0x0}, {0x0, 0x0}, 0x0, {0xc0006a3290, 0x1, 0x1})
-        k8s.io/klog/v2@v2.9.0/klog.go:735 +0x1ba
-k8s.io/klog/v2.(*loggingT).print(...)
-        k8s.io/klog/v2@v2.9.0/klog.go:717
-k8s.io/klog/v2.Fatal(...)
-        k8s.io/klog/v2@v2.9.0/klog.go:1494
-main.main()
-        k8s.io/ingress-nginx/cmd/nginx/main.go:83 +0x43c
-
-goroutine 7 [chan receive]:
-k8s.io/klog/v2.(*loggingT).flushDaemon(0x0)
-        k8s.io/klog/v2@v2.9.0/klog.go:1169 +0x6a
-created by k8s.io/klog/v2.init.0
-        k8s.io/klog/v2@v2.9.0/klog.go:420 +0xfb
-
-goroutine 32 [IO wait]:
-internal/poll.runtime_pollWait(0x7fb6b401c020, 0x72)
-        runtime/netpoll.go:234 +0x89
-internal/poll.(*pollDesc).wait(0xc0006a7580, 0xc000180900, 0x0)
-        internal/poll/fd_poll_runtime.go:84 +0x32
-internal/poll.(*pollDesc).waitRead(...)
-        internal/poll/fd_poll_runtime.go:89
-internal/poll.(*FD).Read(0xc0006a7580, {0xc000180900, 0x8ec, 0x8ec})
-        internal/poll/fd_unix.go:167 +0x25a
-net.(*netFD).Read(0xc0006a7580, {0xc000180900, 0x3f, 0xc0000b5770})
-        net/fd_posix.go:56 +0x29
-net.(*conn).Read(0xc000690040, {0xc000180900, 0x6, 0xc0000b57f0})
-        net/net.go:183 +0x45
-crypto/tls.(*atLeastReader).Read(0xc0006a05e8, {0xc000180900, 0x0, 0x409f0d})
-        crypto/tls/conn.go:777 +0x3d
-bytes.(*Buffer).ReadFrom(0xc0002505f8, {0x1b7c160, 0xc0006a05e8})
-        bytes/buffer.go:204 +0x98
-crypto/tls.(*Conn).readFromUntil(0xc000250380, {0x1b7e780, 0xc000690040}, 0x8a6)
-        crypto/tls/conn.go:799 +0xe5
-crypto/tls.(*Conn).readRecordOrCCS(0xc000250380, 0x0)
-        crypto/tls/conn.go:606 +0x112
-crypto/tls.(*Conn).readRecord(...)
-        crypto/tls/conn.go:574
-crypto/tls.(*Conn).Read(0xc000250380, {0xc00027f000, 0x1000, 0x9a9c80})
-        crypto/tls/conn.go:1277 +0x16f
-bufio.(*Reader).Read(0xc0003aa9c0, {0xc0002762e0, 0x9, 0x9b7c42})
-        bufio/bufio.go:227 +0x1b4
-io.ReadAtLeast({0x1b7bfc0, 0xc0003aa9c0}, {0xc0002762e0, 0x9, 0x9}, 0x9)
-        io/io.go:328 +0x9a
-io.ReadFull(...)
-        io/io.go:347
-golang.org/x/net/http2.readFrameHeader({0xc0002762e0, 0x9, 0xc00111ade0}, {0x1b7bfc0, 0xc0003aa9c0})
-        golang.org/x/net@v0.0.0-20211209124913-491a49abca63/http2/frame.go:237 +0x6e
-golang.org/x/net/http2.(*Framer).ReadFrame(0xc0002762a0)
-        golang.org/x/net@v0.0.0-20211209124913-491a49abca63/http2/frame.go:498 +0x95
-golang.org/x/net/http2.(*clientConnReadLoop).run(0xc0000b5f98)
-        golang.org/x/net@v0.0.0-20211209124913-491a49abca63/http2/transport.go:2101 +0x130
-golang.org/x/net/http2.(*ClientConn).readLoop(0xc000198a80)
-        golang.org/x/net@v0.0.0-20211209124913-491a49abca63/http2/transport.go:1997 +0x6f
-created by golang.org/x/net/http2.(*Transport).newClientConn
-        golang.org/x/net@v0.0.0-20211209124913-491a49abca63/http2/transport.go:725 +0xac5
 
 root@student-node ~ ➜  k get svc
 NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
@@ -224,8 +168,11 @@ Events:
 root@student-node ~ ➜  
 ```
 
-A deployment called nodeapp-dp-cka08-trb is created in the default namespace on cluster1. This app is using an ingress resource named nodeapp-ing-cka08-trb.
-From cluster1-controlplane host, we should be able to access this app using the command curl http://kodekloud-ingress.app. However, it is not working at the moment. Troubleshoot and fix the issue.
+---
+
+## Q2
+A deployment called `nodeapp-dp-cka08-trb` is created in the default namespace on cluster1. This app is using an ingress resource named `nodeapp-ing-cka08-trb`.
+From cluster1-controlplane host, we should be able to access this app using the command `curl http://kodekloud-ingress.app`. However, it is not working at the moment. Troubleshoot and fix the issue.
 
 ```bash
 cluster1-controlplane ~ ➜  curl http://kodekloud-ingress.app
@@ -283,17 +230,13 @@ cluster1-controlplane ~ ➜
 
 ---
 
-Create an ingress resource nginx-ingress-cka04-svcn to load balance the incoming traffic with the following specifications:
+## Q3
+Create an ingress resource `nginx-ingress-cka04-svcn` to load balance the incoming traffic with the following specifications:
 
-
-
-pathType: Prefix and path: /
-
-Backend Service Name: nginx-service-cka04-svcn
-
-Backend Service Port: 80
-
-ssl-redirect is set to false
+- pathType: Prefix and path: /
+- Backend Service Name: nginx-service-cka04-svcn
+- Backend Service Port: 80
+- ssl-redirect is set to false
 
 ```bash
 cluster3-controlplane ~ ➜  k get svc
