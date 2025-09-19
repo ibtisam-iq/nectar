@@ -1,3 +1,4 @@
+## Q1
 ```bash
 cluster1-controlplane ~ ➜  k autoscale deployment web-ui-deployment -n ck1967 --name web-ui-hpa --cpu-percent 65 --min 2 --max 12 -o yaml > 5.yaml
 
@@ -146,19 +147,20 @@ spec:
 
 ---
 
-Create a Horizontal Pod Autoscaler (HPA) named backend-hpa in the cka0841 namespace for a deployment named backend-deployment, which scales based on CPU usage.
+## Q2
 
-The HPA should be configured with:
+Create a Horizontal Pod Autoscaler (HPA) named `backend-hpa` in the `cka0841` namespace for a `deployment` named `backend-deployment`, which scales based on **CPU usage**. The HPA should be configured with:
 
-A minimum of 3 replicas
-A maximum of 15 replicas
-Specify a resource-based metric to scale based on CPU utilization, maintaining the average utilization of the pods at 50% of the requested CPU.
+- A minimum of 3 replicas
+- A maximum of 15 replicas
+
+Specify a resource-based metric to scale based on CPU utilization, maintaining the average utilization of the pods at **50%** of the requested CPU.
 
 Additionally, set the scale-down behavior to allow:
 
-Reducing the number of pods by a maximum of 5 at a time
-Or by 20% of the current replica count, whichever results in fewer pods being removed
-This should occur within a time frame of 60 seconds.
+- Reducing the number of pods by a maximum of 5 at a time
+- Or by 20% of the current replica count, whichever results in fewer pods being removed
+- This should occur within a time frame of `60 seconds`.
 
 ```yaml
 apiVersion: autoscaling/v2
