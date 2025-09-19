@@ -21,7 +21,6 @@ k config set-context --current --namespace <tomcat-namespace-devops> # set the n
 ```
 
 ```bash
-`busybox` has a default entrypoint of `/bin/sh`, no `CMD` and a default command of `sh -c`.
 --control-plane-endpoint: Stable API server endpoint for HA (supports DNS or load balancer).
 --upload-certs: Shares certificates for additional control planes.
 --pod-network-cidr: Sets Calico’s pod IP range (10.244.0.0/16).
@@ -31,71 +30,13 @@ Container runs: `<command or ENTRYPOINT> <args or CMD>`
 kubectl run mypod --image=busybox --restart=Never -- echo "Hi"` # args: ["echo", "Hi"]
 kubectl run mypod --image=busybox --restart=Never --command -- echo "Hello from BusyBox"
 kubectl run shellpod --image=busybox --restart=Never --command -- sh -c "echo Hello && date" # Using Shell Logic with sh -c
+k run alpine-app --image alpine -- 'echo "Main application is running"; sleep 3600' # wrong, you need to open the shell in order to multiple commands
+k run alpine-app --image alpine --command -- sh -c 'echo "Main application is running"; sleep 3600' # correct 
 k run test-pod --image busybox --restart=Never -it -- sh
     wget or nslookup serviceName.ns.svc.cluster.local
     nslookup pod-id-address.namespace.pod.cluster.local
-# If you're only using static provisioning and want the PV to be bound to a PVC without any storage class,
-# you can leave it out or set it explicitly to an empty string ("").    storageClassName: ""  # This disables dynamic provisioning for this PV
 
 openssl x509 -in ibtisam.crt -text -noout
-```
-
-```bash
-    env:
-    - name: ENVIRONMENT
-      value: production
-    - name: MY_NODE_NAME
-      valueFrom:
-        fieldRef:
-          fieldPath: spec.nodeName
-    - name: PLAYER_INITIAL_LIVES
-      valueFrom:
-        configMapKeyRef:                # secretKeyRef
-            name: game-demo           
-            key: player_initial_lives
-
-    envFrom:
-    - configMapRef:                     # secretRef
-        name: myconfigmap
-
-    volumeMounts:
-    - name: config-vol
-      mountPath: "/config"
-      readOnly: true
-
-  volumes:
-  - name: config-vol
-    configMap:                              # secret
-      name: my-config                       # secretName
-
-      items:
-      - key: app_mode
-        path: mode.txt
-```
-```bash
-volumes:
-  - name: cache-volume
-    emptyDir:
-      sizeLimit: 500Mi
-      medium: Memory
-
-volumes:
-  - name: config-vol
-    configMap:
-      name: my-config
-      items:
-      - key: log_level
-        path: log_level.conf
-
-volumes:
-  - name: secret-vol
-    secret:
-      secretName: my-secret
-
-volumes:
-    - name: mypd
-      persistentVolumeClaim:
-        claimName: myclaim
 ```
 
 | Scope              | Fields                                                                             |
@@ -105,7 +46,6 @@ volumes:
 | **Both**           | `runAsUser`, `runAsGroup`, `seccompProfile`, `appArmorProfile`, `seLinuxOptions`, `runAsNonRoot`   |
 
 ```bash
-
 kubectl port-forward svc/my-service 8080:80 # <local-port>:<remote-port> # open in browser: http://localhost:8080
 
 service-name.dev.svc.cluster.local
@@ -274,4 +214,6 @@ rules:
 - `vi ~/.bashrc` → export KUBECONFIG=/root/my-kube-config → `source ~/.bashrc`
 - Core K8s controllers (HPA, VPA, PDB) → same namespace only → no namespace allowed inside targetRef.
 - controlplane:~$ kubectl exec secure-pod -- cat /var/run/secrets/kubernetes.io/serviceaccount/token
+- If you're only using static provisioning and want the PV to be bound to a PVC without any storage class, you can leave it out or set it explicitly to an empty string ("").    storageClassName: ""  # This disables dynamic provisioning for this PV.
+- `busybox` has a default entrypoint of `/bin/sh`, no `CMD` and a default command of `sh -c`.
 
