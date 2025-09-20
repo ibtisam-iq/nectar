@@ -1,4 +1,5 @@
-Create a VPA named cache-vpa for a stateful application named cache-statefulset in the caching namespace. The VPA should set optimal CPU and memory requests for newly created pods but must not evict existing pods. Configure the VPA to operate in Initial mode to achieve this behavior.
+## Q1
+Create a VPA named `cache-vpa` for a stateful application named `cache-statefulset` in the `caching` namespace. The VPA should set optimal CPU and memory requests for newly created pods but must not evict existing pods. Configure the VPA to operate in `Initial` mode to achieve this behavior.
 
 ```bash
 cluster2-controlplane ~ ➜  vi 7.yaml
@@ -113,9 +114,9 @@ cache-vpa   Initial                          10s
 
 ---
 
-Create a VPA named api-vpa in Auto Mode for a deployment named api-deployment in the services namespace. The VPA should automatically adjust CPU and memory requests but must ensure that the CPU requests do not exceed 1 cores and memory requests do not exceed 1Gi. Additionally, set a minimum CPU request of 600m and a minimum memory request of 600Mi.
+## Q2
 
-The containerName in VPA should explicitly match the container name inside api-deployment.
+Create a VPA named `api-vpa` in `Auto` Mode for a deployment named `api-deployment` in the services namespace. The VPA should automatically adjust CPU and memory requests but must ensure that the **CPU requests do not exceed 1 cores and memory requests do not exceed 1Gi**. Additionally, set a minimum CPU request of `600m` and a minimum memory request of `600Mi`. The **containerName** in VPA should explicitly match the container name inside `api-deployment`.
 
 ```bash
 cluster1-controlplane ~ ➜  k get deploy -n services api-deployment -o yaml | grep -i containers -5
