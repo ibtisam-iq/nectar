@@ -1,3 +1,5 @@
+## Q1
+
 Create a **ConfigMap** named `ckad04-config-multi-env-files-aecs` in the `default` namespace from the **environment(env) files** provided at `/root/ckad04-multi-cm directory`.
 
 ```bash
@@ -55,6 +57,7 @@ root@student-node ~ ➜
 ```
 
 ---
+## Q2
 
 We have deployed a **2-tier web application** on the cluster3 nodes in the `canara-wl05` namespace. However, at the moment, the `web app pod` cannot establish a connection with the MySQL pod successfully.
 
@@ -68,7 +71,7 @@ To make the application work, create a new secre called `db-secret-wl05` with th
 2. **DB_User**=root
 3. **DB_Password**=password123
 
-Next, configure the *web application pod** to load the new environment variables from the newly created secret.
+Next, configure the *web application pod* to load the new environment variables from the newly created secret.
 > **Note:** Check the web application again using the curl command, and the status of the application should be success.
 
 ```bash
@@ -125,6 +128,8 @@ cluster3-controlplane ~ ➜  curl http://cluster3-controlplane:31020
 ```
 
 ---
+
+## Q3
 
 Create a ConfigMap called **db-user-pass-cka17-arch** in the default namespace using the contents of the file `/opt/db-user-pass` on the cluster1-controlplane.
 
@@ -194,3 +199,47 @@ metadata:
 
 cluster1-controlplane ~ ➜  
 ```
+
+---
+
+## Q4
+
+Create a secret named `mysql-root-pass` wih key/value pairs as below:
+
+```bash
+name: password
+value: R00t
+```
+```bash
+thor@jumphost ~$ cat > abc.env
+name: password
+value: R00t
+thor@jumphost ~$ k create secret generic mysql-root-pass --from-env-file abc.env 
+error: "name: password" is not a valid key name: a valid environment variable name must consist of alphabetic characters, digits, '_', '-', or '.', and must not start with a digit (e.g. 'my.env-name',  or 'MY_ENV.NAME',  or 'MyEnvName1', regex used for validation is '[-._a-zA-Z][-._a-zA-Z0-9]*')
+thor@jumphost ~$
+```
+
+Ahh 👍 I see what happened.
+
+The problem is that you wrote the `abc.env` file in **YAML style** (`name:` / `value:`), but `--from-env-file` expects a **simple `KEY=VALUE` format**.
+
+For example, your file should look like this:
+
+```bash
+cat > abc.env <<EOF
+password=R00t
+EOF
+```
+
+Then create the secret:
+
+```bash
+kubectl create secret generic mysql-root-pass --from-env-file=abc.env
+```
+
+✅ This will create a secret named `mysql-root-pass` with:
+
+* Key = `password`
+* Value = `R00t`
+
+---
