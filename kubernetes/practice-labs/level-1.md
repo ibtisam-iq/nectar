@@ -1,12 +1,12 @@
 
 ## Q 10
-Create a pod called time-check in the nautilus namespace. The pod should contain a container named time-check, utilizing the busybox image with the latest tag (specify as busybox:latest).
+Create a pod called `time-check` in the `nautilus` namespace. The pod should contain a container named `time-check`, utilizing the busybox image with the latest tag (specify as `busybox:latest`).
 
-Create a config map named time-config with the data TIME_FREQ=10 in the same namespace.
+Create a config map named `time-config` with the data `TIME_FREQ=10` in the same namespace.
 
-Configure the time-check container to execute the command: while true; do date; sleep $TIME_FREQ;done. Ensure the result is written /opt/dba/time/time-check.log. Also, add an environmental variable TIME_FREQ in the container, fetching its value from the config map TIME_FREQ key.
+Configure the time-check container to execute the command: `while true; do date; sleep $TIME_FREQ;done`. Ensure the result is written `/opt/dba/time/time-check.log`. Also, add an environmental variable `TIME_FREQ` in the container, fetching its value from the config map `TIME_FREQ` key.
 
-Create a volume log-volume and mount it at /opt/dba/time within the container.
+Create a volume `log-volume` and mount it at `/opt/dba/time` within the container.
 
 ```bash
 thor@jumphost ~$ k get po -n nautilus 
@@ -79,8 +79,8 @@ args:
 
 ## Q14
 
-The pod name is nginx-phpfpm and configmap name is nginx-config. Identify and fix the problem.
-Once resolved, copy /home/thor/index.php file from the jump host to the nginx-container within the nginx document root. After this, you should be able to access the website using Website button on the top bar.
+The pod name is `nginx-phpfpm` and configmap name is `nginx-config`. Identify and fix the problem.
+Once resolved, copy `/home/thor/index.php` file from the jump host to the `nginx-container` within the nginx document root. After this, you should be able to access the website using Website button on the top bar.
 
 ```bash
 thor@jumphost ~$ k get po
