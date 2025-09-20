@@ -293,12 +293,53 @@ root@student-node ~ ➜  k create cj simple-node-job -n ckad-job --schedule "*/3
 
 nginx.ingress.kubernetes.io/ssl-redirect: "false"
 ```
+---
 
 - PVC requires some time for binding. So, be patient.
 - The manifest related to volume (pvc, pv), and resource field in pod/deployment.... delete all fields, and the apply.
-
----
-
 - An `HTTPRoute` does not have to be in the same namespace as the `Gateway`, but it does have to be in the same namespace as the `Service` it references (unless you explicitly allow cross-namespace routing via `backendRefs.namespaces`).
 - Use `kubectl api-resource` for interacting the imperative commands for **ResourceQuota and Role, ClusterRole**. Resources are plural here.
 - In Kubernetes, each `volume` entry under `spec.volumes` must have a **unique name**. And if you try to add two different sources (like `persistentVolumeClaim` + `emptyDir`) under the same volume, you’ll also get an error.
+- Unlike `hostPath` volumes (which **can create a path automatically** if it doesn’t exist → type: `DirectoryOrCreate`), a **local PersistentVolume (PV)** in Kubernetes expects that the directory (or device) already exists on the node.
+
+---
+
+### **Toleration for controlplane scheduling**
+
+* By default, the **controlplane/master node** is tainted to prevent regular workloads from running there.
+* Taint looks like this (you can verify with `kubectl describe node controlplane | grep Taint`):
+
+```
+node-role.kubernetes.io/control-plane:NoSchedule
+```
+
+* If you want your Pod to run **on the controlplane node**, you must add a **toleration** in the Pod spec:
+
+```yaml
+spec:
+  tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Exists"
+    effect: "NoSchedule"
+```
+
+👉 Without this, the Pod will stay **Pending** because the scheduler won’t place it on the tainted node.
+
+---
+
+### **PVC deletion rule**
+
+* A **PersistentVolumeClaim (PVC)** cannot be deleted while it is **still mounted by any Pod**.
+* If you try to delete it directly, you’ll get stuck in `Terminating` state.
+* You must first:
+
+  1. **Delete the Pod(s)** using that PVC.
+  2. Then delete the PVC.
+  3. The underlying PV deletion depends on the **ReclaimPolicy** (`Retain`, `Delete`, or `Recycle`).
+
+---
+
+🔑 **Quick exam memory tip:**
+
+* Want to use controlplane? → Add **toleration**.
+* Want to delete a PVC? → First **delete the Pod** using it.
