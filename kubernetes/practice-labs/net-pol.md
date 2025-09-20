@@ -1,4 +1,185 @@
-You are requested to create a network policy named deny-all-svcn that denies all incoming and outgoing traffic to ckad12-svcn namespace.
+## Q1
+
+There are existing Pods in Namespace `space1` and `space2` .
+
+```bash
+controlplane:~$ k get po -n space1 
+NAME     READY   STATUS    RESTARTS   AGE     
+app1-0   1/1     Running   0          4m44s   
+controlplane:~$ k get po -n space2  
+NAME              READY   STATUS    RESTARTS   AGE    
+microservice1-0   1/1     Running   0          5m3s   
+microservice2-0   1/1     Running   0          5m3s   
+
+controlplane:~$ k get svc -n space1
+NAME   TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+app1   ClusterIP   10.111.213.35   <none>        80/TCP    33m
+controlplane:~$ k get svc -n space2
+NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+microservice1   ClusterIP   10.109.230.189   <none>        80/TCP    33m
+microservice2   ClusterIP   10.110.221.96    <none>        80/TCP    33m
+
+controlplane:~$ k get ns --show-labels
+NAME                 STATUS   AGE    LABELS
+space1               Active   6m5s   kubernetes.io/metadata.name=space1
+space2               Active   6m5s   kubernetes.io/metadata.name=space2
+```
+---
+
+## Q2
+We need a new NetworkPolicy named `np` that restricts all Pods in Namespace `space1` to only have outgoing traffic to Pods in Namespace `space2` . Incoming traffic not affected.
+
+We also need a new NetworkPolicy named `np` that restricts all Pods in Namespace `space2` to only have incoming traffic from Pods in Namespace `space1` . Outgoing traffic not affected.
+
+The NetworkPolicies should still allow outgoing DNS traffic on port `53` TCP and UDP.
+
+```bash
+controlplane:~$ cat netpol.yaml 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+  namespace: space1
+spec:
+  podSelector:
+    matchLabels: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:        
+        matchLabels:
+         kubernetes.io/metadata.name: space2
+  - ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+  namespace: space2
+spec:
+  podSelector:
+    matchLabels: {}
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector: 
+       matchLabels:
+         kubernetes.io/metadata.name: space1
+
+# these should work
+k -n space1 exec app1-0 -- curl -m 1 microservice1.space2.svc.cluster.local
+k -n space1 exec app1-0 -- curl -m 1 microservice2.space2.svc.cluster.local
+k -n space1 exec app1-0 -- nslookup tester.default.svc.cluster.local
+k -n kube-system exec -it validate-checker-pod -- curl -m 1 app1.space1.svc.cluster.local
+
+# these should not work
+k -n space1 exec app1-0 -- curl -m 1 tester.default.svc.cluster.local
+k -n kube-system exec -it validate-checker-pod -- curl -m 1 microservice1.space2.svc.cluster.local
+k -n kube-system exec -it validate-checker-pod -- curl -m 1 microservice2.space2.svc.cluster.local
+k -n default run nginx --image=nginx:1.21.5-alpine --restart=Never -i --rm  -- curl -m 1 microservice1.space2.svc.cluster.local
+```
+---
+
+## Q3
+
+All Pods in Namespace `default` with label `level=100x` should be able to communicate with Pods with label `level=100x` in Namespaces `level-1000` , `level-1001` and `level-1002` . Fix the existing NetworkPolicy `np-100x` to ensure this.
+
+```bash
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np-100x
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      level: 100x
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+     - namespaceSelector:
+        matchLabels:
+         kubernetes.io/metadata.name: level-1000
+       podSelector:
+         matchLabels:
+           level: 100x
+  - to:
+     - namespaceSelector:
+        matchLabels:
+         kubernetes.io/metadata.name: level-1000 # CHANGE to level-1001
+       podSelector:
+         matchLabels:
+           level: 100x
+  - to:
+     - namespaceSelector:
+        matchLabels:
+         kubernetes.io/metadata.name: level-1002
+       podSelector:
+         matchLabels:
+           level: 100x
+  - ports:
+    - port: 53
+      protocol: TCP
+    - port: 53
+      protocol: UDP
+
+controlplane:~$ k get po
+NAME       READY   STATUS    RESTARTS   AGE
+tester-0   1/1     Running   0          12m
+kubectl exec tester-0 -- curl tester.level-1000.svc.cluster.local
+kubectl exec tester-0 -- curl tester.level-1001.svc.cluster.local
+kubectl exec tester-0 -- curl tester.level-1002.svc.cluster.local
+```
+---
+
+## Q4
+
+`my-app-deployment` and `cache-deployment` deployed, and `my-app-deployment` deployment exposed through a service named `my-app-service`. Create a NetworkPolicy named `my-app-network-policy` to restrict incoming and outgoing traffic to `my-app-deployment` pods with the following specifications:
+
+- Allow incoming traffic only from pods.
+- Allow incoming traffic from a specific pod with the label app=trusted
+- Allow outgoing traffic to pods.
+- Deny all other incoming and outgoing traffic.
+
+```bash
+controlplane:~$ vi abc.yaml
+controlplane:~$ k apply -f abc.yaml 
+networkpolicy.networking.k8s.io/my-app-network-policy created
+controlplane:~$ cat abc.yaml 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: my-app-network-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: my-app   # Select my-app-deployment pods
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: trusted   # Allow incoming from trusted pods only
+  egress:
+  - to:
+    - podSelector: {}     # Allow outgoing to any pods
+```
+---
+
+## Q5
+
+You are requested to create a network policy named `deny-all-svcn` that denies all incoming and outgoing traffic to `ckad12-svcn` namespace.
 
 Perfect 👍 To **deny all traffic (ingress + egress)** in a namespace using a NetworkPolicy, you must create a "default deny all" policy.
 
@@ -25,6 +206,8 @@ spec:
 * Since **no rules** are specified under `ingress:` or `egress:`, **everything is denied by default**.
 
 ---
+
+## Q6
 
 A policy database-ckad-netpol to limit access to database pods only to backend pods.
 
@@ -71,6 +254,8 @@ spec:
 * All other pods in the namespace will be **denied** automatically because once a policy selects a pod, **deny-all is the default** unless explicitly allowed.
 
 ---
+
+## Q7
 
 create a NetworkPolicy .i.e. ckad-allow so that only pods with label criteria: allow can access the deployment on port 80 and apply it.
 
@@ -122,6 +307,8 @@ spec:
 
 ---
 
+## Q8
+
 We have created a Network Policy netpol-ckad13-svcn that allows traffic only to specific pods and it allows traffic only from pods with specific labels.
 
 Your task is to edit the policy so that it allows traffic from pods with labels access = allowed.
@@ -153,6 +340,8 @@ spec:
 ```
 
 ---
+
+## Q10
 
 We have deployed an application in the ns-new-ckad namespace. We also configured services, namely frontend-ckad-svcn and backend-ckad-svcn.
 
@@ -298,6 +487,8 @@ Both should now respond correctly. ✅
 
 ---
 
+## Q11
+
 We have deployed some pods in the namespaces ckad-alpha and ckad-beta.
 
 You need to create a NetworkPolicy named ns-netpol-ckad that will restrict all Pods in Namespace ckad-alpha to only have outgoing traffic to Pods in Namespace ckad-beta . Ingress traffic should not be affected.
@@ -363,169 +554,7 @@ root@student-node ~ ➜
 
 ---
 
-A new payment service has been introduced. Since it is a sensitive application, it is deployed in its own namespace critical-space. Inspect the resources and service created.
-
-
-You are requested to make the new application available at /pay. Create an ingress resource named ingress-ckad09-svcn for the payment application to make it available at /pay.
-
-```bash
-root@student-node ~ ➜  k get po -n ingress-nginx 
-NAME                                       READY   STATUS      RESTARTS   AGE
-ingress-nginx-admission-create-6dhz8       0/1     Completed   0          76s
-ingress-nginx-admission-patch-pkv5s        0/1     Completed   0          76s
-ingress-nginx-controller-68bb49f4f-kkr98   1/1     Running     0          76s
-
-root@student-node ~ ➜  k get svc,po -n critical-space 
-NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-service/pay-service   ClusterIP   172.20.122.122   <none>        8282/TCP   103s
-
-NAME                              READY   STATUS    RESTARTS   AGE
-pod/webapp-pay-7df499586f-48cxm   1/1     Running   0          103s
-
-root@student-node ~ ➜  k get po -n ingress-nginx ingress-nginx-controller-68bb49f4f-kkr98 -o yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: ingress-nginx-controller-68bb49f4f-kkr98
-  namespace: ingress-nginx
-spec:
-  containers:
-  - args:
-    - /nginx-ingress-controller
-    - --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller
-    - --election-id=ingress-controller-leader
-    - --watch-ingress-without-class=true
-    - --default-backend-service=app-space/default-backend-service        # Notice here
-    - --controller-class=k8s.io/ingress-nginx
-    - --ingress-class=nginx
-    - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller
-    - --validating-webhook=:8443
-    - --validating-webhook-certificate=/usr/local/certificates/cert
-    - --validating-webhook-key=/usr/local/certificates/key
-
-
-root@student-node ~ ➜  k get svc -n app-space 
-NAME                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-default-backend-service   ClusterIP   172.20.122.209   <none>        80/TCP     7m48s    # present here, that's why controller pod is ruuning
-video-service             ClusterIP   172.20.49.211    <none>        8080/TCP   7m48s
-wear-service              ClusterIP   172.20.72.245    <none>        8080/TCP   7m48s
-
-root@student-node ~ ➜  k get svc -n critical-space 
-NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-pay-service   ClusterIP   172.20.122.122   <none>        8282/TCP   8m13s
-
-root@student-node ~ ➜  vi 11.yaml
-
-root@student-node ~ ➜  k apply -f 11.yaml 
-ingress.networking.k8s.io/ingress-ckad09-svcn created
-
-root@student-node ~ ➜  k describe ingress -n critical-space 
-Name:             ingress-ckad09-svcn
-Labels:           <none>
-Namespace:        critical-space
-Address:          
-Ingress Class:    nginx
-Default backend:  <default>
-Rules:
-  Host        Path  Backends
-  ----        ----  --------
-  *           
-              /pay   pay-service:8282 (172.17.1.7:8080)
-Annotations:  nginx.ingress.kubernetes.io/rewrite-target: /
-Events:
-  Type    Reason  Age   From                      Message
-  ----    ------  ----  ----                      -------
-  Normal  Sync    22s   nginx-ingress-controller  Scheduled for sync
-
-root@student-node ~ ➜  cat 11.yaml 
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress-ckad09-svcn
-  namespace: critical-space
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  ingressClassName: nginx
-  rules:
-  - http:
-      paths:
-      - path: /pay
-        pathType: Prefix
-        backend:
-          service:
-            name: pay-service
-            port:
-              number: 8282 
-```
-
-Exactly ❤️ you’ve done it right.
-
-Let’s read your `kubectl describe ingress` carefully:
-
-```
-Default backend:  <default>
-Rules:
-  Host        Path  Backends
-  ----        ----  --------
-  *           
-              /pay   pay-service:8282 (172.17.1.7:8080)
-```
-
-### What this means
-
-* **Default backend: `<default>`**
-  👉 This just shows that the **Ingress Controller Pod itself** has a global default backend (configured via `--default-backend-service=app-space/default-backend-service`).
-  👉 It’s **not coming from your Ingress resource**. Your Ingress does **not** define any `defaultBackend` section — so you’re ✅ safe.
-
-* **Rules**
-
-  * Path `/pay` → `pay-service:8282` (and we can see it’s sending traffic to Pod IP `172.17.1.7:8080` behind the service).
-  * That’s exactly what the task wanted.
-
-
-### Conclusion
-
-Your Ingress **does not contain a backend service definition itself** — it only defines a rule.
-The mention of `<default>` is just informational, showing the controller’s global default backend, not part of your YAML.
-
-**Exactly ✅ you got it.**
-
-Let me clear this up for you step by step:
-
-### 1. Where the default backend is set
-
-In your **Ingress Controller Pod args** (`ingress-nginx-controller` in `ingress-nginx` namespace), you have:
-
-```yaml
---default-backend-service=app-space/default-backend-service
-```
-
-👉 This means the controller itself will use `default-backend-service` in the **`app-space` namespace** whenever:
-
-* A request doesn’t match any Ingress rule, or
-* An Ingress has no rules/paths defined.
-
-### 2. Where your Ingress lives
-
-Your Ingress resource:
-
-* Namespace = `critical-space`
-* Rules = only `/pay` → `pay-service:8282`
-
-👉 This Ingress has **no defaultBackend field**, so it never overrides anything.
-👉 It only routes requests for `/pay` to `pay-service`.
-
-
-### 3. How they connect
-
-* **Global default backend** = comes from the controller (in `app-space`).
-* **Ingress-specific rules** = come from your Ingress (in `critical-space`).
-* They do **not need to be in the same namespace**. The controller doesn’t care; it just knows where to send unmatched traffic globally.
-
-✅ So yes: the default backend service in the controller args belongs to `app-space`, and it does **not** have to match the namespace where you created your Ingress (`critical-space`).
-
----
+## Q12
 
 An nginx-based pod called cyan-pod-cka28-trb is running under the cyan-ns-cka28-trb namespace and is exposed within the cluster using the cyan-svc-cka28-trb service.
 
