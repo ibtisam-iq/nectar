@@ -116,7 +116,7 @@ cache-vpa   Initial                          10s
 
 ## Q2
 
-Create a VPA named `api-vpa` in `Auto` Mode for a deployment named `api-deployment` in the services namespace. The VPA should automatically adjust CPU and memory requests but must ensure that the **CPU requests do not exceed 1 cores and memory requests do not exceed 1Gi**. Additionally, set a minimum CPU request of `600m` and a minimum memory request of `600Mi`. The **containerName** in VPA should explicitly match the container name inside `api-deployment`.
+Create a VPA named `api-vpa` in `Auto` Mode for a deployment named `api-deployment` in the `services` namespace. The VPA should automatically adjust CPU and memory requests but must ensure that the **CPU requests do not exceed 1 cores and memory requests do not exceed 1Gi**. Additionally, set a minimum CPU request of `600m` and a minimum memory request of `600Mi`. The **containerName** in VPA should explicitly match the container name inside `api-deployment`.
 
 ```bash
 cluster1-controlplane ~ ➜  k get deploy -n services api-deployment -o yaml | grep -i containers -5
