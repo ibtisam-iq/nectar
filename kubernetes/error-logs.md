@@ -62,6 +62,9 @@ volumeMounts:
 root@student-node ~ ➜  k logs -n ingress-nginx ingress-nginx-controller-685f679564-m69vw
 F0911 00:54:26.128505      55 main.go:83] No service with name default-backend-service found in namespace default: services "default-backend-service" not found  # problem spotted
 
+The Pod "my-pod-cka" is invalid: spec.volumes[1].name: Duplicate value: "shared-storage"
+* spec.volumes[0].persistentVolumeClaim: Forbidden: may not specify more than 1 volume type
+If volume let say it is PVC in use, and you are asked to append a sidecar container, just add it without add new `volumes` section, instaed use the already in-use.
 ```
 
 1. Wrong field in manifest; pod is exited, no restart ... no other clue 
