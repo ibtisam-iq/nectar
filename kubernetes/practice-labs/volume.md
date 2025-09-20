@@ -65,12 +65,13 @@ The Pod "my-pod-cka" is invalid:
 ```
 ---
 
-An existing nginx pod, my-pod-cka and Persistent Volume Claim (PVC) named my-pvc-cka are available. Your task is to implement the following modifications:
+## Q2
 
-NOTE:- PVC to PV binding and my-pod-cka pods sometimes takes around 2Mins to Up & Running So Please wait
-Update the pod to include a sidecar container that uses the busybox image. Ensure that this sidecar container remains operational by including an appropriate command "tail -f /dev/null" .
+An existing nginx pod, `my-pod-cka` and Persistent Volume Claim (PVC) named `my-pvc-cka` are available. Your task is to implement the following modifications:
 
-Share the shared-storage volume between the main application and the sidecar container, mounting it at the path /var/www/shared . Additionally, ensure that the sidecar container has read-only access to this shared volume.
+- Update the pod to include a `sidecar` container that uses the `busybox` image. Ensure that this sidecar container remains operational by including an appropriate command `"tail -f /dev/null"` .
+
+Share the `shared-storage` volume between the main application and the sidecar container, mounting it at the path `/var/www/shared` . Additionally, ensure that the sidecar container has `read-only access` to this shared volume.
 
 Got it 👍 this is a **sidecar container with shared PVC mount** use case.
 Since you already have an **nginx pod (`my-pod-cka`)** and a **PVC (`my-pvc-cka`)**, we’ll just update the pod spec.
@@ -132,13 +133,16 @@ So in your pod update, just keep the **PVC reference** exactly as you showed —
 
 ---
 
+## Q3
+
 Your task involves setting up storage components in a Kubernetes cluster. Follow these steps:
 
-Step 1: Create a Storage Class named blue-stc-cka with the following properties:
+Step 1: Create a Storage Class named `blue-stc-cka` with the following properties:
 
 - Provisioner: kubernetes.io/no-provisioner
 - Volume binding mode: WaitForFirstConsumer
-Step 2: Create a Persistent Volume (PV) named blue-pv-cka with the following properties:
+
+Step 2: Create a Persistent Volume (PV) named `blue-pv-cka` with the following properties:
 
 - Capacity: 100Mi
 - Access mode: ReadWriteOnce
@@ -146,11 +150,13 @@ Step 2: Create a Persistent Volume (PV) named blue-pv-cka with the following pro
 - Storage class: blue-stc-cka
 - Local path: /opt/blue-data-cka
 - Node affinity: Set node affinity to create this PV on controlplane .
-Step 3: Create a Persistent Volume Claim (PVC) named blue-pvc-cka with the following properties:
+
+Step 3: Create a Persistent Volume Claim (PVC) named `blue-pvc-cka` with the following properties:
 
 - Access mode: ReadWriteOnce
 - Storage class: blue-stc-cka
 - Storage request: 50Mi
+
 The volume should be bound to blue-pv-cka 
 
 ```bash
@@ -273,7 +279,8 @@ controlplane:~$ vi abc.yaml
 controlplane:~$ 
 ```
 ---
-## PVC is pending
+
+## Q4 PVC is pending
 
 ```bash
 controlplane:~$ k get pvc
@@ -420,6 +427,8 @@ That’s why the misleading error appeared earlier — Kubernetes first *tries p
 
 ---
 
+## Q5  reduce pvc size, correct pvc accessMode
+
 ```bash
 controlplane:~$ k describe pvc postgres-pvc 
 Name:          postgres-pvc
@@ -433,11 +442,13 @@ Events:
 ```
 ---
 
-Volume name should be volume-share of type emptyDir.
+## Q6
 
-After creating the pod, exec into the first container i.e volume-container-devops-1, and just for testing create a file blog.txt with any content under the mounted path of first container i.e /tmp/blog.
+Volume name should be `volume-share` of type `emptyDir`.
 
-The file blog.txt should be present under the mounted path /tmp/games on the second container volume-container-devops-2 as well, since they are using a shared volume.
+After creating the pod, exec into the first container i.e `volume-container-devops-1`, and just for testing create a file `blog.txt` with any content under the mounted path of first container i.e `/tmp/blog`.
+
+The file `blog.txt` should be present under the mounted path `/tmp/games` on the second container `volume-container-devops-2` as well, since they are using a shared volume.
 
 ```bash
 thor@jumphost ~$ k get po
@@ -458,15 +469,17 @@ sh-5.2#
 ```
 ---
 
-Create a pod named webserver.
+## Q7
 
-Create an emptyDir volume shared-logs.
+Create a pod named `webserver`.
 
-Create two containers from nginx and ubuntu images with latest tag only and remember to mention tag i.e nginx:latest, nginx container name should be nginx-container and ubuntu container name should be sidecar-container on webserver pod.
+Create an `emptyDir` volume `shared-logs`.
 
-Add command on sidecar-container "sh","-c","while true; do cat /var/log/nginx/access.log /var/log/nginx/error.log; sleep 30; done"
+Create two containers from `nginx and ubuntu images with latest tag` only and remember to mention tag i.e nginx:latest, nginx container name should be `nginx-container` and ubuntu container name should be `sidecar-container` on webserver pod.
 
-Mount the volume shared-logs on both containers at location /var/log/nginx, all containers should be up and running.
+Add command on sidecar-container `"sh","-c","while true; do cat /var/log/nginx/access.log /var/log/nginx/error.log; sleep 30; done"`
+
+Mount the volume `shared-logs` on both containers at location `/var/log/nginx`, all containers should be up and running.
 
 Got it 👍 Thanks for pasting the full manifest.
 
@@ -504,6 +517,8 @@ spec:
 ```
 
 ---
+
+## Q8
 
 In the `ckad14-sa-projected` namespace, configure the `ckad14-api-pod` Pod to include a **projected volume** named `vault-token`.
 
@@ -564,14 +579,13 @@ and add the **`volumeMounts`** + **`volumes`** sections exactly as above.
 
 ---
 
-## PVC/PV Resizing
+## Q9 PVC/PV Resizing
 
-A persistent volume called papaya-pv-ckad09-str is already created with a storage capacity of 150Mi. It's using the papaya-stc-ckad09-str storage class with the path /opt/papaya-stc-ckad09-str.
+A persistent volume called `papaya-pv-ckad09-str` is already created with a storage capacity of `150Mi`. It's using the `papaya-stc-ckad09-str` storage class with the path `/opt/papaya-stc-ckad09-str`.
 
-Also, a persistent volume claim named papaya-pvc-ckad09-str has been created on this cluster. This PVC has requested 50Mi of storage from papaya-pv-ckad09-str volume.
-Resize the PVC to 80Mi and make sure the PVC is in Bound state.
+Also, a persistent volume claim named `papaya-pvc-ckad09-str` has been created on this cluster. This PVC has requested `50Mi` of storage from `papaya-pv-ckad09-str` volume. Resize the PVC to `80Mi` and make sure the PVC is in Bound state.
 
-**Solution:** Delete the pv and pvc, get -o yaml and do editing, make sure remove all the extra fields.
+**Solution:** Delete the pv and pvc, get `-o yaml` and do editing, make sure remove all the extra fields.
 
 Got it 👍 Let’s solve this step by step.
 
@@ -734,12 +748,14 @@ root@student-node ~ ➜
 
 ---
 
-In the cka-multi-containers namespace, proceed to create a pod named cka-sidecar-pod that adheres to the following specifications:
+## Q10
 
-The first container, labeled main-container, is required to run the nginx:1.27, which writes the current date along with a greeting message Hi I am from Sidecar container to /log/app.log.
-The second container, identified as sidecar-container, must use the nginx:1.25 image and serve the app.log file as a webpage located at /usr/share/nginx/html.
+In the `cka-multi-containers` namespace, proceed to create a pod named `cka-sidecar-pod` that adheres to the following specifications:
 
-Note: Do not rename app.log to index.html. The file name should remain app.log and be available at /app.log via the nginx server.
+- The first container, labeled `main-container`, is required to run the `nginx:1.27`, which writes the current `date` along with a greeting message `Hi I am from Sidecar container` to `/log/app.log`.
+- The second container, identified as `sidecar-container`, must use the `nginx:1.25` image and serve the `app.log` file as a webpage located at `/usr/share/nginx/html`.
+
+> Note: Do not rename `app.log` to `index.html`. The file name should remain `app.log` and be available at `/app.log` via the nginx server.
 
 ```bash
 cluster2-controlplane ~ ➜  vi 4.yaml
@@ -791,32 +807,27 @@ cluster2-controlplane ~ ➜
 
 ---
 
-A storage class called coconut-stc-cka01-str was created earlier.
+## Q11
 
+A storage class called `coconut-stc-cka01-str` was created earlier. Use this storage class to create a persistent volume called `coconut-pv-cka01-str` as per below requirements:
 
-Use this storage class to create a persistent volume called coconut-pv-cka01-str as per below requirements:
+- Capacity should be `100Mi`.
 
+- The volume type should be `hostpath` and the path should be `/opt/coconut-stc-cka01-str`.
 
-- Capacity should be 100Mi.
+- Use `coconut-stc-cka01-str` storage class.
 
-- The volume type should be hostpath and the path should be /opt/coconut-stc-cka01-str.
+- This volume must be created on cluster1-node01 (the `/opt/coconut-stc-cka01-str` directory already exists on this node).
 
-- Use coconut-stc-cka01-str storage class.
+- It must have a label with `key: storage-tier` with `value: gold`.
 
-- This volume must be created on cluster1-node01 (the /opt/coconut-stc-cka01-str directory already exists on this node).
+Also, create a persistent volume claim with the name `coconut-pvc-cka01-str` as per the below specs:
 
-- It must have a label with key: storage-tier with value: gold.
+- Request `50Mi` of storage from `coconut-pv-cka01-str` PV. It must use **matchLabels** to use the PV.
 
+- Use `coconut-stc-cka01-str` storage class.
 
-Also, create a persistent volume claim with the name coconut-pvc-cka01-str as per the below specs:
-
-
-- Request 50Mi of storage from coconut-pv-cka01-str PV. It must use matchLabels to use the PV.
-
-- Use coconut-stc-cka01-str storage class.
-
-- The access mode must be ReadWriteMany.
-
+- The access mode must be `ReadWriteMany`.
 
 ```bash
 cluster1-controlplane ~ ➜  vi 10.yaml
