@@ -272,6 +272,28 @@ root@student-node ~ ➜
 ```
 ---
 
+## PVC Expansion
+
+* If a **StorageClass** has
+
+  ```yaml
+  allowVolumeExpansion: true
+  ```
+
+  then any PVC created from that StorageClass can be **resized directly** by editing its `spec.resources.requests.storage`.
+
+### Important notes:
+
+1. **Only expansion is supported** → you cannot shrink a PVC.
+2. Some volume plugins (e.g., AWS EBS, GCE PD, CSI drivers) support it, but not all.
+3. If the PVC is already mounted to a Pod:
+
+   * The underlying volume may expand immediately,
+   * But the filesystem inside the container might need a **filesystem resize** (K8s does this automatically for most drivers).
+4. If `allowVolumeExpansion` is missing or `false` → PVC resize attempt will be rejected.
+
+---
+
 ## Use quotes ""
 
 ```bash
@@ -301,6 +323,7 @@ nginx.ingress.kubernetes.io/ssl-redirect: "false"
 - Use `kubectl api-resource` for interacting the imperative commands for **ResourceQuota and Role, ClusterRole**. Resources are plural here.
 - In Kubernetes, each `volume` entry under `spec.volumes` must have a **unique name**. And if you try to add two different sources (like `persistentVolumeClaim` + `emptyDir`) under the same volume, you’ll also get an error.
 - Unlike `hostPath` volumes (which **can create a path automatically** if it doesn’t exist → type: `DirectoryOrCreate`), a **local PersistentVolume (PV)** in Kubernetes expects that the directory (or device) already exists on the node.
+- With `hostPath`, the `nodeAffinity` is a precaution; with `local`, it’s mandatory.
 
 ---
 
