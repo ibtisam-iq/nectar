@@ -1,4 +1,6 @@
-The green-deployment-cka15-trb deployment is having some issues since the corresponding POD is crashing and restarting multiple times continuously.
+## Q1
+
+The `green-deployment-cka15-trb` deployment is having some issues since the corresponding POD is **crashing and restarting multiple times** continuously.
 Investigate the issue and fix it. Make sure the POD is in a running state and is stable (i.e, NO RESTARTS!).
 
 ```bash
@@ -187,7 +189,8 @@ resources:
 
 ---
 
-Identify the CPU and memory resource capacity on cluster2-node01 node and save the results in /root/cluster2-node01-cpu.txt and /root/cluster2-node01-memory.txt, respectively, on the cluster2-controlplane.
+## Q2
+Identify the CPU and memory resource capacity on cluster2-node01 node and save the results in `/root/cluster2-node01-cpu.txt` and `/root/cluster2-node01-memory.txt`, respectively, on the cluster2-controlplane.
 
 ```bash
 cluster2-controlplane ~ ✖ k get no cluster2-node01 -o yaml
