@@ -1,163 +1,28 @@
-## Persistant volume
-
-### 🔹 Requirements Breakdown
-
-* Pod name: **`alpine-pod-pod`**
-* Image: **`alpine:latest`**
-* Container name: **`alpine-container`**
-* Use **command**: `/bin/sh`
-* Use **args**: `["-c", "tail -f /config/log.txt"]`
-* Mount a **volume** named `config-volume` from an existing **ConfigMap** `log-configmap`
-* Mount path: `/config`
-* Restart policy: **Never**
-
-### ✅ Final YAML
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: alpine-pod-pod
-spec:
-  restartPolicy: Never
-  containers:
-  - name: alpine-container
-    image: alpine:latest
-    command:
-    - /bin/sh
-    - -c
-    - tail -f /config/log.txt
-    volumeMounts:
-    - name: config-volume
-      mountPath: /config
-  volumes:
-  - name: config-volume
-    configMap:
-      name: log-configmap
-```
----
-
-```bash
- volumes:
-  - name: shared-storage
-    hostPath:
-      path: "/var/www/shared"
-      type: DirectoryOrCreate
-  - name: shared-storage
-    persistentVolumeClaim:
-      claimName: my-pvc-cka
-
-controlplane:~$ k replace -f /tmp/kubectl-edit-3424260573.yaml --force
-pod "my-pod-cka" deleted
-The Pod "my-pod-cka" is invalid: spec.volumes[1].name: Duplicate value: "shared-storage"
-
-  volumes:
-  - name: shared-storage
-    hostPath:
-      path: "/var/www/shared"
-      type: DirectoryOrCreate
-    persistentVolumeClaim:
-      claimName: my-pvc-cka
-
-controlplane:~$ k replace -f /tmp/kubectl-edit-3424260573.yaml --force
-The Pod "my-pod-cka" is invalid: 
-* spec.volumes[0].persistentVolumeClaim: Forbidden: may not specify more than 1 volume type
-```
----
-
-## Q2
-
-An existing nginx pod, `my-pod-cka` and Persistent Volume Claim (PVC) named `my-pvc-cka` are available. Your task is to implement the following modifications:
-
-- Update the pod to include a `sidecar` container that uses the `busybox` image. Ensure that this sidecar container remains operational by including an appropriate command `"tail -f /dev/null"` .
-
-Share the `shared-storage` volume between the main application and the sidecar container, mounting it at the path `/var/www/shared` . Additionally, ensure that the sidecar container has `read-only access` to this shared volume.
-
-Got it 👍 this is a **sidecar container with shared PVC mount** use case.
-Since you already have an **nginx pod (`my-pod-cka`)** and a **PVC (`my-pvc-cka`)**, we’ll just update the pod spec.
-
-Here’s how the updated `my-pod-cka` YAML would look:
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: my-pod-cka
-spec:
-  containers:
-    - name: nginx
-      image: nginx
-      volumeMounts:
-        - name: shared-storage
-          mountPath: /var/www/shared   # main container gets full access
-
-    - name: busybox-sidecar
-      image: busybox
-      command: [ "sh", "-c", "tail -f /dev/null" ]
-      volumeMounts:
-        - name: shared-storage
-          mountPath: /var/www/shared   # sidecar mounts the same PVC
-          readOnly: true               # sidecar has READ-ONLY access
-
-  volumes:
-    - name: shared-storage
-      persistentVolumeClaim:
-        claimName: my-pvc-cka
-```
-
-Exactly 👍 no need to use a `hostPath` here.
-
-The **question already tells you**:
-
-* A **PVC (`my-pvc-cka`)** exists.
-* That PVC is already bound to some **PV**.
-* Your job is just to mount that same PVC into both containers.
-
-So this part:
-
-```yaml
-volumes:
-  - name: shared-storage
-    persistentVolumeClaim:
-      claimName: my-pvc-cka
-```
-
-is **all that’s required** ✅
-
-🔑 Why not `hostPath`?
-
-* `hostPath` ties storage to a specific node’s filesystem (not portable, not recommended for exam scenarios unless explicitly asked).
-* Since a PVC is already provided, Kubernetes will ensure the volume is provisioned/attached from the bound PV, no need to mess with host paths.
-
-So in your pod update, just keep the **PVC reference** exactly as you showed — **no `hostPath` needed**.
-
----
-
-## Q3
+## Q1
 
 Your task involves setting up storage components in a Kubernetes cluster. Follow these steps:
 
-Step 1: Create a Storage Class named `blue-stc-cka` with the following properties:
+**Step 1**: Create a Storage Class named `blue-stc-cka` with the following properties:
 
 - Provisioner: kubernetes.io/no-provisioner
 - Volume binding mode: WaitForFirstConsumer
 
-Step 2: Create a Persistent Volume (PV) named `blue-pv-cka` with the following properties:
+**Step 2**: Create a Persistent Volume (PV) named `blue-pv-cka` with the following properties:
 
 - Capacity: 100Mi
 - Access mode: ReadWriteOnce
 - Reclaim policy: Retain
 - Storage class: blue-stc-cka
 - Local path: /opt/blue-data-cka
-- Node affinity: Set node affinity to create this PV on controlplane .
+- Node affinity: Set node affinity to create this PV on `controlplane`.
 
-Step 3: Create a Persistent Volume Claim (PVC) named `blue-pvc-cka` with the following properties:
+**Step 3**: Create a Persistent Volume Claim (PVC) named `blue-pvc-cka` with the following properties:
 
 - Access mode: ReadWriteOnce
 - Storage class: blue-stc-cka
 - Storage request: 50Mi
 
-The volume should be bound to blue-pv-cka 
+The volume should be bound to `blue-pv-cka`. 
 
 ```bash
 controlplane:~$ k get pv,pvc,sc
@@ -280,7 +145,7 @@ controlplane:~$
 ```
 ---
 
-## Q4 PVC is pending
+## Q2 PVC is pending, wrong PVC accessMode
 
 ```bash
 controlplane:~$ k get pvc
@@ -427,7 +292,7 @@ That’s why the misleading error appeared earlier — Kubernetes first *tries p
 
 ---
 
-## Q5  reduce pvc size, correct pvc accessMode
+## Q3  reduce pvc size, correct pvc accessMode
 
 ```bash
 controlplane:~$ k describe pvc postgres-pvc 
@@ -442,83 +307,7 @@ Events:
 ```
 ---
 
-## Q6
-
-Volume name should be `volume-share` of type `emptyDir`.
-
-After creating the pod, exec into the first container i.e `volume-container-devops-1`, and just for testing create a file `blog.txt` with any content under the mounted path of first container i.e `/tmp/blog`.
-
-The file `blog.txt` should be present under the mounted path `/tmp/games` on the second container `volume-container-devops-2` as well, since they are using a shared volume.
-
-```bash
-thor@jumphost ~$ k get po
-NAME                  READY   STATUS    RESTARTS   AGE
-volume-share-devops   2/2     Running   0          9s
-
-thor@jumphost ~$ k exec volume-share-devops -it -c volume-container-devops-1 -- sh
-sh-5.2# touch /tmp/blog/blog.txt
-sh-5.2# ls /tmp/blog/blog.txt 
-/tmp/blog/blog.txt
-sh-5.2# exit
-exit
-
-thor@jumphost ~$ k exec volume-share-devops -it -c volume-container-devops-2 -- sh
-sh-5.2# ls /tmp/games/
-blog.txt
-sh-5.2# 
-```
----
-
-## Q7
-
-Create a pod named `webserver`.
-
-Create an `emptyDir` volume `shared-logs`.
-
-Create two containers from `nginx and ubuntu images with latest tag` only and remember to mention tag i.e nginx:latest, nginx container name should be `nginx-container` and ubuntu container name should be `sidecar-container` on webserver pod.
-
-Add command on sidecar-container `"sh","-c","while true; do cat /var/log/nginx/access.log /var/log/nginx/error.log; sleep 30; done"`
-
-Mount the volume `shared-logs` on both containers at location `/var/log/nginx`, all containers should be up and running.
-
-Got it 👍 Thanks for pasting the full manifest.
-
-Here’s why the lab marked it wrong:
-
-* In the `nginx-container`, the **volumeMount** shows `- mountPath: /var/log/nginx`.
-* But in the YAML, Kubernetes interprets `/var/log/nginx` and `/var/log/nginx/` as two **different strings**.
-* The grader is strict and expects exactly **`/var/log/nginx/` (with trailing slash)**.
-
-That’s why you got ❌ even though functionally your pod works.
-
-✅ Corrected YAML (only the mountPath needs fixing):
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: webserver
-spec:
-  volumes:
-    - name: shared-logs
-      emptyDir: {}
-  containers:
-    - name: nginx-container
-      image: nginx:latest
-      volumeMounts:
-        - name: shared-logs
-          mountPath: /var/log/nginx/   # <- notice the trailing slash
-    - name: sidecar-container
-      image: ubuntu:latest
-      command: ["sh", "-c", "while true; do cat /var/log/nginx/access.log /var/log/nginx/error.log; sleep 30; done"]
-      volumeMounts:
-        - name: shared-logs
-          mountPath: /var/log/nginx/   # <- same here
-```
-
----
-
-## Q8
+## Q4 Projected Volume
 
 In the `ckad14-sa-projected` namespace, configure the `ckad14-api-pod` Pod to include a **projected volume** named `vault-token`.
 
@@ -579,7 +368,7 @@ and add the **`volumeMounts`** + **`volumes`** sections exactly as above.
 
 ---
 
-## Q9 PVC/PV Resizing
+## Q5 PVC/PV Resizing
 
 A persistent volume called `papaya-pv-ckad09-str` is already created with a storage capacity of `150Mi`. It's using the `papaya-stc-ckad09-str` storage class with the path `/opt/papaya-stc-ckad09-str`.
 
@@ -748,66 +537,7 @@ root@student-node ~ ➜
 
 ---
 
-## Q10
-
-In the `cka-multi-containers` namespace, proceed to create a pod named `cka-sidecar-pod` that adheres to the following specifications:
-
-- The first container, labeled `main-container`, is required to run the `nginx:1.27`, which writes the current `date` along with a greeting message `Hi I am from Sidecar container` to `/log/app.log`.
-- The second container, identified as `sidecar-container`, must use the `nginx:1.25` image and serve the `app.log` file as a webpage located at `/usr/share/nginx/html`.
-
-> Note: Do not rename `app.log` to `index.html`. The file name should remain `app.log` and be available at `/app.log` via the nginx server.
-
-```bash
-cluster2-controlplane ~ ➜  vi 4.yaml
-
-cluster2-controlplane ~ ➜  k apply -f 4.yaml 
-pod/cka-sidecar-pod created
-
-cluster2-controlplane ~ ➜  k get po -n cka-multi-containers
-NAME              READY   STATUS    RESTARTS   AGE
-cka-sidecar-pod   2/2     Running   0          23s
-
-cluster2-controlplane ~ ➜  cat 4.yaml 
-apiVersion: v1
-kind: Pod
-metadata:
-  name: cka-sidecar-pod
-  namespace: cka-multi-containers
-spec:
-  containers:
-    - name: main-container
-      image: nginx:1.27
-      command:
-        - sh
-        - -c
-        - |
-          while true; do
-            echo "$(date) - Hi I am from Sidecar container" >> /log/app.log
-            sleep 5
-          done
-      volumeMounts:
-        - name: shared-log
-          mountPath: /log
-    - name: sidecar-container
-      image: nginx:1.25
-      ports:
-        - containerPort: 80
-      volumeMounts:
-        - name: shared-log
-          mountPath: /usr/share/nginx/html/app.log
-          # Keep original file name
-          subPath: app.log
-  volumes:
-    - name: shared-log
-      emptyDir: {}
-
-
-cluster2-controlplane ~ ➜  
-```
-
----
-
-## Q11
+## Q6
 
 A storage class called `coconut-stc-cka01-str` was created earlier. Use this storage class to create a persistent volume called `coconut-pv-cka01-str` as per below requirements:
 
@@ -897,4 +627,3 @@ spec:
 In short: with `hostPath`, the `nodeAffinity` is a precaution; with `local`, it’s mandatory.
 
 ---
-
