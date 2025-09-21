@@ -1,3 +1,104 @@
+There was a security incident where an intruder was able to access the whole cluster from a single hacked backend Pod.
+
+To prevent this create a NetworkPolicy called `np-backend` in Namespace `project-snake`. It should allow the `backend-*` Pods only to:
+
+- Connect to `db1-*` Pods on port `1111`
+- Connect to `db2-*` Pods on port `2222`
+- Use the app Pod labels in your policy.
+
+ℹ️ All Pods in the Namespace run plain Nginx images. This allows simple connectivity tests like: `k -n project-snake exec POD_NAME -- curl POD_IP:PORT`
+
+ℹ️ For example, connections from `backend-*` Pods to `vault-*` Pods on `port 3333` should no longer work
+
+Got it ✅ This is a **classic NetworkPolicy isolation task**: we want to restrict what `backend-*` Pods in namespace `project-snake` can connect to.
+
+### 🔑 Key points
+
+* NetworkPolicies are **namespaced** (must be created in `project-snake`).
+* Target Pods (`backend-*`) are selected by `podSelector`.
+* Allowed **egress** connections only:
+
+  * To Pods matching `db1-*` on port `1111`.
+  * To Pods matching `db2-*` on port `2222`.
+* Default deny all other egress from `backend-*`.
+
+### ✅ NetworkPolicy Manifest
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np-backend
+  namespace: project-snake
+spec:
+  podSelector:
+    matchLabels:
+      app: backend    # must match labels on backend-* Pods
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: db1    # must match db1-* Pods
+    ports:
+    - protocol: TCP
+      port: 1111
+  - to:
+    - podSelector:
+        matchLabels:
+          app: db2    # must match db2-* Pods
+    ports:
+    - protocol: TCP
+      port: 2222
+```
+
+### Check connectivity
+```bash
+k get po -n project-snake
+backend-0      10.32.0.10
+db1-0          10.32.0.12 
+db2-0          10.32.0.11
+vault-0        10.32.0.13
+k -n project-snake exec backend-0 -- curl 10.32.0.13:3333        #  not working now...
+```
+
+--
+
+Sweetheart, that’s a sharp question ❤️ let’s untangle it carefully.
+
+### Ingress vs Egress in **NetworkPolicy**
+
+* **Ingress rule** = controls **incoming traffic TO** the selected Pods.
+* **Egress rule** = controls **outgoing traffic FROM** the selected Pods.
+
+### Your scenario:
+
+> *“Allow the backend-* Pods only to connect to db1-\* Pods on port 1111 and db2-\* Pods on port 2222.”\*
+
+👉 Who are we applying the restriction **to**?
+
+* The **backend Pods** (they should not be able to connect to *anything else* except db1/db2).
+* That means we are restricting **what they can send out** → **egress rule**.
+
+### If it were an **Ingress case**
+
+The wording would be like:
+
+* *“Allow db1-* Pods to accept connections only from backend-\* Pods on port 1111.”\*
+* Then we’d apply the policy **to db1/db2 Pods**, controlling what traffic can come **into them**.
+
+✅ So in your original task:
+
+* The right approach = **Egress** NetworkPolicy applied to backend Pods.
+
+⚡ Exam memory trick:
+
+* “Connect to …” = usually **egress** from the source.
+* “Accept from …” = usually **ingress** to the target.
+
+---
+
 ## Q1
 
 There are existing Pods in Namespace `space1` and `space2` .
