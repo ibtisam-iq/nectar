@@ -358,3 +358,46 @@ _____________________________________________________________________
 
 controlplane:~$
 ```
+
+---
+
+## Change Service CIDR
+
+```bash
+controlplane ~ ➜  cat /etc/kubernetes/manifests/kube-apiserver.yaml | grep -i service-cluster-ip-range
+    - --service-cluster-ip-range=172.20.0.0/16
+
+controlplane ~ ➜  vi /etc/kubernetes/manifests/kube-apiserver.yaml
+
+controlplane ~ ➜  cat /etc/kubernetes/manifests/kube-controller-manager.yaml | grep -i service-cluster-ip-range
+    - --service-cluster-ip-range=172.20.0.0/16
+
+controlplane ~ ➜  vi /etc/kubernetes/manifests/kube-controller-manager.yaml
+
+controlplane ~ ➜  systemctl restart kubelet
+
+controlplane ~ ➜  k get po -n kube-system 
+NAME                                       READY   STATUS    RESTARTS        AGE
+calico-kube-controllers-587f6db6c5-mthp4   1/1     Running   1 (2m2s ago)    39m
+canal-j8t2z                                2/2     Running   0               39m
+canal-jjhrz                                2/2     Running   0               39m
+canal-m9fwl                                2/2     Running   0               39m
+coredns-6678bcd974-g554m                   1/1     Running   0               39m
+coredns-6678bcd974-q4wd7                   1/1     Running   0               39m
+etcd-controlplane                          1/1     Running   0               39m
+kube-apiserver-controlplane                1/1     Running   0               2m9s
+kube-controller-manager-controlplane       1/1     Running   0               95s
+kube-proxy-qdkmk                           1/1     Running   0               39m
+kube-proxy-svqxh                           1/1     Running   0               39m
+kube-proxy-xflvx                           1/1     Running   0               39m
+kube-scheduler-controlplane                1/1     Running   2 (2m46s ago)   39m
+
+controlplane ~ ➜  cat /etc/kubernetes/manifests/kube-controller-manager.yaml | grep -i service-cluster-ip-range
+    - --service-cluster-ip-range=11.96.0.0/12
+
+controlplane ~ ➜  cat /etc/kubernetes/manifests/kube-apiserver.yaml | grep -i service-cluster-ip-range
+    - --service-cluster-ip-range=11.96.0.0/12
+
+controlplane ~ ➜  kubectl -n kube-system describe pod kube-apiserver-controlplane | grep service-cluster-ip-range
+      --service-cluster-ip-range=11.96.0.0/12
+```
