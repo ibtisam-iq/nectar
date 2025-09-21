@@ -211,3 +211,151 @@ cluster1-controlplane ~ ➜  k get deploy black-cka25-trb
 NAME              READY   UP-TO-DATE   AVAILABLE   AGE
 black-cka25-trb   1/1     1            1           18m 
 ```
+
+---
+
+## Q4
+
+Implement the following in Namespace `project-tiger`:
+
+- Create a **Deployment** named `deploy-important` with `3` replicas
+- The Deployment and its Pods should have `label id=very-important`
+- First container named `container1` with image `nginx:1-alpine`
+- Second container named `container2` with image `google/pause`
+- There should only ever be one Pod of that Deployment running on one worker node, use `topologyKey: kubernetes.io/hostname` for this
+
+> ℹ️ Because there are two worker nodes and the Deployment has three replicas the result should be that the third Pod won't be scheduled. In a way this scenario simulates the behaviour of a DaemonSet, but using a Deployment with a fixed number of replicas
+
+Alright ❤️ let’s carefully solve this step by step as if you’re inside `ssh cka2556`.
+
+## 🔑 Requirements Breakdown
+
+* **Namespace**: `project-tiger`
+* **Deployment**: `deploy-important`
+* **Replicas**: `3`
+* **Labels**: `id=very-important` (both Deployment + Pods)
+* **Containers**:
+
+  * `container1` → `nginx:1-alpine`
+  * `container2` → `google/pause`
+* **Topology constraint**: only **1 Pod per worker node**, using
+
+  ```yaml
+  topologyKey: kubernetes.io/hostname
+  ```
+* Expected result: 2 Pods scheduled (1 per worker), 1 Pod stuck `Pending` because no more worker nodes → simulating DaemonSet-like behavior.
+
+## ✅ YAML Manifest
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-important
+  namespace: project-tiger
+  labels:
+    id: very-important
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      id: very-important
+  template:
+    metadata:
+      labels:
+        id: very-important
+    spec:
+      containers:
+      - name: container1
+        image: nginx:1-alpine
+      - name: container2
+        image: google/pause
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: id
+                operator: In
+                values:
+                - very-important
+            topologyKey: kubernetes.io/hostname
+```
+
+⚡ **Exam tip:**
+
+* `podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution` is the key section that enforces “1 per node”.
+* If you mistakenly use `preferredDuringScheduling…`, all 3 Pods might land on one node (soft rule).
+
+--
+
+Excellent ❤️ these are exactly the kinds of “why this, not that” questions examiners expect you to reason about. Let’s unpack carefully:
+
+### 1) **How do you know it is related to affinity?**
+
+Because the requirement is:
+
+> “There should only ever be one Pod of that Deployment running on one worker node”
+
+That’s not about labels or selectors anymore (which tell *which Pods* to manage), it’s about **placement rules**.
+Placement rules are controlled by **affinity/anti-affinity**. Specifically:
+
+* **NodeAffinity** → control Pods on *which nodes*.
+* **PodAffinity / PodAntiAffinity** → control Pods *relative to each other*.
+
+Here the question is about “don’t put two of the same Pods on the same node” → that is **PodAntiAffinity**.
+
+### 2) **Why PodAntiAffinity, not PodAffinity?**
+
+* **PodAffinity** = “this Pod *must be co-located* with another Pod.”
+* **PodAntiAffinity** = “this Pod *must NOT be co-located* with another Pod.”
+
+The question wants *only 1 Pod per node*. That means:
+
+* If there’s already a `deploy-important` Pod on a node → don’t schedule another one there.
+  That’s exactly the definition of **anti-affinity**.
+
+If we used PodAffinity, we’d be forcing multiple Pods *onto the same node* (the opposite of what we want).
+
+### 3) **Why no weight in PodAntiAffinity?**
+
+* `weight` is used under **preferredDuringSchedulingIgnoredDuringExecution** (soft rule).
+  Example: “prefer to spread out if possible, but allow if not.”
+* The requirement is a *hard constraint* (never more than one Pod per node).
+  So we must use **requiredDuringSchedulingIgnoredDuringExecution**, which does **not use weight**.
+
+That’s why no `weight` field here.
+
+### 4) **Where does `matchExpressions` come from if question is silent?**
+
+Good eye 👀
+
+The scheduler needs a way to know *which Pods should not co-exist on the same node*. That’s done by labeling the Deployment’s Pods (`id=very-important`).
+
+Then in PodAntiAffinity, we match Pods with the same label.
+
+Example:
+
+```yaml
+matchExpressions:
+- key: id
+  operator: In
+  values:
+  - very-important
+```
+
+So:
+
+* Label `id=very-important` is given in the question → “Deployment and its Pods should have label id=very-important.”
+* Therefore we reference that label in `matchExpressions` to define the anti-affinity target.
+
+If you don’t include a label selector, the scheduler has no way to know which Pods should avoid each other.
+
+### ✅ Summary
+
+1. Affinity is the right feature because this is about Pod placement.
+2. Anti-affinity (not affinity) because Pods must **avoid** co-location.
+3. No weight because we need a **hard requirement**, not a preference.
+4. `matchExpressions` comes directly from the Pod labels given in the task.
+
+---
