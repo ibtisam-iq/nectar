@@ -1,3 +1,39 @@
+## CoreDNS Config Backup
+
+* **CoreDNS actually runs as a Deployment** in `kube-system`.
+
+  ```bash
+  kubectl get deploy -n kube-system coredns
+  ```
+
+  will show the Deployment that manages the Pods.
+
+* But the **configuration of CoreDNS** (the `Corefile`) is stored in a **ConfigMap** named `coredns`.
+  The Deployment just mounts this ConfigMap into the Pods.
+
+### So:
+
+* If the exam asks about **CoreDNS config backup** → you back up the **ConfigMap**.
+
+  ```bash
+  kubectl get cm coredns -n kube-system -o yaml > /opt/course/16/coredns_backup.yaml
+  ```
+
+* If they specifically ask for the **Deployment manifest** → you’d back up the Deployment YAML:
+
+  ```bash
+  kubectl get deploy coredns -n kube-system -o yaml > /opt/course/16/coredns_deploy_backup.yaml
+  ```
+
+🔑 **Exam tip:**
+
+* **ConfigMap** → CoreDNS settings (Corefile).
+* **Deployment** → How CoreDNS Pods run (replicas, containers, resources, etc.).
+
+---
+
+## Update Cluster Domain
+
 The CoreDNS configuration in the cluster needs to be updated:
 
 Update the CoreDNS configuration in the cluster so that DNS resolution for cka.local works exactly like cluster.local and in addition to it.
