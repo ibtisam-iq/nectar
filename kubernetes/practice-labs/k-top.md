@@ -18,3 +18,13 @@ cluster4-node01         86m          0%       1064Mi          0%
 
 student-node ~ ➜  echo "cluster1,cluster1-controlplane" > /opt/high_cpu_node
 ```
+
+---
+
+**Pod usage script**
+
+Script `/opt/course/7/pod.sh` should show resource usage of **Pods** and their *containers*.
+
+```bash
+kubectl top pods --all-namespaces --containers > /opt/course/7/pod.sh
+```
