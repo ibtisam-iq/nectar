@@ -388,3 +388,38 @@ cc9ddc27d1910       f1184a0bd7fe5       2 hours ago         Running             
 ne                kube-system
 
 ```
+
+---
+
+## `etcd --version`
+
+Run `etcd --version` and store the output at `/opt/course/7/etcd-version`
+
+```bash
+candidate@cka2560:~$ sudo -i
+
+root@cka2560:~# etcd --version
+Command 'etcd' not found, but can be installed with:
+apt install etcd-server
+
+# Well, etcd is not installed directly on the controlplane but it runs as a Pod instead. So we do:
+
+root@cka2560:~# k -n kube-system get pod
+NAME                              READY   STATUS    RESTARTS      AGE
+coredns-78c4c75bb8-fgkfv          1/1     Running   0             15d
+coredns-78c4c75bb8-l7mmh          1/1     Running   0             15d
+etcd-cka2560                      1/1     Running   0             13m
+kube-apiserver-cka2560            1/1     Running   0             15d
+kube-controller-manager-cka2560   1/1     Running   0             15d
+kube-proxy-f56td                  1/1     Running   0             15d
+kube-scheduler-cka2560            1/1     Running   0             15d
+weave-net-44k9c                   2/2     Running   1 (15d ago)   15d
+
+root@cka2560:~# k -n kube-system exec etcd-cka2560 -- etcd --version
+etcd Version: 3.5.21
+Git SHA: a17edfd
+Go Version: go1.23.7
+Go OS/Arch: linux/amd64
+
+root@cka2560:~# k -n kube-system exec etcd-cka2560 -- etcd --version > /opt/course/7/etcd-version
+```
