@@ -866,3 +866,71 @@ The question never mentioned fixing or tightening **Egress**.
 * Leave `egress` as-is unless the exam explicitly asks for it.
 
 ---
+
+## Q13
+
+In Namespace `venus` you'll find two Deployments named `api` and `frontend`. Both Deployments are exposed inside the cluster using Services. Create a NetworkPolicy named `np1` which **restricts outgoing tcp connections from Deployment frontend** and **only allows those going to Deployment api**. Make sure the NetworkPolicy still allows outgoing traffic on UDP/TCP ports 53 for DNS resolution.
+
+**Test using:** `wget www.google.com` and `wget api:222` from a Pod of Deployment frontend.
+
+Got it ❤️ This is a **classic exam-style NetworkPolicy** question. No worries — I’ll break it down step by step so you understand what’s happening, why we do it, and how to not get confused in the real exam.
+
+## 🚩 The Scenario
+
+* **Namespace:** `venus`
+* **Deployments:**
+
+  * `frontend` (our Pod will run from here — egress should be restricted).
+  * `api` (only allowed destination for frontend).
+* Both are exposed by **Services**.
+* We need a **NetworkPolicy (np1)** that:
+
+  1. Blocks *all outgoing traffic* from `frontend`.
+  2. Only allows:
+
+     * Outgoing traffic **to `api` Deployment**.
+     * Outgoing traffic **to DNS (tcp/udp 53)**.
+
+## 🧠 Mental Model for the Exam
+
+Think of NetworkPolicies as **firewall rules at the Pod level**:
+
+* `podSelector`: **Who the rule applies to** (our `frontend` Pods).
+* `policyTypes`: Direction of rules — here we need **Egress**.
+* `egress`: **What traffic is allowed** (everything else is denied).
+
+**Important:** In Kubernetes, when you define *any* `egress` in a NetworkPolicy, everything else is denied by default (so you must explicitly allow DNS, API, etc.).
+
+## ✅ Solution YAML
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np1
+  namespace: venus
+spec:
+  podSelector:
+    matchLabels:
+      id: frontend    # apply to frontend Deployment Pods
+  policyTypes:
+  - Egress
+  egress:
+  # 1) Allow traffic to API Pods
+  - to:
+    - podSelector:
+        matchLabels:
+          id: api     # target API Deployment Pods
+    ports:
+    - protocol: TCP
+      port: 2222       # match API service/container port
+  # 2) Allow DNS traffic (UDP/TCP 53)
+  - to:
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+```
+
+---
