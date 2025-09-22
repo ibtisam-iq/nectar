@@ -223,6 +223,105 @@ spec:
 
 ## Q6
 
+Do the following in Namespace default:
+
+- Create a Pod named `ready-if-service-ready` of image `nginx:1-alpine`
+- Configure a LivenessProbe which simply executes command `true`
+- Configure a ReadinessProbe which does check if the url http://service-am-i-ready:80 is reachable, you can use `wget -T2 -O- http://service-am-i-ready:80` for this
+- Start the Pod and confirm it isn't ready because of the ReadinessProbe.
+
+Then:
+
+- Create a second Pod named `am-i-ready` of image `nginx:1-alpine` with label `id: cross-server-ready`
+- The **already existing Service** `service-am-i-ready` should now have that second Pod as endpoint
+- Now the first Pod should be in ready state, check that
+
+```bash
+controlplane ~ ➜  k get svc,ep
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAME                         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/service-am-i-ready   ClusterIP   172.20.11.223   <none>        80/TCP    10s
+
+NAME                           ENDPOINTS             AGE
+endpoints/service-am-i-ready   <none>                10s
+
+controlplane ~ ➜  vi 1.yaml
+
+controlplane ~ ➜  k apply -f 1.yaml 
+pod/ready-if-service-ready created
+
+controlplane ~ ➜  k get po
+NAME                     READY   STATUS    RESTARTS   AGE
+ready-if-service-ready   0/1     Running   0          5s
+
+controlplane ~ ➜  k run am-i-ready --image nginx:1-alpine -l id=cross-server-ready
+pod/am-i-ready created
+
+controlplane ~ ➜  k get po
+NAME                     READY   STATUS    RESTARTS   AGE
+am-i-ready               1/1     Running   0          6s
+ready-if-service-ready   0/1     Running   0          3m3s
+
+controlplane ~ ➜  k get po
+NAME                     READY   STATUS    RESTARTS   AGE
+am-i-ready               1/1     Running   0          13s
+ready-if-service-ready   1/1     Running   0          3m10s
+
+controlplane ~ ➜  k get po,ep -o wide
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAME                         READY   STATUS    RESTARTS   AGE     IP           NODE     NOMINATED NODE   READINESS GATES
+pod/am-i-ready               1/1     Running   0          27s     172.17.2.2   node02   <none>           <none>
+pod/ready-if-service-ready   1/1     Running   0          3m24s   172.17.1.2   node01   <none>           <none>
+
+NAME                           ENDPOINTS             AGE
+endpoints/kubernetes           192.168.102.92:6443   17m
+endpoints/service-am-i-ready   172.17.2.2:80         9m51s
+
+controlplane ~ ➜  cat 1.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ready-if-service-ready
+  namespace: default
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1-alpine
+    livenessProbe:
+      exec:
+        command:
+        - "true"
+    readinessProbe:
+      exec:
+        command:
+        - wget
+        - "-T2"
+        - "-O-"
+        - "http://service-am-i-ready:80"
+
+controlplane ~ ➜
+ 
+```yaml
+## These formats are also correct
+readinessProbe:
+      exec:
+        command:
+        - wget
+        - -T2
+        - -O-
+        - http://service-am-i-ready:80
+readinessProbe:
+      exec:
+        command:
+        - sh
+        - -c
+        - 'wget -T2 -O- http://service-am-i-ready:80'
+```
+
+---
+
+## Q7
+
 An existing nginx pod, `my-pod-cka` and Persistent Volume Claim (PVC) named `my-pvc-cka` are available. Your task is to implement the following modifications:
 
 - Update the pod to include a `sidecar` container that uses the `busybox` image. Ensure that this sidecar container remains operational by including an appropriate command `"tail -f /dev/null"` .
