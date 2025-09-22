@@ -1,4 +1,21 @@
+The yaml for the existing Deployment is available at `/opt/course/16/cleaner.yaml`. Persist your changes at `/opt/course/16/cleaner-new.yaml` on `ckad7326` but also make sure the Deployment is running.
 
+```bash
+# Check the current deployment manifest
+cat /opt/course/16/cleaner.yaml
+
+# Copy to a new file
+cp /opt/course/16/cleaner.yaml /opt/course/16/cleaner-new.yaml
+
+# Edit the new file as per question requirements
+vi /opt/course/16/cleaner-new.yaml
+
+# Apply the new deployment
+kubectl apply -f /opt/course/16/cleaner-new.yaml
+
+# Verify that it's running
+kubectl get deploy,rs,pods -n <namespace>
+```
 
 ## Q 1
 
