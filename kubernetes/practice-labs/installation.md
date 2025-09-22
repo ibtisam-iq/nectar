@@ -401,3 +401,126 @@ controlplane ~ ➜  cat /etc/kubernetes/manifests/kube-apiserver.yaml | grep -i 
 controlplane ~ ➜  kubectl -n kube-system describe pod kube-apiserver-controlplane | grep service-cluster-ip-range
       --service-cluster-ip-range=11.96.0.0/12
 ```
+---
+
+## 📂 Files under `/var/lib/kubelet/pki/`
+
+Node `node1` has been added to the cluster using kubeadm and TLS bootstrapping.
+
+Find the **Issuer** and **Extended Key Usage** values on `node1` for:
+
+- **Kubelet Client Certificate**, the one used for outgoing connections to the kube-apiserver
+- **Kubelet Server Certificate**, the one used for incoming connections from the kube-apiserver
+
+Write the information into file `/opt/course/3/certificate-info.txt`.
+
+### 1. `kubelet-client-current.pem` (symlink to `kubelet-client-<date>.pem`)
+
+* **Purpose**:
+  This is the **Kubelet Client Certificate**.
+  → Used when the kubelet talks *outbound* to the **kube-apiserver** (for example, registering itself, reporting node status, or fetching workload instructions).
+
+### 2. `kubelet.crt`
+
+* **Purpose**:
+  This is the **Kubelet Server Certificate**.
+  → Used when the **apiserver** connects *into* the kubelet (for example, to get logs, exec into containers, or for health checks).
+
+### 3. `kubelet.key`
+
+* **Purpose**:
+  This is just the **private key** for the kubelet server certificate (`kubelet.crt`).
+  → You don’t check EKU or Issuer here — `openssl` will fail for this because it’s not a certificate, only a key.
+
+# 🧭 Exam Decision Flow
+
+If you get asked **“Kubelet Client Certificate”**
+➡️ Look at **`kubelet-client-current.pem`**
+
+If you get asked **“Kubelet Server Certificate”**
+➡️ Look at **`kubelet.crt`**
+
+If you see `.key` → ignore (not needed for Issuer/EKU).
+If you see dated file (like `kubelet-client-2025-09-22-10-49-53.pem`) → same as current symlink, but always use `-current.pem` for consistency.
+
+# 🔎 Example Commands
+
+```bash
+# Client cert (outgoing to API)
+openssl x509 -in /var/lib/kubelet/pki/kubelet-client-current.pem -text -noout | egrep "Issuer:|Extended Key Usage"
+
+# Server cert (incoming from API)
+openssl x509 -in /var/lib/kubelet/pki/kubelet.crt -text -noout | egrep "Issuer:|Extended Key Usage"
+```
+
+
+```bash
+controlplane ~ ➜  k get no
+NAME           STATUS   ROLES           AGE   VERSION
+controlplane   Ready    control-plane   55m   v1.34.0
+node01         Ready    <none>          54m   v1.34.0
+node02         Ready    <none>          54m   v1.34.0
+
+controlplane ~ ➜  ssh node01
+Welcome to Ubuntu 22.04.5 LTS (GNU/Linux 5.15.0-1083-gcp x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+
+To restore this content, you can run the 'unminimize' command.
+
+node01 ~ ➜  ls /var/lib/kubelet/pki/
+kubelet-client-2025-09-22-10-49-53.pem  kubelet-client-current.pem  kubelet.crt  kubelet.key
+
+node01 ~ ➜  openssl x509 -in /var/lib/kubelet/pki/kubelet-client-current.pem -noout -text | grep -i Issuer
+        Issuer: CN = kubernetes
+
+node01 ~ ➜  openssl x509 -in /var/lib/kubelet/pki/kubelet-client-current.pem -noout -text | grep -i "Extended Key Usage" -1
+                Digital Signature
+            X509v3 Extended Key Usage: 
+                TLS Web Client Authentication
+
+node01 ~ ➜  openssl x509 -in /var/lib/kubelet/pki/kubelet.crt -noout -text | grep -i Issuer
+        Issuer: CN = node01-ca@1758538193
+
+node01 ~ ➜  openssl x509 -in /var/lib/kubelet/pki/kubelet.crt -noout -text | grep -i "Extended Key Usage" -1
+                Digital Signature, Key Encipherment
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication
+
+node01 ~ ➜  exit
+logout
+Connection to node01 closed.
+
+controlplane ~ ➜  openssl x509 -in /etc/kubernetes/pki/apiserver
+apiserver.crt                 apiserver-etcd-client.key     apiserver-kubelet-client.crt  
+apiserver-etcd-client.crt     apiserver.key                 apiserver-kubelet-client.key  
+
+# same as /var/lib/kubelet/pki/kubelet-client-current.pem
+controlplane ~ ➜  openssl x509 -in /etc/kubernetes/pki/apiserver-kubelet-client.crt -noout -text | grep -i Issuer
+        Issuer: CN = kubernetes
+
+# same as /var/lib/kubelet/pki/kubelet-client-current.pem
+controlplane ~ ➜  openssl x509 -in /etc/kubernetes/pki/apiserver-kubelet-client.crt -noout -text | grep -i "Extended Key Usage" -1
+                Digital Signature, Key Encipherment
+            X509v3 Extended Key Usage: 
+                TLS Web Client Authentication
+
+controlplane ~ ➜  cat > /opt/course/3/certificate-info.txt
+-bash: /opt/course/3/certificate-info.txt: No such file or directory
+
+controlplane ~ ✖ mkdir -p /opt/course/3/
+
+controlplane ~ ➜  cat > /opt/course/3/certificate-info.txt
+Issuer: CN = kubernetes
+X509v3 Extended Key Usage: TLS Web Client Authentication
+
+Issuer: CN = node01-ca@1758538193
+X509v3 Extended Key Usage: TLS Web Server Authentication
+
+controlplane ~ ➜  
+```
