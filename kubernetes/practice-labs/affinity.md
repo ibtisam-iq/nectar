@@ -1,4 +1,4 @@
-There is a Pod YAML provided at `/root/hobby.yaml`. That Pod should be preferred to be only scheduled on Nodes where Pods with label `level=restricted` are running. For the topologyKey use `kubernetes.io/hostname`. There are no taints on any Nodes which means no tolerations are needed.
+There is a Pod YAML provided at `/root/hobby.yaml`. That Pod should be **preferred** to be only scheduled on Nodes where Pods with label `level=restricted` are running. For the topologyKey use `kubernetes.io/hostname`. There are no taints on any Nodes which means no tolerations are needed.
 
 ```bash
 
