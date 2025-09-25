@@ -78,10 +78,10 @@ collect-data   2/2     2            2           31m
 ```
 ---
 
-Create a Pod named pod1 of image nginx:alpine
-Make key tree of ConfigMap trauerweide available as environment variable TREE1
-Mount all keys of ConfigMap birke as volume. The files should be available under /etc/birke/*
-Test env+volume access in the running Pod
+Create a Pod named `pod1` of image `nginx:alpine`
+- Make key `tree` of ConfigMap `trauerweide` available as environment variable `TREE1`
+- Mount all keys of ConfigMap `birke` as volume. The *files* should be available under `/etc/birke/*`
+- Test env+volume access in the running Pod
 
 ```bash
 k run pod1 --image nginx:alpine
@@ -160,7 +160,7 @@ controlplane:~$
 ```
 ---
 
-## 6 # wrong configmap name
+## 6 wrong configmap name
 ```bash
 Events:
   Type     Reason       Age                From               Message
@@ -325,7 +325,8 @@ controlplane:~$
 ```
 
 ---
-postgres-deployment.yaml template is there, now we can't create object due to some issue in that, check and fix the issue
+
+`postgres-deployment.yaml` template is there, now we can't create object due to some issue in that, check and fix the issue
 
 ```bash
 Events:
@@ -388,7 +389,7 @@ spec:
 
 ---
 
-stream-deployment deployment is not up to date. observed 0  under the UP-TO-DATE it should be 1 , Troubleshoot, fix the issue and make sure deployment is up to date.
+`stream-deployment` deployment is not up to date. observed 0  under the **UP-TO-DATE** it should be 1 , Troubleshoot, fix the issue and make sure deployment is up to date.
 
 ```bash
 controlplane:~$ k get po
@@ -415,7 +416,7 @@ controlplane:~$
 
 ---
 
-postgres-deployment deployment pods are not running, fix that issue
+`postgres-deployment` deployment pods are not running, fix that issue
 
 ```bash
   Warning  Failed     12s (x2 over 13s)  kubelet            Error: configmap "postgres-db-config" not found
@@ -496,7 +497,8 @@ Since none are set → container fails instantly.
 ✅ After adding `POSTGRES_PASSWORD`, the pod should start properly and stay in `Running` state.
 
 ---
-The deployment named video-app has experienced multiple rolling updates and rollbacks. Your task is to total revision of this deployment and record the image name used in 3rd revision to file app-file.txt in this format REVISION_TOTAL_COUNT,IMAGE_NAME .
+
+The deployment named `video-app` has experienced multiple rolling updates and rollbacks. Your task is to total revision of this deployment and record the image name used in 3rd revision to file `app-file.txt` in this format `REVISION_TOTAL_COUNT,IMAGE_NAME`.
 
 ```bash
 controlplane:~$ k rollout history deployment video-app 
@@ -602,6 +604,7 @@ That means **another Service in your cluster is already using NodePort `32345`**
    ```
 
 ---
+
 wrong apiVersion
 
 ```bash
