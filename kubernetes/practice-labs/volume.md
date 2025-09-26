@@ -111,6 +111,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: blue-pvc-cka
 spec:
+  volumeName: blue-pv-cka          # If it were added, volumeBindingMode: WaitForFirstConsumer becomes nullified.
   storageClassName: blue-stc-cka
   accessModes:
     - ReadWriteOnce
@@ -547,7 +548,7 @@ A storage class called `coconut-stc-cka01-str` was created earlier. Use this sto
 
 - Use `coconut-stc-cka01-str` storage class.
 
-- This volume must be created on cluster1-node01 (the `/opt/coconut-stc-cka01-str` directory already exists on this node).
+- This volume must be created on `cluster1-node01` (the `/opt/coconut-stc-cka01-str` directory already exists on this node).
 
 - It must have a label with `key: storage-tier` with `value: gold`.
 
