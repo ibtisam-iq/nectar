@@ -44,8 +44,6 @@ Test your configuration using the jrecord/nettools image by executing the follow
 `nslookup kubernetes.default.svc.cluster.local`
 `nslookup kubernetes.default.svc.cka.local`
 
----
-
 Perfect CKA-style task, sweetheart ❤️ Let’s solve it step by step.
 
 ## 🔧 Step 1: Edit the CoreDNS ConfigMap
