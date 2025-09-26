@@ -1,4 +1,4 @@
-You're asked to confirm that kube-proxy is running correctly. For this perform the following in Namespace project-hamster:
+You're asked to confirm that kube-proxy is running correctly. For this perform the following in Namespace `project-hamster`:
 
 - Create `Pod p2-pod` with image `nginx:1-alpine`
 - Create Service `p2-service` which exposes the Pod internally in the cluster on port `3000->80`
