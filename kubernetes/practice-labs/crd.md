@@ -7,7 +7,7 @@
 
 ## Q 1
 
-Write the list of all installed CRDs into `/root/crds`. Write the list of all DbBackup objects into `/root/db-backups`.
+Write the list of all installed CRDs into `/root/crds`. Write the list of all DbBackup *objects* into `/root/db-backups`.
 
 ```bash
 controlplane:~$ k get crd > /root/crds
