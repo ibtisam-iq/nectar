@@ -3,6 +3,7 @@ The cluster admin asked you to find out the following information about etcd run
 - Server private key location
 - Server certificate expiration date
 - Is client certificate authentication enabled
+
 Write these information into `/opt/course/p1/etcd-info.txt`
 
 Perfect ❤️ this is a very **typical etcd inspection task** in CKA. Let’s solve it step by step as if we’re logged into `cka9412`.
