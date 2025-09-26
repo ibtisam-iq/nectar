@@ -132,7 +132,7 @@ spec:
     namespace: foo
 ```
 
-When we create pv and pvc without specifing any `storageClassName`, it by-default picks, `local-path` storageClass for pvc, which specifies `VolumeBindingMode:     WaitForFirstConsumer`, so pvc remains pending, unless you deployed a pod.
+When we create pvc without specifing any `storageClassName` & `volumeName`, it by-default picks, `local-path` storageClass for pvc, which specifies `VolumeBindingMode:     WaitForFirstConsumer`, so pvc remains pending, unless you deployed a pod.
 
 ```bash
 root@student-node ~ ➜  vi 4.yaml
@@ -227,9 +227,31 @@ spec:
       volumeMounts:
         - mountPath: "/usr/share/nginx/html"
           name: task-pv-storage
+```
+---
 
+### **What happens if you specify `volumeName` in PVC**
+
+* When you set `volumeName: data-pv-ckad02-str` in your PVC spec, you’re telling Kubernetes:
+  👉 “Bind me to this exact pre-created PV.”
+* That means the **normal binding flow with the StorageClass and its `volumeBindingMode` is skipped**.
+* Kubernetes won’t try to dynamically provision anything.
+* It just checks if `data-pv-ckad02-str` exists and is compatible (accessModes, capacity, storageClassName match, etc.).
+* If compatible → it binds directly. If not → PVC remains Pending.
+
+✅ Yes — adding `volumeName: data-pv-ckad02-str` into PVC will **bypass** `volumeBindingMode: WaitForFirstConsumer` of the StorageClass.
+
+Because now it’s **static provisioning** (direct binding to a PV) rather than **dynamic provisioning** (StorageClass-driven). The `volumeBindingMode` only affects dynamic provisioning.
+
+⚡ TL;DR:
+
+* **Dynamic provisioning** → `WaitForFirstConsumer` matters.
+* **Static binding with `volumeName`** → `WaitForFirstConsumer` is ignored.
+
+---
+
+```bash
 # PVC is bound, pod is not deployed, but specify the volumeName, and storageClassName: ""
-
 root@student-node ~ ➜  vi 1.yaml
 
 root@student-node ~ ➜  k apply -f 1.yaml 
