@@ -430,10 +430,7 @@ hello, you reached ASIA
 
 ## Q5
 
-A new payment service has been introduced. Since it is a sensitive application, it is deployed in its own namespace critical-space. Inspect the resources and service created.
-
-
-You are requested to make the new application available at /pay. Create an ingress resource named ingress-ckad09-svcn for the payment application to make it available at /pay.
+A new payment service has been introduced. Since it is a sensitive application, it is deployed in its own namespace `critical-space`. Inspect the resources and service created. You are requested to make the new application available at `/pay`. Create an ingress resource named `ingress-ckad09-svcn` for the payment application to make it available at `/pay`.
 
 ```bash
 root@student-node ~ ➜  k get po -n ingress-nginx 
