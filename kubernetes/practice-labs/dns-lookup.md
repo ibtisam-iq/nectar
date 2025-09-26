@@ -61,10 +61,10 @@ The Deployment controller in Namespace `lima-control` communicates with various 
 
 Update the **ConfigMap** used by the Deployment with the correct FQDN values for:
 
-**DNS_1:** Service `kubernetes` in Namespace `default`
-**DNS_2:** Headless Service `department` in Namespace `lima-workload`
-**DNS_3:** Pod `section100` in Namespace `lima-workload`. It should work even if the Pod IP changes
-**DNS_4:** A Pod with IP `1.2.3.4` in Namespace `kube-system`
+- **DNS_1:** Service `kubernetes` in Namespace `default`
+- **DNS_2:** Headless Service `department` in Namespace `lima-workload`
+- **DNS_3:** Pod `section100` in Namespace `lima-workload`. It should work even if the Pod IP changes
+- **DNS_4:** A Pod with IP `1.2.3.4` in Namespace `kube-system`
 Ensure the Deployment works with the updated values.
 
 ```bash
