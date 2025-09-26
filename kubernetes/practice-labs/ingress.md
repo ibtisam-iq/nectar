@@ -2,6 +2,7 @@
 
 - **host: ibtisam-iq.com**
   `curl http://ibtisam-iq.com`
+  `culr http://<host>:<ingress-nodePort>/<path>/`  `http://world.universe.mine:30080/europe/`
 - **host: not-mentioned**
   `curl <ingress IP>` ## Requests to `http://192.168.141.16/` are hitting the **`nginx-service-cka04-svcn` backend**.
 
