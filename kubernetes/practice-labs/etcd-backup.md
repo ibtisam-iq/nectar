@@ -396,30 +396,36 @@ ne                kube-system
 Run `etcd --version` and store the output at `/opt/course/7/etcd-version`
 
 ```bash
-candidate@cka2560:~$ sudo -i
-
-root@cka2560:~# etcd --version
-Command 'etcd' not found, but can be installed with:
-apt install etcd-server
+controlplane ~ ➜  etcd --version
+-bash: etcd: command not found
 
 # Well, etcd is not installed directly on the controlplane but it runs as a Pod instead. So we do:
 
-root@cka2560:~# k -n kube-system get pod
-NAME                              READY   STATUS    RESTARTS      AGE
-coredns-78c4c75bb8-fgkfv          1/1     Running   0             15d
-coredns-78c4c75bb8-l7mmh          1/1     Running   0             15d
-etcd-cka2560                      1/1     Running   0             13m
-kube-apiserver-cka2560            1/1     Running   0             15d
-kube-controller-manager-cka2560   1/1     Running   0             15d
-kube-proxy-f56td                  1/1     Running   0             15d
-kube-scheduler-cka2560            1/1     Running   0             15d
-weave-net-44k9c                   2/2     Running   1 (15d ago)   15d
+controlplane ~ ✖ k exec -n kube-system etcd-controlplane -it -- "etcd --version"
+error: Internal error occurred: Internal error occurred: error executing command in container: failed to exec in container: failed to start exec "26cf1ed3170ba3987fd80d8a5bea007750011fa77f5fb678b505e3e8b7feb857": OCI runtime exec failed: exec failed: unable to start container process: exec: "etcd --version": executable file not found in $PATH: unknown
 
-root@cka2560:~# k -n kube-system exec etcd-cka2560 -- etcd --version
-etcd Version: 3.5.21
-Git SHA: a17edfd
-Go Version: go1.23.7
+controlplane ~ ✖ k exec -n kube-system etcd-controlplane -it -- etcd --version
+etcd Version: 3.6.4
+Git SHA: 5400cdc
+Go Version: go1.23.11
 Go OS/Arch: linux/amd64
 
-root@cka2560:~# k -n kube-system exec etcd-cka2560 -- etcd --version > /opt/course/7/etcd-version
+controlplane ~ ➜  k exec -n kube-system etcd-controlplane -it -- sh
+sh-5.2# etcd --version                                                                                                                                                    
+etcd Version: 3.6.4
+Git SHA: 5400cdc
+Go Version: go1.23.11
+Go OS/Arch: linux/amd64
+sh-5.2# exit
+exit
+
+controlplane ~ ➜  k exec -n kube-system etcd-controlplane -it -- etcd --version > /opt/course/7/etcd-version
+
+controlplane ~ ➜  cat /opt/course/7/etcd-version
+etcd Version: 3.6.4
+Git SHA: 5400cdc
+Go Version: go1.23.11
+Go OS/Arch: linux/amd64
+
+controlplane ~ ➜  
 ```
