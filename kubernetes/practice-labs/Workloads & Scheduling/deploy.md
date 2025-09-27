@@ -148,7 +148,125 @@ You should see only **8 pods (5 ruby + 3 cube)** or **7 pods (5 ruby + 2 cube)**
 
 ---
 
-## Q 2 
+## Q2 
+
+A new deployment called `frontend-v2` has been created in the default namespace using the image `kodekloud/webapp-color:v2`. This deployment will be used to test a newer version of the same app.
+
+Configure the deployment in such a way that the service called `frontend-service` routes less than **20%** of traffic to the new deployment.
+Do not increase the replicas of the `frontend` deployment.
+
+```bash
+controlplane ~ ➜  k get deploy
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+frontend      5/5     5            5           11m
+frontend-v2   2/2     2            2           8m18s
+
+controlplane ~ ➜  k get po --show-labels 
+NAME                           READY   STATUS    RESTARTS   AGE     LABELS
+frontend-8b5db9bd-6x2fk        1/1     Running   0          11m     app=frontend,pod-template-hash=8b5db9bd,version=v1
+frontend-8b5db9bd-c285m        1/1     Running   0          11m     app=frontend,pod-template-hash=8b5db9bd,version=v1
+frontend-8b5db9bd-hsxfs        1/1     Running   0          11m     app=frontend,pod-template-hash=8b5db9bd,version=v1
+frontend-8b5db9bd-kgzvj        1/1     Running   0          11m     app=frontend,pod-template-hash=8b5db9bd,version=v1
+frontend-8b5db9bd-qlrsf        1/1     Running   0          11m     app=frontend,pod-template-hash=8b5db9bd,version=v1
+frontend-v2-79b6c9cff4-9ptf5   1/1     Running   0          8m23s   app=frontend,pod-template-hash=79b6c9cff4,version=v2
+frontend-v2-79b6c9cff4-rbqsb   1/1     Running   0          8m23s   app=frontend,pod-template-hash=79b6c9cff4,version=v2
+
+controlplane ~ ➜  k describe svc frontend-service 
+Name:                     frontend-service
+Namespace:                default
+Labels:                   app=myapp
+Annotations:              <none>
+Selector:                 app=frontend
+Type:                     NodePort
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       172.20.236.179
+IPs:                      172.20.236.179
+Port:                     <unset>  8080/TCP
+TargetPort:               8080/TCP
+NodePort:                 <unset>  30080/TCP
+Endpoints:                172.17.0.7:8080,172.17.0.5:8080,172.17.0.6:8080 + 4 more...
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+
+controlplane ~ ➜  k scale deployment frontend-v2 --replicas 1
+deployment.apps/frontend-v2 scaled
+
+controlplane ~ ➜  k get po --show-labels
+NAME                           READY   STATUS    RESTARTS   AGE   LABELS
+frontend-8b5db9bd-6x2fk        1/1     Running   0          13m   app=frontend,pod-template-hash=8b5db9bd,version=v1
+frontend-8b5db9bd-c285m        1/1     Running   0          13m   app=frontend,pod-template-hash=8b5db9bd,version=v1
+frontend-8b5db9bd-hsxfs        1/1     Running   0          13m   app=frontend,pod-template-hash=8b5db9bd,version=v1
+frontend-8b5db9bd-kgzvj        1/1     Running   0          13m   app=frontend,pod-template-hash=8b5db9bd,version=v1
+frontend-8b5db9bd-qlrsf        1/1     Running   0          13m   app=frontend,pod-template-hash=8b5db9bd,version=v1
+frontend-v2-79b6c9cff4-rbqsb   1/1     Running   0          10m   app=frontend,pod-template-hash=79b6c9cff4,version=v2
+
+controlplane ~ ➜  
+```
+
+We have now established that the new version v2 of the application is working as expected.
+
+We can now safely redirect all users to the v2 version.
+
+```bash
+controlplane ~ ➜  k edit svc frontend-service 
+service/frontend-service edited
+
+controlplane ~ ➜  k describe svc frontend-service 
+Name:                     frontend-service
+Namespace:                default
+Labels:                   app=myapp
+Annotations:              <none>
+Selector:                 app=frontend,version=v2       # version: v2 added now.
+Type:                     NodePort
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       172.20.236.179
+IPs:                      172.20.236.179
+Port:                     <unset>  8080/TCP
+TargetPort:               8080/TCP
+NodePort:                 <unset>  30080/TCP
+Endpoints:                172.17.0.10:8080
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+
+controlplane ~ ➜  
+```
+
+Scale down the `v1` version of the apps to `0` replicas and scale up the new(`v2`) version to `5` replicas.
+
+```bash
+controlplane ~ ➜  k scale deployment frontend-v2 --replicas 5
+deployment.apps/frontend-v2 scaled
+
+controlplane ~ ➜  k scale deployment frontend --replicas 0
+deployment.apps/frontend scaled
+
+controlplane ~ ➜  k get po --show-labels
+NAME                           READY   STATUS    RESTARTS   AGE   LABELS
+frontend-v2-79b6c9cff4-6d9c5   1/1     Running   0          45s   app=frontend,pod-template-hash=79b6c9cff4,version=v2
+frontend-v2-79b6c9cff4-8c7gv   1/1     Running   0          45s   app=frontend,pod-template-hash=79b6c9cff4,version=v2
+frontend-v2-79b6c9cff4-kmph2   1/1     Running   0          45s   app=frontend,pod-template-hash=79b6c9cff4,version=v2
+frontend-v2-79b6c9cff4-rbqsb   1/1     Running   0          17m   app=frontend,pod-template-hash=79b6c9cff4,version=v2
+frontend-v2-79b6c9cff4-z76sf   1/1     Running   0          45s   app=frontend,pod-template-hash=79b6c9cff4,version=v2
+
+controlplane ~ ➜  
+```
+
+Now delete the deployment called `frontend` completely.
+
+```bash
+controlplane ~ ➜  k delete deployments.apps frontend
+deployment.apps "frontend" deleted
+```
+
+---
+
+## Q3
 
 An application called `results-apd` is running on cluster2. In the weekly meeting, the team decides to upgrade the version of the existing image to `1.23.3` and wants to store the **new version** of the image in a file `/root/records/new-image-records.txt` on the cluster2-controlplane instance.
 
@@ -159,7 +277,7 @@ echo "nginx:1.23.3" > /root/records/new-image-records.txt
 
 ---
 
-## Q 3 Deployment is paused.
+## Q4 Deployment is paused.
 
 ```bash
 cluster1-controlplane ~ ➜  k get po -n kube-system   # No clue
@@ -231,6 +349,6 @@ black-cka25-trb   1/1     1            1           18m
 
 ---
 
+## Q4 
 
 
----
