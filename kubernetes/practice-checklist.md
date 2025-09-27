@@ -59,6 +59,7 @@ Use it as a **roadmap + progress tracker**.
   - Upgrading kubeadm clusters
 - [ ] `etcd` backup & restore
 - [ ] Manage `static pods`
+- [ ] `Admission control`
 - [ ] Authentication, Authorization, RBAC setup (Roles, RoleBindings, ClusterRoles, ClusterRoleBindings), Admission Controllers, Certificate Signing Requests
   -  Controlling Access to the Kubernetes API
     - [Authenticating](https://kubernetes.io/docs/reference/access-authn-authz/authentication/)
@@ -79,10 +80,11 @@ Use it as a **roadmap + progress tracker**.
 - [ ] CoreDNS config & troubleshooting
 - [ ] kubeconfig management (contexts, users, clusters)   `kubeconfig` *https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/*
 - [ ] Scheduling debugging (taints, tolerations, affinity)
-- [ ] Logging & monitoring basics ``
+- [ ] Logging & monitoring basics
 - [ ] Upgrading worker nodes
 - [ ] Backup & restore manifests
 - [ ] Resource usage monitoring (kubectl top, metrics-server)
+- [ ] API deprecation, API Groups
 - [ ] - kubelet, kube-apiserver, kube-controller-manager, kube-proxy, ports
 
 ---
