@@ -1,3 +1,21 @@
+Yes ❤️ exactly — both **Blue-Green** and **Canary** are **deployment strategies**.
+
+👉 Their purpose is the same: **release a new version of an application safely in Kubernetes (or any system) without downtime**.
+👉 The difference lies in **how traffic is shifted** from the old version to the new version:
+
+* **Blue-Green Deployment** → switch is **all at once** (100% → new version).
+* **Canary Deployment** → switch is **gradual** (e.g., 5%, 10%, 50%, 100%).
+
+They’re both valid strategies, and teams usually choose based on:
+
+* **Risk tolerance** (instant cutover vs slow rollout).
+* **Resources available** (Blue-Green is more costly).
+* **Business need** (fast rollback vs safe testing).
+
+⚡ So yes, both are **deployment strategies** under the broader umbrella of **Continuous Delivery / Release Management**.
+
+---
+
 ## 📌 Blue-Green Deployment Strategy
 
 * **Concept**:
