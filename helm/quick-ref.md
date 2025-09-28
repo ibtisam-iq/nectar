@@ -123,8 +123,45 @@ helm install <release> ./<chart_folder>
 
 ---
 
-💡 **EXAM TIP FLOW**:
-When you see a Helm task → **Repo add/update → Install/Upgrade → Verify → Rollback/Uninstall**.
-Namespace mistakes & version requirements are the biggest traps.
+```bash
+controlplane ~ ➜  helm repo list
+NAME            URL                                                 
+bitnami         https://charts.bitnami.com/bitnami                  
+puppet          https://puppetlabs.github.io/puppetserver-helm-chart
+hashicorp       https://helm.releases.hashicorp.com                 
+
+controlplane ~ ➜  helm install amaze-surf bitnami/apache
+Pulled: us-central1-docker.pkg.dev/kk-lab-prod/helm-charts/bitnami/apache:11.3.2
+Digest: sha256:1bd45c97bb7a0000534e3abc5797143661e34ea7165aa33068853c567e6df9f2
+NAME: amaze-surf
+LAST DEPLOYED: Sun Sep 28 11:45:40 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: apache
+CHART VERSION: 11.3.2
+APP VERSION: 2.4.63
+
+controlplane ~ ➜  helm status amaze-surf
+NAME: amaze-surf
+LAST DEPLOYED: Sun Sep 28 11:45:40 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: apache
+CHART VERSION: 11.3.2
+APP VERSION: 2.4.63
+
+
+controlplane ~ ➜  helm list -A                 # also tells chart name, chart version, and app version
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS       CHART           APP VERSION
+amaze-surf      default         1               2025-09-28 11:45:40.183342347 +0000 UTC deployed     apache-11.3.2   2.4.63     
+crazy-web       default         1               2025-09-28 11:46:31.217903645 +0000 UTC deployed     nginx-19.0.0    1.27.4     
+happy-browse    default         1               2025-09-28 11:46:29.364833702 +0000 UTC deployed     nginx-19.0.0    1.27.4     
+```
 
 ---
