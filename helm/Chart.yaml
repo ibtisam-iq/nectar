@@ -40,17 +40,17 @@ keywords:
   - example
 
 # Optional: the home page for your application/project.
-home: https://example.com/webapp-color
+home: https://ibtisam-iq.com/webapp-color
 
 # Optional: sources is a list of URLs to the source code of the application.
 sources:
-  - https://github.com/example/webapp-color
+  - https://github.com/ibtisam-iq/nectar/
 
 # Optional: maintainers list, useful for chart repositories.
 # Each maintainer has a name and (optionally) email/URL.
 maintainers:
   - name: Muhammad Ibtisam Iqbal
-    email: youremail@example.com
+    email: youremail@ibtisam-iq.com
     url: https://ibtisam-iq.com
 
 # Optional: dependencies on other charts.
@@ -63,4 +63,4 @@ maintainers:
 #    condition: redis.enabled
 
 # Optional: icon (URL to an image, e.g. logo).
-icon: https://example.com/webapp-color-logo.png
+icon: https://ibtisam-iq.com/webapp-color-logo.png
