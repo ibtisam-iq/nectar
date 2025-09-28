@@ -1028,3 +1028,95 @@ This way, all ConfigMap keys become files under `/etc/nginx/conf.d/`.
   * Or mount the ConfigMap into a **directory**, not into a file path.
 
 ---
+```bash
+# Correct DB_USER, it is provided .. root
+Environment Variables: DB_Host=mysql-service; DB_Database=Not Set; DB_User=sql-user; DB_Password=paswrd; 1045 (28000): Access denied for user 'sql-user'@'10.22.0.1' (using password: YES)
+
+# DB_USER in webapp deployment is corrected, and now also fix MYSQL_ROOT_PASSWORD in myqsl pod/deploy.
+Environment Variables: DB_Host=mysql-service; DB_Database=Not Set; DB_User=root; DB_Password=paswrd; 1045 (28000): Access denied for user 'root'@'10.22.0.1' (using password: YES)
+
+# MYSQL_ROOT_PASSWORD is fixed now.
+Environment Variables: DB_Host=mysql-service; DB_Database=Not Set; DB_User=root; DB_Password=paswrd;
+                  From webapp-mysql-5c4c675768-r7bfh!
+```
+
+Good “why” ❤️ — let’s unwrap this carefully.
+
+When you run the **MySQL container** (from the official image), it bootstraps itself with a **root password**. That’s controlled by the environment variable:
+
+```yaml
+- name: MYSQL_ROOT_PASSWORD
+  value: paswrd
+```
+
+👉 This is not just a “hint” — the container actually runs an initialization script that sets the **root account’s password inside MySQL** to whatever you pass here.
+
+### Why must it match `DB_Password` in your webapp?
+
+* Your **webapp** tries to log in using the credentials you provide:
+
+  ```yaml
+  DB_User = root
+  DB_Password = paswrd
+  ```
+* MySQL checks if this user/password matches what was set during initialization.
+* If the `DB_Password` in the webapp ≠ `MYSQL_ROOT_PASSWORD` in the MySQL Pod, MySQL rejects with:
+
+  ```
+  1045 (28000): Access denied for user 'root'@'10.22.0.1'
+  ```
+
+So both sides must “speak the same secret.”
+
+* On **MySQL side**: `MYSQL_ROOT_PASSWORD=paswrd` → root password stored as `paswrd`.
+* On **App side**: `DB_Password=paswrd` → app uses same password to log in.
+
+### 🔑 Think of it like a lock & key analogy
+
+* `MYSQL_ROOT_PASSWORD` = the locksmith setting the lock’s key code.
+* `DB_Password` in the app = the physical key you’re trying to use.
+* If the locksmith set the lock to `1234`, but your key is cut for `5678`, the lock won’t open.
+
+--
+
+Exactly sweetheart ✅ you’ve nailed it.
+
+Let me break it cleanly:
+
+### 🔑 Case 1: Using `root`
+
+* If your **DB_USER = root**,
+* then your **DB_Password must match the value of `MYSQL_ROOT_PASSWORD`** inside the MySQL Pod.
+* Because that’s the password the container **sets for root** when it starts.
+
+### 🔑 Case 2: Using a Different User (e.g., `sql-user`, `webuser`)
+
+* `MYSQL_ROOT_PASSWORD` has nothing to do with this.
+* Each user has **its own password** set inside MySQL. Example:
+
+  ```sql
+  CREATE USER 'sql-user'@'%' IDENTIFIED BY 'paswrd123';
+  GRANT ALL PRIVILEGES ON mydb.* TO 'sql-user'@'%';
+  FLUSH PRIVILEGES;
+  ```
+* In this case:
+
+  * `DB_User = sql-user`
+  * `DB_Password = paswrd123` (not equal to root password, unless you deliberately made it the same).
+
+### 📌 Why the Confusion Happens
+
+* The **MySQL image requires `MYSQL_ROOT_PASSWORD`** at first run → so people often think *every* user must use it.
+* But really:
+
+  * `MYSQL_ROOT_PASSWORD` = only for the **root account**.
+  * Other users = you create them manually and set their own passwords.
+
+⚡ So summary:
+
+* **Root user** → must match `MYSQL_ROOT_PASSWORD`.
+* **Non-root user** → password must match the one you explicitly set with `CREATE USER ... IDENTIFIED BY ...`.
+
+---
+
+
