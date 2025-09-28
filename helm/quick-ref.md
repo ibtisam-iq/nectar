@@ -36,11 +36,16 @@ bitnami/nginx                           21.1.16         1.29.1          NGINX Op
 ## **2️⃣ Install / Upgrade**
 
 ```bash
+<chart> = bitnami/nginx    # repo/chart name
+
 # Install (create namespace if not exists)
 helm install <release> <chart> -n <ns> --create-namespace
 
 # Install with file overrides
 helm install <release> <chart> -f values.yaml
+
+# Install with sepecific version
+helm install <release> <chart> --version 9.3.5
 
 # Install with quick set
 helm install <release> <chart> --set key1=val1,key2=val2
@@ -52,6 +57,8 @@ helm install <release> <chart> \
 
 # Upgrade existing release
 helm upgrade <release> <chart> -f values.yaml
+or
+helm upgrade --install <release> <chart> -f values.yaml
 ```
 
 ---
