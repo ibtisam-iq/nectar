@@ -61,6 +61,14 @@ or
 helm upgrade --install <release> <chart> -f values.yaml
 ```
 
+```bash
+# While adding --set flag
+# To see all values, including defaults or see values.yaml
+controlplane ~ ➜  helm get values ingress-nginx --all | grep replica
+  replicaCount: 1
+  replicaCount: 1
+```
+
 ---
 
 ## **3️⃣ View / Debug**
