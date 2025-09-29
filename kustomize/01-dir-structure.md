@@ -1,4 +1,4 @@
-# Chapter 1: Folder Structure in Kustomize
+# Chapter 1: Directory Structure in Kustomize
 
 Kustomize organizes Kubernetes manifests in a **directory-based structure**, making it easier to manage multiple environments (e.g., development, staging, production) without duplicating YAML files. The three main directories used in Kustomize are:
 
