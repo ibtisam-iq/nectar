@@ -125,7 +125,7 @@ metadata:
 images:
   - name: nginx                              # name of the image, not container
     newName: myregistry.com/custom-nginx
-    newTag: 1.19
+    newTag: "1.19"                          # must contain ""
 ```
 
 Before:
