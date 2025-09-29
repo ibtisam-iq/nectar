@@ -1,3 +1,5 @@
+# Q1
+
 There was a security incident where an intruder was able to access the whole cluster from a single hacked backend Pod.
 
 To prevent this create a NetworkPolicy called `np-backend` in Namespace `project-snake`. It should allow the `backend-*` Pods only to:
@@ -99,7 +101,7 @@ The wording would be like:
 
 ---
 
-## Q1
+## Q2
 
 There are existing Pods in Namespace `space1` and `space2` .
 
@@ -125,9 +127,7 @@ NAME                 STATUS   AGE    LABELS
 space1               Active   6m5s   kubernetes.io/metadata.name=space1
 space2               Active   6m5s   kubernetes.io/metadata.name=space2
 ```
----
 
-## Q2
 We need a new NetworkPolicy named `np` that restricts all Pods in Namespace `space1` to only have outgoing traffic to Pods in Namespace `space2` . Incoming traffic not affected.
 
 We also need a new NetworkPolicy named `np` that restricts all Pods in Namespace `space2` to only have incoming traffic from Pods in Namespace `space1` . Outgoing traffic not affected.
