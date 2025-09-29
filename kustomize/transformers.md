@@ -14,7 +14,7 @@ Here’s the list of the most used **built-in transformers**.
 
 | Transformer         | Purpose                              |
 | ------------------- | ------------------------------------ |
-| `commonLabels`      | Add labels to **all** resources      |
+| `labels`            | Add labels to **all** resources      |
 | `commonAnnotations` | Add annotations to **all** resources |
 | `namespace`         | Set namespace for **all** resources  |
 | `namePrefix`        | Add a prefix to resource names       |
@@ -34,7 +34,8 @@ All transformers are defined in **`kustomization.yaml`**.
 **Do**: Add to `kustomization.yaml`
 
 ```yaml
-commonLabels:
+# Warning: 'commonLabels' is deprecated. Please use 'labels' instead.
+labels:
   app: payment
   team: backend
 ```
