@@ -249,3 +249,210 @@ This shows how components make it possible to **mix and match optional features*
 * **Overlays** handle environment differences.
 * **Components** handle optional, reusable features.
 * Together, they give maximum flexibility in managing Kubernetes manifests.
+
+---
+
+What `components` are enabled in the `community` overlay?  **auth**
+What `components` are enabled in the `dev` overlay?        **auth,db,logging**
+How many `environment variables` does the `db` component add to the `api-deployment`? **2**
+What is the name of the `secret generator` created in the `db` component? **db-creds**
+Please add the `logging` component to the `community` overlay.
+
+```bash
+controlplane ~/code/project_mercury ➜  tree
+.
+├── base
+│   ├── api-depl.yaml
+│   ├── api-service.yaml
+│   └── kustomization.yaml
+├── components
+│   ├── auth
+│   │   ├── api-patch.yaml
+│   │   ├── keycloak-depl.yaml
+│   │   ├── keycloak-service.yaml
+│   │   └── kustomization.yaml
+│   ├── db
+│   │   ├── api-patch.yaml
+│   │   ├── db-deployment.yaml
+│   │   ├── db-service.yaml
+│   │   └── kustomization.yaml
+│   └── logging
+│       ├── kustomization.yaml
+│       ├── prometheus-depl.yaml
+│       └── prometheus-service.yaml
+└── overlays
+    ├── community
+    │   └── kustomization.yaml
+    ├── dev
+    │   └── kustomization.yaml
+    └── enterprise
+        └── kustomization.yaml
+
+9 directories, 17 files
+
+controlplane ~/code/project_mercury ➜  cat overlays/community/kustomization.yaml 
+bases:
+  - ../../base
+
+components:
+  - ../../components/auth
+
+controlplane ~/code/project_mercury ➜  cat overlays/dev/kustomization.yaml 
+bases:
+  - ../../base
+
+components:
+  - ../../components/auth
+  - ../../components/db
+  - ../../components/logging
+
+controlplane ~/code/project_mercury ➜  cat components/db/api-patch.yaml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: api
+          env:
+            - name: DB_CONNECTION
+              value: postgres-service
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-creds
+                  key: password
+
+controlplane ~/code/project_mercury ➜  cat components/db/kustomization.yaml 
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+resources:
+  - db-deployment.yaml
+  - db-service.yaml
+
+secretGenerator:
+  - name: db-creds
+    literals:
+      - password=password1
+
+patches:
+  - path: api-patch.yaml
+
+controlplane ~/code/project_mercury ➜  cat overlays/community/kustomization.yaml 
+resources:
+  - ../../base
+
+components:
+  - ../../components/auth
+  - ../../components/logging
+
+controlplane ~/code/project_mercury ➜  
+```
+
+A new `caching` component needs to be created for the application.
+
+There is already a directory located at: `project_mercury/components/caching/`
+
+
+This directory contains the following files:
+
+- redis-depl.yaml
+- redis-service.yaml
+  
+Finish setting up this component by creating a `kustomization.yaml` file in the same directory and importing the above Redis configuration files.
+
+```bash
+controlplane ~/code/project_mercury ➜  tree components/caching/
+components/caching/
+├── kustomization.yaml
+├── redis-depl.yaml
+└── redis-service.yaml
+
+0 directories, 3 files
+
+controlplane ~/code/project_mercury ➜  cat components/caching/kustomization.yaml 
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - redis-depl.yaml
+  - redis-service.yaml
+controlplane ~/code/project_mercury ➜ 
+```
+
+With the database setup for the `caching` component complete, we now need to update the `api-deployment` so that it can connect to the Redis instance.
+
+Create a **Strategic Merge Patch** to add the following environment variable to the container in the deployment:
+
+- Name: REDIS_CONNECTION
+- Value: redis-service
+
+Note:
+
+The patch file must be created at: `project_mercury/components/caching/ with name api-patch.yaml`
+
+After creating the patch file, you must also update the `kustomization.yaml` file in the same directory (`components/caching/`) to include this patch under the patches field.
+
+```bash
+controlplane ~/code/project_mercury ➜  tree components/caching/
+components/caching/
+├── api-patch.yaml
+├── kustomization.yaml
+├── redis-depl.yaml
+└── redis-service.yaml
+
+0 directories, 4 files
+
+controlplane ~/code/project_mercury ➜  cat components/caching/api-patch.yaml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: api
+          env:
+          - name: REDIS_CONNECTION
+            value: redis-service
+
+controlplane ~/code/project_mercury ➜  cat components/caching/kustomization.yaml 
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - redis-depl.yaml
+  - redis-service.yaml
+patches:
+# - api-patch.yaml             # wrong 
+  - path: api-patch.yaml 
+```
+
+Finally, let's add the `caching` component to the `Enterprise` edition of the application.
+
+```bash
+controlplane ~/code/project_mercury ➜  cat overlays/enterprise/kustomization.yaml 
+bases:
+  - ../../base
+
+components:
+  - ../../components/auth
+  - ../../components/db
+  - ../../components/caching
+
+controlplane ~/code/project_mercury ➜  kubectl apply -k /root/code/project_mercury/overlays/enterprise
+# Warning: 'bases' is deprecated. Please use 'resources' instead. Run 'kustomize edit fix' to update your Kustomization automatically.
+secret/db-creds-dd6525th4g created
+service/api-service unchanged
+service/keycloak-service unchanged
+service/postgres-service created
+service/redis-service created
+deployment.apps/api-deployment configured
+deployment.apps/keycloak-deployment unchanged
+deployment.apps/postgres-deployment created
+deployment.apps/redis-deployment created
+
+controlplane ~/code/project_mercury ➜  
+```
