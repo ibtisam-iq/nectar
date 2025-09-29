@@ -252,11 +252,13 @@ This shows how components make it possible to **mix and match optional features*
 
 ---
 
-What `components` are enabled in the `community` overlay?  **auth**
-What `components` are enabled in the `dev` overlay?        **auth,db,logging**
-How many `environment variables` does the `db` component add to the `api-deployment`? **2**
-What is the name of the `secret generator` created in the `db` component? **db-creds**
-Please add the `logging` component to the `community` overlay.
+## Lab
+
+- What `components` are enabled in the `community` overlay?  **auth**
+- What `components` are enabled in the `dev` overlay?        **auth,db,logging**
+- How many `environment variables` does the `db` component add to the `api-deployment`? **2**
+- What is the name of the `secret generator` created in the `db` component? **db-creds**
+- Please add the `logging` component to the `community` overlay.
 
 ```bash
 controlplane ~/code/project_mercury ➜  tree
@@ -355,7 +357,6 @@ controlplane ~/code/project_mercury ➜
 A new `caching` component needs to be created for the application.
 
 There is already a directory located at: `project_mercury/components/caching/`
-
 
 This directory contains the following files:
 
