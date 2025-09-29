@@ -46,6 +46,7 @@ my-app/
 **Production Overlay:**
 
 ```yaml
+# Warning: 'bases' is deprecated. Please use 'resources' instead.
 resources:
   - ../../base          # reference to the base
   - grafana.yaml        # unique to prod, not in base
