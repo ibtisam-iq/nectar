@@ -51,9 +51,36 @@ patches:
       kind: Deployment
       name: my-app
     patch: |-
+
+      # in case of dictionary
+
       - op: replace
         path: /spec/replicas
         value: 3
+      - op: add                                           # it will append one more label     # org: ibtisam
+        path: /spec/template/metadata/labels/org          # org → key      
+        value: ibtisam                                    # ibtisam → value
+      - op: remove
+        path: /spec/template/metadata/labels/org          # it just removes one label, whose key is org
+                                                          # no need to mention value in case of op: remove
+      # in case of list
+
+      - op: replace
+        path: /spec/template/spec/containers/0/image      # a case of list, so we use indexing... 0 → first container
+        value: nginx:1.27                                 # just changing continer image 
+      - op: replace
+        path: /spec/template/spec/containers/0      
+        value:                                            # changing two values, container name and its image
+          name: sidecar
+          image: ubuntu
+      - op: add
+        path: /spec/template/spec/containers/-            # - → last container, append to the last of the list
+        value:                                            # adding two values, container name & its image
+          name: haproxy
+          image: haproxy
+      - op: remove
+        path: /spec/template/spec/containers/1            # 1 → 2nd container
+                                                          # op: remove, requires no value key.
 ```
 
 ### (b) External Patch (JSON file: `replica-patch.json`)
@@ -106,13 +133,26 @@ patches:
 
 ```yaml
 patches:
-  - patch: |-
-      apiVersion: apps/v1
+  - patch: |-                  # this patch targets spec.replicas, spec.template.metadata.labels, and container... this is just for example.
+      apiVersion: apps/v1      # in real-time, a one patch usually targets one thing only.
       kind: Deployment
       metadata:
         name: my-app
       spec:
-        replicas: 4
+        replicas: 4              # it will update, an example of op: replace
+
+        template:
+          metadata:
+            labels:              # if org → key is not present, it will append one more label, an example of op: add
+              org: ibtisam       # otherwise, if org → key is present, it will update, an example of op: replace
+              org: null          # when, org → key is present, and you want to delete this label, an example of op: remove
+
+          spec:
+            containers:          # adds a new container to the list, or replaces if it already exists.
+             - name: sidecar
+               image: busybox
+             - $patch: delete    # deletes an existing container, this is an unique way.
+               name: sidecar     # container name
 ```
 
 ### (b) External Patch (YAML file: `replica-patch.yaml`)
@@ -154,8 +194,8 @@ patches:
       name: my-app
     patch: |-
       - op: replace
-        path: /spec/template/spec/containers/0/image
-        value: nginx:1.27
+        path: /spec/template/spec/containers/0/image      
+        value: nginx:1.27                                 
 ```
 
 ---
