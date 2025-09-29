@@ -1,133 +1,86 @@
-## Managing multiple directories
+## 1. What is Kustomize?
 
-Let's create a single `kustomization.yaml` file in the **root of the k8s directory** and import all resources defined for `db`, `message-broker`, `nginx` into it.
+* A Kubernetes-native configuration management tool.
+* Allows you to **customize YAML manifests** without templates.
+* Works by layering configurations in a structured way.
+
+---
+
+## 2. Managing Directories (Base)
+
+* **Base** contains common manifests (e.g., Deployments, Services).
+* `kustomization.yaml` in the base defines:
+
+  * `resources` → Which manifests to include.
+  * `transformers` (optional) → Modify labels, annotations, etc.
+  * `patches` (optional) → Adjust specific fields.
+* Purpose: Create a **clean, reusable starting point** for all environments.
+
+---
+
+## 3. Overlays (Environment-Specific Configs)
+
+* **Overlays** extend or modify the base for each environment (dev, staging, prod).
+* Each overlay has its own `kustomization.yaml`.
+* Typical use cases:
+
+  * Change replica counts.
+  * Add or remove resources (e.g., Grafana only in prod).
+  * Apply patches for environment-specific changes.
+* Command example:
+
+  ```bash
+  kubectl apply -k overlays/dev
+  kubectl apply -k overlays/prod
+  ```
+
+---
+
+## 4. Components (Optional, Reusable Features)
+
+* **Components** solve the problem of optional add-ons.
+* Defined using `kind: Component`.
+* Examples: Monitoring (Grafana), Network Policies, Logging.
+* Integrated into overlays when needed:
+
+  ```yaml
+  components:
+    - ../../components/monitoring
+    - ../../components/network-policy
+  ```
+* Benefit: Reusable and mix-and-match features across environments.
+
+---
+
+## 5. Strategy & Flow
+
+1. **Base** → Common configuration for all.
+2. **Overlays** → Environment-specific adjustments.
+3. **Components** → Optional features added on top.
+
+This sequence ensures:
+
+* **Reusability** (no duplication).
+* **Flexibility** (easy per-environment differences).
+* **Scalability** (clean management as apps grow).
+
+---
+
+## 6. Key Commands
 
 ```bash
-controlplane ~/code/k8s ➜  tree -a
-.
-├── db
-│   ├── db-config.yaml
-│   ├── db-depl.yaml
-│   └── db-service.yaml
-├── message-broker
-│   ├── rabbitmq-config.yaml
-│   ├── rabbitmq-depl.yaml
-│   └── rabbitmq-service.yaml
-└── nginx
-    ├── nginx-depl.yaml
-    └── nginx-service.yaml
+# Validate output without applying
+kustomize build overlays/prod
 
-3 directories, 8 files
-
-controlplane ~/code/k8s ➜  vi kustomization.yaml
-
-controlplane ~/code/k8s ➜  cat kustomization.yaml 
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - db/db-config.yaml
-  - db/db-depl.yaml
-  - db/db-service.yaml
-  - message-broker/rabbitmq-config.yaml
-  - message-broker/rabbitmq-depl.yaml
-  - message-broker/rabbitmq-service.yaml
-  - nginx/nginx-depl.yaml
-  - nginx/nginx-service.yaml
-
-controlplane ~/code/k8s ➜  k apply -k .
-configmap/db-credentials created
-configmap/redis-credentials created
-service/db-service created
-service/nginx-service created
-service/rabbit-cluster-ip-service created
-deployment.apps/db-deployment created
-deployment.apps/nginx-deployment created
-deployment.apps/rabbitmq-deployment created
+# Apply directly
+kubectl apply -k overlays/prod
 ```
 
-Let's create a `kustomization.yaml` file in each of the `subdirectories` and import only the resources within that directory.
+---
 
-```bash
-controlplane ~/code/k8s ➜  vi db/kustomization.yaml
+## Final Takeaway
 
-controlplane ~/code/k8s ➜  vi message-broker/kustomization.yaml
-
-controlplane ~/code/k8s ➜  cat db/kustomization.yaml
-resources:
-  - db-depl.yaml
-  - db-service.yaml
-  - db-config.yaml
-
-controlplane ~/code/k8s ➜  vi nginx/kustomization.yaml
-
-controlplane ~/code/k8s ➜  vi kustomization.yaml 
-
-controlplane ~/code/k8s ➜  cat kustomization.yaml 
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - db/
-  - message-broker/
-  - nginx/
-
-controlplane ~/code/k8s ➜  k apply -k .
-configmap/db-credentials created
-configmap/redis-credentials created
-service/db-service created
-service/nginx-service created
-service/rabbit-cluster-ip-service created
-deployment.apps/db-deployment created
-deployment.apps/nginx-deployment created
-deployment.apps/rabbitmq-deployment created
-
-controlplane ~/code/k8s ➜  tree -a
-.
-├── db
-│   ├── db-config.yaml
-│   ├── db-depl.yaml
-│   ├── db-service.yaml
-│   └── kustomization.yaml
-├── kustomization.yaml
-├── message-broker
-│   ├── kustomization.yaml
-│   ├── rabbitmq-config.yaml
-│   ├── rabbitmq-depl.yaml
-│   └── rabbitmq-service.yaml
-└── nginx
-    ├── kustomization.yaml
-    ├── nginx-depl.yaml
-    └── nginx-service.yaml
-
-3 directories, 12 files
-```
-
-## Transformers
-
-
-
-```text
-controlplane ~/code/k8s ➜  tree -a
-.
-├── base
-│   ├── api-deployment.yaml
-│   ├── db-configMap.yaml
-│   ├── kustomization.yaml
-│   └── mongo-depl.yaml
-└── overlays
-    ├── dev
-    │   ├── api-patch.yaml
-    │   └── kustomization.yaml
-    ├── prod
-    │   ├── api-patch.yaml
-    │   ├── kustomization.yaml
-    │   └── redis-depl.yaml
-    ├── QA
-    │   └── kustomization.yaml
-    └── staging
-        ├── configMap-patch.yaml
-        └── kustomization.yaml
-
-6 directories, 12 files
-
-controlplane ~/code/k8s ➜  
-```
+* **Base** = foundation (always used).
+* **Overlays** = environment-specific changes.
+* **Components** = optional reusable features.
+* Together, they give a structured and scalable way to manage Kubernetes manifests.
