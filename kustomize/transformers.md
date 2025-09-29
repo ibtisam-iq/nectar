@@ -123,7 +123,7 @@ metadata:
 
 ```yaml
 images:
-  - name: nginx
+  - name: nginx                              # name of the image, not container
     newName: myregistry.com/custom-nginx
     newTag: 1.19
 ```
