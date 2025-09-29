@@ -103,72 +103,7 @@ controlplane ~/code/k8s ➜  tree -a
 
 ## Transformers
 
-Assign the following annotation to all `nginx` and `monitoring` resources: `owner: bob@gmail.com`
 
-```bash
-controlplane ~/code/k8s ➜  cat nginx/kustomization.yaml 
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-resources:
-  - nginx-depl.yaml
-  - nginx-service.yaml
-
-commonAnnotations:
-  owner: bob@gmail.com
-controlplane ~/code/k8s ➜  cat monitoring/kustomization.yaml 
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-resources:
-  - grafana-depl.yaml
-  - grafana-service.yaml
-
-namespace: logging
-
-commonAnnotations:
-  owner: bob@gmail.com
-```
-Transform `all postgres` images in the project to `mysql`.
-
-```bash
-Since the requirement was to change all postgres images to mysql this means adding an image transformer to the root kustomization.yaml file.
-
-controlplane ~/code/k8s ➜  cat kustomization.yaml 
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-resources:
-  - db/
-  - monitoring/
-  - nginx/
-
-commonLabels:
-  sandbox: dev
-
-images:
-  - name: postgress
-    newName: mysql
-```
-
-Transform all `nginx` images in the **nginx directory** to `nginx:1.23`.
-
-```bash
-controlplane ~/code/k8s ➜  cat nginx/kustomization.yaml 
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-resources:
-  - nginx-depl.yaml
-  - nginx-service.yaml
-
-commonAnnotations:
-  owner: bob@gmail.com
-
-images:
-  - name: nginx
-    newTag: "1.23"
-```
 
 ```text
 controlplane ~/code/k8s ➜  tree -a
