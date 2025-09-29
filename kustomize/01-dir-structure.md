@@ -136,6 +136,9 @@ spec:
 **`base/kustomization.yaml`**
 
 ```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
 resources:
   - deployment.yaml
   - service.yaml
@@ -150,9 +153,12 @@ resources:
 **`overlays/dev/kustomization.yaml`**
 
 ```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
 resources:
-  - ../../base
-  - dev-configmap.yaml   # unique to dev
+  - ../../base           # reference the base directory 
+  - dev-configmap.yaml   # unique to dev, environment-specific manifest 
 
 patches:
   - target:
@@ -182,8 +188,11 @@ data:
 **`overlays/staging/kustomization.yaml`**
 
 ```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
 resources:
-  - ../../base
+  - ../../base     # reference the base directory 
   - ingress.yaml   # unique to staging
 
 patches:
@@ -224,8 +233,11 @@ spec:
 **`overlays/prod/kustomization.yaml`**
 
 ```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
 resources:
-  - ../../base
+  - ../../base    # reference the base directory
   - secret.yaml   # unique to prod
 
 patches:
