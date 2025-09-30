@@ -94,19 +94,6 @@ kubectl run <> --image busybox --dry-run=client -o yaml --command -- sleep 1000	
 kubectl run -i -t busybox --image=busybox --restart=Never
 ```
 
-- `--expose` **is valid** in `kubectl run`, but **only creates a ClusterIP service**.
-- Requires `--port`, otherwise, Kubernetes won't know what port to expose.
-- Useful for **quick testing** but not flexible for customizing the Service.
-- For external access, manually expose the Pod using `kubectl expose` and change `--type` to `NodePort` or `LoadBalancer`.
-- If more than one `--port` or `--image` flag is mentioned, the last `--port` or `--image` flag overrides all first mentioned `--port` and `--image` flags.
-- The `--` separator indicates that everything after it (`-- sleep 1000`) is passed as arguments to the container. `-- sleep 1000` is interpreted as two separate arguments: `sleep` and `1000`. To pass a single argument, use quotes: `-- "sleep 1000"`.
-- Use `--command --` to define custom commands in containers.
-- The `command` field overrides the container image’s default **entrypoint**.
-- When using `--command`, both command and arguments must be explicitly defined.
-- **If you don’t use `--command`, arguments go into `args` (override CMD); if you use `--command`, they go into `command` (override ENTRYPOINT).**
-- **To run multiple commands, you must invoke a shell (`sh -c`), otherwise Kubernetes treats the whole string as a single command/arg.**
-
-
 * The `--expose` flag is valid with `kubectl run`, but it only creates a **ClusterIP Service**.
 * The `--port` flag is required; otherwise, Kubernetes does not know which port to expose.
 * `--expose` is useful for **quick testing**, but limited for customization. For external access, use `kubectl expose` separately and specify `--type=NodePort` or `--type=LoadBalancer`.
