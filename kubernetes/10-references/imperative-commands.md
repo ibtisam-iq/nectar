@@ -177,29 +177,6 @@ error: cannot specify multiple --image options and command
 
 ---
 
-## kubectl rollout
-
-Manage the rollout of one or many resources. 
-- Valid resource types include: deployments, daemonsets, statefulsets
-
-```bash
-kubectl rollout history (TYPE NAME | TYPE/NAME) -l, --selector --revision=0
-kubectl rollout pause|resume|restart (TYPE NAME | TYPE/NAME) -l, --selector
-kubectl rollout status (TYPE NAME | TYPE/NAME) -l, --selector --revision=0 -w, --watch=true
-kubectl rollout undo (TYPE NAME | TYPE/NAME) -l, --selector --dry-run='none' --to-revision=0
-kubectl annotate deploy <> kubernetes.io/change-cause="Updated to nginx:1.29.1"
-```
-
-## kubectl scale
-
-Set a new size for a deployment, replica set, replication controller, or stateful set.
-
-```bash
-kubectl scale (-f FILENAME | TYPE NAME) [--resource-version=version] [--current-replicas=count] --replicas=COUNT -l, --selector='' --dry-run='none' 
-```
-
----
-
 ## Jobs & CronJobs
 ```bash
 kubectl create job NAME --image=image \
@@ -229,9 +206,10 @@ kubectl create cronjob my-cronjob --image=busybox --schedule="*/5 * * * *" -- ec
 Here, `echo "Hello, Kubernetes!"` runs inside the container every 5 minutes.
 
 > error: either `--image` or `--from` must be specified
+
 ---
 
-## [ConfigMap]() and Secret
+## ConfigMap and Secret
 
 ```bash
 kubectl create configmap NAME \
@@ -673,40 +651,71 @@ kubectl create poddisruptionbudget NAME --selector=SELECTOR --min-available=N [-
 ```
 ---
 
-## kubectl taint nodes
+## `kubectl apply` (refer quick ref)
+
+## `kubectl rollout`
+
+Manage the rollout of one or many resources. 
+- Valid resource types include: deployments, daemonsets, statefulsets
+
+```bash
+kubectl rollout history (TYPE NAME | TYPE/NAME) -l, --selector --revision=0
+kubectl rollout pause|resume|restart (TYPE NAME | TYPE/NAME) -l, --selector
+kubectl rollout status (TYPE NAME | TYPE/NAME) -l, --selector --revision=0 -w, --watch=true
+kubectl rollout undo (TYPE NAME | TYPE/NAME) -l, --selector --dry-run='none' --to-revision=0
+kubectl annotate deploy <> kubernetes.io/change-cause="Updated to nginx:1.29.1"
+```
+
+## `kubectl scale`
+
+Set a new size for a deployment, replica set, replication controller, or stateful set.
+
+```bash
+kubectl scale (-f FILENAME | TYPE NAME) [--resource-version=version] [--current-replicas=count] --replicas=COUNT -l, --selector='' --dry-run='none' 
+```
+
+## `kubectl port-forward`
+
+```bash
+# Listen on port 5000 on the local machine and forward to port 6000 on my-pod
+kubectl port-forward my-pod 5000:6000 
+# listen on local port 5000 and forward to port 5000 on Service backend
+kubectl port-forward svc/my-service 5000                  
+# listen on local port 5000 and forward to Service target port with name <my-service-port>
+kubectl port-forward svc/my-service 5000:my-service-port
+# listen on local port 5000 and forward to port 6000 on a Pod created by <my-deployment>
+kubectl port-forward deploy/my-deployment 5000:6000
+```
+
+## `kubectl taint nodes`
 Update the taints on one or more nodes.
 
-- A taint consists of a key, value, and effect. As an argument here, it is expressed as key=value:effect.
-- The key must begin with a letter or number, and may contain letters, numbers, hyphens, dots, and underscores, up to
-253 characters.
-- Optionally, the key can begin with a DNS subdomain prefix and a single '/', like example.com/my-app.
-- The value is optional. If given, it must begin with a letter or number, and may contain letters, numbers, hyphens,
-dots, and underscores, up to 63 characters.
-- The effect must be NoSchedule, PreferNoSchedule or NoExecute.
-- Currently taint can only apply to node.
-- `key=value` then operator: `Equal`
-- If only the `key`, and not `value` then operator: `Exists`
+- `kubectl taint nodes` adds or updates taints on one or more nodes.
+- A taint is expressed as: `key[=value]:effect`
+
+* **Key**: required, must start with letter/number, max 253 chars.
+* **Value**: optional, if present max 63 chars.
+* **Effect**: required → `NoSchedule` | `PreferNoSchedule` | `NoExecute`.
+* **Operator**:
+  * `key=value:effect` → Equal
+  * `key:effect` → Exists
+
+👉 Taints currently apply only to **nodes**.
 
 ```bash
 kubectl taint NODE NAME KEY_1=VAL_1:TAINT_EFFECT_1 ... KEY_N=VAL_N:TAINT_EFFECT_N [options]
 ```
 
-### Examples
+#### Examples
 
 Please see `kubectl taint nodes --help`.
 
----
-
-## kubectl label|annotate
+## `kubectl label|annotate`
 Update the labels on a resource.
 
-- A label key and value must begin with a letter or number, and may contain letters, numbers, hyphens, dots, and
-underscores, up to 63 characters each.
-- Optionally, the key can begin with a DNS subdomain prefix and a single '/', like example.com/my-app.
-- If `--overwrite` is true, then existing labels can be overwritten, otherwise attempting to overwrite a label will
-result in an error.
-- If `--resource-version` is specified, then updates will use this resource version, otherwise the existing
-resource-version will be used.
+- **Key & Value**: must start with letter/number, max 63 chars.
+- If `--overwrite` is true, then existing labels can be overwritten, otherwise attempting to overwrite a label will result in an error.
+- If `--resource-version` is specified, then updates will use this resource version, otherwise the existing resource-version will be used.
 
 ```bash
 kubectl label [--overwrite] (-f FILENAME | TYPE NAME) KEY_1=VAL_1 ... KEY_N=VAL_N [--resource-version=version]
@@ -716,13 +725,11 @@ kubectl annotate [--overwrite] (-f FILENAME | TYPE NAME) KEY_1=VAL_1 ... KEY_N=V
 [options]
 ```
 
-### Examples
+#### Examples
 
 Please see `kubectl label --help` and `kubectl annotate --help`.
 
----
-
-## kubectl logs
+## `kubectl logs`
 Print the logs for a `container` in a **pod** or **specified resource**. If the pod has only one container, the container name is optional. 
 
 ```bash
@@ -740,34 +747,7 @@ kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER] [options]
 | TLS Skip | `--insecure-skip-tls-verify-backend` |
 | Limit Output | `--limit-bytes`, `--tail` |
 
----
-
-## Frequently Used Flags
-
---dry-run='none':
-	Must be "none", "server", or "client".
--o, --output='':
-	Output format. One of: (json, yaml).
---save-config=false:
-	If true, the configuration of current object will be saved in its annotation.
-
-
-## kubectl apply (should add in quick ref)
-
-## kubectl port-forward
-
-```bash
-# Listen on port 5000 on the local machine and forward to port 6000 on my-pod
-kubectl port-forward my-pod 5000:6000 
-# listen on local port 5000 and forward to port 5000 on Service backend
-kubectl port-forward svc/my-service 5000                  
-# listen on local port 5000 and forward to Service target port with name <my-service-port>
-kubectl port-forward svc/my-service 5000:my-service-port
-# listen on local port 5000 and forward to port 6000 on a Pod created by <my-deployment>
-kubectl port-forward deploy/my-deployment 5000:6000
-```
-
-## kubectl auth
+## `kubectl auth`
 ```bash
 # kubectl auth can-i <verb> <resource>
 kubectl auth whoami
@@ -776,9 +756,8 @@ kubectl auth can-i list pods --as-group <> --as <user>
 # kubectl auth can-i list pods --as=system:serviceaccount:<ns name>:<sa name>
 kubectl auth can-i list pods --as system:serviceaccount:ibtisam:ibtisam -n ibtisam
 ```
----
 
-## kubectl set
+## `kubectl set`
 
 ```bash
 controlplane ~ ➜  k set --help
@@ -795,9 +774,7 @@ kubectl set image (-f FILENAME | TYPE NAME) CONTAINER_NAME_1=CONTAINER_IMAGE_1 .
 [options]
 ```
 
----
-
-## kubectl exec
+## `kubectl exec`
 
 ```bash
 controlplane ~ ➜  k exec -it -n kube-system etcd-controlplane -- etcd --version
@@ -822,5 +799,4 @@ Kubernetes v1.34.0
 controlplane ~ ➜  k exec -it -n kube-system kube-apiserver-controlplane -- kube-apiserver -h
 Usage:
   kube-apiserver [flags]
-
 ```
