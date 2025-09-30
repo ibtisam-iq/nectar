@@ -373,10 +373,10 @@ When using the `--resource` flag in `kubectl create role`, you're defining the e
 
 **There are 4 different RBAC combinations and 3 valid ones:**
 
-1. Role + RoleBinding (available in single Namespace, applied in single Namespace)
-2. ClusterRole + ClusterRoleBinding (available cluster-wide, applied cluster-wide)
-3. ClusterRole + RoleBinding (available cluster-wide, applied in single Namespace)
-4. Role + ClusterRoleBinding (NOT POSSIBLE: available in single Namespace, applied cluster-wide)
+1. RoleBinding + Role (available in single Namespace, applied in single Namespace)
+2. ClusterRoleBinding + ClusterRole (available cluster-wide, applied cluster-wide)
+3. RoleBinding + ClusterRole (available cluster-wide, applied in single Namespace)
+4. ClusterRoleBinding + Role (NOT POSSIBLE: available in single Namespace, applied cluster-wide)
 ---
 
 ## Service
