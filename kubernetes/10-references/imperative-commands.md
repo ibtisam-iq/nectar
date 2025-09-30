@@ -235,9 +235,9 @@ Here, `echo "Hello, Kubernetes!"` runs inside the container every 5 minutes.
 
 ```bash
 kubectl create configmap NAME \
-    --from-file=path/to/bar \ # bar is directory
-    --from-file=path/to/bar \ # bar is file
-    --from-file=key1=/path/to/file1.txt --from-file=key2=/path/to/file2.txt \
+    --from-file=path/to/bar \ # bar is directory, and inside dir, each file name becomes a key, and the file content becomes the value
+    --from-file=path/to/bar \ # bar is file, key becomes equal to the file name (bar) and the file content becomes the value.
+    --from-file=key1=/path/to/file1.txt --from-file=key2=/path/to/file2.txt \ # file content becomes the value
     --from-literal=key1=config1 --from-literal=key2=config2 \
     --from-env-file=path/to/foo.env --from-env-file=path/to/bar.env
 
@@ -256,9 +256,24 @@ kubectl create secret docker-registry my-secret --docker-server=DOCKER_REGISTRY_
 # Create a new secret named my-secret from ~/.docker/config.json
 kubectl create secret docker-registry my-secret --from-file=path/to/.docker/config.json
 ```
+
+- **When using `--from-env-file`, the file must follow `.env` format (`KEY=VALUE` per line); YAML-style (`key: value`) is not supported. Multiple files can be specified, and later keys override earlier ones.**
+- If the same key is defined in multiple env files, the value from the last file specified takes precedence.
+
 ---
 
 ## Persistent Volume (PV), Persistent Volume Claim (PVC) and StorageClass
+
+- NO imperative command
+- Adding `volumeName` into PVC will bypass `volumeBindingMode: WaitForFirstConsumer` of the StorageClass
+- Set the `volumeName`, and `storageClassName: ""` in PVC, and get your PVC bound without deploying any pod.
+- PVC requires some time for binding. So, be patient.
+- Set the `allowVolumeExpansion: true` in StorageClass enables PVC expansion. → you cannot shrink a PVC.
+- Each `volume` entry under `spec.volumes` must have a **unique name**.
+- However, if you try to add two different sources (like `persistentVolumeClaim` + `emptyDir`) under the same volume, you’ll also get an error.
+- Unlike `hostPath` volumes (which **can create a path automatically** if it doesn’t exist → type: `DirectoryOrCreate`), a **local PersistentVolume (PV)** in Kubernetes expects that the directory (or device) already exists on the node.
+- With `hostPath`, the `nodeAffinity` is a precaution; with `local`, it’s mandatory.
+- A PVC cannot be deleted while mounted; delete the Pod first, then the PVC, and the PV’s fate depends on its `ReclaimPolicy`.
 
 ---
 
