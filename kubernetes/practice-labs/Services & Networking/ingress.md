@@ -1,14 +1,49 @@
-## Important point
+# Ingress
 
-- **host: ibtisam-iq.com**
- ```bash
-curl http://ibtisam-iq.com
+## Ingress curl Cheatsheet (CKA Exam)
 
-curl http://<host>:<ingress-nodePort>/<path>/
-http://ibtisam-iq.com:30080/europe/
+### 1. Ingress without `host`
+
+Use the node’s IP + NodePort exposed by the ingress controller:
+
+```bash
+curl http://<node-IP>:<nodePort>/<path>
 ```
-- **host: not-mentioned**
-  `curl <ingress IP>` ## Requests to `http://192.168.141.16/` are hitting the **`nginx-service-cka04-svcn` backend**.
+
+### 2. Ingress with `host`
+
+**Most reliable method (works always):**
+
+```bash
+curl -H "Host: <host-from-ingress>" http://<node-IP>:<nodePort>/<path>
+```
+
+**Optional (only if DNS or `/etc/hosts` entry exists):**
+
+```bash
+curl http://<host-from-ingress>:<nodePort>/<path>
+curl http://<host-from-ingress>/<path>
+```
+
+### 3. Ingress via LoadBalancer (if available)
+
+If the ingress controller Service type is `LoadBalancer`:
+
+```bash
+curl http://<loadbalancer-IP>/<path>
+```
+
+✅ **Tips for exam**:
+
+* You are usually on the **controlplane node** → treat it as `<node-IP>`.
+* Always check the Ingress spec for `host:` and `path:` fields.
+* If stuck, fall back to:
+
+  ```bash
+  curl -H "Host: <host>" http://<node-IP>:<nodePort>/<path>
+  ```
+
+  (This is the **most exam-safe command**.)
 
 ---
 
