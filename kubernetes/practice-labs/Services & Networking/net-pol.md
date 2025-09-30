@@ -310,7 +310,17 @@ spec:
 
 ## Q6
 
-A policy database-ckad-netpol to limit access to database pods only to backend pods.
+A policy `database-ckad-netpol` to limit access to database pods only to backend pods.
+
+* **database pods** → These are the pods running your database (like MySQL, PostgreSQL, etc.). They are the **target/receiver**.
+* **limit access** → Put restrictions so not everyone can connect.
+* **only to backend pods** → The **only pods that should be able to connect** are the backend ones. All others should be blocked.
+
+### 📌 Why Ingress here?
+
+Because the database pod is the **house/vault**.
+We’re deciding **who can come inside**.
+Backend pods are allowed, others are blocked.
 
 ```bash
 root@student-node ~ ➜  k get po -n app-ckad backend-pod-svcn database-pod-svcn --show-labels 
@@ -358,7 +368,7 @@ spec:
 
 ## Q7
 
-create a NetworkPolicy .i.e. ckad-allow so that only pods with label criteria: allow can access the deployment on port 80 and apply it.
+create a NetworkPolicy `ckad-allow` so that only pods with label `criteria: allow` can access the deployment on port 80 and apply it.
 
 ```bash
 root@student-node ~ ➜  k get po --show-labels -n nginx-deployment 
@@ -410,9 +420,9 @@ spec:
 
 ## Q8
 
-We have created a Network Policy netpol-ckad13-svcn that allows traffic only to specific pods and it allows traffic only from pods with specific labels.
+We have created a Network Policy `netpol-ckad13-svcn` that allows traffic only to specific pods and it allows traffic only from pods with specific labels.
 
-Your task is to edit the policy so that it allows traffic from pods with labels access = allowed.
+Your task is to edit the policy so that it allows traffic from pods with labels `access = allowed`.
 
 Do not change the existing rules in the policy.
 
@@ -444,14 +454,13 @@ spec:
 
 ## Q10
 
-We have deployed an application in the ns-new-ckad namespace. We also configured services, namely frontend-ckad-svcn and backend-ckad-svcn.
-
+We have deployed an application in the `ns-new-ckad namespace`. We also configured services, namely `frontend-ckad-svcn` and `backend-ckad-svcn`.
 
 However, there are some issues:
 
-backend-ckad-svcn is not able to access backend pods
+`backend-ckad-svcn` is not able to access **backend pods**
 
-frontend-ckad-svcn is not accessible from backend pods.
+`frontend-ckad-svcn` is not accessible from **backend pods**.
 
 ```bash
 root@student-node ~ ➜  k get all -n ns-new-ckad 
@@ -590,10 +599,9 @@ Both should now respond correctly. ✅
 
 ## Q11
 
-We have deployed some pods in the namespaces ckad-alpha and ckad-beta.
+We have deployed some pods in the namespaces `ckad-alpha` and `ckad-beta`.
 
-You need to create a NetworkPolicy named ns-netpol-ckad that will restrict all Pods in Namespace ckad-alpha to only have outgoing traffic to Pods in Namespace ckad-beta . Ingress traffic should not be affected.
-
+You need to create a NetworkPolicy named `ns-netpol-ckad` that will restrict all Pods in Namespace `ckad-alpha` to only have outgoing traffic to Pods in Namespace `ckad-beta`. Ingress traffic should not be affected.
 
 However, the NetworkPolicy you create should allow egress traffic on port 53 TCP and UDP.
 
@@ -657,31 +665,23 @@ root@student-node ~ ➜
 
 ## Q12
 
-An nginx-based pod called cyan-pod-cka28-trb is running under the cyan-ns-cka28-trb namespace and is exposed within the cluster using the cyan-svc-cka28-trb service.
+An **nginx-based pod** called `cyan-pod-cka28-trb` is running under the `cyan-ns-cka28-trb` namespace and is exposed within the cluster using the `cyan-svc-cka28-trb` service.
 
-This is a restricted pod, so a network policy called cyan-np-cka28-trb has been created in the same namespace to apply some restrictions on this pod.
+This is a restricted pod, so a network policy called `cyan-np-cka28-trb` has been created in the **same namespace** to apply some restrictions on this pod.
 
+Two other pods called `cyan-white-cka28-trb` and `cyan-black-cka28-trb` are also running in the `default` namespace.
 
-Two other pods called cyan-white-cka28-trb and cyan-black-cka28-trb are also running in the default namespace.
+The nginx-based app running on the `cyan-pod-cka28-trb` pod is exposed internally on the default nginx port (`80`).
 
-
-The nginx-based app running on the cyan-pod-cka28-trb pod is exposed internally on the default nginx port (80).
-
-
-
-Expectation: This app should only be accessible from the cyan-white-cka28-trb pod.
-
+Expectation: This app should only be accessible from the `cyan-white-cka28-trb` pod.
 
 Problem: This app is not accessible from anywhere.
 
-
 Troubleshoot this issue and fix the connectivity as per the requirement listed above.
 
+Note: You can exec into `cyan-white-cka28-trb` and `cyan-black-cka28-trb` pods and test connectivity using the **curl** utility.
 
-Note: You can exec into cyan-white-cka28-trb and cyan-black-cka28-trb pods and test connectivity using the curl utility.
-
-
-You may update the network policy, but make sure it is not deleted from the cyan-ns-cka28-trb namespace.
+You may update the network policy, but make sure it is not deleted from the `cyan-ns-cka28-trb` namespace.
 
 ```bash
 cluster1-controlplane ~ ➜  k get po,netpol,svc -n cyan-ns-cka28-trb 
