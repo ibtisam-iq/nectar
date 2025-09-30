@@ -103,6 +103,35 @@ kubectl run -i -t busybox --image=busybox --restart=Never
 - Use `--command --` to define custom commands in containers.
 - The `command` field overrides the container image’s default **entrypoint**.
 - When using `--command`, both command and arguments must be explicitly defined.
+- **If you don’t use `--command`, arguments go into `args` (override CMD); if you use `--command`, they go into `command` (override ENTRYPOINT).**
+- **To run multiple commands, you must invoke a shell (`sh -c`), otherwise Kubernetes treats the whole string as a single command/arg.**
+
+
+* The `--expose` flag is valid with `kubectl run`, but it only creates a **ClusterIP Service**.
+* The `--port` flag is required; otherwise, Kubernetes does not know which port to expose.
+* `--expose` is useful for **quick testing**, but limited for customization. For external access, use `kubectl expose` separately and specify `--type=NodePort` or `--type=LoadBalancer`.
+
+* If multiple `--port` or `--image` flags are specified, **the last occurrence overrides all previous ones**.
+* The `--` separator ensures everything after it is treated as **arguments** to the container.
+
+  * Example: `-- sleep 1000` → `args: ["sleep", "1000"]`
+  * To pass a single string as one argument, quote it: `-- "sleep 1000"`
+
+* Use `--command --` to explicitly define a custom command.
+* The `command` field overrides the container image’s **ENTRYPOINT**.
+* The `args` field overrides the container image’s **CMD**.
+* **Golden rule:**
+
+  * No `--command` → values go into `args` (override CMD).
+  * With `--command` → values go into `command` (override ENTRYPOINT).
+* To run multiple commands, you must start a shell:
+
+  ```bash
+  --command -- sh -c 'echo hello; sleep 3600'
+  ```
+
+  Otherwise, Kubernetes treats the string as a single command/argument.
+
 
 | Aspect                | `--port`                                   | `--expose`                                   |
 |-----------------------|--------------------------------------------|---------------------------------------------|
