@@ -81,11 +81,12 @@ kubectl run <> --image nginx -- -g "daemon off;"
 kubectl run <> --image busybox -- sleep 1000							# args: ["sleep", "1000"]
 kubectl run <> --image busybox -- "sleep 1000"							# args: ["sleep 1000"]
 kubectl run test --image busybox -- echo "hello sweetheart, ibtisam"	# args: ["echo", "hello sweetheart, ibtisam"]
-kubectl run <> --image kodekloud/webapp-color --dry-run=client -o yaml -- --color red # Parsed as two args: ["--color", "red"]
+k run <> --image kodekloud/webapp-color --dry-run=client -o yaml -- --color red # Parsed as two args: ["--color", "red"]
 
 # Override the Command and Arguments
-kubectl run nginx --image=nginx --restart=Never --command -- /bin/sh -c "echo Hello Sweetheart, Ibtisam; sleep 10"
-kubectl run <> --image kodekloud/webapp-color --dry-run=client -o yaml --command -- color red
+k run alpine-app --image alpine -- 'echo "jaan-e-mann"; sleep 3600' # wrong, you need to open the shell in order to multiple commands
+k run alpine-app --image alpine --command -- sh -c 'echo "jaan-e-mann"; sleep 3600' # correct
+k run nginx --image=nginx --restart=Never --command -- /bin/sh -c "echo Hello Sweetheart, Ibtisam; sleep 10"
 kubectl run <> --image busybox --dry-run client -o yaml --command -- sleep 1000			# wrong
 kubectl run <> --image busybox --dry-run=client -o yaml --command -- sleep 1000			# right
 
