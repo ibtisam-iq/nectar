@@ -176,8 +176,8 @@ root
 ### C. Using Ingress
   - If the IngressController is exposed via NodePort:
 
-    curl http://<node-ip>:<nodePort>
-    # Example: curl http://54.242.167.17:30080
+    curl http://<node-ip>:<nodePort>/<path>
+    # Example: curl http://54.242.167.17:30080/asia
 
   - If DNS is configured:
 
@@ -186,8 +186,8 @@ root
 
   - For testing with a specific host header (bypassing DNS):
 
-    curl -H "Host: local.ibtisam-iq.com" http://<node-ip>:<ingress-nodePort>
-    # Example: curl -H "Host: local.ibtisam-iq.com" http://54.242.167.17:30080
+    curl -H "Host: local.ibtisam-iq.com" http://<node-ip>:<ingress-nodePort>/<path>
+    # Example: curl -H "Host: local.ibtisam-iq.com" http://54.242.167.17:30080/asia
 ```
 
 ```yaml
