@@ -429,22 +429,8 @@ kubectl expose deployment my-app --port=80 --labels="app=my-app,env=prod"
 # Routes traffic to Pods with labels app=my-app and version=v2, overriding the Deployment’s default selector
 kubectl expose deployment my-app --port=80 --selector="app=my-app,version=v2"
 ```
-- `-f, --filename=[]`: Filename, directory, or URL to files identifying the resource to expose a service
-- `TYPE` → The type of the resource you want to expose e.g. `pod (po)`, `service (svc)`, `replicationcontroller (rc)`, `deployment (deploy)`, `replicaset (rs)`.
-- `NAME` → The specific name of the resource instance.
-- `--port=<port>` defines the port on the Service that clients will use to access it. This port is exposed by the Service and directs traffic to the underlying Pods. Mandatory!
-- `--target-port=''`: Name or number for the port on the container that the service should direct traffic to. (default: same as `--port`)
-- `--type=''`: ClusterIP, NodePort, LoadBalancer, or ExternalName. Default is 'ClusterIP'.
-- Kubernetes assigns an **internal cluster IP** to Services. However, if you want a specific external IP (e.g., a public IP from your cloud provider or a static IP in your network), you can set it manually using `--external-ip`.
-- Use `-f FILENAME` to specify a resource definition file instead of `TYPE NAME`.
-- If the pod doesn’t have a label, `kubectl expose` command wouldn’t work. `error: the pod has no labels and cannot be exposed.`
-- If omitted, `kubectl expose` automatically derives the selector from the exposed resource (e.g., a Deployment’s `spec.selector.matchLabels`). It’s only needed when you want to override the default selector.
-- `--cluster-ip=''` specifies the internal IP address for a **ClusterIP** Service. The Service’s `spec.clusterIP` field is set to this value, determining how it’s addressed within the cluster.
-- `--external-ip=''` specifies an additional external IP address (not managed by Kubernetes) that can accept traffic for the Service. This is added to the `spec.externalIPs` field.
-    - **Default:** No external IPs are assigned by default. External access is typically handled by Service types like **NodePort** or **LoadBalancer**, or by Ingress.
 
-
-1. Syntax
+**1. Syntax**
 
 ```bash
 kubectl expose (TYPE NAME | -f FILENAME) [--port=port] [--target-port=port] [--type=service-type] [flags]
@@ -454,7 +440,7 @@ kubectl expose (TYPE NAME | -f FILENAME) [--port=port] [--target-port=port] [--t
 * **NAME**: The specific resource instance to expose.
 * **-f, --filename**: Instead of TYPE/NAME, you can specify a file, directory, or URL containing the resource manifest.
 
-2. Service Port Configuration
+**2. Service Port Configuration**
 
 * **`--port=<port>`**
 
@@ -468,7 +454,7 @@ kubectl expose (TYPE NAME | -f FILENAME) [--port=port] [--target-port=port] [--t
   * Can be either a numeric value or a named port from the container spec.
   * Defaults to the same value as `--port` if not provided.
 
-3. Service Type
+**3. Service Type**
 
 * **`--type=<ClusterIP|NodePort|LoadBalancer|ExternalName>`**
 
@@ -477,7 +463,7 @@ kubectl expose (TYPE NAME | -f FILENAME) [--port=port] [--target-port=port] [--t
   * **LoadBalancer**: Creates an external load balancer (cloud provider support required).
   * **ExternalName**: Maps the Service to an external DNS name instead of a Pod.
 
-4. Cluster and External IPs
+**4. Cluster and External IPs**
 
 * **`--cluster-ip=<IP>`**
 
@@ -490,7 +476,7 @@ kubectl expose (TYPE NAME | -f FILENAME) [--port=port] [--target-port=port] [--t
   * These IPs are **not managed by Kubernetes** (they must already exist in your network).
   * Commonly used in bare-metal setups where a real load balancer is not available.
 
-5. Label and Selector Behavior
+**5. Label and Selector Behavior**
 
 * Kubernetes Services route traffic to Pods using a **label selector**.
 * By default, `kubectl expose` will automatically use the selector from the resource being exposed (e.g., a Deployment’s `spec.selector.matchLabels`).
@@ -501,7 +487,7 @@ kubectl expose (TYPE NAME | -f FILENAME) [--port=port] [--target-port=port] [--t
   ```
 * Use `--selector=<key=value>` if you want to override the default selector.
 
-6. Behavior of Repeated Flags
+**6. Behavior of Repeated Flags**
 
 * If you pass the same flag multiple times (e.g., multiple `--port` flags), **the last one overrides all previous values**.
 * Example:
@@ -512,7 +498,7 @@ kubectl expose (TYPE NAME | -f FILENAME) [--port=port] [--target-port=port] [--t
 
   Only port `443` is used in the final Service spec.
 
-7. Additional Notes
+**7. Additional Notes**
 
 * Services always get a **ClusterIP** unless explicitly configured otherwise.
 * External access is usually provided by **NodePort, LoadBalancer, or Ingress**, not by `ClusterIP`.
