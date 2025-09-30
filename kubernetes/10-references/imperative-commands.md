@@ -170,9 +170,17 @@ error: cannot specify multiple --image options and command
 
 ---
 
+## ReplicaSet & ReplicationController
+
+- NO imperative command
+- `kubectl rollout` also don't cover both of them
+
+---
+
 ## kubectl rollout
 
-Manage the rollout of one or many resources. Valid resource types include: deployments, daemonsets, statefulsets
+Manage the rollout of one or many resources. 
+- Valid resource types include: deployments, daemonsets, statefulsets
 
 ```bash
 kubectl rollout history (TYPE NAME | TYPE/NAME) -l, --selector --revision=0
