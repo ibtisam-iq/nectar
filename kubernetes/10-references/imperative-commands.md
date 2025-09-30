@@ -648,3 +648,33 @@ Available Commands:
 kubectl set image (-f FILENAME | TYPE NAME) CONTAINER_NAME_1=CONTAINER_IMAGE_1 ... CONTAINER_NAME_N=CONTAINER_IMAGE_N
 [options]
 ```
+
+---
+
+## kubectl exec
+
+```bash
+controlplane ~ ➜  k exec -it -n kube-system etcd-controlplane -- etcd --version
+etcd Version: 3.6.4
+Git SHA: 5400cdc
+Go Version: go1.23.11
+Go OS/Arch: linux/amd64
+
+controlplane ~ ➜  k exec -n kube-system etcd-controlplane -- etcd --version
+etcd Version: 3.6.4
+Git SHA: 5400cdc
+Go Version: go1.23.11
+Go OS/Arch: linux/amd64
+
+controlplane ~ ➜  k exec -it -n kube-system etcd-controlplane -- sh
+sh-5.2# exit                                                                                                                                                          
+exit
+
+controlplane ~ ➜  k exec -it -n kube-system kube-apiserver-controlplane -- kube-apiserver --version
+Kubernetes v1.34.0
+
+controlplane ~ ➜  k exec -it -n kube-system kube-apiserver-controlplane -- kube-apiserver -h
+Usage:
+  kube-apiserver [flags]
+
+```
