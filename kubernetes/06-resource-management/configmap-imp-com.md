@@ -125,7 +125,7 @@ kubectl create configmap my-config --from-env-file=path/to/foo.env --from-env-fi
 ### **Example:**
 If `foo.env` contains:
 ```
-DB_USER=root
+DB_USER=root                # Not yaml style    # DB_USER: root
 DB_PASS=secret
 ```
 The ConfigMap will be:
@@ -141,6 +141,41 @@ data:
 
 ### **Use Case:**
 Use this method when you want to **load multiple environment variables at once** from a `.env` file.
+
+
+### **Important Key Point**
+
+When you use **multiple `--from-env-file` flags**, Kubernetes processes them **in order**.
+
+👉 Example:
+
+```bash
+kubectl create configmap my-config \
+  --from-env-file=foo.env \
+  --from-env-file=bar.env
+```
+
+* `foo.env`
+
+  ```
+  APP=foo
+  PORT=8080
+  ```
+* `bar.env`
+
+  ```
+  APP=bar
+  ```
+
+Resulting ConfigMap:
+
+```yaml
+data:
+  APP: bar       # from bar.env (overrides foo.env)
+  PORT: "8080"   # from foo.env
+```
+
+✅ **Rule:** If the same key is defined in multiple env files, the value from the **last file specified** takes precedence.
 
 ---
 
