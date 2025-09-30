@@ -195,7 +195,7 @@ kubectl annotate deploy <> kubernetes.io/change-cause="Updated to nginx:1.29.1"
 Set a new size for a deployment, replica set, replication controller, or stateful set.
 
 ```bash
-kubectl scale [--resource-version=version] [--current-replicas=count] --replicas=COUNT -l, --selector='' --dry-run='none' (-f FILENAME | TYPE NAME)
+kubectl scale (-f FILENAME | TYPE NAME) [--resource-version=version] [--current-replicas=count] --replicas=COUNT -l, --selector='' --dry-run='none' 
 ```
 
 ---
@@ -210,7 +210,8 @@ kubectl create cronjob NAME --image=image --schedule='0/5 * * * ?' \			# schedul
     --restart \     			# supported values: OnFailure, Never
     -- [COMMAND] [args...] [flags] [options]
 
-k create cj nautilus --image nginx:latest --restart OnFailure --schedule "*/9 * * * *" -- "echo Welcome!" 	# "" important
+k create cj nautilus --image nginx:latest --restart OnFailure --schedule "*/9 * * * *" -- "echo Welcome!" 	# wrong
+k create cj nautilus --image nginx:latest --restart OnFailure --schedule "*/9 * * * *" -- echo Welcome! 	# correct
 ```
 
 In commands like `kubectl create cronjob`, the format `-- [COMMAND] [args...] [flags] [options]` dictates what runs inside the container:
