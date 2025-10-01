@@ -90,7 +90,6 @@ command:
   - -c
 args:
   - echo 'Hello: $USER' && date
-
 ```
 **Case # 2:** Invoke the shell if there is special request to run the command in the shell, and there is just one command to pass.
 ```bash
@@ -197,10 +196,17 @@ spec:
 
 Misconfigurations often stem from quoting, placement, or defaults.
 
+```bash
+# ❌ Incorrect
+command: ['sh', '-c', 'echo $PWD', 'sleep 3600']
+```
+⚠️ Only the first string after -c will be treated as script.
+✅ Fix: Combine all into one string using `&&`, `;`, or multiline string (`|`).
+
 | Issue                          | Cause                                            | Resolution Example |
 |--------------------------------|--------------------------------------------------|--------------------|
 | Env Var Not Expanding         | Single quotes block shell (`'$ABC'` prints literal) | `"echo $ABC && sleep 3600"` (double/no quotes) |
-| Multi-Token After `-c` Ignored| Shell takes only first string post-`-c`         | Correct: `["sh", "-c", "cmd1 && cmd2"]` Wrong: `["sh", "-c", "cmd1", "cmd2"]`|
+| Multi-Token After `-c` Ignored| Shell takes only first string post-`-c`         | Correct: `["sh", "-c", "cmd1 && cmd2"]`|
 | No `-c` for Shell             | Interprets script as filename                   | Always: `sh -c "script"` |
 | Python `-c` Misplaced         | Code as positional arg (unreliable)             | `args: ["-c", "code"]` |
 | CLI Without `--`              | `kubectl` consumes tokens                       | `--image=img -- cmd arg` |
