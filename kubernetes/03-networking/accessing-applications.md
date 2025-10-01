@@ -1,6 +1,6 @@
 # 📡 Accessing Applications in a Kubernetes Cluster
 
-This guide provides a comprehensive overview of methods to access applications running in a Kubernetes cluster, categorized by whether access originates from **inside the cluster** (e.g., nodes or Pods) or **outside the cluster** (e.g., a local machine or external network). It accounts for different Kubernetes cluster types—**Minikube**, **Kind**, and **kubeadm**—and includes practical examples, considerations, and troubleshooting tips for each method. The guide is designed for developers, administrators, and CKA exam candidates working in local, cloud, or hybrid environments.
+This guide provides a comprehensive overview of methods to access applications running in a Kubernetes cluster, categorized by whether access originates from **inside the cluster** (e.g., nodes or Pods) or **outside the cluster** (e.g., a local machine or external network). The guide is designed for developers, administrators, and CKA exam candidates working in local, cloud, or hybrid environments.
 
 ---
 
