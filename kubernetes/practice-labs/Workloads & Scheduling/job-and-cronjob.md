@@ -246,7 +246,7 @@ cronjob.batch/simple-node-job created
 apiVersion: batch/v1
 kind: CronJob
             command:
-            - /bin/sh
+            - sh
             - -c
             - ps -eaf
 ```
