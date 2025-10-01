@@ -317,7 +317,7 @@ spec:                         # --> POD-LEVEL SPEC STARTS HERE
   - name: myvolume
     emptyDir: {}
   imagePullSecrets:            # Pod-level (secret for private registry)
-    - ibtisam-secret
+    - name: ibtisam-secret
   containers:                  # --> CONTAINER LIST STARTS HERE
   - name: mycontainer          # Container-level (required)
     image: nginx:latest        # Container-level (required)
