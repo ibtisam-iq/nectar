@@ -151,36 +151,11 @@ These commands provide direct access to nodes or Pods for running the above meth
 
 ## 4. Summary of Access Methods
 
-| **Method**           | **Access From**         | **Best For**                          | **Production-Ready?** | **Cluster Support**                       |
-|-----------------------|-------------------------|---------------------------------------|-----------------------|-------------------------------------------|
-| **Direct `curl`**     | Node/Control Plane      | Low-level IP-based testing            | No                    | Minikube, Kind, kubeadm                   |
-| **Temporary Pod**     | Inside Cluster          | DNS/Service resolution testing        | No                    | Minikube, Kind, kubeadm                   |
-| **NodePort**          | Local/External          | Simple external access                | Limited               | Minikube, Kind, kubeadm                   |
-| **Port Forwarding**   | Local Machine           | Developer testing                     | No                    | Minikube, Kind, kubeadm                   |
-| **Ingress**           | Local/External          | HTTP apps with DNS                    | Yes                   | Minikube (with addon), Kind (with setup), kubeadm |
-| **LoadBalancer**      | Local/External          | Cloud-based production access         | Yes                   | Minikube (with tunnel), Kind (with MetalLB), kubeadm (cloud) |
-
----
-
-## 5. Additional Considerations and Best Practices
-
-- **Security**:
-  - Avoid NodePort in production; use Ingress with TLS or LoadBalancer for secure external access.
-  - Restrict node access with cloud security groups (e.g., AWS SG) or network policies.
-  - Use RBAC to limit `kubectl` access for port forwarding or Pod execution.
-- **Firewall and Networking**:
-  - Ensure cloud provider firewalls allow traffic on NodePort, Ingress, or LoadBalancer ports.
-  - For local clusters (Minikube, Kind), check host firewall settings or Docker network configurations.
-- **DNS**:
-  - For Ingress, configure DNS records (e.g., AWS Route 53) or use `/etc/hosts` for local testing (e.g., `127.0.0.1 local.ibtisam-iq.com`).
-  - Verify cluster DNS with `kubectl run -it --image=busybox --rm dns-test -- nslookup <service-name>.<namespace>.svc.cluster.local`.
-- **Cluster Type Considerations**:
-  - **Minikube**: Ideal for local development; limited to single-node. Use addons for Ingress and `minikube tunnel` for LoadBalancer.
-  - **Kind**: Suited for CI/CD and multi-node testing; requires manual Ingress or MetalLB setup for advanced features.
-  - **kubeadm**: Flexible for cloud or bare-metal; requires manual configuration for Ingress and cloud integration for LoadBalancer.
-- **Performance**:
-  - Port forwarding is lightweight but single-user; avoid for high-traffic scenarios.
-  - Ingress and LoadBalancer scale better for production workloads.
-
----
-cross different cluster types and scenarios. For further assistance, consult the Kubernetes documentation or reach out for specific troubleshooting.
+| **Method**           | **Access From**         | **Best For**                          | **Production-Ready?** |
+|-----------------------|-------------------------|---------------------------------------|-----------------------|
+| **Direct `curl`**     | Node/Control Plane      | Low-level IP-based testing            | No                    |
+| **Temporary Pod**     | Inside Cluster          | DNS/Service resolution testing        | No                    |
+| **NodePort**          | Local/External          | Simple external access                | Limited               |
+| **Port Forwarding**   | Local Machine           | Developer testing                     | No                    |
+| **Ingress**           | Local/External          | HTTP apps with DNS                    | Yes                   |
+| **LoadBalancer**      | Local/External          | Cloud-based production access         | Yes                   |
