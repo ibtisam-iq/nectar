@@ -3,9 +3,10 @@
 * **Verbs + Namespace →** `Role + RoleBinding`
 * **Verbs + Cluster/all namespaces →** `ClusterRole + ClusterRoleBinding`
   
+  
 * **Existing ClusterRole/Role mentioned →** Just create **binding**
-* **If ServiceAccount →** Use `kind: ServiceAccount` in binding
-* **If User →** Use `kind: User` in binding
+  * **If ServiceAccount →** Use `kind: ServiceAccount` in binding
+  * **If User →** Use `kind: User` in binding
 * **Binding rule shortcut:**
 
   * Role ↔ RoleBinding (namespace only)
