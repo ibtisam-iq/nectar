@@ -1,3 +1,22 @@
+### ✅ Mental Formula for HTTPRoute
+
+* **parentRefs → who listens (Gateway + listener)**
+* **rules → collection of conditions + destinations**
+
+  * **matches → when (path, headers, method, queryParams, etc.)**
+  * **backendRefs → where to send traffic: destination (Services/ports, with optional weights)**
+  * **filters**
+
+- Only `backendRefs` (all traffic): service name and its port is given only.
+  - That means you don’t need to specify path: `/`, unless the exam question explicitly says “`only /`”.
+- Multiple backends (traffic split with weight), path is given usually `/` nor not given.
+  
+- Only `matches` (rare, often with filters)
+- Path-based routing: service, its port ... and path is also provided. `type: PathPrefix`, `value: /login`
+- Header-based routing: service, its port ... and header is provided. e.g. `type: Exact`, `name: X-Env`, `value: prod`
+- Combination (Path + Header)
+---
+
 ## Q1
 Create an **HTTPRoute** named `web-route` in the `nginx-gateway` namespace that directs traffic from the `web-gateway` to a backend service named `web-service` on port 80 and ensures that the route is applied only to requests with the hostname `cluster2-controlplane`.
 
@@ -45,20 +64,20 @@ metadata:
   namespace: nginx-gateway
 spec:
   hostnames:
-  - cluster2-controlplane                   # not added, so the question is marked wrong.
+  - cluster2-controlplane      # not added, so the question is marked wrong.
   parentRefs:
   - name: web-gateway
     namespace: nginx-gateway
   rules:
   - matches:
-    - path:
+    - path:                    # Since the question does not mention a path, you can skip the / path match and keep the rule generic.
         type: PathPrefix
-        value: /
+        value: /          
     backendRefs:
     - name: web-service
       port: 80
 
-cluster2-controlplane ~ ➜  curl http://cluster2-controlplane:30080
+cluster2-controlplane ~ ➜  curl http://cluster2-controlplane:30080/
 <!DOCTYPE html>
 <html>
 </body>
