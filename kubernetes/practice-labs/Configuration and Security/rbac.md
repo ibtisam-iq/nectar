@@ -21,7 +21,7 @@ role.rbac.authorization.k8s.io/sa-creatorr created
 
 There are existing Namespaces `ns1` and `ns2`. Create ServiceAccount `pipeline` in both Namespaces.
 
-These SAs should be allowed to `view` almost everything in the whole cluster. You can use the default ClusterRole `view` for this.
+These SAs should be allowed to `view` almost everything in the *whole cluster*. You can use the default ClusterRole `view` for this.
 
 These SAs should be allowed to `create` and `delete` Deployments in their Namespace.
 
