@@ -1,3 +1,18 @@
+## 🔑 RBAC Quick Indicators
+
+* **Namespace + verbs →** `Role + RoleBinding`
+* **Cluster/all namespaces + verbs →** `ClusterRole + ClusterRoleBinding`
+* **Existing ClusterRole mentioned →** Just create **binding**
+* **Exclusion (e.g., not kube-system) →** Bind separately per allowed namespace
+* **If ServiceAccount →** Use `kind: ServiceAccount` in binding
+* **If User →** Use `kind: User` in binding
+* **Binding rule shortcut:**
+
+  * Role ↔ RoleBinding (namespace only)
+  * ClusterRole ↔ ClusterRoleBinding (cluster/global)
+  * ClusterRole ↔ RoleBinding (cluster perms in one namespace)
+
+
 ## Q1
 
 Create a new role named “sa-creator” that will allow creating service accounts in the default namespace.
@@ -26,6 +41,13 @@ These SAs should be allowed to `view` almost everything in the *whole cluster*. 
 These SAs should be allowed to `create` and `delete` Deployments in their Namespace.
 
 Verify everything using `kubectl auth can-i` .
+
+**Indicators**
+
+* ServiceAccount mentioned → must create SA in both namespaces.
+* Needs **view across whole cluster** → ClusterRoleBinding with default `view`.
+* Needs **create/delete deployments in their own namespace** → Role (per namespace) + RoleBinding.
+
 ```bash
 controlplane:~$ k create sa pipeline -n ns1 
 serviceaccount/pipeline created
@@ -77,6 +99,13 @@ k auth can-i list secrets --as system:serviceaccount:ns2:pipeline -A # NO (defau
 There is existing Namespace `applications`.
 User `smoke` should be allowed to `create` and `delete` `Pods, Deployments and StatefulSets` in Namespace `applications`.
 User smoke should have `view` permissions (like the permissions of the default `ClusterRole` named `view` ) in all Namespaces but not in `kube-system`.
+
+**Indicators**
+
+* User `smoke` mentioned → need binding with `kind: User`.
+* Needs `create/delete` Pods, Deployments, StatefulSets in `applications` → Role + RoleBinding.
+* Needs `view` in all namespaces (except kube-system) → use existing ClusterRole `view` + RoleBinding in each namespace except `kube-system`.
+
 
 ```bash
 controlplane:~$ k create role abc --verb=create,delete --resource=pods,deployments,statefulsets -n applications 
