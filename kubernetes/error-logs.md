@@ -37,6 +37,7 @@ stream-deployment   0/0     0            0           4m25s   # replica = 0
 black-cka25-trb     1/1     0            1           76s     # Progressing    Unknown  DeploymentPaused
 
 controlplane:~$ k edit deployments.apps postgres-deployment  # add  --env=POSTGRES_PASSWORD=<any-value> # Just keeps restarting because of Postgres startup failure
+                                                             # MYSQL_ROOT_PASSWORD for MYSQL
 cluster3-controlplane ~ ➜  curl http://cluster3-controlplane:31020
     <h3> Failed connecting to the MySQL database. </h3>
 <h2> Environment Variables: DB_Host=ClusterIP svc name <mysql-svc-wl05>; DB_Database=<optional>; DB_User=<mandatory>; DB_Password=<mandatory>;
