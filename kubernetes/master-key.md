@@ -18,9 +18,8 @@ set expandtab
 set tabstop=2
 set shiftwidth=2
 k config set-context --current --namespace <tomcat-namespace-devops> # set the ns permanently
-```
+kubectl config set-context $(kubectl config current-context) --namespace=prod
 
-```bash
 --control-plane-endpoint: Stable API server endpoint for HA (supports DNS or load balancer).
 --upload-certs: Shares certificates for additional control planes.
 --pod-network-cidr: Sets Calico’s pod IP range (10.244.0.0/16).
@@ -37,28 +36,121 @@ k run test-pod --image busybox --restart=Never -it -- sh
     nslookup pod-id-address.namespace.pod.cluster.local
 
 openssl x509 -in ibtisam.crt -text -noout
-```
 
-| Scope              | Fields                                                                             |
-| ------------------ | ---------------------------------------------------------------------------------- |
-| **Pod Only**       | `fsGroup`, `fsGroupChangePolicy`, `supplementalGroups`, `supplementalGroupsPolicy` |
-| **Container Only** | `capabilities`, `allowPrivilegeEscalation`, `privileged`, `readOnlyRootFilesystem` |
-| **Both**           | `runAsUser`, `runAsGroup`, `seccompProfile`, `appArmorProfile`, `seLinuxOptions`, `runAsNonRoot`   |
-
-```bash
 kubectl port-forward svc/my-service 8080:80 # <local-port>:<remote-port> # open in browser: http://localhost:8080
 
 service-name.dev.svc.cluster.local
-
-kubectl config set-context $(kubectl config current-context) --namespace=prod
+<section-hostname>.<subdomain>.<namespace>.svc.cluster.local
 
 node01 ~ ➜  cat /var/lib/kubelet/config.yaml | grep -i staticPodPath:
 staticPodPath: /etc/kubernetes/manifestss
 
 sudo ls /opt/cni/bin/
 sudo ls /etc/cni/net.d/
+
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+
+kubeadm init --help
+kubeadm init --kubernetes-version=1.33.3 --pod-network-cidr 192.168.0.0/16 --ignore-preflight-errors=NumCPU
+cp /etc/kubernetes/admin.conf /root/.kube/config
+kubectl version
+kubectl get pod -A
+kubeadm token create --print-join-command
+ssh node-summer
+    kubeadm join 172.30.1.2:6443 --token ...
+kubeadm certs check-expiration
+kubeadm certs renew <>
+kubeadm upgrade plan
+sudo openssl x509 -in /etc/kubernetes/pki/apiserver.crt -noout -text
+sudo systemctl list-unit-files --type service --all | grep kube
+
+controlplane ~ ➜  echo '$USER' && sleep 5
+$USER
+controlplane ~ ➜  echo $USER && sleep 5
+root
+controlplane ~ ➜  echo "$USER && sleep 5"
+root && sleep 5
+controlplane ~ ➜  echo "$USER" && sleep 5
+root
+
+# Access a Pod directly
+curl http://<pod-ip>:<container-port>
+# Example: curl http://10.244.0.5:8081
+
+# Access a Service via ClusterIP
+curl http://<service-cluster-ip>:<service-port>
+# Example: curl http://10.96.0.15:80
+
+# Launch a temporary Pod with an interactive shell
+kubectl run test --image=busybox -it --rm --restart=Never -- sh
+
+  # Inside the Pod shell, test Service access
+  wget -qO- <service-name>.<namespace>.svc.cluster.local:<port>
+  # Example: wget amor.amor.svc.cluster.local:80
+
+  # wget 172-17-2-2.default.pod.cluster.local
+
+# From a local machine or external network:
+curl http://<node-public-ip>:<nodePort>
+# Example: curl http://54.242.167.17:30000
+
+# From the node itself (via SSH):
+curl http://localhost:<nodePort>
+curl http://<private-node-ip>:<nodePort>
+# Example: curl http://172.31.29.71:30000
+
+# Forward to a Service
+kubectl port-forward svc/<service-name> <local-port>:<service-port>
+# Example: kubectl port-forward svc/amor 8080:80
+
+# Forward to a Pod
+kubectl port-forward pod/<pod-name> <local-port>:<pod-port>
+# Example: kubectl port-forward pod/amor-pod 8080:80
+
+# On your local machine, access the application
+curl http://localhost:8080
+# Or open in browser: http://localhost:8080
+
+# If the IngressController is exposed via NodePort:
+curl http://<node-ip>:<nodePort>/<path>
+# Example: curl http://54.242.167.17:30080/asia
+
+# If DNS is configured:
+curl http://<domain-name>
+# Example: curl http://local.ibtisam-iq.com
+
+# For testing with a specific host header (bypassing DNS):
+curl -H "Host: local.ibtisam-iq.com" http://<node-ip>:<ingress-nodePort>/<path>
+# Example: curl -H "Host: local.ibtisam-iq.com" http://54.242.167.17:30080/asia
 ```
+
 ```yaml
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - '*'
+  verbs:
+  - '*'
+
+rules:
+- apiGroups:
+  - ""
+  - apps
+  - batch
+  - extensions
+  resources:
+  - '*'
+  verbs:
+  - '*'
+
+env:
+    - name:
+      value or valueFrom
+
 spec:
   suspend: true                   # Starts the Job in a suspended state (default: false)
   completions: 12                 # Default: 1
@@ -82,134 +174,11 @@ spec:
       batch.kubernetes.io/controller-uid: e9892e6c-33c0-4dc8-a6ff-d557b9d7a67c
   suspend: false
 ```
+
 - `key=value` then operator: `Equal`
 - If only the `key`, and not `value` then operator: `Exists`
 - Affinity: You can use `In`, `NotIn`, `Exists`, `DoesNotExist`, `Gt` and `Lt`.
 - Guaranteed: values of requests must equal limits, Burstable: At least one resource request or limit, BestEffort: No requests or limits are defined in any container 
-```yaml
-env:
-    - name:
-      value or valueFrom
-```
-```bash
-cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
-overlay
-br_netfilter
-EOF
-```
-
-```bash
-kubeadm init --help
-kubeadm init --kubernetes-version=1.33.3 --pod-network-cidr 192.168.0.0/16 --ignore-preflight-errors=NumCPU
-cp /etc/kubernetes/admin.conf /root/.kube/config
-kubectl version
-kubectl get pod -A
-kubeadm token create --print-join-command
-ssh node-summer
-    kubeadm join 172.30.1.2:6443 --token ...
-kubeadm certs check-expiration
-kubeadm certs renew <>
-kubeadm upgrade plan
-sudo openssl x509 -in /etc/kubernetes/pki/apiserver.crt -noout -text
-sudo systemctl list-unit-files --type service --all | grep kube
-```
-```bash
-controlplane ~ ➜  echo '$USER' && sleep 5
-$USER
-controlplane ~ ➜  echo $USER && sleep 5
-root
-controlplane ~ ➜  echo "$USER && sleep 5"
-root && sleep 5
-controlplane ~ ➜  echo "$USER" && sleep 5
-root
-```
-
-
-```bash
-## 1. Accessing from **Inside the Cluster**
-### A. Direct `curl` from a Node or Control Plane
-  # Access a Pod directly
-  curl http://<pod-ip>:<container-port>
-  # Example: curl http://10.244.0.5:8081
-
-  # Access a Service via ClusterIP
-  curl http://<service-cluster-ip>:<service-port>
-  # Example: curl http://10.96.0.15:80
-### B. From a Temporary Pod
-  # Launch a temporary Pod with an interactive shell
-  kubectl run test --image=busybox -it --rm --restart=Never -- sh
-
-  # Inside the Pod shell, test Service access
-  wget -qO- <service-name>.<namespace>.svc.cluster.local:<port>
-  # Example: wget amor.amor.svc.cluster.local:80
-
-  # wget 172-17-2-2.default.pod.cluster.local
-
-## 2. Accessing from **Outside the Cluster**
-
-### A. Using NodePort
-  - From a local machine or external network:
-    ```bash
-    curl http://<node-public-ip>:<nodePort>
-    # Example: curl http://54.242.167.17:30000
-    ```
-  - From the node itself (via SSH):
-
-    curl http://localhost:<nodePort>
-    curl http://<private-node-ip>:<nodePort>
-    # Example: curl http://172.31.29.71:30000
-
-### B. Port Forwarding
-
-  # Forward to a Service
-  kubectl port-forward svc/<service-name> <local-port>:<service-port>
-  # Example: kubectl port-forward svc/amor 8080:80
-
-  # Forward to a Pod
-  kubectl port-forward pod/<pod-name> <local-port>:<pod-port>
-  # Example: kubectl port-forward pod/amor-pod 8080:80
-
-  # On your local machine, access the application
-  curl http://localhost:8080
-  # Or open in browser: http://localhost:8080
-
-### C. Using Ingress
-  - If the IngressController is exposed via NodePort:
-
-    curl http://<node-ip>:<nodePort>/<path>
-    # Example: curl http://54.242.167.17:30080/asia
-
-  - If DNS is configured:
-
-    curl http://<domain-name>
-    # Example: curl http://local.ibtisam-iq.com
-
-  - For testing with a specific host header (bypassing DNS):
-
-    curl -H "Host: local.ibtisam-iq.com" http://<node-ip>:<ingress-nodePort>/<path>
-    # Example: curl -H "Host: local.ibtisam-iq.com" http://54.242.167.17:30080/asia
-```
-
-```yaml
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - '*'
-  verbs:
-  - '*'
-
-rules:
-- apiGroups:
-  - ""
-  - apps
-  - batch
-  - extensions
-  resources:
-  - '*'
-  verbs:
-  - '*'
-```
 
 - `vi ~/.bashrc` → export KUBECONFIG=/root/my-kube-config → `source ~/.bashrc`
 - Core K8s controllers (HPA, VPA, PDB) → same namespace only → no namespace allowed inside targetRef.
@@ -218,4 +187,7 @@ rules:
 - `busybox` has a default entrypoint of `/bin/sh`, no `CMD` and a default command of `sh -c`.
 - NGINX web server default location is at `/usr/share/nginx/html`.
 - while doing curl inside the pod, curl <hostname> is mostly the service name (ClusterIP).
+- `<section-hostname>.<subdomain>.<namespace>.svc.cluster.local`
+
+
 
