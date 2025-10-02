@@ -1,3 +1,23 @@
+# 🚀 Kubernetes Services – Troubleshooting Rules
+
+## 🔹 1. No Endpoints Assigned
+
+* Service is created, but:
+
+  * Pods don’t have the **labels** matching the Service’s `selector`.
+  * Or Service `selector` itself is wrong.
+* Fix: Ensure **`spec.selector` matches Pod labels**.
+
+## 🔹 2. Wrong Port Configuration
+
+* **Endpoint is present**, but Service doesn’t forward traffic because:
+
+  * Wrong **port number** (e.g., using `8080` instead of Pod’s `80`).
+  * Wrong **protocol** (e.g., `UDP` instead of `TCP`).
+* Fix: Align Service `port/targetPort` with Pod `containerPort`.
+
+---
+
 ## Q1 Pod doesn't have label
 
 ```bash
