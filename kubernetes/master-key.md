@@ -191,5 +191,6 @@ spec:
 - `--serviceaccount=namespace:serviceaccountname`
 - To enable an API `v1alpha1`, add the `--runtime-config=rbac.authorization.k8s.io/v1alpha1` option to the kube-apiserver.yaml file
 - If the exam asks about **CoreDNS config backup** → you back up the ConfigMap. `k get cm coredns -n kube-system -o yaml > /opt/coredns_backup.yaml`
+- Update Cluster Domain → `k -n kube-system edit cm coredns` → `k -n kube-system rollout restart deploy coredns`
 
 
