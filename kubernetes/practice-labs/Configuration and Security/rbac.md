@@ -1,5 +1,24 @@
 ## Q1
 
+Create a new role named “sa-creator” that will allow creating service accounts in the default namespace.
+```bash
+controlplane:~$ k create sa sa-creator
+serviceaccount/sa-creator created
+
+controlplane:~$ k api-resources | grep -i serviceacc
+serviceaccounts                     sa           v1                                true         ServiceAccount
+
+controlplane:~$ k create role sa-creator --verb create --resource serviceaccounts
+role.rbac.authorization.k8s.io/sa-creator created
+
+controlplane:~$ k create role sa-creatorr --verb create --resource sa
+role.rbac.authorization.k8s.io/sa-creatorr created
+```
+
+---
+
+## Q2
+
 There are existing Namespaces `ns1` and `ns2`. Create ServiceAccount `pipeline` in both Namespaces.
 
 These SAs should be allowed to `view` almost everything in the whole cluster. You can use the default ClusterRole `view` for this.
@@ -53,7 +72,7 @@ k auth can-i list secrets --as system:serviceaccount:ns2:pipeline -A # NO (defau
 ```
 
 ---
-## Q2
+## Q3
 
 There is existing Namespace `applications`.
 User `smoke` should be allowed to `create` and `delete` `Pods, Deployments and StatefulSets` in Namespace `applications`.
@@ -112,19 +131,4 @@ k auth can-i list pods --as smoke -n kube-system # NO
 
 ---
 
-## Q3
 
-Create a new role named “sa-creator” that will allow creating service accounts in the default namespace.
-```bash
-controlplane:~$ k create sa sa-creator
-serviceaccount/sa-creator created
-
-controlplane:~$ k api-resources | grep -i serviceacc
-serviceaccounts                     sa           v1                                true         ServiceAccount
-
-controlplane:~$ k create role sa-creator --verb create --resource serviceaccounts
-role.rbac.authorization.k8s.io/sa-creator created
-
-controlplane:~$ k create role sa-creatorr --verb create --resource sa
-role.rbac.authorization.k8s.io/sa-creatorr created
-```
