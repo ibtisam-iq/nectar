@@ -1,4 +1,4 @@
-### ✅ Mental Formula for HTTPRoute
+## Mental Formula for HTTPRoute
 
 * **parentRefs → who listens (Gateway + listener)**
 * **rules → collection of conditions + destinations**
@@ -6,17 +6,65 @@
   * **matches → when (path, headers, method, queryParams, etc.)**
   * **backendRefs → where to send traffic: destination (Services/ports, with optional weights)**
   * **filters**
+
 ---
-- Only `backendRefs` (all traffic): service name and its port is given only.
-  - That means you don’t need to specify path: `/`, unless the exam question explicitly says “`only /`”.
-  - Since the curl test is `http://cluster2-controlplane:30080` → you only need **hostnames: ["cluster2-controlplane"]**. You don’t need path: `/` here.
-  - `curl http://cluster2-controlplane:30080` or `curl -H "host: cluster2-controlplane" http://<node-IP>:<nodePort-gateway>`
-- Multiple backends (traffic split with weight), path is given usually `/` nor not given.
-  
-- Only `matches` (rare, often with filters)
-- Path-based routing: service, its port ... and path is also provided. `type: PathPrefix`, `value: /login`
-- Header-based routing: service, its port ... and header is provided. e.g. `type: Exact`, `name: X-Env`, `value: prod`
-- Combination (Path + Header)
+
+## 🚦 Gateway API Exam Key Indicators
+
+### 1️⃣ **BackendRefs Only (default routing)**
+
+* **When to use:** Only service name + port are provided, no path/header conditions.
+* **Example**: All other traffic should continue to be routed to `web-service` also on port `8080`.
+* **Notes:**
+
+  * Don’t add `path: "/"` unless explicitly required.
+  * If `curl http://cluster2-controlplane:30080` →
+
+    * Add `hostnames: ["cluster2-controlplane"]`.
+    * No path needed.
+  * Test can also be:
+
+    ```bash
+    curl http://cluster2-controlplane:30080
+    # or
+    curl -H "host: cluster2-controlplane" http://<node-IP>:<nodePort>
+    ```
+
+### 2️⃣ **Multiple Backends (Traffic Split)**
+
+* **When to use:** Multiple services with weighted traffic.
+* Path usually `/` or unspecified.
+
+### 3️⃣ **Matches Only**
+
+* **When to use:** Rare; exam sometimes gives filters/conditions without backends changing.
+* **Notes:** Focus on exact match conditions like `method` or `queryParams`.
+
+### 4️⃣ **Path-based Routing**
+
+* **When to use:** Path is explicitly provided (`/`, `/login`, `/app`, etc.).
+  * Use `type: PathPrefix`.
+  * `backendRef` is usually provided.
+
+### 5️⃣ **Header-based Routing**
+
+* **When to use:** Header condition is explicitly given.
+* `backendRef` is usually provided.
+
+### 6️⃣ **Combination (Path + Header)**
+
+* **When to use:** Both path and header are given.
+* Multiple conditions can be combined under one `matches` rule.
+* `backendRef` is usually provided.
+
+✅ **Exam Tip Shortcut:**
+
+* If only **service+port** → backendRefs only.
+* If **curl has hostname** → add it to `hostnames`.
+* If **curl has path** → add `matches.path`.
+* If **headers mentioned** → add `matches.headers`.
+* If **multiple backends** → add weighted split.
+
 ---
 
 ## Q1
