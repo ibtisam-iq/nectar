@@ -6,9 +6,11 @@
   * **matches → when (path, headers, method, queryParams, etc.)**
   * **backendRefs → where to send traffic: destination (Services/ports, with optional weights)**
   * **filters**
-
+---
 - Only `backendRefs` (all traffic): service name and its port is given only.
   - That means you don’t need to specify path: `/`, unless the exam question explicitly says “`only /`”.
+  - Since the curl test is `http://cluster2-controlplane:30080` → you only need **hostnames: ["cluster2-controlplane"]**. You don’t need path: `/` here.
+  - `curl http://cluster2-controlplane:30080` or `curl -H "host: cluster2-controlplane" http://<node-IP>:<nodePort-gateway>`
 - Multiple backends (traffic split with weight), path is given usually `/` nor not given.
   
 - Only `matches` (rare, often with filters)
