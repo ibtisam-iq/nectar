@@ -188,6 +188,7 @@ spec:
 - NGINX web server default location is at `/usr/share/nginx/html`.
 - while doing curl inside the pod, curl <hostname> is mostly the service name (ClusterIP).
 - `<section-hostname>.<subdomain>.<namespace>.svc.cluster.local`
+- `--serviceaccount=namespace:serviceaccountname`
 
 
 
