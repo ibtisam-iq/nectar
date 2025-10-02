@@ -1,3 +1,45 @@
+# 🎯 Affinity / Anti-Affinity – Quick Rules
+
+## 🔹 1. Node Affinity
+
+* Mentions **node(s)** → it’s node affinity.
+* Look for `nodeSelectorTerms` + `matchExpressions`.
+* Example:
+
+  * `"run only on node with label disktype=ssd"`.
+
+## 🔹 2. Pod Affinity
+
+* Mentions **pods / pod labels** → it’s pod affinity.
+* Schedule **close to** other pods (same node / topology key).
+* Example:
+
+  * `"run with pods having app=frontend"`.
+
+## 🔹 3. Pod Anti-Affinity
+
+* Mentions **pods but keep apart** → pod anti-affinity.
+* Example:
+
+  * `"don’t run on same node as app=backend"`.
+* Key:
+
+  * `podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution` → **strict rule** (forces 1 per node).
+
+## 🔹 4. Preferred vs Required
+
+* **preferred** → soft rule (scheduler tries, but not guaranteed).
+* **required** → hard rule (scheduler must obey).
+
+✅ **Exam Trick**:
+
+* If question says *"spread pods across nodes"* → **podAntiAffinity (required)**.
+* If question says *"co-locate pods with X"* → **podAffinity**.
+* If question says *"only on certain nodes"* → **nodeAffinity**.
+* If questions says *prefer.. perferable*  → **preferred** → soft rule
+
+---
+
 ## Q1
 
 There is a Pod YAML provided at `/root/hobby.yaml`. That Pod should be **preferred** to be only scheduled on Nodes where Pods with label `level=restricted` are running. For the topologyKey use `kubernetes.io/hostname`. There are no taints on any Nodes which means no tolerations are needed.
