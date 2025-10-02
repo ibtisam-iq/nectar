@@ -46,6 +46,10 @@ curl http://<loadbalancer-IP>/<path>
   (This is the **most exam-safe command**.)
 
 ---
+- Run `k logs -n ingress-nginx <ingress-nginx-controller-pod` & confirm `--default-backend-service` is pointing to the correct namespace for `default-backend-service` in `ingress-nginx-controller` deployment.
+- `default-backend-service` may or may not share same namespace with ingress, however, `metadata.name` and `spec.rules.http.paths.backend.service` must share the same namespace.
+- `spec.rules.http.paths.backend.servive.port` just mentions port number, not the protocol.
+---
 
 ## Q1 
 We have deployed an application in the `green-space` namespace. we also deployed the ingress controller and the ingress resource. However, currently, the **ingress controller is not working** as expected. Inspect the ingress definitions and troubleshoot the issue so that the services are accessible as per the ingress resource definition. Also, update the path for the `app-wear-service` to `/app-wear` and `app-video-service` to `/app-video`.
