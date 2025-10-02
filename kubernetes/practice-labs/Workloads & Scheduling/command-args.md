@@ -1,5 +1,7 @@
 
 `--command -- sh -c "..."` → lets you run multiple shell commands in sequence.
+- `k describe` tells if command is wrong
+- `k logs` tells if args or its any flag is wrong.
 
 ```bash
 k run alpine-app --image alpine -- 'echo "Main application is running"; sleep 3600'    # wrong, you need to open the shell in order to multiple commands
