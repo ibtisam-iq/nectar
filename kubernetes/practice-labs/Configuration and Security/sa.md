@@ -1,7 +1,35 @@
+### 📌 ServiceAccount Token Mounting Rules
+
+* **Default behavior**
+
+  * `automountServiceAccountToken` is **true** by default (even if not written).
+  * So any Pod using that SA automatically mounts a token under `/var/run/secrets/kubernetes.io/serviceaccount/`.
+
+### Case 1: `automountServiceAccountToken: false` in **ServiceAccount YAML**
+
+* All Pods using this SA will **NOT get a token mounted**,
+  **unless** the Pod **overrides** it.
+
+### Case 2: Pod spec also has `automountServiceAccountToken`
+
+* **Pod spec overrides SA spec.**
+
+  * Pod = `true` → token mounted, even if SA = `false`.
+  * Pod = `false` → no token, even if SA = `true`.
+
+### 🔑 Quick Effects
+
+* **SA false + Pod default (not set)** → No token.
+* **SA false + Pod true** → Token mounted.
+* **SA true (default) + Pod false** → No token.
+* **SA true (default) + Pod default (not set)** → Token mounted.
+
+👉 In short: **Pod spec wins.**
+
 ```bash
 controlplane:~$ k get sa secure-sa -o yaml
 apiVersion: v1
-automountServiceAccountToken: false                                  # key field
+automountServiceAccountToken: false                                  # key field, added manually.
 kind: ServiceAccount
 metadata:
   creationTimestamp: "2025-08-24T10:45:17Z"
@@ -16,30 +44,60 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: secure-pod
-  namespace: default
 spec:
   containers:
   - image: nginx
-    imagePullPolicy: Always
     name: secure-pod
-  dnsPolicy: ClusterFirst
-  enableServiceLinks: true
-  nodeName: controlplane
-  preemptionPolicy: PreemptLowerPriority
-  priority: 0
-  restartPolicy: Always
-  schedulerName: default-scheduler
-  securityContext: {}
   serviceAccount: secure-sa
   serviceAccountName: secure-sa              # The key automountServiceAccountToken: wasn't mentioned in the pod manifest.
-  terminationGracePeriodSeconds: 30
 
 # Verify that the service account token is NOT mounted to the pod  
 controlplane:~$ kubectl exec secure-pod -- cat /var/run/secrets/kubernetes.io/serviceaccount/token
 cat: /var/run/secrets/kubernetes.io/serviceaccount/token: No such file or directory
 command terminated with exit code 1
 controlplane:~$
+
+---
+
+controlplane ~ ➜  vi 1.yaml
+ 
+controlplane ~ ➜  k apply -f 1.yaml 
+pod/sa-token-not-automounted created
+pod/sa-token-automounted created
+
+controlplane ~ ➜  k exec sa-token-automounted -- ls /var/run/secrets/kubernetes.io/serviceaccount/token
+/var/run/secrets/kubernetes.io/serviceaccount/token
+
+controlplane ~ ➜  k exec sa-token-not-automounted -- ls /var/run/secrets/kubernetes.io/serviceaccount/token
+ls: cannot access '/var/run/secrets/kubernetes.io/serviceaccount/token': No such file or directory
+command terminated with exit code 2
+
+controlplane ~ ➜  cat 1.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sa-token-not-automounted
+spec:
+  serviceAccountName: secure-sa
+  automountServiceAccountToken: false
+  containers:
+  - image: nginx
+    name: without
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sa-token-automounted
+spec:
+  serviceAccountName: secure-sa
+  automountServiceAccountToken: true
+  containers:
+  - image: nginx
+    name: with
+
+controlplane ~ ➜
 ```
+
 
 ---
 
