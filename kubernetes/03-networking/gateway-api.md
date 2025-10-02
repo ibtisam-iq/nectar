@@ -90,7 +90,7 @@ Because:
 
 * **Sometimes rules have only `matches`.**
 * **Sometimes only `backendRefs`.**
-* **Sometimes multiple conditions (matches, headers, methods, query params).**
+* **Sometimes multiple `matches` conditions (path, headers, method, queryParams).**
 
 It feels like “do I put it under `matches` or `backendRefs` or somewhere else?”
 
@@ -105,8 +105,8 @@ It feels like “do I put it under `matches` or `backendRefs` or somewhere else?
 * **parentRefs** = Gateway that owns the listener.
 * **rules** = collection of conditions + actions.
 
-  * **matches** = traffic conditions (path, headers, methods, query).
-  * **backendRefs** = destinations (Services).
+  * **matches** = traffic conditions (path, headers, method, queryParams).
+  * **backendRefs** = where to send traffic: destination (Services).
 
 ---
 
@@ -186,7 +186,7 @@ Think of it as:
 * **parentRefs → who listens (Gateway + listener)**
 * **rules → collection of conditions + destinations**
 
-  * **matches → when (path, header, method, query, etc.)**
+  * **matches → when (path, headers, method, queryParams, etc.)**
   * **backendRefs → where (Services/ports, with optional weights)**
   * **filters**
 
