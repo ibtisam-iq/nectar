@@ -1,7 +1,8 @@
 ## 🔑 RBAC Quick Indicators
 
-* **Namespace + verbs →** `Role + RoleBinding`
-* **Cluster/all namespaces + verbs →** `ClusterRole + ClusterRoleBinding`
+* **Verbs + Namespace →** `Role + RoleBinding`
+* **Verbs + Cluster/all namespaces →** `ClusterRole + ClusterRoleBinding`
+  
 * **Existing ClusterRole/Role mentioned →** Just create **binding**
 * **If ServiceAccount →** Use `kind: ServiceAccount` in binding
 * **If User →** Use `kind: User` in binding
