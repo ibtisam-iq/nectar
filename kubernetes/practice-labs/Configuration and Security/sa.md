@@ -104,20 +104,25 @@ controlplane ~ ➜
 Team **Neptune** has its own ServiceAccount named `neptune-sa-v2` in Namespace `neptune`. 
 A coworker needs the **token from the Secret** that belongs to that ServiceAccount. Write the **base64 decoded** token to file `/opt/course/5/token on ckad7326`.
 
-✅ To pass **this specific question**, you need to:
+```bash
+controlplane ~ ➜  k get sa -n neptune 
+NAME            SECRETS   AGE
+default         0         24m
+neptune-sa-v2   0         20m
 
-1. Find the Secret for the SA:
+controlplane ~ ➜  k get secrets -n neptune    # No automatic Secret is created anymore for ServiceAccounts.
+No resources found in neptune namespace.
 
-   ```bash
-   kubectl -n neptune get secret
-   ```
-2. Decode the token and write it:
+controlplane ~ ➜  k create token neptune-sa-v2 -n neptune
+ey..........
 
-   ```bash
-   kubectl -n neptune get secret <secret-name> -o jsonpath='{.data.token}' | base64 -d > /opt/course/5/token
-   ```
+controlplane ~ ➜  k create token neptune-sa-v2 -n neptune > /opt/course/5/token # This gives you the raw JWT (already decoded) directly.
 
-👉 In a **real CKA/CKAD exam on 1.29+**, you’d be right with `kubectl create token`.
-👉 In **practice platforms**, follow exactly the task wording, even if it’s outdated — otherwise the grader marks it wrong.
+controlplane ~ ➜  k get secrets -n neptune
+No resources found in neptune namespace.
+
+controlplane ~ ➜
+```
+
 
 ---
