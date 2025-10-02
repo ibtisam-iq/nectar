@@ -306,8 +306,9 @@ spec:                         # --> POD-LEVEL SPEC STARTS HERE
             operator: In
             values:
             - node1
-  serviceAccountName: myserviceaccount  # Pod-level (IAM link)
-  automountServiceAccountToken: true
+  serviceAccountName: myserviceaccount  # Pod-level (IAM link)   # Run this Pod with the permissions of ServiceAccount myserviceaccount
+  automountServiceAccountToken: true    # Controls whether the SA token is mounted inside the Pod.
+                                        # By default, this key is not present → which means it inherits from the SA’s own setting (true by default).
   hostNetwork: false           # Pod-level (true/false, shares Node's network?)
   dnsPolicy: ClusterFirst      # Pod-level (DNS rules)
   securityContext:             # Pod-level security (applies to all containers)
