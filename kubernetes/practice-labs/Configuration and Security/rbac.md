@@ -2,8 +2,7 @@
 
 * **Namespace + verbs →** `Role + RoleBinding`
 * **Cluster/all namespaces + verbs →** `ClusterRole + ClusterRoleBinding`
-* **Existing ClusterRole mentioned →** Just create **binding**
-* **Exclusion (e.g., not kube-system) →** Bind separately per allowed namespace
+* **Existing ClusterRole/Role mentioned →** Just create **binding**
 * **If ServiceAccount →** Use `kind: ServiceAccount` in binding
 * **If User →** Use `kind: User` in binding
 * **Binding rule shortcut:**
