@@ -46,9 +46,42 @@ curl http://<loadbalancer-IP>/<path>
   (This is the **most exam-safe command**.)
 
 ---
-- Run `k logs -n ingress-nginx <ingress-nginx-controller-pod` & confirm `--default-backend-service` is pointing to the correct namespace for `default-backend-service` in `ingress-nginx-controller` deployment.
-- `default-backend-service` may or may not share same namespace with ingress, however, `metadata.name` and `spec.rules.http.paths.backend.service` must share the same namespace.
-- `spec.rules.http.paths.backend.servive.port` just mentions port number, not the protocol.
+
+## 🌐 Ingress Exam Key Indicators
+
+### 1️⃣ **Default Backend Service**
+
+* Check controller logs:
+
+  ```bash
+  k logs -n ingress-nginx <ingress-nginx-controller-pod> | grep default-backend-service
+  ```
+* Ensure `--default-backend-service` flag in **ingress-nginx-controller Deployment** points to the correct namespace/name.
+* ⚠️ Default backend service **does not need** to be in the same namespace as the Ingress object.
+
+### 2️⃣ **Ingress Rules & Namespaces**
+
+* **Rule target service (`backend.service.name`)** must exist **in the same namespace** as the Ingress object.
+* `metadata.name` (Ingress name) and `spec.rules.http.paths.backend.service` share the same namespace.
+
+### 3️⃣ **Service Port in Ingress**
+
+* Use only **port number**, not protocol (HTTP assumed).
+
+  ```yaml
+  backend:
+    service:
+      name: my-service
+      port:
+        number: 80
+  ```
+
+✅ **Quick Exam Shortcut:**
+
+* If it’s about *default backend service* → check controller logs + `--default-backend-service`.
+* If it’s about *Ingress → Service mapping* → must be same namespace.
+* If it’s about *port* → just number, no protocol.
+
 ---
 
 ## Q1 
