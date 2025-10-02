@@ -189,6 +189,6 @@ spec:
 - while doing curl inside the pod, curl <hostname> is mostly the service name (ClusterIP).
 - `<section-hostname>.<subdomain>.<namespace>.svc.cluster.local`
 - `--serviceaccount=namespace:serviceaccountname`
-
+- To enable an API `v1alpha1`, add the `--runtime-config=rbac.authorization.k8s.io/v1alpha1` option to the kube-apiserver.yaml file
 
 
