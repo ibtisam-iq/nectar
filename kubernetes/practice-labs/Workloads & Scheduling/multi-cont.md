@@ -218,7 +218,7 @@ spec:
         - name: shared-logs
           mountPath: /var/log/nginx/   # <- same here
 ```
-
+> **Notes:** I tried again `mountPath: /var/log/nginx` and it works.
 ---
 
 ## Q6
