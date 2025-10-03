@@ -1,8 +1,10 @@
 **Important Points:**
 
-- CRD manifest is usually lenghty, so keep the **indetation** from the scratch.
-- `k get crd <> -o yaml` for writing **custom resource** manifest.
-
+- CRD manifest is long → watch **indentation carefully**.
+- Generate CR template with `k get crd <crd-name> -o yaml`.
+- List CR instances/objects with `k get <crd-full-name> -A`.
+- Use `k explain <crd-plural> --recursive` for schema help.
+  
 ---
 
 ## Q 1
