@@ -16,6 +16,9 @@
   * Wrong **protocol** (e.g., `UDP` instead of `TCP`).
 * Fix: Align Service `port/targetPort` with Pod `containerPort`.
 
+## 🔹 3. Wrong NodePort Configuration
+- Sometimes, question tells to click a button on terminal, on clicking.. this url shows port, and this pod is misconfigured in service manifest.
+
 ---
 
 ## Q1 Pod doesn't have label
