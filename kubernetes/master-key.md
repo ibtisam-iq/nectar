@@ -195,6 +195,18 @@ spec:
 - Mount without `subPath` → full directory; mount with `subPath` → single file/key only.
 - If your `DB_USER = root`, then your `DB_Password` must match the value of `MYSQL_ROOT_PASSWORD` inside the MySQL Pod.
 - **MySQL 5.6** needs at least ~512Mi–1Gi to initialize databases. With only 256Mi, InnoDB runs out of memory during startup, so the kernel kills the process.
+- Always add at least one label in *metadata.labels* `app.kubernetes.io/name: <resource-name>`
+- Use `env` when mapping specific keys → env vars; use `envFrom` when importing all keys from a ConfigMap/Secret.
+
+- PVC requires some time for binding. So, be patient.
+- The manifest related to volume (pvc, pv), and resource field in pod/deployment.... delete all fields, and the apply.
+- An `HTTPRoute` does not have to be in the same namespace as the `Gateway`, but it does have to be in the same namespace as the `Service` it references (unless you explicitly allow cross-namespace routing via `backendRefs.namespaces`).
+- Use `kubectl api-resource` for interacting the imperative commands for **ResourceQuota and Role, ClusterRole**. Resources are plural here.
+- In Kubernetes, each `volume` entry under `spec.volumes` must have a **unique name**. And if you try to add two different sources (like `persistentVolumeClaim` + `emptyDir`) under the same volume, you’ll also get an error.
+- Unlike `hostPath` volumes (which **can create a path automatically** if it doesn’t exist → type: `DirectoryOrCreate`), a **local PersistentVolume (PV)** in Kubernetes expects that the directory (or device) already exists on the node.
+- With `hostPath`, the `nodeAffinity` is a precaution; with `local`, it’s mandatory.
+- Want to use controlplane? → Add **toleration**.
+- Want to delete a PVC? → First **delete the Pod** using it.
 
 
 
@@ -204,3 +216,27 @@ spec:
 * `/etc/nginx/conf.d/default.conf` → **default server block (virtual host)** → where you change `root`, `listen`, or proxy settings.
 * `/usr/share/nginx/html` → **NGINX web server default location, default static web root** → where default `index.html` lives.
 * `/var/log/nginx/error.log` → **check errors if Pod fails or returns bad responses**.
+
+
+## Use quotes ""
+
+```bash
+resources:
+      requests:
+        memory: "10Gi"
+        cpu: "500m"
+      limits:
+        memory: "10Gi"
+        cpu: "500m"
+
+commnad:
+- sleep
+- "3600"
+
+command: ["sleep", "5"]
+
+root@student-node ~ ➜  k create cj simple-node-job -n ckad-job --schedule "*/30 * * * *" --image node -- sh -c "ps -eaf"
+
+nginx.ingress.kubernetes.io/ssl-redirect: "false"
+```
+---
