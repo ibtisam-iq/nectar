@@ -166,10 +166,70 @@ spec:
   volumes:
     - name: shared-log
       emptyDir: {}
+---
 
+controlplane ~ ➜  k apply -f 2.yaml 
+pod/cka-sidecar-pod configured
 
-cluster2-controlplane ~ ➜  
+controlplane ~ ➜  k get po
+NAME        READY   STATUS    RESTARTS   AGE
+webserver   2/2     Running   0          63m
+
+controlplane ~ ➜  cat 2.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cka-sidecar-pod
+  namespace: cka-multi-containers
+spec:
+  containers:
+  - name: main-container
+    image: nginx:1.27
+    command: ["/bin/sh", "-c"]
+    args: ["while true; do date >> /log/app.log; echo 'Hi I am from Sidecar container' >> /log/app.log; sleep 5; done"]
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /log
+
+  - name: sidecar-container
+    image: nginx:1.25
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /usr/share/nginx/html
+
+  volumes:
+  - name: shared-logs
+    emptyDir: {}
 ```
+
+### 🔹 What happened in your example?
+
+* You solved with **`emptyDir`**, not `hostPath` (see last section: `volumes: emptyDir: {}` ✅).
+* That’s the correct approach for **sidecar logging / file sharing inside one Pod**.
+
+### 🔹 But what if someone uses `hostPath`?
+
+* **Technically it will work** because both containers would still share the file via a directory on the host.
+* **But**:
+
+  * `hostPath` ties the Pod to a specific node.
+  * It breaks portability (not recommended unless explicitly required).
+  * CKA/CKAD examiners won’t expect you to pick `hostPath` unless the question **explicitly says “logs must be stored on host node path /var/log/...”**.
+
+### 🔹 Exam-safe rule
+
+👉 If the question is **silent** about the volume type:
+
+* Always assume **`emptyDir`** (sidecar/multi-container scenario).
+* Only use **`hostPath`** if exam says something like:
+
+  * “store logs under `/var/log/app` on the host”
+  * “mount host directory”
+  * “make logs survive across Pod restarts by using node’s filesystem”
+
+✅ So in your question: `emptyDir` is the expected correct answer.
+If you used `hostPath`, it would work but be **over-engineering + not best practice** → examiners won’t want that unless asked.
+
 ---
 
 ## Q5
