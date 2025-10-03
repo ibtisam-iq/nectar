@@ -24,6 +24,14 @@
   * A valid SC object (for dynamic provisioning).
 * If PVC sets `storageClassName: ""` → means **no storage class**, binding must be with a manually created PV.
 
+## 🔹 3. Mounting Volumes with Multiple Files
+
+* **Mount directory** → when you need all contents (multiple files/keys).
+* **Mount with subPath** → when you need just one file or want to avoid overwriting existing directory.
+
+* **No `subPath` → whole directory mounted.**
+* **With `subPath` → single file/key mounted.**
+
 ---
 
 ## Q1 PVC is pending, wrong PVC accessMode
