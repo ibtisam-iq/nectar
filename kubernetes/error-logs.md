@@ -35,6 +35,7 @@ Error: PORT environment variable not set
 NAME                READY   UP-TO-DATE   AVAILABLE   AGE
 stream-deployment   0/0     0            0           4m25s   # replica = 0
 black-cka25-trb     1/1     0            1           76s     # Progressing    Unknown  DeploymentPaused
+web-ui-deployment   0/1     1            0           4m16s   # pod is yet pending, no scheduling yet
 
 controlplane:~$ k edit deployments.apps postgres-deployment  # add  --env=POSTGRES_PASSWORD=<any-value> # Just keeps restarting because of Postgres startup failure
                                                              # MYSQL_ROOT_PASSWORD for MYSQL
