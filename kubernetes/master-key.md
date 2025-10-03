@@ -185,14 +185,22 @@ spec:
 - controlplane:~$ kubectl exec secure-pod -- cat /var/run/secrets/kubernetes.io/serviceaccount/token
 - If you're only using static provisioning and want the PV to be bound to a PVC without any storage class, you can leave it out or set it explicitly to an empty string ("").    storageClassName: ""  # This disables dynamic provisioning for this PV.
 - `busybox` has a default entrypoint of `/bin/sh`, no `CMD` and a default command of `sh -c`.
-- NGINX web server default location is at `/usr/share/nginx/html`.
 - while doing curl inside the pod, curl <hostname> is mostly the service name (ClusterIP).
 - `<section-hostname>.<subdomain>.<namespace>.svc.cluster.local`
 - `--serviceaccount=namespace:serviceaccountname`
 - To enable an API `v1alpha1`, add the `--runtime-config=rbac.authorization.k8s.io/v1alpha1` option to the kube-apiserver.yaml file
 - If the exam asks about **CoreDNS config backup** → you back up the ConfigMap. `k get cm coredns -n kube-system -o yaml > /opt/coredns_backup.yaml`
 - Update Cluster Domain → `k -n kube-system edit cm coredns` → `k -n kube-system rollout restart deploy coredns`
-- **MySQL 5.6** needs at least ~512Mi–1Gi to initialize databases. With only 256Mi, InnoDB runs out of memory during startup, so the kernel kills the process.
 - `root@cka3962:~# iptables-save | grep p2-service` Write the iptables rules of node `cka3962` belonging the created Service `p2-service`.
+- Mount without `subPath` → full directory; mount with `subPath` → single file/key only.
+- If your `DB_USER = root`, then your `DB_Password` must match the value of `MYSQL_ROOT_PASSWORD` inside the MySQL Pod.
+- **MySQL 5.6** needs at least ~512Mi–1Gi to initialize databases. With only 256Mi, InnoDB runs out of memory during startup, so the kernel kills the process.
 
 
+
+### What to Remember About Nginx Paths in CKA
+
+* `/etc/nginx/nginx.conf` → **main config file** (may include `conf.d/*.conf`).
+* `/etc/nginx/conf.d/default.conf` → **default server block (virtual host)** → where you change `root`, `listen`, or proxy settings.
+* `/usr/share/nginx/html` → **NGINX web server default location, default static web root** → where default `index.html` lives.
+* `/var/log/nginx/error.log` → **check errors if Pod fails or returns bad responses**.
