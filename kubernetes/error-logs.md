@@ -56,10 +56,11 @@ root@student-node ~ ➜  k logs ckad-flash89-aom --all-containers # CrashLoopBac
 nginx: [alert] could not open error log file: open() "/var/log/nginx/error.log" failed (2: No such file or directory)
 root@student-node ~ ➜  vi ckad-flash89.yaml         # mountPath: /var/log/ to /var/log/nginx
 
+
 volumeMounts:
   - name: nginx-conf-vol
     mountPath: /etc/nginx/conf.d/default.conf  # Target file path inside container
-    subPath: default.conf                      # Key from ConfigMap
+    subPath: default.conf                      # Key from ConfigMap, Use subPath (when mounting one specific key to a file path)
 
 root@student-node ~ ➜  k logs -n ingress-nginx ingress-nginx-controller-685f679564-m69vw
 F0911 00:54:26.128505      55 main.go:83] No service with name default-backend-service found in namespace default: services "default-backend-service" not found  # problem spotted
