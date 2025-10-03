@@ -17,7 +17,7 @@ kubectl apply -f /opt/course/16/cleaner-new.yaml
 kubectl get deploy,rs,pods -n <namespace>
 ```
 
-## Q 1
+## Q1 Canary Deployment
 
 On cluster2, a new deployment called `cube-alpha-apd` has been created in the `alpha-ns-apd` namespace using the image `kodekloud/webapp-color:v2`. This deployment will test a **newer version** of the `alpha app`.
 
@@ -67,7 +67,7 @@ Name:                     alpha-apd-service
 Namespace:                alpha-ns-apd
 Labels:                   app=alpha-apd-service
 Annotations:              <none>
-Selector:                 alpha=v1
+Selector:                 alpha=v1              # sharing the common label
 Type:                     NodePort
 IP Family Policy:         SingleStack
 IP Families:              IPv4
@@ -148,7 +148,7 @@ You should see only **8 pods (5 ruby + 3 cube)** or **7 pods (5 ruby + 2 cube)**
 
 ---
 
-## Q2 
+## Q2 Canary Deployment
 
 A new deployment called `frontend-v2` has been created in the default namespace using the image `kodekloud/webapp-color:v2`. This deployment will be used to test a newer version of the same app.
 
@@ -176,7 +176,7 @@ Name:                     frontend-service
 Namespace:                default
 Labels:                   app=myapp
 Annotations:              <none>
-Selector:                 app=frontend
+Selector:                 app=frontend    # sharing the common label
 Type:                     NodePort
 IP Family Policy:         SingleStack
 IP Families:              IPv4
@@ -348,7 +348,5 @@ black-cka25-trb   1/1     1            1           18m
 ```
 
 ---
-
-## Q4 
 
 
