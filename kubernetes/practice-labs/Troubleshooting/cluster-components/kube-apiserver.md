@@ -324,21 +324,6 @@ controlplane ~ ➜  journalctl -f | grep kube-apiserver # no clue
 ✅ **Rule to remember for exam**:
 If `kube-apiserver` fails with `127.0.0.1:2379` errors → **always check etcd first**. The API server **depends on etcd**. Without etcd, the API server can’t store/retrieve cluster state → it will crash.
 
-
-```bash
-# hhttps://127.0.0.1:2379
-W1004 12:54:06.097526       1 logging.go:55] [core] [Channel #1 SubChannel #6]grpc: addrConn.createTransport failed to connect to {Addr: "hhttps://127.0.0.1:2379", ServerName: "127.0.0.1:2379", BalancerAttributes: {"<%!p(pickfirstleaf.managedByPickfirstKeyType={})>": "<%!p(bool=true)>" }}. Err: connection error: desc = "transport: Error while dialing: dial tcp: address hhttps://127.0.0.1:2379: too many colons in address"
-F1004 12:54:08.829270       1 instance.go:232] Error creating leases: error creating storage factory: context deadline exceeded
-
-# http://127.0.0.1:2379
-W1004 12:30:24.797484       1 logging.go:55] [core] [Channel #10 SubChannel #12]grpc: addrConn.createTransport failed to connect to {Addr: "127.0.0.1:2379", ServerName: "127.0.0.1:2379", BalancerAttributes: {"<%!p(pickfirstleaf.managedByPickfirstKeyType={})>": "<%!p(bool=true)>" }}. Err: connection error: desc = "error reading server preface: read tcp 127.0.0.1:42360->127.0.0.1:2379: read: connection reset by peer"
-F1004 12:30:27.311302       1 instance.go:232] Error creating leases: error creating storage factory: context deadline exceeded
-
-# --etcd-cafile=/etc/kubernetes/pki/ca.crt
-W1004 13:22:44.750990       1 logging.go:55] [core] [Channel #2 SubChannel #5]grpc: addrConn.createTransport failed to connect to {Addr: "127.0.0.1:2379", ServerName: "127.0.0.1:2379", BalancerAttributes: {"<%!p(pickfirstleaf.managedByPickfirstKeyType={})>": "<%!p(bool=true)>" }}. Err: connection error: desc = "transport: authentication handshake failed: tls: failed to verify certificate: x509: certificate signed by unknown authority"
-F1004 13:22:48.831756       1 instance.go:232] Error creating leases: error creating storage factory: context deadline exceeded
-```
-
 ---
 
 ## Probe Misconfiguration
