@@ -211,6 +211,11 @@ spec:
 - With `hostPath`, the `nodeAffinity` is a precaution; with `local`, it’s mandatory.
 - Want to use controlplane? → Add **toleration**.
 - Want to delete a PVC? → First **delete the Pod** using it.
+- Kubelet Troubleshooting
+  - `kubelet --version` → `whereis kubelet`
+  - `ps aux | grep kubelet` → `systemctl status kubelet` → `systemctl restart kubelet` → `/usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf`
+  - `journalctl -u kubelet -f`
+  - `/var/lib/kubelet/kubeadm-flags.env` && `/var/lib/kubelet/config.yaml` && `/etc/kubernetes/kubelet.conf`
 - Apiserver is crashed
   - Only ONE container, exited now, however; no increment in *Attempt* count found → Incorrect Manifest: `journalctl -u kubelet -f | grep apiserver`
   - Only ONE container, exited now, but increment in *Attempt* count is found and new container id assigned each time → Incorrect args
