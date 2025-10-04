@@ -1,11 +1,5 @@
 # `kube-apiserver` Troubeshooting
 
-- Check manifest:
- - key values: apiVersion, kind `journalctl -u kubelet -f | grep apiserver` `journalctl | grep apiserver` ONLY one container, also exited and no increment in Attempt count
- - flag/arg & their values: `` ONLY one container, also exited and but increment in Attempt count is found and new container id assigned each time.
- - probe:
-- 
-
 ## Wrong Manifest
 
 - ONLY one container, also exited and no increment in Attempt count found
