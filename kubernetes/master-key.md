@@ -11,8 +11,6 @@
 
 **Deployments:** `deployment.apps/calico-kube-controllers (1/1), deployment.apps/coredns (2/2), deployment.apps/local-path-provisioner (1/1)`
 
-- targetPort: The port on the Pod where traffic is forwarded (e.g., 8080). Can be a numeric port or a named port (e.g., http) defined in the Pod’s containerPort.
-
 ```bash
 set expandtab
 set tabstop=2
@@ -175,15 +173,14 @@ spec:
   suspend: false
 ```
 
-```bash
+---
 
-```
 
 - `key=value` then operator: `Equal`
 - If only the `key`, and not `value` then operator: `Exists`
 - Affinity: You can use `In`, `NotIn`, `Exists`, `DoesNotExist`, `Gt` and `Lt`.
 - Guaranteed: values of requests must equal limits, Burstable: At least one resource request or limit, BestEffort: No requests or limits are defined in any container 
-
+- `targetPort`: The port on the Pod where traffic is forwarded (e.g., 8080). Can be a numeric port or a named port (e.g., http) defined in the Pod’s containerPort.
 - `vi ~/.bashrc` → export KUBECONFIG=/root/my-kube-config → `source ~/.bashrc`
 - Core K8s controllers (HPA, VPA, PDB) → same namespace only → no namespace allowed inside targetRef.
 - controlplane:~$ kubectl exec secure-pod -- cat /var/run/secrets/kubernetes.io/serviceaccount/token
