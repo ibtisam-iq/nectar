@@ -1,3 +1,5 @@
+## Application
+
 ```bash
 Warning  Failed       1s (x7 over 62s)  kubelet           Error: configmap "category" not found
 Warning  Failed     8s (x2 over 10s)  kubelet            Error: secret "postgres-secrte" not found
@@ -72,11 +74,39 @@ If volume let say it is PVC in use, and you are asked to append a sidecar contai
 
 ---
 
-```bash
+## Kubelet
 
+```bash
+candidate@cka1024:~$ sudo -i
+root@cka1024:~# ps aux | grep kubelet
+root       12892  0.0  0.1   7076  ...  0:00 grep --color=auto kubelet
+root@cka1024:~# whereis kubelet
+kubelet: /usr/bin/kubelet
+
+controlplane:~$ systemctl status kubelet
+   Main PID: 1557 (code=exited, status=0/SUCCESS) # Exit code 0/SUCCESS = it did not crash; it just stopped cleanly → systemctl restart kubelet
+   Main PID: 13014 (code=exited, status=203/EXEC) # vim /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf → ExecStart=/usr/bin/kubelet
+
+cluster2-controlplane ~ ✖ kubelet --version      # kubelet is uninstalled
+-bash: kubelet: command not found
+
+node01:~$ journalctl -u kubelet -f.
+
+# cat /var/lib/kubelet/kubeadm-flags.env     # remove --improve-speed
+Aug 23 13:53:14 node01 kubelet[8691]: E0823 13:53:14.926448    8691 run.go:72] "command failed" err="failed to parse kubelet flag: unknown flag: --improve-speed"
+Aug 23 13:53:14 node01 systemd[1]: kubelet.service: Main process exited, code=exited, status=1/FAILURE
+
+# vi /var/lib/kubelet/config.yaml     # correct     clientCAFile: /etc/kubernetes/pki/ca.crt
+Aug 27 22:35:53 controlplane kubelet[37845]: E0827 22:35:53.418423   37845 run.go:72] "command failed" err="failed to construct kubelet dependencies: unable to load client CA file /etc/kubernetes/pki/CA.CERTIFICATE: open /etc/kubernetes/pki/CA.CERTIFICATE: no such file or directory"
+Aug 27 22:35:53 controlplane systemd[1]: kubelet.service: Main process exited, code=exited, status=1/FAILURE
+
+# vi /etc/kubernetes/kubelet.conf     # correct 6443 
+Aug 27 22:45:11 controlplane kubelet[40112]: E0827 22:45:11.297088   40112 controller.go:145] "Failed to ensure lease exists, will retry" err="Get \"https://172.30.1.2:64433333/apis/coordination.k8s.io/v1/namespaces/kube-node-lease/leases/controlplane?timeout=10s\": dial tcp: address 64433333: invalid port" interval="3.2s"
 ```
 
 ---
+
+## Kube-apiserver
 
 ```bash
 # Wrong Manifest;  ONLY one container, also exited and no increment in Attempt count found
