@@ -70,23 +70,73 @@ The Pod "my-pod-cka" is invalid: spec.volumes[1].name: Duplicate value: "shared-
 If volume let say it is PVC in use, and you are asked to append a sidecar container, just add it without add new `volumes` section, instaed use the already in-use.
 ```
 
-1. Wrong field in manifest; pod is exited, no restart ... no other clue 
+---
 
 ```bash
-# apiVersion: v11
 
-controlplane ~ ➜  k get po
-The connection to the server controlplane:6443 was refused - did you specify the right host or port?
-
-controlplane ~ ✖ crictl ps -a | grep api
-623cff8032649       90550c43ad2bc       4 hours ago         Exited              kube-apiserver            0                   312e69c925b14       kube-apiserver
-
-controlplane ~ ➜  crictl logs 623cff8032649
-I0919 14:27:26.602023       1 controller.go:128] Shutting down kubernetes service endpoint reconciler
-I0919 14:27:26.611292       1 secure_serving.go:259] Stopped listening on [::]:6443
-
-controlplane ~ ➜  journalctl -u kubelet -f
-Sep 19 14:40:21 controlplane kubelet[191204]: E0919 14:40:21.211510  191204 reconstruct.go:189] "Failed to get Node status to reconstruct device paths" err="Get \"https://192.168.102.106:6443/api/v1/nodes/controlplane\": dial tcp 192.168.102.106:6443: connect: connection refused"
 ```
 
-2. 
+---
+
+```bash
+# Wrong Manifest;  ONLY one container, also exited and no increment in Attempt count found
+
+controlplane ~ ➜  journalctl -u kubelet -f | grep apiserver         # takes some time
+Oct 04 09:20:00 controlplane kubelet[18566]: E1004 09:20:00.237825   18566 file.go:187] "Could not process manifest file" err="/etc/kubernetes/manifests/kube-apiserver.yaml: couldn't parse as pod(Object 'apiVersion' is missing in '{\"apiersion\":\"v1\",\"kind\":\"Pod\",\"metadata\"
+
+controlplane ~ ➜  journalctl -u kubelet -f | grep apiserver     # metadata;
+Oct 04 09:37:32 controlplane kubelet[30820]: E1004 09:37:32.159027   30820 file.go:187] "Could not process manifest file" err="/etc/kubernetes/manifests/kube-apiserver.yaml: couldn't parse as pod(yaml: line 4: could not find expected ':'), please check config file" path="/etc/kubernetes/manifests/kube-apiserver.yaml"
+
+---
+
+# Wrong Flag Key; Only ONE container, exited, but increment in Attempt count is found and new container id assigned each time
+controlplane ~ ➜  crictl logs ca815ceaedaa5   # make sure you pick the recent exited ID, otherwise it says  
+Error: unknown flag: --this-is-very-wrong
+
+---
+
+# Wrong Flag Value; Only ONE container, exited, but increment in Attempt count is found and new container id assigned each time
+
+--etcd-servers=hhttps://127.0.0.1:2379
+controlplane ~ ➜  crictl logs 92d0aa46a5c56
+W1004 12:54:06.097526       1 logging.go:55] [core] [Channel #1 SubChannel #6]grpc: addrConn.createTransport failed to connect to {Addr: "hhttps://127.0.0.1:2379", ServerName: "127.0.0.1:2379", BalancerAttributes: {"<%!p(pickfirstleaf.managedByPickfirstKeyType={})>": "<%!p(bool=true)>" }}. Err: connection error: desc = "transport: Error while dialing: dial tcp: address hhttps://127.0.0.1:2379: too many colons in address"
+F1004 12:54:08.829270       1 instance.go:232] Error creating leases: error creating storage factory: context deadline exceeded
+
+--etcd-servers=http://127.0.0.1:2379
+controlplane ~ ➜  crictl logs 875e3d275cbbf
+W1004 12:30:24.797484       1 logging.go:55] [core] [Channel #10 SubChannel #12]grpc: addrConn.createTransport failed to connect to {Addr: "127.0.0.1:2379", ServerName: "127.0.0.1:2379", BalancerAttributes: {"<%!p(pickfirstleaf.managedByPickfirstKeyType={})>": "<%!p(bool=true)>" }}. Err: connection error: desc = "error reading server preface: read tcp 127.0.0.1:42360->127.0.0.1:2379: read: connection reset by peer"
+F1004 12:30:27.311302       1 instance.go:232] Error creating leases: error creating storage factory: context deadline exceeded
+
+--etcd-cafile=/etc/kubernetes/pki/ca.crt
+controlplane ~ ➜  crictl logs db279e0cd1629
+W1004 13:22:44.750990       1 logging.go:55] [core] [Channel #2 SubChannel #5]grpc: addrConn.createTransport failed to connect to {Addr: "127.0.0.1:2379", ServerName: "127.0.0.1:2379", BalancerAttributes: {"<%!p(pickfirstleaf.managedByPickfirstKeyType={})>": "<%!p(bool=true)>" }}. Err: connection error: desc = "transport: authentication handshake failed: tls: failed to verify certificate: x509: certificate signed by unknown authority"
+F1004 13:22:48.831756       1 instance.go:232] Error creating leases: error creating storage factory: context deadline exceeded
+
+---
+
+# Probe Misconfiguration; `crictl ps -a | grep kube-apiserver` shows ONE container at a time, which is running; however, multiple containers are created, and exited.
+
+controlplane ~ ➜  k get po -n kube-system kube-apiserver-controlplane 
+NAME                          READY   STATUS    RESTARTS        AGE
+kube-apiserver-controlplane   0/1     Running   2 (3m27s ago)   12m
+
+---
+
+# Node status is `NotReady`
+
+controlplane:~$ kubectl get nodes
+NAME           STATUS     ROLES           AGE   VERSION
+controlplane   NotReady   control-plane   8d    v1.33.2
+node01         Ready      <none>          8d    v1.33.2
+controlplane:~$ k describe no controlplane 
+Conditions:
+  Type                 Status    LastHeartbeatTime                 LastTransitionTime                Reason              Message
+  ----                 ------    -----------------                 ------------------                ------              -------
+  NetworkUnavailable   False     Thu, 28 Aug 2025 03:07:13 +0000   Thu, 28 Aug 2025 03:07:13 +0000   FlannelIsUp         Flannel is running on this node
+  MemoryPressure       Unknown   Thu, 28 Aug 2025 03:17:14 +0000   Thu, 28 Aug 2025 03:18:43 +0000   NodeStatusUnknown   Kubelet stopped posting node status.
+  DiskPressure         Unknown   Thu, 28 Aug 2025 03:17:14 +0000   Thu, 28 Aug 2025 03:18:43 +0000   NodeStatusUnknown   Kubelet stopped posting node status.
+  PIDPressure          Unknown   Thu, 28 Aug 2025 03:17:14 +0000   Thu, 28 Aug 2025 03:18:43 +0000   NodeStatusUnknown   Kubelet stopped posting node status.
+  Ready                Unknown   Thu, 28 Aug 2025 03:17:14 +0000   Thu, 28 Aug 2025 03:18:43 +0000   NodeStatusUnknown   Kubelet stopped posting node 
+
+controlplane:~$ systemctl restart kubelet
+```
