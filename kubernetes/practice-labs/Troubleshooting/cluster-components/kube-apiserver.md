@@ -343,6 +343,9 @@ F1004 13:22:48.831756       1 instance.go:232] Error creating leases: error crea
 
 ## Probe Misconfiguration
 
+- `k get po` shows pod is running, but not ready and restating...
+- Restarting means `crictl ps -a | grep kube-apiserver` shows one pod at a time, which is running; however, multiple containers are created, and exited.
+
 ## 1 Probe misconfiguration
 
 when you run `kubectl get nodes` OR `kubectl get pod -A` threw :- `The connection to the server 172.30.1.2:6443 was refused - did you specify the right host or port?`
@@ -350,30 +353,35 @@ when you run `kubectl get nodes` OR `kubectl get pod -A` threw :- `The connectio
 need to wait for few seconds to make above command work again but above error will come again after few second
 
 ```bash
+
+controlplane ~ ➜  k get po -n kube-system kube-apiserver-controlplane 
+NAME                          READY   STATUS    RESTARTS        AGE
+kube-apiserver-controlplane   0/1     Running   2 (3m27s ago)   12m
+
 controlplane:~$ k describe po -n kube-system kube-apiserver-controlplane 
-Name:                 kube-apiserver-controlplane
-    State:          Running
-      Started:      Thu, 28 Aug 2025 01:06:29 +0000
-    Last State:     Terminated
-      Reason:       Error
-      Exit Code:    137
-      Started:      Thu, 28 Aug 2025 01:01:59 +0000
-      Finished:     Thu, 28 Aug 2025 01:06:29 +0000
-    Ready:          False
-    Restart Count:  2
-    Liveness:     http-get https://172.30.1.2:6433/livez delay=10s timeout=15s period=10s #success=1 #failure=8
-    Readiness:    http-get https://172.30.1.2:6433/readyz delay=0s timeout=15s period=1s #success=1 #failure=3
-    Startup:      http-get https://172.30.1.2:6433/livez delay=10s timeout=15s period=10s #success=1 #failure=24
-Events:
-  Type     Reason          Age                  From     Message
-  ----     ------          ----                 ----     -------
-  Normal   Killing         9m39s (x2 over 11m)  kubelet  Stopping container kube-apiserver
-  Normal   SandboxChanged  9m7s (x2 over 10m)   kubelet  Pod sandbox changed, it will be killed and re-created.
+
   Warning  Unhealthy       117s (x77 over 17m)  kubelet  Startup probe failed: Get "https://172.30.1.2:6433/livez": dial tcp 172.30.1.2:6433: connect: connection refused
   Normal   Killing         37s (x3 over 13m)    kubelet  Container kube-apiserver failed startup probe, will be restarted
-  Normal   Pulled          7s (x6 over 17m)     kubelet  Container image "registry.k8s.io/kube-apiserver:v1.33.2" already present on machine
-  Normal   Created         7s (x6 over 17m)     kubelet  Created container: kube-apiserver
-  Normal   Started         7s (x6 over 17m)     kubelet  Started container kube-apiserver
+
+controlplane ~ ➜  crictl ps -a | grep kube-apiserver     # no probelm is found here, yet because it takes 4 min
+648ebd77be54f       90550c43ad2bc       2 minutes ago       Running             kube-apiserver            0                   
+
+controlplane ~ ➜  k get po
+No resources found in default namespace.
+
+# After passing 4 min
+
+controlplane ~ ➜  crictl ps -a | grep kube-apiserver  
+56065aa8f76e4       90550c43ad2bc       29 seconds ago      Running             kube-apiserver            1                   
+648ebd77be54f       90550c43ad2bc       5 minutes ago       Exited              kube-apiserver            0                   
+
+controlplane ~ ➜  crictl ps -a | grep kube-apiserver
+38e4a086a20a0       90550c43ad2bc       45 seconds ago      Running             kube-apiserver            2                   
+56065aa8f76e4       90550c43ad2bc       5 minutes ago       Exited              kube-apiserver            1
+
+controlplane ~ ➜  crictl ps -a | grep kube-apiserver
+0873450d71969       90550c43ad2bc       30 seconds ago      Running             kube-apiserver            3                   
+38e4a086a20a0       90550c43ad2bc       5 minutes ago       Exited              kube-apiserver            2                   
 
 # The liveness, readiness, and startup probes are incorrectly configured to use port 6433 instead of the actual API server port 6443.
 controlplane:~$ vi /etc/kubernetes/manifests/kube-apiserver.yaml     
@@ -381,9 +389,10 @@ controlplane:~$ systemctl restart kubelet
 
 /var/logs/pods and /var/logs/container        # no clue found
 ```
+
 ---
 
-## 6 Node status is `NotReady`
+## Node status is `NotReady`
 
 ```bash
 controlplane:~$ kubectl get nodes
