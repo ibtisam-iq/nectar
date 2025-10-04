@@ -175,6 +175,10 @@ spec:
   suspend: false
 ```
 
+```bash
+
+```
+
 - `key=value` then operator: `Equal`
 - If only the `key`, and not `value` then operator: `Exists`
 - Affinity: You can use `In`, `NotIn`, `Exists`, `DoesNotExist`, `Gt` and `Lt`.
@@ -207,7 +211,14 @@ spec:
 - With `hostPath`, the `nodeAffinity` is a precaution; with `local`, it’s mandatory.
 - Want to use controlplane? → Add **toleration**.
 - Want to delete a PVC? → First **delete the Pod** using it.
-
+- Apiserver is crashed
+  - Only ONE container, exited now, however; no increment in *Attempt* count found → Incorrect Manifest: `journalctl -u kubelet -f | grep apiserver`
+  - Only ONE container, exited now, but increment in *Attempt* count is found and new container id assigned each time → Incorrect args
+    -  `crictl ps -a | grep kube-apiserver` && `crictl logs <recent-exited-container-id>`
+    -  `--etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt`
+    -  `--etcd-servers=https://127.0.0.1:2379`
+- Apiserver is restarting...
+  - ONE container at a time, which is running; however, multiple containers are created, and exited → Incorrect Probe
 
 
 ### What to Remember About Nginx Paths in CKA
