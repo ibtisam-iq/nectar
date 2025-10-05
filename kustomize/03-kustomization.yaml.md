@@ -60,13 +60,13 @@ Examples include:
 
 * `namePrefix` → Add a prefix to resource names
 * `namespace` → Assign resources to a specific namespace
-* `commonLabels` → Apply the same labels to all resources
+* `labels` → Apply the same labels to all resources
 
 Example:
 
 ```yaml
 namespace: staging
-commonLabels:
+labels:
   app: my-app
 ```
 
@@ -103,7 +103,7 @@ This patch changes the replica count of the `api-deploy` Deployment to 3.
 An important point to understand is that **everything we define in a `kustomization.yaml` applies to all resources listed under it**.
 For example:
 
-* If we set `commonLabels`, every resource in that kustomization will get those labels.
+* If we set `labels`, every resource in that kustomization will get those labels.
 * If we patch a Deployment, the patch applies only to the matching resource within that kustomization.
 
 However, if we don’t want a customization to apply globally, we must define it **only in the environment-specific overlay** or add the manifest **only in that overlay**.
