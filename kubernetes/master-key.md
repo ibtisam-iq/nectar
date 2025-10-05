@@ -261,6 +261,10 @@ root@student-node ~ ➜  k create cj simple-node-job -n ckad-job --schedule "*/3
 
 nginx.ingress.kubernetes.io/ssl-redirect: "false"
 
-appVersion: "1.20.0" in Chart.yaml in helm
+appVersion: "1.20.0"
+
+images:
+  - name: nginx
+    newTag: "1.23"
 ```
 ---
