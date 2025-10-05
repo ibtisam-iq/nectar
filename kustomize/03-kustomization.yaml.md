@@ -39,7 +39,7 @@ resources:
   - ../db
 ```
 
-In our earlier case study:
+In our earlier [case study](./02-manage-directories.md):
 
 * Without sub-directories: all manifests were directly listed here.
 * With sub-directories: the top-level `kustomization.yaml` listed each sub-directory instead.
