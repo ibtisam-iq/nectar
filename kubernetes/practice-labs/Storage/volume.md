@@ -481,3 +481,65 @@ spec:
 In short: with `hostPath`, the `nodeAffinity` is a precaution; with `local`, it’s mandatory.
 
 ---
+
+## Q6 
+
+Create a Pod named `pod1` of image `nginx:alpine`
+- Make key `tree` of ConfigMap `trauerweide` available as environment variable `TREE1`
+- Mount all keys of ConfigMap `birke` as volume. The *files* should be available under `/etc/birke/*`
+- Test env+volume access in the running Pod
+
+```bash
+k run pod1 --image nginx:alpine
+pod/pod1 created
+k edit po pod1     # mountPath: /etc/birke , not /etc/birke/*
+error: pods "pod1" is invalid
+A copy of your changes has been stored to "/tmp/kubectl-edit-654694799.yaml"
+error: Edit cancelled, no valid changes were saved.
+controlplane:~$ k replace -f /tmp/kubectl-edit-654694799.yaml --force
+pod "pod1" deleted
+pod/pod1 replaced
+controlplane:~$ k get po
+NAME   READY   STATUS    RESTARTS   AGE
+pod1   1/1     Running   0          5s
+
+controlplane:~$ kubectl exec pod1 -- env | grep "TREE1=trauerweide"eide"
+TREE1=trauerweide
+controlplane:~$ k get cm
+NAME               DATA   AGE
+birke              3      19m
+kube-root-ca.crt   1      4d9h
+trauerweide        1      20m
+controlplane:~$ kubectl exec pod1 -- cat /etc/birke/tree
+birkecontrolplane:~$ 
+controlplane:~$ kubectl exec pod1 -- cat /etc/birke/level
+3controlplane:~$ 
+controlplane:~$ kubectl exec pod1 -- cat /etc/birke/department
+parkcontrolplane:~$
+parkcontrolplane:~$ k describe cm birke 
+Name:         birke
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+
+Data
+====
+department:
+----
+park
+
+level:
+----
+3
+
+tree:
+----
+birke
+
+
+BinaryData
+====
+
+Events:  <none>
+```
+---
