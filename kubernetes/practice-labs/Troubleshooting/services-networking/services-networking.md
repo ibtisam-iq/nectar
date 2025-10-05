@@ -205,5 +205,77 @@ Endpoints:   172.17.1.3:80
    * Used `port: 5000` with **UDP**, while it should be TCP.
    * Service should expose **TCP 80**, not UDP 5000.
 
+---
 
+## Q5: Both containers share same port within a pod.
 
+There is a deployment with two containers, one is running, and other restarting...
+
+```bash
+k describe deployments.apps -n management collect-data # no clue
+k describe po -n management collect-data-5759c5c888-gvf2z
+Warning  BackOff    14s (x13 over 2m35s)  kubelet            Back-off restarting failed container httpd in pod collect-data-5759c5c888-gvf2z_management(9d91ca38-197d-48fc-8916-d22e54cd899b)
+controlplane:~$ k logs -n management deploy/collect-data -c nginx # all good
+controlplane:~$ k logs -n management deploy/collect-data -c httpd
+Found 2 pods, using pod/collect-data-5759c5c888-gvf2z
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 192.168.0.7. Set the 'ServerName' directive globally to suppress this message
+(98)Address in use: AH00072: make_sock: could not bind to address [::]:80
+(98)Address in use: AH00072: make_sock: could not bind to address 0.0.0.0:80
+no listening sockets available, shutting down
+AH00015: Unable to open logs
+
+The issue seems that both containers have processes that want to listen on port 80. Depending on container creation order and speed, the first will succeed, the other will fail.
+
+Solution: remove one container.
+
+controlplane:~$ k get deploy -n management 
+NAME           READY   UP-TO-DATE   AVAILABLE   AGE
+collect-data   0/2     2            0           29m
+controlplane:~$ k edit deploy -n management collect-data 
+deployment.apps/collect-data edited
+controlplane:~$ k rollout restart deployment -n management collect-data 
+deployment.apps/collect-data restarted
+controlplane:~$ k get deploy -n management collect-data 
+NAME           READY   UP-TO-DATE   AVAILABLE   AGE
+collect-data   2/2     2            2           31m
+```
+---
+
+## Q6
+
+The error is pretty clear:
+
+```
+spec.ports[0].nodePort: Invalid value: 32345: provided port is already allocated
+```
+
+That means **another Service in your cluster is already using NodePort `32345`**, and Kubernetes won’t allow duplicates.
+
+### 🔧 Fix options:
+
+1. **Check which Service is already using that NodePort:**
+
+   ```bash
+   kubectl get svc -A | grep 32345
+   ```
+
+   This will show you the service that already has `32345` assigned.
+
+2. **Pick a different NodePort in the range 30000–32767**
+   Example, edit your YAML and change:
+
+   ```yaml
+   ports:
+   - port: 80
+     targetPort: 80
+     nodePort: 32346   # change this
+   type: NodePort
+   ```
+
+3. **Reapply the Service:**
+
+   ```bash
+   kubectl apply -f /tmp/kubectl-edit-76677757.yaml
+   ```
+
+---
