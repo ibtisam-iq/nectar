@@ -44,8 +44,8 @@ helm install <release> <chart> -n <ns> --create-namespace
 # Install with file overrides
 helm install <release> <chart> -f values.yaml
 
-# Install with sepecific version
-helm install <release> <chart> --version 9.3.5
+# Install with sepecific chart version
+helm install <release> <chart> --version 9.3.5    # chart version — not the application (app) version
 
 # Install with quick set
 helm install <release> <chart> --set key1=val1,key2=val2
