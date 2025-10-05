@@ -74,12 +74,12 @@ controlplane ~ ➜  helm get values ingress-nginx --all | grep replica
 ## **3️⃣ View / Debug**
 
 ```bash
-helm list -A                # All releases, all namespaces
-helm get values <release>   # Show custom values
-helm get values <release> -a # All (default+custom)
+helm list -A  or helm ls -A           # All releases, all namespaces
+helm get values <release>             # Show custom values
+helm get values <release> -a          # All (default+custom)
 helm status <release>
 helm history <release>
-helm template <release> <chart> # Render without installing
+helm template <release> <chart>       # Render without installing
 helm install <release> <chart> --dry-run --debug # Preview
 ```
 
@@ -164,6 +164,13 @@ NAME            NAMESPACE       REVISION        UPDATED                         
 amaze-surf      default         1               2025-09-28 11:45:40.183342347 +0000 UTC deployed     apache-11.3.2   2.4.63     
 crazy-web       default         1               2025-09-28 11:46:31.217903645 +0000 UTC deployed     nginx-19.0.0    1.27.4     
 happy-browse    default         1               2025-09-28 11:46:29.364833702 +0000 UTC deployed     nginx-19.0.0    1.27.4     
+
+helm repo add <> <url>
+helm repo update <>
+helm repo list <> or helm repo ls <>
+helm repo remove <>
+
+helm ls -A or helm list -A
 ```
 
 ---
