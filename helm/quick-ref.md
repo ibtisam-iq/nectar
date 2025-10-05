@@ -106,6 +106,8 @@ helm uninstall <release> -n <ns>
 ```bash
 helm pull <chart> --untar
 helm install <release> ./<chart_folder>
+❌ helm install my-nginx .  
+✅ helm install my-nginx ./nginx 
 ```
 
 ---
