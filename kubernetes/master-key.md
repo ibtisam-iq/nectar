@@ -260,5 +260,7 @@ command: ["sleep", "5"]
 root@student-node ~ ➜  k create cj simple-node-job -n ckad-job --schedule "*/30 * * * *" --image node -- sh -c "ps -eaf"
 
 nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+appVersion: "1.20.0" in Chart.yaml in helm
 ```
 ---
