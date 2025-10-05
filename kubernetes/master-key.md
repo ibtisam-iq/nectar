@@ -208,6 +208,15 @@ spec:
 - With `hostPath`, the `nodeAffinity` is a precaution; with `local`, it’s mandatory.
 - Want to use controlplane? → Add **toleration**.
 - Want to delete a PVC? → First **delete the Pod** using it.
+- Manifest not deployed
+  - ensure CRDs are installed first: no matches for kind "Persistentvolumeclaim" in version "v1"
+  - strict decoding error: unknown field "metadata.app"
+  - error: unable to decode "13.yaml": json: cannot unmarshal bool into Go struct field ObjectMeta.metadata.annotations of type string
+- Application is crashing
+  - `k describe`: wrong command, args, cm, secret, pvc, volume, image and its tag, probe, cpu, memory, mountPath
+  - `k logs`: missing env var, multiple containers share same port within one pod, a required file is masked due to wrong `mountPath`
+- Application is pending
+  - wrong `nodeName`, `kube-controller-manager` pod is crashed, wrong schedular, wrong node labels for affininity, node is tainted 
 - Kubelet Troubleshooting
   - `kubelet --version` → `whereis kubelet`
   - `ps aux | grep kubelet` → `systemctl status kubelet` → `systemctl restart kubelet` → `/usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf`
