@@ -1,14 +1,28 @@
 ## Kube Controller Manager
 
-
 ### kube-controller-manager-controlplane restarting...
 
 ```bash
-crictl logs 9cef2cf7061d6  # no clue
-cat /var/log/syslog | grep kube-controller-manager # no clue
-journalctl | grep kube-controller-manager
-cat /var/log/containers/kube-controller-manager-controlplane_kube-system_kube-controller-manager-d559f74bec79087e6e77a69ff8a9c42f46c4666b7310898f2132eea9b6e72dce.log
-2025-08-23T13:10:02.535173834Z stderr F Error: unknown flag: --project-sidecar-insertion
+controlplane ~ ➜  k get po -n kube-system kube-controller-manager-controlplane 
+NAME                                   READY   STATUS             RESTARTS      AGE
+kube-controller-manager-controlplane   0/1     CrashLoopBackOff   3 (19s ago)   52s
+
+controlplane ~ ➜  k logs -n kube-system kube-controller-manager-controlplane    # clue indetified
+Usage:
+  kube-controller-manager [flags]
+...
+Error: unknown flag: --project-sidecar-insertion
+
+controlplane ~ ➜  crictl ps -a | grep kube-controller-manager                    # increase in Attempt is found
+8840e8fcbfc5b       a0af72f2ec6d6       About a minute ago   Exited              kube-controller-manager   6                  
+controlplane ~ ➜  crictl logs 8840e8fcbfc5b                            # same as k logs <>
+Usage:
+  kube-controller-manager [flags]
+...
+Error: unknown flag: --project-sidecar-insertion
+
+controlplane ~ ➜  journalctl -f | grep kube-controller-manager     # no clue
+Oct 05 07:52:09 controlplane kubelet[77740]: E1005 07:52:09.236089   77740 pod_workers.go:1324] "Error syncing pod, skipping" err="failed to \"StartContainer\" for \"kube-controller-manager\" with CrashLoopBackOff: \"back-off 5m0s restarting failed container=kube-controller-manager pod=kube-controller-manager-controlplane_kube-system(9de38e335353dd7b6fea1eb122273ebd)\"" pod="kube-system/kube-controller-manager-controlplane" podUID="9de38e335353dd7b6fea1eb122273ebd"
 ```
 
 ---
