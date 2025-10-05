@@ -349,4 +349,68 @@ black-cka25-trb   1/1     1            1           18m
 
 ---
 
+## Q5: Replica=0
+
+`stream-deployment` deployment is not up to date. observed 0  under the **UP-TO-DATE** it should be 1 , Troubleshoot, fix the issue and make sure deployment is up to date.
+
+```bash
+controlplane:~$ k get po
+No resources found in default namespace.
+controlplane:~$ k get deployments.apps 
+NAME                READY   UP-TO-DATE   AVAILABLE   AGE
+stream-deployment   0/0     0            0           4m25s
+controlplane:~$ k describe deployments.apps stream-deployment 
+Name:                   stream-deployment
+Replicas:               0 desired | 0 updated | 0 total | 0 available | 0 unavailable   # replica is 0
+NewReplicaSet:   stream-deployment-79cb7b68c (0/0 replicas created)
+Events:          <none>
+
+controlplane:~$ k edit deployments.apps stream-deployment     # change replica: 1
+deployment.apps/stream-deployment edited
+controlplane:~$ k get deployments.apps 
+NAME                READY   UP-TO-DATE   AVAILABLE   AGE
+stream-deployment   0/1     1            0           5m5s
+controlplane:~$ k get deployments.apps 
+NAME                READY   UP-TO-DATE   AVAILABLE   AGE
+stream-deployment   1/1     1            1           5m9s
+controlplane:~$ 
+```
+
+---
+
+## Q6
+
+The deployment named `video-app` has experienced multiple rolling updates and rollbacks. Your task is to total revision of this deployment and record the image name used in 3rd revision to file `app-file.txt` in this format `REVISION_TOTAL_COUNT,IMAGE_NAME`.
+
+```bash
+controlplane:~$ k rollout history deployment video-app 
+deployment.apps/video-app 
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+3         <none>
+
+controlplane:~$ k rollout history deployment video-app --revision 3
+deployment.apps/video-app with revision #3
+Pod Template:
+  Labels:       app=video-app
+        pod-template-hash=775488848c
+  Containers:
+   redis:
+    Image:      redis:7.0.13
+    Port:       <none>
+    Host Port:  <none>
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+  Node-Selectors:       <none>
+  Tolerations:  <none>
+
+controlplane:~$ echo "3,redis:7.0.13" > app-file.txt
+controlplane:~$ cat app-file.txt 
+3,redis:7.0.13
+controlplane:~$ 
+```
+---
+
 
