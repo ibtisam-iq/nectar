@@ -198,6 +198,8 @@ spec:
 - **MySQL 5.6** needs at least ~512Mi–1Gi to initialize databases. With only 256Mi, InnoDB runs out of memory during startup, so the kernel kills the process.
 - Always add at least one label in *metadata.labels* `app.kubernetes.io/name: <resource-name>`
 - Use `env` when mapping specific keys → env vars; use `envFrom` when importing all keys from a ConfigMap/Secret.
+- Use liveness probes to know when to restart a container.
+- Probe failed → Update the probe port to match `containerPort`.
 
 - PVC requires some time for binding. So, be patient.
 - The manifest related to volume (pvc, pv), and resource field in pod/deployment.... delete all fields, and the apply.
