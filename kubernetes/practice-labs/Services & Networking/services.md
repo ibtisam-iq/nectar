@@ -251,6 +251,25 @@ Endpoints:                192.168.67.177:9999
 Session Affinity:         None
 Internal Traffic Policy:  Cluster
 Events:                   <none>
+
+root@student-node ~ ➜  curl 192.168.67.177:9999
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+
+root@student-node ~ ➜  
 ```
 
 - Servive and EndpointSlice, both must share the same namespace.
