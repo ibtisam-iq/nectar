@@ -413,4 +413,75 @@ controlplane:~$
 ```
 ---
 
+## Q7
 
+Create a `Redis` deployment in the default namespace with the following specifications:
+
+Name: redis
+Image: redis:alpine
+Replicas: 1
+Labels: app=redis
+CPU Request: 0.2 CPU (200m)
+Container Port: 6379
+Volumes:
+- An emptyDir volume named data, mounted at /redis-master-data.
+- A ConfigMap volume named redis-config, mounted at /redis-master.The ConfigMap has already been created for you. Do not create it again.
+
+```bash
+controlplane ~ ➜  k replace -f 5.yaml --force
+deployment.apps/redis replaced
+
+controlplane ~ ➜  k get deploy
+NAME           READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-deploy   4/4     4            4           14m
+redis          1/1     1            1           6s
+
+controlplane ~ ➜  k get cm 
+NAME               DATA   AGE
+kube-root-ca.crt   1      135m
+redis-config       1      12m
+
+controlplane ~ ➜  cat 5.yaml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: redis
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: redis
+    spec:
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: redis-config    # I just put random name here, the question becomes incorrect.
+          configMap:
+            name: redis-config
+      containers:
+      - image: redis:alpine
+        name: redis
+        volumeMounts:
+          - name: redis-config
+            mountPath: /redis-master
+          - name: data
+            mountPath: /redis-master-data
+        resources:
+          request: 
+            cpu: "200m"
+        ports:
+        - containerPort: 6379
+        resources: {}
+status: {}
+
+controlplane ~ ➜  
+```
