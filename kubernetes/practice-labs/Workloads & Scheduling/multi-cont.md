@@ -112,6 +112,11 @@ root@student-node ~ ➜  k get po -n ckad-multi-containers
 NAME                READY   STATUS    RESTARTS   AGE
 ckad-neighbor-pod   2/2     Running   0          15s
 
+root@student-node ~ ➜  k exec -n ckad-multi-containers ckad-web-pod -c  log-container -it -- cat /var/log/index.html
+Mon Oct  6 22:26:45 UTC 2025 - Hi I am from neighbor container
+Mon Oct  6 22:26:50 UTC 2025 - Hi I am from neighbor container
+Mon Oct  6 22:26:55 UTC 2025 - Hi I am from neighbor container
+
 ---
 Another way:
 
