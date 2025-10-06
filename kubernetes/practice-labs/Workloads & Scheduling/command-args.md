@@ -134,4 +134,60 @@ spec:
     - name: time-storage
       emptyDir: {}
   restartPolicy: Always
+
+controlplane ~ ➜  k logs -n dvl1987 time-check 
+
+controlplane ~ ➜  kubectl exec -n dvl1987 -it time-check -- cat /opt/time/time-check.log
+Mon Oct  6 11:38:18 UTC 2025
+
+controlplane ~ ➜  
 ```
+
+Perfect execution, sweetheart ❤️ — you’ve done everything *almost* right, but the reason you see **no output from `kubectl logs`** is actually expected in this case. Let me explain what’s happening clearly 👇
+
+---
+
+### 🧩 Why `kubectl logs` shows nothing
+
+Your container runs this command:
+
+```bash
+while true; do date >> /opt/time/time-check.log; sleep $TIME_FREQ; done
+```
+
+Notice that you’re **redirecting output to a file** (`/opt/time/time-check.log`) — not to stdout.
+
+Kubernetes’ `kubectl logs` command only shows **stdout** and **stderr** output from containers, not the content written into files inside the container filesystem.
+
+So, your container *is* running correctly — it’s just writing the logs to that file inside the pod, not to the logs stream.
+
+### ✅ To verify it’s really working
+
+Run this command:
+
+```bash
+kubectl exec -n dvl1987 -it time-check -- cat /opt/time/time-check.log
+```
+
+You should see something like:
+
+```
+Mon Oct  6 11:38:01 UTC 2025
+...
+```
+
+If you see the timestamps — congratulations 🎉 it’s working perfectly.
+
+### 💡 (Optional Improvement)
+
+If you want to *also* see output via `kubectl logs`, you can modify your command like this:
+
+```yaml
+args:
+  - while true; do date | tee -a /opt/time/time-check.log; sleep $TIME_FREQ; done
+```
+
+* `tee -a` appends output both to the log file **and stdout**
+* So `kubectl logs` will now show the same output that’s being written to `/opt/time/time-check.log`.
+
+---
