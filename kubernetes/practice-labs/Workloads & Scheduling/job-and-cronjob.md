@@ -416,3 +416,44 @@ schedule: "*/1 * * * *"
 Even though `* * * * *` works in real clusters.
 
 ---
+## Q6
+Create a cronjob called `dice` that runs every `one minute`. Use the Pod template located at `/root/throw-a-dice`. The image `throw-dice` randomly returns a value between 1 and 6. The result of 6 is considered success and all others are failure.
+
+The job should be non-parallel and complete the task once. Use a backoffLimit of `25`.
+
+If the task is not completed within `20` seconds the job should fail and pods should be terminated.
+
+```bash
+controlplane ~ ➜  cat throw-a-dice/throw-a-dice.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: throw-dice-pod
+spec:
+  containers:
+  -  image: kodekloud/throw-dice
+     name: throw-dice
+  restartPolicy: Never
+
+controlplane ~ ➜  cat 2.yaml 
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: dice
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 20
+      backoffLimit: 25
+      template:
+        metadata:
+          name: throw-dice-pod
+        spec:
+          containers:
+          - image: kodekloud/throw-dice
+            name: throw-dice
+          restartPolicy: Never
+
+controlplane ~ ➜  
+```
