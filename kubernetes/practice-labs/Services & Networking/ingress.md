@@ -660,3 +660,88 @@ Your Ingress resource:
 * They do **not need to be in the same namespace**. The controller doesn’t care; it just knows where to send unmatched traffic globally.
 
 ✅ So yes: the default backend service in the controller args belongs to `app-space`, and it does **not** have to match the namespace where you created your Ingress (`critical-space`).
+
+
+---
+
+# Q6
+
+Create a single ingress resource called `ingress-vh-routing`. The resource should route HTTP traffic to **multiple hostnames** as specified below:
+
+The service `video-service` should be accessible on `http://watch.ecom-store.com:30093/video`
+
+The service `apparels-service` should be accessible on `http://apparels.ecom-store.com:30093/wear`
+
+To ensure that the path is correctly rewritten for the backend service, add the following annotation to the resource:
+
+`nginx.ingress.kubernetes.io/rewrite-target: /`
+
+Here `30093` is the port used by the Ingress Controller
+
+```bash
+
+controlplane ~ ➜  cat 4.yaml                 # Wrong, because I overlooked about multiple hostnames
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-vh-routing
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "watch.ecom-store.com"
+    http:
+      paths:
+      - path: /video
+        pathType: Prefix
+        backend:
+          service:
+            name: video-service
+            port:
+              number: 8080
+      - path: /wear
+        pathType: Prefix
+        backend:
+          service:
+            name: apparels-service
+            port:
+              number: 8080
+
+
+controlplane ~ ➜  cat > 4.yaml
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: ingress-vh-routing
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: watch.ecom-store.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/video"
+        backend:
+          service:
+            name: video-service
+            port:
+              number: 8080
+  - host: apparels.ecom-store.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/wear"
+        backend:
+          service:
+            name: apparels-service
+            port:
+              number: 8080
+
+controlplane ~ ➜  k replace -f 4.yaml --force
+ingress.networking.k8s.io "ingress-vh-routing" deleted
+ingress.networking.k8s.io/ingress-vh-routing replaced
+
+controlplane ~ ➜
+```
