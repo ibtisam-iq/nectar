@@ -87,3 +87,51 @@ admin.conf  controller-manager.conf  kubelet.conf  manifests  pki  scheduler.con
 
 cluster4-controlplane ~ ➜  
 ```
+
+---
+
+Create a pod named `time-check` in the `dvl1987` namespace. This pod should execute a container called `time-check` using the busybox image.
+
+Create a ConfigMap named `time-config` with the data `TIME_FREQ=10` in the same namespace.
+The `time-check` container must run the command: `while true; do date; sleep $TIME_FREQ; done`, directing the output to the file located at `/opt/time/time-check.log`.
+Ensure that the path `/opt/time` within the pod mounts a volume that persists for the duration of the pod's lifecycle.
+
+```bash
+
+
+controlplane ~ ➜  vi 3.yaml
+
+controlplane ~ ➜  k replace -f 3.yaml --force
+pod "time-check" deleted
+pod/time-check replaced
+
+controlplane ~ ➜  k get po -n dvl1987 
+NAME         READY   STATUS    RESTARTS   AGE
+time-check   1/1     Running   0          8s
+
+controlplane ~ ➜  k logs -n dvl1987 time-check 
+
+controlplane ~ ➜  cat 3.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: time-check
+  namespace: dvl1987
+spec:
+  containers:
+  - name: time-check
+    image: busybox
+    command: ["sh", "-c"]
+    args:
+      - while true; do date >> /opt/time/time-check.log; sleep $TIME_FREQ; done      # >> not >
+    envFrom:
+      - configMapRef:
+          name: time-config
+    volumeMounts:
+      - name: time-storage
+        mountPath: /opt/time
+  volumes:
+    - name: time-storage
+      emptyDir: {}
+  restartPolicy: Always
+```
