@@ -259,6 +259,10 @@ commnad:
 
 command: ["sleep", "5"]
 
+env:
+    - name: NGINX_PORT
+      value: "8080"
+
 root@student-node ~ ➜  k create cj simple-node-job -n ckad-job --schedule "*/30 * * * *" --image node -- sh -c "ps -eaf"
 
 nginx.ingress.kubernetes.io/ssl-redirect: "false"
