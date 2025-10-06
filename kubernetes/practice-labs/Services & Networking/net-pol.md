@@ -934,3 +934,101 @@ spec:
 ```
 
 ---
+
+## Q14
+
+We have already deployed:
+
+A pod named `secure-pod`
+A service named `secure-service` that targets this pod
+Currently, both incoming and outgoing network connections to/from secure-pod are failing.
+
+Your task is to troubleshoot and fix the issue so that:
+
+Incoming connections from the pod `webapp-color` to `secure-pod` are successful.
+
+```bash
+controlplane ~ ➜  k get po --show-labels 
+NAME           READY   STATUS    RESTARTS   AGE    LABELS
+secure-pod     1/1     Running   0          80s    run=secure-pod
+webapp-color   1/1     Running   0          104s   name=webapp-color
+
+controlplane ~ ➜  k describe networkpolicies.networking.k8s.io default-deny 
+Name:         default-deny
+Namespace:    default
+Created on:   2025-10-06 12:08:13 +0000 UTC
+Labels:       <none>
+Annotations:  <none>
+Spec:
+  PodSelector:     <none> (Allowing the specific traffic to all pods in this namespace)
+  Allowing ingress traffic:
+    <none> (Selected pods are isolated for ingress connectivity)
+  Not affecting egress traffic
+  Policy Types: Ingress
+
+controlplane ~ ➜  k get -o yaml networkpolicies.networking.k8s.io default-deny 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  creationTimestamp: "2025-10-06T12:08:13Z"
+  generation: 1
+  name: default-deny
+  namespace: default
+  resourceVersion: "2192"
+  uid: 64b77884-8b8e-449c-86f5-e8939137a175
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+
+controlplane ~ ✖ k get po,ep,svc
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAME               READY   STATUS    RESTARTS   AGE
+pod/secure-pod     1/1     Running   0          5m11s
+pod/webapp-color   1/1     Running   0          5m35s
+
+NAME                       ENDPOINTS             AGE
+endpoints/kubernetes       192.168.56.139:6443   25m
+endpoints/secure-service   172.17.0.8:80         5m11s
+
+NAME                     TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes       ClusterIP   172.20.0.1     <none>        443/TCP   25m
+service/secure-service   ClusterIP   172.20.62.30   <none>        80/TCP    5m11s
+
+controlplane ~ ➜  k edit -o yaml networkpolicies.networking.k8s.io default-deny
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  creationTimestamp: "2025-10-06T12:08:13Z"
+  generation: 3
+  name: default-deny
+  namespace: default
+  resourceVersion: "2983"
+  uid: 64b77884-8b8e-449c-86f5-e8939137a175
+spec:
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          name: webapp-color
+    ports:
+    - port: 80
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      run: secure-pod
+  policyTypes:
+  - Ingress
+
+controlplane ~ ➜  k exec webapp-color -it -- sh
+/opt # secure-service.default.svc.cluster.local
+sh: secure-service.default.svc.cluster.local: not found
+/opt # nslookup secure-service.default.svc.cluster.local
+nslookup: can't resolve '(null)': Name does not resolve
+
+Name:      secure-service.default.svc.cluster.local
+Address 1: 172.20.62.30 secure-service.default.svc.cluster.local
+/opt # nc -v -z -w 5 secure-service 80
+secure-service (172.20.62.30:80) open
+/opt # exit
+```
