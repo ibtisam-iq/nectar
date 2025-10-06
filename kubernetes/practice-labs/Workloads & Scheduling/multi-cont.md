@@ -101,8 +101,8 @@ spec:
       image: busybox:1.28
       command: ["/bin/sh", "-c"]
       args:
-        - while true; do
-            echo "$(date) - Hi I am from neighbor container" > /var/log/index.html;
+        - while true; do      # I made the mistake.. >> not > and /var/log/index.html not index.html
+            echo "$(date) - Hi I am from neighbor container" >> /var/log/index.html;    
             sleep 5;
           done
       volumeMounts:
@@ -111,6 +111,14 @@ spec:
 root@student-node ~ ➜  k get po -n ckad-multi-containers 
 NAME                READY   STATUS    RESTARTS   AGE
 ckad-neighbor-pod   2/2     Running   0          15s
+
+---
+Another way:
+
+command:
+        - /bin/sh
+        - -c
+        - while true; do echo $(date -u) Hi I am from neighbor container >> /var/log/index.html; sleep 5;done
 ```
 
 ---
