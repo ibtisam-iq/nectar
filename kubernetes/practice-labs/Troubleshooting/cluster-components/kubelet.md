@@ -201,15 +201,20 @@ In controlplane node, something problem with kubelet configuration files, fix th
 - location: `/var/lib/kubelet/config.yaml` and `/etc/kubernetes/kubelet.conf`
 
 ```bash
-controlplane:~$ k get no
-NAME           STATUS   ROLES           AGE   VERSION
-controlplane   Ready    control-plane   8d    v1.33.2
-node01         Ready    <none>          8d    v1.33.2
+controlplane ~ ➜  k get no
+NAME           STATUS     ROLES           AGE   VERSION
+controlplane   Ready      control-plane   13m   v1.33.0
+node01         NotReady   <none>          13m   v1.33.0
 controlplane:~$ k run test --image nginx
 pod/test created
 controlplane:~$ k get po
 NAME   READY   STATUS    RESTARTS   AGE
 test   1/1     Running   0          9s
+
+node01 ~ ✖ systemctl status kubelet
+● kubelet.service - kubelet: The Kubernetes Node Agent
+     Active: activating (auto-restart) 
+   Main PID: 10112 (code=exited, status=1/FAILURE)
 
 controlplane:~$ journalctl -u kubelet -f      
 
@@ -224,8 +229,28 @@ Aug 27 22:45:11 controlplane kubelet[40112]: E0827 22:45:11.297088   40112 contr
 
 controlplane:~$ vi /etc/kubernetes/kubelet.conf     # correct 6443
 controlplane:~$ systemctl restart kubelet
-```
 
+---
+node01 ~ ➜  systemctl status kubelet               # correct 6443, it is set 6553
+● kubelet.service - kubelet: The Kubernetes Node Agent
+     Active: active (running) since Tue 2025-10-07 20:21:34 UTC; 15s ago
+
+Oct 07 20:21:41 node01 kubelet[16969]: E1007 20:21:41.306369   16969 kubelet_node_status.go:107] "Unable to register node with API server" err="Post \"https://controlplan>
+Oct 07 20:21:42 node01 kubelet[16969]: E1007 20:21:42.033633   16969 reflector.go:200] "Failed to watch" err="failed to list *v1.CSIDriver: Get \"https://controlplane:655>
+Oct 07 20:21:42 node01 kubelet[16969]: E1007 20:21:42.848181   16969 event.go:368] "Unable to write event (may retry after sleeping)" err="Post \"https://controlplane:655>
+Oct 07 20:21:43 node01 kubelet[16969]: E1007 20:21:43.125198   16969 reflector.go:200] "Failed to watch" err="failed to list *v1.Service: Get \"https://controlplane:6553/>
+Oct 07 20:21:43 node01 kubelet[16969]: E1007 20:21:43.556554   16969 reflector.go:200] "Failed to watch" err="failed to list *v1.RuntimeClass: Get \"https://controlplane:>
+Oct 07 20:21:44 node01 kubelet[16969]: E1007 20:21:44.977721   16969 eviction_manager.go:292] "Eviction manager: failed to get summary stats" err="failed to get node info>
+Oct 07 20:21:45 node01 kubelet[16969]: E1007 20:21:45.518560   16969 reflector.go:200] "Failed to watch" err="failed to list *v1.Node: Get \"https://controlplane:6553/api>
+Oct 07 20:21:47 node01 kubelet[16969]: E1007 20:21:47.330880   16969 controller.go:145] "Failed to ensure lease exists, will retry" err="Get \"https://controlplane:6553/a>
+Oct 07 20:21:47 node01 kubelet[16969]: I1007 20:21:47.709175   16969 kubelet_node_status.go:75] "Attempting to register node" node="node01"
+Oct 07 20:21:47 node01 kubelet[16969]: E1007 20:21:47.712846   16969 kubelet_node_status.go:107] "Unable to register node with API server" err="Post \"https://controlplan>
+
+
+node01 ~ ✖ journalctl -u kubelet -f 
+Oct 07 20:22:12 node01 kubelet[16969]: E1007 20:22:12.864212   16969 event.go:368] "Unable to write event (may retry after sleeping)" err="Post \"https://controlplane:6553/api/v1/namespaces/default/events\": dial tcp 192.168.211.184:6553: connect: connection refused" event="&Event{ObjectMeta:{node01.186c4f125c69f780  default    0 0001-01-01 00:00:00 +0000 UTC <nil> <nil> map[] map[] [] [] []},InvolvedObject:ObjectReference{Kind:Node,Namespace:,Name:node01,UID:node01,APIVersion:,ResourceVersion:,FieldPath:,},Reason:Starting,Message:Starting kubelet.,Source:EventSource{Component:kubelet,Host:node01,},FirstTimestamp:2025-10-07 20:21:34.673475456 +0000 UTC m=+0.183081277,LastTimestamp:2025-10-07 20:21:34.673475456 +0000 UTC m=+0.183081277,Count:1,Type:Normal,EventTime:0001-01-01 00:00:00 +0000 UTC,Series:nil,Action:,Related:nil,ReportingController:kubelet,ReportingInstance:node01,}"
+
+```
 ---
 
 ## Q5 Kubelet Uninstalled
