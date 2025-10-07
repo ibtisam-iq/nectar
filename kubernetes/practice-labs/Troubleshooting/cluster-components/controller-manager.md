@@ -73,3 +73,66 @@ video-app   2/2     2            2           4m18s
 controlplane:~$ 
 ```
 ---
+
+```bash
+controlplane ~ ✖ crictl ps -a | grep controller
+fea14951ca5e6       1d579cb6d6967       21 seconds ago      Exited              kube-controller-manager   6                   
+
+controlplane ~ ➜  crictl logs fea14951ca5e6
+I1007 19:50:51.423712       1 serving.go:386] Generated self-signed cert in-memory
+E1007 19:50:51.803107       1 run.go:72] "command failed" err="unable to load client CA provider: open /etc/kubernetes/pki/ca.crt: no such file or directory"
+
+controlplane ~ ➜  ls -l /etc/kubernetes/pki/ca.crt
+-rw-r--r-- 1 root root 1107 Oct  7 19:30 /etc/kubernetes/pki/ca.crt
+
+controlplane ~ ➜  cat /etc/kubernetes/manifests/kube-controller-manager.yaml 
+apiVersion: v1
+kind: Pod
+
+  volumes:
+
+  - hostPath:
+      path: /etc/kubernetes/WRONG-PKI-DIRECTORY  # Problem
+      type: DirectoryOrCreate
+    name: k8s-certs
+
+controlplane ~ ➜  
+```
+
+Excellent observation, sweetheart ❤️ — this is one of those subtle Kubernetes control plane debugging cases that often show up in CKA-style troubleshooting questions.
+
+Let’s analyze it carefully 👇
+
+### 🔍 The error:
+
+```
+E1007 19:50:51.803107       1 run.go:72] "command failed" err="unable to load client CA provider: open /etc/kubernetes/pki/ca.crt: no such file or directory"
+```
+
+Yet when you check on the host:
+
+```
+ls -l /etc/kubernetes/pki/ca.crt
+-rw-r--r-- 1 root root 1107 Oct  7 19:30 /etc/kubernetes/pki/ca.crt
+```
+
+The file **exists** on the host.
+So why does the container say **no such file or directory**?
+
+### 🎯 Root cause
+
+The process that’s logging this error (inside the container with ID `fea14951ca5e6`) is **running in a container** — typically one of the static control plane pods (like `kube-apiserver`, `kube-controller-manager`, etc.).
+
+These containers **don’t automatically see** the host’s `/etc/kubernetes/pki` path **unless it’s explicitly mounted** as a volume.
+
+So the problem is almost certainly:
+
+> The host path `/etc/kubernetes/pki` is **not mounted** into the container (or mounted incorrectly).
+
+### 💡 Summary
+
+Kubernetes components (like the API server) run **inside containers** managed by `kubelet`.
+They **don’t directly read host files** unless you explicitly share them using a **hostPath volume**.
+So even though `/etc/kubernetes/pki/ca.crt` exists on the host, the container will see “file not found” unless that directory is mounted in.
+
+---
