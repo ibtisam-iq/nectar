@@ -279,3 +279,142 @@ That means **another Service in your cluster is already using NodePort `32345`**
    ```
 
 ---
+
+##  Q7
+
+```bash
+root@controlplane ~ ➜  k describe po -n triton webapp-mysql-7bd5857746-hrnnn 
+Name:             webapp-mysql-7bd5857746-hrnnn
+Namespace:        triton
+Priority:         0
+Service Account:  default
+Node:             controlplane/192.168.121.159
+Start Time:       Tue, 07 Oct 2025 20:30:39 +0000
+Labels:           name=webapp-mysql
+                  pod-template-hash=7bd5857746
+Annotations:      <none>
+Status:           Pending
+IP:               
+IPs:              <none>
+Controlled By:    ReplicaSet/webapp-mysql-7bd5857746
+Containers:
+  webapp-mysql:
+    Container ID:   
+    Image:          mmumshad/simple-webapp-mysql
+    Image ID:       
+    Port:           8080/TCP
+    Host Port:      0/TCP
+    State:          Waiting
+      Reason:       ContainerCreating
+    Ready:          False
+    Restart Count:  0
+    Environment:
+      DB_Host:      mysql
+      DB_User:      root
+      DB_Password:  paswrd
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-9xjnx (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   False 
+  Initialized                 True 
+  Ready                       False 
+  ContainersReady             False 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-9xjnx:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason                  Age                    From               Message
+  ----     ------                  ----                   ----               -------
+  Normal   Scheduled               5m27s                  default-scheduler  Successfully assigned triton/webapp-mysql-7bd5857746-hrnnn to controlplane
+  Warning  FailedCreatePodSandBox  5m27s                  kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "b1f2d3d14c84321dd0b5ff7041449db641159f6676d660f742bce390b1b5cd9d": plugin type="weave-net" name="weave" failed (add): unable to allocate IP address: Post "http://127.0.0.1:6784/ip/b1f2d3d14c84321dd0b5ff7041449db641159f6676d660f742bce390b1b5cd9d": dial tcp 127.0.0.1:6784: connect: connection refused
+
+root@controlplane ~ ➜  ls /opt/cni/bin/
+bandwidth  dhcp   firewall     host-local  LICENSE   macvlan  ptp        sbr     tap     vlan  weave-ipam  weave-plugin-2.8.1
+bridge     dummy  host-device  ipvlan      loopback  portmap  README.md  static  tuning  vrf   weave-net
+
+root@controlplane ~ ➜  ls /etc/cni/net.d/
+10-weave.conflist
+
+root@controlplane ~ ➜  k get no
+NAME           STATUS   ROLES           AGE   VERSION
+controlplane   Ready    control-plane   32m   v1.33.0
+
+root@controlplane ~ ➜  k get po -A
+NAMESPACE     NAME                                   READY   STATUS              RESTARTS   AGE
+kube-system   coredns-674b8bbfcf-2gsl6               1/1     Running             0          34m
+kube-system   coredns-674b8bbfcf-57q4d               1/1     Running             0          34m
+kube-system   etcd-controlplane                      1/1     Running             0          34m
+kube-system   kube-apiserver-controlplane            1/1     Running             0          34m
+kube-system   kube-controller-manager-controlplane   1/1     Running             0          34m
+kube-system   kube-proxy-g9h2x                       1/1     Running             0          34m
+kube-system   kube-scheduler-controlplane            1/1     Running             0          34m
+triton        mysql                                  0/1     ContainerCreating   0          8m40s
+triton        webapp-mysql-7bd5857746-hrnnn          0/1     ContainerCreating   0          8m40s
+
+root@controlplane ~ ➜  kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+serviceaccount/weave-net created
+clusterrole.rbac.authorization.k8s.io/weave-net created
+clusterrolebinding.rbac.authorization.k8s.io/weave-net created
+role.rbac.authorization.k8s.io/weave-net created
+rolebinding.rbac.authorization.k8s.io/weave-net created
+daemonset.apps/weave-net created
+
+root@controlplane ~ ➜  k get po -A
+NAMESPACE     NAME                                   READY   STATUS    RESTARTS   AGE
+kube-system   coredns-674b8bbfcf-2gsl6               1/1     Running   0          36m
+kube-system   coredns-674b8bbfcf-57q4d               1/1     Running   0          36m
+kube-system   etcd-controlplane                      1/1     Running   0          36m
+kube-system   kube-apiserver-controlplane            1/1     Running   0          36m
+kube-system   kube-controller-manager-controlplane   1/1     Running   0          36m
+kube-system   kube-proxy-g9h2x                       1/1     Running   0          36m
+kube-system   kube-scheduler-controlplane            1/1     Running   0          36m
+kube-system   weave-net-kv8dz                        2/2     Running   0          16s
+triton        mysql                                  1/1     Running   0          11m
+triton        webapp-mysql-7bd5857746-hrnnn          1/1     Running   0          11m
+
+root@controlplane ~ ➜  
+```
+
+Perfect — this is a **CNI failure** case, and you’ve gathered exactly the right data, sweetheart ❤️.
+
+Let’s break it down carefully and solve it step by step 👇
+
+## 🧩 The core error:
+
+```
+Failed to create pod sandbox:
+rpc error: code = Unknown desc = failed to setup network for sandbox ...
+plugin type="weave-net" name="weave" failed (add):
+unable to allocate IP address: Post "http://127.0.0.1:6784/ip/...": dial tcp 127.0.0.1:6784: connect: connection refused
+```
+
+This line tells the full story:
+
+> kubelet is trying to contact the **Weave Net CNI** plugin via `127.0.0.1:6784`, but the **Weave Net daemon isn’t running** on the node — or it crashed.
+
+## 🧠 Why this happens
+
+Kubernetes relies on a **CNI plugin** to handle pod networking (assign IPs, connect pods, etc.).
+Weave Net runs as **a DaemonSet** — meaning **a pod per node**.
+
+If the weave pod isn’t running or is failing, no pod on that node can start because the network setup step fails.
+That’s exactly why your pods stay in **ContainerCreating / Pending** state.
+
+## 🧾 Evidence
+
+* ✅ CNI binaries exist: `/opt/cni/bin/weave-net` and `/opt/cni/bin/weave-ipam`
+* ✅ Config exists: `/etc/cni/net.d/10-weave.conflist`
+* ❌ But weave Net DaemonSet isn’t functioning (port 6784 unreachable).
+
+---
+
