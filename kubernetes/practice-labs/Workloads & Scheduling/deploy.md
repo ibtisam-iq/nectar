@@ -485,3 +485,80 @@ status: {}
 
 controlplane ~ ➜  
 ```
+
+---
+
+## Q8
+
+From student-node `ssh cluster1-controlplane` to solve this question.
+
+Create a deployment named `logging-deployment` in the namespace `logging-ns` with `1` replica, with the following specifications:
+
+The main container should be named `app-container`, use the image `busybox`, and should start by creating a log directory `/var/log/app` and run the below command to simulate generating logs :
+
+```bash
+while true; do 
+  echo "Log entry" >> /var/log/app/app.log
+  sleep 5
+done
+```
+Add a co-located container named `log-agent` that also uses the `busybox` image and runs the commands:
+
+```bash
+touch /var/log/app/app.log
+tail -f /var/log/app/app.log
+```
+`log-agent` logs should display the entries logged by the main `app-container`
+
+```bash
+cluster1-controlplane ~ ➜  cat 2.yaml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: logging-deployment
+  name: logging-deployment
+  namespace: logging-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logging-deployment
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: logging-deployment
+    spec:
+      volumes:
+        - name: abc
+          emptyDir: {}
+      containers:
+      - image: busybox
+        name: app-container
+        volumeMounts:
+          - name: abc
+            mountPath: /var/log/app
+        command:
+          - sh
+          - -c
+        args:
+          - while true; do echo "Log entry" >> /var/log/app/app.log; sleep 5; done
+      - image: busybox
+        volumeMounts:
+          - name: abc
+            mountPath: /var/log/app
+        name: log-agent
+        command:
+          - sh
+          - -c
+          - touch /var/log/app/app.log; tail -f /var/log/app/app.log
+status: {}
+
+cluster1-controlplane ~ ➜  k logs -n logging-ns logging-deployment-7bdd98cff6-z8rjk -c log-agent
+Log entry
+Log entry
+```
+
