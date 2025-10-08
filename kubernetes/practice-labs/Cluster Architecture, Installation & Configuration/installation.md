@@ -7,6 +7,9 @@ Make sure to configure the CIDR to `172.17.0.0/16` and set the encapsulation met
 After installing the CNI, check if the pods can successfully communicate with each other.
 
 ```bash
+# Don't use kubectl apply -f <>
+# The CustomResourceDefinition "installations.operator.tigera.io" is invalid: metadata.annotations: Too long: may not be more than 262144 bytes
+
 cluster4-controlplane ~ ➜  kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.2/manifests/tigera-operator.yaml
 namespace/tigera-operator created
 customresourcedefinition.apiextensions.k8s.io/bgpconfigurations.crd.projectcalico.org created
