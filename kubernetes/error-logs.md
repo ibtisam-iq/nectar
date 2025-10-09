@@ -90,7 +90,7 @@ controlplane:~$ systemctl status kubelet
 cluster2-controlplane ~ ✖ kubelet --version      # kubelet is uninstalled
 -bash: kubelet: command not found
 
-node01:~$ journalctl -u kubelet -f.
+node01:~$ journalctl -u kubelet -f
 
 # cat /var/lib/kubelet/kubeadm-flags.env     # remove --improve-speed
 Aug 23 13:53:14 node01 kubelet[8691]: E0823 13:53:14.926448    8691 run.go:72] "command failed" err="failed to parse kubelet flag: unknown flag: --improve-speed"
