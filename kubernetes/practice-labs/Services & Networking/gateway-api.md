@@ -27,7 +27,7 @@
     ```bash
     curl http://cluster2-controlplane:30080
     # or
-    curl -H "host: cluster2-controlplane" http://<node-IP>:<nodePort>
+    curl -H "Host: cluster2-controlplane" http://<node-IP>:<nodePort>
     ```
 
 ### 2️⃣ **Multiple Backends (Traffic Split)**
