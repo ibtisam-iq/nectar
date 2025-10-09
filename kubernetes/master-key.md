@@ -171,6 +171,11 @@ spec:
     matchLabels:
       batch.kubernetes.io/controller-uid: e9892e6c-33c0-4dc8-a6ff-d557b9d7a67c
   suspend: false
+
+behavior:                              
+    scaleUp:
+      stabilizationWindowSeconds: 300    # ⏳ Wait this long before considering another scale-up
+      tolerance: 0.05                    # ±5% around the target metric
 ```
 
 ---
