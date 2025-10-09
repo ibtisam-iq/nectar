@@ -91,7 +91,12 @@ patches:
       - op: replace
         path: /spec/replicas
         value: 3
+
+  - path: mongo-patch.yaml
+  - path: api-patch.yaml
+
 ```
+
 
 This patch changes the replica count of the `api-deploy` Deployment to 3.
 > **Note:** Again, if we want this patch to apply **only in production**, we must put it inside the production overlay.
