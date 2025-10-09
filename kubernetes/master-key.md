@@ -274,3 +274,9 @@ images:
     newTag: "1.23"
 ```
 ---
+
+| You type in curl                      | What it means                                         | Sent to server                   |
+| ------------------------------------- | ----------------------------------------------------- | -------------------------------- |
+| `-H "Host: site.com"`                 | Add a header named `Host`                             | `Host: site.com`                 |
+| `-H "Content-Type: application/json"` | Add a header named `Content-Type`                     | `Content-Type: application/json` |
+| `-H "Header: something"`              | Add a header literally called `Header` (not standard) | `Header: something`              |
