@@ -212,6 +212,7 @@ spec:
 - Even though a local PV and PVC can bind successfully, the pod may remain Pending until node affinity (or toleration) ensures it is scheduled on the node where that PV physically exists.
 - Want to use controlplane? → Add **toleration**.
 - Want to delete a PVC? → First **delete the Pod** using it.
+- After applying a ResourceQuota or LimitRange, always run `kubectl describe ns <namespace>` to confirm they are correctly attached and active for that namespace.
 - Manifest not deployed
   - ensure CRDs are installed first: no matches for kind "Persistentvolumeclaim" in version "v1"
   - strict decoding error: unknown field "metadata.app"
