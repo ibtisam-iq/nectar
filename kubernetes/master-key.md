@@ -197,7 +197,7 @@ behavior:
 - To enable an API `v1alpha1`, add the `--runtime-config=rbac.authorization.k8s.io/v1alpha1` option to the kube-apiserver.yaml file
 - If the exam asks about **CoreDNS config backup** → you back up the ConfigMap. `k get cm coredns -n kube-system -o yaml > /opt/coredns_backup.yaml`
 - Update Cluster Domain → `k -n kube-system edit cm coredns` → `k -n kube-system rollout restart deploy coredns`
-- `root@cka3962:~# iptables-save | grep p2-service` Write the iptables rules of node `cka3962` belonging the created Service `p2-service`.
+- KubeProxy → `root@cka3962:~# iptables-save | grep p2-service` Write the iptables rules of node `cka3962` belonging the created Service `p2-service`.
 - Mount without `subPath` → full directory; mount with `subPath` → single file/key only.
 - If your `DB_USER = root`, then your `DB_Password` must match the value of `MYSQL_ROOT_PASSWORD` inside the MySQL Pod.
 - **MySQL 5.6** needs at least ~512Mi–1Gi to initialize databases. With only 256Mi, InnoDB runs out of memory during startup, so the kernel kills the process.
