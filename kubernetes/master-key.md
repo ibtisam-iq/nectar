@@ -201,7 +201,8 @@ spec:
 - Use liveness probes to know when to restart a container.
 - Probe failed → Update the probe port to match `containerPort`.
 
-- PVC requires some time for binding. So, be patient.
+
+- PVC, CRD and Restoring ETCD requires some time. So, be patient.
 - The manifest related to volume (pvc, pv), and resource field in pod/deployment.... delete all fields, and the apply.
 - An `HTTPRoute` does not have to be in the same namespace as the `Gateway`, but it does have to be in the same namespace as the `Service` it references (unless you explicitly allow cross-namespace routing via `backendRefs.namespaces`).
 - Use `kubectl api-resource` for interacting the imperative commands for **ResourceQuota and Role, ClusterRole**. Resources are plural here.
