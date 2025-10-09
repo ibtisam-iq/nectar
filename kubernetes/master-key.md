@@ -225,6 +225,7 @@ behavior:
 - To grant **monitoring or read-only access**, assign only the verbs **`get`, `list`, and `watch`** on the required resources.
 - `privileged: true` gives the container almost unrestricted access to the host, equivalent to root privileges outside the container.
 - Containers run as root by default unless `runAsNonRoot: true` or a **non-root UID** is set; setting `privileged: true` or adding `CAP_SYS_ADMIN` effectively grants root-level powers.
+- Kubelet Client Certificate → `kubelet-client-current.pem`, Kubelet Server Certificate → `kubelet.crt`, Kubelet Server Key → `kubelet.key`
 - Manifest not deployed
   - ensure CRDs are installed first: no matches for kind "Persistentvolumeclaim" in version "v1"
   - strict decoding error: unknown field "metadata.app"
