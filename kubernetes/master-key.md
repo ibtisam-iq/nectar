@@ -216,6 +216,8 @@ spec:
 - When multiple environment files are specified, if the same key appears in more than one file, the value from the last file listed **overrides** earlier ones.
 - When multiple environment sources (`envFrom`, ConfigMaps, Secrets, or env files) define the same key, **the value from the last source listed overrides all previous ones**.
 - ServiceAccounts no longer auto-create **Secret** tokens — instead, Pods get an **ephemeral, auto-rotating token mounted** as a **projected volume** at `/var/run/secrets/kubernetes.io/serviceaccount/token`.
+- To grant **monitoring or read-only access**, assign only the verbs **`get`, `list`, and `watch`** on the required resources.
+
 - Manifest not deployed
   - ensure CRDs are installed first: no matches for kind "Persistentvolumeclaim" in version "v1"
   - strict decoding error: unknown field "metadata.app"
