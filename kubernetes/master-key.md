@@ -222,6 +222,8 @@ behavior:
 - When multiple environment files are specified, if the same key appears in more than one file, the value from the last file listed **overrides** earlier ones.
 - When multiple environment sources (`envFrom`, ConfigMaps, Secrets, or env files) define the same key, **the value from the last source listed overrides all previous ones**.
 - ServiceAccounts no longer auto-create **Secret** tokens — instead, Pods get an **ephemeral, auto-rotating token mounted** as a **projected volume** at `/var/run/secrets/kubernetes.io/serviceaccount/token`.
+- Anything under `data:` or `*-data:` (Secrets, kubeconfig certs/keys) is **base64-encoded** and must be decoded before use; ConfigMaps are plain text; **tokens produced by `kubectl create token <sa>` are plain JWT strings (usable as-is).**
+
 - To grant **monitoring or read-only access**, assign only the verbs **`get`, `list`, and `watch`** on the required resources.
 - `privileged: true` gives the container almost unrestricted access to the host, equivalent to root privileges outside the container.
 - Containers run as root by default unless `runAsNonRoot: true` or a **non-root UID** is set; setting `privileged: true` or adding `CAP_SYS_ADMIN` effectively grants root-level powers.
