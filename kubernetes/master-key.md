@@ -200,6 +200,7 @@ spec:
 - Use `env` when mapping specific keys → env vars; use `envFrom` when importing all keys from a ConfigMap/Secret.
 - Use liveness probes to know when to restart a container.
 - Probe failed → Update the probe port to match `containerPort`.
+- Manually Curl the Probe Endpoint (if HTTP probe) `kubectl exec -it <pod-name> -- curl -v localhost:<port>/<path>`
 
 
 - PVC, CRD and Restoring ETCD requires some time. So, be patient.
