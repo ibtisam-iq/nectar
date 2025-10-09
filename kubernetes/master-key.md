@@ -209,6 +209,7 @@ spec:
 - In Kubernetes, each `volume` entry under `spec.volumes` must have a **unique name**. And if you try to add two different sources (like `persistentVolumeClaim` + `emptyDir`) under the same volume, you’ll also get an error.
 - Unlike `hostPath` volumes (which **can create a path automatically** if it doesn’t exist → type: `DirectoryOrCreate`), a **local PersistentVolume (PV)** in Kubernetes expects that the directory (or device) already exists on the node.
 - With `hostPath`, the `nodeAffinity` is a precaution; with `local`, it’s mandatory.
+- Even though a local PV and PVC can bind successfully, the pod may remain Pending until node affinity (or toleration) ensures it is scheduled on the node where that PV physically exists.
 - Want to use controlplane? → Add **toleration**.
 - Want to delete a PVC? → First **delete the Pod** using it.
 - Manifest not deployed
