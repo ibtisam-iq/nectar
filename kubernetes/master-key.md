@@ -259,7 +259,7 @@ behavior:
 
 ## Use quotes ""
 
-```bash
+```yaml
 resources:
       requests:
         memory: "10Gi"
@@ -286,6 +286,7 @@ appVersion: "1.20.0"
 
 images:
   - name: nginx
+    newName: myregistry.com/custom-nginx
     newTag: "1.23"
 ```
 ---
