@@ -219,6 +219,47 @@ Removes all privileges and adds back only necessary ones like binding to ports <
 
 ---
 
+#### 10. `privileged: true`
+
+When you set:
+
+```yaml
+securityContext:
+  privileged: true
+```
+
+it gives the container **full host-level privileges** — basically, it’s like running the container as **root on the host itself**, not just inside its namespace.
+This allows access to host devices, kernel modules, and mounting filesystems, etc.
+
+**What “Host” Means**
+
+In Kubernetes (or Docker),
+
+* **Your host** = the **machine (node)** on which the container actually runs.
+* So if you’re running Kubernetes locally (e.g., `minikube`, `kind`, or `kubeadm` on your laptop),
+  then **the host is your laptop**.
+
+If it’s a cluster:
+
+* Then “host” means the **worker node (VM or physical machine)** where that Pod is scheduled.
+
+⚠️ So when you set:
+
+```yaml
+securityContext:
+  privileged: true
+```
+
+It allows the container to **access and control your host system**, e.g.:
+
+* read or modify host files,
+* mount host devices,
+* change kernel settings.
+
+That’s why it’s dangerous — it’s almost like **giving the container root access to your laptop (the host)**.
+
+---
+
 ## 🏗️ Pod-level vs Container-level `securityContext`
 
 Kubernetes allows you to define `securityContext`:
