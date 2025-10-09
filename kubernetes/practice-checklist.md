@@ -50,7 +50,7 @@ Use it as a **roadmap + progress tracker**.
 
 ## 3. Cluster Ops Topics (Administration / CKA)
 
-- [ ] kubeadm init / join, kubeadm upgrade, kubeadm reset `kubeadm init` *https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/*
+- [ ] kubeadm init / join, kubeadm upgrade, kubeadm reset `kubeadm init`
   - Installing kubeadm `container runtimes`
   - Troubleshooting kubeadm
   - Creating a cluster with kubeadm `container runtimes`
@@ -62,23 +62,15 @@ Use it as a **roadmap + progress tracker**.
 - [ ] `Admission control`
 - [ ] Authentication, Authorization, RBAC setup (Roles, RoleBindings, ClusterRoles, ClusterRoleBindings), Admission Controllers, Certificate Signing Requests
   -  Controlling Access to the Kubernetes API
-    - [Authenticating](https://kubernetes.io/docs/reference/access-authn-authz/authentication/)
-         - [Authenticating with Bootstrap Tokens](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/)
-    - [Admission Controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/)
-         - [Dynamic Admission Control](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/)
-    - [Authorization](https://kubernetes.io/docs/reference/access-authn-authz/authorization/)
-         - [Role Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
-         - [Attribute Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/abac/)
-         - [Node Authorization](https://kubernetes.io/docs/reference/access-authn-authz/node/)
-         - [Webhook Authorization](https://kubernetes.io/docs/reference/access-authn-authz/webhook/)
-    - [Certificate Signing Requests](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/)
+    - Certificate Signing Requests
           - `csr/certificate: Issue a Certificate for a Kubernetes API Client Using A CertificateSigningRequest (Manage TLS Certificates in a Cluster)`   
 - [ ] Certificate management (renew, inspect, troubleshoot)
 - [ ] Node maintenance (drain, cordon, uncordon)
 - [ ] Cluster troubleshooting (Pods pending, CrashLoopBackOff, Node NotReady, DNS issues)
 - [ ] `Network plugin` install (Calico, Flannel, Cilium, etc.)
 - [ ] CoreDNS config & troubleshooting
-- [ ] kubeconfig management (contexts, users, clusters)   `kubeconfig` *https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/*
+- [ ] KubeProxy troubleshooting
+- [ ] kubeconfig management (contexts, users, clusters)   `kubeconfig`
 - [ ] Scheduling debugging (taints, tolerations, affinity)
 - [ ] Logging & monitoring basics
 - [ ] Upgrading worker nodes
