@@ -312,6 +312,33 @@ kubeadm init \
 * `--control-plane-endpoint=<LB IP>:6443` → If multi-control-plane planned.
 * `--upload-certs` → To share certs across nodes for HA setup.
 
+```bash
+controlplane ~ ➜  cat /opt/kubeadm-config.yaml 
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: "192.168.182.22"
+  bindPort: 6443
+nodeRegistration:
+  ignorePreflightErrors:
+    - SystemVerification
+---
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: ClusterConfiguration
+kubernetesVersion: "v1.34.0"
+controlPlaneEndpoint: "controlplane"
+networking:
+  podSubnet: "172.17.0.0/16"
+  serviceSubnet: "172.20.0.0/16"
+apiServer:
+  certSANs:
+    - "controlplane"
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+cgroupDriver: cgroupfs
+```
+
 ---
 
 ## 🧠 3. What would change in Multi-Control-Plane Setup?
