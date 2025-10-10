@@ -151,8 +151,9 @@ patches:
             containers:          # adds a new container to the list, or replaces if it already exists.
              - name: sidecar
                image: busybox
-             - $patch: delete    # deletes an existing container, this is an unique way.
-               name: sidecar     # container name
+             - name: sidecar     # container name
+               $patch: delete    # deletes an existing container, this is an unique way.
+               
 ```
 
 ### (b) External Patch (YAML file: `replica-patch.yaml`)
