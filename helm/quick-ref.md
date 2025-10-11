@@ -83,6 +83,14 @@ helm template <release> <chart>       # Render without installing
 helm install <release> <chart> --dry-run --debug # Preview
 ```
 
+```
+helm template silver-argo argo/argo-cd \
+  --version 7.6.12 \
+  --namespace argocd \
+  --set installCRDs=false \
+  > argocd-template.yaml
+```
+
 ---
 
 ## **4️⃣ Rollback**
