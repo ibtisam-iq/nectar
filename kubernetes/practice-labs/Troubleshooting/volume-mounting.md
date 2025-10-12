@@ -181,6 +181,22 @@ That’s why the misleading error appeared earlier — Kubernetes first *tries p
 
 ---
 
+##  PVC is pending: reduce pvc size, wrong pvc `accessMode`
+
+```bash
+controlplane:~$ k describe pvc postgres-pvc 
+Name:          postgres-pvc
+
+Events:
+  Type     Reason          Age                 From                         Message     # reduce pvc size, wrong pvc accessMode
+  ----     ------          ----                ----                         -------
+  Warning  VolumeMismatch  11s (x7 over 101s)  persistentvolume-controller  Cannot bind to requested volume "postgres-pv": requested PV is too small
+
+  Warning  VolumeMismatch  7s (x3 over 37s)  persistentvolume-controller  Cannot bind to requested volume "postgres-pv": incompatible accessMode
+```
+
+---
+
 ## Q2 Pod is pending
 
 Wrong PVC Name, then wrong pvc storageClassName, then wrong tag
