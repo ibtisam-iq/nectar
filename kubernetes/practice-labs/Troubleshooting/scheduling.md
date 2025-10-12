@@ -27,7 +27,7 @@ management-frontend-5987bc84b5-ms7hl   1/1     Running       0          6s
 ```
 ---
 
-## Q2 wrong node label (it is restricted to change any pod feature)
+## Q2 Wrong Node Label (it is restricted to change any pod feature)
 
 ```bash
 Events:
