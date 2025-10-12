@@ -1,6 +1,6 @@
 # Understanding ARG and ENV in Dockerfiles
 
-In Docker, environment variables play a crucial role in configuring and customizing the behavior of containers during both the build and runtime phases. Two essential instructions used for managing these variables in Dockerfiles are `ARG` and `ENV`. While they may seem similar, they serve different purposes and are available at different stages of the Docker container lifecycle.
+In Docker, environment variables play a crucial role in configuring and customizing the behavior of containers during both the **build and runtime** phases. Two essential instructions used for managing these variables in Dockerfiles are `ARG` and `ENV`. While they may seem similar, they serve different purposes and are available at different stages of the Docker container lifecycle.
 
 ---
 
