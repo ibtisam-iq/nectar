@@ -105,7 +105,7 @@ Implement the following in Namespace `project-tiger`:
 
 Alright ❤️ let’s carefully solve this step by step as if you’re inside `ssh cka2556`.
 
-## 🔑 Requirements Breakdown
+### 🔑 Requirements Breakdown
 
 * **Namespace**: `project-tiger`
 * **Deployment**: `deploy-important`
@@ -122,7 +122,7 @@ Alright ❤️ let’s carefully solve this step by step as if you’re inside `
   ```
 * Expected result: 2 Pods scheduled (1 per worker), 1 Pod stuck `Pending` because no more worker nodes → simulating DaemonSet-like behavior.
 
-## ✅ YAML Manifest
+### ✅ YAML Manifest
 
 ```yaml
 apiVersion: apps/v1
@@ -164,11 +164,11 @@ spec:
 * `podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution` is the key section that enforces “1 per node”.
 * If you mistakenly use `preferredDuringScheduling…`, all 3 Pods might land on one node (soft rule).
 
---
+### AI-Assisted Troubleshooting & Explanations
 
 Excellent ❤️ these are exactly the kinds of “why this, not that” questions examiners expect you to reason about. Let’s unpack carefully:
 
-### 1) **How do you know it is related to affinity?**
+#### 1) **How do you know it is related to affinity?**
 
 Because the requirement is:
 
@@ -182,7 +182,7 @@ Placement rules are controlled by **affinity/anti-affinity**. Specifically:
 
 Here the question is about “don’t put two of the same Pods on the same node” → that is **PodAntiAffinity**.
 
-### 2) **Why PodAntiAffinity, not PodAffinity?**
+#### 2) **Why PodAntiAffinity, not PodAffinity?**
 
 * **PodAffinity** = “this Pod *must be co-located* with another Pod.”
 * **PodAntiAffinity** = “this Pod *must NOT be co-located* with another Pod.”
@@ -194,7 +194,7 @@ The question wants *only 1 Pod per node*. That means:
 
 If we used PodAffinity, we’d be forcing multiple Pods *onto the same node* (the opposite of what we want).
 
-### 3) **Why no weight in PodAntiAffinity?**
+#### 3) **Why no weight in PodAntiAffinity?**
 
 * `weight` is used under **preferredDuringSchedulingIgnoredDuringExecution** (soft rule).
   Example: “prefer to spread out if possible, but allow if not.”
@@ -203,7 +203,7 @@ If we used PodAffinity, we’d be forcing multiple Pods *onto the same node* (th
 
 That’s why no `weight` field here.
 
-### 4) **Where does `matchExpressions` come from if question is silent?**
+#### 4) **Where does `matchExpressions` come from if question is silent?**
 
 Good eye 👀
 
