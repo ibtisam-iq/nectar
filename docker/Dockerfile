@@ -8,7 +8,7 @@ LABEL version="1.0" description="My application" maintainer="mylove@ibtisam.com"
 
 # ARG <name>[=<default>]
 # Defines a build-time variable, which can be overridden with --build-arg during the build process.
-# docker build --build-arg PORT=4000 -t myapp 
+# docker build --build-arg PORT=4000 -t myapp .
 # The port is now changed to 4000 from 8000.
 # ARG values are only available during the image build and not at runtime.
 ARG VERSION=1.0
