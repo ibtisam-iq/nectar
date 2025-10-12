@@ -27,7 +27,7 @@ For simple tasks, I practiced without recording. For complex tasks, I documented
 
 * The **original question statement**
 * **Shell commands & outputs**
-* **Detailed explanations** (with exam tips and gotchas)
+* **AI-Assisted Troubleshooting & Explanations** (with exam tips and gotchas)
 
 ---
 
