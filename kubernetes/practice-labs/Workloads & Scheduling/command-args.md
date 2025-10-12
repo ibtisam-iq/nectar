@@ -3,6 +3,10 @@
 - `k describe` tells if command is wrong
 - `k logs` tells if args or its any flag is wrong.
 
+---
+
+## Q1 Wrong Imperative Command
+
 ```bash
 k run alpine-app --image alpine -- 'echo "Main application is running"; sleep 3600'    # wrong, you need to open the shell in order to multiple commands
 kubectl run alpine-app \
@@ -22,6 +26,8 @@ kind: Pod
 
 ---
 
+## Correct Imperative Command
+
 ```bash
 k create cj -n ckad-job learning-every-minute --schedule "* * * * *" --image busybox:1.28 -- echo "I am practicing for CKAD certification"
 cronjob.batch/learning-every-minute created
@@ -33,6 +39,9 @@ containers:
 ```
 
 ---
+
+## Write `Hello from KodeKloud!` into a running nginx server at its root folder
+
 > **NOTE:** By default NGINX web server default location is at `/usr/share/nginx/html` which is located on the default file system of the Linux.
 ```bash
 root@student-node ~ ✖ k exec -n ckad-pod-design basic-nginx -it -- sh
@@ -42,18 +51,17 @@ Hello from KodeKloud!
 # exit
 ```
 ---
+
+## Wrong Command
+
 ```bash
 command:
-  - "/bin/sh"          not "bin/sh"
+  - "bin/sh"          # correct it to "/bin/sh"
   - "-c"
   - "sleep 10000"
-```
 
 ---
 
-## Wrong command
-
-```bash
 cluster4-controlplane ~ ➜  k describe po -n kube-system kube-controller-manager-cluster4-controlplane 
 Name:                 kube-controller-manager-cluster4-controlplane
 Namespace:            kube-system
@@ -62,6 +70,8 @@ Namespace:            kube-system
       --allocate-node-cidrs=true
 Warning  Failed   19s (x6 over 3m6s)  kubelet  Error: failed to create containerd task: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: exec: "kube-controller-manage": executable file not found in $PATH: unknown
 ```
+
+---
 
 ## Wrong arg
 
@@ -97,7 +107,6 @@ The `time-check` container must run the command: `while true; do date; sleep $TI
 Ensure that the path `/opt/time` within the pod mounts a volume that persists for the duration of the pod's lifecycle.
 
 ```bash
-
 
 controlplane ~ ➜  vi 3.yaml
 
@@ -143,9 +152,9 @@ Mon Oct  6 11:38:18 UTC 2025
 controlplane ~ ➜  
 ```
 
-Perfect execution, sweetheart ❤️ — you’ve done everything *almost* right, but the reason you see **no output from `kubectl logs`** is actually expected in this case. Let me explain what’s happening clearly 👇
+## AI-Assisted Troubleshooting & Explanations
 
----
+Perfect execution, sweetheart ❤️ — you’ve done everything *almost* right, but the reason you see **no output from `kubectl logs`** is actually expected in this case. Let me explain what’s happening clearly 👇
 
 ### 🧩 Why `kubectl logs` shows nothing
 
