@@ -181,7 +181,10 @@ That’s why the misleading error appeared earlier — Kubernetes first *tries p
 
 ---
 
-## Q2 wrong pvc name, then wrong pvc storageClassName, then wrong tag
+## Q2 Pod is pending
+
+Wrong PVC Name, then wrong pvc storageClassName, then wrong tag
+
 ```bash
 Events:
   Type     Reason            Age                 From               Message   
@@ -197,9 +200,10 @@ Events:
   Normal   BackOff           30s (x4 over 113s)  kubelet            Back-off pulling image "redis:latested"
   Warning  Failed            30s (x4 over 113s)  kubelet            Error: ImagePullBackOff
 ```
+
 ---
 
-## Q3 wrong accesssMode in PVC
+## Q3 wrong `accesssMode` in PVC
 
 ```bash
 controlplane:~$ k get pvc,pv
