@@ -144,24 +144,10 @@ spec:
 controlplane:~$ vi abc.yaml 
 controlplane:~$ 
 ```
+
 ---
 
-## Q2  reduce pvc size, correct pvc accessMode
-
-```bash
-controlplane:~$ k describe pvc postgres-pvc 
-Name:          postgres-pvc
-
-Events:
-  Type     Reason          Age                 From                         Message     # reduce pvc size, correct pvc accessMode
-  ----     ------          ----                ----                         -------
-  Warning  VolumeMismatch  11s (x7 over 101s)  persistentvolume-controller  Cannot bind to requested volume "postgres-pv": requested PV is too small
-
-  Warning  VolumeMismatch  7s (x3 over 37s)  persistentvolume-controller  Cannot bind to requested volume "postgres-pv": incompatible accessMode
-```
----
-
-## Q3 Projected Volume
+## Q2 Projected Volume
 
 In the `ckad14-sa-projected` namespace, configure the `ckad14-api-pod` Pod to include a **projected volume** named `vault-token`.
 
@@ -222,7 +208,7 @@ and add the **`volumeMounts`** + **`volumes`** sections exactly as above.
 
 ---
 
-## Q4 PVC/PV Resizing
+## Q3 PVC/PV Resizing
 
 A persistent volume called `papaya-pv-ckad09-str` is already created with a storage capacity of `150Mi`. It's using the `papaya-stc-ckad09-str` storage class with the path `/opt/papaya-stc-ckad09-str`.
 
@@ -391,7 +377,7 @@ root@student-node ~ âžœ
 
 ---
 
-## Q5
+## Q4
 
 A storage class called `coconut-stc-cka01-str` was created earlier. Use this storage class to create a persistent volume called `coconut-pv-cka01-str` as per below requirements:
 
@@ -482,7 +468,7 @@ In short: with `hostPath`, the `nodeAffinity` is a precaution; with `local`, itâ
 
 ---
 
-## Q6 
+## Q5 
 
 Create a Pod named `pod1` of image `nginx:alpine`
 - Make key `tree` of ConfigMap `trauerweide` available as environment variable `TREE1`
