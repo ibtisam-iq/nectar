@@ -232,7 +232,10 @@ docker ps/images/container
 docker rm CONTAINERID
 
 # Removes all stopped containers.
-docker rm $(docker ps -a -q)
+docker rm $(docker ps -aq)
+
+# Removes all images, both tagged and untagged, -f → Force removes them (even if in use by stopped containers) 
+docker rmi -f $(docker images -aq)
 
 # Another way to remove all stopped containers.
 docker ps -aq | xargs docker rm
