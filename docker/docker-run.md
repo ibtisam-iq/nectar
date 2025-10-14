@@ -365,5 +365,3 @@ docker history -q image:tag  # only layer IDs
 * Practice complex chained scenarios (e.g. build → save → load → run with flags) under time constraints.
 
 ---
-
-]
