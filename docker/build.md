@@ -1,5 +1,15 @@
 # docker build
 
+### Syntax
+
+```text
+docker build [OPTIONS] PATH | URL | -
+```
+
+The final argument is your **build context** (a directory or Git URL or `-` for stdin). The Dockerfile is assumed to be `PATH/Dockerfile` unless overridden.
+
+---
+
 The `docker build` command is used to create Docker images from a `Dockerfile` and its associated context. The **context** refers to the directory sent to the Docker daemon containing the `Dockerfile` and any files required during the build process. The behavior of the `docker build` command depends on the correct setup of the context and the path to the `Dockerfile`.
 
 ### Docker Context:
@@ -84,17 +94,6 @@ To summarize, a successful `docker build` requires:
 - Ensuring that all files referenced in the `Dockerfile` are accessible within the context directory.
 
 ---
-
-
-## `docker build`
-
-### Syntax
-
-```text
-docker build [OPTIONS] PATH | URL | -
-```
-
-The final argument is your **build context** (a directory or Git URL or `-` for stdin). The Dockerfile is assumed to be `PATH/Dockerfile` unless overridden.
 
 ### Key Flags / Options
 
