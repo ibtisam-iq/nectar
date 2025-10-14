@@ -126,6 +126,10 @@ curl -H "Host: local.ibtisam-iq.com" http://<node-ip>:<ingress-nodePort>/<path>
 ```
 
 ```yaml
+minReadySeconds: 10             # Even after Ready, wait at least 10 seconds after a Pod becomes Ready — ensures stability
+progressDeadlineSeconds: 600    # waits up to 10 min for the Deployment to make progress (Pods becoming Ready). If rollout takes longer, it’s marked as "Failed"
+revisionHistoryLimit: 10        # Keep the last 10 old ReplicaSets. Older ReplicaSets beyond this number are deleted automatically
+
 rules:
 - apiGroups:
   - ""
