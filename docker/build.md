@@ -83,3 +83,69 @@ To summarize, a successful `docker build` requires:
 - A correctly specified `Dockerfile` path, either by default or using the `-f` option.
 - Ensuring that all files referenced in the `Dockerfile` are accessible within the context directory.
 
+---
+
+
+## `docker build`
+
+### Syntax
+
+```text
+docker build [OPTIONS] PATH | URL | -
+```
+
+The final argument is your **build context** (a directory or Git URL or `-` for stdin). The Dockerfile is assumed to be `PATH/Dockerfile` unless overridden.
+
+### Key Flags / Options
+
+| Flag / Option             | Purpose                                                         | Notes / Examples                                                    |                   |
+| ------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------- | ----------------- |
+| `-t, --tag name:tag`      | Tag the built image                                             | Equivalent to `docker tag` afterward           |                   |
+| `-f, --file <Dockerfile>` | Specify alternate Dockerfile name / path                        | E.g. `docker build -f MyDockerfile .`    |                   |
+| `--build-arg KEY=VALUE`   | Pass build-time variable `ARG`                                  | You can use multiple `--build-arg` flags       |                   |
+| `--no-cache`              | Do not use cache during build                                   | Forces all layers to run fresh           |                   |
+| `--pull`                  | Always attempt to pull a newer base image                       | Ensures using latest base rather than cached                        |                   |
+| `--rm / --rm=true         | false`                                                          | Remove intermediate containers after a successful build             | Default is `true` |
+| `--squash` (experimental) | Squash new layers into single layer                             | Reduces number of layers (experimental)  |                   |
+| `--target <stage>`        | Build only up to a specific multi-stage stage                   | Useful when Dockerfile has multiple stages                          |                   |
+| `--compress`              | Compress build context before sending to daemon                 | Saves bandwidth for large contexts             |                   |
+| `--isolation`             | For Windows containers: specify isolation (`process`, `hyperv`) | On Linux only `default` is supported     |                   |
+| `--network <mode>`        | Network setting for build steps (RUN instructions)              | e.g. `--network host` or `none`                                     |                   |
+| `--label KEY=VALUE`       | Add metadata label to resulting image                           | e.g. version, maintainer                                            |                   |
+| `--ulimit`                | Set ulimit for build containers                                 | Control file descriptor limits etc                                  |                   |
+| `-q, --quiet`             | Suppress build output, show only final image ID                 | Useful in scripts or exam concise output mode                       |                   |
+| `--platform <os/arch>`    | target platform for build (especially with buildx)              | For multi-arch builds                   |                   |
+
+### Example: Complex `docker build`
+
+```bash
+docker build -f Dockerfile.prod \
+  --tag myuser/app:2.0 \
+  --build-arg ENV=production \
+  --build-arg VERSION=2.0 \
+  --no-cache \
+  --pull \
+  --compress \
+  --network host \
+  --label maintainer="me@example.com" \
+  --target release-stage \
+  .
+```
+
+This builds using custom Dockerfile, tags it, passes build args, forces fresh build, pulls latest base, compresses context, uses host network mode, labels the image, and stops at `release-stage` in multi-stage build.
+
+### Buildx / Multi-platform
+
+If using `buildx`, you get more flags and multi-platform support:
+
+```bash
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  --tag myuser/app:multiarch \
+  --push \
+  .
+```
+
+* `--platform` chooses target architectures
+* `--push` sends built images to registry directly
+* `--call`, `--check`, etc, are advanced features in buildx
