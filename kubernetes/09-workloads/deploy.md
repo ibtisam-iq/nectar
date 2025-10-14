@@ -1,3 +1,90 @@
+
+## 🧠 Full Example: `nginx-deployment.yaml`
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment        # Name of the Deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3                   # Number of Pod replicas you want to run
+  minReadySeconds: 10           # 👇 Wait at least 10 seconds after a Pod becomes Ready
+                                # before marking it as "Available" — ensures stability
+
+  progressDeadlineSeconds: 600  # 👇 Kubernetes waits up to 10 minutes (600 sec)
+                                # for the Deployment to make progress (Pods becoming Ready)
+                                # If rollout takes longer, it’s marked as "Failed"
+
+  revisionHistoryLimit: 5       # 👇 Keep the last 5 old ReplicaSets
+                                # (so you can roll back if needed)
+                                # Older ReplicaSets beyond this number are deleted automatically
+
+  selector:
+    matchLabels:
+      app: nginx                # 👇 Selects Pods with label "app=nginx"
+                                # This MUST match the labels in the Pod template below
+
+  strategy:                     # 👇 Defines how updates (rolling updates) happen
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1         # 👇 During update, at most 1 Pod can be unavailable
+      maxSurge: 1               # 👇 During update, at most 1 extra Pod can be created (above desired count)
+
+  template:                     # 👇 Template for Pods that will be created
+    metadata:
+      labels:
+        app: nginx              # 👇 Must match the selector above
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest     # 👇 Container image to run
+        ports:
+        - containerPort: 80     # 👇 Exposes port 80 in each Pod
+        readinessProbe:         # 👇 Optional: ensures Pod is fully ready before traffic
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+```
+
+---
+
+### 💡 How These Fields Work *Together* During a Rollout
+
+Let’s walk through this step-by-step:
+
+1. **Deployment starts an update**
+   K8s begins replacing old Pods with new ones.
+
+2. **`progressDeadlineSeconds` timer starts**
+   K8s expects new Pods to become Ready within this deadline (e.g., 600s).
+   If they don’t → rollout is marked as **Failed**.
+
+3. **Each new Pod becomes Ready**
+   The Pod passes its readiness probe (if defined).
+
+4. **`minReadySeconds` applies**
+   Even after Ready, K8s waits 10 more seconds before counting it as *Available* — to confirm stability.
+
+5. **Old ReplicaSets** are trimmed
+   Once rollout is complete, K8s keeps only the last `revisionHistoryLimit` (5 here).
+   The 6th oldest version is deleted to save cluster resources.
+
+---
+
+### ⚙️ TL;DR (Quick Summary)
+
+| Field                     | Function                                                                    | Default        | Why You Might Change It                              |
+| ------------------------- | --------------------------------------------------------------------------- | -------------- | ---------------------------------------------------- |
+| `minReadySeconds`         | Ensures Pods stay stable for a few seconds before marking them as available | `0`            | Add delay to catch flaky Pods                        |
+| `progressDeadlineSeconds` | Time before rollout is considered failed                                    | `600` (10 min) | Increase if Pods take longer to initialize           |
+| `revisionHistoryLimit`    | How many old ReplicaSets (versions) to keep                                 | `10`           | Lower to save resources, or raise for safer rollback |
+
+---
+
 Excellent observation, sweetheart 💡 You’ve hit on a subtle detail about **`--record`** and the **`CHANGE-CAUSE`** field in rollout history.
 
 ### 🔎 Why you see `<none>` in `CHANGE-CAUSE`
