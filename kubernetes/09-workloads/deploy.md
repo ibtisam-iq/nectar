@@ -10,16 +10,19 @@ metadata:
     app: nginx
 spec:
   replicas: 3                   # Number of Pod replicas you want to run
-  minReadySeconds: 10           # 👇 Wait at least 10 seconds after a Pod becomes Ready
+  minReadySeconds: 10           # 👇 Even after Ready, wait at least 10 seconds after a Pod becomes Ready
                                 # before marking it as "Available" — ensures stability
+                                # The key is NOT present by-default
 
   progressDeadlineSeconds: 600  # 👇 Kubernetes waits up to 10 minutes (600 sec)
                                 # for the Deployment to make progress (Pods becoming Ready)
                                 # If rollout takes longer, it’s marked as "Failed"
+                                # The key is present by-default
 
-  revisionHistoryLimit: 5       # 👇 Keep the last 5 old ReplicaSets
+  revisionHistoryLimit: 10      # 👇 Keep the last 10 old ReplicaSets
                                 # (so you can roll back if needed)
                                 # Older ReplicaSets beyond this number are deleted automatically
+                                # The key is present by-default
 
   selector:
     matchLabels:
