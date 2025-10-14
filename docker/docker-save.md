@@ -1,4 +1,4 @@
-# `docker save` — In-Depth Guide & Reference
+# `docker save` — In-Depth Guide
 
 ## What is `docker save`
 
