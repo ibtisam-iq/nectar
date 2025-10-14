@@ -38,10 +38,15 @@ cat image.tar | docker load
 
 # If compressed (gzip)
 gunzip -c image.tar.gz | docker load
-````
 
-Newer Docker versions support loading compressed archives (gzip, bzip2, xz, zstd) directly. 
-You can also specify `--platform` in `docker load` for multi-arch images (API v1.48+).
+# Alternatively, decompress first then load:
+gzip -d image.tar.gz
+docker load -i image.tar
+```
+
+- `docker load` reads from a tar archive (either from `STDIN` or `-i <file>`) and reconstructs the image in the local Docker daemon.
+- Newer Docker versions support loading compressed archives (gzip, bzip2, xz, zstd) directly. 
+- You can also specify `--platform` in `docker load` for multi-arch images (API v1.48+).
 
 ---
 
