@@ -43,6 +43,7 @@ DNS available:
 ## 🔑 2. Setting `spec.hostname`
 
 You can override the default Pod hostname with `spec.hostname`.
+When set, this value takes precedence over the Pod's `metadata.name`.
 
 ```yaml
 spec:
