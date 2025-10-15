@@ -288,6 +288,8 @@ metadata:
   labels:
     app: myapp                # Labels (optional, but often used)
 spec:                         # --> POD-LEVEL SPEC STARTS HERE
+  hostname: abc               # When set, this value takes precedence over the Pod's metadata.name
+  subdomain: def
   restartPolicy: Always       # Pod-level (Always, OnFailure, Never)
   nodeSelector:               # Pod-level (simple scheduling)
     disktype: ssd
