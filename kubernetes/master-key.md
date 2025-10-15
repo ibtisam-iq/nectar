@@ -153,28 +153,38 @@ env:
     - name:
       value or valueFrom
 
+From the containerized task, in the environment variable JOB_COMPLETION_INDEX
+
 spec:
   suspend: true                   # Starts the Job in a suspended state (default: false)
-  completions: 12                 # Default: 1
-  parallelism: 4                  # Default: 1
-  completionMode: Indexed         # Default: nonIndexed  
-  backoffLimitPerIndex: 1         # Allows 1 retry per index
-  maxFailedIndexes: 5             # Terminates the Job if 5 indices fail
-  backoffLimit: 4                 # Specifies the number of retries for failed Pods (default: 6)
-  activeDeadlineSeconds: 600      # Limits the Job duration to 600 seconds    # overrides backoffLimit
-  ttlSecondsAfterFinished: 300    # automatic deletetion of job & its pods after completion    # cleanup
----
-# Default
-  backoffLimit: 6
-  completionMode: NonIndexed
-  completions: 1
-  manualSelector: false
-  parallelism: 1
-  podReplacementPolicy: TerminatingOrFailed
-  selector:
-    matchLabels:
-      batch.kubernetes.io/controller-uid: e9892e6c-33c0-4dc8-a6ff-d557b9d7a67c
-  suspend: false
+  completions: 12                 # Default: 1 # Total successful Pods needed   # Total tasks
+  parallelism: 4                  # Default: 1 # Pods running simultaneously    # Number of workers
+  completionMode: Indexed         # Default: nonIndexed    # Track Pod indexes  # Worker IDs (where each Pod = one worker, one index).
+
+  backoffLimitPerIndex: 2         # only used with completionMode: Indexed
+                                  # How many times each indexed Pod can fail before its index is marked failed.
+                                  # When each index (e.g., 0, 1, 2) fails more than 2 times → that index is marked failed.
+                                  # The Job may still continue for other indexes if allowed.
+                                  # Retry limit per Pod index
+
+  maxFailedIndexes: 3             # Maximum number of different indexes that are allowed to fail before the Job is marked failed.
+                                  # In an Indexed Job of 10 Pods, if more than 3 indexes fail → Job fails.
+
+  backoffLimit: 6                 # How many times to retry a failed Pod before considering the Job failed.
+                                  # If a Pod fails, K8s retries it (with exponential backoff).
+                                  # After 6 retries, if it still fails, stops retrying and declares the Job → failed
+                                  # Retry limit of the failed pods # Retry limit for job
+  activeDeadlineSeconds: 600      # The total time (in seconds) the Job is allowed to run — regardless of retries or Pods.
+                                  # After 10 minutes, K8s stops the Job even if it’s incomplete.
+                                  # Overrides backoffLimit # Time Limit for a Job # Auto-stop # time cap
+  podFailurePolicy:               # enables the cluster to handle Pod failures based on the container exit codes and the Pod conditions.
+  ttlSecondsAfterFinished: 300    # How long to keep the Job and its Pods after completion or failure, before auto-deletion.
+                                  # After 5 minute of finishing, the Job and its Pods are cleaned up automatically. # auto-delete after 
+
+  podReplacementPolicy:           # Specifies how Pods are replaced when a retry occurs (for Indexed jobs). # no restart on drain
+                                  # Never: keeps failed Pods (good for debugging).
+                                  # Failed: deletes failed Pods before starting new ones.
+                        
 
 behavior:                              
     scaleUp:
