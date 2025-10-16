@@ -9,7 +9,7 @@ Given the order of execution for init, sidecar and app containers, the following
 - Scheduling is done based on effective requests/limits, which means init containers can reserve resources for initialization that are not used during the life of the Pod.
 
 
-
+---
 
 * Effective init = highest among init containers
 * Pod’s effective request = max(sum(non-init containers), effective init) + overhead
