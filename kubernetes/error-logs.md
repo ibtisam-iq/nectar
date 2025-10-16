@@ -70,6 +70,12 @@ F0911 00:54:26.128505      55 main.go:83] No service with name default-backend-s
 The Pod "my-pod-cka" is invalid: spec.volumes[1].name: Duplicate value: "shared-storage"
 * spec.volumes[0].persistentVolumeClaim: Forbidden: may not specify more than 1 volume type
 If volume let say it is PVC in use, and you are asked to append a sidecar container, just add it without add new `volumes` section, instaed use the already in-use.
+
+
+Error from server (Forbidden): pods is forbidden: User "system:serviceaccount:dev:my-sa" cannot list resource "pods" in API group "" in the namespace "dev"
+Error from server (Forbidden): pods/log is forbidden: User "system:serviceaccount:dev:my-sa" cannot get resource "pods/log" in API group "" in the namespace "dev"
+
+
 ```
 
 ---
