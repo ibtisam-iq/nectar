@@ -355,6 +355,14 @@ When using the `--resource` flag in `kubectl create role`, you're defining the e
 2. ClusterRoleBinding + ClusterRole (available cluster-wide, applied cluster-wide)
 3. RoleBinding + ClusterRole (available cluster-wide, applied in single Namespace)
 4. ClusterRoleBinding + Role (NOT POSSIBLE: available in single Namespace, applied cluster-wide)
+
+
+- `list` is used by commands like `kubectl get pods`
+- `watch` is used when you do `kubectl get pods -w` or clients use a watch API
+- `get` is used for getting details of individual pods (`kubectl get pod <pod-name>`)
+
+If the question is minimal, you might only need `list`, but if the exam expects broader functionality (like seeing pod details or watching pods), you include `get`, `list`, `watch`.
+
 ---
 
 ## Service
