@@ -95,6 +95,7 @@ k auth can-i list secrets --as system:serviceaccount:ns2:pipeline -A # NO (defau
 ```
 
 ---
+
 ## Q3
 
 There is existing Namespace `applications`.
@@ -161,4 +162,102 @@ k auth can-i list pods --as smoke -n kube-system # NO
 
 ---
 
+## Q4
 
+```bash
+controlplane ~ ➜  cat pod-only.yaml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-pods-only
+  namespace: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pods-only
+  template:
+    metadata:
+      labels:
+        app: pods-only
+    spec:
+      serviceAccountName: sa-pod-only
+      containers:
+      - name: web
+        image: bitnami/kubectl:latest
+        command: ["/bin/sh","-c"]
+        args:
+        - |
+          set -x
+          while true; do
+            kubectl get deploy
+            kubectl get pods
+            kubectl logs $(hostname)
+            sleep 10
+          done
+
+
+controlplane ~ ➜  k get deploy -n demo 
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE
+app-pods-only   1/1     1            1           33m
+
+controlplane ~ ➜  k get role -o yaml -n demo abc 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  creationTimestamp: "2025-10-16T17:04:12Z"
+  name: abc
+  namespace: demo
+  resourceVersion: "7367"
+  uid: 0eec81d1-0184-45ec-84b7-67513217805d
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods                              # add - pods/log here too
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - list
+  - watch
+
+controlplane ~ ➜  k get RoleBinding -o yaml -n demo abc 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  creationTimestamp: "2025-10-16T17:05:28Z"
+  name: abc
+  namespace: demo
+  resourceVersion: "7482"
+  uid: 7b27b2cc-e538-43f8-99c6-79c08ff53eb3
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: abc
+subjects:
+- kind: ServiceAccount
+  name: sa-pod-only
+  namespace: demo
+
+controlplane ~ ➜  k logs -n demo deployments/app-pods-only    # - pods/log  not added yet
++ kubectl get deploy
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE
+app-pods-only   1/1     1            1           36m
++ kubectl get pods
+NAME                            READY   STATUS    RESTARTS   AGE
+app-pods-only-79954749c-59b9d   1/1     Running   0          36m
+++ hostname
++ kubectl logs app-pods-only-79954749c-59b9d
+Error from server (Forbidden): pods "app-pods-only-79954749c-59b9d" is forbidden: User "system:serviceaccount:demo:sa-pod-only" cannot get resource "pods/log" in API group "" in the namespace "demo"
++ sleep 10
+
+# - pods/log added into role now
+controlplane ~ ➜  kubectl auth can-i get pods/log -n demo --as=system:serviceaccount:demo:sa-pod-only
+yes
