@@ -10,9 +10,10 @@ Warning  Failed     10s (x2 over 11s)  kubelet            Error: exec: "shell": 
 E0912 10:41:23.738713       1 run.go:72] "command failed" err="stat /etc/kubernetes/scheduler.config: no such file or directory" # wrong arg
 Warning  Failed     4s    kubelet            Failed to pull image "nginx:ltest"
 
-Warning  FailedScheduling  72s   default-scheduler  0/2 nodes are available: 1 node(s) didn't match Pod's node affinity/selector
-Warning  FailedScheduling  21s   default-scheduler  0/2 nodes are available: persistentvolumeclaim "pvc-redis" not found.
-Warning  FailedScheduling  2m31s  default-scheduler  0/2 nodes are available: pod has unbound immediate PersistentVolumeClaims.
+Warning  FailedScheduling  72s   default-scheduler  0/2  nodes are available: 1 node(s) didn't match Pod's node affinity/selector
+Warning  FailedScheduling  21s   default-scheduler  0/2  nodes are available: persistentvolumeclaim "pvc-redis" not found.
+Warning  FailedScheduling  31s   default-scheduler  0/2  nodes are available: pod has unbound immediate PersistentVolumeClaims.
+Warning  FailedScheduling  23s   default-scheduler  0/42 nodes available: insufficient cpu
 
 Warning  Unhealthy  4s (x8 over 34s)  kubelet            Readiness probe failed: stat: can't stat '/tmp/healthy': No such file or directory
 k exec space-alien-welcome-message-generator-5c945bc5f9-m9nkb -- touch /tmp/ready
