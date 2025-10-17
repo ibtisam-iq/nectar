@@ -220,7 +220,7 @@ behavior:
 - Use liveness probes to know when to restart a container.
 - Probe failed → Update the probe port to match `containerPort`.
 - Manually Curl the Probe Endpoint (if HTTP probe) `kubectl exec -it <pod-name> -- curl -v localhost:<port>/<path>`
-
+- Having TLS doesn’t mean your Service’s port or your container’s port must be 443. You can choose any port, as long as your Ingress, Service, and Pod ports align.
 
 - PVC, CRD and Restoring ETCD requires some time. So, be patient.
 - The manifest related to volume (pvc, pv), and resource field in pod/deployment.... delete all fields, and the apply.
