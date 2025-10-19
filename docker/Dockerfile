@@ -46,8 +46,9 @@ RUN echo "Hey sweetheart" && echo "This is Ibtisam." && echo $(pwd) && touch fil
 
 # EXPOSE <port>
 # Documents the ports that the application will listen on. This does not publish the port; use -p during `docker run` to map the port.
-# It is a way to declare which ports your application uses, and it works hand-in-hand with the -p option when running the container to establish the actual port mapping.
-# Not mentioning EXPOSE during the image build doesn’t prevent the container from being able to listen on a port at runtime, the image can still listen on ports if you map them during docker run.
+# It is a way to declare which ports your application uses, and it works hand-in-hand with the -p option when running container to establish actual port mapping.
+# Not mentioning EXPOSE during the image build doesn’t prevent the container from being able to listen on a port at runtime, 
+# the image can still listen on ports if you map them during docker run.
 EXPOSE 8000
 EXPOSE $PORT
 
@@ -64,7 +65,15 @@ ENTRYPOINT ["python3"]
  
 CMD ["app.py"]
 
-# A Dockerfile cannot have multiple CMD instructions that are executed simultaneously. Only one CMD instruction is allowed in a Dockerfile, and if there are multiple CMD instructions, only the last one will take effect.
+CMD ["sh", "-c", "python app.py"]
+# This form runs your script via a shell — but that’s usually not needed unless:
+# You want shell features like variable substitution, pipes, or && operators.
+# Example: CMD ["sh", "-c", "echo $MY_ENV && python app.py"]
+# So, using ["sh", "-c", "app.py"] is unnecessary and inefficient unless you actually need a shell.
+
+
+# A Dockerfile cannot have multiple CMD instructions that are executed simultaneously. Only one CMD instruction is allowed in a Dockerfile, 
+# and if there are multiple CMD instructions, only the last one will take effect.
 
 # Alternative CMD examples:
 # Example 1: Run multiple commands using shell form.
