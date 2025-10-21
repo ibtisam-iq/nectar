@@ -1,3 +1,66 @@
+
+
+```bash
+controlplane:~$ k get deployments.apps -n world europe -o yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: europe
+  name: europe
+  namespace: world
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 2
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: europe
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: europe
+    spec:
+      containers:
+      - image: nginx:1.21.5-alpine
+        imagePullPolicy: IfNotPresent
+        name: nginx
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: html
+        - mountPath: /etc/nginx
+          name: nginx-conf
+          readOnly: true
+      initContainers:
+      - command:
+        - sh
+        - -c
+        - echo 'hello, you reached EUROPE' > /html/index.html
+        image: busybox:1.28
+        imagePullPolicy: IfNotPresent
+        name: init-container
+        volumeMounts:
+        - mountPath: /html
+          name: html
+      volumes:
+      - emptyDir: {}
+        name: html
+      - configMap:
+          defaultMode: 420
+          items:
+          - key: nginx.conf
+            path: nginx.conf
+          name: nginx-conf
+        name: nginx-conf
+```
+
+---
+
 ## Q1
 
 ### 🔹 Requirements Breakdown
