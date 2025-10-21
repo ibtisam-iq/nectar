@@ -186,6 +186,8 @@ I got the chart name by running `helm search repo kubernetes-dashboard`, which s
 
 ---
 
+## 3
+
 One co-worker deployed an nginx helm chart on the cluster3 server called lvm-crystal-apd. A new update is pushed to the helm chart, and the team wants you to update the helm repository to fetch the new changes.
 
 
@@ -283,6 +285,8 @@ lvm-crystal-apd crystal-apd-ns  1          ...       deployed nginx-18.1.0  1.27
 
 ---
 
+## 4
+
 One application, webpage-server-01, is deployed on the Kubernetes cluster by the Helm tool. Now, the team wants to deploy a new version of the application by replacing the existing one. A new version of the helm chart is given in the /root/new-version directory on the student-node. Validate the chart before installing it on the Kubernetes cluster. 
 Use the helm command to validate and install the chart. After successfully installing the newer version, uninstall the older version. 
 
@@ -367,6 +371,8 @@ This destroys the old release first, then installs fresh.
 
 ---
 
+## 5
+
 ```bash
 cluster3-controlplane ~ ✖ helm install nginx-server polar/nginx -n cd-tool-apd
 Error: INSTALLATION FAILED: failed to perform "FetchReference" on source: GET "https://registry-1.docker.io/v2/bitnamicharts/nginx/manifests/21.1.23": response status code 429: toomanyrequests: You have reached your unauthenticated pull rate limit. https://www.docker.com/increase-rate-limit
@@ -439,6 +445,8 @@ helm install nginx-server polar/nginx \
 We haven't got any release name in the task, so we can generate the random name from the `--generate-name` option.
 
 ---
+
+## 6
 
 ## Deployment name is changed after helm updgade
 
@@ -579,6 +587,8 @@ That’s why it’s often the easiest fix: you just tie the Deployment (and Serv
 
 ---
 
+## 7
+
 One application, webpage-server-01, is deployed on the Kubernetes cluster by the Helm tool in default namespace. Now, the team wants to deploy a new version of the application by replacing the existing one. A new version of the helm chart is given in the /root/new-version directory on the cluster1-controlplane. Validate the chart before installing it on the Kubernetes cluster.
 
 ```bash
@@ -625,3 +635,25 @@ new-version-1757791197          default         1               2025-09-13 19:19
 We haven't got any release name in the task, so we can generate the random name from the --generate-name option.
 
 ---
+
+## 8
+
+```bash
+controlplane:~$ helm -n team-yellow install devserver nginx-stable/nginx-ingress
+Error: INSTALLATION FAILED: template: nginx-ingress/templates/controller-deployment.yaml:174:4: executing "nginx-ingress/templates/controller-deployment.yaml" at <include "nginx-ingress.args" .>: error calling include: template: nginx-ingress/templates/_helpers.tpl:254:43: executing "nginx-ingress.args" at <.Values.controller.debug.enable>: nil pointer evaluating interface {}.enable
+
+controlplane:~$ helm -n team-yellow install devserver nginx-stable/nginx-ingress --set controller.debug.enable=false
+NAME: devserver
+LAST DEPLOYED: Tue Oct 21 11:20:17 2025
+NAMESPACE: team-yellow
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+NGINX Ingress Controller 5.2.1 has been installed.
+
+For release notes for this version please see: https://docs.nginx.com/nginx-ingress-controller/releases/
+
+Installation and upgrade instructions: https://docs.nginx.com/nginx-ingress-controller/installation/installing-nic/installation-with-helm/
+controlplane:~$ 
+```
