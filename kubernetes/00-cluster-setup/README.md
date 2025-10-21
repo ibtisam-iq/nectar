@@ -136,6 +136,7 @@ These tools are ideal for developers, testers, or learners running Kubernetes lo
   ```bash
   kubectl get nodes
   k3s check-config
+  export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
   ```
 
 ---
