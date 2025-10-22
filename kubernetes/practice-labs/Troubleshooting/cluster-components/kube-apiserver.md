@@ -126,8 +126,25 @@ cat /var/log/containers/kube-apiserver-controlplane_kube-system_kube-apiserver-9
 - Only ONE container, exited, but increment in Attempt count is found and new container id assigned each time
 - `crictl ps -a | grep kube-apiserver`
 - `crictl logs <recent-exited-container-id>`
+- 
 
-### 1 `--etcd-servers=hhttps://127.0.0.1:2379`
+### 1 `--etcd-servers=this-is-very-wrong`
+
+```bash
+controlplane:~$ crictl ps -a | grep -i api
+0f807c1fd6be8       ee794efa53d85       36 seconds ago      Exited              kube-apiserver            6                   
+966fa119db367       ee794efa53d85       15 minutes ago      Exited              kube-apiserver            1
+
+controlplane:~$ crictl logs 0f807c1fd6be8
+I1022 07:42:23.333363       1 options.go:249] external host was not specified, using 172.30.1.2
+I1022 07:42:23.335597       1 server.go:147] Version: v1.33.2
+I1022 07:42:23.335774       1 server.go:149] "Golang settings" GOGC="" GOMAXPROCS="" GOTRACEBACK=""
+I1022 07:42:23.920004       1 shared_informer.go:350] "Waiting for caches to sync" controller="node_authorizer"
+I1022 07:42:23.920191       1 shared_informer.go:350] "Waiting for caches to sync" controller="*generic.policySource[*k8s.io/api/admissionregistration/v1.ValidatingAdmissionPolicy,*k8s.io/api/admissionregistration/v1.ValidatingAdmissionPolicyBinding,k8s.io/apiserver/pkg/admission/plugin/policy/validating.Validator]"
+W1022 07:42:23.920610       1 logging.go:55] [core] [Channel #1 SubChannel #3]grpc: addrConn.createTransport failed to connect to {Addr: "this-is-very-wrong", ServerName: "this-is-very-wrong", }. Err: connection error: desc = "transport: Error while dialing: dial tcp: address this-is-very-wrong: missing port in address"
+```
+
+### 2 `--etcd-servers=hhttps://127.0.0.1:2379`
 
 ```bash
 controlplane ~ ➜  k get po
@@ -184,7 +201,7 @@ bddf1716825c5       90550c43ad2bc       About a minute ago   Exited             
 9c5efe33fc25b       90550c43ad2bc       8 minutes ago        Exited              kube-apiserver            1                   
 ```
 
-### 2 `--etcd-servers=http://127.0.0.1:2379`
+### 3 `--etcd-servers=http://127.0.0.1:2379`
 
 ```bash
 controlplane ~ ➜  k get po                                   # command run on the sopt, left the clue
@@ -227,7 +244,7 @@ controlplane ~ ➜  crictl ps -a | grep kube-apiserver
 a70fd3b479f3a       90550c43ad2bc       About an hour ago   Exited              kube-apiserver            0                   
 ```
 
-### 3. `--etcd-cafile=/etc/kubernetes/pki/ca.crt`
+### 4. `--etcd-cafile=/etc/kubernetes/pki/ca.crt`
 
 
 ```bash
