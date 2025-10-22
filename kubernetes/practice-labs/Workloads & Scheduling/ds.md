@@ -56,4 +56,9 @@ controlplane:~$ k get po -n configurator -o wide
 NAME                 READY   STATUS    RESTARTS   AGE     IP            NODE           NOMINATED NODE   READINESS GATES
 configurator-c267f   1/1     Running   0          8m51s   192.168.0.6   controlplane   <none>           <none>
 configurator-pjw2d   1/1     Running   0          8m51s   192.168.1.6   node01         <none>           <none> 
+
+controlplane:~$ cat /configurator/config 
+aba997ac-1c89-4d64
+controlplane:~$ ssh node01 -- cat /configurator/config
+aba997ac-1c89-4d64
 ```
