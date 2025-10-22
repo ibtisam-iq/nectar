@@ -396,14 +396,66 @@ kube-proxy-xflvx                           1/1     Running   0               39m
 kube-scheduler-controlplane                1/1     Running   2 (2m46s ago)   39m
 
 controlplane ~ ➜  cat /etc/kubernetes/manifests/kube-controller-manager.yaml | grep -i service-cluster-ip-range
-    - --service-cluster-ip-range=11.96.0.0/12
+    - --service-cluster-ip-range=100.96.0.0/12
 
 controlplane ~ ➜  cat /etc/kubernetes/manifests/kube-apiserver.yaml | grep -i service-cluster-ip-range
-    - --service-cluster-ip-range=11.96.0.0/12
+    - --service-cluster-ip-range=100.96.0.0/12
 
 controlplane ~ ➜  kubectl -n kube-system describe pod kube-apiserver-controlplane | grep service-cluster-ip-range
-      --service-cluster-ip-range=11.96.0.0/12
+      --service-cluster-ip-range=100.96.0.0/12
+
+controlplane:~$ k -n kube-system edit svc kube-dns
+error: services "kube-dns" is invalid
+A copy of your changes has been stored to "/tmp/kubectl-edit-312847560.yaml"
+error: Edit cancelled, no valid changes were saved.
+controlplane:~$ k replace -f /tmp/kubectl-edit-312847560.yaml --force
+service "kube-dns" deleted from kube-system namespace
+The Service "kube-dns" is invalid: spec.clusterIPs: Invalid value: ["100.96.0.10"]: failed to allocate IP 100.96.0.10: the provided network does not match the current range
+
+controlplane:~$ vim /var/lib/kubelet/config.yaml
+
+controlplane:~$ k -n kube-system edit cm kubelet-config
+configmap/kubelet-config edited
+
+controlplane:~$ kubeadm upgrade node phase kubelet-config
+controlplane:~$ systemctl daemon-reload
+controlplane:~$ systemctl restart kubelet
+
+controlplane:~$ kubectl edit cm -n kube-system kubeadm-config                             
+configmap/kubeadm-config edited
+
+controlplane:~$ kubectl run netshoot --image=nicolaka/netshoot --command sleep --command "3600"
+controlplane:~$ k get po
+NAME       READY   STATUS    RESTARTS   AGE
+netshoot   1/1     Running   0          4m42s
+controlplane:~$ k exec -it netshoot -- bash
+netshoot:~# cat /etc/resolv.conf
+search default.svc.cluster.local svc.cluster.local cluster.local
+nameserver 100.96.0.10
+options ndots:5
+netshoot:~# nslookup google.com
+;; communications error to 100.96.0.10#53: timed out
+^C
+netshoot:~# exit
+
+controlplane:~$ k run po --image nginx --port 80 --expose
+service/po created
+pod/po created
+controlplane:~$ k get po,svc
+NAME           READY   STATUS    RESTARTS   AGE
+pod/netshoot   1/1     Running   0          8m59s
+pod/po         1/1     Running   0          6s
+
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP   3d1h
+service/po           ClusterIP   10.108.69.195   <none>        80/TCP    6s
+controlplane:~$ k exec -it po -- sh
+# cat /etc/resolv.conf
+search default.svc.cluster.local svc.cluster.local cluster.local
+nameserver 100.96.0.10
+options ndots:5
 ```
+
 ---
 
 ## 📂 Files under `/var/lib/kubelet/pki/`
