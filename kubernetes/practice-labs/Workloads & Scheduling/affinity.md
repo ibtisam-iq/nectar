@@ -37,6 +37,7 @@
 * If question says *"co-locate pods with X"* → **podAffinity**.
 * If question says *"only on certain nodes"* → **nodeAffinity**.
 * If questions says *prefer.. perferable*  → **preferred** → soft rule
+* Run `k get no --show-lables` to check **labels** first, otherwise label the node. 
 
 ---
 
