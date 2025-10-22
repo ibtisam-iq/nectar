@@ -86,6 +86,7 @@ k run <> --image kodekloud/webapp-color --dry-run=client -o yaml -- --color red 
 # Override the Command and Arguments
 k run alpine-app --image alpine -- 'echo "jaan-e-mann"; sleep 3600' # wrong, you need to open the shell in order to multiple commands
 k run alpine-app --image alpine --command -- sh -c 'echo "jaan-e-mann"; sleep 3600' # correct
+kubectl exec -it pv-test-pod -- sh -c "echo 'Hello from PV' > /data/hello.txt"
 k run nginx --image=nginx --restart=Never --command -- /bin/sh -c "echo Hello Sweetheart, Ibtisam; sleep 10"
 kubectl run <> --image busybox --dry-run client -o yaml --command -- sleep 1000			# wrong
 kubectl run <> --image busybox --dry-run=client -o yaml --command -- sleep 1000			# right
