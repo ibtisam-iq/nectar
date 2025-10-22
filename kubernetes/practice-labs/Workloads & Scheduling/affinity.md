@@ -93,6 +93,62 @@ Another way to solve the same requirement would be:
 
 ## Q2
 
+That Pod should be **required** to be only scheduled on Nodes where no Pods with label `level=restricted` are running.
+
+For the topologyKey use `kubernetes.io/hostname`.
+
+There are no taints on any Nodes which means no tolerations are needed.
+
+
+```bash
+controlplane:~$ vi hobby.yaml
+ 
+controlplane:~$ k get po -o wide --show-labels 
+NAME         READY   STATUS    RESTARTS   AGE     IP            NODE     NOMINATED NODE   READINESS GATES   LABELS
+restricted   1/1     Running   0          5m15s   192.168.1.4   node01   <none>           <none>            level=restricted
+
+controlplane:~$ k get no
+NAME           STATUS   ROLES           AGE     VERSION
+controlplane   Ready    control-plane   2d20h   v1.33.2
+node01         Ready    <none>          2d19h   v1.33.2
+
+controlplane:~$ k apply -f hobby.yaml 
+pod/hobby-project created
+
+controlplane:~$ k get po -o wide --show-labels 
+NAME            READY   STATUS    RESTARTS   AGE     IP            NODE           NOMINATED NODE   READINESS GATES   LABELS
+hobby-project   1/1     Running   0          10s     192.168.0.4   controlplane   <none>           <none>            level=hobby
+restricted      1/1     Running   0          5m49s   192.168.1.4   node01         <none>           <none>            level=restricted
+
+controlplane:~$ cat hobby.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    level: hobby
+  name: hobby-project
+spec:
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: level
+            operator: In
+            values:
+            - restricted
+        topologyKey: kubernetes.io/hostname
+  containers:
+  - image: nginx:alpine
+    name: c
+controlplane:~$ 
+```
+
+
+---
+
+## Q3
+
 Implement the following in Namespace `project-tiger`:
 
 - Create a **Deployment** named `deploy-important` with `3` replicas
