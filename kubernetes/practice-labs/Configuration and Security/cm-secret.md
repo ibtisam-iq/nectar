@@ -243,3 +243,22 @@ kubectl create secret generic mysql-root-pass --from-env-file=abc.env
 * Value = `R00t`
 
 ---
+
+## Q5
+
+Create a Kubernetes Secret named `database-app-secret` in the default namespace using the contents of the file `database-data.txt`.
+
+```bash
+controlplane:~$ cat database-data.txt 
+DB_User=REJfVXNlcj1teXVzZXI=
+DB_Password=REJfUGFzc3dvcmQ9bXlwYXNzd29yZA==  
+
+controlplane:~$ k create secret generic database-app-secret --from-env-file database-data.txt                            # wrong
+secret/database-app-secret created
+
+controlplane:~$ k delete secret database-app-secret 
+secret "database-app-secret" deleted
+
+controlplane:~$ k create secret generic database-app-secret --from-file database-data.txt                                # correct
+secret/database-app-secret created
+```
