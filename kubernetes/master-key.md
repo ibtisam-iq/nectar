@@ -329,3 +329,7 @@ images:
   * Role ↔ RoleBinding (namespace only)
   * ClusterRole ↔ ClusterRoleBinding (cluster/global)
   * ClusterRole ↔ RoleBinding (cluster perms in one namespace)
+
+---
+
+- multi-container with no volumes, 
