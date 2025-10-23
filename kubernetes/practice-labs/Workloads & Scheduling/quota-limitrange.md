@@ -286,3 +286,270 @@ If you put a large integer like `200000`, kubelet tries to write that directly t
 
 ---
 
+## Q4 Insufficient CPU
+
+```bash
+controlplane:~$ cat my-app-deployment.yaml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "1000Mi"
+            cpu: "5.0"                # To solve the question, lowered it to: 0.5
+          requests:
+            memory: "100Mi"
+            cpu: "0.5"                # 0.2
+
+controlplane:~$ k get po
+NAME                                 READY   STATUS    RESTARTS   AGE
+my-app-deployment-586469df87-ssxkh   0/1     Pending   0          14m
+my-app-deployment-586469df87-xm748   1/1     Running   0          14m
+
+controlplane:~$ k describe po my-app-deployment-586469df87-ssxkh 
+Name:             my-app-deployment-586469df87-ssxkh
+Events:
+  Type     Reason            Age                  From               Message
+  ----     ------            ----                 ----               -------
+  Warning  FailedScheduling  3m51s (x4 over 14m)  default-scheduler  0/2 nodes are available: 1 Insufficient cpu, 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/2 nodes are available: 1 No preemption victims found for incoming pod, 1 Preemption is not helpful for scheduling.
+
+controlplane:~$ k get no -o custom-columns=Node_Name:.metadata.name,cpu_capacity:.status.capacity.cpu,cpu_allocatable:.status.allocatable.cpu
+Node_Name      cpu_capacity   cpu_allocatable
+controlplane   1              1
+node01         1              1
+
+controlplane:~$ vi my-app-deployment.yaml                       # Fixed
+controlplane:~$ k replace -f my-app-deployment.yaml --force
+deployment.apps "my-app-deployment" deleted
+deployment.apps/my-app-deployment replaced
+controlplane:~$ k get po
+NAME                                 READY   STATUS    RESTARTS   AGE
+my-app-deployment-59f6dd49b6-2xw2p   1/1     Running   0          9s
+my-app-deployment-59f6dd49b6-7dqrx   1/1     Running   0          9s
+controlplane:~$ k get no -o custom-columns=Node_Name:.metadata.name,cpu_capacity:.status.capacity.cpu,cpu_allocatable:.status.allocatable.cpu
+Node_Name      cpu_capacity   cpu_allocatable
+controlplane   1              1
+node01         1              1
+controlplane:~$ 
+```
+
+
+### 🧠 **The Situation**
+
+You have:
+
+* Two nodes in your cluster (`controlplane` and `node01`)
+* A Deployment with **2 replicas**
+* One Pod is `Running`
+* One Pod is `Pending`
+
+Your event log clearly shows:
+
+```
+Warning  FailedScheduling  default-scheduler  0/2 nodes are available: 
+1 Insufficient cpu, 
+1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }.
+```
+
+### 🔍 **Understanding the Cause**
+
+There are **two issues** here:
+
+### 1️⃣ **Insufficient CPU**
+
+Let’s check what you requested:
+
+```yaml
+resources:
+  limits:
+    cpu: "5.0"
+    memory: "1000Mi"
+  requests:
+    cpu: "0.5"
+    memory: "100Mi"
+```
+
+So your pod is asking for **5 CPU cores per pod** as the *limit*.
+Your node likely has only **1 CPU total**, as seen earlier in your node’s `capacity`:
+
+```yaml
+capacity:
+  cpu: "1"
+allocatable:
+  cpu: "1"
+```
+
+💡 **Meaning:**
+→ One pod can schedule because it fits (the 0.5 CPU *request* is fine).
+→ But the second pod can’t find a node that has **5 CPU available** for the *limit*.
+Even though the scheduler considers *requests* for placement, some clusters (especially CKA labs) enforce *limit checking* for fairness or simulated constraints — that’s why it’s stuck as **Pending**.
+
+### 2️⃣ **Control plane node taint**
+
+The second message:
+
+```
+node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }
+```
+
+This means your **controlplane node** is *tainted* to prevent regular workloads (pods) from running on it.
+
+Only pods with this toleration can run there:
+
+```yaml
+tolerations:
+- key: "node-role.kubernetes.io/control-plane"
+  operator: "Exists"
+  effect: "NoSchedule"
+```
+
+Right now, your Deployment’s pods don’t have that toleration, so they can’t be scheduled on the controlplane node — leaving only **node01** available.
+But node01 doesn’t have enough CPU capacity.
+Result: **Pending** pod.
+
+## 🧩 **How to Fix It**
+
+You have two possible fixes — depending on what’s allowed in your cluster setup.
+
+### ✅ **Option 1 — Reduce CPU limit (Recommended)**
+
+Edit your Deployment YAML (`my-app-deployment.yaml`) and reduce the CPU limit to something reasonable, like:
+
+```yaml
+resources:
+  limits:
+    memory: "500Mi"
+    cpu: "0.5"
+  requests:
+    memory: "100Mi"
+    cpu: "0.2"
+```
+
+Then apply it:
+
+```bash
+kubectl apply -f my-app-deployment.yaml
+```
+
+This way, both pods can fit on available nodes.
+
+### ✅ **Option 2 — Allow scheduling on the controlplane**
+
+If you *must* keep the 5 CPU limit, you can allow your controlplane node to accept pods by adding a toleration and/or removing the taint.
+
+#### Method A — Add toleration to the pod spec:
+
+Add this under `spec.template.spec`:
+
+```yaml
+tolerations:
+- key: "node-role.kubernetes.io/control-plane"
+  operator: "Exists"
+  effect: "NoSchedule"
+```
+
+Apply again:
+
+```bash
+kubectl apply -f my-app-deployment.yaml
+```
+
+#### Method B — Remove the taint from controlplane node (less recommended in production):
+
+```bash
+kubectl taint nodes controlplane node-role.kubernetes.io/control-plane- 
+```
+
+## 💬 **In summary**
+
+| Problem                        | Root Cause                   | Fix                              |
+| ------------------------------ | ---------------------------- | -------------------------------- |
+| Pod Pending                    | CPU limit too high (5 cores) | Lower limit or increase node CPU |
+| Can’t schedule on controlplane | Taint prevents normal pods   | Add toleration or remove taint   |
+
+--
+
+Excellent follow-through, sweetheart ❤️ — what you’re seeing is *completely expected* and actually a sign that you understand this correctly.
+
+Let’s break it down clearly 👇
+
+### 🧠 Why `allocatable` CPU doesn’t change
+
+The values you see from:
+
+```bash
+kubectl get no -o custom-columns=Node_Name:.metadata.name,cpu_capacity:.status.capacity.cpu,cpu_allocatable:.status.allocatable.cpu
+```
+
+show **node-level resource totals**, not the live usage.
+These come from each node’s kubelet and describe **how much the node could ever offer**, not what’s currently consumed.
+
+In other words:
+
+| Field               | Meaning                                                                                                           |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **capacity.cpu**    | Total number of CPU cores physically present (what kubelet detects).                                              |
+| **allocatable.cpu** | What’s left for pods after kubelet reserves a bit for itself and system daemons. This is *fixed* at node startup. |
+
+So when you deploy or delete pods — even if they ask for more or less CPU — **these numbers never change**.
+They describe the node’s *limits*, not its *current usage*.
+
+### 🧩 Example analogy
+
+Think of your node like a hotel:
+
+* `capacity` = total 100 rooms in the building
+* `allocatable` = 90 rooms available for guests (10 kept for staff)
+* Whether 2 or 80 guests are checked in — the hotel *still* advertises 90 rooms available for guests.
+  It doesn’t rewrite the brochure each time someone checks in.
+
+### 🧰 If you want to see actual resource consumption
+
+Use the **metrics API** (if metrics-server is installed):
+
+```bash
+kubectl top nodes
+```
+
+This will show live usage, e.g.:
+
+```
+NAME           CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
+controlplane   120m         12%    300Mi           15%
+node01         250m         25%    400Mi           20%
+```
+
+Here you’ll see how your Deployment’s pods are actually consuming CPU and memory.
+
+Or, per pod:
+
+```bash
+kubectl top pods -A
+```
+
+### 💬 In short
+
+✅ Changing a pod’s `resources.requests/limits` does **not** change the node’s `allocatable` field.
+That field only changes if:
+
+* You reconfigure kubelet system reservations (`--kube-reserved`, `--system-reserved`), or
+* The physical node’s hardware (CPU/memory) changes.
+
+---
+
