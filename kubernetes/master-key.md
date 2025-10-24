@@ -332,4 +332,5 @@ images:
 
 ---
 
-- multi-container with no volumes, 
+- multi-container with no volumes,
+- 2 deploy are exposed with one svc, adjust the svc for this portion to this deploy; and that portion to that deploy → scale the deploy(s) accordingly 
