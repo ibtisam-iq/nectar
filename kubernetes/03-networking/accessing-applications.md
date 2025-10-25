@@ -43,6 +43,10 @@ These methods are used when you have direct access to cluster nodes or Pods, suc
   # Inside Pod shell, test the pod directly by-passing service
   wget <pod-Ip>.<namespace>.pod.cluster.local
   # Example: wget 172-10-0-1.amor.pod.cluster.local
+
+  # Inside Pod shell, get the response from the Service
+  curl <svc-name>.<svc-ns>:<svc-port>
+  # Example: curl project-plt-6cc-svc.dev:3333 or curl 10.96.12.55:3333
   ```
 
 ---
