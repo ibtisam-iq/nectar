@@ -74,7 +74,7 @@ controlplane ~ ➜  helm get values ingress-nginx --all | grep replica
 ## **3️⃣ View / Debug**
 
 ```bash
-helm list -A  or helm ls -A           # All releases, all namespaces
+helm list -a -A  or helm ls --all -A  # All releases, all namespaces
 helm get values <release>             # Show custom values
 helm get values <release> -a          # All (default+custom)
 helm status <release>
