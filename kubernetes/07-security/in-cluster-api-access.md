@@ -53,6 +53,8 @@ Using these, any container inside the Pod can authenticate and securely call the
 
 Example command:
 
+**Official Docs:** [Accessing the Kubernetes API from a Pod](https://kubernetes.io/docs/tasks/run-application/access-api-from-pod/)
+
 ```bash
 APISERVER=https://kubernetes.default.svc
 TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
@@ -62,6 +64,25 @@ curl --cacert ${CACERT} \
      -H "Authorization: Bearer ${TOKEN}" \
      ${APISERVER}/api/v1/namespaces/default/pods
 ```
+
+In `curl`, the `-X GET` part is **optional** — because `GET` is the **default HTTP method** used when you don’t explicitly specify one.
+
+So both of these are **functionally identical**:
+
+✅ Explicit version:
+
+```bash
+curl --cacert ${CACERT} --header "Authorization: Bearer ${TOKEN}" -X GET ${APISERVER}/api/v1/namespaces/default/pods
+```
+
+✅ Implicit version (simpler, same result):
+
+```bash
+curl --cacert ${CACERT} -H "Authorization: Bearer ${TOKEN}" ${APISERVER}/api/v1/namespaces/default/pods
+```
+
+If you were doing something like `POST`, `PATCH`, or `DELETE`, then you’d **definitely** need to specify `-X POST`, `-X PATCH`, etc.
+But for `GET`, `curl` assumes it automatically — so adding `-X GET` doesn’t change anything. It’s just more explicit.
 
 ---
 
