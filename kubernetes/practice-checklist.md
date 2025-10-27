@@ -62,6 +62,7 @@ Use it as a **roadmap + progress tracker**.
 - [ ] `Admission control`
 - [ ] Authentication, Authorization, RBAC setup (Roles, RoleBindings, ClusterRoles, ClusterRoleBindings), Admission Controllers, Certificate Signing Requests
   -  Controlling Access to the Kubernetes API
+  -  `Accessing the Kubernetes API` from a pod
     - Certificate Signing Requests
           - `csr/certificate: Issue a Certificate for a Kubernetes API Client Using A CertificateSigningRequest (Manage TLS Certificates in a Cluster)`   
 - [ ] Certificate management (renew, inspect, troubleshoot)
