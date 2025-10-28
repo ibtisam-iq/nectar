@@ -230,7 +230,7 @@ behavior:
 - Unlike `hostPath` volumes (which **can create a path automatically** if it doesn’t exist → type: `DirectoryOrCreate`), a **local PersistentVolume (PV)** in Kubernetes expects that the directory (or device) already exists on the node.
 - With `hostPath`, the `nodeAffinity` is a precaution; with `local`, it’s mandatory.
 - Even though a local PV and PVC can bind successfully, the pod may remain Pending until node affinity (or toleration) ensures it is scheduled on the node where that PV physically exists.
-- Want to use controlplane? → Add **toleration**.
+- Want to use controlplane? → Add **toleration** `node-role.kubernetes.io/control-plane:NoSchedule` plus either **nodeSelector** or **nodeAffininity** `node-role.kubernetes.io/control-plane: ""`
 - Want to delete a PVC? → First **delete the Pod** using it.
 - After applying a ResourceQuota or LimitRange, always run `kubectl describe ns <namespace>` to confirm they are correctly attached and active for that namespace.
 - When multiple environment files are specified, if the same key appears in more than one file, the value from the last file listed **overrides** earlier ones.
