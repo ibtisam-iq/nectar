@@ -93,6 +93,9 @@ kubectl run <> --image busybox --dry-run=client -o yaml --command -- sleep 1000	
 
 # Start a busybox pod and keep it in the foreground, don't restart it if it exits
 kubectl run -i -t busybox --image=busybox --restart=Never
+kubectl run -i -t busybox --image=busybox --restart=Never --rm				# also delete the pod once it exits
+kubectl run -i -t busybox --image=busybox --restart=Never --rm -- sh		# also run desired command
+# Start a pod using --rm but without -it → error: --rm should only be used for attached containers
 ```
 
 * The `--expose` flag is valid with `kubectl run`, but it only creates a **ClusterIP Service**.
