@@ -50,230 +50,94 @@
   * The Service will load-balance traffic across **all matching Pods**.
 
 ---
+
 ## Q1
 
-We have an **external webserver** running on **student-node** which is exposed at port **9999**.
+We have an external webserver running on `student-node` which is exposed at port `9999`. We have created a service called `external-webserver-cka03-svcn` that can connect to our local webserver from within the kubernetes cluster3, but at the moment, it is not working as expected.
 
-We have also created a service called `external-webserver-ckad01-svcn` that can connect to our local webserver from within the cluster3 but, at the moment, it is not working as expected.
-
-Fix the issue so that other pods within cluster3 can use `external-webserver-ckad01-svcn` service to access the webserver.
-
-```bash
-root@student-node ~ ➜  ifconfig
-eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1410
-        inet 192.168.67.177  netmask 255.255.255.255  broadcast 0.0.0.0
-
-root@student-node ~ ➜  ip a
-3: eth0@if63501: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1410 qdisc noqueue state UP group default 
-    inet 192.168.67.177/32 scope global eth0
-
-
-root@student-node ~ ➜  k describe svc external-webserver-ckad01-svcn 
-Name:                     external-webserver-ckad01-svcn
-Namespace:                default
-Labels:                   <none>
-Annotations:              <none>
-Selector:                 <none>
-Type:                     ClusterIP
-IP Family Policy:         SingleStack
-IP Families:              IPv4
-IP:                       172.20.72.32
-IPs:                      172.20.72.32
-Port:                     <unset>  80/TCP            # no name
-TargetPort:               9999/TCP
-Endpoints:                <none>                      # no endpoint
-
-root@student-node ~ ➜  curl student-node:9999
-<!DOCTYPE html>
-<html>
-<head>
-<title>Welcome to nginx!</title>
-<p><em>Thank you for using nginx.</em></p>
-</body>
-</html>
-
-root@student-node ~ ➜  vi endpointslice.yaml
-
-root@student-node ~ ➜  cat endpointslice.yaml 
-apiVersion: discovery.k8s.io/v1
-kind: EndpointSlice
-metadata:
-  name: example-abc
-  labels:
-    kubernetes.io/service-name: external-webserver-ckad01-svcn
-addressType: IPv4
-ports:
-  - name: http
-    protocol: TCP
-    port: 9999
-endpoints:
-  - addresses:
-      - "192.168.67.177"
-
-root@student-node ~ ➜  k apply -f endpointslice.yaml 
-endpointslice.discovery.k8s.io/example-abc created
-
-root@student-node ~ ➜  k describe endpointslice.discovery.k8s.io/example-abc
-Name:         example-abc
-Namespace:    default
-Labels:       kubernetes.io/service-name=external-webserver-ckad01-svcn
-Annotations:  <none>
-AddressType:  IPv4
-Ports:
-  Name  Port  Protocol
-  ----  ----  --------
-  http  9999  TCP
-Endpoints:
-  - Addresses:  192.168.67.177
-    Conditions:
-      Ready:   <unset>
-    Hostname:  <unset>
-    NodeName:  <unset>
-    Zone:      <unset>
-Events:        <none>
-
-root@student-node ~ ➜  k describe svc external-webserver-ckad01-svcn
-Name:                     external-webserver-ckad01-svcn
-Namespace:                default
-Labels:                   <none>
-Annotations:              <none>
-Selector:                 <none>
-Type:                     ClusterIP
-IP Family Policy:         SingleStack
-IP Families:              IPv4
-IP:                       172.20.72.32
-IPs:                      172.20.72.32
-Port:                     <unset>  80/TCP
-TargetPort:               9999/TCP
-Endpoints:                                            # nothing happened
-Session Affinity:         None
-Internal Traffic Policy:  Cluster
-Events:                   <none>
-```
-
-Got it ✅ — the issue is with how the Service and EndpointSlice are defined. Right now:
-
-* Your Service `external-webserver-ckad01-svcn` has **no selector** (that’s fine, because you want to manually map to an external endpoint).
-* But it also shows **no Endpoints** (`Endpoints:` is empty).
-* That’s because the `EndpointSlice` you created isn’t being recognized by the Service, since the port names and numbers don’t align.
-
-### 🔑 Fix
-
-When you create a Service without a selector, you must provide either:
-
-1. An **Endpoints object** (`kind: Endpoints`), or
-2. A correctly labeled **EndpointSlice** with the proper port mapping.
-
-Right now, your Service exposes **port 80** (frontend port) and maps it to **targetPort 9999**, but your `EndpointSlice` directly exposes **9999** instead of **80**. That’s why Kubernetes isn’t linking them.
-
-### ✅ Solution 1: Use `Endpoints` (simpler)
-
-```yaml
-apiVersion: v1
-kind: Endpoints
-metadata:
-  name: external-webserver-ckad01-svcn
-subsets:
-  - addresses:
-      - ip: 192.168.67.177
-    ports:
-      - port: 9999
-```
-
-Apply it:
-
-```bash
-kubectl apply -f endpoints.yaml
-```
-
-Then check:
-
-```bash
-kubectl describe svc external-webserver-ckad01-svcn
-```
-
-👉 You should now see `Endpoints: 192.168.67.177:9999`.
-
-Pods inside the cluster can connect via:
-
-```bash
-curl external-webserver-ckad01-svcn:80
-```
-
-### ✅ Solution 2: Fix EndpointSlice
-
-If you want to stick with EndpointSlice, the port must match the Service’s port **number or name**.
-
-Your Service has:
-
-```yaml
-Port: 80/TCP
-TargetPort: 9999/TCP
-```
-
-So your EndpointSlice should look like:
-
-```yaml
-apiVersion: discovery.k8s.io/v1
-kind: EndpointSlice
-metadata:
-  name: external-webserver-ckad01-svcn-slice
-  labels:
-    kubernetes.io/service-name: external-webserver-ckad01-svcn
-addressType: IPv4
-ports:
-  - name: ""      # or same as Service port name
-    protocol: TCP
-    port: 9999
-endpoints:
-  - addresses:
-      - "192.168.67.177"
-```
-
-```bash
-root@student-node ~ ➜  k edit svc external-webserver-ckad01-svcn
-service/external-webserver-ckad01-svcn edited
-
-root@student-node ~ ➜  k describe svc external-webserver-ckad01-svcn
-Name:                     external-webserver-ckad01-svcn
-Namespace:                default
-Labels:                   <none>
-Annotations:              <none>
-Selector:                 <none>
-Type:                     ClusterIP
-IP Family Policy:         SingleStack
-IP Families:              IPv4
-IP:                       172.20.72.32
-IPs:                      172.20.72.32
-Port:                     http  80/TCP            # name is set, and endPoint then assigned.
-TargetPort:               9999/TCP
-Endpoints:                192.168.67.177:9999
-Session Affinity:         None
-Internal Traffic Policy:  Cluster
-Events:                   <none>
-
-root@student-node ~ ➜  curl 192.168.67.177:9999
-<!DOCTYPE html>
-<html>
-<head>
-<title>Welcome to nginx!</title>
-<style>
-html { color-scheme: light dark; }
-body { width: 35em; margin: 0 auto;
-font-family: Tahoma, Verdana, Arial, sans-serif; }
-</style>
-</head>
-<body>
-<h1>Welcome to nginx!</h1>
-<p><em>Thank you for using nginx.</em></p>
-</body>
-</html>
-
-root@student-node ~ ➜  
-```
-
-- Servive and EndpointSlice, both must share the same namespace.
+- Servive and EndpointSlice, both must share the same namespace & port name
 - ip of node: `ping student-node` from the kubectl node `cluster3-controlplane` or  ssh into `student-node` and fetch it via `ip a` or `ifconfig`
+
+```bash
+cluster3-controlplane ~ ➜  ping student-node:9999
+PING student-node:9999 (192.168.81.189): 56 data bytes
+^C
+--- student-node:9999 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.216/0.258/0.290 ms
+
+cluster3-controlplane ~ ➜  k get svc -n kube-public external-webserver-cka03-svcn 
+NAME                            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+external-webserver-cka03-svcn   ClusterIP   10.43.145.152   <none>        80/TCP    35m
+
+cluster3-controlplane ~ ➜  k describe svc -n kube-public external-webserver-cka03-svcn 
+Name:                     external-webserver-cka03-svcn
+Namespace:                kube-public
+Labels:                   <none>
+Annotations:              <none>
+Selector:                 <none>
+Type:                     ClusterIP
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.43.145.152
+IPs:                      10.43.145.152
+Port:                     80/TCP                              # no name here
+TargetPort:               80/TCP
+Endpoints:                
+Session Affinity:         None
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+
+cluster3-controlplane ~ ➜  vi 14.yaml 
+
+cluster3-controlplane ~ ➜  k apply -f 14.yaml 
+endpointslice.discovery.k8s.io/external-webserver-cka03-svcn configured
+
+cluster3-controlplane ~ ➜  cat 14.yaml 
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: external-webserver-cka03-svcn                                        # as per service name
+  namespace: kube-public                                                     # as per service
+  labels:
+    kubernetes.io/service-name: external-webserver-cka03-svcn                # equal to service name
+addressType: IPv4
+ports:
+  - name: http                                                               # "" or same as Service port name
+    protocol: TCP
+    port: 9999                                                               # port for web server
+endpoints:
+  - addresses:
+      - "192.168.81.189"                                                     # ping student-node
+cluster3-controlplane ~ ➜  k edit svc -n kube-public external-webserver-cka03-svcn  # spec.ports.name: http added
+service/external-webserver-cka03-svcn edited
+
+cluster3-controlplane ~ ➜  k describe svc -n kube-public external-webserver-cka03-svcn 
+Name:                     external-webserver-cka03-svcn
+Namespace:                kube-public
+Labels:                   <none>
+Annotations:              <none>
+Selector:                 <none>
+Type:                     ClusterIP
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.43.145.152
+IPs:                      10.43.145.152
+Port:                     http  80/TCP                       # name added and mandatory; no need to change port    
+TargetPort:               80/TCP                             # no need to change the pod
+Endpoints:                192.168.81.189:9999                # assinged now
+Session Affinity:         None
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+
+cluster3-controlplane ~ ➜  k get po
+NAME         READY   STATUS    RESTARTS   AGE
+nginx-wl06   1/1     Running   0          121m
+
+cluster3-controlplane ~ ➜  k exec nginx-wl06 -it -- sh
+# curl external-webserver-cka03-svcn.kube-public                # Worked
+<!DOCTYPE html>
+```
 
 ---
 
