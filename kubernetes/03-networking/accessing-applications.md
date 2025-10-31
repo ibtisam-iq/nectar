@@ -118,6 +118,54 @@ These methods enable access from a local machine, external network, or cloud env
     # Example: curl -H "Host: local.ibtisam-iq.com" http://54.242.167.17:30080/asia
     ```
 
+```bash
+cluster4-controlplane ~ ➜  cat ingress.yaml 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: 
+  name: pink-ing-cka16-trb
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /            # Not worked, if not added.
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: kodekloud-pink.app
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: pink-svc-cka16-trb          # This must carry TCP, UDP
+                port:
+                  number: 5000
+cluster4-controlplane ~ ➜  k get svc -n ingress-nginx 
+NAME                                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+ingress-nginx-controller             NodePort    172.20.168.117   <none>        80:30242/TCP,443:31374/TCP   14m
+ingress-nginx-controller-admission   ClusterIP   172.20.212.223   <none>        443/TCP                      14m
+
+cluster4-controlplane ~ ➜  k get no -o wide
+NAME                    STATUS   ROLES           AGE   VERSION   INTERNAL-IP       
+cluster4-controlplane   Ready    control-plane   96m   v1.32.0   192.168.129.240   
+cluster4-node01         Ready    <none>          96m   v1.32.0   192.168.36.224   
+
+cluster4-controlplane ~ ➜  curl http://192.168.129.240:30242/    #  Not worked
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+cluster4-controlplane ~ ➜  curl http://kodekloud-pink.app/       # worked # No need to add svc-port or node-port 
+<!DOCTYPE html>
+
+cluster4-controlplane ~ ➜  curl -H "Host: kodekloud-pink.app" curl 192.168.129.240:30242/  # worked
+curl: (6) Could not resolve host: curl
+<!DOCTYPE html>
+```
+
 ### D. Using LoadBalancer (Cloud Environments)
 - **Description**: Expose a Service externally using a cloud provider’s load balancer (e.g., AWS ELB, GCP Load Balancer). The Service is assigned an external IP or DNS name.
 - **Use Case**: Production-grade external access with load balancing and high availability.
