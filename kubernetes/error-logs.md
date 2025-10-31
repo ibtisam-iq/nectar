@@ -76,6 +76,9 @@ If volume let say it is PVC in use, and you are asked to append a sidecar contai
 Error from server (Forbidden): pods is forbidden: User "system:serviceaccount:dev:my-sa" cannot list resource "pods" in API group "" in the namespace "dev"
 Error from server (Forbidden): pods/log is forbidden: User "system:serviceaccount:dev:my-sa" cannot get resource "pods/log" in API group "" in the namespace "dev"
 
+cluster1-controlplane ~ ➜  k apply -f peach-pod-cka05-str.yaml 
+The Pod "peach-pod-cka05-str" is invalid: spec.containers[0].volumeMounts[0].name: Not found: "peach-pvc-cka05-str"
+Kubernetes expects the volumeMount.name to exactly match volumes.name — not the PVC name.
 
 ```
 
