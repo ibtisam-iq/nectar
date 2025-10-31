@@ -166,6 +166,85 @@ curl: (6) Could not resolve host: curl
 <!DOCTYPE html>
 ```
 
+### D. GatewayAPI 
+
+```bash
+cluster2-controlplane ~ ➜  k get svc -n nginx-gateway 
+NAME            TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+nginx-gateway   NodePort   172.20.236.169   <none>        80:30080/TCP,443:30081/TCP   53m
+
+cluster2-controlplane ~ ➜  k get gateway -n nginx-gateway -o yaml
+apiVersion: v1
+items:
+- apiVersion: gateway.networking.k8s.io/v1
+  kind: Gateway
+  metadata:
+    name: nginx-gateway
+    namespace: nginx-gateway
+  spec:
+    gatewayClassName: nginx
+    listeners:
+    - allowedRoutes:
+        namespaces:
+          from: All
+      name: http
+      port: 80
+      protocol: HTTP
+  status:
+    listeners:
+    - attachedRoutes: 0
+
+cluster2-controlplane ~ ➜  vi 9.yaml
+
+cluster2-controlplane ~ ➜  k get svc -n cka3658 
+NAME                    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+web-portal-service-v1   ClusterIP   172.20.22.199   <none>        80/TCP    5m24s
+web-portal-service-v2   ClusterIP   172.20.62.201   <none>        80/TCP    5m23s
+
+cluster2-controlplane ~ ➜  k apply -f 9.yaml 
+httproute.gateway.networking.k8s.io/web-portal-httproute created
+
+cluster2-controlplane ~ ➜  k get gateway -n nginx-gateway -o yaml | grep -i attachedRoutes
+    - attachedRoutes: 1
+
+cluster2-controlplane ~ ➜  curl http://cluster2-controlplane:30080
+
+    <h1>Hello from Web Portal App 2</h1>
+
+cluster2-controlplane ~ ➜  k get httproutes.gateway.networking.k8s.io -n cka3658 web-portal-httproute -o yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: web-portal-httproute
+  namespace: cka3658
+spec:
+  hostnames:
+  - cluster2-controlplane
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: nginx-gateway
+    namespace: nginx-gateway
+  rules:
+  - backendRefs:
+    - group: ""
+      kind: Service
+      name: web-portal-service-v1
+      port: 80
+      weight: 80
+    - group: ""
+      kind: Service
+      name: web-portal-service-v2
+      port: 80
+      weight: 20
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
+
+cluster2-controlplane ~ ➜  
+```
+
 ### D. Using LoadBalancer (Cloud Environments)
 - **Description**: Expose a Service externally using a cloud provider’s load balancer (e.g., AWS ELB, GCP Load Balancer). The Service is assigned an external IP or DNS name.
 - **Use Case**: Production-grade external access with load balancing and high availability.
