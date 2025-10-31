@@ -201,6 +201,15 @@ rules:
     port: 80
 ```
 
+Once HTTPRoute resource is deployed, it will auto-add here:
+
+```bash
+Matches:
+      Path:
+        Type:   PathPrefix
+        Value:  /
+```
+
 ---
 
 ## 🌱 Scenario 2: Only `matches` (rare, often with filters)
