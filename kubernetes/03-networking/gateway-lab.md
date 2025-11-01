@@ -67,6 +67,13 @@ Spec:
 ```
 ---
 
+```bash
+spec:
+      containers:
+      - image: traefik/whoami:latest
+```
+---
+
 **Q. Create a Kubernetes Gateway resource with the following specifications**:
 
 * **Name:** `nginx-gateway`
