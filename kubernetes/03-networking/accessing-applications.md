@@ -117,7 +117,22 @@ These methods enable access from a local machine, external network, or cloud env
     curl -H "Host: local.ibtisam-iq.com" http://<node-ip>:<ingress-nodePort>/<asia>
     # Example: curl -H "Host: local.ibtisam-iq.com" http://54.242.167.17:30080/asia
     ```
+  - Testing with ingress IP
+    ```bash
+    # this ingress doesn't contain any host.
+    cluster3-controlplane ~ ➜  k get ingress
+    NAME                       CLASS     HOSTS   ADDRESS          PORTS   AGE
+    nginx-ingress-cka04-svcn   traefik   *       192.168.141.37   80      47m
 
+    cluster3-controlplane ~ ➜  curl 192.168.141.37   # worked
+
+    cluster3-controlplane ~ ➜  k get svc -n kube-system traefik 
+    NAME      TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                      AGE
+    traefik   LoadBalancer   10.43.213.246   192.168.141.37   80:31459/TCP,443:31013/TCP   151m
+
+    cluster3-controlplane ~ ➜  curl localhost:31459 # worked
+    ```
+    
 ```bash
 cluster4-controlplane ~ ➜  cat ingress.yaml 
 apiVersion: networking.k8s.io/v1
