@@ -67,10 +67,73 @@ Spec:
 ```
 ---
 
-```bash
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: web-gateway
+  namespace: nginx-gateway
 spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+    allowedRoutes:
+      namespaces:
+        from: All
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: external-route
+  namespace: external
+spec:
+  parentRefs:
+  - name: web-gateway
+    namespace: nginx-gateway
+  rules:
+  - backendRefs:
+    - name: external-service
+      port: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-app
+  namespace: external
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: external-app
+  template:
+    metadata:
+      labels:
+        app: external-app
+    spec:
       containers:
       - image: traefik/whoami:latest
+        imagePullPolicy: Always
+        name: whoami
+        ports:
+        - containerPort: 80
+          protocol: TCP
+---            
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-service
+  namespace: external
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: external-app
+  type: ClusterIP
 ```
 ---
 
