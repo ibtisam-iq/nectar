@@ -126,6 +126,31 @@ sysctl net.bridge.bridge-nf-call-iptables
 
 ---
 
+## Install  debian package for cri-dockerd
+
+```bash
+root@cluster5-controlplane ~ ➜  dpkg -i cri-dockerd_0.3.16.3-0.ubuntu-jammy_amd64.deb 
+Selecting previously unselected package cri-dockerd.
+(Reading database ... 18376 files and directories currently installed.)
+Preparing to unpack cri-dockerd_0.3.16.3-0.ubuntu-jammy_amd64.deb ...
+Unpacking cri-dockerd (0.3.16~3-0~ubuntu-jammy) ...
+Setting up cri-dockerd (0.3.16~3-0~ubuntu-jammy) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/cri-docker.service → /lib/systemd/system/cri-docker.service.
+Created symlink /etc/systemd/system/sockets.target.wants/cri-docker.socket → /lib/systemd/system/cri-docker.socket.
+/usr/sbin/policy-rc.d returned 101, not running 'start cri-docker.service cri-docker.socket'
+
+root@cluster5-controlplane ~ ➜  systemctl start cri-docker.service
+
+root@cluster5-controlplane ~ ➜  systemctl enable cri-docker.service
+
+root@cluster5-controlplane ~ ➜  systemctl status cri-docker.service
+● cri-docker.service - CRI Interface for Docker Application Container Engine
+     Loaded: loaded (/lib/systemd/system/cri-docker.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sat 2025-11-01 08:57:19 UTC; 24s ago
+```
+
+---
+
 ## Cluster Setup
 
 There are two VMs `controlplane` and `node-summer`, create a two Node Kubeadm Kubernetes cluster with them. Kubeadm, kubelet and kubectl are already installed.
