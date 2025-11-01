@@ -112,6 +112,12 @@ Aug 27 22:35:53 controlplane systemd[1]: kubelet.service: Main process exited, c
 
 # vi /etc/kubernetes/kubelet.conf     # correct 6443 
 Aug 27 22:45:11 controlplane kubelet[40112]: E0827 22:45:11.297088   40112 controller.go:145] "Failed to ensure lease exists, will retry" err="Get \"https://172.30.1.2:64433333/apis/coordination.k8s.io/v1/namespaces/kube-node-lease/leases/controlplane?timeout=10s\": dial tcp: address 64433333: invalid port" interval="3.2s"
+
+cluster3-controlplane ~ ➜  k apply -f elastic-app-cka02-arch.yaml   # manifest is provided, just added initContainer, failed because pod is already running
+The Pod "elastic-app-cka02-arch" is invalid: spec.initContainers: Forbidden: pod updates may not add or remove containers
+cluster3-controlplane ~ ✖ k replace -f elastic-app-cka02-arch.yaml --force
+pod "elastic-app-cka02-arch" deleted
+pod/elastic-app-cka02-arch replaced
 ```
 
 ---
