@@ -278,33 +278,122 @@ spec:
     emptyDir: {}
 ```
 
-### 🔹 What happened in your example?
+Excellent job debugging, sweetheart 💚 — and great observation on the `CrashLoopBackOff`.
 
-* You solved with **`emptyDir`**, not `hostPath` (see last section: `volumes: emptyDir: {}` ✅).
-* That’s the correct approach for **sidecar logging / file sharing inside one Pod**.
+Let’s break this down carefully because your reasoning is **correct**, but the issue is just a small shell command logic problem in your **main-container** again.
 
-### 🔹 But what if someone uses `hostPath`?
+### 🧠 Problem Summary
 
-* **Technically it will work** because both containers would still share the file via a directory on the host.
-* **But**:
+From your `kubectl describe`, we can see:
 
-  * `hostPath` ties the Pod to a specific node.
-  * It breaks portability (not recommended unless explicitly required).
-  * CKA/CKAD examiners won’t expect you to pick `hostPath` unless the question **explicitly says “logs must be stored on host node path /var/log/...”**.
+```
+Reason: Error
+Exit Code: 2
+Command: echo "$(date) - Hi I am from Sidecar container" >> /log/app.log
+```
 
-### 🔹 Exam-safe rule
+That’s the smoking gun 🔫
+The `main-container` ran that single `echo` command and **exited immediately**.
+Because you didn’t wrap it in a loop, Kubernetes thinks the container **crashed** (since it exited with code 0 or 2), then restarts it continuously → resulting in **CrashLoopBackOff**.
 
-👉 If the question is **silent** about the volume type:
+### ⚙️ Why This Happens
 
-* Always assume **`emptyDir`** (sidecar/multi-container scenario).
-* Only use **`hostPath`** if exam says something like:
+* The command executes once, finishes, and exits.
+* Nginx base image doesn’t have an entrypoint that keeps it alive when you override it.
+* So the container stops right after writing one line → restart loop begins.
 
-  * “store logs under `/var/log/app` on the host”
-  * “mount host directory”
-  * “make logs survive across Pod restarts by using node’s filesystem”
+### ✅ Corrected YAML
 
-✅ So in your question: `emptyDir` is the expected correct answer.
-If you used `hostPath`, it would work but be **over-engineering + not best practice** → examiners won’t want that unless asked.
+Here’s the **fixed manifest** that matches exactly your question:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cka-sidecar-pod
+  namespace: cka-multi-containers
+spec:
+  volumes:
+  - name: shared-logs
+    emptyDir: {}
+  containers:
+  - name: main-container
+    image: nginx:1.27
+    command:
+    - sh
+    - -c
+    - |
+      mkdir -p /log
+      while true; do
+        echo "$(date) - Hi I am from Sidecar container" >> /log/app.log;
+        sleep 2;
+      done
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /log
+
+  - name: sidecar-container
+    image: nginx:1.25
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /usr/share/nginx/html
+```
+
+
+### 🔍 Key Fixes Explained
+
+| Issue                   | Cause                                                                 | Fix                                                                                          |
+| ----------------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `CrashLoopBackOff`      | Command exits instantly                                               | Added infinite loop (`while true`)                                                           |
+| Log directory missing   | `/log` may not exist in image                                         | Added `mkdir -p /log`                                                                        |
+| Sidecar not serving log | Wrong mount path                                                      | Mount same volume at `/usr/share/nginx/html` so Nginx serves `/usr/share/nginx/html/app.log` |
+| SubPath                 | Removed — unnecessary here because we want the whole directory shared |                                                                                              |
+
+### 🧪 Validation
+
+### 1️⃣ Apply the fix:
+
+```bash
+kubectl apply -f 4.yaml
+```
+
+### 2️⃣ Check status:
+
+```bash
+kubectl get po -n cka-multi-containers
+```
+
+✅ Expected:
+
+```
+cka-sidecar-pod   2/2   Running   0   15s
+```
+
+### 3️⃣ Verify logs inside sidecar:
+
+```bash
+kubectl exec -n cka-multi-containers cka-sidecar-pod -c sidecar-container -- cat /usr/share/nginx/html/app.log
+```
+
+✅ Output:
+
+```
+Sat Nov  1 10:01:12 UTC 2025 - Hi I am from Sidecar container
+Sat Nov  1 10:01:14 UTC 2025 - Hi I am from Sidecar container
+...
+```
+
+### 4️⃣ Test the web endpoint:
+
+```bash
+kubectl exec -n cka-multi-containers cka-sidecar-pod -c sidecar-container -- curl localhost/app.log
+```
+
+✅ Shows same log contents.
+
+💚 **Final Answer:**
+You did everything right conceptually — the only mistake was missing the infinite loop in your `main-container`.
+Replace your one-line `echo` with a `while true` loop, and the pod will go fully `2/2 Running`.
 
 ---
 
