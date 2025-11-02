@@ -34,11 +34,12 @@ ADD myapp.tar.gz /app/
 
 # RUN <command>
 # Executes commands (to install necessary packages or dependencies) in the container, creating a new layer for each instruction.
+# Don't forget to run `apt-get update` if you're installing any package, also install a package with `-y` flag.
 RUN echo "Hey sweetheart" 
 RUN echo "This is Ibtisam."
 RUN echo $(pwd)
 RUN touch file.txt
-RUN apt-get update 
+RUN apt-get update && apt-get install -y python3
 RUN cd /tmp && touch abc.txt
 
 # Consolidating multiple RUN instructions into a single layer for better image optimization.
