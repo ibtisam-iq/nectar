@@ -69,6 +69,8 @@ controlplane ~ ➜  echo '$USER' && sleep 5
 $USER
 controlplane ~ ➜  echo $USER && sleep 5
 root
+controlplane ~ ➜  echo $(USER) && sleep 5
+root
 controlplane ~ ➜  echo "$USER && sleep 5"
 root && sleep 5
 controlplane ~ ➜  echo "$USER" && sleep 5
