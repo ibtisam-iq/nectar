@@ -62,6 +62,9 @@ root@student-node ~ ➜  k logs ckad-flash89-aom --all-containers # CrashLoopBac
 nginx: [alert] could not open error log file: open() "/var/log/nginx/error.log" failed (2: No such file or directory)
 root@student-node ~ ➜  vi ckad-flash89.yaml         # mountPath: /var/log/ to /var/log/nginx
 
+error mounting "/var/lib/kubelet/pods/.../volumes/kubernetes.io~configmap/nginx-conf-vol" 
+to rootfs at "/etc/nginx/conf.d/default.conf": 
+not a directory: unknown
 
 volumeMounts:
   - name: nginx-conf-vol
