@@ -8,6 +8,8 @@ Warning  FailedMount  10s (x6 over 25s)  kubelet          MountVolume.SetUp fail
 
 Warning  Failed     10s (x2 over 11s)  kubelet            Error: exec: "shell": executable file not found in $PATH: unknown  # wrong command
 E0912 10:41:23.738713       1 run.go:72] "command failed" err="stat /etc/kubernetes/scheduler.config: no such file or directory" # wrong arg
+E1007 19:50:51.803107       1 run.go:72] "command failed" err="unable to load client CA provider: open /etc/kubernetes/pki/ca.crt: no such file or directory"
+
 Warning  Failed     4s    kubelet            Failed to pull image "nginx:ltest"
 
 Warning  FailedScheduling  72s   default-scheduler  0/2  nodes are available: 1 node(s) didn't match Pod's node affinity/selector
