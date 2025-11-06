@@ -244,6 +244,9 @@ behavior:
 - To grant **monitoring or read-only access**, assign only the verbs **`get`, `list`, and `watch`** on the required resources.
 - `privileged: true` gives the container almost unrestricted access to the host, equivalent to root privileges outside the container.
 - Containers run as root by default unless `runAsNonRoot: true` or a **non-root UID** is set; setting `privileged: true` or adding `CAP_SYS_ADMIN` effectively grants root-level powers.
+- The way a ConfigMap or Secret is created (from-literal, from-file, or from-env-file) only affects how data is stored, not how it is used.
+  - If you want to pass environment variables, use `env` or `envFrom`.
+  - If you want to provide files, use volume mounts.
 - Kubelet Client Certificate → `kubelet-client-current.pem`, Kubelet Server Certificate → `kubelet.crt`, Kubelet Server Key → `kubelet.key`
 - Manifest not deployed
   - ensure CRDs are installed first: no matches for kind "Persistentvolumeclaim" in version "v1"
