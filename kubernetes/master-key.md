@@ -225,6 +225,7 @@ behavior:
 - Manually Curl the Probe Endpoint (if HTTP probe) `kubectl exec -it <pod-name> -- curl -v localhost:<port>/<path>`
 - Having TLS doesn’t mean your Service’s port or your container’s port must be 443. You can choose any port, as long as your Ingress, Service, and Pod ports align.
 
+- If a *ResourceQuota* includes CPU or memory (`requests.*` or `limits.*`), every Pod must define `resources.requests` and `resources.limits`. Otherwise, Kubernetes will reject it. But if the quota only tracks counts (like Pods, PVCs, Services), then `spec.resources` is optional.
 - PVC, CRD and Restoring ETCD requires some time. So, be patient.
 - The manifest related to volume (pvc, pv), and resource field in pod/deployment.... delete all fields, and the apply.
 - An `HTTPRoute` does not have to be in the same namespace as the `Gateway`, but it does have to be in the same namespace as the `Service` it references (unless you explicitly allow cross-namespace routing via `backendRefs.namespaces`).
