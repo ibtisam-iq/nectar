@@ -337,6 +337,14 @@ images:
   * ClusterRole ↔ ClusterRoleBinding (cluster/global)
   * ClusterRole ↔ RoleBinding (cluster perms in one namespace)
 
+
+- minReadySeconds = stability delay,
+- progressDeadlineSeconds = fail after 8 min (480 sec),
+- maxUnavailable + maxSurge = control update speed.
+
+- /api/v1/namespaces/default/pods
+- /apis/apps/v1/namespaces/default/deployments
+
 ---
 
 - multi-container with no volumes,
