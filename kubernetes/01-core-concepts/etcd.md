@@ -32,6 +32,30 @@ https://127.0.0.1:2379 is healthy: successfully committed proposal: took = 9.507
 sh-5.2#  
 ```
 
+---
+
+## 💡 **Important Notes for Exam**
+
+### ✔ If etcd is external
+
+Its etcd.yaml **will not be on the controlplane node**
+It will be on the external etcd node.
+
+So first SSH to that node:
+
+```
+ssh nodeXYZ
+```
+
+Then:
+
+```
+cat /etc/kubernetes/manifests/etcd.yaml
+```
+
+You ALWAYS find the IP here.
+
+---
 
 ### 📦 ETCD Static Pod (`/etc/kubernetes/manifests/etcd.yaml`)
 
@@ -51,7 +75,7 @@ spec:
   containers:
   - command:
     - etcd
-    - --advertise-client-urls=https://192.168.102.134:2379
+    - --advertise-client-urls=https://192.168.102.134:2379   # This is the real IP + port the API server must use.
     - --cert-file=/etc/kubernetes/pki/etcd/server.crt
     - --client-cert-auth=true
     - --data-dir=/var/lib/etcd
