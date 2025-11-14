@@ -586,6 +586,29 @@ curl http://<loadbalancer-IP>/<path>
 | No TLS (HTTP)    | **80**     |
 | With TLS (HTTPS) | **443**    |
 
+```bash
+controlplane ~ ➜  k get ingress -n test-1
+NAME   CLASS     HOSTS           ADDRESS   PORTS     AGE
+abc    nginx     ibt-sam.local             80, 443   50m
+
+controlplane ~ ➜  k get ingress -n test-2
+NAME   CLASS     HOSTS             ADDRESS   PORTS   AGE
+abc    traefik   ibt-sam-2.local             80      48m
+
+controlplane ~ ➜  curl -H "Host: ibt-sam.local" http://192.168.102.145:31338
+<html>
+<head><title>308 Permanent Redirect</title></head>
+</html>
+
+controlplane ~ ➜  curl --resolve ibt-sam.local:31338:192.168.102.145 http://ibt-sam.local:31338
+<html>
+<head><title>308 Permanent Redirect</title></head>
+</html>
+
+controlplane ~ ➜  curl --resolve ibt-sam.local:30768:192.168.102.145 https://ibt-sam.local:30768 -k
+love you my sweetheart, ibtisam
+```
+
 ---
 
 
