@@ -86,6 +86,22 @@ cluster1-controlplane ~ ➜  k apply -f peach-pod-cka05-str.yaml
 The Pod "peach-pod-cka05-str" is invalid: spec.containers[0].volumeMounts[0].name: Not found: "peach-pvc-cka05-str"
 Kubernetes expects the volumeMount.name to exactly match volumes.name — not the PVC name.
 
+
+controlplane ~ ➜  curl -H "ibt-sam.local" http://192.168.102.74:32080                # Host missing
+404 page not found
+
+controlplane ~ ➜  curl -H "Host: ibt-sam.local" http://192.168.102.74:32080          # make sure, you are using correct path /
+love you my sweetheart, ibtisam
+
+controlplane ~ ➜  curl --resolve ibt-sam.local:32080:192.168.102.74 http://192.168.102.74:32080  # DID NOT request the resolved host
+404 page not found
+
+controlplane ~ ➜  curl --resolve ibt-sam.local:32080:192.168.102.74 http://ibt-sam.local:32080
+love you my sweetheart, ibtisam
+
+controlplane ~ ➜  curl -k --resolve ibt-sam.local:32080:192.168.102.74 http://ibt-sam.local:32080  # -k = “insecure mode → ignore certificate errors”
+love you my sweetheart, ibtisam
+
 ```
 
 ---
