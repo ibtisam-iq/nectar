@@ -188,7 +188,7 @@ helm install traefik traefik/traefik \
   --namespace traefik \
   --set ports.web.nodePort=32080 \
   --set ports.websecure.nodePort=32443 \
-  --set service.type=NodePort
+  --set service.type=NodePort --create-namespace
 
 controlplane ~ ➜  k get no -o wide
 NAME           STATUS   ROLES           AGE    VERSION   INTERNAL-IP       EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION    CONTAINER-RUNTIME
