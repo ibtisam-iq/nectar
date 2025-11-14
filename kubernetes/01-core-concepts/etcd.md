@@ -1,3 +1,38 @@
+```bash
+# On Controlplane Host
+controlplane ~ ➜  curl -k https://127.0.0.1:2379
+curl: (56) OpenSSL SSL_read: error:0A00045C:SSL routines::tlsv13 alert certificate required, errno 0
+
+controlplane ~ ✖ curl --cacert /etc/kubernetes/pki/etcd/ca.crt \
+     --cert   /etc/kubernetes/pki/etcd/server.crt \
+     --key    /etc/kubernetes/pki/etcd/server.key \
+     https://127.0.0.1:2379/health
+{"health":"true","reason":""}
+controlplane ~ ➜
+
+# Inside etcd Pod, when etcdctl binary is not installed on controlplane host
+
+controlplane ~ ✖ k exec -it -n kube-system etcd-controlplane -- sh
+sh-5.2# ETCDCTL_API=3 etcdctl --endpoints 127.0.0.1:2379 \    
+>   --cert=/etc/kubernetes/pki/etcd/server.crt \
+>   --key=/etc/kubernetes/pki/etcd/server.key \
+>   --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+>   member list
+{"level":"warn","ts":"2025-11-14T05:37:17.544835Z","caller":"flags/flag.go:94","msg":"unrecognized environment variable","environment-variable":"ETCDCTL_API=3"}
+99487c420363552e, started, controlplane, https://192.168.102.162:2380, https://192.168.102.162:2379, false
+
+sh-5.2# ETCDCTL_API=3 etcdctl \
+>   --endpoints=https://127.0.0.1:2379 \
+>   --cert=/etc/kubernetes/pki/etcd/server.crt \
+>   --key=/etc/kubernetes/pki/etcd/server.key \
+>   --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+>   endpoint health
+{"level":"warn","ts":"2025-11-14T05:42:30.621473Z","caller":"flags/flag.go:94","msg":"unrecognized environment variable","environment-variable":"ETCDCTL_API=3"}
+https://127.0.0.1:2379 is healthy: successfully committed proposal: took = 9.507896ms
+sh-5.2#  
+```
+
+
 ### 📦 ETCD Static Pod (`/etc/kubernetes/manifests/etcd.yaml`)
 
 ```yaml
