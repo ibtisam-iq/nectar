@@ -581,6 +581,11 @@ If the ingress controller Service type is `LoadBalancer`:
 curl http://<loadbalancer-IP>/<path>
 ```
 
+| Ingress Mode     | Shown PORT |
+| ---------------- | ---------- |
+| No TLS (HTTP)    | **80**     |
+| With TLS (HTTPS) | **443**    |
+
 ---
 
 
