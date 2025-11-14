@@ -441,4 +441,3 @@ Used by:
 | Load balancer for etcd?        | ❌ Not needed             | ❌ Generally not used (direct peer list) |
 
 ---
-
