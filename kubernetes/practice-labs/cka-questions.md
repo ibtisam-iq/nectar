@@ -14,8 +14,6 @@ Use the following command to test the changes:
 
 As TLSv1.2 should not be allowed anymore, the command should fail.
 
-# ✅ **Answer (CKA-style, fast and correct)**
-
 ### **1️⃣ Edit the ConfigMap in real-time**
 
 ```bash
@@ -64,6 +62,32 @@ curl --tls-max 1.3 -k https://web.k8s.local
 ```
 
 Expected result: **200 OK** or similar.
+
+```bash
+controlplane ~ ➜  k edit cm -n nginx-static nginx-config -o yaml
+apiVersion: v1
+data:
+  nginx.conf: |
+    events { }
+    http {
+      server {
+        listen 443 ssl;
+        ssl_certificate /etc/nginx/tls/tls.crt;
+        ssl_certificate_key /etc/nginx/tls/tls.key;
+        ssl_protocols TLSv1.3;                                        # this is the line to update.
+        location / {
+          root /usr/share/nginx/html;
+          index index.html;
+        }
+      }
+    }
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: nginx-static
+
+controlplane ~ ➜  
+```
 
 ---
 
