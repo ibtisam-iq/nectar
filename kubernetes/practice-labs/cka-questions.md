@@ -86,7 +86,10 @@ metadata:
   name: nginx-config
   namespace: nginx-static
 
-controlplane ~ ➜  
+controlplane ~ ➜  k rollout restart deploy -n nginx-static nginx-static 
+deployment.apps/nginx-static restarted
+
+controlplane ~ ➜   
 ```
 
 ---
