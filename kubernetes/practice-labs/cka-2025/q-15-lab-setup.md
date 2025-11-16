@@ -237,6 +237,9 @@ spec:
       ports:
         - protocol: TCP
           port: 80
+    - ports:
+      - protocol: UDP
+        port: 53
 ```
 
 ---
