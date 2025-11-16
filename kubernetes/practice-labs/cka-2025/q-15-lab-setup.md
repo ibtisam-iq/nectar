@@ -319,6 +319,9 @@ spec:
       ports:
         - protocol: TCP
           port: 80
+    - ports:
+        - protocol: UDP
+          port: 53
 ```
 
 ---
@@ -334,13 +337,6 @@ If everything is correct, you will see:
 ```
 love you my sweetheart, Ibtisam
 ```
-
-✔️ communication allowed
-✔️ ingress allowed
-✔️ egress allowed
-✔️ least privilege
-✔️ deny-all preserved
-✔️ exam-style answer complete
 
 ---
 
