@@ -2,6 +2,8 @@
 
 A hands-on **open lab of Kubernetes practice questions and solutions**, curated during my preparation for the **Certified Kubernetes Administrator (CKA)** and **Certified Kubernetes Application Developer (CKAD)** exams. This repository is designed to help every Kubernetes learner succeed.
 
+https://docs.linuxfoundation.org/tc-docs/certification/tips-cka-and-ckad
+
 ---
 
 ## 🎯 Why This Repository Exists
