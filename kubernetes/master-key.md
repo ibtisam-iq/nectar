@@ -245,6 +245,7 @@ behavior:
 - To grant **monitoring or read-only access**, assign only the verbs **`get`, `list`, and `watch`** on the required resources.
 - `privileged: true` gives the container almost unrestricted access to the host, equivalent to root privileges outside the container.
 - Containers run as root by default unless `runAsNonRoot: true` or a **non-root UID** is set; setting `privileged: true` or adding `CAP_SYS_ADMIN` effectively grants root-level powers.
+- Kubernetes ignores/overrides the Job name and Pod name in a CronJob, and only truly keeps the CronJob name and the container name.
 - The way a ConfigMap or Secret is created (from-literal, from-file, or from-env-file) only affects how data is stored, not how it is used.
   - If you want to pass environment variables, use `env` or `envFrom`.
   - If you want to provide files, use volume mounts.
