@@ -34,14 +34,14 @@ Setting up a Kubernetes control plane manually?
 
 **No need!**
 
-Head over to **[infra-bootstrap](https://github.com/ibtisam-iq/infra-bootstrap)** — my dedicated automation repo offering **one-click Kubernetes control plane installation**.
+Head over to **[SilverInit](https://github.com/ibtisam-iq/SilverInit)** — my dedicated automation repo offering **one-click Kubernetes control plane installation**.
 
 🎯 **What you'll find there:**
 - ⚡ Fully automated control plane setup scripts for EC2
 - 💾 Clean, reliable Kubernetes installation workflows
 - 🚀 No step-by-step guides, no copy-pasting — just one command to rule them all
 
-👉 [Explore infra-bootstrap now and experience effortless Kubernetes cluster initialization!](https://github.com/ibtisam-iq/infra-bootstrap)
+👉 [Explore SilverInit now and experience effortless Kubernetes cluster initialization!](https://github.com/ibtisam-iq/SilverInit)
 
 🌸 *Let automation bloom, while you focus on building the future on Kubernetes.* 🌸
 
@@ -215,7 +215,7 @@ Kubernetes uses **containerd** as the container runtime via the Container Runtim
    ```
    **Expected Output**: `Active: active (running)`.
 
-> **ONE Command Solution**: Head over again to **[infra-bootstrap](https://github.com/ibtisam-iq/infra-bootstrap)** to install and configure containerd on all nodes with a single command.
+> **ONE Command Solution**: Head over again to **[SilverInit](https://github.com/ibtisam-iq/SilverInit)** to install and configure containerd on all nodes with a single command.
 
 ---
 
