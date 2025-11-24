@@ -409,7 +409,7 @@ To use Calico as the CNI in your Kind cluster:
 Just copy and paste the following commands into your terminal in order:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-kind-calico.sh | sudo bash
+curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/k8s-kind-calico.sh | sudo bash
 ```
 
 This setup ensures a robust, IPv4-only Kind cluster with Calico, supporting advanced networking features while maintaining compatibility with your existing configuration. The `10.244.0.0/16` range avoids conflicts, and modifying `calico.yaml` is less invasive than changing `podSubnet`.

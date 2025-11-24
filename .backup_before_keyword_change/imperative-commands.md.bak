@@ -18,19 +18,19 @@
 
 - One control-plane node and one worker node with Calico CNI
     ```bash
-    curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/k8s-kind-calico.sh | sudo bash
+    curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/k8s-kind-calico.sh | sudo bash
     ```
 
 **3. `kubeadm`**
 
 - First control-plane initialization
     ```bash
-    curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-Control-Plane-Init.sh | sudo bash
+    curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/K8s-Control-Plane-Init.sh | sudo bash
     ```
 
 - Worker node initialization
     ```bash
-    curl -sL https://raw.githubusercontent.com/ibtisam-iq/infra-bootstrap/main/K8s-Node-Init.sh | sudo bash
+    curl -sL https://raw.githubusercontent.com/ibtisam-iq/SilverInit/main/K8s-Node-Init.sh | sudo bash
     ```
 
 > **Note:** Kubernetes supports both `--flag=value` and `--flag value` formats.
