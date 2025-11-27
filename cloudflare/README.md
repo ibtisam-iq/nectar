@@ -20,6 +20,5 @@ using **Cloudflare Email Routing** and **Gmail**, while keeping your personal Gm
 Read the complete step-by-step guide here:
 
 ➡️ [`cloudflare-gmail-domain-email-setup.md`](./cloudflare-gmail-domain-email-setup.md)
-```
 
 ---
