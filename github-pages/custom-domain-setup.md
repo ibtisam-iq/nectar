@@ -359,12 +359,19 @@ Cloudflare proxy accidentally ON → turn OFF (gray cloud).
 You now understand:
 
 ✔ How GitHub Pages works
+
 ✔ Why Cloudflare controls DNS
+
 ✔ How custom domains work
+
 ✔ How SSL works
+
 ✔ How to integrate Cloudflare + GitHub
+
 ✔ How to deploy Docs Pages
+
 ✔ How to host unlimited project docs
+
 ✔ How to do a professional OSS setup
 
 Your DebugBox docs site is now correctly hosted at:
