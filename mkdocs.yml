@@ -1,0 +1,103 @@
+site_name: Nectar — Engineering Knowledge System
+site_url: https://nectar.ibtisam-iq.com
+site_description: "Nectar — your personal engineering knowledge system (Kubernetes, Cloud, Docker, CI/CD, Networking)."
+repo_name: ibtisam-iq/nectar
+repo_url: https://github.com/ibtisam-iq/nectar
+
+theme:
+  name: material
+  language: en
+  logo: assets/logo.png
+  favicon: assets/favicon.png
+  features:
+    # group them like Navigation, Content, Search, UI Enhancements, Performance
+    - navigation.indexes
+    # Removed - toc.integrate      # Merges the TOC into the left navigation
+    # Left sidebar shows only pages, Right sidebar shows TOC
+    - navigation.sections          # CNCF-style grouped sections
+    - navigation.tabs              # Tabs at the top
+    - navigation.top               # Back-to-top button
+    - content.tabs.link
+    - content.code.annotate
+    - navigation.instant           # SPA mode: instant loading
+    - content.action.edit
+    - content.action.view
+    - search.share
+    - navigation.expand
+    - navigation.tracking
+    - content.code.copy
+    - content.code.select
+    - content.max_width
+    # Performance
+    - search.suggest
+    - search.highlight
+
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+plugins:
+  - search
+  - awesome-pages:              # Auto-generates nav from .pages files, pip install mkdocs-awesome-pages-plugin
+      strict: false
+  - autorefs                    # Auto cross-references, pip install mkdocs-autorefs-plugin
+  - section-index               # Makes folders clickable, pip install mkdocs-section-index
+  - minify:                     # Enables HTML minification, pip install mkdocs-minify-plugin
+      minify_html: true
+
+markdown_extensions:   # list of extensions to enable in markdown parsing and rendering # pymdown-extensions==10.11.2
+  - admonition
+  - toc:
+      permalink: true
+  - footnotes
+  - def_list
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:           # <-- Enables --8<-- includes
+      base_path: docs
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.tabbed             # Tabs support
+  - pymdownx.emoji
+  - pymdownx.tasklist
+  - pymdownx.mark
+  - pymdownx.arithmatex
+  - pymdownx.keys
+  - pymdownx.magiclink
+  - pymdownx.caret
+  - pymdownx.tilde
+  - pymdownx.smartsymbols
+  - codehilite
+  - md_in_html
+
+extra_css:
+  - stylesheets/layout.css
+
+extra:
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX   # add your GA ID anytime
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ibtisam-iq
+    - icon: fontawesome/solid/globe
+      link: https://bootstrap.ibtisam-iq.com
+  content:
+    max_width: 1200px  # Expands main content; sidebars stay ~280px each
+
+# No nav here — awesome-pages + .pages control it automatically.
+# Optional: you may add extra nav entries for non-doc pages, but not required.
+
+#nav:    # not pages, just for non-docs
+#  - Home: index.md
+

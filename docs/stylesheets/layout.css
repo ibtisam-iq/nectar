@@ -1,0 +1,40 @@
+/* Reclaim side space: Wider content on large screens, no overlap */
+@media screen and (min-width: 1024px) {  /* Tablets+; tweak if needed */
+  .md-main__inner {
+    display: flex !important;
+    max-width: 100% !important;  /* Full viewport use */
+    margin: 0 auto;
+  }
+  
+  .md-content {
+    flex: 1 1 auto;  /* Grows to fill space */
+    max-width: calc(100% - 32rem);  /* Subtract ~16rem left + 16rem right for sidebars */
+    margin: 0 1rem;  /* Breathing room */
+  }
+  
+  /* Shrink sidebars to free ~40px each side (default 16rem → 14rem) */
+  .md-sidebar--primary,
+  .md-sidebar--secondary {
+    flex-shrink: 0;
+    width: 14rem !important;
+    max-width: 14rem !important;
+  }
+  
+  /* Readability polish: Optimal lines, no orphans */
+  .md-content__inner {
+    line-height: 1.65;
+  }
+  
+  .md-content article p,
+  .md-content article ul li,
+  .md-content article ol li {
+    max-width: 80ch;  /* ~80 chars/line sweet spot */
+    hyphens: auto;
+    word-break: break-word;
+  }
+}
+
+/* Mobile-first: Ensure it collapses gracefully below 1024px */
+@media screen and (max-width: 1023px) {
+  .md-sidebar--secondary { display: none; }  /* Hide TOC on small screens for more space */
+}

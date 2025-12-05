@@ -1,0 +1,7 @@
+mkdocs-material==9.1.13
+mkdocs-awesome-pages-plugin==2.10.1
+mkdocs-autorefs==1.4.3
+pymdown-extensions==10.11.2
+mkdocs-minify-plugin
+mkdocs-section-index
+
