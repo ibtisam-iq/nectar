@@ -32,9 +32,9 @@
 
 
 # Force GitHub to detect files as specific languages
-*.tf        linguist-language=HCL      # Treat Terraform files correctly
-*.json      linguist-language=JSON     # Ensure JSON files are recognized properly
-*.yml       linguist-language=YAML     # YAML should always be highlighted as YAML
+#*.tf        linguist-language=HCL      # Treat Terraform files correctly
+#*.json      linguist-language=JSON     # Ensure JSON files are recognized properly
+#*.yml       linguist-language=YAML     # YAML should always be highlighted as YAML
 
 # --- BINARY FILE HANDLING ---
 # Mark images, fonts, and other binary files as non-diffable to improve performance
