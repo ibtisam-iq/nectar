@@ -60,7 +60,7 @@ I return to it when:
 - I want to reason through a system again
 - I want to avoid repeating an old mistake
 
-Some documents are intentionally dense and non-explanatory — built as personal “master keys” rather than teaching material (for example: [Kubernetes Master Key](kubernetes/master-key.md)).
+Some documents are intentionally dense and non-explanatory — built as personal “master keys” rather than teaching material (for example: [Kubernetes Master Key](containers-orchestration/kubernetes/master-key.md)).
 
 ---
 
