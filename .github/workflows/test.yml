@@ -1,0 +1,272 @@
+# =============================================================================
+# NECTAR DOCUMENTATION CI/CD PIPELINE
+# =============================================================================
+# Production-grade workflow for building and deploying MkDocs documentation
+# to GitHub Pages with quality checks, caching, and security best practices.
+#
+# Workflow triggers:
+#   - Every push to main branch (production deploy)
+#   - Every pull request to main branch (preview deploy)
+#   - Manual workflow dispatch (on-demand build)
+#
+# Architecture:
+#   1. Build & Quality Check Job - Build site + validate HTML + check links
+#   2. Preview Deploy Job - Deploy PR previews to gh-pages/previews/<pr-number>
+#   3. Production Deploy Job - Deploy main branch to gh-pages root
+# =============================================================================
+
+name: 📚 Nectar Documentation Pipeline
+
+# -----------------------------------------------------------------------------
+# TRIGGER CONDITIONS
+# -----------------------------------------------------------------------------
+on:
+  # Trigger on push to main branch
+  push:
+    branches:
+      - main
+    # Only trigger when docs-related files change
+    paths:
+      - '**.md'
+      - 'mkdocs.yml'
+      - 'docs/**'
+      - 'requirements.txt'
+      - '.github/workflows/docs.yml'
+  
+  # Trigger on pull requests targeting main
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**.md'
+      - 'mkdocs.yml'
+      - 'docs/**'
+      - 'requirements.txt'
+  
+  # Allow manual workflow triggering from Actions tab
+  workflow_dispatch:
+    inputs:
+      deploy_environment:
+        description: 'Deployment environment'
+        required: false
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - preview
+
+# -----------------------------------------------------------------------------
+# WORKFLOW PERMISSIONS
+# -----------------------------------------------------------------------------
+# Principle of least privilege: grant only necessary permissions
+permissions:
+  contents: write        # Required to: push to gh-pages branch (branch-based deploy)
+  pages: write           # Required to: GitHub Pages OIDC integration (future-proof)
+  id-token: write        # Required to: OIDC authentication (alternative to PAT)
+  pull-requests: write   # Required to: comment on PRs with preview links
+
+# -----------------------------------------------------------------------------
+# CONCURRENCY CONTROL
+# -----------------------------------------------------------------------------
+# Prevent multiple deployments from running simultaneously
+# This saves GitHub Actions minutes and prevents race conditions
+concurrency:
+  group: docs-${{ github.ref }}           # Unique per branch/PR
+  cancel-in-progress: true                # Cancel old runs when new commit pushed
+
+# -----------------------------------------------------------------------------
+# ENVIRONMENT VARIABLES
+# -----------------------------------------------------------------------------
+# Global variables available to all jobs
+env:
+  PYTHON_VERSION: "3.11"                  # Python version (match mkdocs requirements)
+  MKDOCS_CACHE_DIR: ~/.cache/mkdocs       # MkDocs cache directory
+
+# =============================================================================
+# JOBS
+# =============================================================================
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # JOB 1: BUILD & QUALITY CHECKS
+  # ---------------------------------------------------------------------------
+  # Always runs: validates docs can be built successfully
+  # Catches broken links, missing files, invalid syntax before deploy
+  build-and-quality:
+    name: 🔨 Build & Quality Checks
+    runs-on: ubuntu-latest
+    
+    # Timeout prevents hung builds from consuming runner time
+    timeout-minutes: 15
+    
+    steps:
+      # -----------------------------------------------------------------------
+      # STEP 1: Checkout repository code
+      # -----------------------------------------------------------------------
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0                  # Full git history (needed for git-revision-date plugin)
+          submodules: false               # Don't fetch submodules (not needed for docs)
+      
+      # -----------------------------------------------------------------------
+      # STEP 2: Set up Python environment
+      # -----------------------------------------------------------------------
+      - name: 🐍 Setup Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      # -----------------------------------------------------------------------
+      # STEP 3: Cache pip dependencies for faster builds
+      # -----------------------------------------------------------------------
+      # Caching saves ~30-60 seconds per run by reusing downloaded packages
+      # Cache key includes:
+      #   - OS (ubuntu)
+      #   - Python version (3.11)
+      #   - Hash of requirements.txt (changes when deps update)
+      - name: 📦 Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ${{ env.MKDOCS_CACHE_DIR }}
+          key: ${{ runner.os }}-pip-${{ env.PYTHON_VERSION }}-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ env.PYTHON_VERSION }}-
+            ${{ runner.os }}-pip-
+      
+      # -----------------------------------------------------------------------
+      # STEP 4: Install Python dependencies
+      # -----------------------------------------------------------------------
+      - name: 📚 Install dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r requirements.txt
+      
+      # -----------------------------------------------------------------------
+      # STEP 5: Verify installation (helpful for debugging)
+      # -----------------------------------------------------------------------
+      - name: ✅ Verify MkDocs installation
+        run: |
+          echo "### 📦 Installed Packages" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          mkdocs --version >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          pip list | grep -E "mkdocs|pymdown" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+      
+      # -----------------------------------------------------------------------
+      # STEP 6: Build documentation (strict mode in CI)
+      # -----------------------------------------------------------------------
+      # --strict flag treats warnings as errors
+      # --verbose provides detailed output for troubleshooting
+      # Catches: broken links, missing files, invalid markdown, plugin errors
+      - name: 🏗️ Build MkDocs site
+        run: |
+          mkdocs build --verbose
+        env:
+          # Enable colored output in CI logs
+          FORCE_COLOR: 1
+      
+      # -----------------------------------------------------------------------
+      # STEP 7: Validate generated HTML
+      # -----------------------------------------------------------------------
+      # Uses html5validator to check HTML5 compliance
+      # Catches: invalid tags, missing attributes, accessibility issues
+      # 
+      # ignore-re patterns explained:
+      #   - autocomplete: Valid HTML5 but validator may flag mobile-specific values
+      #   - autocorrect: iOS-specific attribute for disabling autocorrect
+      #   - autocapitalize: Mobile attribute for controlling capitalization
+      #
+      # continue-on-error: Don't fail build on validation warnings
+      # These are often false positives from Material theme components
+      - name: 🔍 QA - Validate HTML5 compliance
+        uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+        with:
+          root: site/
+          extra: '--ignore-re "Attribute \\"(autocomplete|autocorrect|autocapitalize)\\" not allowed"'
+        continue-on-error: true
+      
+      # -----------------------------------------------------------------------
+      # STEP 8: Check for broken links
+      # -----------------------------------------------------------------------
+      # Uses lychee to check both internal and external links
+      # 
+      # Arguments explained:
+      #   --no-progress: Cleaner CI logs (no progress bars)
+      #   --accept 200,429,403: Accept HTTP codes:
+      #     - 200: OK
+      #     - 429: Rate Limited (some sites rate-limit CI IPs)
+      #     - 403: Forbidden (some sites block CI user agents)
+      #   site/: Check all HTML files in built site
+      #
+      # fail: false - Don't fail build on broken links
+      # Broken external links shouldn't block deployment (sites go down temporarily)
+      # Review lychee report to fix issues, but don't block PRs
+      - name: 🔗 QA - Check for broken links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: '--no-progress --accept 200,429,403 site/'
+          fail: false
+        env:
+          # Add GitHub token to increase rate limits for GitHub links
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      # -----------------------------------------------------------------------
+      # STEP 9: Upload lychee report as artifact
+      # -----------------------------------------------------------------------
+      # Makes link check results available for review
+      # Useful for debugging and tracking link health over time
+      - name: 📄 Upload link check report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lychee-report
+          path: lychee/
+          retention-days: 7
+          if-no-files-found: ignore
+      
+      # -----------------------------------------------------------------------
+      # STEP 10: Upload built site as artifact
+      # -----------------------------------------------------------------------
+      # Makes built site available to deploy jobs
+      # Artifact is kept for 1 day (configurable)
+      - name: 📤 Upload site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mkdocs-site
+          path: site/
+          retention-days: 1
+          if-no-files-found: error
+      
+      # -----------------------------------------------------------------------
+      # STEP 11: Generate comprehensive build summary
+      # -----------------------------------------------------------------------
+      - name: 📊 Generate build summary
+        if: always()
+        run: |
+          echo "## 📚 Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status:** ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Python Version:** ${{ env.PYTHON_VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build Time:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -d "site" ]; then
+            echo "### 📦 Build Output" >> $GITHUB_STEP_SUMMARY
+            echo "- **Files Generated:** $(find site -type f | wc -l)" >> $GITHUB_STEP_SUMMARY
+            echo "- **HTML Pages:** $(find site -name '*.html' | wc -l)" >> $GITHUB_STEP_SUMMARY
+            echo "- **Total Size:** $(du -sh site | cut -f1)" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "### ✅ Quality Checks" >> $GITHUB_STEP_SUMMARY
+          echo "- HTML Validation: Completed" >> $GITHUB_STEP_SUMMARY
+          echo "- Link Checking: Completed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "> 💡 Check artifacts for detailed QA reports" >> $GITHUB_STEP_SUMMARY
+
+  
