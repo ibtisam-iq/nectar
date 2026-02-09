@@ -34,9 +34,6 @@ jobs:
       - name: Install site dependencies
         run: pip install -r requirements.txt
 
-      - name: Install QA tools (only in CI)
-        run: pip install -r requirements-dev.txt
-
       - name: Build site
         run: mkdocs build # --strict
 
