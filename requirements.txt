@@ -1,8 +1,163 @@
+# =============================================================================
+# NECTAR DOCUMENTATION DEPENDENCIES
+# =============================================================================
+# Production dependencies for building MkDocs documentation site
+# Pinned to exact versions for reproducible builds across environments
+#
+# To upgrade all packages:
+#   pip install --upgrade -r requirements.txt
+#
+# To check for outdated packages:
+#   pip list --outdated
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# CORE MKDOCS
+# -----------------------------------------------------------------------------
+# MkDocs static site generator - transforms Markdown into HTML documentation
+mkdocs>=1.6.1,<2.0.0
+
+# -----------------------------------------------------------------------------
+# MATERIAL THEME
+# -----------------------------------------------------------------------------
+# Material for MkDocs - Modern, responsive documentation theme
+# Includes many built-in features: search, navigation, dark mode, etc.
 mkdocs-material==9.7.1
-mkdocs-awesome-pages-plugin==2.10.1
-mkdocs-autorefs==1.4.3
+
+# Material theme extension utilities
+# Provides additional components and enhancements for Material theme
+mkdocs-material-extensions>=1.3.1
+
+# PyMdown Extensions - Advanced Markdown features
+# Syntax highlighting, task lists, emoji, math equations, tabs, etc.
 pymdown-extensions==10.16.1
-mkdocs-minify-plugin
+
+# -----------------------------------------------------------------------------
+# NAVIGATION & STRUCTURE PLUGINS
+# -----------------------------------------------------------------------------
+# Awesome Pages - Simplifies navigation with .pages files in folders
+# Allows automatic nav generation and custom ordering per directory
+mkdocs-awesome-pages-plugin==2.10.1
+
+# Section Index - Creates index pages for navigation sections
+# Allows README.md files to serve as section landing pages
 mkdocs-section-index
+
+# Same Dir - Enables using repo root as docs directory (docs_dir: .)
+# Allows keeping markdown files alongside code instead of in docs/ folder
 mkdocs-same-dir
+
+# -----------------------------------------------------------------------------
+# LINKING & REFERENCES
+# -----------------------------------------------------------------------------
+# AutoRefs - Automatic cross-reference linking between pages
+# Enables simplified linking syntax and validates internal links
+mkdocs-autorefs==1.4.3
+
+# -----------------------------------------------------------------------------
+# GIT INTEGRATION
+# -----------------------------------------------------------------------------
+# Git Revision Date Localized - Shows last updated date from git commits
+# Automatically adds "Last updated: <date>" footer to every page
+# Uses git history to track when each file was last modified
 mkdocs-git-revision-date-localized-plugin==1.4.7
+
+# -----------------------------------------------------------------------------
+# OPTIMIZATION & PERFORMANCE
+# -----------------------------------------------------------------------------
+# Minify - Compresses HTML/CSS/JS for faster page loads
+# Removes whitespace, comments, and unnecessary characters from output
+# Critical for production deployments (reduces bandwidth and improves SEO)
+mkdocs-minify-plugin
+
+# -----------------------------------------------------------------------------
+# OPTIONAL PLUGINS (Uncomment to enable)
+# -----------------------------------------------------------------------------
+# Social Cards - Auto-generate Open Graph images for social media sharing
+# Creates beautiful preview images when links are shared on Twitter/LinkedIn
+# Requires: pip install "mkdocs-material[imaging]"
+# mkdocs-material[imaging]
+
+# Redirects - Manage URL redirects (useful when restructuring docs)
+# Prevents broken links when moving/renaming pages
+# mkdocs-redirects>=1.2.0
+
+# Macros - Jinja2 templating in Markdown (variables, includes, macros)
+# Useful for reusing content blocks and dynamic content generation
+# mkdocs-macros-plugin>=1.0.0
+
+# GLightbox - Image lightbox/zoom functionality
+# Click images to view in fullscreen overlay with zoom controls
+# mkdocs-glightbox>=0.3.0
+
+# RSS Plugin - Generate RSS feed for documentation updates
+# Allows users to subscribe to documentation changes
+# mkdocs-rss-plugin>=1.12.0
+
+# Tags - Tag-based content organization and filtering
+# Built into Material theme, but may need additional config
+# mkdocs-material[tags]
+
+# -----------------------------------------------------------------------------
+# IMAGE PROCESSING DEPENDENCIES
+# -----------------------------------------------------------------------------
+# Required only if using social cards plugin (uncomment if needed)
+# These are heavy dependencies (~50MB), only install if using social cards
+
+# Pillow - Python Imaging Library for image manipulation
+# pillow>=10.0.0
+
+# CairoSVG - SVG to PNG conversion (for Material theme icons in social cards)
+# cairosvg>=2.7.0
+
+# -----------------------------------------------------------------------------
+# DEVELOPMENT DEPENDENCIES (Optional)
+# -----------------------------------------------------------------------------
+# Uncomment for local development and testing
+
+# MkDocs Monorepo - Build multiple MkDocs projects in one repository
+# mkdocs-monorepo-plugin>=1.0.0
+
+# MkDocs Live Reload - Better live preview during development
+# mkdocs-live-reload>=0.0.1
+
+# Pre-commit hooks for linting and validation
+# pre-commit>=3.0.0
+
+# Markdown linter
+# markdownlint-cli2>=0.12.0
+
+# =============================================================================
+# INSTALLATION INSTRUCTIONS
+# =============================================================================
+#
+# Standard installation:
+#   pip install -r requirements.txt
+#
+# Install with social cards support:
+#   1. Uncomment pillow and cairosvg above
+#   2. On macOS: brew install cairo pango gdk-pixbuf libffi
+#   3. On Ubuntu: apt-get install libcairo2-dev libpango1.0-dev libgdk-pixbuf2.0-dev
+#   4. pip install -r requirements.txt
+#
+# Install in virtual environment (recommended):
+#   python -m venv .venv
+#   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+#   pip install -r requirements.txt
+#
+# =============================================================================
+# DEPENDENCY SECURITY & UPDATES
+# =============================================================================
+#
+# Check for security vulnerabilities:
+#   pip install pip-audit
+#   pip-audit -r requirements.txt
+#
+# Update to latest compatible versions:
+#   pip install --upgrade -r requirements.txt
+#   pip freeze > requirements.txt
+#
+# Pin to exact versions after testing (current file is already pinned):
+#   pip freeze | grep mkdocs > requirements.txt
+#
+# =============================================================================
