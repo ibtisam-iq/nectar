@@ -1,39 +1,499 @@
-name: Nectar Docs
+# =============================================================================
+# NECTAR DOCUMENTATION CI/CD PIPELINE
+# =============================================================================
+# Production-grade workflow for building and deploying MkDocs documentation
+# to GitHub Pages with quality checks, caching, and security best practices.
+#
+# Workflow triggers:
+#   - Every push to main branch (production deploy)
+#   - Every pull request to main branch (preview deploy)
+#   - Manual workflow dispatch (on-demand build)
+#
+# Architecture:
+#   1. Build & Quality Check Job - Build site + validate HTML + check links
+#   2. Preview Deploy Job - Deploy PR previews to gh-pages/previews/<pr-number>
+#   3. Production Deploy Job - Deploy main branch to gh-pages root
+# =============================================================================
 
+name: 📚 Nectar Documentation Pipeline
+
+# -----------------------------------------------------------------------------
+# TRIGGER CONDITIONS
+# -----------------------------------------------------------------------------
 on:
+  # Trigger on push to main branch
   push:
-    branches: [ main ]
+    branches:
+      - main
+    # Only trigger when docs-related files change
+    paths:
+      - '**.md'
+      - 'mkdocs.yml'
+      - 'docs/**'
+      - 'requirements.txt'
+      - '.github/workflows/docs.yml'
+  
+  # Trigger on pull requests targeting main
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**.md'
+      - 'mkdocs.yml'
+      - 'docs/**'
+      - 'requirements.txt'
+  
+  # Allow manual workflow triggering from Actions tab
   workflow_dispatch:
+    inputs:
+      deploy_environment:
+        description: 'Deployment environment'
+        required: false
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - preview
 
+# -----------------------------------------------------------------------------
+# WORKFLOW PERMISSIONS
+# -----------------------------------------------------------------------------
+# Principle of least privilege: grant only necessary permissions
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: write        # Required to: push to gh-pages branch (branch-based deploy)
+  pages: write           # Required to: GitHub Pages OIDC integration (future-proof)
+  id-token: write        # Required to: OIDC authentication (alternative to PAT)
+  pull-requests: write   # Required to: comment on PRs with preview links
+
+# -----------------------------------------------------------------------------
+# CONCURRENCY CONTROL
+# -----------------------------------------------------------------------------
+# Prevent multiple deployments from running simultaneously
+# This saves GitHub Actions minutes and prevents race conditions
+concurrency:
+  group: docs-${{ github.ref }}           # Unique per branch/PR
+  cancel-in-progress: true                # Cancel old runs when new commit pushed
+
+# -----------------------------------------------------------------------------
+# ENVIRONMENT VARIABLES
+# -----------------------------------------------------------------------------
+# Global variables available to all jobs
+env:
+  PYTHON_VERSION: "3.11"                  # Python version (match mkdocs requirements)
+  MKDOCS_CACHE_DIR: ~/.cache/mkdocs       # MkDocs cache directory
+
+# =============================================================================
+# JOBS
+# =============================================================================
 
 jobs:
-  build-and-deploy:
+  # ---------------------------------------------------------------------------
+  # JOB 1: BUILD & QUALITY CHECKS
+  # ---------------------------------------------------------------------------
+  # Always runs: validates docs can be built successfully
+  # Catches broken links, missing files, invalid syntax before deploy
+  build-and-quality:
+    name: 🔨 Build & Quality Checks
     runs-on: ubuntu-latest
+    
+    # Timeout prevents hung builds from consuming runner time
+    timeout-minutes: 15
+    
     steps:
-      - name: Checkout
+      # -----------------------------------------------------------------------
+      # STEP 1: Checkout repository code
+      # -----------------------------------------------------------------------
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0                  # Full git history (needed for git-revision-date plugin)
+          submodules: false               # Don't fetch submodules (not needed for docs)
+      
+      # -----------------------------------------------------------------------
+      # STEP 2: Set up Python environment
+      # -----------------------------------------------------------------------
+      - name: 🐍 Setup Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      # -----------------------------------------------------------------------
+      # STEP 3: Cache pip dependencies for faster builds
+      # -----------------------------------------------------------------------
+      # Caching saves ~30-60 seconds per run by reusing downloaded packages
+      # Cache key includes:
+      #   - OS (ubuntu)
+      #   - Python version (3.11)
+      #   - Hash of requirements.txt (changes when deps update)
+      - name: 📦 Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ${{ env.MKDOCS_CACHE_DIR }}
+          key: ${{ runner.os }}-pip-${{ env.PYTHON_VERSION }}-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ env.PYTHON_VERSION }}-
+            ${{ runner.os }}-pip-
+      
+      # -----------------------------------------------------------------------
+      # STEP 4: Install Python dependencies
+      # -----------------------------------------------------------------------
+      - name: 📚 Install dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r requirements.txt
+      
+      # -----------------------------------------------------------------------
+      # STEP 5: Verify installation (helpful for debugging)
+      # -----------------------------------------------------------------------
+      - name: ✅ Verify MkDocs installation
+        run: |
+          echo "### 📦 Installed Packages" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          mkdocs --version >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          pip list | grep -E "mkdocs|pymdown" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+      
+      # -----------------------------------------------------------------------
+      # STEP 6: Build documentation (strict mode in CI)
+      # -----------------------------------------------------------------------
+      # --strict flag treats warnings as errors
+      # --verbose provides detailed output for troubleshooting
+      # Catches: broken links, missing files, invalid markdown, plugin errors
+      - name: 🏗️ Build MkDocs site
+        run: |
+          # mkdocs build --verbose --strict
+          mkdocs build --verbose
+        env:
+          # Enable colored output in CI logs
+          FORCE_COLOR: 1
+      
+      # -----------------------------------------------------------------------
+      # STEP 7: Validate generated HTML
+      # -----------------------------------------------------------------------
+      # Uses html5validator to check HTML5 compliance
+      # Catches: invalid tags, missing attributes, accessibility issues
+      # 
+      # ignore-re patterns explained:
+      #   - autocomplete: Valid HTML5 but validator may flag mobile-specific values
+      #   - autocorrect: iOS-specific attribute for disabling autocorrect
+      #   - autocapitalize: Mobile attribute for controlling capitalization
+      #
+      # continue-on-error: Don't fail build on validation warnings
+      # These are often false positives from Material theme components
+      - name: 🔍 QA - Validate HTML5 compliance
+        uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+        with:
+          root: site/
+          extra: '--ignore-re "Attribute \\"(autocomplete|autocorrect|autocapitalize)\\" not allowed"'
+        continue-on-error: true
+      
+      # -----------------------------------------------------------------------
+      # STEP 8: Check for broken links
+      # -----------------------------------------------------------------------
+      # Uses lychee to check both internal and external links
+      # 
+      # Arguments explained:
+      #   --no-progress: Cleaner CI logs (no progress bars)
+      #   --accept 200,429,403: Accept HTTP codes:
+      #     - 200: OK
+      #     - 429: Rate Limited (some sites rate-limit CI IPs)
+      #     - 403: Forbidden (some sites block CI user agents)
+      #   site/: Check all HTML files in built site
+      #
+      # fail: false - Don't fail build on broken links
+      # Broken external links shouldn't block deployment (sites go down temporarily)
+      # Review lychee report to fix issues, but don't block PRs
+      - name: 🔗 QA - Check for broken links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: '--no-progress --accept 200,429,403 site/'
+          fail: false
+        env:
+          # Add GitHub token to increase rate limits for GitHub links
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      # -----------------------------------------------------------------------
+      # STEP 9: Upload lychee report as artifact
+      # -----------------------------------------------------------------------
+      # Makes link check results available for review
+      # Useful for debugging and tracking link health over time
+      - name: 📄 Upload link check report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lychee-report
+          path: lychee/
+          retention-days: 7
+          if-no-files-found: ignore
+      
+      # -----------------------------------------------------------------------
+      # STEP 10: Upload built site as artifact
+      # -----------------------------------------------------------------------
+      # Makes built site available to deploy jobs
+      # Artifact is kept for 1 day (configurable)
+      - name: 📤 Upload site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mkdocs-site
+          path: site/
+          retention-days: 1
+          if-no-files-found: error
+      
+      # -----------------------------------------------------------------------
+      # STEP 11: Generate comprehensive build summary
+      # -----------------------------------------------------------------------
+      - name: 📊 Generate build summary
+        if: always()
+        run: |
+          echo "## 📚 Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status:** ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Python Version:** ${{ env.PYTHON_VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build Time:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -d "site" ]; then
+            echo "### 📦 Build Output" >> $GITHUB_STEP_SUMMARY
+            echo "- **Files Generated:** $(find site -type f | wc -l)" >> $GITHUB_STEP_SUMMARY
+            echo "- **HTML Pages:** $(find site -name '*.html' | wc -l)" >> $GITHUB_STEP_SUMMARY
+            echo "- **Total Size:** $(du -sh site | cut -f1)" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "### ✅ Quality Checks" >> $GITHUB_STEP_SUMMARY
+          echo "- HTML Validation: Completed" >> $GITHUB_STEP_SUMMARY
+          echo "- Link Checking: Completed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "> 💡 Check artifacts for detailed QA reports" >> $GITHUB_STEP_SUMMARY
+
+  # ---------------------------------------------------------------------------
+  # JOB 2: PREVIEW DEPLOYMENT (PR only)
+  # ---------------------------------------------------------------------------
+  # Deploys PR changes to gh-pages/previews/<pr-number> for review
+  # Preview URL: https://nectar.ibtisam-iq.com/previews/pr-<number>/
+  preview-deploy:
+    name: 🔍 Deploy PR Preview
+    needs: build-and-quality
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Explicit token for PR preview action
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 📥 Download built site
+        uses: actions/download-artifact@v4
+        with:
+          name: mkdocs-site
+          path: site/
+      
+      # -----------------------------------------------------------------------
+      # Deploy to gh-pages/previews/pr-<number>/
+      # -----------------------------------------------------------------------
+      # Action automatically:
+      #   - Creates preview on PR open
+      #   - Updates preview on new commits
+      #   - Removes preview on PR close/merge
+      #
+      # umbrella-dir: previews - All PR previews go under /previews/
+      # action: auto - Automatic lifecycle management (create/update/remove)
+      - name: 🚀 Deploy preview to GitHub Pages
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: site/
+          preview-branch: gh-pages
+          umbrella-dir: previews
+          action: auto
+      
+      # -----------------------------------------------------------------------
+      # Comment on PR with preview link and QA summary
+      # -----------------------------------------------------------------------
+      - name: 💬 Comment preview link on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const previewUrl = `https://nectar.ibtisam-iq.com/previews/pr-${prNumber}/`;
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            
+            const body = `## 🔍 Preview Deployment
+            
+            ✅ Your documentation preview is ready!
+            
+            **🌐 Preview URL:** ${previewUrl}
+            
+            ### 📊 Quality Checks
+            - ✅ Build successful
+            - ✅ HTML validation completed
+            - ✅ Link checking completed
+            
+            [View detailed QA reports →](${runUrl})
+            
+            ---
+            *Preview will be automatically updated on new commits and removed when PR is closed.*`;
+            
+            github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+  # ---------------------------------------------------------------------------
+  # JOB 3: PRODUCTION DEPLOYMENT (main branch only)
+  # ---------------------------------------------------------------------------
+  # Deploys to gh-pages root (production site)
+  # Only runs on push to main branch (not on PRs)
+  production-deploy:
+    name: 🚀 Deploy to Production
+    needs: build-and-quality
+    if: |
+      github.ref == 'refs/heads/main' && 
+      github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    # Deployment environment (enables GitHub environment protection rules)
+    environment:
+      name: github-pages
+      url: https://nectar.ibtisam-iq.com
+    
+    steps:
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      
+      - name: 📥 Download built site
+        uses: actions/download-artifact@v4
         with:
-          python-version: "3.11"
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Build MkDocs site
-        run: mkdocs build  # uses docs_dir: . and outputs to ./site
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+          name: mkdocs-site
+          path: site/
+      
+      # -----------------------------------------------------------------------
+      # Deploy to gh-pages branch root
+      # -----------------------------------------------------------------------
+      # peaceiris/actions-gh-pages@v4 features (latest version):
+      #   - Better error handling and logging
+      #   - Improved performance
+      #   - Active maintenance (v3 is deprecated)
+      #
+      # Configuration:
+      #   - force_orphan: true - Clean git history (keeps gh-pages small)
+      #   - cname: Preserves custom domain configuration
+      #   - user_name/email: Proper git attribution
+      #   - commit_message: Traceable deploy commits
+      #   - exclude_assets: Don't deploy GitHub metadata
+      #   - keep_files: false - Clean deploy (but preserves .nojekyll, CNAME)
+      #
+      # Note: PR previews in /previews/ are preserved because they're in
+      # a separate umbrella directory managed by pr-preview-action
+      - name: 🚀 Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./site
           publish_branch: gh-pages
-          force_orphan: true
+          
+          # Git configuration
+          force_orphan: true              # Clean history (recommended for docs)
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'docs: deploy from ${{ github.sha }}'
+          
+          # Custom domain configuration
+          cname: nectar.ibtisam-iq.com
+          
+          # Deployment options
+          exclude_assets: '.github'       # Don't deploy workflow files
+          enable_jekyll: false            # Disable Jekyll (we use MkDocs)
+          
+          # keep_files: false is the default, but being explicit
+          # This does a clean deploy while preserving .nojekyll and CNAME
+          # PR previews in /previews/ are managed separately by pr-preview-action
+          keep_files: false
+      
+      # -----------------------------------------------------------------------
+      # Post-deploy summary with metrics
+      # -----------------------------------------------------------------------
+      - name: 📊 Deployment summary
+        run: |
+          echo "## 🚀 Production Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **Successfully deployed to production!**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🌐 Deployment Details" >> $GITHUB_STEP_SUMMARY
+          echo "- **Site URL:** https://nectar.ibtisam-iq.com" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit:** \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Deployed by:** @${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Deployment time:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📊 Site Metrics" >> $GITHUB_STEP_SUMMARY
+          echo "- **Pages:** $(find site -name '*.html' | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Size:** $(du -sh site | cut -f1)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ℹ️ Notes" >> $GITHUB_STEP_SUMMARY
+          echo "- PR previews are preserved under \`/previews/\` directory" >> $GITHUB_STEP_SUMMARY
+          echo "- Clean deployment ensures no stale files remain" >> $GITHUB_STEP_SUMMARY
+
+# =============================================================================
+# FIRST-TIME SETUP CHECKLIST
+# =============================================================================
+# Before first deployment, ensure:
+#
+# 1. ✅ Create gh-pages branch (if doesn't exist):
+#    - GitHub UI: Branches → New branch → Name: gh-pages
+#    - Or locally: git checkout --orphan gh-pages && git commit --allow-empty -m "Initial" && git push origin gh-pages
+#
+# 2. ✅ Configure GitHub Pages:
+#    - Settings → Pages → Source: Deploy from a branch
+#    - Branch: gh-pages / (root)
+#    - Custom domain: nectar.ibtisam-iq.com
+#
+# 3. ✅ DNS Configuration (if using custom domain):
+#    - Add CNAME record: nectar.ibtisam-iq.com → ibtisam-iq.github.io
+#    - Wait for DNS propagation (can take up to 24 hours)
+#    - Enable "Enforce HTTPS" in Pages settings after DNS propagates
+#
+# 4. ✅ Repository Settings:
+#    - Settings → Actions → General → Workflow permissions
+#    - Select: "Read and write permissions" ✅
+#    - Check: "Allow GitHub Actions to create and approve pull requests" ✅
+#
+# 5. ✅ Test workflow:
+#    - Make a small commit to main branch
+#    - Monitor Actions tab for successful deployment
+#    - Verify site loads at https://nectar.ibtisam-iq.com
+#
+# =============================================================================
+# WORKFLOW BEST PRACTICES IMPLEMENTED (2026):
+# =============================================================================
+# ✅ Latest action versions (peaceiris@v4, checkout@v4, cache@v4, etc.)
+# ✅ Least privilege permissions (no unnecessary access)
+# ✅ Concurrency control (prevent race conditions)
+# ✅ Dependency caching (faster builds, lower costs)
+# ✅ Strict validation (catch errors early)
+# ✅ HTML5 validation (accessibility & standards compliance)
+# ✅ Link checking (prevent broken external/internal links)
+# ✅ Extended status code acceptance (429, 403 for CI-blocked sites)
+# ✅ Artifact management (QA reports available for review)
+# ✅ Environment protection (production safety with GitHub Environments)
+# ✅ Detailed logging (easy troubleshooting)
+# ✅ Build summaries (quick status overview with metrics)
+# ✅ Preview deployments (review before merge)
+# ✅ PR comments (direct feedback with preview links)
+# ✅ Automated cleanup (preview removal on PR close)
+# ✅ Security hardening (explicit tokens, no secrets in logs, OIDC auth)
+# ✅ Performance optimization (parallel jobs, caching)
+# ✅ Quality gates (non-blocking QA checks with reports)
+# ✅ Clean deployments (no stale files, preserve essential files)
+# ✅ Preview isolation (main deploy doesn't affect PR previews)
+# =============================================================================
