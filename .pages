@@ -1,0 +1,10 @@
+nav:
+  - Home: README.md
+  - Technical Grounding: technical-grounding
+  - CI/CD & Software Delivery: delivery
+  - Containers & Orchestration: containers-orchestration
+  - Cloud & Infrastructure: cloud-infrastructure
+  - Servers & Runtime Systems: servers
+  - Observability & Security: observability-security
+  - Operations & Self-Managed Systems: operations
+  - Engineering Scratchpad: scratchpad
