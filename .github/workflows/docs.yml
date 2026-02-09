@@ -1,84 +1,30 @@
-name: Nectar Documentation Pipeline
+name: Nectar Docs
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write      # needed for PR previews in some setups
-  id-token: write   # alternative token method (optional)
-
 jobs:
-  build-and-quality:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Ensures full git history for git-revision-date-localized plugin
+          fetch-depth: 0
 
-      - name: Setup Python 3.11
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: pip-${{ hashFiles('requirements.txt') }}
-
-      - name: Install site dependencies
+      - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Build site
-        run: mkdocs build # --strict
+      - name: Build MkDocs site
+        run: mkdocs build  # uses docs_dir: . and outputs to ./site
 
-  # PR Preview (runs on every PR, deploys to temporary URL)
-  preview:
-    needs: build-and-quality
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-         python-version: "3.11"
-      - uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: pip-${{ hashFiles('requirements.txt') }}
-      - run: pip install -r requirements.txt
-      - run: mkdocs build
-      - name: Deploy preview
-        uses: rossjrw/pr-preview-action@v1
-        with:
-          source_dir: ./site
-          umbrella_dir: previews
-
-  # Production deploy (only main branch)
-  deploy:
-    needs: build-and-quality
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-         python-version: "3.11"
-      - uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: pip-${{ hashFiles('requirements.txt') }}
-      - run: pip install -r requirements.txt
-      - run: mkdocs build
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
