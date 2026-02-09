@@ -1,0 +1,17 @@
+/* Change "Last Updated" label */
+.md-source-file__fact::before {
+  content: "Last Updated: ";
+  font-weight: 600;
+}
+
+/* Hide clock icon before "Last Updated" date */
+.md-source-file__fact svg {
+  display: none !important;
+}
+
+/* Add PKT timezone after the date*/
+.md-source-file__fact::after {
+  content: " PKT";
+  font-weight: 600;
+  color: var(--md-default-fg-color);
+}

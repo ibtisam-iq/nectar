@@ -1,37 +1,34 @@
-site_name: Nectar — Engineering Knowledge System
+site_name: Nectar
 site_url: https://nectar.ibtisam-iq.com
-site_description: "Nectar — your personal engineering knowledge system (Kubernetes, Cloud, Docker, CI/CD, Networking)."
+site_description: Nectar — my personal engineering knowledge system
+  (Kubernetes, Cloud, Docker, CI/CD, Networking).
 repo_name: ibtisam-iq/nectar
 repo_url: https://github.com/ibtisam-iq/nectar
+
+docs_dir: .
+site_dir: ../site
+edit_uri: blob/main/
+#copyright: Copyright &copy; 2026 Nectar by Ibtisam Iqbal. All rights reserved.
+copyright: Copyright &copy; 2026 Nectar by <a href="https://www.linkedin.com/in/ibtisam-iq/">Muhammad Ibtisam</a>.
 
 theme:
   name: material
   language: en
-  logo: assets/logo.png
-  favicon: assets/favicon.png
+  logo: docs/images/favicon.svg
+  favicon: docs/images/favicon.ico
+  font:
+    text: Inter
   features:
-    # group them like Navigation, Content, Search, UI Enhancements, Performance
-    - navigation.indexes
-    # Removed - toc.integrate      # Merges the TOC into the left navigation
-    # Left sidebar shows only pages, Right sidebar shows TOC
-    - navigation.sections          # CNCF-style grouped sections
-    - navigation.tabs              # Tabs at the top
-    - navigation.top               # Back-to-top button
-    - content.tabs.link
-    - content.code.annotate
-    - navigation.instant           # SPA mode: instant loading
-    - content.action.edit
-    - content.action.view
-    - search.share
-    - navigation.expand
-    - navigation.tracking
-    - content.code.copy
-    - content.code.select
-    - content.max_width
-    # Performance
-    - search.suggest
-    - search.highlight
-
+    #############- navigation.sections      # better visual grouping
+    ###########- navigation.expand        # auto-expand current section
+    - navigation.instant       # SPA-like page loading
+    - navigation.top          # top navigation bar
+    #- navigation.tabs         # tabs for top-level nav items
+    - search.highlight        # highlight search terms in results
+    - search.suggest          # suggest search terms as you type
+    - toc.integrate            # table of contents in the navigation
+    - navigation.tabs.sticky   # optional: tabs stay visible when scrolling down
+    - navigation.prune
   palette:
     - scheme: default
       primary: indigo
@@ -46,58 +43,44 @@ theme:
         icon: material/weather-sunny
         name: Switch to light mode
 
+markdown_extensions:
+  - toc:
+      toc_depth: 0
+
 plugins:
   - search
-  - awesome-pages:              # Auto-generates nav from .pages files, pip install mkdocs-awesome-pages-plugin
+  - same-dir
+  - autorefs
+  - awesome-pages:
       strict: false
-  - autorefs                    # Auto cross-references, pip install mkdocs-autorefs-plugin
-  - section-index               # Makes folders clickable, pip install mkdocs-section-index
-  - minify:                     # Enables HTML minification, pip install mkdocs-minify-plugin
+  - git-revision-date-localized:
+      type: custom
+      custom_format: "%B %d, %Y %I:%M:%S %p"
+      enable_creation_date: false
+      fallback_to_build_date: false
+      timezone: Asia/Karachi
+      locale: en
+  #- section-index:
+    #  use_directory_urls: true
+  - minify:
       minify_html: true
 
-markdown_extensions:   # list of extensions to enable in markdown parsing and rendering # pymdown-extensions==10.11.2
-  - admonition
-  - toc:
-      permalink: true
-  - footnotes
-  - def_list
-  - pymdownx.highlight
-  - pymdownx.inlinehilite
-  - pymdownx.snippets:           # <-- Enables --8<-- includes
-      base_path: docs
-  - pymdownx.superfences
-  - pymdownx.details
-  - pymdownx.tabbed             # Tabs support
-  - pymdownx.emoji
-  - pymdownx.tasklist
-  - pymdownx.mark
-  - pymdownx.arithmatex
-  - pymdownx.keys
-  - pymdownx.magiclink
-  - pymdownx.caret
-  - pymdownx.tilde
-  - pymdownx.smartsymbols
-  - codehilite
-  - md_in_html
-
-extra_css:
-  - stylesheets/layout.css
+exclude_docs: |
+  *.py
+  *.sh
+  *.conf
+  *.log
 
 extra:
-  analytics:
-    provider: google
-    property: G-XXXXXXXXXX   # add your GA ID anytime
+  generator: false
   social:
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/ibtisam-iq/
     - icon: fontawesome/brands/github
       link: https://github.com/ibtisam-iq
     - icon: fontawesome/solid/globe
-      link: https://bootstrap.ibtisam-iq.com
-  content:
-    max_width: 1200px  # Expands main content; sidebars stay ~280px each
+      link: https://ibtisam-iq.com
 
-# No nav here — awesome-pages + .pages control it automatically.
-# Optional: you may add extra nav entries for non-doc pages, but not required.
-
-#nav:    # not pages, just for non-docs
-#  - Home: index.md
+extra_css:
+  - docs/stylesheets/extra.css
 

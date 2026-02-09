@@ -1,0 +1,7 @@
+nav:
+  - SDLC: SDLC.md
+  - Programming Basics: programming.md
+  - Frameworks Overview: frameworks.md
+  - Databases (Conceptual): database.md
+  - CLI Fundamentals: understanding-CLI-commands.md
+  # - test: linux/Linux.md

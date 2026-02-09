@@ -1,0 +1,6 @@
+nav:
+    - Git & Version Control: git
+    - GitHub Actions: github-actions
+    - Jenkins: jenkins
+    - SonarQube: sonarqube
+    - Nexus: nexus

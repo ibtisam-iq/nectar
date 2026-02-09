@@ -1,0 +1,14 @@
+nav:
+  - SDLC: SDLC.md
+  - Programming Basics: programming.md
+  - Frameworks Overview: frameworks.md
+  - Databases (Conceptual): database.md
+  - CLI Fundamentals: understanding-CLI-commands.md
+
+  - Linux:
+      - Overview: linux/Linux.md
+      - STDOUT & STDERR: linux/STDOUT_STDERR_Guide.md
+      - Cheat Sheet: linux/cheatSheet.md
+      - tar Command: linux/tar-command.md
+      - Troubleshooting: linux/troubleshooting.md
+      # add future files here manually

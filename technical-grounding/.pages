@@ -1,0 +1,10 @@
+nav:
+    - Basics: basics
+    - Linux: linux
+    - Networking: networking
+    - Bash Scripting: bash
+    - Vim: vim
+    - Yaml: yaml
+    - Understanding Codebase Structure: codebase-structures
+    - Python Scripting: python
+    - Dual Booting: dual-boot
