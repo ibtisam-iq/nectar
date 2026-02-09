@@ -6,7 +6,7 @@ repo_name: ibtisam-iq/nectar
 repo_url: https://github.com/ibtisam-iq/nectar
 
 docs_dir: .
-site_dir: ../site
+#site_dir: ../site
 edit_uri: blob/main/
 #copyright: Copyright &copy; 2026 Nectar by Ibtisam Iqbal. All rights reserved.
 copyright: Copyright &copy; 2026 Nectar by <a href="https://www.linkedin.com/in/ibtisam-iq/">Muhammad Ibtisam</a>.
