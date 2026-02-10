@@ -1,6 +1,8 @@
 # Nectar
 
-[![📚 Nectar Documentation Pipeline](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml/badge.svg)](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml)
+[![📚 Docs](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml/badge.svg)](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml)
+![Nectar](https://img.shields.io/badge/Personal%20Engineering%20Knowledge%20Base-0052CC)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 Nectar is my personal engineering knowledge base.
 
