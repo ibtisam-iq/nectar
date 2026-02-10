@@ -1,58 +1,130 @@
-site_name: Nectar
+# These are used by search engines, social cards, and the browser tab
+site_name: Nectar — Personal Engineering Knowledge Base
 site_url: https://nectar.ibtisam-iq.com
-site_description: Nectar — my personal engineering knowledge system
-  (Kubernetes, Cloud, Docker, CI/CD, Networking).
+site_description: >-
+  Nectar is a living engineering knowledge system where I document how I reason
+  about infrastructure and distributed systems in production. It focuses on
+  understanding why systems behave the way they do, exploring trade-offs,
+  failure modes, and real-world constraints — not just listing tools or tutorials.
+site_author: Muhammad Ibtisam
+
+# Repository configuration for "Edit this page" links and source code access
 repo_name: ibtisam-iq/nectar
 repo_url: https://github.com/ibtisam-iq/nectar
+# edit_uri: edit/main/  # Creates "Edit this page" links pointing to GitHub editor
 
-docs_dir: .
-site_dir: site/
-edit_uri: blob/main/
-#copyright: Copyright &copy; 2026 Nectar by Ibtisam Iqbal. All rights reserved.
-copyright: Copyright &copy; 2026 Nectar by <a href="https://www.linkedin.com/in/ibtisam-iq/">Muhammad Ibtisam</a>.
+# docs_dir: Where MkDocs looks for source markdown files
+# site_dir: Where MkDocs outputs the built static HTML site
+docs_dir: .           # Using repo root as docs directory (requires same-dir plugin)
+site_dir: site        # Build output directory (excluded from git via .gitignore)
+
+# Displayed in the footer. HTML allowed for links and formatting.
+copyright: >-
+  Copyright &copy; 2026
+  <a href="https://www.linkedin.com/in/ibtisam-iq/" target="_blank" rel="noopener">Muhammad Ibtisam</a>.
+  All rights reserved.
 
 theme:
   name: material
   language: en
+
+  # Custom branding
   logo: docs/images/favicon.svg
   favicon: docs/images/favicon.ico
+
+  # Typography - using system fonts for performance
   font:
-    text: Inter
+    text: Inter           # Modern, readable sans-serif font
+    code: Roboto Mono     # Monospace font for code blocks
+
+  # -------------------------------------------------------------------------
+  # THEME FEATURES - Enable powerful navigation and UX enhancements
+  # -------------------------------------------------------------------------
   features:
-    #############- navigation.sections      # better visual grouping
-    ###########- navigation.expand        # auto-expand current section
-    - navigation.instant       # SPA-like page loading
-    - navigation.top          # top navigation bar
-    #- navigation.tabs         # tabs for top-level nav items
-    - search.highlight        # highlight search terms in results
-    - search.suggest          # suggest search terms as you type
-    - toc.integrate            # table of contents in the navigation
-    - navigation.tabs.sticky   # optional: tabs stay visible when scrolling down
-    - navigation.prune
+    # Navigation enhancements
+    - navigation.instant          # SPA-like instant loading without full page reload
+    - navigation.instant.progress # Shows loading progress bar for instant navigation
+    # - navigation.tracking         # Updates URL with the currently active anchor
+    # - navigation.tabs             # Top-level sections become tabs in header
+    - navigation.tabs.sticky      # Navigation tabs remain visible when scrolling
+    # - navigation.sections         # Top-level sections are rendered as groups
+    # - navigation.expand           # Expands all collapsed navigation sections
+    - navigation.path             # Shows breadcrumb path above page title
+    - navigation.prune            # Only renders visible navigation (improves performance)
+    - navigation.indexes          # Section index pages (README.md in folders)
+    - navigation.top              # "Back to top" button appears when scrolling
+    - navigation.footer           # Previous/next page links in footer
+
+    # Table of contents
+    - toc.follow                  # Sidebar TOC scrolls to follow active heading
+    - toc.integrate               # TOC integrated into left sidebar navigation
+
+    # Search enhancements
+    - search.suggest              # Search autocomplete suggestions as you type
+    - search.highlight            # Highlights search terms on result pages
+    - search.share                # Adds button to share search query via URL
+
+    # Content features
+    - content.code.copy           # Copy button on all code blocks
+    # - content.code.annotate       # Allows inline comments in code blocks
+    - content.tabs.link           # Content tabs stay synced across pages
+    - content.tooltips            # Enables rich tooltips for abbreviations/glossary
+    # - content.action.edit         # Shows "edit this page" icon in header
+    # - content.action.view         # Shows "view source" icon in header
+
+  # -------------------------------------------------------------------------
+  # COLOR PALETTE - Light/Dark mode toggle
+  # -------------------------------------------------------------------------
   palette:
-    - scheme: default
-      primary: indigo
-      accent: blue
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo         # Primary color for headers, links, buttons
+      accent: blue            # Accent color for interactive elements
       toggle:
-        icon: material/weather-night
+        icon: material/brightness-7
         name: Switch to dark mode
-    - scheme: slate
+
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
       primary: indigo
       accent: blue
       toggle:
-        icon: material/weather-sunny
+        icon: material/brightness-4
         name: Switch to light mode
 
-markdown_extensions:
-  - toc:
-      toc_depth: 0
+  # -------------------------------------------------------------------------
+  # ICONS - Customize icons used throughout the site
+  # -------------------------------------------------------------------------
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
 
+# =============================================================================
+# PLUGINS - Extend MkDocs functionality
+# =============================================================================
 plugins:
-  - search
+  # Search functionality
+  - search:
+      lang: en                    # Search language
+      separator: '[\s\-\.]+'      # Word separator regex (spaces, hyphens, dots)
+
+  # Filesystem & structure
   - same-dir
-  - autorefs
+
+  # Navigation generation
   - awesome-pages:
       strict: false
+
+  # Section README/index handling
+  - section-index
+
+  # Cross references
+  - autorefs
+
+  # Metadata
   - git-revision-date-localized:
       type: custom
       custom_format: "%B %d, %Y %I:%M:%S %p"
@@ -60,27 +132,268 @@ plugins:
       fallback_to_build_date: false
       timezone: Asia/Karachi
       locale: en
-  #- section-index:
-    #  use_directory_urls: true
+      exclude:
+      - index.md
+
+  # Output optimization
   - minify:
       minify_html: true
+      minify_js: true
+      minify_css: true
+      htmlmin_opts:
+        remove_comments: true
+      cache_safe: true                                # Cache-busting for updated files
 
+# =============================================================================
+# MARKDOWN EXTENSIONS - Enhanced Markdown syntax
+# =============================================================================
+markdown_extensions:
+  # -------------------------------------------------------------------------
+  # PYTHON-MARKDOWN EXTENSIONS (built-in)
+  # -------------------------------------------------------------------------
+  - abbr                          # Allows abbreviations with tooltips
+  - admonition                    # Enables callout boxes (note, warning, tip, etc.)
+  - attr_list                     # Allows adding HTML attributes to elements
+  - def_list                      # Definition lists (like glossaries)
+  - footnotes                     # Enables footnote syntax
+  - md_in_html                    # Allows Markdown inside HTML blocks
+  - tables                        # GitHub-flavored Markdown tables
+  - toc:                          # Table of contents generation
+      permalink: true             # Adds anchor links to headings
+      permalink_title: "Link to this section"
+      toc_depth: 0                # Include h1, h2, h3 in TOC
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower             # Lowercase slugs for URL anchors
+
+  # -------------------------------------------------------------------------
+  # PYMDOWN EXTENSIONS - Advanced Markdown features
+  # -------------------------------------------------------------------------
+  # Code highlighting and formatting
+  - pymdownx.highlight:
+      use_pygments: true          # Use Pygments for server-side syntax highlighting
+      # linenums: true              # Enable line numbers in code blocks
+      # linenums_style: pymdownx-inline  # Line number style
+      # anchor_linenums: true       # Make line numbers clickable/linkable
+      line_spans: __span          # Wrap lines in spans for better styling
+      pygments_lang_class: true   # Add language class to code blocks
+
+  - pymdownx.inlinehilite         # Inline code highlighting with `:::python print()`
+  - pymdownx.snippets:            # Embed external file snippets
+      base_path: ['.']            # Look for snippets in repo root
+      check_paths: true           # Verify snippet files exist
+
+  - pymdownx.superfences:         # Enhanced fenced code blocks
+      custom_fences:
+        - name: mermaid           # Enables Mermaid diagrams
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+  # Content formatting
+  - pymdownx.betterem:            # Better emphasis handling (bold/italic)
+      smart_enable: all
+  - pymdownx.caret                # Allows superscript with ^^text^^
+  - pymdownx.mark                 # Allows highlighting with ==text==
+  - pymdownx.tilde                # Allows strikethrough with ~~text~~
+  - pymdownx.keys                 # Keyboard keys styling with ++ctrl+c++
+  - pymdownx.smartsymbols         # Smart symbols (copyright, trademark, arrows)
+
+  # Advanced content structures
+  # - pymdownx.critic               # Track changes/suggestions in docs
+  - pymdownx.details              # Collapsible <details> blocks
+  - pymdownx.emoji:               # Emoji support :smile: and custom icons
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+  - pymdownx.tabbed:              # Content tabs
+      alternate_style: true       # Use Material theme tab style
+      combine_header_slug: true   # Better anchor links for tabs
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+
+  - pymdownx.tasklist:            # Task lists with checkboxes
+      custom_checkbox: true       # Use Material Design checkboxes
+      clickable_checkbox: false   # Checkboxes are visual only (not interactive)
+
+  # Math and special notation
+  - pymdownx.arithmatex:          # LaTeX math equations
+      generic: true               # Use MathJax/KaTeX for rendering
+
+# =============================================================================
+# FILE EXCLUSIONS - Don't include these in the built site
+# =============================================================================
+# Uses .gitignore pattern format
 exclude_docs: |
+  # Script files
   *.py
   *.sh
-  *.conf
-  *.log
 
+  # Configuration files
+  *.conf
+  *.yaml
+  *.yml
+  *.json
+
+  # Log files
+  *.log
+  *.txt
+
+  # Docker files
+  Dockerfile*
+  *compose*.yml
+  *compose*.yaml
+
+  # CI/CD
+  .github/
+  .gitlab-ci.yml
+
+  # Build artifacts
+  site/
+  .cache/
+
+  # Editor files
+  .vscode/
+  .idea/
+  *.swp
+  *.swo
+
+  # Git
+  .git/
+  .gitignore
+  .gitattributes
+
+  # Dependencies
+  requirements.txt
+  package.json
+  node_modules/
+
+  # Keep important root docs
+  !/README.md
+
+# =============================================================================
+# VALIDATION - Quality checks (2026 best practice)
+# =============================================================================
+# Catch broken links, missing files, and structural issues early
+validation:
+  omitted_files: warn             # Warn about files not in navigation
+  absolute_links: relative_to_docs # Validate absolute links are intentional
+  unrecognized_links: warn        # Catch typos in internal links
+  anchors: warn                   # Verify heading anchors exist
+  nav:
+    omitted_files: info           # Info level for files intentionally excluded
+    not_found: warn               # Warn if nav references missing files
+    absolute_links: warn
+  links:
+    not_found: warn               # Broken internal links
+    anchors: warn                 # Invalid heading references
+    absolute_links: relative_to_docs
+    unrecognized_links: warn
+
+# =============================================================================
+# STRICT MODE - Fail builds on warnings (recommended for CI/CD)
+# =============================================================================
+# Commented out by default for local development
+# Uncomment in CI/CD pipeline or add --strict flag to mkdocs build
+# strict: true
+
+# =============================================================================
+# WATCH - Auto-rebuild when these files change (for mkdocs serve)
+# =============================================================================
+watch:
+  - .                             # Watch docs folder for changes
+  - mkdocs.yml                    # Reload when config changes
+
+# =============================================================================
+# EXTRA CONFIGURATION - Additional site metadata and features
+# =============================================================================
 extra:
-  generator: false
+  # -------------------------------------------------------------------------
+  # SITE ANALYTICS - Track usage (optional)
+  # -------------------------------------------------------------------------
+  # Uncomment and add your Google Analytics tracking ID
+  # analytics:
+  #   provider: google
+  #   property: G-XXXXXXXXXX
+  #   feedback:
+  #     title: Was this page helpful?
+  #     ratings:
+  #       - icon: material/thumb-up-outline
+  #         name: This page was helpful
+  #         data: 1
+  #         note: Thanks for your feedback!
+  #       - icon: material/thumb-down-outline
+  #         name: This page could be improved
+  #         data: 0
+  #         note: Thanks for your feedback!
+
+  # -------------------------------------------------------------------------
+  # VERSION SELECTOR - For multi-version documentation (optional)
+  # -------------------------------------------------------------------------
+  # Requires mike plugin for managing versions
+  # version:
+  #   provider: mike
+  #   default: latest
+
+  # -------------------------------------------------------------------------
+  # SOCIAL MEDIA LINKS - Displayed in footer
+  # -------------------------------------------------------------------------
   social:
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/ibtisam-iq/
+      name: Connect with me on LinkedIn
+
+    - icon: fontawesome/brands/twitter
+      link: https://x.com/ibtisam_iq
+      name: Follow me on X
+
     - icon: fontawesome/brands/github
       link: https://github.com/ibtisam-iq
+      name: Follow me on GitHub
+
+    - icon: fontawesome/brands/docker
+      link: https://hub.docker.com/u/mibtisam
+      name: View my Docker Hub repositories
+
     - icon: fontawesome/solid/globe
       link: https://ibtisam-iq.com
+      name: Visit my personal website
 
+  # -------------------------------------------------------------------------
+  # CONSENT - Cookie/Analytics consent banner (GDPR compliance)
+  # -------------------------------------------------------------------------
+  # Required if using analytics in EU/GDPR regions
+  # consent:
+  #   title: Cookie consent
+  #   description: >-
+  #     We use cookies to recognize your repeated visits and preferences, as well
+  #     as to measure the effectiveness of our documentation and whether users
+  #     find what they're searching for. With your consent, you're helping us to
+  #     make our documentation better.
+  #   actions:
+  #     - accept
+  #     - reject
+  #     - manage
+
+  # -------------------------------------------------------------------------
+  # GENERATOR - Remove "Made with Material for MkDocs" footer notice
+  # -------------------------------------------------------------------------
+  generator: false                # Clean footer without generator attribution
+
+# =============================================================================
+# CUSTOM CSS & JAVASCRIPT
+# =============================================================================
+# Add your own styles and scripts
 extra_css:
-  - docs/stylesheets/extra.css
+  - docs/stylesheets/extra.css    # Custom CSS overrides
 
+# extra_javascript:
+#   - docs/javascripts/extra.js   # Custom JavaScript
+#   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js  # Math rendering
+
+# =============================================================================
+# HOOKS - Python scripts for build-time customization
+# =============================================================================
+# Advanced: Run Python code during build process
+# hooks:
+#   - docs/hooks.py                # Custom build hooks
