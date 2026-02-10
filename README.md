@@ -1,5 +1,7 @@
 # Nectar
 
+[![📚 Nectar Documentation Pipeline](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml/badge.svg)](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml)
+
 Nectar is my personal engineering knowledge base.
 
 It was **born from confusion, struggle, and pain**.
