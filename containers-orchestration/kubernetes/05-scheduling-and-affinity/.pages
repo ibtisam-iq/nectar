@@ -1,0 +1,5 @@
+title: Scheduling & Affinity
+nav:
+  - Taints & Affinity Guide (Part A): taints-affinity-guide-a.md
+  - Taints & Affinity Guide (Part B): taints-affinity-guide-b.md
+  - Priority Class: priority-class.md

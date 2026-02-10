@@ -1,0 +1,6 @@
+title: References
+nav:
+  - Imperative Commands: imperative-commands.md
+  - Quick Reference: quick-reference.md
+  - Old Kubernetes Cheat Sheet: k8sCheatSheat.md
+  - Documentation: docs.md

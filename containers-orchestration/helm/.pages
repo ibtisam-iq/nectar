@@ -1,0 +1,9 @@
+title: Helm
+nav:
+  - Home: README.md
+  - Helm as Package Manager: helm-as-pkg-manager.md
+  - Helm Guide: helm-guide.md
+  - Quick Reference: quick-ref.md
+  - Helm Lab: helm-lab.md
+  - Mock Exam: mock-exam.md
+  - Chart Configuration: Chart.yaml

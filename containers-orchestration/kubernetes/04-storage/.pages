@@ -1,0 +1,21 @@
+title: Storage
+nav:
+  - Home: README.md
+  - Volume Basics: vol-basics.md
+  - Kubernetes Volumes Guide: Kubernetes Volumes Guide.markdown
+  - Kubernetes Ephemeral Volumes Guide: Kubernetes Ephemeral Volumes Guide.markdown
+  - Volumes YAML: volumes.yaml
+  - Volumes in Multi-Container: vol-in-multi-cont.md
+  - Mounting Volumes with Multiple Files: Mounting Volumes with Multiple Files.md
+  - Persistent Volume Guide: pv-guide.md
+  - Persistent Volume Claim Guide: pvc-guide.md
+  - Kubernetes Persistent Volumes and Claims Guide: Kubernetes Persistent Volumes and Claims Guide.markdown
+  - Volume Spec Source Options in PersistentVolume: Volume spec.source Options in PersistentVolume.md
+  - Storage Class: storage-class.md
+  - Storage Class Name: storageClassName.md
+  - Kubernetes Storage Classes Guide: Kubernetes Storage Classes Guide.markdown
+  - Kubernetes Dynamic Volume Provisioning Guide: Kubernetes Dynamic Volume Provisioning Guide.markdown
+  - RWX NFS Volume: rwx-nfs-volume.md
+  - RWX NFS Volume Example: rwx-nfs-volume-example.md
+  - CSI (Container Storage Interface): csi.md
+  - Comprehensive Guide to Kubernetes Storage Management: Comprehensive Guide to Kubernetes Storage Management.markdown

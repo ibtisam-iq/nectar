@@ -1,0 +1,19 @@
+title: Workloads
+nav:
+  - Pod Guide: pod-guide.md
+  - Pod Practice Questions: pod-prac-ques.md
+  - Multi-Container Pod: multi-cont-pod.md
+  - Hostname & Subdomain: hostname-subdomain.md
+  - Deployment: deploy.md
+  - Deployment Strategies: deploy-strategies.md
+  - CKAD - Don't Delete Deployment: ckad-dont-delete-deployment.md
+  - ReplicaSet Guide: rs.guide.yaml
+  - Jobs Guide: jobs-guide.md
+  - Jobs Guide Summary: jobs-guide-summary.md
+  - Jobs Guide Full: jobs-guide-full.md
+  - Jobs Spec: jobs.spec.md
+  - Jobs Handling: jobs-handling.md
+  - Job Time Controls Cheatsheet: job-time-controls-cheatsheet.md
+  - CronJob Guide: cron-job-guide.md
+  - Horizontal Pod Autoscaler (HPA) Guide: hpa-guide.md
+  - Vertical Pod Autoscaler (VPA) Guide: vpa-guide.md

@@ -1,0 +1,7 @@
+title: Engineering Scratchpad
+nav:
+  - Home: README.md
+  - MkDocs Troubleshooting: mkdocs-troubleshhoting.md
+  - ibtisam-iq Blueprint: ibtisam-iq blueprint.md
+  - Chivalrous Muskurahat: chivalrous_muskurahat.md
+  - Dual Boot Setup: dual-boot.md

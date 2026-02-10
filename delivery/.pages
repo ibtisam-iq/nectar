@@ -1,6 +1,7 @@
+title: CI/CD & Software Delivery
 nav:
-    - Git & Version Control: git
-    - GitHub Actions: github-actions
-    - Jenkins: jenkins
-    - SonarQube: sonarqube
-    - Nexus: nexus
+  - git
+  - jenkins
+  - nexus
+  - sonarqube
+  - github-actions

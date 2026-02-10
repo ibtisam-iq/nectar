@@ -1,0 +1,9 @@
+title: AWS (Amazon Web Services)
+nav:
+  - Introduction: introduction.md
+  - AWS Overview: AWS.md
+  - IAM (Identity and Access Management): iam.md
+  - Identity Center: identity-center.md
+  - ARN (Amazon Resource Names): arn.md
+  - Policies: policies.md
+  - Console Output: consoleOutput.txt

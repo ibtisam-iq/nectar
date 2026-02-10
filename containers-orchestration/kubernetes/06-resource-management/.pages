@@ -1,0 +1,14 @@
+title: Resource Management
+nav:
+  - Resource Quota Guide: 01-resource-quota-guide.md
+  - Limit Range Guide: 02-limit-range-guide.md
+  - LimitRange & ResourceQuota Together: 03-limitrange-resourcequota-together.md
+  - LimitRange and Pod Scheduling: 04-limitrange-and-pod-scheduling.md
+  - LimitRange & ResourceQuota Demo: 05-limitrange-resourcequota-demo.md
+  - Quality of Service (QoS): 06-QoS.md
+  - ConfigMap Guide: configmap-guide.md
+  - ConfigMap Important Commands: configmap-imp-com.md
+  - Secret Guide: secret-guide.md
+  - Certificate & Key: crt-key.md
+  - Init Container Management: initContainer-management.md
+  - Scope Selector: scopeSelector.md

@@ -1,4 +1,5 @@
+title: Cloud & Infrastructure
 nav:
-  - AWS: aws
-  - Cloudflare: cloudflare
-  - GitHub Pages: github-pages
+  - aws
+  - cloudflare
+  - github-pages

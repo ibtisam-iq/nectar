@@ -1,0 +1,14 @@
+title: Cluster Setup
+nav:
+  - Home: README.md
+  - Kind Cluster Setup Guide: kind-cluster-setup-guide.md
+  - Kind Cluster Setup with Calico: kind-cluster-setup-calico-guide.md
+  - Kubeadm Cluster Setup Guide: kubeadm-cluster-setup-guide.md
+  - Kubeadm Init Flags and Kind Config: kubeadm-init-flags-and-kind-config.md
+  - Kubeadm Init Working: kubeadm-init-working.md
+  - Kubeadm Config Patches: kubeadmConfigPatches.md
+  - Containerd Config Patches: containerdConfigPatches.md
+  - Extra Port Mappings: extraPortMappings.md
+  - Kubeconfig Setup: kubeconfig-setup.md
+  - CNI Plugin Installation: cni-plugin-installation.md
+  - CNI Working: cni-working.md

@@ -1,0 +1,4 @@
+title: Networking
+nav:
+  - Networking Basics: Networking.md
+  - DNS Resolution with Curl: curl-dns-resolution.md
