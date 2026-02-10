@@ -125,15 +125,15 @@ plugins:
   - autorefs
 
   # Metadata
-  - git-revision-date-localized:
-      type: custom
-      custom_format: "%B %d, %Y %I:%M:%S %p"
-      enable_creation_date: false
-      fallback_to_build_date: false
-      timezone: Asia/Karachi
-      locale: en
-      exclude:
-      - index.md
+  #- git-revision-date-localized:
+  #    type: custom
+  #    custom_format: "%B %d, %Y %I:%M:%S %p"
+  #    enable_creation_date: false
+  #    fallback_to_build_date: false
+  #    timezone: Asia/Karachi
+  #    locale: en
+  #    exclude:
+  #    - index.md
 
   # Output optimization
   - minify:
