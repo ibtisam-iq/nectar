@@ -1,0 +1,16 @@
+title: Core Concepts
+nav:
+  - Architecture: architecture.md
+  - Objects: objects.md
+  - Etcd: etcd.md
+  - Etcd TLS: etcd-tls.md
+  - Kube API Server: kube-apiserver.md
+  - Kube API Server (Part 2): kube-apiserver-2.md
+  - Kube Controller Manager: kube-controller-manager.md
+  - Kube Scheduler: kube-scheduler.md
+  - Kube Proxy: kube-proxy.md
+  - Kubernetes API Guide: kubernetes-api-guide.md
+  - Declarative API Process: declarative-api-process.md
+  - API Versions: api-versions.md
+  - API Deprecations: api-deprecations.md
+  - ConfigMaps in Kube System: cm-in-kube-system.md

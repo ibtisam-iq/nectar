@@ -1,0 +1,20 @@
+title: Kubernetes
+nav:
+  - Home: README.md
+  - Master Key: master-key.md
+  - 00-cluster-setup
+  - 01-core-concepts
+  - 02-cli-operations
+  - 03-networking
+  - 04-storage
+  - 05-scheduling-and-affinity
+  - 06-resource-management
+  - 07-security
+  - 08-debugging-monitoring
+  - 09-workloads
+  - 10-references
+  - unorganized
+  - CKA KodeKloud Complete Notes: CKA-KodeKloud-Complete-Notes.pdf
+  - Practice Checklist: practice-checklist.md
+  - Error Logs: error-logs.md
+  - Wazahat Nama: wazahat-nama.md

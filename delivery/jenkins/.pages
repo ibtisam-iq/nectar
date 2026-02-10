@@ -1,0 +1,14 @@
+title: Jenkins
+nav:
+  - Home: Jenkins.md
+  - Jenkinsfile: Jenkinsfile.md
+  - New Item: new item.md
+  - Parameters and Variables: params_and_var.md
+  - Shared Library: shared_lib.md
+  - Slave Setup: slave_setup.md
+  - Webhook Setup: webhook_setup.md
+  - Security: security.md
+  - Mail Configuration: mail_conf.md
+  - Plugins List: plugins.txt
+  - Troubleshooting: troubleshooting.md
+  - Basics: overview.md

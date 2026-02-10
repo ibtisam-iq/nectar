@@ -1,7 +1,9 @@
+title: Servers & Runtime Systems
 nav:
-  - Nginx: nginx
-  - Tomcat: tomcat
-  - MySQL: mysql
-  - PostgreSQL: postgresql
-  - MongoDB: mongodb
-  - MariaDB: mariadb
+  - Home: README.md
+  - nginx
+  - tomcat
+  - mysql
+  - mariadb
+  - postgresql
+  - mongodb

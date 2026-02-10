@@ -1,8 +1,0 @@
-# docs/foundation/linux/.pages
-# title: Linux
-arrange:
-  - Overview: Linux.md
-  - STDOUT & STDERR: STDOUT_STDERR_Guide.md
-  - Cheat Sheet: cheatSheet.md
-  - tar Command: tar-command.md
-  - Troubleshooting: troubleshooting.md

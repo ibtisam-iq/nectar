@@ -240,7 +240,7 @@ exclude_docs: |
   *.txt
 
   # Docker files
-  Dockerfile*
+  #Dockerfile*
   *compose*.yml
   *compose*.yaml
 

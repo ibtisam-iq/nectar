@@ -1,0 +1,10 @@
+title: SonarQube
+nav:
+
+  - Home: SonarQube.md
+  - Local Setup: local_setup.md
+  - Properties Configuration: properties.md
+  - SonarQube with Jenkins: sonar_jenkins.md
+  - Code Coverage: coverage.md
+  - Troubleshooting: troubleshooting.md
+  - Basics: overview.md

@@ -1,0 +1,8 @@
+title: YAML
+nav:
+  - Home: README.md
+  - Detailed Example: detailed-example.md
+  - Lists in YAML: list-in-yml.md
+  - Dictionaries in YAML: dict-in-yml.md
+  - Lists and Dictionaries: list-and-dict.md
+  - Multi-line Strings in YAML: multi-line-strings-in-yml.md

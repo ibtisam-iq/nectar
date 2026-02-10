@@ -1,7 +1,8 @@
+title: Basics
 nav:
-  - SDLC: SDLC.md
-  - Programming Basics: programming.md
+  - Index: index.md
+  - SDLC (Software Development Life Cycle): SDLC.md
+  - Programming Fundamentals: programming.md
   - Frameworks Overview: frameworks.md
-  - Databases (Conceptual): database.md
-  - CLI Fundamentals: understanding-CLI-commands.md
-  # - test: linux/Linux.md
+  - Database Fundamentals: database.md
+  - Understanding CLI Commands: understanding-CLI-commands.md

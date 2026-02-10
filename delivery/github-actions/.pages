@@ -1,0 +1,4 @@
+title: GitHub Actions
+nav:
+  - MkDocs Projects Deployment: MkDocs-projects-deployment.md
+  - Permissions: permissions.md

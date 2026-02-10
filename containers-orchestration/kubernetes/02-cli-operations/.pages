@@ -1,0 +1,5 @@
+title: CLI Operations
+nav:
+  - Kubectl Flags: kubectl-flags.md
+  - Kubectl Logs: kubectl-logs.md
+  - Command Arguments: command-args.md

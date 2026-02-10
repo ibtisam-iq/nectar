@@ -1,0 +1,7 @@
+title: Unorganized
+nav:
+  - Kubernetes Notes: k8s.md
+  - Kubernetes Text Notes: k8s.txt
+  - Unorganized Guide: unorganized-guide.md
+  - Question Bank: question-bank.md
+  - Troubleshooting: troubleshooting.md

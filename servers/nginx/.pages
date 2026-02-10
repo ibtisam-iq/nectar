@@ -1,0 +1,5 @@
+title: Nginx
+nav:
+  - Nginx Guide: Nginx.md
+  - ibtisam-iq Configuration: ibtisam-iq.conf
+  - Console Output: consoleOutput.txt

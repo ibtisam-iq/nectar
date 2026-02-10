@@ -1,0 +1,11 @@
+title: Kustomize
+nav:
+  - Home: README.md
+  - Directory Structure: 01-dir-structure.md
+  - Managing Directories: 02-manage-directories.md
+  - Kustomization YAML: 03-kustomization.yaml.md
+  - Transformers: 04-transformers.md
+  - Patches: 05-patches.md
+  - Overlays: 06-overlays.md
+  - Components: 07-components.md
+  - Kustomize Lab: kustomize-lab.md

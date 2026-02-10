@@ -1,3 +1,4 @@
+```bash
 # FROM <image>[:<tag>]
 # Specifies the base image for subsequent instructions in the Dockerfile.
 FROM alpine
@@ -35,7 +36,7 @@ ADD myapp.tar.gz /app/
 # RUN <command>
 # Executes commands (to install necessary packages or dependencies) in the container, creating a new layer for each instruction.
 # Don't forget to run `apt-get update` if you're installing any package, also install a package with `-y` flag.
-RUN echo "Hey sweetheart" 
+RUN echo "Hey sweetheart"
 RUN echo "This is Ibtisam."
 RUN echo $(pwd)
 RUN touch file.txt
@@ -48,7 +49,7 @@ RUN echo "Hey sweetheart" && echo "This is Ibtisam." && echo $(pwd) && touch fil
 # EXPOSE <port>
 # Documents the ports that the application will listen on. This does not publish the port; use -p during `docker run` to map the port.
 # It is a way to declare which ports your application uses, and it works hand-in-hand with the -p option when running container to establish actual port mapping.
-# Not mentioning EXPOSE during the image build doesn’t prevent the container from being able to listen on a port at runtime, 
+# Not mentioning EXPOSE during the image build doesn’t prevent the container from being able to listen on a port at runtime,
 # the image can still listen on ports if you map them during docker run.
 EXPOSE 8000
 EXPOSE $PORT
@@ -63,7 +64,7 @@ ENTRYPOINT ["python3"]
 
 # CMD ["param1", "param2"]
 # Specifies default arguments for ENTRYPOINT or the default command to run if ENTRYPOINT is not set.
- 
+
 CMD ["app.py"]
 
 CMD ["sh", "-c", "python app.py"]
@@ -73,7 +74,7 @@ CMD ["sh", "-c", "python app.py"]
 # So, using ["sh", "-c", "app.py"] is unnecessary and inefficient unless you actually need a shell.
 
 
-# A Dockerfile cannot have multiple CMD instructions that are executed simultaneously. Only one CMD instruction is allowed in a Dockerfile, 
+# A Dockerfile cannot have multiple CMD instructions that are executed simultaneously. Only one CMD instruction is allowed in a Dockerfile,
 # and if there are multiple CMD instructions, only the last one will take effect.
 
 # Alternative CMD examples:
@@ -95,3 +96,4 @@ HEALTHCHECK --interval=30s CMD curl -f http://localhost:80/ || exit 1
 # SHELL ["executable", "parameters"]
 # Overrides the default shell for executing commands. Useful for Windows containers or custom shells.
 SHELL ["powershell", "-command"]
+```

@@ -1,7 +1,8 @@
+title: Containers & Orchestration
 nav:
-  - Docker: docker
-  - Docker Compose: docker-compose
-  - ContainerD: containerd
-  - Kubernetes: kubernetes
-  - Helm: helm
-  - Kustomize: kustomize
+  - docker
+  - docker-compose
+  - kubernetes
+  - helm
+  - kustomize
+  - containerd

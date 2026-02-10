@@ -1,0 +1,6 @@
+title: Debugging & Monitoring
+nav:
+  - Probes: probe.md
+  - Probes Guide: probes-guide.md
+  - Probe Debugging: probe-debugging.md
+  - Probes Case Studies: probes-case-studies.md
