@@ -1,7 +1,7 @@
 # Nectar
 
-[![📚 Docs](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml/badge.svg)](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml)
 ![Nectar](https://img.shields.io/badge/Personal%20Engineering%20Knowledge%20Base-0052CC)
+[![📚 Docs](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml/badge.svg)](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 Nectar is my personal engineering knowledge base.
@@ -10,7 +10,7 @@ It was **born from confusion, struggle, and pain**.
 
 I built it because I didn’t have the luxury of assumed knowledge.
 
-Coming from a non-traditional background, I couldn’t rely on intuition, shortcuts, or “you’ll understand later.” If something worked, I needed to know why. If something failed, I needed to know where and how.
+Coming from a **non-traditional background**, I couldn’t rely on intuition, shortcuts, or “you’ll understand later.” If something worked, I needed to know why. If something failed, I needed to know where and how.
 
 So I wrote things down:
 
