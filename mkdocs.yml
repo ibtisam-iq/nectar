@@ -28,6 +28,9 @@ theme:
   name: material
   language: en
 
+  # Custom theme directory for overrides (optional)
+  custom_dir: docs/overrides
+
   # Custom branding
   logo: docs/images/favicon.svg
   favicon: docs/images/favicon.ico
@@ -339,6 +342,10 @@ extra:
   # SOCIAL MEDIA LINKS - Displayed in footer
   # -------------------------------------------------------------------------
   social:
+    - icon: custom/credly
+      link: https://www.credly.com/users/ibtisam-iq/badges#credly
+      name: View my Credly badges
+
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/ibtisam-iq/
       name: Connect with me on LinkedIn
