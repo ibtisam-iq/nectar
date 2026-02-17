@@ -596,6 +596,7 @@ curl https://jenkins.ibtisam-iq.com
 ### What We Accomplished
 
 Successfully set up Jenkins on `https://jenkins.ibtisam-iq.com` with:
+
 - ✅ **Custom domain** - Professional URL
 - ✅ **HTTPS enabled** - Automatic SSL by Cloudflare
 - ✅ **No public IP needed** - Working through tunnel
@@ -638,6 +639,7 @@ sudo cloudflared service install eyJhIjoiOT...
 ```
 
 **No need to:**
+
 - ❌ Create new tunnel
 - ❌ Update DNS
 - ❌ Reconfigure anything
@@ -683,6 +685,7 @@ sudo systemctl enable cloudflared
 **Important:** Your tunnel token is sensitive!
 
 **Best practices:**
+
 - 🔒 Don't commit to public repositories
 - 🔒 Store securely (password manager)
 - 🔒 Rotate if compromised
