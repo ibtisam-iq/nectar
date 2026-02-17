@@ -1,4 +1,5 @@
 title: Cloudflare
 nav:
-  - Home: README.md
+  - Cloudflare Tunnel Setup: cloudflare-tunnel.md
   - Cloudflare Gmail Domain Email Setup: cloudflare-gmail-domain-email-setup.md
+  - ...
