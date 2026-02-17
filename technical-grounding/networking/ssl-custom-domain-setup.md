@@ -7,7 +7,6 @@
 4. [Understanding Tunnels](#understanding-tunnels)
 5. [All Possible Solutions](#all-possible-solutions)
 6. [Cloudflare Tunnel Setup](#cloudflare-tunnel-setup)
-7. [Troubleshooting](#troubleshooting)
 
 ---
 
