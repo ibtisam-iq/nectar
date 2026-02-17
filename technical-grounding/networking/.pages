@@ -1,4 +1,5 @@
 title: Networking
 nav:
-  - Networking Basics: Networking.md
+  - Custom Domain Setup with HTTPS: ssl-custom-domain-setup.md
   - DNS Resolution with Curl: curl-dns-resolution.md
+  - Networking Basics: Networking.md
