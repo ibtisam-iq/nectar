@@ -40,10 +40,21 @@ Internet → EC2 Public IP (54.123.45.67) → Port 443 → Nginx → Port 8080 �
 **Step 1: Configure DNS**
 ```bash
 # In Cloudflare DNS
+
+Option 1: A Record (Direct IP - Recommended)
 Type: A
 Name: jenkins
 Content: 54.123.45.67  # Your EC2 public IP
 Proxy: DNS only (gray cloud)
+TTL: Auto
+
+# Or
+
+Option 2: CNAME Record (If using another server/domain)
+Type: CNAME
+Name: jenkins
+Content: Your EC2 public DNS (e.g., ec2-xx-xx-xx-xx.compute-1.amazonaws.com) OR a subdomain you've already configured
+Proxy status: DNS only (gray cloud) initially for testing
 TTL: Auto
 ```
 
