@@ -15,6 +15,7 @@
 **Goal:** Run Jenkins (or any service) on a custom domain with HTTPS enabled.
 
 **Example:**
+
 - Service: Jenkins running on port 8080
 - Desired URL: `https://jenkins.ibtisam-iq.com`
 - Requirement: Automatic HTTPS with valid SSL certificate
@@ -190,12 +191,40 @@ sudo systemctl enable caddy
 
 ### Certificate Backup and Restore
 
-**Backup Certificates:**
+#### Step 1: Create the backup on EC2
 ```bash
-# Create backup
+# On EC2 instance
 sudo tar -czf letsencrypt-backup.tar.gz /etc/letsencrypt/
 sudo chown $USER:$USER letsencrypt-backup.tar.gz
 mv letsencrypt-backup.tar.gz ~/
+```
+
+#### Step 2: Download to your Mac using SCP
+
+**Option 1: Using SCP (Secure Copy)**
+```bash
+# On your Mac terminal
+scp -i /path/to/your-key.pem ubuntu@YOUR_EC2_IP:~/letsencrypt-backup.tar.gz ~/Downloads/
+
+# Example:
+scp -i ~/.ssh/aws-jenkins.pem ubuntu@54.123.45.67:~/letsencrypt-backup.tar.gz ~/Downloads/
+```
+
+**Option 2: Using SFTP**
+```bash
+# On your Mac
+sftp -i /path/to/your-key.pem ubuntu@YOUR_EC2_IP
+# Then in SFTP prompt:
+get letsencrypt-backup.tar.gz
+exit
+```
+
+**Option 3: Using rsync (more features)**
+```bash
+# On your Mac
+rsync -avz -e "ssh -i /path/to/your-key.pem" \
+  ubuntu@YOUR_EC2_IP:~/letsencrypt-backup.tar.gz \
+  ~/Downloads/
 ```
 
 **Download to Local Mac (if no SSH key):**
@@ -222,7 +251,7 @@ aws s3 cp ~/letsencrypt-backup.tar.gz s3://your-bucket/
 aws s3 cp s3://your-bucket/letsencrypt-backup.tar.gz ~/Downloads/
 ```
 
-**Restore on New EC2:**
+#### Step 3: Restore on New EC2
 ```bash
 # Upload backup to new EC2
 # Extract
