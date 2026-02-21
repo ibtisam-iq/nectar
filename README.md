@@ -1,10 +1,10 @@
 # Nectar
 
-![Nectar](https://img.shields.io/badge/Personal%20Engineering%20Knowledge%20Base-0052CC)
+![Nectar](https://img.shields.io/badge/Engineering%20Knowledge%20Base-0052CC)
 [![📚 Docs](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml/badge.svg)](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-Nectar is my personal engineering knowledge base.
+[Nectar](https://nectar.ibtisam-iq.com) is my personal engineering knowledge base.
 
 It was **born from confusion, struggle, and pain**.
 
