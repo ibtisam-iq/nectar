@@ -37,16 +37,16 @@ flowchart TD
     I(["🏗️ Multiple components form a platform"])
     J["System view<br/>& architecture"]
 
-    A --> B --> NECTAR[(📚 Nectar)]
+    A --> B --> NECTAR[("<b>📚 Nectar</b>")]
     C --> D --> NECTAR
-    NECTAR --> E --> F --> SILVER[("⚙️ SilverStack")]
-    NECTAR --> G --> H --> BLOG[("📝 Blog")]
-    NECTAR --> I --> J --> PROJECTS[("🏛️ Projects")]
+    NECTAR --> E --> F --> SILVER[("<b>⚙️ SilverStack</b>")]
+    NECTAR --> G --> H --> BLOG[("<b>📝 Blog</b>")]
+    NECTAR --> I --> J --> PROJECTS[("<b>🏛️ Projects</b>")]
 
-    style NECTAR   fill:#1e3a5f,color:#fff,stroke:#4a9eff
-    style SILVER   fill:#2d4a2d,color:#fff,stroke:#5aaa5a
-    style BLOG     fill:#4a3000,color:#fff,stroke:#ffaa00
-    style PROJECTS fill:#3a1a4a,color:#fff,stroke:#cc77ff
+    style NECTAR   fill:#1565c0,color:#ffffff,stroke:#90caf9
+    style SILVER   fill:#2e7d32,color:#ffffff,stroke:#a5d6a7
+    style BLOG     fill:#e65100,color:#ffffff,stroke:#ffcc80
+    style PROJECTS fill:#9c27b0,color:#ffffff,stroke:#e1bee7
 ```
 
 > 💡 **Nectar is the hub.** Everything I learn or run lives here first — before it becomes a reusable component, a blog post, or a project architecture.
