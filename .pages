@@ -1,5 +1,5 @@
 nav:
-  - Home: README.md
+  - Home: index.md
   - Containers & Orchestration: containers-orchestration
   - CI/CD & Software Delivery: delivery
   - Cloud & Infrastructure: cloud-infrastructure
