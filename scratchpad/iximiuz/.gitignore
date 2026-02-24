@@ -1,0 +1,34 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.cache
+
+# Secrets (never commit)
+*.pem
+*.key
+*-credentials.json
+.env
+.env.*
+
+# Build artifacts
+*.tar.gz
+*.zip
+node_modules/
+target/
+dist/
+build/
