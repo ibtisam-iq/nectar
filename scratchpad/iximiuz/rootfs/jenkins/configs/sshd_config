@@ -1,0 +1,50 @@
+# Logging
+SyslogFacility AUTH
+LogLevel INFO
+
+# Authentication
+PermitRootLogin no
+PubkeyAuthentication yes
+PasswordAuthentication yes
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+
+# PAM authentication
+UsePAM yes
+
+# Allow agent forwarding
+AllowAgentForwarding yes
+
+# Allow TCP forwarding
+AllowTcpForwarding yes
+
+# Allow X11 forwarding (if needed)
+X11Forwarding yes
+X11DisplayOffset 10
+
+# Print message of the day
+PrintMotd no
+
+# Print last login information
+PrintLastLog yes
+
+# TCP keep alive
+TCPKeepAlive yes
+
+# Accept environment variables
+AcceptEnv LANG LC_*
+
+# Subsystem for SFTP
+Subsystem sftp /usr/lib/openssh/sftp-server
+
+# Security settings
+MaxAuthTries 6
+MaxSessions 10
+ClientAliveInterval 300
+ClientAliveCountMax 2
+
+# Restrict user environment
+PermitUserEnvironment no
+
+# Banner (optional)
+# Banner /etc/ssh/banner

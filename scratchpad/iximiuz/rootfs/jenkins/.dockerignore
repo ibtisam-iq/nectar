@@ -1,0 +1,65 @@
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+*.md
+docs/
+
+# Test files
+tests/
+*.test.sh
+
+# Temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+*~
+.cache/
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Build artifacts
+*.tar.gz
+*.zip
+*.jar
+*.war
+target/
+build/
+dist/
+out/
+
+# Secret files (never include in image)
+*.pem
+*.key
+*-credentials.json
+.env
+.env.*
+secrets/
+credentials/
+
+# Large files
+*.iso
+*.dmg
+*.pkg
+*.deb

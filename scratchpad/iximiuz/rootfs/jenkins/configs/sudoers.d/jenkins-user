@@ -1,0 +1,6 @@
+# Sudo permissions for Jenkins daemon account
+# Allows limited sudo without password for job/admin tasks
+
+# jenkins ALL=(ALL) NOPASSWD:ALL
+jenkins ALL=(ALL) NOPASSWD: /usr/bin/systemctl restart jenkins, /usr/bin/systemctl stop jenkins, /usr/bin/systemctl start jenkins, /usr/bin/systemctl status jenkins, /usr/bin/systemctl reload nginx, /usr/bin/journalctl
+# Note: For labs, this is restricted; expand if needed.

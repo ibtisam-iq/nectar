@@ -1,0 +1,24 @@
+[Unit]
+Description=Jenkins Continuous Integration Server
+Documentation=https://www.jenkins.io/doc/
+Requires=network.target
+After=network.target
+
+[Service]
+Type=notify
+NotifyAccess=main
+ExecStart=/usr/bin/jenkins
+Restart=on-failure
+RestartSec=10
+SuccessExitStatus=143
+User=jenkins
+Group=jenkins
+WorkingDirectory=/var/lib/jenkins
+LimitNOFILE=8192
+LimitNPROC=4096
+StandardOutput=journal
+StandardError=journal
+OOMScoreAdjust=-900
+
+[Install]
+WantedBy=multi-user.target
