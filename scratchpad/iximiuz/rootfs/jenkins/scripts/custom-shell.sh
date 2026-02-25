@@ -1,41 +1,69 @@
 #!/bin/bash
-# custom-shell.sh – overrides default shell to show only our message
+# custom-shell.sh – custom login shell for ubuntu user
+# Shows welcome only for interactive sessions; passes through SSH commands
 
-# Clear screen (optional – removes any previous output)
+# If arguments passed = non-interactive SSH command (key injection, scp, etc.)
+# Skip the welcome entirely and execute directly
+if [ $# -gt 0 ]; then
+    exec /bin/bash "$@"
+fi
+
+# Interactive login only — show welcome
 clear
 
 cat << 'EOF'
 
-SilverStack Jenkins Lab – Quick Setup Guide
+  ╔══════════════════════════════════════════════════════════════╗
+  ║           SilverStack Jenkins Lab – Quick Setup Guide        ║
+  ╚══════════════════════════════════════════════════════════════╝
 
-Jenkins is running internally at http://localhost:8080
-Nginx reverse proxy listening on port 80 (internal)
+  Jenkins is running internally at http://localhost:8080
+  Nginx reverse proxy listening on port 80 (internal)
 
-To make Jenkins public with your custom domain:
+  ── Make Jenkins Public with Cloudflare Tunnel ──────────────────
 
-1. https://one.dash.cloudflare.com → Zero Trust → Networks → Connectors
-2. Create a tunnel → name it (e.g. jenkins-lab)
-3. Choose "Cloudflared" connector
-4. Copy the command shown:
-   sudo cloudflared service install <long-token>
+  1. https://one.dash.cloudflare.com
+       → Zero Trust → Networks → Connectors
 
-5. Paste & run it here in this terminal. It will:
-   - Register the token
-   - Create/update systemd service
-   - Start & enable the service
-   - Connect the tunnel
+  2. Create a tunnel → name it (e.g. jenkins-lab)
+     Choose "Cloudflared" connector
 
-6. Back in dashboard → Route Traffic → Add public hostname:
-   - Subdomain: jenkins (or any name)
-   - Domain: your domain
-   - Path: (leave blank)
-   - Service Type: HTTP
-   - URL: localhost:8080
+  3. Copy and run the install command shown:
+       sudo cloudflared service install <long-token>
 
-Jenkins is now live at https://jenkins.yourdomain.com (SSL + DDoS protection)
+     This will:
+       - Register the token
+       - Create/update the systemd service
+       - Start & enable the service
+       - Connect the tunnel
 
-Happy CI/CD building!
+  4. Back in dashboard → Route Traffic → Add public hostname:
+       Subdomain : jenkins (or any name)
+       Domain    : your-domain.com
+       Path      : (leave blank)
+       Service   : HTTP → localhost:8080
+
+  Jenkins is now live at https://jenkins.your-domain.com
+  (SSL + DDoS protection included)
+
+  ── Useful Commands ─────────────────────────────────────────────
+
+  sudo systemctl status jenkins        # Jenkins status
+  sudo systemctl status nginx          # Nginx status
+  sudo journalctl -u jenkins -f        # Jenkins logs (live)
+  sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+  ────────────────────────────────────────────────────────────────
+  Happy CI/CD building!
+
 EOF
 
-# Exec real bash (preserves all environment)
-exec /bin/bash "$@"
+# Resolve current user's home directory dynamically
+# $HOME is set by PAM/sshd before this shell is invoked
+RCFILE="${HOME}/.bashrc"
+
+if [ -f "${RCFILE}" ]; then
+    exec /bin/bash --rcfile "${RCFILE}"
+else
+    exec /bin/bash
+fi
