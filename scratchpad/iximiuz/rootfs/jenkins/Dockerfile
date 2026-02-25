@@ -129,6 +129,7 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 # Copy custom shell wrapper (shows only our message on login)
 COPY scripts/custom-shell.sh /usr/local/bin/custom-shell.sh
 RUN chmod +x /usr/local/bin/custom-shell.sh && \
+    echo "/usr/local/bin/custom-shell.sh" >> /etc/shells && \
     usermod -s /usr/local/bin/custom-shell.sh "${USERNAME}"
 
 # Entrypoint for initialization
