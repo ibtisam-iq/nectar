@@ -315,9 +315,9 @@ extra:
   # SITE ANALYTICS - Track usage (optional)
   # -------------------------------------------------------------------------
   # Uncomment and add your Google Analytics tracking ID
-  # analytics:
-  #   provider: google
-  #   property: G-XXXXXXXXXX
+  analytics:
+   provider: google
+   property: G-NS4S4MV5JK
   #   feedback:
   #     title: Was this page helpful?
   #     ratings:
