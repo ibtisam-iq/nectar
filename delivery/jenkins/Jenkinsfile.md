@@ -1,12 +1,13 @@
 # Jenkinsfile Cheat Sheet
 
 Have a look on the official Jenkins documentations
+
 - [Pipeline](https://www.jenkins.io/doc/book/pipeline/)
 - [Pipeline Syntax](https://www.jenkins.io/doc/book/pipeline/syntax/)
 
-- [Directive Generator](http://localhost:8080/directive-generator/)
-- [Snippet Generator](http://localhost:8080/pipeline-syntax/)
-- [Global Variable Reference](http://localhost:8080/pipeline-syntax/globals)
+- [Directive Generator](https://jenkins.ibtisam-iq.com/directive-generator/)
+- [Snippet Generator](https://jenkins.ibtisam-iq.com/pipeline-syntax/)
+- [Global Variable Reference](https://jenkins.ibtisam-iq.com/pipeline-syntax/globals)
 
 
 ## Adding Comments in Jenkinsfile
@@ -26,6 +27,12 @@ It spans multiple lines.
 pipeline {
     agent any                // agent is a directive
     agent {label 'slave-1'}  // specify a specific agent
+}
+```
+
+```groovy
+agent {
+    label 'slave-1'
 }
 ```
 
