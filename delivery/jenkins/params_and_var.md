@@ -61,6 +61,7 @@ echo "Deploying to environment: ${params.Environment}"
 
 ### **Definition**:
 Variables are used to store and reference dynamic values within a Jenkins build. These can include:
+
 - **Environment Variables**: Predefined by Jenkins or the build environment (e.g., `BUILD_NUMBER`, `WORKSPACE`).
 - **Pipeline Variables**: Custom variables defined within the pipeline code.
 
