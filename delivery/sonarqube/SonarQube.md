@@ -22,11 +22,13 @@
 - Leading on-premise platform for continuous code quality and security analysis.
 - Supports over 30 programming languages, frameworks, and IaC platforms.
 - Utilizes **Static Application Security Testing (SAST)** to identify and address:
+  
   - Bugs
   - Vulnerabilities
   - Code smells
   - Duplicated code
   - Technical debt
+    
 - Enables **automated code quality checks** in CI/CD pipelines.
 
 ---
@@ -41,10 +43,12 @@
 
 ### Components
 
-1. **SonarQube Scanner**:  
+1. **SonarQube Scanner**:
+     
    - Analyzes code and publishes reports to the server.  
 
-2. **SonarQube Server**:  
+2. **SonarQube Server**:
+     
    - Hosts the analysis reports and provides dashboards for insights.
 
 ### Key Features
@@ -60,26 +64,36 @@
 ## Core Concepts in SonarQube
 
 ### **Code Quality**
+
 - **Definition**: Measures how well-written, understandable, and maintainable the source code is. 
 - **Aspects Covered**:
+  
   - Identifies code smells (non-functional issues that indicate a need for refactoring).
   - Detects bugs and potential runtime issues.
   - Highlights violations of best practices.
+    
 - **Why It Matters**: High code quality ensures easier debugging, enhanced performance, and lower maintenance costs. Poor-quality code often leads to technical debt.
 
 ---
 
 ### **Code Coverage**
+
 - **Definition**: Represents the percentage of the codebase that is executed when automated tests are run.
 - **Importance**:
+  
   - Ensures critical parts of the application are tested.
   - Reduces the likelihood of undetected bugs in untested code.
+    
 - **How It Works in SonarQube**:
+  
   - Requires integration with testing tools.
   - Plugins specific to programming languages calculate and report coverage data. For example:
+    
     - **JaCoCo** for Java projects (add to `pom.xml` for Maven builds).
     - **Coverage.py** for Python projects.
+      
 - **Example in Action**:
+  
   - A Java project may achieve 75% coverage, highlighting areas that lack adequate test cases. This guides developers to write additional tests for untested code.
 
 ---
@@ -87,11 +101,14 @@
 ### **Quality Gates**
 - **Definition**: Criteria or thresholds that code must meet to pass quality checks.
 - **Examples of Metrics in a Quality Gate**:
+  
   - **Code Coverage**: A minimum percentage (e.g., 80%) must be covered by tests.
   - **Bugs**: No critical or blocker bugs.
   - **Code Smells**: Limit the number of major smells.
   - **Duplications**: Keep duplicated code below a certain threshold.
+    
 - **Usage in CI/CD Pipelines**:
+  
   - Integrated with tools like Jenkins to enforce automated quality checks.
   - Example: A webhook from SonarQube fetches quality gate metrics before proceeding with deployment.
 
@@ -101,9 +118,12 @@
 ### **Quality Profiles**
 - **Definition**: Configurable sets of coding rules tailored for specific languages or project requirements.
 - **How They Work**:
+  
   - SonarQube provides default profiles for various programming languages.
   - Profiles can be customized to align with project-specific coding standards.
+    
 - **Use Cases**:
+  
   - A Java project may require strict adherence to JDK conventions, while a Python project focuses on PEP-8 compliance.
   - Projects with different risk levels (e.g., financial systems vs. prototypes) can apply stricter or more lenient profiles.
 
@@ -154,13 +174,18 @@ If you run a SonarQube analysis on a Python project without any written tests, h
 
 ### **Code Quality Check**
 - **What Happens**:
+  
   - SonarQube performs static analysis of the code, identifying:
+    
     - **Bugs**: Potential runtime errors.
     - **Vulnerabilities**: Insecure coding patterns.
     - **Code Smells**: Redundant or overly complex code.
     - **Duplications**: Duplicate code fragments.
+      
   - These checks are independent of the presence of tests as they rely solely on static code analysis.
+    
 - **Prerequisites**:
+  
   - Source code files must exist in a supported format (e.g., `.py` for Python).
   - A **Quality Profile** must be set up for Python to define the rules SonarQube uses for analysis.
 
@@ -199,9 +224,11 @@ If you run a SonarQube analysis on a Python project without any written tests, h
 
 ### **Conclusion**
 In the absence of tests:
+
 1. **Static code quality checks** will still be performed and reported.
 2. **Code coverage** will remain at 0%, and any Quality Gate conditions based on coverage will fail.
 3. To fully leverage SonarQube, ensure the project has:
+   
    - Adequate test coverage.
    - Proper configuration of test tools and reporting paths.
    - A well-defined Quality Profile tailored to the project’s language and standards.
