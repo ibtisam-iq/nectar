@@ -1,6 +1,6 @@
 title: AWS (Amazon Web Services)
 nav:
-  - Introduction: introduction.md
+  - Cloud Computing Fundamentals: cloud-computing-fundamentals.md
   - AWS Overview: AWS.md
   - IAM (Identity and Access Management): iam.md
   - Identity Center: identity-center.md
