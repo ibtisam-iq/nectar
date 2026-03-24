@@ -28,7 +28,7 @@ AWS Cloud
 | Wavelength Zones | **33** |
 | Planned new Regions | 2 more (Saudi Arabia, Chile) |
 
-> **Rule:** These numbers keep increasing. Always verify at [aws.amazon.com/about-aws/global-infrastructure](https://aws.amazon.com/about-aws/global-infrastructure). [web:122]
+> **Rule:** These numbers keep increasing. Always verify at [aws.amazon.com/about-aws/global-infrastructure](https://aws.amazon.com/about-aws/global-infrastructure).
 
 ---
 
@@ -164,7 +164,7 @@ AWS Region  ← fetch from origin (your EC2/S3/etc.)
 | **Wavelength Zones** | 33 | AWS infra embedded in telecom 5G networks | 5G mobile edge computing |
 
 > These sit **outside** the main Region but are extensions of it.
-> Local Zone example: `us-west-2-lax-1a` (Los Angeles Local Zone of Oregon Region). [web:135]
+> Local Zone example: `us-west-2-lax-1a` (Los Angeles Local Zone of Oregon Region).
 
 ---
 
@@ -207,7 +207,7 @@ AWS Region  ← fetch from origin (your EC2/S3/etc.)
 | Subnet | Exists in one AZ |
 | RDS instance | Primary in one AZ; Multi-AZ = standby in another |
 
-> **Exam rule:** If you can't select a Region in the console for a service → it's Global. [web:126]
+> **Exam rule:** If you can't select a Region in the console for a service → it's Global.
 
 ---
 
