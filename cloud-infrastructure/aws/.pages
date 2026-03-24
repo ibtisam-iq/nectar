@@ -2,7 +2,8 @@ title: AWS (Amazon Web Services)
 nav:
   - Cloud Computing Fundamentals: cloud-computing-fundamentals.md
   - Global Infrastructure: global-infrastructure.md
-
+  - EC2 (Elastic Compute Cloud): ec2.md
+  
   - AWS Overview: AWS.md
   - IAM (Identity and Access Management): iam.md
   - Identity Center: identity-center.md
