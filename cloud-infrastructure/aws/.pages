@@ -5,6 +5,7 @@ nav:
   - EC2 (Elastic Compute Cloud): ec2.md
   - EC2 Pricing: ec2-pricing.md
   - EC2 Storage: ec2-storage.md
+  - AMI, Snapshot, and Lifecycle: ami-snapshots-lifecycle.md
 
 
   - AWS Overview: AWS.md
