@@ -4,6 +4,7 @@ nav:
   - Global Infrastructure: global-infrastructure.md
   - EC2 (Elastic Compute Cloud): ec2.md
   - EC2 Pricing: ec2-pricing.md
+  - EC2 Storage: ec2-storage.md
 
 
   - AWS Overview: AWS.md
