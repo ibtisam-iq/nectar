@@ -7,6 +7,9 @@ nav:
   - EC2 Storage: ec2-storage.md
   - AMI, Snapshot, and Lifecycle: ami-snapshots-lifecycle.md
   - Placement Groups: ec2-placement-groups.md
+  - Network Interfaces: ec2-networking-eni.md
+
+
 
   - AWS Overview: AWS.md
   - IAM (Identity and Access Management): iam.md
