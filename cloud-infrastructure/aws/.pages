@@ -6,7 +6,7 @@ nav:
   - EC2 Pricing: ec2-pricing.md
   - EC2 Storage: ec2-storage.md
   - AMI, Snapshot, and Lifecycle: ami-snapshots-lifecycle.md
-
+  - Placement Groups: ec2-placement-groups.md
 
   - AWS Overview: AWS.md
   - IAM (Identity and Access Management): iam.md
