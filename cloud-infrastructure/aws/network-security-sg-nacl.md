@@ -133,13 +133,14 @@ DB-SG inbound rule:
   Source: AppServer-SG (sg-yyyyyyyy)
 ```
 
-**Why this is better than IP-based rules:** [web:218]
+**Why this is better than IP-based rules:**
+
 - Auto-scales — when new app server launches and joins AppServer-SG, it can
   immediately talk to DB without updating DB-SG rules
 - No hardcoded IPs — works even when instances are replaced
 - Uses **private IPs** of instances in the referenced SG (not public IPs)
 
-> SG referencing is the standard way to architect secure multi-tier applications in AWS. [web:220]
+> SG referencing is the standard way to architect secure multi-tier applications in AWS.
 
 ---
 

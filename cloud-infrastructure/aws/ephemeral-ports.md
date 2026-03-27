@@ -17,7 +17,7 @@ Server responds:    server:80 → 54231     (HTTP response)
 
 ---
 
-#### Ephemeral Port Ranges by OS ⭐ [web:228][web:229]
+#### Ephemeral Port Ranges by OS ⭐
 
 Different operating systems use different ranges:
 
@@ -37,10 +37,10 @@ Allow outbound TCP: 1024 – 65535
 ```
 
 > AWS recommends **1024–65535** in NACL outbound rules to safely cover all
-> OS types, NAT Gateways, and Load Balancers. [web:231]
+> OS types, NAT Gateways, and Load Balancers.
 >
 > Using a narrower range (e.g., 49152–65535 only) will break connections from
-> Linux clients whose ephemeral ports fall in 32768–49151. [web:230]
+> Linux clients whose ephemeral ports fall in 32768–49151.
 
 ---
 
