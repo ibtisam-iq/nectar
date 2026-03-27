@@ -8,7 +8,7 @@ nav:
   - AMI, Snapshot, and Lifecycle: ami-snapshots-lifecycle.md
   - Placement Groups: ec2-placement-groups.md
   - Network Interfaces: ec2-networking-eni.md
-
+  - Security Groups and NACLs: network-security-sg-nacl.md
 
 
   - AWS Overview: AWS.md
