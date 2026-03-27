@@ -9,6 +9,13 @@ nav:
   - Placement Groups: ec2-placement-groups.md
   - Network Interfaces: ec2-networking-eni.md
   - Security Groups and NACLs: network-security-sg-nacl.md
+  - VPC (Virtual Private Cloud): vpc.md
+  - VPC Routing: vpc-routing.md
+  - VPC Connectivity: vpc-connectivity.md
+  - NAT Gateway: nat-gateway.md
+  - DHCP Options Set: dhcp-options-set.md
+  - VPC Flow Logs: vpc-flow-logs.md
+
 
 
   - AWS Overview: AWS.md
