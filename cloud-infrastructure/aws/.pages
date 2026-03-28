@@ -16,7 +16,7 @@ nav:
   - DHCP Options Set: dhcp-options-set.md
   - VPC Flow Logs: vpc-flow-logs.md
   - Transit Gateway: transit-gateway.md
-
+  - Target Groups: target-groups.md
 
   - AWS Overview: AWS.md
   - IAM (Identity and Access Management): iam.md
