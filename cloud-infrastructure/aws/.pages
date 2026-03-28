@@ -15,7 +15,7 @@ nav:
   - NAT Gateway: nat-gateway.md
   - DHCP Options Set: dhcp-options-set.md
   - VPC Flow Logs: vpc-flow-logs.md
-
+  - Transit Gateway: transit-gateway.md
 
 
   - AWS Overview: AWS.md
