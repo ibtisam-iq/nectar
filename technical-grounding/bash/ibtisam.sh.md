@@ -1,3 +1,4 @@
+```bash
 #!/bin/bash
 <<comment
 echo "this is ibtisam."
@@ -8,7 +9,7 @@ echo "hello \$USER  $HOSTNAME"
 
 read -p "enter your name: " name
 
-echo "welcome $name" 
+echo "welcome $name"
 
 e-cho $0
 echo $?
@@ -49,3 +50,4 @@ else
     echo "Minor"
 fi
 if [[ $age -gt 18 && $country == "Pakistan" ]]; then echo "Adult"; else echo "Minor"; fi
+```
