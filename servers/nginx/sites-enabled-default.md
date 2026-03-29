@@ -4,7 +4,7 @@
 
 On Ubuntu/Debian, Nginx organizes site configs across three locations:
 
-```
+```text
 /etc/nginx/
 ├── nginx.conf                    ← Master config (reads the others)
 ├── sites-available/              ← All site configs are STORED here
@@ -96,7 +96,7 @@ Edit `sites-enabled/default` when you want to:
 
 ## Full Flow Summary
 
-```
+```text
 Browser request → port 80 → Nginx
     → reads nginx.conf
     → nginx.conf says "include sites-enabled/*"
