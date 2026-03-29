@@ -87,6 +87,7 @@ active site configs go directly into `/etc/nginx/conf.d/`.
 ## When Do You Edit This File?
 
 Edit `sites-enabled/default` when you want to:
+
 - Change the web root to a different folder
 - Add a domain name to `server_name`
 - Configure HTTPS/SSL
