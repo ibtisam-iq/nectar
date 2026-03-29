@@ -8,7 +8,7 @@ Nginx behaves globally is defined here.
 
 ## Where Is It?
 
-```
+```text
 /etc/nginx/nginx.conf        ← works on both Ubuntu and CentOS
 ```
 
@@ -76,5 +76,3 @@ You edit `nginx.conf` when you want to change **global** behavior:
 - Configure global SSL settings
 
 For individual website configuration, you use `sites-enabled/` instead.
-
-

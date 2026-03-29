@@ -42,7 +42,7 @@ grep -r "root" /etc/nginx/nginx.conf               # CentOS/RHEL
 
 The output will look like:
 
-```
+```text
 root /var/www/html;
 ```
 
