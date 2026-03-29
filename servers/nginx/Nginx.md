@@ -1,6 +1,5 @@
-https://nginx.org/en/linux_packages.html
+# Nginx
 
-Ubuntu
 ```bash
 # Install the prerequisites:
 sudo apt update
