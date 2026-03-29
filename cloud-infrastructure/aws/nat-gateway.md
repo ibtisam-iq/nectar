@@ -136,7 +136,7 @@ Traffic stays entirely on AWS private network — never touches internet.
 ```text
 $0.045/hr × 24 hrs × 30 days = $32.40/month minimum — per NAT Gateway
 Even if zero traffic flows through it.
-```text
+```
 
 **At scale (1 TB/month through one NAT GW):**
 ```text
