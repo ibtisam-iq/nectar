@@ -179,7 +179,7 @@ markdown_extensions:
       # linenums_style: pymdownx-inline  # Line number style
       # anchor_linenums: true       # Make line numbers clickable/linkable
       line_spans: __span          # Wrap lines in spans for better styling
-      pygments_lang_class: true   # Add language class to code blocks
+      # pygments_lang_class: true   # Add language class to code blocks
 
   - pymdownx.inlinehilite         # Inline code highlighting with `:::python print()`
   - pymdownx.snippets:            # Embed external file snippets
