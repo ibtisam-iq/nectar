@@ -1,5 +1,7 @@
 title: Nginx
 nav:
-  - Nginx Guide: Nginx.md
-  - ibtisam-iq Configuration: ibtisam-iq.conf
-  - Console Output: consoleOutput.txt
+  - Home: nginx.md
+  - Default Web Page: default-web-root.md
+  - Nginx Configuration: nginx-conf.md
+  - Sites-Available and Sites-Enabled: sites-enabled-default.md
+  - ...
