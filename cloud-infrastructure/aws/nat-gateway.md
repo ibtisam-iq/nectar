@@ -16,7 +16,7 @@ The requirement is asymmetric:
 ```text
 ✅ Private EC2 → Internet (outbound — needed)
 ❌ Internet → Private EC2 (inbound — must NOT be allowed)
-```text
+```
 
 > **NAT (Network Address Translation)** solves this by acting as an
 > intermediary — it translates the private source IP to a public IP
@@ -48,7 +48,7 @@ NAT Gateway MUST be placed in a PUBLIC subnet
   (it needs the IGW route to reach the internet)
 NAT Gateway MUST have an Elastic IP
   (its public-facing identity)
-```text
+```
 
 ### Complete Traffic Flow
 
@@ -68,7 +68,7 @@ Internet (sees source IP as 54.x.x.x — private IP is hidden)
 Return traffic:
 Internet → IGW → NAT Gateway → Private EC2
 (Internet never initiates — NAT blocks all unsolicited inbound)
-```text
+```
 
 ### Route Table Configuration
 
@@ -81,7 +81,7 @@ Public Subnet Route Table:          Private Subnet Route Table:
   0.0.0.0/0 → igw-xxxxxxxx
   0.0.0.0/0 → nat-xxxxxxxx
   (duplicate destination = invalid — only one default route per table)
-```text
+```
 
 ---
 
@@ -102,7 +102,7 @@ VPC A (10.0.0.0/16) → Private NAT GW → Transit Gateway → VPC B (10.1.0.0/1
 Use case: VPC B has overlapping CIDR with another VPC.
 Private NAT translates the source IP, allowing communication despite CIDR overlap.
 Traffic stays entirely on AWS private network — never touches internet.
-```text
+```
 
 ---
 
@@ -144,7 +144,7 @@ Hourly:           $32.40
 Data processing:  1,024 GB × $0.045 = $46.08
 Data transfer:    1,024 GB × $0.09  = $92.16
 Total:            ~$170/month for one NAT Gateway
-```text
+```
 
 > NAT Gateway is one of the **biggest surprise bills** in AWS.
 > Always use **VPC Endpoints** for S3 and DynamoDB traffic — it bypasses NAT
@@ -165,7 +165,7 @@ NAT Gateway is **AZ-specific** — if the AZ fails, the NAT Gateway in that AZ f
   AZ-1a Private Subnet → Route Table A → NAT GW (AZ-1a, EIP-1)
   AZ-1b Private Subnet → Route Table B → NAT GW (AZ-1b, EIP-2)
   AZ-1c Private Subnet → Route Table C → NAT GW (AZ-1c, EIP-3)
-```text
+```
 
 > Deploy **one NAT Gateway per AZ** + **one route table per AZ**.
 > Also eliminates cross-AZ data transfer charges ($0.01/GB each way).
@@ -207,7 +207,7 @@ nor the destination of those packets. You must disable this check:
 aws ec2 modify-network-interface-attribute \
   --network-interface-id eni-xxxxxxxx \
   --no-source-dest-check
-```text
+```
 
 ---
 
@@ -230,7 +230,7 @@ for private instances.
 ```text
 IPv4 private subnet → NAT Gateway → Internet
 IPv6 private subnet → Egress-Only IGW → Internet
-```text
+```
 
 > EIGW = "NAT Gateway for IPv6" — but it doesn't actually do address
 > translation (IPv6 has enough addresses). It only enforces traffic direction.
@@ -259,7 +259,7 @@ S3 traffic with Gateway Endpoint:
   Private EC2 → VPC Endpoint → S3 = FREE ✅
 
 For 1 TB/month to S3: saves ~$46/month per NAT Gateway
-```text
+```
 
 ---
 
@@ -279,7 +279,7 @@ Does the instance need internet access?
 
 Is the traffic going to AWS services (S3, DynamoDB, ECR, SSM)?
   YES → Use VPC Endpoint first (free or cheaper than NAT GW)
-```text
+```
 
 ---
 
