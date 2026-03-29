@@ -131,7 +131,7 @@ sudo systemctl enable nginx
 # =============================================================================
 ```
 
-***
+---
 
 ## 📄 `scripts/install-ubuntu.sh`
 
@@ -168,7 +168,7 @@ echo "   To set a custom page, run:"
 echo "   echo 'Hello World' | sudo tee /var/www/html/index.html"
 ```
 
-***
+---
 
 ## 📄 `scripts/install-centos.sh`
 
