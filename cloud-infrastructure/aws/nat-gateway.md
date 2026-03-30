@@ -283,6 +283,10 @@ Is the traffic going to AWS services (S3, DynamoDB, ECR, SSM)?
 
 ---
 
+## Key Points
+
+- NAT gateway is created inside public subnet, but its route entry is made in private route table.
+
 ## 12. Common Mistakes
 
 | ❌ Wrong | ✅ Correct |
