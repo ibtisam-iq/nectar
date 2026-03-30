@@ -70,55 +70,10 @@ sudo systemctl reload nginx
 
 ```bash
 #!/bin/bash
-# =============================================================================
-# EC2 User Data Script — Nginx Auto Setup
-# =============================================================================
-# PURPOSE:
-#   This script runs automatically when an EC2 instance first boots.
-#   It installs Nginx and sets a custom webpage so you can identify
-#   which server is receiving traffic in an Auto Scaling Group.
-#
-# HOW TO USE:
-#   Paste this script into the "User Data" field when launching an EC2 instance
-#   or creating a Launch Template for your Auto Scaling Group.
-#
-# WHAT IT DOES:
-#   1. Updates the package list (so we get the latest version of Nginx)
-#   2. Installs Nginx
-#   3. Writes a custom HTML page to the correct web root for Ubuntu
-#   4. Restarts Nginx so the new page is served immediately
-# =============================================================================
-
-# Step 1 — Update package list
-# Why: Without this, apt might try to install an outdated version of Nginx
-#      or fail because the package index is empty on a fresh instance.
 sudo apt update -y
-
-# Step 2 — Install Nginx
-# Why: A fresh EC2 Ubuntu instance has no web server installed.
-#      The -y flag automatically answers "yes" to all prompts.
 sudo apt install nginx -y
-
-# Step 3 — Write a custom HTML page
-# Why: We use "tee" with sudo because the shell's ">" redirect does NOT
-#      inherit sudo privileges. tee is the program writing the file,
-#      so it runs as root and has permission to write to /var/www/html/.
-#
-# IMPORTANT: On Ubuntu, the web root is /var/www/html/ (NOT /usr/share/nginx/html/)
-#
-# Change "London" to "Mumbai" on your second server so you can tell them apart
-# when testing your Load Balancer and Auto Scaling Group.
-
-echo "<h1>Love you Ibtisam from London</h1>" | sudo tee /var/www/html/index.html
-
-# Step 4 — Restart Nginx
-# Why: Nginx needs to be restarted to pick up and serve the new index.html.
-#      Without this, the old default page may still be cached in memory.
+echo "<h1>Love you Sweetheart Ibtisam</h1>" | sudo tee /var/www/html/index.html
 sudo systemctl restart nginx
-
-# Step 5 — Enable Nginx on boot
-# Why: If the EC2 instance is stopped and started again, Nginx will not
-#      start automatically unless we enable it as a systemd service.
 sudo systemctl enable nginx
 
 # =============================================================================
