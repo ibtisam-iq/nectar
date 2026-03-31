@@ -16,7 +16,7 @@ repo_url: https://github.com/ibtisam-iq/nectar
 # docs_dir: Where MkDocs looks for source markdown files
 # site_dir: Where MkDocs outputs the built static HTML site
 docs_dir: .           # Using repo root as docs directory (requires same-dir plugin)
-site_dir: site        # Build output directory (excluded from git via .gitignore)
+# site_dir: site        # Build output directory (excluded from git via .gitignore)
 
 # Displayed in the footer. HTML allowed for links and formatting.
 copyright: >-
