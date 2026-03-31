@@ -17,6 +17,10 @@ nav:
   - VPC Flow Logs: vpc-flow-logs.md
   - Transit Gateway: transit-gateway.md
   - Target Groups: target-groups.md
+  - Elastic Load Balancing: elb.md
+  - Auto Scaling: auto-scaling.md
+
+
 
   - AWS Overview: AWS.md
   - IAM (Identity and Access Management): iam.md
