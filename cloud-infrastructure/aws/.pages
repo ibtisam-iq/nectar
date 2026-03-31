@@ -18,6 +18,7 @@ nav:
   - Transit Gateway: transit-gateway.md
   - Target Groups: target-groups.md
   - Elastic Load Balancing: elb.md
+  - Launch Templates: launch-templates.md
   - Auto Scaling: auto-scaling.md
 
 
