@@ -20,7 +20,20 @@ nav:
   - Elastic Load Balancing: elb.md
   - Launch Templates: launch-templates.md
   - Auto Scaling: auto-scaling.md
-
+  - S3 (Simple Storage Service): s3.md
+  # - S3 Storage Classes: s3-storage-classes.md
+  # - S3 Versioning: s3-versioning.md
+  # - S3 Lifecycle Policies: s3-lifecycle-policies.md
+  # - S3 Access Control: s3-access-control.md
+  # - S3 Encryption: s3-encryption.md
+  # - S3 Transfer Acceleration: s3-transfer-acceleration.md
+  # - S3 Event Notifications: s3-event-notifications.md
+  # - S3 Object Lock: s3-object-lock.md
+  # - S3 Object Tagging: s3-object-tagging.md
+  # - S3 Object Replication: s3-object-replication.md
+  # - S3 Object Ownership: s3-object-ownership.md
+  # - S3 Object Access Control Lists (ACLs): s3-object-acls.md
+  # - S3 Object Metadata: s3-object-metadata.md
 
 
   - AWS Overview: AWS.md
