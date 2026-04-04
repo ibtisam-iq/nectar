@@ -34,7 +34,7 @@ nav:
   # - S3 Object Ownership: s3-object-ownership.md
   # - S3 Object Access Control Lists (ACLs): s3-object-acls.md
   # - S3 Object Metadata: s3-object-metadata.md
-
+  - RDS (Relational Database Service): databases-rds.md
 
   - AWS Overview: AWS.md
   - IAM (Identity and Access Management): iam.md
