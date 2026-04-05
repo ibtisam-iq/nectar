@@ -1,179 +1,250 @@
-# AWS IAM (Identity and Access Management)
+# AWS IAM
 
-## 1. Introduction to IAM
+## 1. What is IAM?
 
-### What is IAM and Why Do We Need It?
+IAM (Identity and Access Management) is AWS's **global, free security service**
+that controls **who can authenticate** (prove identity) and **who is authorized**
+(allowed to do what) across every AWS service and resource.
 
-Imagine you own a company where different employees need access to different areas. Some should access only the main office, while managers should access financial records. You wouldn’t want everyone to have unrestricted access.
-
-AWS faces the same challenge. IAM (Identity and Access Management) is AWS’s security service that controls **who can access what and how**.
-
-### Problems Before IAM:
-- ❌ **No way to create multiple users:** AWS initially had only one root user.
-- ❌ **No fine-grained access control:** Everyone had the same access.
-- ❌ **Risk of leaked credentials:** If an access key leaked, the entire AWS account was at risk.
-
-### How IAM Solves These Problems:
-✅ **Multiple users:** Create separate users for `employees` or `applications`.  
-✅ **Granular access:** Assign permissions using policies.  
-✅ **Temporary access:** Use roles and STS to provide short-lived credentials.
-
----
-
-## 2. Fundamental Concepts
-
-Before diving into IAM components, let's cover some core AWS security concepts:
-
-### **Authentication vs Authorization**
-- **Authentication:** Confirms **who you are** (e.g., logging in with a username and password).
-- **Authorization:** Determines **what you can do** after authentication (e.g., accessing an S3 bucket).
-
-IAM helps manage **both authentication and authorization**.
-
-### **Entities & Objects**
-- **Entity:** Anything that interacts with AWS (Users, Groups, Roles).
-- **Object:** AWS resources like S3 buckets, EC2 instances, etc.
-
-### **Amazon Resource Name (ARN)**
-Every AWS resource has a unique ARN. Example:
 ```
-arn:aws:iam::123456789012:user/Ibtisam
-arn:aws:s3:::my-secure-bucket
-```
-IAM policies use ARNs to define permissions.
-
----
-
-## 3. IAM Core Components
-
-### **A. IAM Users**
-👤 Represents individuals or applications needing AWS access. Each IAM user has unique credentials.
-
-#### **Authentication Methods for IAM Users**
-1. **Console Login (Username & Password):**
-   - Best for users managing AWS via the Web UI.
-   - Enable MFA for extra security.
-2. **Access Keys (Key & Secret):**
-   - Used for AWS CLI & API access.
-   - Should be rotated regularly.
-   - **Never** hardcode access keys into applications.
-
-✅ **Use passwords for human users; use access keys for programmatic access.**
-
----
-
-### **B. IAM Groups**
-👥 Allows managing permissions for multiple users at once.
-
-📌 Example:
-- "Admin Group" has full access.
-- "Developer Group" has limited permissions.
-- Adding a user to a group automatically grants the group's permissions.
-
----
-
-### **C. IAM Roles**
-IAM Roles provide **temporary** permissions to AWS services or external users. Instead of long-term credentials, IAM roles generate **short-lived** credentials using STS (Security Token Service).
-
-📌 **When to use IAM Roles?**
-- Allowing an EC2 instance to access an S3 bucket.
-- Granting temporary access to AWS resources for an external user.
-
-🚀 **Example:**
-Instead of storing an access key inside an EC2 instance, attach an IAM Role. The role automatically grants the necessary permissions.
-
----
-
-### **D. AWS Security Token Service (STS)**
-STS allows users and services to obtain **temporary security credentials** with specific permissions. These credentials **expire automatically**, reducing security risks.
-
-✅ **How STS Works:**
-1. A user/application requests temporary credentials via STS.
-2. STS generates a time-limited access key and secret (token).
-3. The user/application uses the temporary credentials to access AWS services.
-
-📌 **Use Case:**
-- A mobile app needs access to an S3 bucket for 1 hour → STS provides temporary credentials instead of long-term IAM user credentials.
-
----
-
-## 4. IAM Policies
-
-### **What Are IAM Policies?**
-Policies define **who can do what** in AWS. They are written in JSON format.
-
-📌 **Types of IAM Policies:**
-1. **AWS-Managed Policies:** Predefined by AWS.
-2. **Customer-Managed Policies:** Custom policies created by users.
-3. **Inline Policies:** Attached directly to a user, role, or group (not recommended).
-
-Example IAM Policy (Allows listing an S3 bucket):
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": "s3:ListBucket",
-      "Resource": "arn:aws:s3:::my-secure-bucket"
-    }
-  ]
-}
+Authentication → Who are you?   → IAM verifies identity via password, keys, tokens
+Authorization  → What can you do? → IAM evaluates policies to allow or deny actions
 ```
 
----
-
-## 5. IAM User vs. IAM Role
-
-| Feature            | IAM User              | IAM Role               |
-|--------------------|----------------------|------------------------|
-| Authentication    | Username & Password  | Temporary STS Tokens  |
-| Access Keys      | Permanent (Risky)    | Short-lived (Safer)   |
-| Best for         | Long-term users      | AWS services, temporary users |
-| Example Use Case | A developer logging into AWS | An EC2 instance accessing S3 |
-
-✅ **Roles are safer than users because they don’t use permanent credentials.**
+> IAM is **global** — not region-specific. Users, groups, roles, and policies you
+> create apply across all AWS Regions.
 
 ---
 
-## 6. How IAM Components Work Together
+## 2. Root User vs IAM Users ⭐
 
-Example Scenario:
-1. A **developer** joins the company.
-2. They are added to the **Developer Group** (with predefined policies).
-3. They need temporary access to an **S3 bucket** → They assume a **role**.
+### Root User
 
-This combination of **Users, Groups, Roles, and Policies** ensures **secure and efficient access control**.
+```
+Created when AWS account is first opened
+Email address + password login
+Has UNRESTRICTED access to everything — including closing the account, changing
+billing info, and cancelling AWS support plans
+```
+
+**Root user should be used ONLY for:** [source: AWS Security Best Practices]
+- Creating the first IAM admin user
+- Changing account settings (root email, account name)
+- Restoring IAM admin access if lost
+- Enabling MFA on the root account
+- Viewing and paying bills
+
+**Root user should NEVER be used for:**
+- Daily operations
+- CI/CD pipelines
+- Application access
+- CLI access
+
+### IAM User
+
+```
+Created inside an AWS account
+Has ZERO permissions by default — explicit Allow required
+Has its own credentials separate from root
+```
+
+| Property | Root User | IAM User |
+|---------|----------|---------|
+| Created by | AWS account opening | IAM service |
+| Default permissions | Unlimited | None |
+| Can be deleted | ❌ | ✅ |
+| Can be restricted | ❌ (even SCPs don't apply) | ✅ |
+| MFA support | ✅ | ✅ |
+| Password policy applies | ❌ | ✅ |
+| Use for daily work | ❌ Never | ✅ Yes |
+
+**Account limit:** 5,000 IAM users per AWS account.
 
 ---
 
-## 7. Advanced IAM Concepts
+## 3. IAM Users — Credentials ⭐
 
-### **A. IAM Identity Center (Formerly AWS SSO)**
-Manages access across multiple AWS accounts from **one place**.
+An IAM user can have up to **two types of credentials**:
 
-📌 **Use Case:**
-- A company with **10 AWS accounts** uses IAM Identity Center to manage access centrally.
+### Console Access (Username + Password)
+
+```
+Used for: AWS Management Console (browser)
+How: username + password + optional MFA
+Enable: manually in IAM → user settings
+```
+
+### Programmatic Access (Access Key ID + Secret Access Key)
+
+```
+Used for: AWS CLI, SDKs, APIs
+Format:
+  Access Key ID:     AKIAIOSFODNN7EXAMPLE       (20 chars, starts with AKIA)
+  Secret Access Key: wJalrXUtnFEMI/K7MDENGbPxR (40 chars, shown ONCE at creation)
+
+Limits: max 2 active access keys per user
+```
+
+**Access Key Rules:**
+- Secret is shown **once** at creation — if lost, must rotate (deactivate + create new)
+- Rotate regularly (set reminder or use IAM Access Analyzer)
+- **Never embed in code, Docker images, or Git repos**
+- Use `aws configure` to store in `~/.aws/credentials` on local machine
+- For applications running on AWS: **use IAM roles, not access keys**
+
+### MFA (Multi-Factor Authentication)
+
+| MFA Type | Device | Use Case |
+|---------|--------|---------|
+| Virtual MFA | Authenticator app (Google Authenticator, Authy) | Most common |
+| Hardware TOTP | Physical keyfob | High-security environments |
+| FIDO Security Key | YubiKey, hardware key | Enterprise |
+| SMS (legacy) | Phone text message | Deprecated — avoid |
 
 ---
 
-### **B. AWS Organizations & IAM**
-Allows managing multiple AWS accounts under **one organization** with **Service Control Policies (SCPs).**
+## 4. IAM Groups ⭐
 
-📌 **Use Case:**
-- Prevent **junior developers** from **deleting resources** by enforcing an SCP policy.
+A group is a collection of IAM users that share a set of permissions.
+Permissions are attached to the group — all members inherit them.
+
+```
+DevOps-Team (Group)
+  ├── Policy: EC2FullAccess
+  ├── Policy: S3ReadOnly
+  └── Members:
+       ├── ibtisam (User)
+       ├── ali (User)
+       └── sara (User)
+```
+
+**Group Rules:**
+- Users can belong to **multiple groups** (permissions are combined)
+- Groups **cannot contain other groups** (no nesting)
+- Groups are NOT principals — they cannot be specified in resource-based policies
+- A user with no group has only their directly-attached policies
+- Max: 300 groups per account; max 10 groups per user
+
+```
+User effective permissions = (own policies) + (all group policies combined)
+Exception: explicit Deny anywhere → overrides all Allows
+```
 
 ---
 
-## 8. AWS Certification Key Points
+## 5. Security Token Service (STS) ⭐
 
-✅ IAM is **global** (not region-specific).  
-✅ Users **cannot assume roles** unless explicitly granted.  
-✅ **Root user should never be used** for daily operations.  
-✅ Enable **MFA (Multi-Factor Authentication)** for security.  
-✅ Follow **least privilege principle**—grant only necessary permissions.
+STS generates **short-lived, temporary security credentials** for any principal
+that needs temporary access:
+
+```
+Temporary Credentials Package:
+  - Access Key ID       (temporary)
+  - Secret Access Key   (temporary)
+  - Session Token       (required with the above two)
+  - Expiration          (default 1hr; configurable 15min–12hr)
+```
+
+### STS API Calls
+
+| API | Used By | Purpose |
+|-----|---------|---------|
+| `AssumeRole` | IAM user or role | Assume a role in same or different account |
+| `AssumeRoleWithWebIdentity` | App user (Google, Facebook, Cognito) | Web identity federation |
+| `AssumeRoleWithSAML` | Corporate SSO user | SAML 2.0 federation |
+| `GetFederationToken` | Proxy app, broker | Federation for non-IAM users |
+| `GetSessionToken` | IAM user with MFA | MFA-protected API calls |
+
+```
+AssumeRole flow:
+  1. App calls sts:AssumeRole with role ARN
+  2. STS verifies caller has sts:AssumeRole permission
+  3. STS verifies trust policy of target role allows this caller
+  4. STS issues temp credentials (Access Key + Secret + Token)
+  5. App uses temp credentials to call AWS APIs
+  6. Credentials expire → repeat
+```
 
 ---
 
-## Summary
-AWS IAM is a **critical security service** for managing authentication and authorization. By using **Users, Groups, Roles, Policies, and STS**, AWS ensures **secure and efficient access control** across services.
+## 6. IAM Password Policy
+
+Configures requirements for IAM user console passwords at the account level:
+
+```
+Settings available:
+  ✅ Minimum password length (default: 8, max: 128)
+  ✅ Require uppercase letters
+  ✅ Require lowercase letters
+  ✅ Require numbers
+  ✅ Require special characters
+  ✅ Allow users to change their own password
+  ✅ Password expiration (e.g., every 90 days)
+  ✅ Prevent password reuse (remember last N passwords, max 24)
+  ✅ Require admin reset after expiry
+```
+
+> Password policy applies to **IAM users only** — not root user,
+> not federated users, not role sessions.
+
+---
+
+## 7. IAM Credential Report + Access Advisor
+
+### Credential Report
+
+Account-level CSV report of all IAM users and their credential status:
+
+```
+Columns include:
+  user, arn, user_creation_time
+  password_enabled, password_last_used, password_last_changed, password_next_rotation
+  mfa_active
+  access_key_1_active, access_key_1_last_rotated, access_key_1_last_used_date
+  access_key_2_active, access_key_2_last_rotated, access_key_2_last_used_date
+
+Use case: security audit — find users who haven't rotated keys in 90+ days
+Generate: IAM Console → Credential Report → Download CSV
+```
+
+### IAM Access Advisor (per user/role)
+
+Shows which services a user/role has accessed recently:
+
+```
+Use case: identify unused permissions → apply least privilege
+  "User was granted EC2FullAccess but hasn't used EC2 in 180 days"
+  → Remove EC2FullAccess → reduce attack surface
+```
+
+---
+
+## 8. IAM Best Practices ⭐
+
+| Practice | Why |
+|---------|-----|
+| Lock root user, enable MFA on root | Root compromise = complete account loss |
+| Create IAM admin user immediately | Never use root for daily work |
+| Attach permissions to groups, not users | Easier management at scale |
+| Grant least privilege | Reduce blast radius of compromise |
+| Use roles for AWS services | No long-lived credentials on EC2/Lambda |
+| Rotate access keys regularly | Limit exposure window if keys leak |
+| Enable MFA for privileged users | Phishing-resistant second factor |
+| Use IAM Access Analyzer | Continuously detect overly permissive access |
+| Use permission boundaries for delegated admin | Prevent privilege escalation |
+| Never hardcode credentials | Use environment vars, Secrets Manager, roles |
+
+---
+
+## 9. IAM — Key Facts for Exams
+
+- IAM is **global** — no region selection
+- IAM is **free** — no charge for users, groups, roles, policies
+- New IAM user has **zero permissions by default**
+- **Explicit Deny** always overrides any Allow
+- Root user **cannot be restricted** by SCPs or permission boundaries
+- Max **5,000 IAM users** per account
+- Groups **cannot be nested**
+- A user can belong to **max 10 groups**
+- Access keys: max **2 per user** (to allow rotation without downtime)
+- STS temporary credentials: **15 minutes to 12 hours**
