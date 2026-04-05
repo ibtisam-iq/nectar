@@ -37,10 +37,11 @@ nav:
   - RDS (Relational Database Service): databases-rds.md
   - RDS Deployment Options: rds-deployment-options.md
   - AWS DynamoDB: dynamodb.md
+  - IAM (Identity and Access Management): iam.md
+  - IAM Policies: iam-policies.md
+  - IAM Roles: iam-roles.md
+  - Identity Center: identity-center.md
 
   - AWS Overview: AWS.md
-  - IAM (Identity and Access Management): iam.md
-  - Identity Center: identity-center.md
   - ARN (Amazon Resource Names): arn.md
-  - Policies: policies.md
   - ...
