@@ -57,7 +57,7 @@ nav:
   - Elastic Beanstalk: elastic-beanstalk.md
   - Trusted Advisor: trusted-advisor.md
   - Inspector: inspector.md
-  # - GuardDuty: guardduty.md
+  - GuardDuty: guardduty.md
   # - Cost Explorer: cost-explorer.md
   - Billing and Cost Management: billing-cost-management.md
   - KMS (Key Management Service): kms.md
