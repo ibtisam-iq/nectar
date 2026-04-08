@@ -77,7 +77,7 @@ nav:
   #- AWS Control Tower: control-tower.md
   #- AWS Config: config.md
   #- AWS Systems Manager: systems-manager.md
-
+  - Elastic Cache: elasticache.md
 
 
   - AWS Overview: AWS.md
