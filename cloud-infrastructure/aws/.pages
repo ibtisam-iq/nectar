@@ -72,6 +72,7 @@ nav:
   # - CodeArtifact: codeartifact.md
   # - CodeGuru: codeguru.md
   # - CodeWhisperer: codewhisperer.md
+  - WorkSpaces: workspaces.md
 
 
 
