@@ -34,6 +34,7 @@ nav:
   # - S3 Object Ownership: s3-object-ownership.md
   # - S3 Object Access Control Lists (ACLs): s3-object-acls.md
   # - S3 Object Metadata: s3-object-metadata.md
+  - EFS (Elastic File System) and FSx: efs-fsx.md
   - RDS (Relational Database Service): databases-rds.md
   - RDS Deployment Options: rds-deployment-options.md
   - AWS DynamoDB: dynamodb.md
@@ -45,7 +46,7 @@ nav:
 
 
 
-  
+
   - AWS Overview: AWS.md
   - ARN (Amazon Resource Names): arn.md
   - ...
