@@ -50,8 +50,8 @@ nav:
   - CloudWatch: cloudwatch.md
   - CloudTrail: cloudtrail.md
   - SES (Simple Email Service): ses.md
-  #- SNS (Simple Notification Service): sns.md
-  #- SQS (Simple Queue Service): sqs.md
+  - SQS (Simple Queue Service): sqs.md
+  - SNS (Simple Notification Service): sns.md
 
 
 
