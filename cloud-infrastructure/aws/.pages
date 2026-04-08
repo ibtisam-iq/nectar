@@ -60,7 +60,6 @@ nav:
   # - Cost Explorer: cost-explorer.md
   # - Billing and Cost Management: billing-cost-management.md
   - KMS (Key Management Service): kms.md
-  #- SSM (Systems Manager): ssm.md
   - Secret Manager: secret-manager.md
   - ACM (Certificate Manager): acm.md
   # - Cloud9: cloud9.md
@@ -73,6 +72,11 @@ nav:
   # - CodeGuru: codeguru.md
   # - CodeWhisperer: codewhisperer.md
   - WorkSpaces: workspaces.md
+  - Active Directory: active-directory.md
+  #- AWS Organizations: organizations.md
+  #- AWS Control Tower: control-tower.md
+  #- AWS Config: config.md
+  #- AWS Systems Manager: systems-manager.md
 
 
 
