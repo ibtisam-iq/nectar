@@ -58,7 +58,7 @@ nav:
   - Inspector: inspector.md
   # - GuardDuty: guardduty.md
   # - Cost Explorer: cost-explorer.md
-  # - Billing and Cost Management: billing-cost-management.md
+  - Billing and Cost Management: billing-cost-management.md
   - KMS (Key Management Service): kms.md
   - Secret Manager: secret-manager.md
   - ACM (Certificate Manager): acm.md
@@ -78,6 +78,7 @@ nav:
   #- AWS Config: config.md
   #- AWS Systems Manager: systems-manager.md
   - Elastic Cache: elasticache.md
+  - Snowball: snowball.md
 
 
   - AWS Overview: AWS.md
