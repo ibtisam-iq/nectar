@@ -76,7 +76,7 @@ nav:
   - Active Directory: active-directory.md
   - AWS Organizations: organizations.md
   - AWS Control Tower: control-tower.md
-  #- AWS Systems Manager: systems-manager.md
+  - AWS Systems Manager: systems-manager.md
   - Elastic Cache: elasticache.md
   - Snowball: snowball.md
 
