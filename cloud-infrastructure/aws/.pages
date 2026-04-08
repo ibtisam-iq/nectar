@@ -42,6 +42,7 @@ nav:
   - IAM Policies: iam-policies.md
   - IAM Roles: iam-roles.md
   - Identity Center: identity-center.md
+  - AWS Lambda: lambda.md
   - Route 53: route53.md
 
 
