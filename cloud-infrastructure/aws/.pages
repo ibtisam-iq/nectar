@@ -52,6 +52,7 @@ nav:
   - SES (Simple Email Service): ses.md
   - SQS (Simple Queue Service): sqs.md
   - SNS (Simple Notification Service): sns.md
+  - LightSail: lightsail.md
 
 
 
