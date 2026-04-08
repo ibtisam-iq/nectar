@@ -59,7 +59,19 @@ nav:
   # - GuardDuty: guardduty.md
   # - Cost Explorer: cost-explorer.md
   # - Billing and Cost Management: billing-cost-management.md
-
+  - KMS (Key Management Service): kms.md
+  #- SSM (Systems Manager): ssm.md
+  - Secret Manager: secret-manager.md
+  - ACM (Certificate Manager): acm.md
+  # - Cloud9: cloud9.md
+  # - CodeCommit: codecommit.md
+  # - CodeBuild: codebuild.md
+  # - CodeDeploy: codedeploy.md
+  # - CodePipeline: codepipeline.md
+  # - CodeStar: codestar.md
+  # - CodeArtifact: codeartifact.md
+  # - CodeGuru: codeguru.md
+  # - CodeWhisperer: codewhisperer.md
 
 
 
