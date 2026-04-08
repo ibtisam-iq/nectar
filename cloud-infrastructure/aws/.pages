@@ -74,7 +74,7 @@ nav:
   - WorkSpaces: workspaces.md
   - Active Directory: active-directory.md
   - AWS Organizations: organizations.md
-  #- AWS Control Tower: control-tower.md
+  - AWS Control Tower: control-tower.md
   #- AWS Config: config.md
   #- AWS Systems Manager: systems-manager.md
   - Elastic Cache: elasticache.md
