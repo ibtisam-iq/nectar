@@ -47,8 +47,8 @@ nav:
   - WAF (Web Application Firewall): waf.md
   - CloudFront: cloudfront.md
   - CloudFormation: cloudformation.md
-  #- CloudWatch: cloudwatch.md
-  #- CloudTrail: cloudtrail.md
+  - CloudWatch: cloudwatch.md
+  - CloudTrail: cloudtrail.md
 
 
 
