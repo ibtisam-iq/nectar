@@ -44,6 +44,8 @@ nav:
   - Identity Center: identity-center.md
   - AWS Lambda: lambda.md
   - Route 53: route53.md
+  - WAF (Web Application Firewall): waf.md
+  #- CloudFront: cloudfront.md
 
 
 
