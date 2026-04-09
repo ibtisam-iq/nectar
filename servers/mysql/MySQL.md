@@ -32,6 +32,12 @@ MySQL is a widely-used open-source relational database management system. This g
 # Update the system's package list and install MySQL server
 sudo apt update; sudo apt install mysql-server
 
+# Start MySQL
+sudo systemctl start mysql
+
+# Then verify it's running
+sudo systemctl status mysql
+
 # Access the MySQL shell as the root user
 sudo mysql -u root
 ```
@@ -40,7 +46,7 @@ sudo mysql -u root
 
 ```bash
 # Set the password for the root user and use the native MySQL authentication method
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'IbtisamX';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'IbtisamIQ';
 
 # Refresh MySQL privileges to ensure the changes take effect
 FLUSH PRIVILEGES;
