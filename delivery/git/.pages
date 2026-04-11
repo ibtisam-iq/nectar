@@ -1,5 +1,7 @@
 title: Git
 nav:
-  - Git Cheat Sheet: gitCheatSheet.md
+  - Cheat Sheet: gitCheatSheet.md
+  - Git Submodule: git-submodules.md
   - Git Guide: Git.md
   - Troubleshooting: troubleshooting.md
+  - ...
