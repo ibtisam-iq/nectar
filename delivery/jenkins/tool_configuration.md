@@ -86,6 +86,65 @@ Is the tool binary on system PATH?
 
 ---
 
+## How to Find the Correct Path for Any Tool
+
+This is the most important practical skill. When Jenkins asks for a tool's **home directory** (e.g., `MAVEN_HOME`, `JAVA_HOME`, `Installation directory`), it always wants the **root of the installation** — the directory that *contains* the `bin/` folder — not the binary itself.
+
+### Step 1 — Find the binary
+
+```bash
+which mvn        # → /usr/local/bin/mvn
+which node       # → /usr/bin/node
+```
+
+### Step 2 — Check if it is a symlink
+
+Most package managers and install scripts create symlinks. A symlink is just a pointer to the real file.
+
+```bash
+ls -la /usr/local/bin/mvn
+# lrwxrwxrwx 1 root root 18 Apr 20 09:25 /usr/local/bin/mvn -> /opt/maven/bin/mvn
+```
+
+The `->` means it points to `/opt/maven/bin/mvn`.
+
+### Step 3 — Derive the home directory
+
+The **home directory** is the directory *above* `bin/`. Strip `/bin/mvn` from the resolved path:
+
+```
+Resolved path:  /opt/maven/bin/mvn
+Strip bin/mvn:  /opt/maven          ← this is MAVEN_HOME
+```
+
+### Step 4 — Verify with the tool's own version command
+
+Every well-designed tool prints its home directory when you run it with a version flag:
+
+```bash
+mvn -version
+# Maven home: /opt/maven          ← confirmed
+
+java -XshowSettings:all -version 2>&1 | grep java.home
+# java.home = /usr/lib/jvm/java-21-openjdk-amd64
+
+node -e "console.log(process.execPath)"
+# /usr/bin/node                   ← binary path; parent dir = /usr/bin
+```
+
+### Quick Reference: What Each Tool Type Expects
+
+| Jenkins Field | What to Put There | Example |
+|---|---|---|
+| `MAVEN_HOME` | Directory that contains `bin/mvn` | `/opt/maven` |
+| `JAVA_HOME` | Directory that contains `bin/java` | `/usr/lib/jvm/java-21-openjdk-amd64` |
+| `Installation directory` (NodeJS) | Directory that contains `node` binary | `/usr/bin` |
+| `GRADLE_HOME` | Directory that contains `bin/gradle` | `/opt/gradle` |
+
+> **Rule of thumb:** Jenkins always wants the **parent of `bin/`**, never the binary path itself.
+
+---
+
 ## Your 10 Tools — Applied Analysis
 
 Your `install-pipeline-tools` script installs the following 10 tools. Here is the complete analysis for each.
@@ -106,22 +165,29 @@ sh 'mvn clean verify'
 **If you want to use `tools {}` (optional):**
 
 ```bash
-# Find MAVEN_HOME
+# Step 1 — find the binary
+which mvn
+# /usr/local/bin/mvn
+
+# Step 2 — check symlink
+ls -la /usr/local/bin/mvn
+# lrwxrwxrwx ... /usr/local/bin/mvn -> /opt/maven/bin/mvn
+
+# Step 3 — confirm with version command
 mvn -version
-# Output: Maven home: /opt/maven/apache-maven-3.9.15
+# Maven home: /opt/maven          ← this is MAVEN_HOME
 ```
 
 ```
 Manage Jenkins → Tools → Maven installations → Add Maven
   Name:                  maven-3.9.15
-  MAVEN_HOME:            /opt/maven/apache-maven-3.9.15
+  MAVEN_HOME:            /opt/maven
   Install automatically: ✗ unchecked
 ```
 
 Then in Jenkinsfile:
 ```groovy
 tools { maven 'maven-3.9.15' }
-// now mvn is on PATH for this pipeline
 sh 'mvn clean package'
 ```
 
@@ -143,6 +209,20 @@ sh 'npm run build'
 ```
 
 **If you want to use `tools {}` (optional):**
+
+```bash
+# Step 1 — find the binary
+which node
+# /usr/bin/node
+
+# Step 2 — check symlink
+ls -la /usr/bin/node
+# lrwxrwxrwx ... /usr/bin/node -> /usr/bin/nodejs
+# (or it may be a real binary — either way, the parent dir is /usr/bin)
+
+# Step 3 — the Installation directory is the parent of the node binary
+# /usr/bin/node  →  Installation directory = /usr/bin
+```
 
 ```
 Manage Jenkins → Tools → NodeJS installations → Add NodeJS
@@ -304,7 +384,7 @@ sh 'ansible-playbook -i inventory/production deploy.yml'
 
 | Tool | Binary Path | Jenkins Plugin | Needs `Manage Jenkins → Tools`? | How to Use in Pipeline |
 |---|---|---|---|---|
-| Maven | `/usr/local/bin/mvn` | ✅ maven-plugin | Optional | `sh 'mvn ...'` or `tools { maven 'name' }` |
+| Maven | `/usr/local/bin/mvn` → symlink → `/opt/maven/bin/mvn` | ✅ maven-plugin | Optional | `sh 'mvn ...'` or `tools { maven 'name' }` |
 | Node.js | `/usr/bin/node` | ✅ nodejs-plugin | Optional | `sh 'node ...'` or `tools { nodejs 'name' }` |
 | npm | `/usr/bin/npm` | Bundled with Node.js | Optional (via Node.js) | `sh 'npm ...'` |
 | Python | `/usr/bin/python3` | ❌ None | **No** | `sh 'python3 ...'` |
