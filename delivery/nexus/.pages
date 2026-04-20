@@ -3,5 +3,5 @@ nav:
   - Home: Nexus.md
   - Proxy Repository: proxy_repo.md
   - Nexus with Docker: nexus_docker.md
-  - Nexus with Jenkins: nexus_jenkins.md
+  - Nexus with Jenkins: nexus-jenkins.md
   - Artifact Downloading: artifact_downloading.md
