@@ -9,6 +9,7 @@ nav:
   - Webhook Setup: webhook_setup.md
   - Security: security.md
   - Mail Configuration: mail_conf.md
-  - Plugins List: plugins.txt
+  # - Plugins List: plugins.txt
   - Troubleshooting: troubleshooting.md
   - Basics: overview.md
+  - ...
