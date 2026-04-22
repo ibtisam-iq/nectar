@@ -2,3 +2,4 @@ title: Operations & Self-Managed Systems
 nav:
   - Home: README.md
   - wireguard
+  - cicd-stack
