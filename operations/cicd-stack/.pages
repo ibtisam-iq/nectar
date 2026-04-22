@@ -1,4 +1,4 @@
 title: Self-hosted CI/CD Stack
 nav:
-  - Jenkins, SonarQube & Nexus: self-hosted-cicd-stack-jenkins-sonarqube-nexus.md
+  - Jenkins, SonarQube & Nexus: self-hosted-jenkins-sonarqube-nexus.md
   - ...
