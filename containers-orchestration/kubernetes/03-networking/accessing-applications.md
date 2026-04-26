@@ -61,14 +61,14 @@ These methods enable access from a local machine, external network, or cloud env
 - **Commands**:
   - From a local machine or external network:
     ```bash
-    curl http://<node-public-ip>:<nodePort>
-    # Example: curl http://54.242.167.17:30000
+    curl - I http://<node-public-ip>:<nodePort>
+    # Example: curl -I http://54.242.167.17:30000
     ```
   - From the node itself (via SSH):
     ```bash
-    curl http://localhost:<nodePort>
-    curl http://<private-node-ip>:<nodePort>
-    # Example: curl http://172.31.29.71:30000
+    curl -I http://localhost:<nodePort>
+    curl -I http://<private-node-ip>:<nodePort>
+    # Example: curl -I http://172.31.29.71:30000
     ```
 
 - **Considerations**:
@@ -89,7 +89,7 @@ These methods enable access from a local machine, external network, or cloud env
   # Example: kubectl port-forward pod/amor-pod 8080:80
 
   # On your local machine, access the application
-  curl http://localhost:8080
+  curl -I http://localhost:8080
   # Or open in browser: http://localhost:8080
   ```
 
@@ -104,18 +104,18 @@ These methods enable access from a local machine, external network, or cloud env
 - **Commands**:
   - If the IngressController is exposed via NodePort:
     ```bash
-    curl http://<node-ip>:<nodePort>/<path>
-    # Example: curl http://54.242.167.17:30080/asia
+    curl -I http://<node-ip>:<nodePort>/<path>
+    # Example: curl -I http://54.242.167.17:30080/asia
     ```
   - If DNS is configured:
     ```bash
-    curl http://<domain-name>/<asia>
-    # Example: curl http://local.ibtisam-iq.com/asia
+    curl -I http://<domain-name>/<asia>
+    # Example: curl -I http://local.ibtisam-iq.com/asia
     ```
   - For testing with a specific host header (bypassing DNS):
     ```bash
-    curl -H "Host: local.ibtisam-iq.com" http://<node-ip>:<ingress-nodePort>/<asia>
-    # Example: curl -H "Host: local.ibtisam-iq.com" http://54.242.167.17:30080/asia
+    curl -I -H "Host: local.ibtisam-iq.com" http://<node-ip>:<ingress-nodePort>/<asia>
+    # Example: curl -I -H "Host: local.ibtisam-iq.com" http://54.242.167.17:30080/asia
     ```
   - Testing with ingress IP
     ```bash
