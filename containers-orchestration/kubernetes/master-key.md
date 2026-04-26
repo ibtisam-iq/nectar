@@ -94,13 +94,13 @@ kubectl run test --image=busybox -it --rm --restart=Never -- sh
   # wget 172-17-2-2.default.pod.cluster.local
 
 # From a local machine or external network:
-curl http://<node-public-ip>:<nodePort>
-# Example: curl http://54.242.167.17:30000
+curl -I http://<node-public-ip>:<nodePort>
+# Example: curl -I http://54.242.167.17:30000
 
 # From the node itself (via SSH):
-curl http://localhost:<nodePort>
-curl http://<private-node-ip>:<nodePort>
-# Example: curl http://172.31.29.71:30000
+curl -I http://localhost:<nodePort>
+curl -I http://<private-node-ip>:<nodePort>
+# Example: -I curl http://172.31.29.71:30000
 
 # Forward to a Service
 kubectl port-forward svc/<service-name> <local-port>:<service-port>
@@ -115,15 +115,15 @@ curl http://localhost:8080
 # Or open in browser: http://localhost:8080
 
 # If the IngressController is exposed via NodePort:
-curl http://<node-ip>:<nodePort>/<path>
-# Example: curl http://54.242.167.17:30080/asia
+curl -I http://<node-ip>:<nodePort>/<path>
+# Example: curl -I ://54.242.167.17:30080/asia
 
 # If DNS is configured:
-curl http://<domain-name>
+curl -I http://<domain-name>
 # Example: curl http://local.ibtisam-iq.com
 
 # For testing with a specific host header (bypassing DNS):
-curl -H "Host: local.ibtisam-iq.com" http://<node-ip>:<ingress-nodePort>/<path>
+curl -I -H "Host: local.ibtisam-iq.com" http://<node-ip>:<ingress-nodePort>/<path>
 # Example: curl -H "Host: local.ibtisam-iq.com" http://54.242.167.17:30080/asia
 ```
 
