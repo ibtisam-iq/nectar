@@ -33,12 +33,12 @@ flowchart LR
     style F fill:#E65100,color:#fff,stroke:#E65100
 ```
 
-| Layer | What it answers | Where |
+| Layer | What it contains | Where |
 |---|---|---|
-| **Nectar** ← you are here | *What is this? Why does it exist? How does it actually work?* | [nectar.ibtisam-iq.com](https://nectar.ibtisam-iq.com) |
-| **Runbook** | *How do I do this on real infrastructure?* | [runbook.ibtisam-iq.com](https://runbook.ibtisam-iq.com) |
-| **SilverStack** | *What is the reusable script or manifest?* | [github.com/ibtisam-iq/silver-stack](https://github.com/ibtisam-iq/silver-stack) |
-| **Blog** | *What did I learn and why does it matter?* | [blog.ibtisam-iq.com](https://blog.ibtisam-iq.com) |
+| **Nectar** ← you are here | My personal engineering knowledge base — first-principles notes on every concept I had to deeply understand | [nectar.ibtisam-iq.com](https://nectar.ibtisam-iq.com) |
+| **Runbook** | My documented steps from real infrastructure work — commands I ran, problems I hit, and how I solved them | [runbook.ibtisam-iq.com](https://runbook.ibtisam-iq.com) |
+| **SilverStack** | My reusable infrastructure artifacts — Bash scripts, Kubernetes manifests, and pre-built Docker rootfs images; the Runbook links here whenever a command depends on a hosted artifact | [github.com/ibtisam-iq/silver-stack](https://github.com/ibtisam-iq/silver-stack) |
+| **Blog** | My personal blog — distilled write-ups of what I built and what I learned | [blog.ibtisam-iq.com](https://blog.ibtisam-iq.com) |
 
 ---
 
