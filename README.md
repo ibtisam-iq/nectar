@@ -1,115 +1,45 @@
 # Nectar
 
-![Nectar](https://img.shields.io/badge/Engineering%20Knowledge%20Base-0052CC)
-[![📚 Docs](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml/badge.svg)](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml)
-![License](https://img.shields.io/badge/License-MIT-green)
+[![Docs](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml/badge.svg)](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml)
+[![Site](https://img.shields.io/badge/Live-nectar.ibtisam--iq.com-01696f)](https://nectar.ibtisam-iq.com)
 
-[Nectar](https://nectar.ibtisam-iq.com) is my personal engineering knowledge base.
+My personal engineering knowledge base — continuously growing as I learn.
 
-It was **born from confusion, struggle, and pain**.
+I didn't come from a CS background. But I recognized something in myself early on: I think in systems, I need to understand the *why* before a *what* makes sense to me, and I can't let confusion sit unresolved. Those traits pulled me toward engineering — not the other way around.
 
-I built it because I didn’t have the luxury of assumed knowledge.
+That mindset shaped how I learn. I can't just follow a tutorial and move on. If I don't understand why something works, I won't know what to do when it stops working. So I document everything — in my own words, structured the way my brain actually processes it — until the confusion is gone.
 
-Coming from a **non-traditional background**, I couldn’t rely on intuition, shortcuts, or “you’ll understand later.” If something worked, I needed to know why. If something failed, I needed to know where and how.
+That habit, sustained over time, is what this repository is.
 
-So I wrote things down:
-
-- Sometimes a full architecture.
-- Sometimes a single command.
-- Sometimes a mistake I didn’t want to repeat.
-
-Over time, those notes became Nectar.
+The early entries reflect where I started. The recent ones reflect where I am now. Both belong here — because this repository is not a finished product. It grows every time I learn something new, and it will keep growing.
 
 ---
 
-## What This Is
+## How This Fits Into My Engineering System
 
-This repository reflects how I actually learn and think as an engineer.
+```mermaid
+flowchart LR
+    A("❓ Encounter a concept\nI don't understand")
+    --> B[("📚 Nectar\nnectar.ibtisam-iq.com")]
+    --> C("🔧 Apply it on\nreal infrastructure")
+    --> D[("📋 Runbook\nrunbook.ibtisam-iq.com")]
+    --> E[("⚙️ SilverStack\n")]
 
-When I encounter a new tool, system, or concept, I don’t approach it academically. I try to understand how it behaves when deployed, operated, misconfigured, stressed, or broken.
+    D --> F[("📖 Blog\nblog.ibtisam-iq.com")]
 
-**Everything here was confusing to me once — and I wrote it in a way that removed that confusion.**
+    style B fill:#1565C0,color:#fff,stroke:#1565C0
+    style D fill:#37474F,color:#fff,stroke:#37474F
+    style E fill:#2E7D32,color:#fff,stroke:#2E7D32
+    style F fill:#E65100,color:#fff,stroke:#E65100
+```
 
-If I learn even one small thing that improves my understanding, I document it.
-
-- Not to teach.
-- Not to impress.
-- But to retain clarity.
-
-That habit, repeated over years, is what you see here.
-
----
-
-## What This Is Not
-
-- This is not a tutorial site.
-- This is not copied documentation.
-- This is not a certification dump.
-- This is not optimized for beginners.
-
-There is no fixed reading order and no guaranteed starting point — because real engineering work doesn’t happen in sequence.
+| Layer | What it answers | Where |
+|---|---|---|
+| **Nectar** ← you are here | *What is this? Why does it exist? How does it actually work?* | [nectar.ibtisam-iq.com](https://nectar.ibtisam-iq.com) |
+| **Runbook** | *How do I do this on real infrastructure?* | [runbook.ibtisam-iq.com](https://runbook.ibtisam-iq.com) |
+| **SilverStack** | *What is the reusable script or manifest?* | [github.com/ibtisam-iq/silver-stack](https://github.com/ibtisam-iq/silver-stack) |
+| **Blog** | *What did I learn and why does it matter?* | [blog.ibtisam-iq.com](https://blog.ibtisam-iq.com) |
 
 ---
 
-## How I Use Nectar
-
-I actively study from this repository.
-
-I use it to compress large amounts of information into forms I can quickly revisit — sometimes reducing hundreds of pages of material into a few dense pages that only need to make sense to me.
-
-I return to it when:
-
-- I forget something I once understood
-- I need to reconnect scattered concepts
-- I want to reason through a system again
-- I want to avoid repeating an old mistake
-
-Some documents are intentionally dense and non-explanatory — built as personal “master keys” rather than teaching material (for example: [Kubernetes Master Key](containers-orchestration/kubernetes/master-key.md)).
-
----
-
-## Engineering Philosophy
-
-I couldn’t understand tools until I understood the problems they were created to solve.
-
-That principle sits at the core of how I think as an engineer.
-
-I don’t treat failures as disasters.
-I treat them as engineering signals.
-
-When something breaks, I slow down instead of rushing.
-I observe instead of guessing.
-I try to understand what actually failed, not just what stopped working.
-
-I don’t depend on tools.
-I depend on understanding.
-
-Tools change.
-Principles don’t.
-
----
-
-## Why the Name “Nectar”
-
-Nectar represents **distilled understanding**, not accumulation.
-
-It reflects extracting essence after confusion, repetition, mistakes, and time — not collecting everything indiscriminately.
-
----
-
-## Status
-
-This repository is alive.
-
-It grows when I learn.
-It stays silent when I don’t.
-It will never be finished.
-
-And that’s the point.
-
----
-
-*If you are reading this as an engineer, explore freely.*
-*If you are reading this as a reviewer or interviewer, this is how I think.*
-
-**[@ibtisam-iq](https://www.linkedin.com/in/ibtisam-iq/)**
+[ibtisam-iq.com](https://ibtisam-iq.com) · [LinkedIn](https://linkedin.com/in/ibtisam-iq)
