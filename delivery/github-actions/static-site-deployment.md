@@ -17,6 +17,7 @@ Three deployment methods exist. The right choice depends on whether you need PR 
 | **Multi-job artifact sharing** | No | No (internal pipe) | Yes (standard artifact) |
 | **Deployment history visible** | Yes (branch commits) | No (internal) | Yes (branch commits) |
 | **GitHub Pages source setting** | Deploy from branch | GitHub Actions | Deploy from branch |
+| **Configure Pages before first run** | No | **Yes — mandatory** | No — configure after first run |
 | **Best for** | Quick personal projects | Clean modern pipelines | Production + PR previews |
 
 ---
@@ -112,6 +113,29 @@ The artifact handoff between jobs is **internal to GitHub Pages infrastructure**
 - You need PR preview deployments (the `gh-pages` branch is required for that)
 - You need multiple jobs to consume the same build artifact
 - You want deployment history visible as branch commits
+
+### Mandatory pre-requisite — configure GitHub Pages BEFORE running the workflow
+
+> **This step is required before you run this workflow for the first time.**
+> If you skip it, the workflow will fail with a Pages deployment error.
+
+Go to your repository **Settings → Pages** and set the source to **GitHub Actions**:
+
+```
+Repository → Settings → Pages → Build and deployment
+  Source: GitHub Actions   ← select this, NOT "Deploy from a branch"
+```
+
+This tells GitHub to expect deployments from the OIDC pipeline (`actions/deploy-pages`). Without this setting, GitHub Pages does not know where to receive the deployment and rejects it.
+
+**Order of operations for Method 2:**
+
+```
+1. Go to Settings → Pages → set Source to "GitHub Actions"  ← do this FIRST
+2. Push your code to main (or run workflow_dispatch)
+3. Workflow runs: build job → deploy job
+4. Site goes live at https://<username>.github.io/<repo>/
+```
 
 ### GitHub Pages setting
 
@@ -224,9 +248,24 @@ Because both jobs share the same general-purpose artifact, the site is **built e
 - Tiny personal projects with no contributors (Method 1 is simpler)
 - You specifically want no extra branches in your repo
 
-### GitHub Pages setting
+### GitHub Pages setting — configure AFTER the first workflow run
 
-**Settings → Pages → Source:** `Deploy from a branch` → `gh-pages` / `/ (root)`
+> **Do NOT configure GitHub Pages before the first run.**
+> The `gh-pages` branch does not exist yet. You cannot point GitHub Pages at a
+> branch that has not been created. Run the workflow first.
+
+**Order of operations for Method 3:**
+
+```
+1. Push your code to main (or run workflow_dispatch)  ← do this FIRST
+2. The deploy job runs and creates the gh-pages branch automatically
+3. Go to Settings → Pages → set Source to "Deploy from a branch"
+   Branch: gh-pages  /  Folder: / (root)              ← do this AFTER
+4. GitHub Pages publishes the site
+5. All future pushes to main redeploy automatically — no further settings changes needed
+```
+
+This is the opposite order from Method 2. You run first, configure second — because there is nothing to configure until the `gh-pages` branch exists.
 
 ### Required permissions
 
