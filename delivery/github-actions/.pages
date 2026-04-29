@@ -1,4 +1,4 @@
 title: GitHub Actions
 nav:
-  - MkDocs Projects Deployment: MkDocs-projects-deployment.md
+  - Static Site Deployment: static-site-deployment.md
   - Permissions: permissions.md
