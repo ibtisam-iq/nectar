@@ -24,7 +24,7 @@ on:
   # Trigger on push to main branch
   push:
     branches:
-      - main
+      - main        # only main can ever trigger this workflow, not "**" all branches
     # Only trigger when docs-related files change
     paths:
       - '**.md'
@@ -360,6 +360,7 @@ jobs:
     if: |
       github.ref == 'refs/heads/main' && 
       github.event_name != 'pull_request'
+    # no need to mention github.ref == 'refs/heads/main' because it is triggering on "main" only already.  
     runs-on: ubuntu-latest
     timeout-minutes: 10
     
