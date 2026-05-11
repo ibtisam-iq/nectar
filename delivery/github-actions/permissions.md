@@ -1,207 +1,362 @@
-# 🔐 GitHub Actions Permissions
-
-GitHub Actions uses a **permission-based security model**.  
-Workflows and individual jobs can be granted specific access levels to follow the **principle of least privilege**.
-
-This guide focuses on the **three most important permissions** when deploying documentation (especially MkDocs + GitHub Pages) and modern cloud deployments.
+# GitHub Actions — Permissions
 
 ---
 
-## Overview of Key Permissions
+## Start Here — What Is a Permission?
 
-| Permission         | Scope                          | Typical Use Case                              | Risk Level | Recommended When |
-|--------------------|--------------------------------|-----------------------------------------------|------------|------------------|
-| `contents: write`  | Repository code & branches     | Push to `gh-pages`, commit generated files    | 🟡 Medium  | Writing back to repo |
-| `pages: write`     | GitHub Pages publishing        | Official `actions/deploy-pages`               | 🟢 Low     | Using GitHub-native Pages deploy |
-| `id-token: write`  | OIDC token issuance            | Secret-less auth to AWS/GCP/Azure             | 🔥 High    | Deploying to external clouds |
+When GitHub Actions runs a workflow, it needs to **do things** — push code, publish a website, talk to a cloud provider, read your repo. But doing things requires **access**. GitHub does not give your workflow unlimited access by default. Instead, it gives a **token** with specific permissions you define.
+
+Think of it like a hotel key card:
+- The hotel (GitHub) creates a key card (token) for your stay (workflow run)
+- The key card only opens the doors you need — not the kitchen, not the server room
+- When you check out (workflow ends), the key card is destroyed
+
+This key card is called `secrets.GITHUB_TOKEN`.
 
 ---
 
-## Detailed Permission Reference
+## What Is `secrets.GITHUB_TOKEN`?
 
-### 1. `contents: write`
+When a workflow run starts, GitHub **automatically creates** a temporary token. You never create it yourself — GitHub generates it, injects it into the workflow as `secrets.GITHUB_TOKEN`, uses it during the run, then destroys it when the run ends.
+
+This token is what your workflow uses to:
+- Log in to GitHub Container Registry (GHCR)
+- Push commits back to the repository
+- Publish to GitHub Pages
+- Comment on pull requests
+- And more
+
+### How it appears in a workflow
+
+For example, to log in to GHCR before pushing a Docker image:
+
+```yaml
+- name: Log in to GHCR
+  uses: docker/login-action@v3
+  with:
+    registry: ghcr.io
+    username: ${{ github.actor }}
+    password: ${{ secrets.GITHUB_TOKEN }}   # ← the auto-generated token
+```
+
+A registry login needs three things: a registry URL, a username, and a password. GitHub uses the auto-generated token as the password. You do not need to create or store this password — GitHub handles it.
+
+---
+
+## The Two Access Levels
+
+For every permission, there are two possible values:
+
+| Value | What it means |
+|---|---|
+| `read` | The workflow can **see** this thing but cannot change it |
+| `write` | The workflow can **see AND modify** this thing |
+
+`write` always includes `read` — if you can write, you can also read.
+
+---
+
+## GitHub's Permission Sections
+
+GitHub divides its services into sections. Each section can be granted `read` or `write` independently. Here are the most important ones:
+
+| Section | What it controls |
+|---|---|
+| `contents` | Repository code, files, branches, commits, releases |
+| `packages` | GitHub Container Registry (GHCR) — pushing/pulling images |
+| `pages` | GitHub Pages — publishing static websites |
+| `id-token` | OIDC token — passwordless login to AWS, GCP, Azure |
+| `pull-requests` | Opening, commenting on, and merging pull requests |
+| `actions` | Triggering and managing other workflows |
+
+You declare these in a `permissions:` block in your workflow file.
+
+---
+
+## How to Write Permissions
+
+### Basic syntax
 
 ```yaml
 permissions:
-  contents: write
+  contents: read
+  packages: write
 ```
 
-#### What it allows
-| Action                          | Allowed |
-|---------------------------------|---------|
-| Push commits / create branches  | ✔      |
-| Modify repository files         | ✔      |
-| Publish to `gh-pages` branch    | ✔      |
-| Read repository contents        | ✔      |
+This means:
+- `contents: read` — the workflow can read your repo code but cannot push or commit
+- `packages: write` — the workflow can push images to GHCR
 
-#### Common use cases
-- Deploying MkDocs site via `peaceiris/actions-gh-pages`
-- Auto-updating README, release notes, or generated docs
-- Any CI that commits artifacts back to the repo
+### Two shorthand values
 
-#### Risk
-Compromised workflow could rewrite repository code → **use only when necessary**
+```yaml
+permissions: read-all    # every section gets read access
+permissions: write-all   # every section gets write access (dangerous)
+```
+
+`write-all` is almost always wrong — it gives the workflow more power than it needs.
+
+### Deny everything (most secure starting point)
+
+```yaml
+permissions: {}
+```
+
+This gives the workflow no access at all. Then you add back only what is needed.
 
 ---
 
-### 2. `pages: write`
+## Where to Put the Permissions Block
+
+You can put `permissions:` at two levels:
+
+### 1. Workflow level (applies to every job)
 
 ```yaml
-permissions:
-  pages: write
+name: My Workflow
+on: [push]
+
+permissions:          # ← applies to ALL jobs
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    ...
+  deploy:
+    ...
 ```
 
-#### What it allows
-| Action                            | Allowed |
-|-----------------------------------|---------|
-| Deploy to GitHub Pages            | ✔      |
-| Trigger Pages rebuild             | ✔      |
-| Configure Pages settings          | ✔      |
-| Modify repository source code     | ❌      |
-
-#### When required
-Only with GitHub’s official deployment action:
-
-```yaml
-- uses: actions/deploy-pages@v4
-```
-
-**Not needed** when using `peaceiris/actions-gh-pages` (that one uses `contents: write` instead).
-
-#### Risk
-Very low — only affects the published static site.
-
----
-
-### 3. `id-token: write`
-
-```yaml
-permissions:
-  id-token: write
-```
-
-#### What it allows
-| Action                              | Allowed |
-|-------------------------------------|---------|
-| Mint short-lived OIDC tokens        | ✔      |
-| Assume roles in AWS/GCP/Azure       | ✔      |
-| Push to repository                  | ❌      |
-| Deploy to GitHub Pages              | ❌      |
-
-#### Supported cloud providers (OIDC)
-| Provider                     | Supported |
-|------------------------------|-----------|
-| AWS IAM Roles Anywhere / AssumeRole | ✔       |
-| Google Cloud Workload Identity Federation | ✔ |
-| Azure Federated Credentials  | ✔        |
-
-#### Use cases
-- Deploy static sites to S3 + CloudFront
-- Firebase Hosting, Cloudflare R2, GCP Cloud Storage, Azure Storage
-
-#### Risk
-Gives real cloud credentials → treat as **high-risk**. Only grant when actually deploying to external clouds.
-
----
-
-## Choosing the Right Permissions for Your Deployment
-
-| Deployment Method                        | Required Permissions                  | Notes |
-|------------------------------------------|---------------------------------------|-------|
-| `mkdocs gh-deploy` (built-in)            | None                                  | Uses your personal GH token |
-| `actions/deploy-pages@v4`                | `pages: write`                        | Official GitHub method |
-| `peaceiris/actions-gh-pages@v3/v4`       | `contents: write`                     | Most popular community action |
-| Deploy to AWS/GCP/Azure via OIDC         | `id-token: write` (+ sometimes `contents`) | Secret-less auth |
-
----
-
-## Where to Declare Permissions (Scope)
-
-GitHub supports **two scopes**:
-
-### 1. Workflow-level (root)
-
-```yaml
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-```
-
-→ Applies to **all jobs** in the workflow (unless overridden)  
-→ Convenient for simple, single-purpose workflows
-
-### 2. Job-level (recommended for security)
+### 2. Job level (applies only to that specific job)
 
 ```yaml
 jobs:
   build:
-    permissions: {}
-    # or explicitly read-only
-    # permissions: read-all
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read    # ← only this job gets this
+    steps:
+      ...
 
   deploy:
+    runs-on: ubuntu-latest
     permissions:
-      pages: write
-      # or contents: write / id-token: write as needed
+      packages: write   # ← only this job gets this
+    steps:
+      ...
 ```
 
-→ Only the deploy job gets write access  
-→ Follows **least privilege** principle
+### Which should you use?
 
-### Decision Table
+| Situation | Recommendation |
+|---|---|
+| Single-job workflow | Workflow level is fine |
+| Multi-job workflow (build → test → deploy) | Job level — only the deploy job gets write access |
+| Security-sensitive / production | Always job level, minimal scope |
 
-| Scenario                                  | Recommended Placement       |
-|-------------------------------------------|-----------------------------|
-| Single-job workflow                       | Root or job-level (both OK) |
-| Multi-stage pipeline (build → test → deploy) | **Job-level only on deploy** |
-| Security-focused / enterprise             | Always job-level, minimal scope |
+---
 
-#### Secure Enterprise Pattern (Best Practice)
+## The Five Most Common Permission Setups
+
+### 1. Pushing a Docker image to GHCR
 
 ```yaml
-name: Deploy Docs
-on: [push, workflow_dispatch]
+permissions:
+  contents: read
+  packages: write
+```
 
-permissions: {}  # deny all by default
+- `contents: read` — workflow needs to read your repo code to build the image
+- `packages: write` — workflow needs to push the image to GHCR
+
+**Wrong version:**
+```yaml
+permissions:
+  contents: write   # ❌ unnecessary — you are not committing anything back
+  packages: write
+```
+Granting `contents: write` when you only need to read is giving away more access than needed.
+
+---
+
+### 2. Deploying a static site to GitHub Pages (community action)
+
+```yaml
+permissions:
+  contents: write
+```
+
+Used with `peaceiris/actions-gh-pages`. This action pushes your built site as a commit to the `gh-pages` branch — which is why it needs `contents: write`.
+
+**Wrong version:**
+```yaml
+permissions:
+  pages: write      # ❌ this does NOT work with peaceiris action
+  contents: write
+```
+`pages: write` is only for GitHub's own official deploy action, not the community one.
+
+---
+
+### 3. Deploying to GitHub Pages (official GitHub action)
+
+```yaml
+permissions:
+  pages: write
+  id-token: write
+  contents: read
+```
+
+Used with `actions/deploy-pages@v4`. GitHub's official Pages action uses OIDC (`id-token`) to authenticate with the Pages service directly — it does not push to `gh-pages` branch at all.
+
+**Wrong version:**
+```yaml
+permissions:
+  contents: write   # ❌ not needed — this action does not commit to the repo
+  pages: write
+```
+
+---
+
+### 4. Deploying to AWS / GCP / Azure without passwords (OIDC)
+
+```yaml
+permissions:
+  id-token: write
+  contents: read
+```
+
+`id-token: write` lets the workflow mint a short-lived OIDC token that cloud providers (AWS, GCP, Azure) accept as proof of identity — no stored secrets needed.
+
+**Wrong version:**
+```yaml
+permissions: write-all   # ❌ massively over-permissioned
+```
+
+---
+
+### 5. Read-only workflow (just running tests)
+
+```yaml
+permissions:
+  contents: read
+```
+
+Or simply:
+```yaml
+permissions: read-all
+```
+
+A test-only workflow does not need to write anything.
+
+---
+
+## How the Token Behaves Differently Based on Who Triggers the Workflow
+
+This is critical to understand when working with pull requests.
+
+| Who triggers the workflow | Token power |
+|---|---|
+| You, pushing to your own branch | Full — reads and writes work |
+| You, opening a PR from your own branch | Full — reads and writes work |
+| A stranger opening a PR from a **fork** | **Read only** — write is blocked by GitHub automatically |
+
+The third row is GitHub's **automatic security behavior**. You do not write this anywhere — GitHub enforces it regardless of your `permissions:` block. This prevents a malicious contributor from pushing code that steals your secrets or publishes rogue images to your registry.
+
+### Practical example — your Docker image workflow
+
+```yaml
+- name: Build and push
+  uses: docker/build-push-action@v6
+  with:
+    push: ${{ github.event_name != 'pull_request' }}
+```
+
+This line means:
+
+```
+PR opened       → github.event_name = "pull_request"
+                → 'pull_request' != 'pull_request' = FALSE
+                → push: false
+                → image is built but NOT pushed to GHCR ✅
+
+PR merged       → github.event_name = "push"
+                → 'push' != 'pull_request' = TRUE
+                → push: true
+                → image is built AND pushed to GHCR ✅
+```
+
+**Wrong version:**
+```yaml
+push: true   # ❌ image pushed on every PR, every commit, every trigger
+```
+
+This would publish an unreviewed image every time anyone opens a PR.
+
+---
+
+## Correct vs Wrong — Side-by-Side Reference
+
+| Goal | Correct | Wrong | Why wrong |
+|---|---|---|---|
+| Push Docker image to GHCR | `packages: write` + `contents: read` | `write-all` | Over-permissioned |
+| Deploy with peaceiris Pages action | `contents: write` | `pages: write` | Wrong permission for this action |
+| Deploy with official Pages action | `pages: write` + `id-token: write` | `contents: write` | Not how official action works |
+| Only push on merge, not on PR | `push: ${{ github.event_name != 'pull_request' }}` | `push: true` | Publishes on unreviewed PRs |
+| Multi-job pipeline | Job-level permissions only on deploy job | Workflow-level `write-all` | Every job gets write access it doesn't need |
+| Protect against fork PRs | GitHub handles this automatically | Enabling fork write access in repo settings | Fork PR could push to your registry |
+
+---
+
+## The Secure Pattern (Best Practice Template)
+
+```yaml
+name: Build and Deploy
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions: {}   # deny everything at workflow level
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps: [...]
-  
-  test:
+    permissions:
+      contents: read   # only read — nothing to write here
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: make build
+
+  deploy:
     needs: build
     runs-on: ubuntu-latest
-    steps: [...]
-
-  deploy:
-    needs: test
     permissions:
-      contents: write   # or pages: write / id-token: write
-    runs-on: ubuntu-latest
+      contents: read
+      packages: write   # only this job can push to GHCR
     steps:
-      - uses: actions/deploy-pages@v4   # if using official action
-      # or peaceiris/actions-gh-pages@v4
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: ${{ github.event_name != 'pull_request' }}
 ```
 
 ---
 
-## One-Glance Summary Table
+## Key Rules to Remember
 
-| Permission         | Main Purpose                     | Typical Deployment Scenario           | Frequency in Real Projects |
-|--------------------|----------------------------------|---------------------------------------|----------------------------|
-| `contents: write`  | Push to repo / gh-pages branch   | MkDocs + peaceiris action             | 🔥 Very common            |
-| `pages: write`     | Official GitHub Pages deploy     | `actions/deploy-pages`               | 🟡 Common                  |
-| `id-token: write`  | OIDC auth to cloud providers     | AWS, GCP, Azure hosting               | 🟠 Professional / Enterprise |
-
----
-
-## Key Takeaways (Senior Engineer Mindset)
-
-- **Never grant more permissions than needed**
-- **Prefer job-level permissions** in multi-job workflows
-- **Root-level permissions = convenience**, job-level = security
-- Use `pages: write` only with official deploy action
-- Use `id-token: write` only for real cloud OIDC deployments
-
+- `secrets.GITHUB_TOKEN` is auto-generated — you never create or store it
+- The `permissions:` block controls what that token is allowed to do
+- `write` always includes `read`
+- Fork PRs automatically get read-only tokens — this is not configurable in the workflow, it is a GitHub platform rule
+- `push: ${{ github.event_name != 'pull_request' }}` ensures images are only published after merge, never during PR review
+- Always start with the minimum permission needed, then add more only if the workflow fails
+- Job-level permissions are safer than workflow-level in multi-job pipelines
