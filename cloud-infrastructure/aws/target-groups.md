@@ -1,4 +1,3 @@
-
 # AWS Target Groups
 
 ## 1. What is a Target Group?
@@ -45,8 +44,26 @@ Register EC2 instances by Instance ID. AWS resolves the instance's **private IP*
 
 ```
 Target Group → EC2 instance-id (i-xxxxxxxx)
-             → LB sends to: 10.0.1.10:80 (private IP resolved by AWS)
+             → LB sends to: 10.0.1.10:<app-port> (private IP resolved by AWS)
 ```
+
+**Example (app listening on 8080):**
+```
+Target Group → EC2 instance-id (i-abc123)
+             → LB sends to: 10.0.1.10:8080
+             (ALB listener is on port 80, but forwards to app on port 8080)
+```
+
+> ⭐ **Port Rule (Important):**
+> The **Port** you set when creating the target group is the port where your
+> **backend application is actually listening** — not the ALB listener port.
+>
+> - ALB listener: HTTP **80** (this is what the client connects to)
+> - Target group port: **8080** (this is what the ALB forwards to on the EC2)
+>
+> If your app listens on `8080` but you leave the target group port at the
+> default `80`, health checks will fail and all targets will show `unhealthy`
+> even though the application is running perfectly.
 
 | When to Use |
 |------------|
@@ -151,6 +168,36 @@ EC2 targets
 
 ---
 
+## 3a. Console Mental Model: Listener Port vs Target Group Port ⭐
+
+This is one of the most common sources of confusion when creating a target group.
+
+| Port | Where | Meaning |
+|------|-------|---------|
+| **Listener port** (e.g., 80) | ALB | What the **client connects to** on the load balancer |
+| **Target group port** (e.g., 8080) | Target group | What the **ALB forwards to** on the backend instance |
+
+**Example flow:**
+```
+User (browser) → ALB:80 → ALB forwards → EC2 private IP:8080 → App process
+```
+
+> The ALB listens on port 80, but your Python/Java/Node app may be running on
+> port 8080 (or 5000, 3000, etc.). The target group port **must match your app port**.
+>
+> Default port shown in console is `80`. Change it to your actual app port.
+
+**Target type → Protocol options in console:**
+
+| Target Type | Protocols Available | Port Required? |
+|------------|--------------------|----|
+| Instances | HTTP, HTTPS, TCP, TLS, UDP, TCP_UDP | ✅ Yes (set your app port) |
+| IP | HTTP, HTTPS, TCP, TLS, UDP, TCP_UDP | ✅ Yes (set your app port) |
+| Lambda | None (no protocol/port selection) | ❌ No |
+| ALB | TCP only (NLB→ALB, L4) | ✅ Yes |
+
+---
+
 ## 4. Protocol — LB Type Mapping ⭐
 
 | Load Balancer | Protocols | Layer | Target Types |
@@ -177,7 +224,7 @@ EC2 targets
 ## 5. Load Balancing Algorithms ⭐
 
 | Algorithm | How | Best For |
-|-----------|-----|---------|
+|-----------|-----|---------| 
 | **Round Robin** (default) | Rotates evenly across healthy targets | Uniform request types |
 | **Least Outstanding Requests** | Sends to target with fewest in-flight requests | Variable request duration (some fast, some slow) |
 | **Random** | Random selection among healthy targets | Simple, even distribution without state |
@@ -246,7 +293,7 @@ Binds a user's session to a specific target — all requests from that user
 go to the same target for the duration of the session.
 
 | Type | Cookie | Duration |
-|------|--------|---------|
+|------|--------|---------| 
 | **LB-generated cookie** (`AWSALB`) | Set by ALB | 1s to 7 days |
 | **Application-based cookie** | Set by your app | Custom name, custom duration |
 
@@ -295,7 +342,7 @@ aws elbv2 modify-listener --listener-arn ... \
 ```
 
 | Use Case | Weight Config |
-|---------|--------------|
+|---------|--------------| 
 | Canary (5% new) | `old=95, new=5` |
 | Blue/green (50/50) | `blue=50, green=50` |
 | Full cutover | `old=0, new=100` |
@@ -324,7 +371,7 @@ aws elbv2 modify-listener --listener-arn ... \
 
 ```
 Strategy 1 — traffic-port (default):
-  Health check sent to same port as traffic (e.g., :80)
+  Health check sent to same port as traffic (e.g., :8080)
   ✅ Simple ❌ Health check and traffic compete for same thread pool
 
 Strategy 2 — custom port (e.g., :8081):
@@ -408,6 +455,8 @@ Purpose: Give instance time to boot + start app before health checks run
 | Health check path must be `/` | Configure a dedicated `/health` endpoint for accurate health signals |
 | Weighted TG only for ALB | NLB also supports Weighted Target Groups (Nov 2025) |
 | Instance type uses public IPs | Instances type always uses **private IPs** — even if instance has a public IP |
+| Target group port = 80 always | Target group port = **your app's listening port** (e.g., 8080); default shown is 80 but must be changed to match your app |
+| ALB listener port = target group port | ALB listens on 80/443 (client-facing); target group port is the app port (e.g., 8080) — these are different |
 
 ---
 
@@ -428,3 +477,4 @@ Purpose: Give instance time to boot + start app before health checks run
 - [ ] What is a health check grace period and what sets it? (ASG — not TG)
 - [ ] Can one target group serve multiple load balancers? (No)
 - [ ] How does ASG + Target Group integration work for scale-in events?
+- [ ] What port do you set in the target group — the ALB listener port or the app port?
