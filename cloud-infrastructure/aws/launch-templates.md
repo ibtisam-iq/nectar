@@ -163,6 +163,7 @@ Auto Scaling Group:
 ## 7. IMDSv2 Enforcement — Security Requirement ⭐
 
 The Instance Metadata Service (IMDS) at `169.254.169.254` exposes:
+
 - IAM role credentials
 - Instance identity
 - User data
