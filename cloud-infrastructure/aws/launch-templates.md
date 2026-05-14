@@ -205,13 +205,59 @@ Script that runs **once** at first boot on the instance.
 
 ```bash
 #!/bin/bash
-# User data script example (always starts with shebang)
-yum update -y
-amazon-linux-extras install nginx1 -y
-systemctl start nginx
-systemctl enable nginx
-echo "SERVER_ENV=production" >> /etc/environment
-aws s3 cp s3://my-bucket/app.tar.gz /opt/app/
+set -euo pipefail
+
+# Install Python
+apt-get update -y
+DEBIAN_FRONTEND=noninteractive apt-get install -y python3
+
+# Write the app
+cat >/home/ubuntu/server.py <<'PY'
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+class Handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == "/health":
+            self.send_response(200)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+            self.wfile.write(b"ok\n")
+            return
+
+        self.send_response(200)
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
+        self.wfile.write(
+            b"Between every heartbeat, I secretly say your name, Sweetheart Ibtisam\n"
+)
+
+HTTPServer(("0.0.0.0", 8080), Handler).serve_forever()
+PY
+
+chown ubuntu:ubuntu /home/ubuntu/server.py
+
+# Create systemd service
+cat >/etc/systemd/system/pyserver.service <<'UNIT'
+[Unit]
+Description=Python HTTP Server on port 8080
+After=network.target
+
+[Service]
+User=ubuntu
+ExecStart=/usr/bin/python3 /home/ubuntu/server.py
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+UNIT
+
+# Enable and start
+systemctl daemon-reload
+systemctl enable pyserver
+systemctl start pyserver
 ```
 
 | Property | Detail |
@@ -326,3 +372,6 @@ Step 4: Update AMI (security patch needed)
 - [ ] Walk through building a production ASG from scratch using Launch Template
 
 ## Nectar
+
+- Add security group only, & leave subnet and AZ empty in the launch template and only choose them later in the ASG.
+- Create a dedicated SG allowing Custom TCP on the application port (for example, 8080) **only from the ALB’s security group**, so the app accepts traffic exclusively from the load balancer on that port.
