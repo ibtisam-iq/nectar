@@ -319,13 +319,24 @@ Listener: HTTPS:443
 ```
 ALB SG:
   Inbound:  Allow TCP 80, 443 from 0.0.0.0/0
-  Outbound: Allow TCP 80 to EC2-SG (reference by SG ID)
+            ← port 80/443 = what the CLIENT connects to on the ALB (listener port)
+  Outbound: Allow TCP 8080 to EC2-SG (reference by SG ID)
+            ← port 8080 = the APPLICATION port your EC2 process is listening on
+            ← this is NOT necessarily the same as the listener port (80/443)
 
 EC2 SG:
-  Inbound:  Allow TCP 80 from ALB-SG (reference by SG ID)
-            ← This blocks all direct internet access to EC2 ✅
+  Inbound:  Allow TCP 8080 from ALB-SG (reference by SG ID)
+            ← must match the port your app actually listens on (e.g., 8080, 5000, 3000)
+            ← this blocks all direct internet access to EC2 ✅
+            ← only the ALB can reach the app on this port ✅
   Outbound: Allow all
 ```
+
+> ⭐ **Key Rule:**
+> The ALB listener port (80/443) is what the **client** hits.
+> The outbound port on ALB SG and inbound port on EC2 SG must both be set to the
+> **application port** (e.g., 8080) — the port where your app process is actually running.
+> These two ports are different. Confusing them is one of the most common mistakes.
 
 ### NLB + EC2 SG Chaining (post August 2023)
 
@@ -428,6 +439,7 @@ WAF rules can:
 | ALB works without SG | ALB **requires** a Security Group |
 | WAF works with NLB | WAF only integrates with **ALB** (and CloudFront, API Gateway) |
 | CLB is a valid modern choice | CLB is legacy — use ALB for HTTP or NLB for TCP/UDP |
+| ALB outbound SG port = listener port | ALB outbound SG port = **app port** (e.g., 8080), not the listener port (80/443) |
 
 ---
 
@@ -451,9 +463,11 @@ WAF rules can:
 - [ ] What is WAF? Which ELB types support it?
 - [ ] What happens to multi-AZ LB nodes when one AZ fails?
 - [ ] What is Global Accelerator? When to use it over Route 53?
+- [ ] ALB listener port vs target group port vs EC2 SG inbound port — what is each?
 
 ## Nectar
 
 - At least two Availability Zones and a subnet for each zone.
 - The selected subnet does not have a route to an internet gateway. This means that your load balancer will not receive internet traffic.
-- You can proceed with this selection; however, for internet traffic to reach your load balancer, you must update the subnet’s route table in the VPC console
+- You can proceed with this selection; however, for internet traffic to reach your load balancer, you must update the subnet's route table in the VPC console.
+- ⭐ **Subnet design per AZ (critical lesson):** For a correct internet-facing ALB + private EC2 setup, each Availability Zone must contain **two subnets**: one **public subnet** (with IGW route, for the ALB node) and one **private subnet** (with NAT route, for the EC2 / ASG instances). If you create 4 subnets across 4 different AZs (e.g., 2 public in AZ-1a/1b and 2 private in AZ-1c/1d), the ALB nodes and the EC2 targets will be in different AZs — AWS will mark all targets as `Unused: Target is in an Availability Zone that is not enabled for the load balancer`. The fix: use only 2 AZs, and in each AZ create 1 public + 1 private subnet, so ALB and instances are always in matching AZs.
