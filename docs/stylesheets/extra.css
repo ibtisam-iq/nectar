@@ -1,0 +1,51 @@
+/* Base styles (apply to all screen sizes unless overridden) */
+.md-grid {
+  max-width: none !important; /* Allow it to take full width */
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+/* Styles for even smaller screens (e.g., narrow phones) */
+@media screen and (max-width: 479px) {
+  .md-grid {
+    max-width: none !important; /* Allow it to take full width */
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+  }
+}
+
+/* Styles for smaller screens (e.g., tablets and phones) */
+@media screen and (max-width: 767px) {
+  .md-grid {
+    max-width: none !important; /* Allow it to take full width */
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+}
+
+/* Styles for larger screens (if you want to adjust beyond the base) */
+@media screen and (min-width: 1201px) {
+  .md-grid {
+    max-width: none !important; /* Allow it to take full width */
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+/* Change "Last Updated" label */
+.md-source-file__fact::before {
+  content: "Last Updated: ";
+  font-weight: 600;
+}
+
+/* Hide clock icon before "Last Updated" date */
+.md-source-file__fact svg {
+  display: none !important;
+}
+
+/* Add PKT timezone after the date*/
+.md-source-file__fact::after {
+  content: " PKT";
+  font-weight: 600;
+  color: var(--md-default-fg-color);
+}
