@@ -111,12 +111,113 @@ helm uninstall <release> -n <ns>
 
 ## **6️⃣ Chart Download & Local Install**
 
+### Inspect without downloading
+
 ```bash
-helm pull <chart> --untar
-helm install <release> ./<chart_folder>
-❌ helm install my-nginx .  
-✅ helm install my-nginx ./nginx 
+# View default values only (no local file needed)
+helm show values <chart> --version <ver>
+
+# Save default values to a local override file
+helm show values <chart> --version <ver> > my-values.yaml
+
+# View Chart.yaml metadata (name, version, description, dependencies)
+helm show chart <chart> --version <ver>
+
+# View all (values + chart metadata + README)
+helm show all <chart> --version <ver>
 ```
+
+> Works with OCI registries too:
+> ```bash
+> helm show values oci://public.ecr.aws/aws-containers/retail-store-sample-catalog-chart --version 1.3.0
+> ```
+
+---
+
+### Download chart as `.tgz`
+
+```bash
+# Download only (produces chart-version.tgz in current directory)
+helm pull <chart> --version <ver>
+
+# Download and untar in one step (produces a chart directory)
+helm pull <chart> --version <ver> --untar
+```
+
+Resulting structure after untar:
+
+```
+retail-store-sample-catalog-chart/
+├── Chart.yaml        ← chart name, version, description, dependencies
+├── values.yaml       ← default values
+└── templates/        ← all Kubernetes manifests (Deployment, Service, etc.)
+```
+
+> To inspect manually from an already-downloaded `.tgz`:
+> ```bash
+> tar xf retail-store-sample-catalog-chart-1.3.0.tgz
+> ```
+
+---
+
+### Install from local `.tgz` or chart directory
+
+```bash
+# Install from local .tgz
+helm install <release> ./chart-1.0.0.tgz
+
+# Install from unpacked chart directory
+helm install <release> ./chart-directory/
+
+❌ helm install my-nginx .
+✅ helm install my-nginx ./nginx
+```
+
+---
+
+### Install with a specific values file (`-f`)
+
+```bash
+# Override defaults with a custom values file
+helm install <release> ./chart-1.0.0.tgz -f my-values.yaml
+
+# Multiple values files — merged in order, last one wins on conflict
+helm install <release> ./chart-directory/ \
+  -f values-base.yaml \
+  -f values-baremetal.yaml
+```
+
+> When multiple `values-*.yaml` files exist in the same directory, select explicitly:
+> ```bash
+> helm install catalog ./retail-store-sample-catalog-chart -f values-dev.yaml
+> helm install catalog ./retail-store-sample-catalog-chart -f values-eks-rds.yaml
+> ```
+
+---
+
+### Full workflow: pull → edit → install → upgrade
+
+```bash
+# 1. Download and unpack
+helm pull oci://public.ecr.aws/aws-containers/retail-store-sample-catalog-chart \
+  --version 1.3.0 --untar
+
+# 2. Save defaults as override file and edit
+cp retail-store-sample-catalog-chart/values.yaml catalog-local.yaml
+# edit catalog-local.yaml as needed
+
+# 3. First install
+helm install catalog ./retail-store-sample-catalog-chart -f catalog-local.yaml
+
+# 4. Edit catalog-local.yaml again (e.g., switch persistence provider, add endpoint)
+
+# 5. Upgrade — same release name, same chart, updated values → new revision
+helm upgrade catalog ./retail-store-sample-catalog-chart -f catalog-local.yaml
+```
+
+> `helm install` creates a new release (fails if it already exists).  
+> `helm upgrade` updates an existing release and increments the revision number.  
+> `helm upgrade --install` does both: creates if not found, upgrades if found.
 
 ---
 
@@ -170,7 +271,7 @@ APP VERSION: 2.4.63
 controlplane ~ ➜  helm list -A                 # also tells chart name, chart version, and app version
 NAME            NAMESPACE       REVISION        UPDATED                                 STATUS       CHART           APP VERSION
 amaze-surf      default         1               2025-09-28 11:45:40.183342347 +0000 UTC deployed     apache-11.3.2   2.4.63     
-crazy-web       default         1               2025-09-28 11:46:31.217903645 +0000 UTC deployed     nginx-19.0.0    1.27.4     
+crazy-web       default         1               2025-09-28 11:46:31.183342347 +0000 UTC deployed     nginx-19.0.0    1.27.4     
 happy-browse    default         1               2025-09-28 11:46:29.364833702 +0000 UTC deployed     nginx-19.0.0    1.27.4     
 
 helm repo add <> <url>
