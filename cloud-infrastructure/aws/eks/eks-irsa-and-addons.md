@@ -1,13 +1,13 @@
 # EKS — IRSA, OIDC, and Addons
 
 > **What this document covers:**
-> How EKS pods get AWS permissions without static credentials — the full OIDC → IRSA flow — and two real-world examples (AWS Load Balancer Controller via Helm, EBS CSI Driver via EKS addon) showing how this pattern is applied in practice, including where they differ and why.
+> How EKS pods get AWS permissions without static credentials — the full OIDC → IRSA flow — two real-world cluster-level examples (AWS Load Balancer Controller via Helm, EBS CSI Driver via EKS addon) — and two real-world application-level examples (Catalog via Helm + MySQL, Cart via Helm + DynamoDB) that illustrate when IRSA is needed by the application itself versus when it is handled by a controller.
 
 ---
 
 ## 1. The Problem We Are Solving
 
-In EKS, many pods need to call AWS APIs (EBS, ELB, S3, SQS, etc.).
+In EKS, many pods need to call AWS APIs (EBS, ELB, S3, SQS, DynamoDB, etc.).
 
 We want:
 
@@ -344,7 +344,299 @@ This is intentional: cluster creation and addon installation are separate concer
 
 ---
 
-## 12. Quick Reference
+## 12. The Core Decision: Controller vs. Application
+
+Before wiring any IRSA for a microservice or a new component, answer one question:
+
+> **Who is the AWS API client — the controller/driver, or the application pod itself?**
+
+This single question determines everything:
+
+| Scenario | AWS client | Who gets IRSA |
+|----------|-----------|---------------|
+| Pod needs EBS-backed PVC | EBS CSI driver (controller) | CSI driver's SA — not the app |
+| Pod needs an ALB/NLB via Ingress | ALB controller (controller) | LBC's SA — not the app |
+| Pod code calls DynamoDB SDK | Application pod directly | The app's own SA |
+| Pod code uploads files to S3 | Application pod directly | The app's own SA |
+| Pod code reads messages from SQS | Application pod directly | The app's own SA |
+| Pod code writes logs to CloudWatch | Fluent Bit (agent/controller) | Fluent Bit's SA — not the app |
+| ExternalDNS updates Route 53 | ExternalDNS controller | ExternalDNS SA — not the app |
+
+**Rule:**
+- Application calls AWS → the application's service account needs IRSA.
+- A controller/agent/driver calls AWS on behalf of the application → the controller's service account gets IRSA; the application needs nothing extra.
+
+---
+
+## 13. Example 3 — Catalog Service (Helm + MySQL, No App IRSA)
+
+### What It Does
+
+- Language: Go.
+- Persistence: MySQL (internal to the cluster, deployed by the Helm chart as a StatefulSet).
+- The Go app talks to MySQL over TCP inside the cluster — it never calls AWS APIs directly.
+
+### Why No IRSA for Catalog
+
+The Catalog app only uses Kubernetes resources:
+
+- A `Service` to reach MySQL.
+- MySQL uses a `PersistentVolumeClaim` backed by the `ebs-csi-default-sc` StorageClass.
+
+The **EBS CSI driver** (already installed and wired with its own IRSA) handles EBS volume creation when the PVC is provisioned. The Catalog app has no knowledge of EBS or AWS.
+
+So: **EBS CSI driver owns the IAM role. Catalog app needs no IRSA.**
+
+### Helm Values (`helm-values/catalog-values.yaml`)
+
+```bash
+helm show values oci://public.ecr.aws/aws-containers/retail-store-sample-catalog-chart \
+  --version 1.3.0 > helm-values/catalog-values.yaml
+```
+
+Edit to enable MySQL with EBS-backed persistent storage:
+
+```yaml
+app:
+  persistence:
+    provider: mysql
+    endpoint: ""
+    database: "catalog"
+
+  mysql:
+    create: true
+    persistentVolume:
+      enabled: true
+      annotations: {}
+      labels: {}
+      accessModes:
+        - ReadWriteOnce
+      size: 10Gi
+      storageClass: "ebs-csi-default-sc"
+```
+
+### Deploy
+
+```bash
+helm upgrade -i catalog \
+  oci://public.ecr.aws/aws-containers/retail-store-sample-catalog-chart \
+  -n catalog \
+  -f helm-values/catalog-values.yaml \
+  --version 1.3.0
+```
+
+### Verify
+
+```bash
+kubectl get po -n catalog
+
+# Confirm EBS volumes were dynamically provisioned
+kubectl get pv
+```
+
+### PVC/PV Behavior in StatefulSets
+
+> **Important:** When a StatefulSet pod is deleted, its PVC and PV are **not** deleted automatically.
+
+- StatefulSets use PVCs. PVCs survive pod deletion by design.
+- The StorageClass has `reclaimPolicy: Delete`, but that policy applies when the **PVC itself** is deleted — not when the pod is deleted.
+- Deleting a pod → PVC and PV remain.
+- Deleting the PVC → EBS volume is deleted (due to Delete reclaim policy).
+
+This is expected and correct behavior for stateful workloads.
+
+---
+
+## 14. Example 4 — Cart Service (Helm + DynamoDB, App IRSA Required)
+
+### What It Does
+
+- Language: Java.
+- Persistence: Amazon DynamoDB (external AWS managed service).
+- The Java app calls DynamoDB HTTP APIs directly using the AWS SDK.
+
+### Why IRSA Is Required for Cart
+
+Unlike Catalog, the Cart app is itself an AWS API client. There is no intermediate controller that calls DynamoDB on its behalf. The pod's Java code signs and sends requests to the DynamoDB endpoint. For those requests to succeed, the pod must have valid AWS credentials with DynamoDB permissions.
+
+This is why Cart needs its own IRSA service account.
+
+### Step A — Create DynamoDB Table
+
+```bash
+aws dynamodb create-table \
+  --table-name carts \
+  --attribute-definitions \
+    AttributeName=id,AttributeType=S \
+    AttributeName=customerId,AttributeType=S \
+  --key-schema \
+    AttributeName=id,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST \
+  --global-secondary-indexes '[
+    {
+      "IndexName": "idx_global_customerId",
+      "KeySchema": [
+        { "AttributeName": "customerId", "KeyType": "HASH" }
+      ],
+      "Projection": { "ProjectionType": "ALL" }
+    }
+  ]'
+```
+
+### Step B — Create IAM Policy for DynamoDB Access
+
+```bash
+cat > carts-dynamo-policy.json <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllAPIActionsOnCart",
+      "Effect": "Allow",
+      "Action": "dynamodb:*",
+      "Resource": [
+        "arn:aws:dynamodb:us-east-1:${AWS_ACCOUNT}:table/carts",
+        "arn:aws:dynamodb:us-east-1:${AWS_ACCOUNT}:table/carts/index/*"
+      ]
+    }
+  ]
+}
+EOF
+
+aws iam create-policy \
+  --policy-name carts-dynamo \
+  --policy-document file://carts-dynamo-policy.json
+```
+
+The policy grants DynamoDB actions only on the `carts` table and its indexes — principle of least privilege.
+
+### Step C — Bind IRSA to Cart Namespace
+
+```bash
+eksctl create iamserviceaccount \
+  --cluster microservice-ecom-eks \
+  --namespace cart \
+  --name cart \
+  --attach-policy-arn arn:aws:iam::${AWS_ACCOUNT}:policy/carts-dynamo \
+  --role-name dynamo-table-access-for-carts \
+  --approve \
+  --override-existing-serviceaccounts
+```
+
+This creates:
+- IAM role `dynamo-table-access-for-carts` with OIDC trust for `system:serviceaccount:cart:cart`.
+- Kubernetes SA `cart` in namespace `cart` with the IRSA annotation.
+
+Verify the annotation:
+
+```bash
+kubectl get sa -n cart cart -o yaml
+# Expected annotation:
+# eks.amazonaws.com/role-arn: arn:aws:iam::<account>:role/dynamo-table-access-for-carts
+```
+
+### Step D — Retrieve and Edit Helm Values
+
+```bash
+helm show values oci://public.ecr.aws/aws-containers/retail-store-sample-cart-chart \
+  --version 1.3.0 > helm-values/cart-values.yaml
+```
+
+Edit `helm-values/cart-values.yaml`:
+
+```yaml
+serviceAccount:
+  # Do not create a new SA — reuse the one created by eksctl with IRSA annotation
+  create: false
+  annotations: {}
+  name: "cart"
+
+app:
+  persistence:
+    provider: dynamodb
+    dynamodb:
+      tableName: carts
+      createTable: false
+```
+
+**Key choices:**
+
+| Setting | Reason |
+|---------|--------|
+| `serviceAccount.create: false` | The SA already exists with the IRSA annotation. Letting Helm create a new one would produce an unannotated SA with no AWS permissions. |
+| `serviceAccount.name: "cart"` | Explicitly reference the pre-created IRSA-annotated SA. |
+| `persistence.provider: dynamodb` | Tell the app to use DynamoDB instead of any in-cluster DB. |
+| `createTable: false` | Table was already created in Step A. |
+
+### Step E — Deploy
+
+```bash
+helm upgrade -i cart \
+  oci://public.ecr.aws/aws-containers/retail-store-sample-cart-chart \
+  -n cart \
+  -f helm-values/cart-values.yaml \
+  --version 1.3.0
+```
+
+### Verify
+
+```bash
+# Check pods
+kubectl get po -n cart
+
+# Confirm which service account the deployment uses
+kubectl get deploy cart-carts -n cart -o yaml | grep serviceAccount
+```
+
+The deployment must reference `serviceAccountName: cart` — the annotated SA. If it references any other SA, the pods will receive `AccessDenied` from DynamoDB.
+
+---
+
+## 15. Catalog vs. Cart — Side-by-Side Comparison
+
+| Aspect | Catalog (Go + MySQL) | Cart (Java + DynamoDB) |
+|--------|----------------------|------------------------|
+| Database | In-cluster MySQL (StatefulSet) | External AWS DynamoDB |
+| Who calls AWS APIs | EBS CSI driver (to provision MySQL's PVC) | Cart app pod itself (SDK calls to DynamoDB) |
+| App IRSA needed? | No | Yes |
+| `eksctl create iamserviceaccount` for app? | No | Yes |
+| `serviceAccount.create` in Helm values | Default (Helm creates SA, or irrelevant) | `false` — reuse the IRSA-annotated SA |
+| IAM policy scope | None for app; EBS CSI driver has its own | `dynamodb:*` on the `carts` table |
+| AWS resource created before deploy | None (EBS volumes created dynamically by CSI) | DynamoDB table created manually before deploy |
+
+---
+
+## 16. General Reasoning Framework for Any Microservice
+
+When encountering any new microservice or component in an EKS-based architecture:
+
+1. **Identify what each service talks to.**
+   - In-cluster database (MySQL, PostgreSQL, Redis) via K8s `Service`? → No IRSA for the app.
+   - AWS managed service directly (DynamoDB, S3, SQS, SNS, Secrets Manager)? → App needs IRSA.
+
+2. **Check if a controller already handles the AWS interaction.**
+   - EBS/EFS CSI driver → handles storage provisioning → app just uses PVC.
+   - ALB controller → handles load balancer provisioning → app just uses Ingress.
+   - ExternalDNS → handles DNS → app just uses hostnames.
+   - FluentBit/CloudWatch agent → handles log shipping → app just writes to stdout.
+
+3. **Apply the pattern accordingly:**
+
+   | Situation | Action |
+   |-----------|--------|
+   | Controller calls AWS | Give the controller's SA an IRSA role. App needs nothing. |
+   | App code calls AWS SDK | Give the app's SA an IRSA role. Set `serviceAccount.create: false` in Helm, reference the pre-created annotated SA. |
+
+4. **For any IRSA setup, the same three sub-steps always apply:**
+   - Create IAM policy (permissions).
+   - Create IAM role + wire OIDC trust (`eksctl create iamserviceaccount`).
+   - Use the annotated SA in the workload (either Helm `serviceAccount.create=false` or `--service-account-role-arn` for EKS addons).
+
+This framework applies to any AWS integration: SQS consumers, S3 upload services, Secrets Manager readers, SNS publishers — the pattern is identical. Only the IAM policy and AWS resource differ.
+
+---
+
+## 17. Quick Reference
 
 ### IRSA annotation format
 
@@ -381,4 +673,14 @@ metadata:
 }
 ```
 
-This trust policy is what enforces: "Only tokens from *this specific service account in this specific namespace* can assume this role."
+This trust policy enforces: "Only tokens from *this specific service account in this specific namespace* can assume this role."
+
+### Decision checklist for any new component
+
+```
+Is this pod going to call AWS APIs?
+├── Yes → Does a controller/agent already make those calls?
+│         ├── Yes (CSI, LBC, FluentBit, ExternalDNS...) → IRSA the controller, not the app
+│         └── No (app code uses AWS SDK directly) → IRSA the app's service account
+└── No  → No IRSA needed for this workload
+```
