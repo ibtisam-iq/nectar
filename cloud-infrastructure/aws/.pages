@@ -84,3 +84,5 @@ nav:
   - AWS Overview: AWS.md
   - ARN (Amazon Resource Names): arn.md
   - ...
+
+  - eks
