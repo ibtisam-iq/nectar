@@ -396,7 +396,7 @@ Note the returned QueueUrl — you will need the queue ARN for the IAM policy:
 ```bash
 # Get the queue ARN (needed for IAM policy)
 aws sqs get-queue-attributes \
-  --queue-url https://sqs.us-east-1.amazonaws.com/${AWS_ACCOUNT_ID}/orders-events \
+  --queue-url https://sqs.us-east-1.amazonaws.com/${ACCOUNT_ID}/orders-events \
   --attribute-names QueueArn \
   --query 'Attributes.QueueArn' \
   --output text
@@ -421,7 +421,7 @@ cat > orders-sqs-policy.json <<EOF
         "sqs:GetQueueAttributes",
         "sqs:GetQueueUrl"
       ],
-      "Resource": "arn:aws:sqs:us-east-1:${AWS_ACCOUNT_ID}:orders-events"
+      "Resource": "arn:aws:sqs:us-east-1:${ACCOUNT_ID}:orders-events"
     }
   ]
 }
@@ -455,7 +455,7 @@ eksctl create iamserviceaccount \
   --region $AWS_REGION \
   --namespace orders \
   --name orders \
-  --attach-policy-arn arn:aws:iam::${AWS_ACCOUNT}:policy/orders-sqs-policy \
+  --attach-policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/orders-sqs-policy \
   --role-name orders-to-sqs \
   --approve \
   --override-existing-serviceaccounts
