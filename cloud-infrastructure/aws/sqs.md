@@ -355,3 +355,252 @@ Use case:
 | Lambda deletes messages after processing by default | Lambda deletes only on **full batch success** — use partial batch response for fault tolerance |
 | FIFO queue name can be anything | FIFO queue names **must end in `.fifo`** |
 | maxReceiveCount = 1 is safe | maxReceiveCount=1 → first failure goes to DLQ → **no retry** — use 3–5 |
+
+---
+
+## 15. Orders Service SQS Integration (EKS / Helm) ⭐
+
+This section covers the complete workflow for integrating the Orders microservice with SQS on EKS — from creating the queue to patching the Helm-managed deployment with the missing environment variable.
+
+### Architecture
+
+```
+User places order
+  → Orders Service (EKS pod, namespace: orders)
+  → publishes event to SQS queue: orders-events
+  → downstream consumers (Lambda, other services) read from queue
+
+Orders service reads messaging config from env vars:
+  RETAIL_ORDERS_MESSAGING_PROVIDER=sqs
+  RETAIL_ORDERS_MESSAGING_SQS_TOPIC=orders-events
+```
+
+> The Orders Helm chart supports three messaging providers: `in-memory`, `sqs`, `rabbitmq`.
+> The chart sets `RETAIL_ORDERS_MESSAGING_PROVIDER` via `values.yaml` but does **not**
+> expose an extra-env field to inject `RETAIL_ORDERS_MESSAGING_SQS_TOPIC`. That variable
+> must be patched directly into the Deployment (see Step 5 below).
+
+---
+
+### Step 1: Create the SQS Queue
+
+```bash
+aws sqs create-queue --queue-name orders-events
+```
+
+This creates a **Standard queue** named `orders-events`. Standard is correct here — order events
+are high-volume and downstream consumers are idempotent (safe to process duplicates).
+
+Note the returned QueueUrl — you will need the queue ARN for the IAM policy:
+
+```bash
+# Get the queue ARN (needed for IAM policy)
+aws sqs get-queue-attributes \
+  --queue-url https://sqs.us-east-1.amazonaws.com/${AWS_ACCOUNT_ID}/orders-events \
+  --attribute-names QueueArn \
+  --query 'Attributes.QueueArn' \
+  --output text
+# Output: arn:aws:sqs:us-east-1:ACCOUNT_ID:orders-events
+```
+
+---
+
+### Step 2: Create the IAM Policy for SQS Access
+
+```bash
+cat > orders-sqs-policy.json <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllAPIActionsOnOrdersQueue",
+      "Effect": "Allow",
+      "Action": [
+        "sqs:CreateQueue",
+        "sqs:SendMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl"
+      ],
+      "Resource": "arn:aws:sqs:us-east-1:${AWS_ACCOUNT_ID}:orders-events"
+    }
+  ]
+}
+EOF
+
+aws iam create-policy \
+  --policy-name orders-sqs-policy \
+  --policy-document file://orders-sqs-policy.json
+```
+
+#### Why these four actions?
+
+| Action | Purpose |
+|--------|---------|
+| `sqs:CreateQueue` | Allows the service to create the queue if it doesn't exist (idempotent in most SDKs) |
+| `sqs:SendMessage` | The core action — publish an order event to the queue |
+| `sqs:GetQueueAttributes` | Read queue metadata (ARN, depth, policy) used by SDKs on startup |
+| `sqs:GetQueueUrl` | Resolve the queue name → URL (required before any API call can be made) |
+
+> The SQS ARN format is `arn:aws:sqs:REGION:ACCOUNT_ID:QUEUE_NAME` — note **sqs** in the
+> service field, not `sqs/queue` or any other variant. The queue name is the final segment
+> with no leading slash.
+
+---
+
+### Step 3: Create IRSA and Bind to the Orders ServiceAccount
+
+```bash
+eksctl create iamserviceaccount \
+  --cluster $CLUSTER_NAME \
+  --region $AWS_REGION \
+  --namespace orders \
+  --name orders \
+  --attach-policy-arn arn:aws:iam::${AWS_ACCOUNT}:policy/orders-sqs-policy \
+  --role-name orders-to-sqs \
+  --approve \
+  --override-existing-serviceaccounts
+```
+
+This command:
+- Creates an IAM role `orders-to-sqs` with a trust policy scoped to the cluster's OIDC provider
+- Attaches `orders-sqs-policy` to the role
+- Annotates the existing `orders` ServiceAccount in the `orders` namespace with the role ARN
+- Does **not** reinstall the Helm chart — the annotation is added in-place
+
+#### Verify the ServiceAccount annotation
+
+```bash
+kubectl get sa orders -o yaml -n orders
+```
+
+Expected output (look for the annotation):
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/orders-to-sqs
+  labels:
+    app.kubernetes.io/component: service
+    app.kubernetes.io/instance: orders
+    app.kubernetes.io/managed-by: eksctl
+  name: orders
+  namespace: orders
+```
+
+---
+
+### Step 4: Configure the Orders Helm Chart
+
+Update `values.yaml` to switch the messaging provider from `in-memory` to `sqs`:
+
+```yaml
+# Before
+app:
+  messaging:
+    provider: 'in-memory'
+
+# After
+app:
+  messaging:
+    provider: 'sqs'
+    sqs:
+      topic: "orders-events"   # this is the SQS queue name (not an SNS topic)
+```
+
+The chart will set these environment variables on the Orders pod:
+
+```
+RETAIL_ORDERS_MESSAGING_PROVIDER=sqs
+```
+
+> ⚠️ **Chart Limitation:** The Retail Orders Helm chart does not expose an extra-env
+> field. It sets `RETAIL_ORDERS_MESSAGING_PROVIDER` from `values.yaml`, but
+> `RETAIL_ORDERS_MESSAGING_SQS_TOPIC` cannot be injected via Helm values.
+> It must be patched directly into the Deployment (Step 5).
+> The chart maintainers are expected to fix this in a future release.
+
+---
+
+### Step 5: Patch the Missing Environment Variable
+
+Because the Helm chart does not expose a way to set `RETAIL_ORDERS_MESSAGING_SQS_TOPIC`,
+patch the Deployment directly:
+
+```bash
+kubectl set env deployment/orders \
+  RETAIL_ORDERS_MESSAGING_SQS_TOPIC=orders-events \
+  -n orders
+```
+
+This injects the env var directly into the running Deployment spec. The pod is restarted
+automatically. Note: this change is outside Helm — a `helm upgrade` will overwrite it.
+If you re-upgrade, re-run this patch command afterward.
+
+---
+
+### Step 6: Verify
+
+#### Check env vars are present in the pod
+
+```bash
+kubectl exec -it deploy/orders -n orders -- env | grep RETAIL
+```
+
+Expected output — look for all three:
+
+```
+RETAIL_ORDERS_PERSISTENCE_PROVIDER=postgres
+RETAIL_ORDERS_PERSISTENCE_NAME=orders
+RETAIL_ORDERS_MESSAGING_PROVIDER=sqs
+RETAIL_ORDERS_MESSAGING_SQS_TOPIC=orders-events   ← confirm this is present
+```
+
+#### If the queue env var is still missing after the patch
+
+```bash
+kubectl rollout restart deploy/orders -n orders
+```
+
+Then verify again with the `exec` command above.
+
+#### Confirm the queue is receiving messages
+
+Place a test order in the UI. The `orders-events` SQS queue is created at runtime on the
+first `SendMessage` call — it will not appear in the console until an order event is published.
+
+```bash
+# Check the queue depth after placing an order
+aws sqs get-queue-attributes \
+  --queue-url https://sqs.${AWS_REGION}.amazonaws.com/${AWS_ACCOUNT_ID}/orders-events \
+  --attribute-names ApproximateNumberOfMessages
+```
+
+---
+
+### End-to-end flow summary
+
+```
+Step 1: aws sqs create-queue --queue-name orders-events
+          → Standard SQS queue created
+
+Step 2: aws iam create-policy --policy-name orders-sqs-policy
+          → IAM policy with SendMessage + GetQueueUrl + GetQueueAttributes + CreateQueue
+
+Step 3: eksctl create iamserviceaccount ... --role-name orders-to-sqs
+          → IRSA role created
+          → orders ServiceAccount annotated with role ARN
+          → Pod gets temporary AWS credentials via projected token
+
+Step 4: Update values.yaml: provider: 'sqs'
+          → Helm sets RETAIL_ORDERS_MESSAGING_PROVIDER=sqs on pod
+
+Step 5: kubectl set env deployment/orders RETAIL_ORDERS_MESSAGING_SQS_TOPIC=orders-events -n orders
+          → Patch injects the missing env var the chart cannot set
+
+Step 6: kubectl exec -it deploy/orders -n orders -- env | grep RETAIL
+          → Verify all three env vars are present
+
+Result: Orders service publishes an event to SQS for every order placed ✅
+```
