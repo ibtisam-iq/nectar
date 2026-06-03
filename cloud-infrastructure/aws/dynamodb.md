@@ -588,7 +588,7 @@ Result: --attribute-definitions never lists all your fields.
 
 ```bash
 aws dynamodb create-table \
-  --table-name carts \
+  --table-name cart \
   --attribute-definitions \
       AttributeName=id,AttributeType=S \
       AttributeName=customerId,AttributeType=S \
@@ -608,7 +608,7 @@ aws dynamodb create-table \
 
 #### Flag-by-flag explanation
 
-**`--table-name carts`**
+**`--table-name cart`**
 
 Names the table. This is the identifier your application SDK calls reference when performing GetItem, PutItem, Query, etc.
 
@@ -735,7 +735,7 @@ Breaking down each field in the GSI JSON:
 ```bash
 ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 
-cat > carts-dynamo-policy.json <<EOF
+cat > cart-dynamo-policy.json <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -744,8 +744,8 @@ cat > carts-dynamo-policy.json <<EOF
       "Effect": "Allow",
       "Action": "dynamodb:*",
       "Resource": [
-        "arn:aws:dynamodb:us-east-1:${ACCOUNT_ID}:table/carts",
-        "arn:aws:dynamodb:us-east-1:${ACCOUNT_ID}:table/carts/index/*"
+        "arn:aws:dynamodb:us-east-1:${ACCOUNT_ID}:table/cart",
+        "arn:aws:dynamodb:us-east-1:${ACCOUNT_ID}:table/cart/index/*"
       ]
     }
   ]
@@ -753,8 +753,8 @@ cat > carts-dynamo-policy.json <<EOF
 EOF
 
 aws iam create-policy \
-  --policy-name carts-dynamo \
-  --policy-document file://carts-dynamo-policy.json
+  --policy-name cart-dynamo \
+  --policy-document file://cart-dynamo-policy.json
 ```
 
 #### Why two Resource ARNs?
@@ -762,10 +762,10 @@ aws iam create-policy \
 IAM evaluates permissions at the resource level. DynamoDB tables and their indexes are separate IAM resource types:
 
 ```
-arn:aws:dynamodb:us-east-1:ACCOUNT:table/carts
+arn:aws:dynamodb:us-east-1:ACCOUNT:table/cart
   → Covers table-level operations: PutItem, GetItem, DeleteItem, UpdateItem, Query, Scan
 
-arn:aws:dynamodb:us-east-1:ACCOUNT:table/carts/index/*
+arn:aws:dynamodb:us-east-1:ACCOUNT:table/cart/index/*
   → Covers index-level operations: Query against any GSI/LSI on the carts table
 
 Without the second ARN:
@@ -786,8 +786,8 @@ eksctl create iamserviceaccount \
   --cluster $CLUSTER_NAME \
   --namespace cart \
   --name cart \
-  --attach-policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/carts-dynamo \
-  --role-name dynamo-table-access-for-carts \
+  --attach-policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/cart-dynamo \
+  --role-name dynamo-table-access-for-cart \
   --approve \
   --override-existing-serviceaccounts
 ```
@@ -797,7 +797,7 @@ eksctl create iamserviceaccount \
 | `--cluster` | Binds the IAM role trust policy to this cluster's OIDC provider. |
 | `--namespace cart` | The Kubernetes namespace where the ServiceAccount is created. |
 | `--name cart` | The name of the Kubernetes ServiceAccount. Must match what the Cart deployment references in `serviceAccountName`. |
-| `--attach-policy-arn` | Attaches the `carts-dynamo` policy to the new IAM role. |
+| `--attach-policy-arn` | Attaches the `cart-dynamo` policy to the new IAM role. |
 | `--role-name` | Explicit IAM role name for clarity and IAM console visibility. |
 | `--approve` | Applies immediately without a confirmation prompt. |
 | `--override-existing-serviceaccounts` | Updates the IRSA annotation if the ServiceAccount already exists instead of failing. |
@@ -805,7 +805,7 @@ eksctl create iamserviceaccount \
 After this command, the Cart ServiceAccount in `kube-system` will have the annotation:
 
 ```yaml
-eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/dynamo-table-access-for-carts
+eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/dynamo-table-access-for-cart
 ```
 
 The EKS pod identity webhook injects temporary AWS credentials into the pod via a projected token, and the AWS SDK in the Cart service picks them up automatically.
@@ -827,7 +827,7 @@ kubectl get sa -n cart cart -o yaml | grep role-arn
 Expected output:
 
 ```yaml
-eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/dynamo-table-access-for-carts
+eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/dynamo-table-access-for-cart
 ```
 
 ---
