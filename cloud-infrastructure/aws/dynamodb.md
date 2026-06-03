@@ -783,10 +783,10 @@ IRSA (IAM Roles for Service Accounts) lets a Kubernetes ServiceAccount assume an
 
 ```bash
 eksctl create iamserviceaccount \
-  --cluster ibtisam-iq-eks-cluster \
+  --cluster $CLUSTER_NAME \
   --namespace cart \
   --name cart \
-  --attach-policy-arn arn:aws:iam::${AWS_ACCOUNT_ID}:policy/carts-dynamo \
+  --attach-policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/carts-dynamo \
   --role-name dynamo-table-access-for-carts \
   --approve \
   --override-existing-serviceaccounts
