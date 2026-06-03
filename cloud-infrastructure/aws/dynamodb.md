@@ -733,6 +733,8 @@ Breaking down each field in the GSI JSON:
 ### Step 2: Create the IAM Policy for DynamoDB Access
 
 ```bash
+ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+
 cat > carts-dynamo-policy.json <<EOF
 {
   "Version": "2012-10-17",
@@ -742,8 +744,8 @@ cat > carts-dynamo-policy.json <<EOF
       "Effect": "Allow",
       "Action": "dynamodb:*",
       "Resource": [
-        "arn:aws:dynamodb:us-east-1:${AWS_ACCOUNT_ID}:table/carts",
-        "arn:aws:dynamodb:us-east-1:${AWS_ACCOUNT_ID}:table/carts/index/*"
+        "arn:aws:dynamodb:us-east-1:${ACCOUNT_ID}:table/carts",
+        "arn:aws:dynamodb:us-east-1:${ACCOUNT_ID}:table/carts/index/*"
       ]
     }
   ]
