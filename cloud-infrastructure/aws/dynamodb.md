@@ -563,4 +563,286 @@ IAM conditions allow restricting access to specific items within a table:
 - [ ] Fine-grained IAM — how do you restrict a user to their own items only?
 - [ ] What is PITR? Retention window?
 
+---
+
+## 23. Creating a DynamoDB Table via AWS CLI ⭐
+
+This section covers the complete workflow for creating a DynamoDB table from the CLI, creating an IAM policy scoped to that table, and binding it to a Kubernetes ServiceAccount via IRSA — the standard pattern for microservices running on EKS.
+
+### Key insight: DynamoDB is schemaless — declare only key attributes
+
+Before looking at the flags, understand this critical difference from SQL databases:
+
+```
+SQL (RDS):       You define ALL columns at table creation time.
+DynamoDB:        You declare ONLY the attributes used as keys (PK, SK, GSI keys).
+                 All other attributes are written freely at runtime — no schema needed.
+
+Result: --attribute-definitions never lists all your fields.
+        It only lists the fields that appear in --key-schema or --global-secondary-indexes.
+```
+
+---
+
+### Step 1: Create the DynamoDB Table
+
+```bash
+aws dynamodb create-table \
+  --table-name carts \
+  --attribute-definitions \
+      AttributeName=id,AttributeType=S \
+      AttributeName=customerId,AttributeType=S \
+  --key-schema \
+      AttributeName=id,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST \
+  --global-secondary-indexes '[
+    {
+      "IndexName": "idx_global_customerId",
+      "KeySchema": [
+        { "AttributeName": "customerId", "KeyType": "HASH" }
+      ],
+      "Projection": { "ProjectionType": "ALL" }
+    }
+  ]'
+```
+
+#### Flag-by-flag explanation
+
+**`--table-name carts`**
+
+Names the table. This is the identifier your application SDK calls reference when performing GetItem, PutItem, Query, etc.
+
+---
+
+**`--attribute-definitions`**
+
+```
+AttributeName=id,AttributeType=S
+AttributeName=customerId,AttributeType=S
+```
+
+Declares the *type* of every attribute that will be used as a key anywhere in the table — either as the primary key or as a GSI/LSI key. This is **not** a column definition. DynamoDB is schemaless; fields like `items`, `quantity`, `createdAt` are written at runtime and never declared here.
+
+You must declare both `id` and `customerId` here because:
+- `id` is used in `--key-schema` as the table primary key
+- `customerId` is used in `--global-secondary-indexes` as the GSI partition key
+
+`AttributeType` values:
+
+| Code | Type |
+|------|------|
+| `S` | String |
+| `N` | Number |
+| `B` | Binary |
+
+---
+
+**`--key-schema`**
+
+```
+AttributeName=id,KeyType=HASH
+```
+
+Defines the **primary key** of the table. `KeyType=HASH` means `id` is the partition key — DynamoDB hashes its value to determine which physical partition stores the item. Every item must have a unique `id` value.
+
+There is no `KeyType=RANGE` (sort key) here, so `id` alone uniquely identifies each cart.
+
+```
+KeyType values:
+  HASH   → Partition key  (required, must be unique per item)
+  RANGE  → Sort key       (optional, enables range queries within a partition)
+```
+
+If a composite key were used (e.g., cart service that keeps history), the schema would be:
+
+```bash
+  --key-schema \
+      AttributeName=customerId,KeyType=HASH \
+      AttributeName=createdAt,KeyType=RANGE
+```
+
+---
+
+**`--billing-mode PAY_PER_REQUEST`**
+
+Controls how read/write capacity is charged:
+
+```
+PAY_PER_REQUEST (On-Demand):
+  → Pay per actual read/write operation
+  → No capacity planning — DynamoDB scales automatically
+  → Best for: variable traffic, new tables, unknown workload patterns
+
+PROVISIONED:
+  → You set fixed RCU/WCU per second
+  → Pay per provisioned capacity regardless of actual usage
+  → Best for: steady, predictable workloads
+  → Can add Auto Scaling to adjust capacity automatically
+```
+
+For microservices projects with variable traffic, `PAY_PER_REQUEST` avoids throttling during traffic spikes and eliminates capacity planning.
+
+---
+
+**`--global-secondary-indexes`**
+
+This flag is the most complex. A GSI creates an alternate index on the table that uses a *different* partition key, allowing queries that would otherwise require a full table Scan.
+
+```
+Base table primary key: id
+  → App can look up a cart by its ID: GetItem(id="cart-001") ✅
+  → App CANNOT find all carts for a customer without scanning the entire table ❌
+
+GSI with customerId as partition key:
+  → App can now query: "give me all carts where customerId = 'user-123'" ✅
+  → DynamoDB maintains this index automatically as items are written
+```
+
+Breaking down each field in the GSI JSON:
+
+```json
+{
+  "IndexName": "idx_global_customerId",
+  "KeySchema": [
+    { "AttributeName": "customerId", "KeyType": "HASH" }
+  ],
+  "Projection": { "ProjectionType": "ALL" }
+}
+```
+
+| Field | Value | Meaning |
+|-------|-------|---------|
+| `IndexName` | `idx_global_customerId` | The name your application uses when querying this index. Must be unique per table. |
+| `KeySchema.KeyType` | `HASH` | `customerId` becomes the partition key of this index. |
+| `Projection.ProjectionType` | `ALL` | All item attributes are copied into the GSI. |
+
+**Why is it called Global?** Because it uses a completely different partition key than the base table. A Local Secondary Index (LSI) must share the same partition key as the table but allows a different sort key — and must be created at table creation time. GSIs can be added or deleted at any time.
+
+**GSI Projection choices:**
+
+| Type | Attributes stored in index | Storage cost | Use case |
+|------|---------------------------|--------------|----------|
+| `KEYS_ONLY` | Only PK + SK + GSI key | Lowest | When you only need to confirm existence |
+| `INCLUDE` | Keys + named attributes | Medium | When you need a few specific fields |
+| `ALL` | All item attributes | Highest | When you need the full item from the GSI query |
+
+`ALL` is used here so the Cart service can retrieve the complete cart data directly from the GSI query without a second `GetItem` call on the base table.
+
+---
+
+### Step 2: Create the IAM Policy for DynamoDB Access
+
+```bash
+cat > carts-dynamo-policy.json <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllAPIActionsOnCart",
+      "Effect": "Allow",
+      "Action": "dynamodb:*",
+      "Resource": [
+        "arn:aws:dynamodb:us-east-1:${AWS_ACCOUNT_ID}:table/carts",
+        "arn:aws:dynamodb:us-east-1:${AWS_ACCOUNT_ID}:table/carts/index/*"
+      ]
+    }
+  ]
+}
+EOF
+
+aws iam create-policy \
+  --policy-name carts-dynamo \
+  --policy-document file://carts-dynamo-policy.json
+```
+
+#### Why two Resource ARNs?
+
+IAM evaluates permissions at the resource level. DynamoDB tables and their indexes are separate IAM resource types:
+
+```
+arn:aws:dynamodb:us-east-1:ACCOUNT:table/carts
+  → Covers table-level operations: PutItem, GetItem, DeleteItem, UpdateItem, Query, Scan
+
+arn:aws:dynamodb:us-east-1:ACCOUNT:table/carts/index/*
+  → Covers index-level operations: Query against any GSI/LSI on the carts table
+
+Without the second ARN:
+  → Querying idx_global_customerId returns AccessDeniedException
+  → Even though the table permission exists, index access is denied separately
+```
+
+The `/index/*` wildcard covers all current and future indexes on the table, so adding a new GSI later does not require an IAM policy update.
+
+---
+
+### Step 3: Bind IRSA to the Cart Namespace
+
+IRSA (IAM Roles for Service Accounts) lets a Kubernetes ServiceAccount assume an IAM role via the cluster's OIDC provider. The Cart microservice pod uses this ServiceAccount to authenticate to DynamoDB without any hardcoded credentials.
+
+```bash
+eksctl create iamserviceaccount \
+  --cluster ibtisam-iq-eks-cluster \
+  --namespace cart \
+  --name cart \
+  --attach-policy-arn arn:aws:iam::${AWS_ACCOUNT_ID}:policy/carts-dynamo \
+  --role-name dynamo-table-access-for-carts \
+  --approve \
+  --override-existing-serviceaccounts
+```
+
+| Flag | Purpose |
+|------|---------|
+| `--cluster` | Binds the IAM role trust policy to this cluster's OIDC provider. |
+| `--namespace cart` | The Kubernetes namespace where the ServiceAccount is created. |
+| `--name cart` | The name of the Kubernetes ServiceAccount. Must match what the Cart deployment references in `serviceAccountName`. |
+| `--attach-policy-arn` | Attaches the `carts-dynamo` policy to the new IAM role. |
+| `--role-name` | Explicit IAM role name for clarity and IAM console visibility. |
+| `--approve` | Applies immediately without a confirmation prompt. |
+| `--override-existing-serviceaccounts` | Updates the IRSA annotation if the ServiceAccount already exists instead of failing. |
+
+After this command, the Cart ServiceAccount in `kube-system` will have the annotation:
+
+```yaml
+eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/dynamo-table-access-for-carts
+```
+
+The EKS pod identity webhook injects temporary AWS credentials into the pod via a projected token, and the AWS SDK in the Cart service picks them up automatically.
+
+---
+
+### Step 4: Verify the ServiceAccount
+
+```bash
+kubectl get sa -n cart cart -o yaml
+```
+
+Confirm the annotation is present:
+
+```bash
+kubectl get sa -n cart cart -o yaml | grep role-arn
+```
+
+Expected output:
+
+```yaml
+eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/dynamo-table-access-for-carts
+```
+
+---
+
+### Access pattern summary for the `carts` table
+
+```
+Access pattern                          →  How it is served
+────────────────────────────────────────────────────────────
+Get cart by ID                          →  GetItem on base table  (PK: id)
+Get all carts for a customer            →  Query on GSI           (PK: customerId)
+Create / update a cart                  →  PutItem / UpdateItem on base table
+Delete a cart                           →  DeleteItem on base table
+```
+
+The GSI exists precisely because the second access pattern (`get all carts for a customer`) cannot be served by the base table primary key. Without it, the only alternative would be a full Scan — unacceptable at production scale.
+
+---
+
 ## Nectar
