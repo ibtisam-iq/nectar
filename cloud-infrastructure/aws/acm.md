@@ -323,6 +323,7 @@ Request flow:
 | One domain = one ACM certificate needed | Use **Subject Alternative Names (SANs)** — one cert covers multiple domains/subdomains |
 | Wildcard cert *.ibtisam-iq.com covers apex domain | Wildcard does NOT cover apex — request **both *.ibtisam-iq.com AND ibtisam-iq.com** |
 | ACM certificate validity is 1 year | ACM certs are valid for **198 days** (not 365) — but auto-renewal handles this transparently |
+| Domain must be registered on AWS / Route 53 | ACM only needs DNS ownership proof — **any DNS provider works** (Cloudflare, Namecheap, GoDaddy) |
 
 ---
 
@@ -337,3 +338,255 @@ Request flow:
 - [ ] What is ACM Private CA? When is it needed?
 - [ ] Wildcard cert — does *.example.com cover example.com? (NO)
 - [ ] What CloudWatch metric monitors certificate expiry?
+- [ ] Does the domain need to be on Route 53 for ACM? (NO — any DNS provider works with DNS validation)
+
+---
+
+## 12. CLI Workflow — Certificate with Third-Party DNS (Cloudflare) + EKS
+
+This is the real-world flow when your domain lives on **Cloudflare** (or any non-Route 53 DNS) and you want HTTPS on an EKS service via ALB Ingress.
+
+### The key insight
+
+ACM does **not** care where your domain is registered or who manages your DNS.
+It only needs you to add one CNAME record to prove ownership.
+Route 53 is never required — Cloudflare, Namecheap, GoDaddy all work identically.
+
+```
+ACM (AWS)                      Cloudflare (your DNS)
+    │                                  │
+    │  "Prove you own                   │
+    │   ibtisam-iq.com"                │
+    │──────────────────────────────────▶│
+    │                                  │
+    │  You add a CNAME                  │
+    │  record ACM gives you             │
+    │◀──────────────────────────────────│
+    │                                  │
+    │  ACM polls DNS every few minutes  │
+    │  CNAME found ✅                    │
+    │  Certificate issued ✅             │
+```
+
+---
+
+### Step 1 — Request the certificate
+
+```bash
+export CERT_ARN=$(aws acm request-certificate \
+  --domain-name retail-microservices.ibtisam-iq.com \
+  --validation-method DNS \
+  --region us-east-1 \
+  --query 'CertificateArn' \
+  --output text)
+
+echo $CERT_ARN
+# arn:aws:acm:us-east-1:123456789012:certificate/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+```
+
+> The certificate ARN is returned immediately but stays in **PENDING_VALIDATION** until you add the DNS record in Step 2.
+
+---
+
+### Step 2 — Retrieve the CNAME record ACM needs
+
+```bash
+aws acm describe-certificate \
+  --certificate-arn $CERT_ARN \
+  --region us-east-1 \
+  --query 'Certificate.DomainValidationOptions[0].ResourceRecord'
+```
+
+Example output:
+
+```json
+{
+    "Name":  "_abc123def456.retail-microservices.ibtisam-iq.com.",
+    "Type":  "CNAME",
+    "Value": "_xyz789qrs012.acm-validations.aws."
+}
+```
+
+> The `Name` always starts with `_` — this is ACM's proof-of-ownership token.
+> Cloudflare strips trailing dots automatically; ignore them.
+
+---
+
+### Step 3 — Add the CNAME in Cloudflare
+
+Go to **Cloudflare Dashboard → ibtisam-iq.com → DNS → Add Record**:
+
+| Field | Value |
+|-------|-------|
+| Type | `CNAME` |
+| Name | `_abc123def456.retail-microservices` (subdomain part only, without `.ibtisam-iq.com`) |
+| Target | `_xyz789qrs012.acm-validations.aws` |
+| Proxy status | ☁️ **DNS only (grey cloud)** — NOT orange proxied |
+
+> ⚠️ **Critical:** The validation CNAME **must be grey cloud (DNS only)** in Cloudflare.
+> If it is orange (proxied), Cloudflare rewrites the DNS response and ACM
+> cannot see the real CNAME value → validation never completes and the
+> certificate stays stuck in PENDING_VALIDATION forever.
+
+---
+
+### Step 4 — Wait for validation
+
+```bash
+# Blocks until certificate status = ISSUED (usually 1–5 minutes)
+aws acm wait certificate-validated \
+  --certificate-arn $CERT_ARN \
+  --region us-east-1
+
+# Verify
+aws acm describe-certificate \
+  --certificate-arn $CERT_ARN \
+  --region us-east-1 \
+  --query 'Certificate.Status'
+# "ISSUED" ✅
+```
+
+> The validation CNAME must **stay in Cloudflare permanently** — ACM checks it
+> every 60 days to auto-renew the certificate. Deleting it breaks renewal.
+
+---
+
+### Step 5 — Use the ARN in your EKS Helm values
+
+In your service's `values.yaml` (e.g., `ui-values.yaml`):
+
+```yaml
+ingress:
+  enabled: true
+  className: "alb"
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /actuator/health/liveness
+    alb.ingress.kubernetes.io/certificate-arn: "<paste $CERT_ARN here>"
+    alb.ingress.kubernetes.io/group.name: ecom-eks
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+  tls: []
+  hosts:
+    - "retail-microservices.ibtisam-iq.com"
+```
+
+**What each annotation does:**
+
+| Annotation | What it controls | Why this value |
+|-----------|-----------------|----------------|
+| `scheme: internet-facing` | ALB placed in public subnets | Users on the internet must reach the UI |
+| `target-type: ip` | ALB routes directly to Pod IPs | EKS uses VPC CNI — pods have real VPC IPs, no NodePort hop needed |
+| `healthcheck-path: /actuator/health/liveness` | URL ALB pings to test pod health | Spring Boot exposes this endpoint; using `/` may return redirect/404 |
+| `certificate-arn` | TLS certificate for HTTPS | ACM cert you just issued; TLS terminates at ALB, pod sees plain HTTP |
+| `group.name: ecom-eks` | Merges all services onto one shared ALB | Avoids creating one ALB per service (~$18/month each) |
+| `backend-protocol: HTTP` | Protocol ALB uses to talk to pods | Pods speak HTTP; ALB handles TLS termination |
+| `listen-ports` | Ports ALB opens to internet | Port 80 catches HTTP (for redirect); port 443 serves HTTPS |
+| `ssl-redirect: '443'` | Redirects HTTP → HTTPS automatically | Any `http://` request gets a 301 to `https://` |
+| `tls: []` | Empty — not used with ALB | ALB/ACM manage TLS; `tls:` block is the nginx/cert-manager pattern only |
+
+---
+
+### Step 6 — Deploy
+
+```bash
+kubectl create ns ui --dry-run=client -o yaml | kubectl apply -f -
+
+helm show values oci://public.ecr.aws/aws-containers/retail-store-sample-ui-chart \
+  --version 1.3.0 > helm-values/ui-values.yaml
+
+# Edit helm-values/ui-values.yaml — set endpoints, ingress, certificate-arn, host
+
+helm upgrade -i ui \
+  oci://public.ecr.aws/aws-containers/retail-store-sample-ui-chart \
+  --version 1.3.0 \
+  -f helm-values/ui-values.yaml \
+  -n ui
+```
+
+Verify the pod is running:
+
+```bash
+kubectl get po -n ui
+kubectl get ingress -n ui
+```
+
+Expected `kubectl get ingress` output:
+
+```
+NAME   CLASS   HOSTS                                    ADDRESS                                              PORTS
+ui     alb     retail-microservices.ibtisam-iq.com     k8s-ecomeks-xxxxxxxx.us-east-1.elb.amazonaws.com   80, 443
+```
+
+---
+
+### Step 7 — Point the domain to the ALB in Cloudflare
+
+Copy the `ADDRESS` from `kubectl get ingress` and add a second DNS record in Cloudflare:
+
+| Field | Value |
+|-------|-------|
+| Type | `CNAME` |
+| Name | `retail-microservices` |
+| Target | `k8s-ecomeks-xxxxxxxx.us-east-1.elb.amazonaws.com` |
+| Proxy status | 🟠 Orange (proxied) — optional, your choice |
+
+> Unlike the validation CNAME (which must be grey), this record can be orange-proxied
+> if you want Cloudflare's DDoS protection and CDN in front of your ALB.
+
+---
+
+### Complete end-to-end flow
+
+```
+Browser
+  │
+  │  http://retail-microservices.ibtisam-iq.com
+  ▼
+Cloudflare DNS → resolves to ALB hostname
+  │
+  │  HTTP :80
+  ▼
+AWS ALB (internet-facing, group: ecom-eks)
+  │  ssl-redirect annotation → 301 to HTTPS
+  │
+  │  HTTPS :443  ← ACM certificate terminates TLS here
+  ▼
+AWS ALB Target Group (target-type: ip)
+  │  backend-protocol: HTTP
+  │  healthcheck: /actuator/health/liveness (only healthy pods receive traffic)
+  ▼
+UI Pod (port 80, Java/Spring Boot)
+```
+
+---
+
+### CLI quick-reference (all 7 steps)
+
+```bash
+# 1. Request certificate
+export CERT_ARN=$(aws acm request-certificate \
+  --domain-name retail-microservices.ibtisam-iq.com \
+  --validation-method DNS --region us-east-1 \
+  --query 'CertificateArn' --output text)
+
+# 2. Get CNAME to add in Cloudflare
+aws acm describe-certificate --certificate-arn $CERT_ARN --region us-east-1 \
+  --query 'Certificate.DomainValidationOptions[0].ResourceRecord'
+
+# 3. Add CNAME in Cloudflare (grey cloud / DNS only) — manual step in UI
+
+# 4. Wait for ISSUED
+aws acm wait certificate-validated --certificate-arn $CERT_ARN --region us-east-1
+
+# 5. Paste $CERT_ARN into ui-values.yaml under certificate-arn annotation
+
+# 6. Deploy
+helm upgrade -i ui oci://public.ecr.aws/aws-containers/retail-store-sample-ui-chart \
+  --version 1.3.0 -f helm-values/ui-values.yaml -n ui
+
+# 7. Get ALB hostname → add CNAME in Cloudflare (orange cloud optional)
+kubectl get ingress -n ui
+```
