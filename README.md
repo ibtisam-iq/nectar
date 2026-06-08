@@ -1,6 +1,6 @@
 # Nectar
 
-[![Docs](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml/badge.svg)](https://github.com/ibtisam-iq/nectar/actions/workflows/docs.yml)
+[![Docs](https://github.com/ibtisam-iq/nectar/actions/workflows/pages.yml/badge.svg)](https://github.com/ibtisam-iq/nectar/actions/workflows/pages.yml)
 [![Site](https://img.shields.io/badge/Live-nectar.ibtisam--iq.com-01696f)](https://nectar.ibtisam-iq.com)
 
 My personal engineering knowledge base — continuously growing as I learn.
