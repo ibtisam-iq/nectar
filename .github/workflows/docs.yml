@@ -40,18 +40,18 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6.0.2
         with:
           fetch-depth: 0
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6.2.0
         with:
-          python-version: "3.11"
+          python-version: "3.14"
           cache: pip
 
       - name: Cache pip
-        uses: actions/cache@v4
+        uses: actions/cache@v5.0.5
         with:
           path: ~/.cache/pip
           key: pip-${{ hashFiles('requirements.txt') }}
@@ -61,13 +61,15 @@ jobs:
 
       - name: Build MkDocs site
         run: mkdocs build
+        env:
+          DISABLE_MKDOCS_2_WARNING: "true"
 
       # NOTE: html5validator removed — this repo is Markdown-only; HTML is generated
       # by MkDocs + Material theme. Validation failures were caused by theme internals
       # (e.g. hidden checkbox <label> associations), not content. No actionable signal.
 
       - name: QA — Check for broken links
-        uses: lycheeverse/lychee-action@v2
+        uses: lycheeverse/lychee-action@v2.8.0
         with:
           args: >
             ./site/**/*.html
@@ -81,7 +83,7 @@ jobs:
 
       - name: Upload link check report
         if: ${{ always() && env.ACT != 'true' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: lychee-report
           path: lychee/
@@ -90,7 +92,7 @@ jobs:
 
       - name: Upload site artifact
         if: ${{ env.ACT != 'true' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: site
           path: ./site
@@ -114,18 +116,18 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6.0.2
 
       - name: Download built site
         if: ${{ env.ACT != 'true' }}
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8.0.1
         with:
           name: site
           path: ./site
 
       - name: Deploy PR preview
         if: ${{ env.ACT != 'true' }}
-        uses: rossjrw/pr-preview-action@v1
+        uses: rossjrw/pr-preview-action@v1.8.1
         with:
           source-dir: ./site
           umbrella-dir: previews
@@ -147,11 +149,11 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6.0.2
 
       - name: Download built site
         if: ${{ env.ACT != 'true' }}
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8.0.1
         with:
           name: site
           path: ./site
@@ -162,7 +164,7 @@ jobs:
 
       - name: Deploy to GitHub Pages
         if: ${{ env.ACT != 'true' }}
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@v4.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./site
