@@ -1,200 +1,207 @@
 # ArgoCD — Quick Reference
 
-## Application Manifest — Full Structure
+## Install (Helm, Bare-Metal)
+
+```bash
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+helm install argocd argo/argo-cd \
+  --namespace argocd \
+  --create-namespace
+```
+
+## Expose ArgoCD Server (NodePort)
+
+```bash
+kubectl patch svc argocd-server -n argocd \
+  -p '{"spec":{"type":"NodePort"}}'
+```
+
+## Get Initial Admin Password
+
+```bash
+kubectl -n argocd get secret argocd-initial-admin-secret \
+  -o jsonpath="{.data.password}" | base64 -d && echo
+```
+
+## CLI Login
+
+```bash
+argocd login <node-ip>:<nodePort> \
+  --username admin \
+  --password <password> \
+  --insecure
+```
+
+---
+
+## argocd CLI Cheat Sheet
+
+| Command | What it does |
+|---------|--------------|
+| `argocd app list` | List all Applications |
+| `argocd app get <name>` | Show app details (sync/health status, resources) |
+| `argocd app sync <name>` | Trigger a manual sync |
+| `argocd app diff <name>` | Show diff between Git desired state and live state |
+| `argocd app history <name>` | List sync history |
+| `argocd app rollback <name> <id>` | Roll back to a previous revision |
+| `argocd app delete <name>` | Delete the Application (and optionally its resources) |
+| `argocd app set <name> --sync-policy automated` | Enable auto-sync via CLI |
+| `argocd repo add <url>` | Register a private Git repo |
+| `argocd cluster add <context>` | Register an external cluster |
+
+---
+
+## Application Skeleton — Plain YAML Source
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: <app-name>               # Name of the Application object
-  namespace: argocd              # Always argocd — where Application CRDs live
-  labels:
-    app.kubernetes.io/name: <app-name>
-  annotations:
-    # Image Updater annotations (if used) go here — see argocd-guide.md §9
-
+  name: my-app
+  namespace: argocd
 spec:
-  project: default               # AppProject name; default allows everything
-
-  # ── SINGLE SOURCE ──────────────────────────────────────────────────────────
+  project: default
   source:
-    repoURL: https://github.com/org/repo.git   # Git repo URL
-    targetRevision: HEAD                        # branch / tag / commit SHA
-    path: path/to/manifests                     # folder inside the repo
+    repoURL: https://github.com/my-org/cd-repo
+    targetRevision: HEAD
+    path: apps/my-app
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: my-app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+```
 
-    # Helm options (only when Chart.yaml is detected)
+## Application Skeleton — Helm Source
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-helm-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/my-org/cd-repo
+    targetRevision: HEAD
+    path: charts/my-app
     helm:
-      releaseName: my-release
+      releaseName: my-app
       valueFiles:
         - values.yaml
         - values-prod.yaml
-      parameters:
-        - name: image.tag
-          value: sha-abc1234
-
-    # Kustomize options (only when kustomization.yaml is detected)
-    kustomize:
-      images:
-        - ghcr.io/org/app:sha-abc1234
-
-  # ── MULTIPLE SOURCES (ArgoCD 2.6+, mutually exclusive with source) ─────────
-  # sources:
-  #   - repoURL: https://github.com/org/charts.git
-  #     targetRevision: HEAD
-  #     path: charts/myapp
-  #     helm:
-  #       valueFiles:
-  #         - $values/envs/prod/values.yaml
-  #   - repoURL: https://github.com/org/config.git
-  #     targetRevision: HEAD
-  #     ref: values
-
-  # ── DESTINATION ─────────────────────────────────────────────────────────────
   destination:
-    server: https://kubernetes.default.svc   # in-cluster; use URL for remote cluster
-    namespace: my-app-namespace
-
-  # ── SYNC POLICY ─────────────────────────────────────────────────────────────
+    server: https://kubernetes.default.svc
+    namespace: my-app
   syncPolicy:
     automated:
-      prune: true        # delete resources removed from Git
-      selfHeal: true     # re-sync when cluster drifts from Git
+      prune: true
+      selfHeal: true
     syncOptions:
-      - CreateNamespace=true         # create namespace if missing
-      - ApplyOutOfSyncOnly=true      # skip already-synced resources
-      - ServerSideApply=true         # use server-side apply
-      - PrunePropagationPolicy=foreground
-    retry:
-      limit: 5
-      backoff:
-        duration: 5s
-        factor: 2
-        maxDuration: 3m
-
-  # ── IGNORE DIFFERENCES ──────────────────────────────────────────────────────
-  ignoreDifferences:
-    - group: apps
-      kind: Deployment
-      jsonPointers:
-        - /spec/replicas             # ignore HPA-managed replica count
+      - CreateNamespace=true
 ```
 
----
-
-## Auto-Detection Logic (What ArgoCD Looks for in `path`)
-
-```
-path/
-├── Chart.yaml          → Helm   (helm template)
-├── kustomization.yaml  → Kustomize (kustomize build)
-└── *.yaml only         → Directory (kubectl apply -f)
-```
-
-Only **one engine** is active per path. ArgoCD picks automatically.
-
----
-
-## `targetRevision` Cheat Sheet
-
-| Value | Tracks | Mutable? |
-|---|---|---|
-| `HEAD` | Default branch tip | ✅ Changes on every push |
-| `main` | `main` branch tip | ✅ Changes on every push |
-| `v1.2.3` | A specific tag | ❌ Immutable |
-| `abc1234f` | A specific commit | ❌ Fully immutable |
-
----
-
-## Sync Status vs Health Status
-
-| | Synced | OutOfSync |
-|---|---|---|
-| **Healthy** | ✅ All good | Git has changes not yet applied |
-| **Progressing** | Rolling out | Rollout in progress |
-| **Degraded** | Applied correctly but Pods crashing | Both problems at once |
-| **Missing** | Resources missing from cluster | Resources missing + Git has changes |
-
----
-
-## Sync Options Reference
-
-| Option | Effect |
-|---|---|
-| `CreateNamespace=true` | Auto-create destination namespace |
-| `ApplyOutOfSyncOnly=true` | Only touch resources that differ |
-| `ServerSideApply=true` | Use server-side apply (handles CRDs, large annotations) |
-| `Replace=true` | Use `kubectl replace` instead of apply |
-| `PruneLast=true` | Prune deleted resources after new ones are healthy |
-| `PrunePropagationPolicy=foreground` | Wait for child resources to delete before parent |
-| `RespectIgnoreDifferences=true` | Apply ignoreDifferences during sync too |
-
----
-
-## Resource Hooks
+## Application Skeleton — Kustomize Source
 
 ```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
 metadata:
-  annotations:
-    argocd.argoproj.io/hook: PreSync      # PreSync | Sync | PostSync | SyncFail
-    argocd.argoproj.io/hook-delete-policy: HookSucceeded
-    argocd.argoproj.io/sync-wave: "-1"    # negative = earlier wave
+  name: my-kustomize-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/my-org/cd-repo
+    targetRevision: HEAD
+    path: overlays/production
+    kustomize:
+      images:
+        - myapp=myregistry.io/myapp:1.2.3
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: my-app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+```
+
+## Application Skeleton — Multi-Source (v2.6+)
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-multi-source-app
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://charts.bitnami.com/bitnami
+      chart: nginx
+      targetRevision: 15.0.0
+      helm:
+        valueFiles:
+          - $values/environments/prod/nginx-values.yaml
+    - repoURL: https://github.com/my-org/my-values-repo
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: my-app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
 ```
 
 ---
 
-## Image Updater Annotations (on Application)
+## Source Auto-Detection Logic
+
+| File present in `path` | Tool ArgoCD uses |
+|------------------------|------------------|
+| `Chart.yaml` | Helm |
+| `kustomization.yaml` | Kustomize |
+| `*.yaml` / `*.json` only | Plain directory (`kubectl apply`) |
+
+---
+
+## syncPolicy Fields at a Glance
+
+| Field | Values | Effect |
+|-------|--------|--------|
+| `automated.prune` | `true` / `false` | Delete resources removed from Git |
+| `automated.selfHeal` | `true` / `false` | Revert manual cluster changes |
+| `syncOptions: CreateNamespace=true` | — | Auto-create destination namespace |
+| `syncOptions: ServerSideApply=true` | — | Use server-side apply |
+| `syncOptions: ApplyOutOfSyncOnly=true` | — | Skip already-synced resources |
+| `retry.limit` | integer | Retry failed syncs N times |
+
+---
+
+## Image Updater Install
+
+```bash
+kubectl apply -n argocd \
+  -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
+```
+
+## Image Updater Annotations
 
 ```yaml
 annotations:
-  argocd-image-updater.argoproj.io/image-list: |
-    alias=ghcr.io/org/repo/service
-  argocd-image-updater.argoproj.io/alias.update-strategy: name
-  argocd-image-updater.argoproj.io/alias.allow-tags: regexp:^sha-[a-f0-9]{7}$
+  argocd-image-updater.argoproj.io/image-list: myapp=myregistry.io/myapp
+  argocd-image-updater.argoproj.io/myapp.update-strategy: semver
   argocd-image-updater.argoproj.io/write-back-method: git
   argocd-image-updater.argoproj.io/git-branch: main
 ```
-
----
-
-## CLI Quick Reference
-
-```bash
-# Login
-argocd login <argocd-server> --username admin --password <pass>
-
-# List apps
-argocd app list
-
-# Get app status
-argocd app get <app-name>
-
-# Manually sync
-argocd app sync <app-name>
-
-# Hard refresh (re-clone Git, bypass cache)
-argocd app get <app-name> --hard-refresh
-
-# Rollback to previous deployed version
-argocd app rollback <app-name> <history-id>
-
-# Get rollout history
-argocd app history <app-name>
-
-# Delete app (does NOT delete cluster resources by default)
-argocd app delete <app-name>
-
-# Delete app AND cluster resources
-argocd app delete <app-name> --cascade
-```
-
----
-
-## Common Errors and Fixes
-
-| Error | Cause | Fix |
-|---|---|---|
-| `ComparisonError: failed to load target state` | ArgoCD can't render manifests | Check path, targetRevision, and Helm/Kustomize syntax |
-| Service stays `<pending>` EXTERNAL-IP | No cloud LB on bare-metal | Patch to NodePort or use MetalLB |
-| App `OutOfSync` immediately after sync | `ignoreDifferences` not set for controller-managed fields | Add `ignoreDifferences` for HPA replicas, injected secrets etc. |
-| Kustomize exec plugin disabled | Security default | Add `--enable-exec-plugin` to `kustomize.buildOptions` in ArgoCD CM |
-| Image Updater not writing back | Wrong `write-back-method` or missing Git credentials | Set `write-back-method: git` and create `argocd-image-updater-secret` |
