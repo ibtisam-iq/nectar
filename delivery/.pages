@@ -6,3 +6,4 @@ nav:
   - sonarqube
   - github
   - github-actions
+  - argocd

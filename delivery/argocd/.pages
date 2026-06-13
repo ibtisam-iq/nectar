@@ -1,0 +1,7 @@
+title: ArgoCD
+nav:
+  - README.md
+  - argocd-guide.md
+  - application.md
+  - sync-strategies.md
+  - quick-ref.md
