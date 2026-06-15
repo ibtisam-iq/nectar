@@ -4,8 +4,8 @@
 
 This stack provides **metrics‑based monitoring and alerting** for the platform and workloads.
 
-- Focus: **metrics** (numeric time‑series) such as CPU, memory, request rate, error rate, latency. [web:39][web:42]  
-- It does **not** store or query raw application logs; a separate logging stack (e.g., Fluent Bit → CloudWatch, ECK/Elastic, Loki) handles logs. [web:42]
+- Focus: **metrics** (numeric time‑series) such as CPU, memory, request rate, error rate, latency.  
+- It does **not** store or query raw application logs; a separate logging stack (e.g., Fluent Bit → CloudWatch, ECK/Elastic, Loki) handles logs.
 
 Typical questions this stack answers:
 
@@ -24,7 +24,7 @@ At a process level, the metrics pipeline has three main stages:
 2. **Visualize metrics**  
    - A dashboard/UI layer queries the metrics engine and renders charts and dashboards.  
 3. **Alert on metrics**  
-   - An alerting component evaluates alert rules and routes notifications to channels like Slack. [web:31][web:32][web:37]
+   - An alerting component evaluates alert rules and routes notifications to channels like Slack.
 
 In the canonical open‑source Kubernetes stack, these roles are implemented by:
 
@@ -40,9 +40,9 @@ In the canonical open‑source Kubernetes stack, these roles are implemented by:
 
 | Concern         | Component     | Primary responsibility                                | Notes                                    |
 |-----------------|--------------|------------------------------------------------------|------------------------------------------|
-| Metrics engine  | Prometheus   | Scrape, store, and query metrics time‑series        | Pulls from `/metrics` endpoints [web:39] |
-| Visualization   | Grafana      | Dashboards and visual exploration of metrics        | Uses Prometheus as a data source [web:37]|
-| Alert routing   | Alertmanager | Receive alerts from Prometheus and send notifications | Groups, deduplicates, routes [web:32]    |
+| Metrics engine  | Prometheus   | Scrape, store, and query metrics time‑series        | Pulls from `/metrics` endpoints          |
+| Visualization   | Grafana      | Dashboards and visual exploration of metrics        | Uses Prometheus as a data source         |
+| Alert routing   | Alertmanager | Receive alerts from Prometheus and send notifications | Groups, deduplicates, routes             |
 
 
 ### 3.2 Prometheus – metrics engine
@@ -53,9 +53,9 @@ Key characteristics:
 
 - Pull‑based model: Prometheus regularly scrapes `/metrics` HTTP endpoints exposed by:  
   - Application services (instrumented with Prometheus client libraries)  
-  - Kubernetes components (kube‑state‑metrics, cAdvisor, node exporters, etc.) [web:39][web:43]  
+  - Kubernetes components (kube‑state‑metrics, cAdvisor, node exporters, etc.)  
 - Data model: time‑series, identified by metric name + labels (e.g. `http_requests_total{service="orders-api",status="500"}`).  
-- Storage: embedded time‑series database optimized for metrics; no external DB required. [web:39][web:42]  
+- Storage: embedded time‑series database optimized for metrics; no external DB required.  
 - Query language: PromQL, used both for dashboards and for alert expressions.
 
 Examples of what Prometheus does:
@@ -66,7 +66,7 @@ Examples of what Prometheus does:
   - “Page if error rate > 5% for 5 minutes.”  
   - “Warn if p95 latency > 500 ms for 10 minutes.”
 
-Prometheus **does not** store log lines; it only stores numerical metrics. [web:42]
+Prometheus **does not** store log lines; it only stores numerical metrics.
 
 ---
 
@@ -77,7 +77,7 @@ Prometheus **does not** store log lines; it only stores numerical metrics. [web:
 Key characteristics:
 
 - Grafana treats Prometheus as a **data source**.  
-- It does not store metrics itself; all data is pulled from Prometheus (or other sources). [web:37][web:40]  
+- It does not store metrics itself; all data is pulled from Prometheus (or other sources).  
 - You build dashboards that query Prometheus using PromQL and render time‑series graphs, gauges, tables, etc.  
 - Can combine multiple data sources (e.g., Prometheus for metrics, Loki/Elasticsearch/CloudWatch for logs) into one UI.
 
@@ -97,9 +97,9 @@ In this stack, Grafana is purely a **visual layer** over Prometheus metrics.
 
 How it works:
 
-- Prometheus evaluates alerting rules; when a rule fires, Prometheus sends an alert object to Alertmanager. [web:32][web:40]  
+- Prometheus evaluates alerting rules; when a rule fires, Prometheus sends an alert object to Alertmanager.  
 - Alertmanager de‑duplicates and groups alerts, then routes them according to configuration (routes, receivers, inhibition rules).  
-- Common receivers: Slack, email, PagerDuty, Opsgenie, webhooks, etc. [web:32]
+- Common receivers: Slack, email, PagerDuty, Opsgenie, webhooks, etc.
 
 Typical configuration:
 
@@ -107,7 +107,7 @@ Typical configuration:
 - Route `severity="warning"` alerts to a lower‑priority channel.  
 - Silence or inhibit noisy alerts during planned maintenance windows.
 
-In the “Prometheus + Grafana + Alertmanager + Slack” setup, this is the component that actually **sends messages** to Slack when something breaks. [web:32][web:34]
+In the “Prometheus + Grafana + Alertmanager + Slack” setup, this is the component that actually **sends messages** to Slack when something breaks.
 
 ---
 
@@ -119,20 +119,20 @@ The **process** (collect → visualize → alert) is stable; tools can change. F
 
 | Role           | Common OSS / SaaS options                          | Notes                                               |
 |----------------|----------------------------------------------------|-----------------------------------------------------|
-| Metrics engine | Prometheus, Cortex, Mimir, VictoriaMetrics         | All expose Prometheus‑compatible APIs [web:37]      |
-| Vendor suites  | Datadog, New Relic, CloudWatch Metrics, etc.       | Bundle metrics collection + storage + alerting [web:42] |
+| Metrics engine | Prometheus, Cortex, Mimir, VictoriaMetrics         | All expose Prometheus‑compatible APIs               |
+| Vendor suites  | Datadog, New Relic, CloudWatch Metrics, etc.       | Bundle metrics collection + storage + alerting      |
 
 ### 4.2 Visualization alternatives
 
 | Role          | Options                               | Notes                                                 |
 |---------------|----------------------------------------|-------------------------------------------------------|
-| Dashboards/UI | Grafana, vendor dashboards, some Kibana views | Grafana is the de‑facto OSS standard [web:37][web:40] |
+| Dashboards/UI | Grafana, vendor dashboards, some Kibana views | Grafana is the de‑facto OSS standard                 |
 
 ### 4.3 Alerting alternatives
 
 | Role        | Options                                            | Notes                                               |
 |-------------|----------------------------------------------------|-----------------------------------------------------|
-| Alerting    | Alertmanager, Datadog alerts, CloudWatch alarms, Opsgenie, PagerDuty rules | Some tools evaluate rules; some just receive alerts [web:32][web:42] |
+| Alerting    | Alertmanager, Datadog alerts, CloudWatch alarms, Opsgenie, PagerDuty rules | Some tools evaluate rules; some just receive alerts |
 
 In cloud‑native/Kubernetes ecosystems, the combination of:
 
@@ -140,7 +140,7 @@ In cloud‑native/Kubernetes ecosystems, the combination of:
 - **Grafana** for dashboards  
 - **Alertmanager** for notifications  
 
-is the de‑facto standard open‑source monitoring stack. [web:31][web:37][web:43]
+is the de‑facto standard open‑source monitoring stack.
 
 ---
 
@@ -150,13 +150,13 @@ Important separation of concerns:
 
 - **This stack handles metrics only.**  
   - Numeric measurements, trends, SLOs, health indicators.  
-  - Answers “Is something wrong?” and “How bad is it?”. [web:36][web:42]
+  - Answers “Is something wrong?” and “How bad is it?”.
 
 - **It does not provide log collection or log search.**  
   - For logs, a separate process and stack is used, such as:  
     - Fluent Bit → CloudWatch Logs  
     - Beats → Elasticsearch → Kibana (Elastic Stack)  
-    - Promtail → Loki → Grafana [web:21][web:27][web:42]
+    - Promtail → Loki → Grafana
 
 In practice, both metrics and logs are needed for full observability:
 
