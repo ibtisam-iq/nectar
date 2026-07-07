@@ -52,7 +52,7 @@ mkdocs-same-dir
 # -----------------------------------------------------------------------------
 # AutoRefs - Automatic cross-reference linking between pages
 # Enables simplified linking syntax and validates internal links
-mkdocs-autorefs==1.4.3
+mkdocs-autorefs==1.4.4
 
 # -----------------------------------------------------------------------------
 # GIT INTEGRATION
