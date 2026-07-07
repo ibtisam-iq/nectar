@@ -22,7 +22,7 @@ mkdocs>=1.6.1,<2.0.0
 # -----------------------------------------------------------------------------
 # Material for MkDocs - Modern, responsive documentation theme
 # Includes many built-in features: search, navigation, dark mode, etc.
-mkdocs-material==9.7.1
+mkdocs-material==9.7.6
 
 # Material theme extension utilities
 # Provides additional components and enhancements for Material theme
