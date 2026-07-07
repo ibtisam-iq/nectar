@@ -60,7 +60,7 @@ mkdocs-autorefs==1.4.4
 # Git Revision Date Localized - Shows last updated date from git commits
 # Automatically adds "Last updated: <date>" footer to every page
 # Uses git history to track when each file was last modified
-mkdocs-git-revision-date-localized-plugin==1.4.7
+mkdocs-git-revision-date-localized-plugin==1.5.3
 
 # -----------------------------------------------------------------------------
 # OPTIMIZATION & PERFORMANCE
