@@ -1,10 +1,10 @@
 nav:
   - Home: index.md
-  - Containers & Orchestration: containers-orchestration
-  - CI/CD & Software Delivery: delivery
-  - Cloud & Infrastructure: cloud-infrastructure
-  - Servers & Runtime Systems: servers
-  - Observability & Security: observability-security
-  - Operations & Self-Managed Systems: operations
-  - Engineering Scratchpad: scratchpad
   - Technical Grounding: technical-grounding
+  - Cloud & Infrastructure: cloud-infrastructure
+  - Containers & Orchestration: containers-orchestration
+  - CI/CD & Delivery: delivery
+  - Observability & Security: observability-security
+  - Operations: operations
+  - Servers & Runtime: servers
+  - Scratchpad: scratchpad

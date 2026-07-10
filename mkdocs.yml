@@ -35,10 +35,10 @@ theme:
   logo: docs/images/favicon.svg
   favicon: docs/images/favicon.ico
 
-  # Typography - using system fonts for performance
+  # Typography - modern premium pairing
   font:
-    text: Inter           # Modern, readable sans-serif font
-    code: Roboto Mono     # Monospace font for code blocks
+    text: Plus Jakarta Sans       # Modern geometric sans-serif font
+    code: JetBrains Mono          # Clean monospace font for code blocks
 
   # -------------------------------------------------------------------------
   # THEME FEATURES - Enable powerful navigation and UX enhancements
@@ -48,9 +48,9 @@ theme:
     - navigation.instant          # SPA-like instant loading without full page reload
     - navigation.instant.progress # Shows loading progress bar for instant navigation
     # - navigation.tracking         # Updates URL with the currently active anchor
-    # - navigation.tabs             # Top-level sections become tabs in header
+    - navigation.tabs             # Top-level sections become tabs in header
     - navigation.tabs.sticky      # Navigation tabs remain visible when scrolling
-    # - navigation.sections         # Top-level sections are rendered as groups
+    - navigation.sections         # Top-level sections are rendered as groups
     # - navigation.expand           # Expands all collapsed navigation sections
     - navigation.path             # Shows breadcrumb path above page title
     - navigation.prune            # Only renders visible navigation (improves performance)
@@ -76,14 +76,14 @@ theme:
     # - content.action.view         # Shows "view source" icon in header
 
   # -------------------------------------------------------------------------
-  # COLOR PALETTE - Light/Dark mode toggle
+  # COLOR PALETTE - Light/Dark mode toggle with custom CSS tokens
   # -------------------------------------------------------------------------
   palette:
     # Light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo         # Primary color for headers, links, buttons
-      accent: blue            # Accent color for interactive elements
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
@@ -91,8 +91,8 @@ theme:
     # Dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
-      accent: blue
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
