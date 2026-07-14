@@ -69,7 +69,7 @@ jobs:
       # (e.g. hidden checkbox <label> associations), not content. No actionable signal.
 
       - name: QA — Check for broken links
-        uses: lycheeverse/lychee-action@v2.8.0
+        uses: lycheeverse/lychee-action@v2.9.0
         with:
           args: >
             ./site/**/*.html
