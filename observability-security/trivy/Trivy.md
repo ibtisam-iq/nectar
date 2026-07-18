@@ -179,7 +179,7 @@ To scan a Kubernetes cluster for vulnerabilities, use the following command:
 trivy cluster --namespace default --image my_image:latest
 ```
 
-### Configuration File
+### Configuration File {: #configuration }
 You can specify a configuration file using the -c option. The configuration file should contain the following format:
 ```yaml
 trivy: 

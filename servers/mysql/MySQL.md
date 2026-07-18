@@ -163,7 +163,7 @@ services:
 
 The default configuration for MySQL can be found in `/etc/mysql/my.cnf`, which may `!includedir` additional directories such as **`/etc/mysql/conf.d`** or `/etc/mysql/mysql.conf.d`.
 
-### How to access?
+### How to access? {: #how-to-access-mysql }
 
 1. `mysql://localhost:3306/database_name`
 - Ensure that the firewall allows incoming traffic on port 3306.

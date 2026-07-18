@@ -17,7 +17,7 @@ This in-depth guide walks you through installing Pop!_OS alongside Windows 11 fo
 - [Step 7: Post-Installation Fixes (Boot Menu + Windows Boot Manager)](#step-7---post-installation-fixes-boot-menu--windows-boot-manager)
 - [Resources and Further Reading](#resources-and-further-reading)
 
-## Step Zero — Preparing the Pop!_OS Bootable USB
+## Step Zero — Preparing the Pop!_OS Bootable USB {: #step-zero---preparing-the-pop_os-bootable-usb }
 
 This step covers everything required before installing Pop!_OS alongside Windows 11.
 The goal is simple: **create a clean, bootable USB** that can be used for dual-boot.
@@ -147,7 +147,7 @@ By the end of Step Zero, you will have:
 
 ---
 
-## Step 1 — Clean Old Linux Boot Entries + EFI Partitions (Windows Side)
+## Step 1 — Clean Old Linux Boot Entries + EFI Partitions (Windows Side) {: #step-1---clean-old-linux-boot-entries--efi-partitions-windows-side }
 
 This step ensures that all previous Linux distributions are fully removed from the system before installing Pop!_OS.
 We work from Windows because Windows controls the active EFI bootloader.
@@ -311,7 +311,7 @@ This confirms:
 
 ---
 
-## ✅ Step 2 — Create Clean Unallocated Space for Pop!_OS Installation
+## ✅ Step 2 — Create Clean Unallocated Space for Pop!_OS Installation {: #step-2---create-clean-unallocated-space-for-pop_os-installation }
 
 This step prepares the disk for Pop!_OS by ensuring clean, unused, **unallocated** space.
 Dual-boot installations require a separate partition area where the Linux installer can create its own:
@@ -545,7 +545,7 @@ These will be created automatically by the Pop!_OS installer in Step 3.
 
 ---
 
-## ✅ Step 3 — Understanding the ESP (EFI System Partition) Requirement for Pop!_OS
+## ✅ Step 3 — Understanding the ESP (EFI System Partition) Requirement for Pop!_OS {: #step-3---understanding-the-esp-efi-system-partition-requirement-for-pop_os }
 
 Before creating any new partitions, it’s important to understand **how Pop!_OS handles booting** and **why it cannot use the existing Windows EFI partition**.
 
@@ -779,7 +779,7 @@ This theory prepares you for the *actual* Step 4, where we will use a safe tool 
 
 ---
 
-## ✅ Step 3 — Additional Clarification: The Three Possible Options for ESP (And Why Two Are Dangerous)
+## ✅ Step 3 — Additional Clarification: The Three Possible Options for ESP (And Why Two Are Dangerous) {: #additional-clarification-the-three-possible-options-for-esp-and-why-two-are-dangerous }
 
 *(This section is appended to the previous Step 3. Do NOT replace Step 3, just add this.)*
 
@@ -890,7 +890,7 @@ This is the option we used.
 
 ---
 
-## ✅ Step 4 — Creating the New 1GB Unallocated Space Directly After MSR (Using AOMEI Partition Tool)
+## ✅ Step 4 — Creating the New 1GB Unallocated Space Directly After MSR (Using AOMEI Partition Tool) {: #step-4---creating-the-new-1gb-unallocated-space-directly-after-msr-using-aomei-partition-tool }
 
 This step creates the **1GB unallocated block** that will later become the **Pop!_OS /boot/efi** partition.
 
@@ -1102,7 +1102,7 @@ This completes Step 4.
 
 ---
 
-## ✅ Step 5 — Final System Checks Before Installing Pop!_OS
+## ✅ Step 5 — Final System Checks Before Installing Pop!_OS {: #step-5---final-system-checks-before-installing-pop_os }
 
 Before starting the actual Pop!_OS installation, we must verify that the system is correctly prepared.
 This ensures a safe dual-boot environment, prevents Windows boot failures, and guarantees that the Linux installer will detect partitions correctly.
@@ -1238,7 +1238,7 @@ At this point, the system is in a **perfect, clean state**, and you are ready to
 
 ---
 
-## ✅ Step 6 — Installing Pop!_OS Using Custom (Advanced) Mode
+## ✅ Step 6 — Installing Pop!_OS Using Custom (Advanced) Mode {: #step-6---installing-pop_os-using-custom-advanced-mode }
 
 This step performs the actual Pop!_OS installation, using the custom partition layout we prepared in earlier steps.
 
@@ -1461,7 +1461,7 @@ When done, reboot.
 
 ---
 
-## Step 7 — Post-Installation Fixes (Boot Menu + Windows Boot Manager)
+## Step 7 — Post-Installation Fixes (Boot Menu + Windows Boot Manager) {: #step-7---post-installation-fixes-boot-menu--windows-boot-manager }
 
 This is the **final step**, executed **after Pop!_OS finishes installing** and reboots for the first time.
 
@@ -1697,3 +1697,11 @@ This completes the entire dual-boot procedure end-to-end.
 ---
 
 Happy dual-booting!
+
+---
+
+## Resources and Further Reading {: #resources-and-further-reading }
+
+- [Official Pop!_OS Installation Guide](https://support.system76.com/articles/install-pop/)
+- [System76 Dual Boot Guide](https://support.system76.com/articles/dual-booting/)
+- [systemd-boot Documentation](https://www.freedesktop.org/wiki/Software/systemd/systemd-boot/)

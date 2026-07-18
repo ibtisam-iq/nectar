@@ -270,5 +270,5 @@ That's how you gain full control over pod placement in your cluster — like an 
 
 ## Want to learn more? 🤔
 
-Please click [here](taints-affinity-guide-2.md) for understanding this topic in more depth.
+Please click [here](taints-affinity-guide-b.md) for understanding this topic in more depth.
 

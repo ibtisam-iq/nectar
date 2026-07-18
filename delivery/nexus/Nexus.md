@@ -501,10 +501,10 @@ In Nexus Repository, there are three primary repository types:
 Each repository type has its role in managing artifacts, whether they are internal, aggregated, or external.
 
 ---
-## Use Cases
+## Use Cases {: #deploy-to-nexus }
 ### 1. Deploy Artifact to Nexus Repository Using Jenkins
 
-Please find the [detailed guide](nexus_jenkins.md) about deploying different types of artifacts to Nexus Repository using Jenkins.
+Please find the [detailed guide](nexus-jenkins.md) about deploying different types of artifacts to Nexus Repository using Jenkins.
 
 ### 2. Download Artifact from Nexus Repository Using Maven in Jenkins
 

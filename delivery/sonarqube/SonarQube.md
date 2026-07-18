@@ -17,19 +17,34 @@
 
 ---
 
-## What is SonarQube Server (formerly SonarQube)?
+## What is SonarQube Server (formerly SonarQube)? {: #what-is-sonarqube }
 
 - Leading on-premise platform for continuous code quality and security analysis.
 - Supports over 30 programming languages, frameworks, and IaC platforms.
-- Utilizes **Static Application Security Testing (SAST)** to identify and address:
-  
-  - Bugs
-  - Vulnerabilities
-  - Code smells
-  - Duplicated code
-  - Technical debt
-    
-- Enables **automated code quality checks** in CI/CD pipelines.
+
+### Understanding Static Application Security Testing (SAST) {: #understanding-static-application-security-testing-sast }
+
+SonarQube utilizes **Static Application Security Testing (SAST)** to analyze source code without executing it, identifying potential security risks and quality problems early in the development cycle.
+
+### Common Code Issues and Their Impact {: #common-code-issues-and-their-impact }
+
+SAST scans identify and help address critical issues across the codebase:
+- **Bugs**: Programming errors that can break functionality or cause unexpected crashes.
+- **Vulnerabilities**: Security flaws and insecure coding patterns that attackers could exploit.
+- **Code smells**: Maintainability issues and confusing logic that make future changes risky.
+- **Duplicated code**: Redundant code blocks that increase maintenance burden and divergence.
+- **Technical debt**: The cumulative cost of extra rework caused by choosing quick fixes over better design.
+
+#### Comparison Table {: #comparison-table }
+
+| Issue Type | Primary Impact | Typical Severity |
+|---|---|---|
+| **Bugs** | System failure, incorrect behavior | High / Blocker |
+| **Vulnerabilities** | Security breaches, data leaks | Critical |
+| **Code Smells** | Reduced maintainability, technical debt | Major / Minor |
+| **Duplications** | Increased maintenance burden | Minor |
+
+- Enables **automated code quality checks** seamlessly inside CI/CD pipelines.
 
 ---
 
@@ -394,7 +409,7 @@ docker run -d --name sonarqube -p 9000:9000 sonarqube:lts-community
 - **Configure SonarQube Server**: `Manage Jenkins > System`, add SonarQube server details.
   - Best Practice: Use an access token (generated in SonarQube) instead of a `username` and `password`. Save the token as a `Secret Text` under `Credentials`.
 - **Configure Webhook**: Set up a webhook in SonarQube Server to send analysis results to Jenkins.
-- For details, please click [here](sonar_jenkins.md).
+- For details, please click [here](sonar-jenkins.md).
 ---
 ## Sonarqube Community Branch Plugin
 

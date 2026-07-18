@@ -119,11 +119,11 @@ The Manage Jenkins tab is for managing Jenkins itself. This includes managing pl
 
 ![](./images/Manage%20Jenkins.png)
 
-### 1. System 
+### 1. System {: #system }
 
 The System tab is for setting up global configurations that Jenkins and plugins (servers) require to operate at a higher level. These configurations typically deal with the overall functioning of Jenkins or its plugins.
 
-### 2. Tools
+### 2. Tools {: #tools }
 
 The Tools tab focuses specifically on configuring the tools Jenkins uses, such as compilers, interpreters, build systems, or external utilities. These are specific to the runtime of the builds and can vary between jobs.
 
@@ -142,7 +142,7 @@ When Jenkins installs tools automatically, it does not place them in system-wide
 
 3. **Tool-Specific Subdirectories**: Within the cache or workspace directory, Jenkins creates subdirectories for each tool and version, ensuring isolation. For example: `~/.jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven-3.8.5/` Here: `hudson.tasks.Maven_MavenInstallation`: Identifier for the tool type (Maven in this case). Maven-3.8.5: The version of Maven being installed.
 
-## 3. Plugins
+## 3. Plugins {: #plugins }
 
 Plugins are essentially extensions to Jenkins that add new functionality. They can be installed from the Jenkins Plugin Manager.
 
@@ -174,27 +174,27 @@ done < plugins.txt
 ```
 This reads each plugin from plugins.txt and installs it using Jenkins CLI.
 
-## 4. Nodes
+## 4. Nodes {: #nodes }
 - Nodes are Jenkins servers or agents that can run jobs as slave.
 - Click [here](./slave_setup.md) & open in new tab for details.
 
-## 5. Security
+## 5. Security {: #security }
 - Jenkins has a built-in security system that allows you to configure access control for users and groups.
 - Click [here](./security.md) & open in new tab for details.
 
-## 6. Credentials
+## 6. Credentials {: #credentials }
 
 ---
 
 ## Job Types
 In Jenkins, different types of jobs allow you to define and automate various stages of the software
 development lifecycle. Here are some common types:
-### 1. Freestyle Project
+### 1. Freestyle Project {: #freestyle-project }
 - A general-purpose job type where you can define a series of build steps, such as running shell commands, executing scripts, and performing other tasks.
 - Suitable for simple tasks and projects that don't require complex workflows.
 - For details, click [here](new%20item.md).
 
-### 2. Pipeline
+### 2. Pipeline {: #pipeline }
 
 - Jenkinsfile is a Groovy script that defines the pipeline.
 - Jenkinsfile is stored in the repository, and Jenkins will automatically detect it and use it to build the project. 
@@ -203,11 +203,11 @@ development lifecycle. Here are some common types:
 - If configured with the Jenkinsfile, `pipeline script from SCM`, pipeline as code, you can use `replay` to view & build the pipeline.
 - For details, click [here](new%20item.md).
 
-### 3. Multibranch Pipeline
+### 3. Multibranch Pipeline {: #multibranch-pipeline }
 
-### 4. Maven Project
+### 4. Maven Project {: #maven-project }
 
-### 5. Multi-Configuration Project
+### 5. Multi-Configuration Project {: #multi-configuration-project }
 
 ---
 

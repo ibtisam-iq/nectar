@@ -18,7 +18,7 @@ RBAC (Role-Based Access Control) is one of the **most crucial topics** in Kubern
 
 ---
 
-## 📘 What is RBAC?
+## 📘 What is RBAC? {: #what-is-rbac }
 
 **RBAC (Role-Based Access Control)** lets you **control access** to Kubernetes resources based on a **user’s role** (i.e., their job/responsibility). You define **who** can perform **which actions** on **which resources**.
 
@@ -29,7 +29,7 @@ Example:
 
 ---
 
-## 🧩 Key Concepts
+## 🧩 Key Concepts {: #key-concepts }
 
 | Term              | Meaning                                                                 |
 |-------------------|-------------------------------------------------------------------------|
@@ -40,7 +40,7 @@ Example:
 
 ---
 
-## 🧱 RBAC Resources
+## 🧱 RBAC Resources {: #rbac-resources }
 
 Kubernetes uses the following **resources** to implement RBAC:
 
@@ -51,7 +51,7 @@ Kubernetes uses the following **resources** to implement RBAC:
 
 ---
 
-## 🧓‍♂️ Types of Subjects
+## 🧓‍♂️ Types of Subjects {: #types-of-subjects }
 
 A Role/ClusterRole is applied to a **subject**, which can be of three types:
 
@@ -63,7 +63,7 @@ A Role/ClusterRole is applied to a **subject**, which can be of three types:
 
 ---
 
-## 🔐 How Kubernetes Authenticates Users
+## 🔐 How Kubernetes Authenticates Users {: #how-kubernetes-authenticates-users }
 
 Kubernetes does **NOT** manage users and groups internally.
 
@@ -77,7 +77,7 @@ It relies on **external authentication systems**:
 
 ---
 
-## 🎯 Creating RBAC Rules – Examples
+## 🎯 Creating RBAC Rules – Examples {: #creating-roles-and-rolebindings }
 
 ### 1. **Create a Role**
 ```bash
@@ -110,7 +110,7 @@ kubectl create role foo \
 
 ---
 
-## 🔄 Step 4: Understanding API Groups
+## 🔄 Step 4: Understanding API Groups {: #step-4-understanding-api-groups }
 
 Kubernetes resources are split into **API Groups**:
 
@@ -138,7 +138,7 @@ Format: `--resource=resourceName.groupName`
 
 ---
 
-## 🔄 Step 5: Understanding Subresources
+## 🔄 Step 5: Understanding Subresources {: #step-5-understanding-subresources }
 
 Some Kubernetes resources have **subresources**. These are attached to the main resource but represent a sub-functionality:
 
@@ -200,7 +200,7 @@ When using the `--resource` flag in `kubectl create role`, you're defining the e
 
 ---
 
-## 👤 ServiceAccount vs User vs Group
+## 👤 ServiceAccount vs User vs Group {: #serviceaccount-vs-user-vs-group }
 
 | Feature              | User              | Group           | ServiceAccount      |
 |----------------------|-------------------|------------------|----------------------|
@@ -211,7 +211,7 @@ When using the `--resource` flag in `kubectl create role`, you're defining the e
 
 ---
 
-## 📆 Tips for CKA and Practice
+## 📆 Tips for CKA and Practice {: #tips-for-cka-and-practice-ideas }
 
 - Use **`kubectl auth can-i`** to test permissions:
   ```bash

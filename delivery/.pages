@@ -1,8 +1,9 @@
 nav:
+  - Home: index.md
   - git
+  - github
+  - github-actions
   - jenkins
   - nexus
   - sonarqube
-  - github
-  - github-actions
   - argocd

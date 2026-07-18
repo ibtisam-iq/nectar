@@ -328,27 +328,27 @@ CLI refresh automation: [oneuptime](https://oneuptime.com/blog/post/2026-02-12-a
 | ❌ Wrong | ✅ Correct |
 |---------|---------|
 | Trusted Advisor automatically fixes issues | TA only **recommends** — you must act manually or automate via EventBridge |
-| Basic plan gets all Trusted Advisor checks | Basic/Developer get **7 free checks only** — need Business+ for full access [web:582] |
-| Trusted Advisor refreshes in real-time | Business/Enterprise auto-refresh is **weekly** — manual refresh for immediate results [web:580] |
-| Same check can be refreshed any time | Manual refresh is **rate-limited** — one refresh per check per 5 minutes [web:597] |
+| Basic plan gets all Trusted Advisor checks | Basic/Developer get **7 free checks only** — need Business+ for full access |
+| Trusted Advisor refreshes in real-time | Business/Enterprise auto-refresh is **weekly** — manual refresh for immediate results |
+| Same check can be refreshed any time | Manual refresh is **rate-limited** — one refresh per check per 5 minutes |
 | Trusted Advisor replaces Inspector | TA checks architecture/config; Inspector scans **software CVEs** — completely different |
-| Organizational view is always available | Requires **Business/Enterprise + AWS Organizations** — not available on Basic/Developer [web:593] |
-| Trusted Advisor Priority is on Business plan | Priority requires **Enterprise or Unified Operations** plan only [web:598] |
-| Service limit checks require Business plan | Service limit checks are **free for ALL plans** including Basic [web:578] |
+| Organizational view is always available | Requires **Business/Enterprise + AWS Organizations** — not available on Basic/Developer |
+| Trusted Advisor Priority is on Business plan | Priority requires **Enterprise or Unified Operations** plan only |
+| Service limit checks require Business plan | Service limit checks are **free for ALL plans** including Basic |
 
 ---
 
 ## 10. Interview Questions Checklist
 
-- [ ] What does Trusted Advisor do? What are the six categories? [web:578][web:580]
-- [ ] Which checks are free on the Basic plan? (7: 6 security + all service limits) [web:578]
-- [ ] What is the minimum support plan for full Trusted Advisor access? (Business) [web:582]
-- [ ] How often does Trusted Advisor auto-refresh? For which plans? [web:580]
-- [ ] What is the manual refresh rate limit? (once per check per 5 minutes) [web:597]
+- [ ] What does Trusted Advisor do? What are the six categories?
+- [ ] Which checks are free on the Basic plan? (7: 6 security + all service limits)
+- [ ] What is the minimum support plan for full Trusted Advisor access? (Business)
+- [ ] How often does Trusted Advisor auto-refresh? For which plans?
+- [ ] What is the manual refresh rate limit? (once per check per 5 minutes)
 - [ ] Name five cost optimization checks
 - [ ] Name five security checks available on Basic plan
-- [ ] Name five fault tolerance checks [web:588]
-- [ ] What is Trusted Advisor Priority? Which plan includes it? [web:594][web:598]
-- [ ] What is Organizational View? What does it require? [web:593]
+- [ ] Name five fault tolerance checks
+- [ ] What is Trusted Advisor Priority? Which plan includes it?
+- [ ] What is Organizational View? What does it require?
 - [ ] How do you automate responses to Trusted Advisor findings? (EventBridge)
 - [ ] Trusted Advisor vs Inspector vs Security Hub vs GuardDuty — what does each do?
