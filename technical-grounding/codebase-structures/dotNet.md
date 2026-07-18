@@ -14,7 +14,7 @@
 ## Introduction
 Running a .NET application requires the .NET Framework or SDK installed on your system. This guide provides instructions on running .NET applications via different methods, including the command line, Visual Studio, and on remote machines.
 
-## Methods for Running a .NET Application
+## Methods for Running a .NET Application {: #methods-for-running-a-dotnet-application }
 
 ### Using the Command Line
 To run a .NET application from the command line:
@@ -49,7 +49,7 @@ To run a .NET application on a remote machine:
 
 ## Installation Steps
 
-### Installing .NET Core SDK
+### Installing .NET Core SDK {: #installing-dotnet-core-sdk }
 
 To install the .NET Core SDK, run the following commands:
 

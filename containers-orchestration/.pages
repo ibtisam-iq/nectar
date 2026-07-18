@@ -1,4 +1,5 @@
 nav:
+  - Home: index.md
   - docker
   - docker-compose
   - kubernetes

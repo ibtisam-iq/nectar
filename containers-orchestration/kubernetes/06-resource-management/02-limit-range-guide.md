@@ -154,6 +154,6 @@ There is no direct `kubectl create limitrange` command with full feature flags l
 
 ## Further Reading
 
-- [Limit Range and Pod Sheduling](limitrange-and-pod-scheduling.md)
-- [Limit Range and Resource Quota Demo](limitrange-resourcequota-demo.md)
-- [Limit Range and Resource Quota Together in Kubernetes](limitrange-resourcequota-together.md)
+- [Limit Range and Pod Sheduling](04-limitrange-and-pod-scheduling.md)
+- [Limit Range and Resource Quota Demo](05-limitrange-resourcequota-demo.md)
+- [Limit Range and Resource Quota Together in Kubernetes](03-limitrange-resourcequota-together.md)

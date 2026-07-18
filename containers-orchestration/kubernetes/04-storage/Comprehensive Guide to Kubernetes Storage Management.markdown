@@ -13,7 +13,7 @@ The storage subsystem decouples storage provisioning (how storage is created) fr
 
 **Why It Matters**: Understanding these abstractions is essential for designing scalable, resilient applications that handle data appropriately, whether for transient or long-term needs.
 
-## 2. Persistent Volumes and Persistent Volume Claims
+## 2. Persistent Volumes and Persistent Volume Claims {: #f9c498a7-2fb2-45b6-9211-0bc40158fabc }
 
 Persistent Volumes (PVs) and Persistent Volume Claims (PVCs) are the core mechanisms for managing persistent storage in Kubernetes, enabling durable storage for stateful applications.
 
@@ -48,7 +48,7 @@ Persistent Volumes (PVs) and Persistent Volume Claims (PVCs) are the core mechan
 
 **Why It Matters**: PVs and PVCs provide a robust framework for persistent storage, decoupling storage management from application logic and enabling stateful workloads like databases.
 
-## 3. Ephemeral Volumes
+## 3. Ephemeral Volumes {: #6441421d-dca0-41fc-b165-dd9d3fc44713 }
 
 Ephemeral volumes provide temporary storage tied to a Pod’s lifecycle, ideal for applications that don’t require persistent data, such as caching services or configuration injection.
 
@@ -82,7 +82,7 @@ Ephemeral volumes provide temporary storage tied to a Pod’s lifecycle, ideal f
 
 **Why It Matters**: Ephemeral volumes simplify temporary storage needs, enabling flexible, Pod-specific data management without the overhead of persistent storage.
 
-## 4. Storage Classes
+## 4. Storage Classes {: #2475bbe2-ac07-4f9d-b9f5-0c7881fce853 }
 
 Storage Classes define storage profiles, allowing administrators to offer standardized storage options with specific attributes (e.g., performance, reclaim policies).
 
@@ -110,7 +110,7 @@ Storage Classes define storage profiles, allowing administrators to offer standa
 
 **Why It Matters**: Storage Classes provide a scalable framework for defining storage options, enabling dynamic provisioning and simplifying user workflows.
 
-## 5. Dynamic Volume Provisioning
+## 5. Dynamic Volume Provisioning {: #70be9f0c-364e-49c8-bffb-65ae124a3b78 }
 
 Dynamic Volume Provisioning automates PV creation on-demand, eliminating manual provisioning and enhancing cluster scalability.
 

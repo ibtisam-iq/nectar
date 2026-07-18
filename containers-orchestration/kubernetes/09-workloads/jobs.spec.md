@@ -245,7 +245,7 @@ kubectl logs jobs/<job-name>
 
 ## Futher Reading
 
-- [Advanced Job Handling: Failures, Policies, and Success Criteria](jobs-2.md)
+- [Advanced Job Handling: Failures, Policies, and Success Criteria](jobs-handling.md)
 - [Cron Job Guide](cron-job-guide.md)
 
 ---

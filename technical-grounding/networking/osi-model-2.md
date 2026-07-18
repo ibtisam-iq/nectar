@@ -11,7 +11,7 @@ Before OSI, every vendor built proprietary systems — IBM, HP, Cisco — none c
 
 > It defines: what job gets done, at which layer, by which protocol.
 
-**Benefits:** [web:114]
+**Benefits:**
 - Simplifies network design and troubleshooting
 - Changes at one layer do not affect other layers (modularity)
 - Enables different technologies/vendors to interoperate

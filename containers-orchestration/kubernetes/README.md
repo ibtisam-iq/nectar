@@ -54,9 +54,9 @@ It uses a **[declarative API](./01-core-concepts/declarative-api-process.md)**, 
 Important resources:
 - [ConfigMaps](./06-resource-management/configmap-guide.md) for dynamic configuration  
 - [Secrets](./06-resource-management/secret-guide.md) for secure data management  
-- [Resource Quotas](./06-resource-management/resource-quota-guide.md) and [Limit Ranges](./06-resource-management/limit-range-guide.md) for [enforcing resource boundaries](./06-resource-management/limitrange-resourcequota-together.md) 
+- [Resource Quotas](./06-resource-management/01-resource-quota-guide.md) and [Limit Ranges](./06-resource-management/02-limit-range-guide.md) for [enforcing resource boundaries](./06-resource-management/03-limitrange-resourcequota-together.md) 
 
-👉 See how to manage them together: [Resource Management Demo](./06-resource-management/limitrange-resourcequota-demo.md)
+👉 See how to manage them together: [Resource Management Demo](./06-resource-management/05-limitrange-resourcequota-demo.md)
 
 ---
 
@@ -101,7 +101,7 @@ Kubernetes secures workloads through:
 Kubernetes enables:
 - **Horizontal scaling:** Adjust replicas via **Horizontal Pod Autoscalers (HPAs)**  
 - **Vertical scaling:** Tune resources via **Vertical Pod Autoscalers (VPAs)**  
-- **[Quotas](./06-resource-management/resource-quota-guide.md)** & **[Limit Ranges](./06-resource-management/limit-range-guide.md)** for fair usage enforcement  
+- **[Quotas](./06-resource-management/01-resource-quota-guide.md)** & **[Limit Ranges](./06-resource-management/02-limit-range-guide.md)** for fair usage enforcement  
 
 ---
 

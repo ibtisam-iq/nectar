@@ -95,7 +95,7 @@ Replace `NEXUS-URL` with the URL of your Nexus repository.
 - If you are behind a proxy, you need to add the proxy repo as well.
 - You can add the proxy repo in the `settings.xml` file.
 - Note that you need to add the proxy repo for both releases and snapshots.
-- Please click [here](proxyrepo_setup.md) for more information.
+- Please click [here](proxy_repo.md) for more information.
 
 ## 3: Install Maven Plugins
 - Install `Maven Integration`. It provides us the ability to run maven commands.

@@ -170,7 +170,7 @@ Docker uses a layered architecture to manage containers. The key components incl
 
 - It is a text file that contains all the commands a user could call on the command line to assemble an image.
 
-- For details, please click [here](./Dockerfile).
+- For details, please click [here](./Dockerfile.md).
 
 - Have a look on its Descritives in depth:
   - [ARG, ENV, EXPOSE](ARG-ENV-EXPOSE.md)
@@ -297,6 +297,7 @@ docker build -t img:sam -f ../../../Dockerfile1 /files    # EXECUTED
 
 docker build -t img:sam -f ../../../Dockerfile2 /files    # EXECUTED
 ```
+
 ---
 
 # docker commit
@@ -317,6 +318,7 @@ docker commit \
     -c 'VOLUME ["/data"]' \
     <container_id/name> <image>
 ```
+
 ---
 
 ## docker run
@@ -545,11 +547,12 @@ docker network connect my-network container1
 # Disconnects `container1` from the `my-network`
 docker network disconnect my-network container1  
 ```
+
 Please click [here](network.md) for more understanding.
 
 ---
 
-## Monitoring & Debugging
+## Monitoring & Debugging {: #monitoring-debugging }
 
 ```bash
 
@@ -600,7 +603,7 @@ docker inspect container1 | python3 -c "import sys, yaml, json; yaml.safe_dump(j
 
 Docker Compose is a tool that simplifies the management of multi-container Docker applications. It enables users to define and manage containerized applications using a single YAML file.
 
-Please click [here](compose.md).
+Please click [here](../docker-compose/Compose.md).
 
 ---
 
@@ -655,6 +658,7 @@ By leveraging multi-stage builds, Docker images stay **optimized, secure, and pr
 - [What are Different Ways to Reduce the Image Size?](size-reduction.md)
 
 ---
+
 ## Troubleshooting
 
 Please read a complete documentation about troubleshooting [here](troubleshooting.md).

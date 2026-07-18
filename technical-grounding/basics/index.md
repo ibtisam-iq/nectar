@@ -22,5 +22,5 @@ Use these pages to quickly refresh a concept or to get the minimal, practical vi
 - [DNS Resolution (curl)](../networking/curl-dns-resolution.md)
 
 ### Other tools
-- [Bash Notes](../bash/ibtisam.sh)
+- [Bash Notes](../bash/ibtisam.sh.md)
 - [Vimrc Guide](../vim/vimrc_guide.md)

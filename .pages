@@ -1,6 +1,6 @@
 nav:
   - Home: index.md
-  - Technical Grounding: technical-grounding
+  - Grounding: technical-grounding
   - Cloud & Infrastructure: cloud-infrastructure
   - Containers & Orchestration: containers-orchestration
   - CI/CD & Delivery: delivery
@@ -8,3 +8,5 @@ nav:
   - Operations: operations
   - Servers & Runtime: servers
   - Scratchpad: scratchpad
+  - About: about.md
+

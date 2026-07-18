@@ -13,7 +13,7 @@ pub   rsa4096 2024-05-29 [SC]
       8540A6F18833A80E9C1653A42FD21310B49F6B46
 uid                      nginx signing key <signing-key-2@nginx.com>
 
-pub   rsa2048 2011-08-19 [SC] [expires: 2027-05-24]
+pub   rsa2048 2011-08-19 [SC] \[expires: 2027-05-24\]
       573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
 uid                      nginx signing key <signing-key@nginx.com>
 

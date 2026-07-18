@@ -7,7 +7,7 @@
 
 ## 1. Why OSI Exists
 
-Before OSI, every vendor built proprietary systems — IBM, HP, Cisco — none could communicate with each other. [web:91]
+Before OSI, every vendor built proprietary systems — IBM, HP, Cisco — none could communicate with each other.
 **ISO** created the **OSI (Open Systems Interconnection)** model in 1984 as a **universal blueprint** for network communication.
 
 > It defines: what job gets done, at which layer, by which protocol.
@@ -62,7 +62,7 @@ Here is **everything** that happens — in exact order.
 
 Your browser only knows `google.com`. It needs an IP. This is a **pre-connection step**.
 
-**DNS lookup order (macOS/Linux):** [web:87]
+**DNS lookup order (macOS/Linux):**
 
 ```
 1. Browser DNS cache         → Chrome stores recent lookups (~60s TTL)
@@ -89,7 +89,7 @@ Your browser only knows `google.com`. It needs an IP. This is a **pre-connection
 ### Phase 2 — TCP 3-Way Handshake (Layer 4) ⭐
 
 Before sending any HTTP data, a **reliable connection** must be established.
-This happens at **Layer 4 (Transport)** using TCP. [web:90]
+This happens at **Layer 4 (Transport)** using TCP.
 
 ```
 Client                          Server (142.250.64.46:443)
@@ -103,7 +103,7 @@ Client                          Server (142.250.64.46:443)
          CONNECTION ESTABLISHED
 ```
 
-**Why 3-way?** Both sides need to confirm they can **send AND receive**. [web:90]
+**Why 3-way?** Both sides need to confirm they can **send AND receive**.
 After this, port `443` is open and both sides have agreed on sequence numbers for ordering data.
 
 ---
@@ -199,7 +199,7 @@ Outgoing Frame:
   [ETH: Src=RouterWAN_MAC, Dst=ISP_GW_MAC][IP: Src=39.x.x.x, Dst=142.250.64.46][TCP][HTTP]
 ```
 
-**Key insight:** IP header was modified (NAT). MAC header was completely replaced. TCP/HTTP untouched. [web:91]
+**Key insight:** IP header was modified (NAT). MAC header was completely replaced. TCP/HTTP untouched.
 
 ---
 
@@ -222,7 +222,7 @@ Packet hops through multiple routers across the internet.
 
 ### Phase 9 — At Google's Server (Decapsulation)
 
-Data travels **UP** the stack — reverse of encapsulation: [web:94][web:97]
+Data travels **UP** the stack — reverse of encapsulation:
 
 | Layer | What Happens |
 |-------|-------------|
@@ -353,7 +353,7 @@ Chrome renders page ✅
 
 ## 10. Why This Matters for Kubernetes/Docker
 
-Every K8s networking concept maps directly to OSI layers: [web:91]
+Every K8s networking concept maps directly to OSI layers:
 
 | K8s/Docker Concept | OSI Layer | Why |
 |-------------------|-----------|-----|

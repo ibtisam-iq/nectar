@@ -192,7 +192,7 @@ staticPodPath: /etc/kubernetes/manifests
 
 ---
 
-## 11. 📊 Visual Diagrams
+## 11. 📊 Visual Diagrams {: #11-visual-diagrams }
 
 ### 11.1 Basic Kubernetes Architecture
 ```
@@ -360,6 +360,7 @@ To see the stack trace of this error execute with --v=5 or higher
 controlplane ~ ✖ 
 ```
 
+---
 
 ```bash
 controlplane ~ ➜  ps -aux | grep kube-apiserver
@@ -535,4 +536,5 @@ controlplane ~ ➜  kubectl get configmap kubeadm-config -n kube-system  -o json
 controlplane ~ ➜  cat pod-cidr.txt 
 172.17.0.0/16
 ```
+
 ---
