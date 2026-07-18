@@ -14,7 +14,7 @@ hide:
     <p class="nx-about-hero__bio">
       CKA and CKAD certified DevOps engineer. I build Kubernetes clusters, CI/CD pipelines, and
       AWS infrastructure across Java, Python, and Node.js. Transitioned into engineering from an
-      M.Sc. in Horticulture, self-funded. Every tool is approached from its problem up, not its
+      M.Sc. in Horticulture (Silver Medal, Mar 2024), self-funded. Every tool is approached from its problem up, not its
       documentation down. Nectar is where that reasoning is recorded.
     </p>
     <div class="nx-about-hero__actions">
