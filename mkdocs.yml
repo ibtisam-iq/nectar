@@ -37,7 +37,6 @@ theme:
     - navigation.prune
     - navigation.indexes
     - navigation.top
-    - navigation.footer
     - toc.follow
     - search.suggest
     - search.highlight
