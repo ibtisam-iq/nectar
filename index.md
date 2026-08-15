@@ -25,7 +25,7 @@ hide:
   <div class="nx-section__eyebrow">What Nectar is</div>
   <h2 class="nx-section__title">A knowledge base, not a tutorial site.</h2>
   <p class="nx-section__lead">
-    Nectar is a personal engineering knowledge base: 200+ pages across Kubernetes, AWS, CI/CD,
+    Nectar is a personal engineering knowledge base: 365 pages across Kubernetes, AWS, CI/CD,
     observability, and platform operations. It is not a blog, a course, or a reference manual.
     It is the raw layer where understanding is built first, before it surfaces as a runnable
     component, a write-up, or a deployed system.
