@@ -3,7 +3,7 @@
 [![Docs](https://github.com/ibtisam-iq/nectar/actions/workflows/pages.yml/badge.svg)](https://github.com/ibtisam-iq/nectar/actions/workflows/pages.yml)
 [![Site](https://img.shields.io/badge/Live-nectar.ibtisam--iq.com-01696f)](https://nectar.ibtisam-iq.com)
 
-My personal engineering knowledge base, built with MkDocs Material and deployed to [nectar.ibtisam-iq.com](https://nectar.ibtisam-iq.com). 200+ pages across Kubernetes, AWS, CI/CD, GitOps, and DevSecOps, continuously growing as I learn.
+My personal engineering knowledge base, built with MkDocs Material and deployed to [nectar.ibtisam-iq.com](https://nectar.ibtisam-iq.com). 365 pages across Kubernetes, AWS, CI/CD, GitOps, and DevSecOps, continuously growing as I learn.
 
 ---
 
