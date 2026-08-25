@@ -7,4 +7,4 @@ mkdocs-section-index
 mkdocs-same-dir
 mkdocs-autorefs==1.4.4
 mkdocs-minify-plugin
-pygments==2.20.0
+pygments==2.21.0
