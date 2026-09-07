@@ -169,6 +169,7 @@ kubectl create deployment my-dep --image=busybox:latest --image=ubuntu:latest --
 # controlplane ~ ➜  kubectl create deployment my-dep --image=busybox:latest --image=ubuntu:latest --image=nginx -- date
 error: cannot specify multiple --image options and command
 ```
+
 - `--image=[]`: Image names to run. A deployment can have multiple images set for multi-container pod.
 - `kubectl create deployment` treats arguments after `--` as the container’s command, replacing the image’s default ENTRYPOINT. However, `kubectl run` interprets arguments after `--` as **arguments** to the container’s Entrypoint (not the command itself, and replacing ENTRYPOINT), unless `--command` is specified.
 
@@ -260,6 +261,7 @@ kubectl create secret docker-registry my-secret --from-file=path/to/.docker/conf
 ---
 
 ## Namespace
+
 ```bash
 kubectl create ns NAME [--dry-run=server|client|none] [options]
 kubectl config view --minify --output yaml | grep namespace:
@@ -278,9 +280,11 @@ Resource Quotas
 
 No LimitRange resource.
 ```
+
 ---
 
 ## Service Account & Token
+
 ```bash
 # create a service account with the specified name
 kubectl create sa my-service-account -n ibtisam
@@ -288,6 +292,7 @@ kubectl create sa my-service-account -n ibtisam
 # Request a service account token
 kubectl create token SERVICE_ACCOUNT_NAME -n ibtisam
 ```
+
 ---
 
 ## Role and RoleBinding & ClusterRole and ClusterRoleBinding
@@ -632,6 +637,7 @@ kubectl autoscale (-f FILENAME | TYPE NAME | TYPE/NAME) # Three different ways t
     [--cpu-percent=CPU]
     [--namespace=NAMESPACE]
 ```
+
 ### Examples
 
 ```bash
@@ -651,6 +657,7 @@ kubectl autoscale deployment my-deployment --namespace=my-namespace --min=2 --ma
 # Specify the type and name of the target resource, and the namespace where the resource is located, and the name of the autoscaler, and the path to a YAML file that defines the target resource ( e.g., deployment, replicaset, etc.).
 kubectl autoscale -f deployment.yaml --namespace=my-namespace --min=2 --max=10 --cpu-percent=80 --name=my-autoscaler
 ```
+
 ---
 
 ## Resource Quota Management
@@ -689,13 +696,15 @@ Create a pod disruption budget with the specified name, selector, and desired mi
 ```bash
 kubectl create poddisruptionbudget NAME --selector=SELECTOR --min-available=N [--dry-run=server|client|none] [options]
 ```
+
 ---
 
 ## `kubectl apply` (refer quick ref)
 
 ## `kubectl rollout`
 
-Manage the rollout of one or many resources. 
+Manage the rollout of one or many resources.
+
 - Valid resource types include: deployments, daemonsets, statefulsets
 
 ```bash
@@ -775,6 +784,7 @@ Print the logs for a `container` in a **pod** or **specified resource**. If the 
 ```bash
 kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER] [options]
 ```
+
 | Use Case | Command |
 |----------|---------|
 | Single Container | `kubectl logs pod-name` |
