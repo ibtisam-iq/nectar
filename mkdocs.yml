@@ -32,9 +32,7 @@ theme:
     - navigation.instant.progress
     - navigation.tabs
     - navigation.tabs.sticky
-    - navigation.sections
     - navigation.path
-    - navigation.prune
     - navigation.indexes
     - navigation.top
     - toc.follow

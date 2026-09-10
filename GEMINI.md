@@ -18,3 +18,6 @@
   - Mobile/tablet hamburger drawer must always function seamlessly across all pages including homepage.
 - **Build Quality**:
   - Every change must verify cleanly with `mkdocs build` (exit code 0).
+
+## 3. Technical Blueprint & Reference
+For deep technical blueprints, sidebar caret CSS architecture, responsive layout rules, MkDocs configuration guidelines, and QA verification procedures, refer to [`REFERENCE.md`](REFERENCE.md). Detailed implementation logs, component specifications, and historical changelogs are preserved there to keep agent directives lightweight and actionable.

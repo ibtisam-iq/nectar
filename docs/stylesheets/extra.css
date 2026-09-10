@@ -343,29 +343,206 @@ html, body {
   border-radius: var(--nx-radius-sm);
   padding: 0.35rem 0.6rem !important;
   color: var(--md-default-fg-color--light);
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.md-nav__link:hover {
-  background: var(--nx-accent-soft);
+/* --- Kubernetes.io-style Left Sidebar Tree Navigation --- */
+
+/* Left Sidebar Base Link Styling */
+.md-nav--primary .md-nav__link {
+  display: flex !important;
+  align-items: center !important;
+  font-family: var(--nx-font-sans);
+  font-size: 0.82rem;
+  font-weight: 450;
+  border-radius: 4px;
+  padding: 0.35rem 0.6rem !important;
+  color: var(--md-default-fg-color--light);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Hover States: subtle frosted background and 4px rounded corners */
+[data-md-color-scheme="slate"] .md-nav--primary .md-nav__link:hover:not(.md-nav__container > .md-nav__link),
+[data-md-color-scheme="slate"] .md-nav--primary .md-nav__container:hover {
+  background-color: rgba(255, 255, 255, 0.04) !important;
   color: var(--md-default-fg-color) !important;
+  border-radius: 4px !important;
 }
 
-.md-nav__link .md-nav__icon { transition: transform 0.2s ease; }
+[data-md-color-scheme="default"] .md-nav--primary .md-nav__link:hover:not(.md-nav__container > .md-nav__link),
+[data-md-color-scheme="default"] .md-nav--primary .md-nav__container:hover {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+  color: var(--md-default-fg-color) !important;
+  border-radius: 4px !important;
+}
 
+/* Primary Active Nav Item: vibrant accent color and font-weight: 600 */
+[data-md-color-scheme="slate"] .md-nav--primary .md-nav__link--active,
+[data-md-color-scheme="slate"] .md-nav--primary .md-nav__link--active code {
+  color: #38bdf8 !important;
+  font-weight: 600 !important;
+}
+
+[data-md-color-scheme="default"] .md-nav--primary .md-nav__link--active,
+[data-md-color-scheme="default"] .md-nav--primary .md-nav__link--active code {
+  color: #2563eb !important;
+  font-weight: 600 !important;
+}
+
+/* Container for sections with index page (e.g. navigation.indexes) */
+.md-nav--primary .md-nav__container {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0.35rem 0.6rem !important;
+  margin: 0 !important;
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+
+/* Caret toggle inside .md-nav__container: fixed exact width matching .md-nav__icon */
+.md-nav--primary .md-nav__container > label.md-nav__link,
+.md-nav--primary .md-nav__container > label.md-nav__link--toggle {
+  order: -1 !important;
+  flex: 0 0 1.15rem !important;
+  width: 1.15rem !important;
+  min-width: 1.15rem !important;
+  max-width: 1.15rem !important;
+  height: 1.15rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  cursor: pointer;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Link text inside .md-nav__container: spans rest of row, with consistent 0.45rem gap from caret */
+.md-nav--primary .md-nav__container > a.md-nav__link {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  margin: 0 0 0 0.45rem !important;
+  background: transparent !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* Direct label for sections without an index page (e.g. Docker Compose) */
+.md-nav--primary .md-nav__item > label.md-nav__link {
+  padding: 0.35rem 0.6rem !important;
+  display: flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+}
+
+.md-nav--primary .md-nav__item > label.md-nav__link .md-nav__icon {
+  margin: 0 0.45rem 0 0 !important;
+}
+
+/* Caret Icon Positioned on LEFT with 1.15rem tap target & clean margins */
+.md-nav--primary .md-nav__link .md-nav__icon {
+  order: -1 !important;
+  margin-right: 0.45rem !important;
+  margin-left: 0 !important;
+  width: 1.15rem !important;
+  height: 1.15rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--md-default-fg-color--lighter);
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+/* Ensure caret inside container label has zero margins and does not shift */
+.md-nav--primary .md-nav__container > label.md-nav__link .md-nav__icon,
+.md-nav--primary .md-nav__container > label.md-nav__link--toggle .md-nav__icon {
+  margin: 0 !important;
+  width: 1.15rem !important;
+  height: 1.15rem !important;
+}
+
+.md-nav--primary .md-nav__link:hover .md-nav__icon,
+.md-nav--primary .md-nav__container:hover .md-nav__icon {
+  color: var(--md-default-fg-color);
+}
+
+.md-nav--primary .md-nav__link--active .md-nav__icon {
+  color: inherit;
+}
+
+.md-nav--primary .md-nav__icon:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+[data-md-color-scheme="default"] .md-nav--primary .md-nav__icon:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+/* Crisp Filled Triangle Caret (Collapsed: points right ▶) */
+.md-nav--primary .md-nav__link .md-nav__icon:after {
+  content: "" !important;
+  display: block !important;
+  width: 0.55rem !important;
+  height: 0.55rem !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14l11-7z' fill='%23000'/%3E%3C/svg%3E") !important;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14l11-7z' fill='%23000'/%3E%3C/svg%3E") !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  transform: rotate(0deg);
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transform-origin: center center !important;
+}
+
+/* Expanded State: Smoothly rotates 90deg to point down ▼ */
+.md-nav__item--nested > .md-nav__toggle:checked ~ .md-nav__link .md-nav__icon:after,
+.md-nav__item--nested > .md-toggle--indeterminate ~ .md-nav__link .md-nav__icon:after,
+.md-nav__item--nested > .md-nav__toggle:checked ~ .md-nav__container .md-nav__icon:after,
+.md-nav__item--nested > .md-toggle--indeterminate ~ .md-nav__container .md-nav__icon:after {
+  transform: rotate(90deg) !important;
+}
+
+/* Tree Hierarchy Indentation: Clean unencumbered tree matching Kubernetes.io */
+.md-nav--primary .md-nav__list .md-nav__list {
+  padding-left: 0.85rem !important;
+  margin-left: 0 !important;
+  border-left: none !important;
+}
+
+/* Section Header Typography */
 .md-nav--primary .md-nav__item--section > .md-nav__link {
   font-family: var(--nx-font-sans);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.01em;
-  color: var(--md-default-fg-color);
-  font-size: 0.85rem;
+  color: var(--md-default-fg-color) !important;
+  font-size: 0.88rem;
+  padding: 0.5rem 0.6rem 0.35rem !important;
 }
 
-/* Primary Active Nav Item */
-.md-nav--primary .md-nav__link--active:not(.md-nav__link--index),
-.md-nav__link--active {
-  color: var(--md-primary-fg-color) !important;
-  font-weight: 600;
+.md-nav--primary .md-nav__item--section > .md-nav__container {
+  padding: 0.5rem 0.6rem 0.35rem !important;
+}
+
+.md-nav--primary .md-nav__item--section > .md-nav__container > a.md-nav__link {
+  font-family: var(--nx-font-sans);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--md-default-fg-color) !important;
+  font-size: 0.88rem;
+  margin: 0 !important;
+}
+
+.md-nav--primary .md-nav__item--nested > .md-nav__link,
+.md-nav--primary .md-nav__item--nested > .md-nav__container label {
+  pointer-events: auto !important;
+  cursor: pointer;
 }
 
 /* Secondary (Table of Contents) Active Item: Subtle Elegant Line Indicator */
