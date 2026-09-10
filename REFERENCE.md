@@ -36,7 +36,7 @@ The transformation of **Nectar** into a world-class engineering portal addressed
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                                NECTAR MODERN PORTAL                                    │
 ├────────────────────────────────────────────────────────────────────────────────────────┤
-│  Top Navigation Bar: 10 First-Class Tabs (Stable, Zero-Wrap, Sticky Blur Header)      │
+│  Top Navigation Bar: 10 First-Class Tabs (Stable, Zero-Wrap, Sticky Blur Header)       │
 ├───────────────────────────────┬────────────────────────────────────────────────────────┤
 │  LEFT SIDEBAR NAVIGATION      │  MAIN CONTENT & HOMEPAGE HERO                          │
 │  (Kubernetes.io Paradigm)     │                                                        │
@@ -93,7 +93,7 @@ The left navigation sidebar in Material for MkDocs was redesigned from scratch t
 
 ## Section 2: Non-Technical Explanation (What Broke & How It Was Fixed)
 
-If you do not write code every day, browser styling can look like a mystery. Here is what was happening behind the scenes, explained through three simple everyday analogies.
+Browser layout mechanics can appear counter-intuitive when inspected without structural context. Below is an architectural breakdown of the root causes and solutions explained through three straightforward analogies.
 
 ---
 
@@ -107,10 +107,10 @@ When an MkDocs section has an index page (e.g. `docs/containers/index.md`), Mate
 1. The `<label>` toggle button (the clickable arrow).
 2. The `<a>` link (the title of the page).
 
-Both of these items were sharing CSS rules. The browser treated the arrow button like regular text, letting it stretch, shrink, and slide depending on the length of the words next to it. On some rows, the arrow sat at 24 pixels from the left edge; on other rows, it sat at 38 pixels. The arrows were dancing in an uneven zigzag down your screen!
+Both of these items were sharing CSS rules. The browser treated the arrow button like regular text, letting it stretch, shrink, and slide depending on the length of the words next to it. On some rows, the arrow sat at 24 pixels from the left edge; on other rows, it sat at 38 pixels. The arrows drifted into an uneven zigzag alignment down the screen.
 
 #### How It Was Fixed
-We gave the arrow toggle button a rigid, unbendable metal frame using CSS:
+Assign the arrow toggle button a rigid, unbendable metal frame using CSS:
 ```css
 flex: 0 0 1.15rem !important;
 width: 1.15rem !important;
@@ -126,15 +126,15 @@ Now, whether a directory title has 2 letters or 50 letters, the toggle arrow is 
 ### 2.2 Analogy 2: The "Dangling Switch" (Non-Functional Section Arrow)
 
 #### What Was Happening
-Imagine walking into a hotel room and seeing a light switch on the wall. You flick the switch up and down, but no lights turn on or off—it turns out the switch isn't wired to anything at all. You walk away confused, wondering if the electrical system is broken.
+Imagine walking into a room and seeing a light switch on the wall. Flicking the switch produces no result—the switch is completely unwired. The fixture appears functional, yet connects to no underlying circuit.
 
 #### Why It Happened in MkDocs
-In default Material for MkDocs templates, the computer generates an expand/collapse arrow for *every single item that has sub-folders*. But when `navigation.tabs` is enabled in your configuration, the top-level section headers in the sidebar are **always open** by design. They do not collapse.
+In default Material for MkDocs templates, the renderer generates an expand/collapse arrow for *every single item that has sub-folders*. But when `navigation.tabs` is enabled in `mkdocs.yml`, the top-level section headers in the sidebar are **always open** by design. They do not collapse.
 
 Because the template blindly generated an arrow for everything, the top section title (like "CONTAINERS & ORCHESTRATION") showed an arrow. When users clicked that arrow, **nothing happened**. It violated user trust and felt broken.
 
 #### How It Was Fixed
-We edited the master template (`docs/overrides/partials/nav-item.html`) to teach it common sense:
+Add a conditional guard to the master template (`docs/overrides/partials/nav-item.html`):
 ```jinja2
 {% if nav_item.children | length > 1 and not is_section %}
   <label class="md-nav__link md-nav__link--toggle ...">
@@ -142,20 +142,20 @@ We edited the master template (`docs/overrides/partials/nav-item.html`) to teach
   </label>
 {% endif %}
 ```
-Notice the phrase `and not is_section`. This tells the computer: *"If this row is a top-level section header, DO NOT print an arrow switch."* Now, switches only appear on folders that actually open and close!
+Notice the phrase `and not is_section`. This instructs the template: *"If this row is a top-level section header, DO NOT print an arrow switch."* Switches only appear on folders that actually open and close.
 
 ---
 
 ### 2.3 Analogy 3: The "Stray Pencil Line" (Harsh Vertical Border)
 
 #### What Was Happening
-Imagine writing a neat, indented outline in a notebook. Now imagine someone took a dark black pencil and drew a harsh, 400-pixel vertical line down the left side of the page, cutting right through your notes. It doesn't connect cleanly to your bullet points, it doesn't stop when a section ends, and it makes the entire page look crowded and claustrophobic.
+Imagine writing a neat, indented outline in a notebook. Now imagine a dark pencil drawing a harsh, 400-pixel vertical line down the left side of the page, cutting right through the text. It fails to connect cleanly to bullet points, extends past section boundaries, and makes the entire page look crowded and claustrophobic.
 
 #### Why It Happened in MkDocs
 Default documentation themes often add a `border-left: 1px solid gray` to every sub-list. When documentation trees get 3 or 4 levels deep, these border lines overlap, stack, or stretch continuously down the entire height of the sidebar, creating an ugly "jailhouse bars" appearance.
 
 #### How It Was Fixed
-We stripped out the artificial borders and adopted the **Kubernetes.io documentation standard**:
+Strip out artificial borders and adopt the **Kubernetes.io documentation standard**:
 ```css
 .md-nav--primary .md-nav__list .md-nav__list {
   padding-left: 0.85rem !important;
@@ -163,7 +163,7 @@ We stripped out the artificial borders and adopted the **Kubernetes.io documenta
   border-left: none !important;
 }
 ```
-We rely on clean, generous whitespace indentation (`0.85rem`). The human eye instantly understands the hierarchy naturally, and the sidebar looks light, modern, and uncluttered.
+The layout relies on clean, generous whitespace indentation (`0.85rem`). The visual hierarchy remains immediately clear, keeping the sidebar light, modern, and uncluttered.
 
 ---
 
@@ -186,7 +186,7 @@ repo-root/
 
 ### 3.1 File 1: `mkdocs.yml` (Configuration & Feature Flags)
 
-`mkdocs.yml` is the master configuration for your site. It tells MkDocs which features to activate and which to turn off.
+`mkdocs.yml` is the master site configuration. It defines active features, visual themes, and navigation plugins.
 
 #### Critical Invariants & Rules
 
@@ -194,14 +194,14 @@ repo-root/
    - **MUST BE SET** under `theme`. This tells MkDocs to look in `docs/overrides/` for custom Jinja2 template files before falling back to default theme files.
 2. **`navigation.tabs` & `navigation.indexes`**:
    - **MUST BE ENABLED**.
-   - `navigation.tabs` groups your documentation into top-level horizontal tabs.
+   - `navigation.tabs` groups documentation into top-level horizontal tabs.
    - `navigation.indexes` links directory landing pages (`index.md`) directly to section titles.
 3. **`navigation.sections`**:
    - **MUST NOT BE ENABLED**.
-   - *Why:* If you enable `navigation.sections`, MkDocs converts nested directories into flat, non-collapsible section headers. This destroys the collapsible tree architecture!
+   - *Why:* Enabling `navigation.sections` converts nested directories into flat, non-collapsible section headers, destroying the collapsible tree architecture.
 4. **`navigation.prune`**:
    - **MUST NOT BE ENABLED**.
-   - *Why:* If you enable `navigation.prune`, MkDocs strips non-active directory branches out of the HTML when building the site. When a user clicks an arrow to expand a collapsed folder, nothing happens because the HTML for that branch does not exist in the browser!
+   - *Why:* Enabling `navigation.prune` strips non-active directory branches out of the HTML when building the site. When a user clicks an arrow to expand a collapsed folder, nothing happens because the HTML for that branch does not exist in the browser.
 5. **Fonts**:
    - Configured with `Inter` for prose and `JetBrains Mono` for code blocks.
 
@@ -819,7 +819,7 @@ MIGRATION FLOW:
 
 ### Step 1: Check and Update `mkdocs.yml`
 
-1. Open `mkdocs.yml` in your target repository.
+1. Open `mkdocs.yml` in the target repository.
 2. Under the `theme` key, ensure `custom_dir: docs/overrides` is defined.
 3. Verify feature flags:
    - **Ensure enabled**: `navigation.tabs`, `navigation.indexes`.
@@ -847,7 +847,7 @@ extra_css:
 
 ### Step 2: Create the Template Override Directory and File
 
-1. In your repository root, create the folder path:
+1. In the repository root, create the directory path:
    ```bash
    mkdir -p docs/overrides/partials
    ```
@@ -859,8 +859,8 @@ extra_css:
 ### Step 3: Integrate Styles into `extra.css`
 
 1. Open or create `docs/stylesheets/extra.css`.
-2. Copy the CSS rules provided in [Section 3.3](#33-file-3-docsstylesheetsextracss-design-tokens--css-layout-rules) and append them to your `extra.css`.
-3. If your site already has custom color variables, you can retain them or adopt the Obsidian Black (`#09090b`) tokens provided for an instant dark mode upgrade.
+2. Copy the CSS rules provided in [Section 3.3](#33-file-3-docsstylesheetsextracss-design-tokens--css-layout-rules) and append them to `extra.css`.
+3. If custom color variables already exist, retain them or adopt the Obsidian Black (`#09090b`) tokens provided for an instant dark mode upgrade.
 
 ---
 
@@ -889,7 +889,7 @@ mkdocs serve
 
 ## Section 5: Ready-to-Use LLM Prompt Template
 
-When starting work on another repository, you do not need to explain everything from scratch. Simply copy and paste the prompt below directly into **ChatGPT**, **Claude**, or **Gemini**:
+When deploying this blueprint to another repository, copy and paste the prompt below directly into **ChatGPT**, **Claude**, or **Gemini**:
 
 ***
 
