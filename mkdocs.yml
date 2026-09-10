@@ -22,11 +22,11 @@ theme:
   custom_dir: docs/overrides
   logo: docs/images/favicon.svg
   favicon: docs/images/favicon.ico
-  # Space Grotesk (display face) is loaded and applied in extra.css via @import;
-  # Material exposes only one text font slot, so heading overrides live in CSS.
+  # Modern standard typography: Inter for crisp interface/editorial text,
+  # JetBrains Mono for code blocks.
   font:
-    text: IBM Plex Sans
-    code: IBM Plex Mono
+    text: Inter
+    code: JetBrains Mono
   features:
     - navigation.instant
     - navigation.instant.progress
@@ -73,9 +73,9 @@ plugins:
   - autorefs
   - social:
       cards_layout_options:
-        background_color: "#0d1420"
-        color: "#e6edf6"
-        font_family: Space Grotesk
+        background_color: "#09090b"
+        color: "#f4f4f5"
+        font_family: Inter
   - minify:
       minify_html: true
       minify_js: true
