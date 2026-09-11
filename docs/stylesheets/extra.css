@@ -26,7 +26,7 @@
   --nx-radius-xl: 16px;
   --nx-radius-pill: 9999px;
 
-  --nx-content-max: 84rem;
+  --nx-content-max: 76rem;
 }
 
 /* 2. THEME COLOR SCHEMES
@@ -753,23 +753,53 @@ html, body {
 /* 9. TABLES
    ====================================================================== */
 
-.md-typeset table:not([class]) {
+/* Ensure table scroll wrapper stays strictly within content bounds without negative margin offsets */
+.md-typeset .md-typeset__scrollwrap {
+  display: block !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.md-typeset .md-typeset__table {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 0 !important;
+}
+
+.md-typeset table:not([class]),
+.md-typeset .md-typeset__table table {
+  display: table !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  margin: 0 !important;
   font-size: 0.84rem !important;
   border-radius: var(--nx-radius-md);
   overflow: hidden;
   box-shadow: var(--nx-shadow-sm);
   border: 1px solid var(--md-default-fg-color--lightest);
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .md-typeset table:not([class]) th,
-.md-typeset table:not([class]) td {
+.md-typeset table:not([class]) td,
+.md-typeset .md-typeset__table table th,
+.md-typeset .md-typeset__table table td {
   padding: 0.65rem 0.95rem;
   vertical-align: top;
   line-height: 1.6;
   border-bottom: 1px solid var(--md-default-fg-color--lightest);
 }
 
-.md-typeset table:not([class]) th {
+.md-typeset table:not([class]) th,
+.md-typeset .md-typeset__table table th {
   font-weight: 600;
   text-transform: uppercase;
   font-size: 0.72rem !important;
@@ -778,19 +808,23 @@ html, body {
   background: var(--md-default-bg-color--lighter);
 }
 
-.md-typeset table:not([class]) tbody tr:nth-child(even) {
+.md-typeset table:not([class]) tbody tr:nth-child(even),
+.md-typeset .md-typeset__table table tbody tr:nth-child(even) {
   background: var(--nx-accent-soft);
 }
 
-.md-typeset table:not([class]) tbody tr:last-child td {
+.md-typeset table:not([class]) tbody tr:last-child td,
+.md-typeset .md-typeset__table table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.md-typeset table:not([class]) tbody tr {
+.md-typeset table:not([class]) tbody tr,
+.md-typeset .md-typeset__table table tbody tr {
   transition: background 0.15s ease;
 }
 
-.md-typeset table:not([class]) tbody tr:hover {
+.md-typeset table:not([class]) tbody tr:hover,
+.md-typeset .md-typeset__table table tbody tr:hover {
   background: var(--nx-accent-soft-2);
 }
 
@@ -1812,6 +1846,17 @@ html, body {
 /* 14. RESPONSIVE & ACCESSIBILITY
    ====================================================================== */
 
+/* Laptop Responsive Auto-Collapse (960px – 1279px) */
+@media screen and (min-width: 60em) and (max-width: 79.9375em) {
+  .md-sidebar--secondary {
+    display: none !important;
+  }
+  .md-content {
+    max-width: none !important;
+    width: 100% !important;
+  }
+}
+
 @media screen and (max-width: 47.9375em) {
   .nx-hero { padding: 2.25rem 1.5rem; }
   .nx-hero__inner { gap: 2rem; }
@@ -1850,3 +1895,101 @@ html, body {
   .md-typeset a { color: #000; text-decoration: underline; }
   .md-typeset pre, .md-typeset table, .md-typeset img { page-break-inside: avoid; }
 }
+
+/* ==========================================================================
+   15. DISTRACTION-FREE FOCUS MODE
+   ========================================================================== */
+
+/* Focus Mode Header Button */
+.nx-focus-btn {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--nx-radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--nx-header-fg-dim);
+  transition: all 0.2s ease;
+  margin-right: 0.5rem;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.nx-focus-btn:hover {
+  color: var(--nx-header-fg);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-md-color-scheme="slate"] .nx-focus-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+body.nx-focus-mode .nx-focus-btn {
+  color: var(--md-primary-fg-color);
+  background: var(--nx-accent-soft-2);
+}
+
+.nx-focus-btn svg,
+.nx-focus-btn .twemoji,
+.nx-focus-btn > * {
+  width: 1.15rem;
+  height: 1.15rem;
+  font-size: 1.15rem;
+  fill: currentColor;
+}
+
+/* Focus Mode Layout: Unified Centered Canvas with Single Left Rail */
+body.nx-focus-mode .md-sidebar--primary,
+body.nx-focus-mode .md-sidebar--secondary {
+  display: none !important;
+}
+
+body.nx-focus-mode .md-main__inner {
+  display: flex !important;
+  justify-content: center !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+body.nx-focus-mode .md-content {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Single centered reading canvas: all elements share the exact same left rail */
+body.nx-focus-mode .md-content__inner {
+  max-width: 76rem !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+/* Ensure all block elements (headings, text, code, tables, terminals) align to the identical left rail */
+.nx-focus-mode .md-typeset > p,
+.nx-focus-mode .md-typeset > ul,
+.nx-focus-mode .md-typeset > ol,
+.nx-focus-mode .md-typeset > blockquote,
+.nx-focus-mode .md-typeset > h1,
+.nx-focus-mode .md-typeset > h2,
+.nx-focus-mode .md-typeset > h3,
+.nx-focus-mode .md-typeset > h4,
+.nx-focus-mode .highlight,
+.nx-focus-mode .md-typeset__scrollwrap,
+.nx-focus-mode .md-typeset__table,
+.nx-focus-mode .mermaid,
+.nx-focus-mode .admonition,
+.nx-focus-mode .tabbed-set {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+

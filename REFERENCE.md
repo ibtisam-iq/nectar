@@ -11,6 +11,7 @@
 1. [Section 1: Overview & What Was Accomplished](#section-1-overview--what-was-accomplished)
    - [1.1 Modern Premium Developer Portal UI/UX](#11-modern-premium-developer-portal-uiux)
    - [1.2 Kubernetes.io-Style Sidebar Navigation](#12-kubernetesio-style-sidebar-navigation)
+   - [1.3 Adaptive 3-Column Layout & Distraction-Free Focus Mode (Option A)](#13-adaptive-3-column-layout--distraction-free-focus-mode-option-a)
 2. [Section 2: Non-Technical Explanation (What Broke & How It Was Fixed)](#section-2-non-technical-explanation-what-broke--how-it-was-fixed)
    - [2.1 Analogy 1: The "Accordion with Stretchy Buttons" (Caret Drift)](#21-analogy-1-the-accordion-with-stretchy-buttons-caret-drift)
    - [2.2 Analogy 2: The "Dangling Switch" (Non-Functional Section Arrow)](#22-analogy-2-the-dangling-switch-non-functional-section-arrow)
@@ -19,12 +20,21 @@
    - [3.1 File 1: `mkdocs.yml` (Configuration & Feature Flags)](#31-file-1-mkdocsyml-configuration--feature-flags)
    - [3.2 File 2: `docs/overrides/partials/nav-item.html` (Jinja2 Template Override)](#32-file-2-docsoverridespartialsnav-itemhtml-jinja2-template-override)
    - [3.3 File 3: `docs/stylesheets/extra.css` (Design Tokens & CSS Layout Rules)](#33-file-3-docsstylesheetsextracss-design-tokens--css-layout-rules)
-4. [Section 4: Step-by-Step Migration Guide for Other MkDocs Repositories](#section-4-step-by-step-migration-guide-for-other-mkdocs-repositories)
+4. [Section 4: Modern Adaptive 3-Column Layout & Focus Mode Architecture (Option A)](#section-4-modern-adaptive-3-column-layout--focus-mode-architecture-option-a)
+   - [4.1 Container Max-Width & Horizontal Geometry (`--nx-content-max: 76rem`)](#41-container-max-width--horizontal-geometry---nx-content-max-76rem)
+   - [4.2 Laptop Responsive Auto-Collapse (`960px` to `1279px`)](#42-laptop-responsive-auto-collapse-960px-to-1279px)
+   - [4.3 Distraction-Free Focus Mode Implementation](#43-distraction-free-focus-mode-implementation)
+     - [4.3.1 Header Toggle Control (`.nx-focus-btn`) & Keyboard Shortcuts](#431-header-toggle-control-nx-focus-btn--keyboard-shortcuts)
+     - [4.3.2 Session Persistence Engine (`sessionStorage`)](#432-session-persistence-engine-sessionstorage)
+     - [4.3.3 Adaptive Focus Mode CSS Rules (`body.nx-focus-mode`)](#433-adaptive-focus-mode-css-rules-bodynx-focus-mode)
+5. [Section 5: Step-by-Step Migration Guide for Other MkDocs Repositories](#section-5-step-by-step-migration-guide-for-other-mkdocs-repositories)
    - [Step 1: Check and Update `mkdocs.yml`](#step-1-check-and-update-mkdocsyml)
    - [Step 2: Create the Template Override Directory and File](#step-2-create-the-template-override-directory-and-file)
    - [Step 3: Integrate Styles into `extra.css`](#step-3-integrate-styles-into-extracss)
-   - [Step 4: Build, Inspect, and Verify](#step-4-build-inspect-and-verify)
-5. [Section 5: Ready-to-Use LLM Prompt Template](#section-5-ready-to-use-llm-prompt-template)
+   - [Step 4: Register Interactive Focus Engine in `extra.js`](#step-4-register-interactive-focus-engine-in-extrajs)
+   - [Step 5: Build, Inspect, and Verify](#step-5-build-inspect-and-verify)
+6. [Section 6: Ready-to-Use LLM Prompt Template](#section-6-ready-to-use-llm-prompt-template)
+7. [Summary Reference Table](#summary-reference-table)
 
 ---
 
@@ -88,6 +98,16 @@ The left navigation sidebar in Material for MkDocs was redesigned from scratch t
    - In tabbed navigation mode, top-level section headers are permanently open domain containers. Spurious arrows that previously appeared next to section headers and did nothing when clicked were completely eliminated.
 5. **No Harsh Vertical Lines**:
    - Full-height, continuous vertical border lines (`border-left`) were removed in favor of clean whitespace hierarchy (`padding-left: 0.85rem`), producing an unencumbered tree that is effortless to scan.
+
+---
+
+### 1.3 Adaptive 3-Column Layout & Distraction-Free Focus Mode (Option A)
+
+To balance high-density technical specifications with reading ergonomics across all screen sizes, the portal incorporates the **Option A Architecture**:
+
+1. **Calibrated Container Geometry (`76rem` / ~1520px)**: Replaces cramped default widths (`61rem`) and overextended ultra-wide widths (`84rem`+) with a calibrated `76rem` boundary. This geometry provides generous horizontal space for wide Kubernetes manifests, multi-column comparison tables, and terminal diagnostics while capping prose line lengths for comfortable scanning.
+2. **Laptop Responsive Auto-Collapse (`960px`–`1279px`)**: On viewports between `960px` (`60em`) and `1279px` (`79.9375em`), the secondary table of contents (`.md-sidebar--secondary`) automatically hides via CSS media queries, allocating 100% of available horizontal center track space to technical prose and code blocks without side-scrolling.
+3. **Distraction-Free Focus Mode**: Instant viewport immersion triggered via a dedicated header toggle button (`.nx-focus-btn`) or keyboard shortcuts (`Z` to toggle, `Escape` to exit). Session state persists across instant page navigation through `sessionStorage`, while specialized CSS layout rules collapse both sidebars and center the entire reading canvas at `76rem` with a single unified left rail, guaranteeing that headings, prose, tables, and terminal blocks share an identical horizontal start position.
 
 ---
 
@@ -462,7 +482,7 @@ This file overrides the upstream Material for MkDocs navigation item renderer. I
   --nx-radius-lg: 12px;
   --nx-radius-xl: 16px;
   --nx-radius-pill: 9999px;
-  --nx-content-max: 84rem;
+  --nx-content-max: 76rem; /* Option A: ~1520px at 20px rem scale */
 }
 
 /* Light Mode: Frosted Clean White */
@@ -797,16 +817,368 @@ html, body {
 
 ---
 
-## Section 4: Step-by-Step Migration Guide for Other MkDocs Repositories
+## Section 4: Modern Adaptive 3-Column Layout & Focus Mode Architecture (Option A)
 
-Follow these 4 steps to apply this exact layout and navigation system to any other Material for MkDocs website.
+Modern enterprise documentation portals present two competing layout demands:
+1. **Technical Asset Density**: High-density engineering assets—such as multi-tier Kubernetes manifests, complex command pipelines, architectural diagrams, and multi-column comparison tables—require wide horizontal space to prevent awkward line wrapping and unnecessary horizontal scrollbars.
+2. **Reading Ergonomics**: Prose narrative, operational instructions, and conceptual documentation require disciplined line lengths (65–85 characters per line) to maintain typographic legibility and minimize cognitive fatigue.
+
+The Option A architecture solves this balance through calibrated container geometry, automatic secondary sidebar collapse on mid-range laptop displays, and an instant distraction-free focus mode with content-widening capabilities.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                OPTION A: 3 ADAPTIVE VIEW MODES                                  │
+├─────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ 1. DESKTOP VIEW (>= 1280px / 80em): Full 3-Column Canvas                                        │
+│ ┌───────────────────────┬─────────────────────────────────────────────┬───────────────────────┐ │
+│ │ PRIMARY SIDEBAR       │ MAIN CONTENT AREA (51.8rem / ~1036px)       │ SECONDARY TOC         │ │
+│ │ Tree Navigation       │ Prose, Code Manifests, Tables, Hero         │ In-Page Headings      │ │
+│ │ (12.1rem / 242px)     │ (Max Container: 76rem / ~1520px)            │ (12.1rem / 242px)     │ │
+│ └───────────────────────┴─────────────────────────────────────────────┴───────────────────────┘ │
+├─────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ 2. LAPTOP VIEW (960px - 1279px / 60em - 79.9375em): Auto-Collapsed Secondary TOC               │
+│ ┌───────────────────────┬─────────────────────────────────────────────────────────────────────┐ │
+│ │ PRIMARY SIDEBAR       │ EXPANDED CONTENT TRACK (100% Remaining Width)                       │ │
+│ │ Tree Navigation       │ Full horizontal space allocated to technical prose and code blocks  │ │
+│ │ (12.1rem / 242px)     │ Secondary TOC hidden automatically; zero horizontal scroll clipping  │ │
+│ └───────────────────────┴─────────────────────────────────────────────────────────────────────┘ │
+├─────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ 3. DISTRACTION-FREE FOCUS MODE (body.nx-focus-mode): Full Immersion (`Z` toggle, `Esc` exit)    │
+│ ┌─────────────────────────────────────────────────────────────────────────────────────────────┐ │
+│ │                       PROSE TRACK CENTERED (54rem / ~1080px)                                │ │
+│ │         Technical prose restricted to optimal reading width for high legibility             │ │
+│ │ ┌─────────────────────────────────────────────────────────────────────────────────────────┐ │ │
+│ │ │                 TECHNICAL ASSETS EXPANDED (72rem / ~1440px)                             │ │ │
+│ │ │                 Code Blocks, Tables, Terminal Windows, Admonitions                      │ │ │
+│ │ └─────────────────────────────────────────────────────────────────────────────────────────┘ │ │
+│ └─────────────────────────────────────────────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### 4.1 Container Max-Width & Horizontal Geometry (`--nx-content-max: 76rem`)
+
+Material for MkDocs computes layout dimensions using a base root scaling factor where `1rem = 20px` at standard desktop display scales.
+
+#### Dimension Comparison
+- **Default Material Theme (`61rem` / ~1220px)**: Constricts the center content column when both primary and secondary sidebars are rendered (`~36.8rem` / ~736px). Wide configuration files, JSON specifications, and deep comparison tables suffer from aggressive wrapping and horizontal scrollbars.
+- **Overextended Widths (`84rem`+ / >1680px)**: Produces unergonomic prose lines exceeding 120 characters per line on high-resolution desktop monitors, causing ocular drift and reading fatigue.
+- **Option A Geometry (`--nx-content-max: 76rem` / ~1520px)**:
+  - Total grid width: `76rem` (`~1520px`).
+  - Primary navigation sidebar: `12.1rem` (`242px`).
+  - Secondary table of contents sidebar: `12.1rem` (`242px`).
+  - Net available content column: `51.8rem` (`~1036px`).
+  - Balances generous horizontal space for 100-character code lines with comfortable typographic scan lines.
+
+#### CSS Token Definition (`docs/stylesheets/extra.css`)
+```css
+:root {
+  --nx-content-max: 76rem; /* Option A: ~1520px at 20px rem scale */
+}
+
+.md-grid {
+  max-width: var(--nx-content-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
+}
+```
+
+---
+
+### 4.2 Laptop Responsive Auto-Collapse (`960px` to `1279px`)
+
+Standard 13-inch and 14-inch laptops operate at display viewport widths between `960px` (`60em`) and `1279px` (`79.9375em`). Under default Material for MkDocs configurations, this breakpoint renders both sidebars simultaneously, compressing the center column into a narrow slot between `476px` and `795px`.
+
+Option A eliminates this layout compression by introducing an automated media query override that targets this viewport band.
+
+#### The Auto-Collapse Mechanism
+1. **Target Viewport Range**: `min-width: 60em` (960px) through `max-width: 79.9375em` (1279px).
+2. **Action**: The secondary table of contents (`.md-sidebar--secondary`) is hidden via `display: none !important`.
+3. **Space Reallocation**: 100% of the freed horizontal track is reallocated to `.md-content`.
+4. **Result**: The primary navigation tree remains immediately available on the left, while the main content and code blocks gain `12.1rem` (242px) of uninterrupted horizontal space.
+
+#### CSS Implementation Snippet (`docs/stylesheets/extra.css`)
+```css
+/* ==========================================================================
+   OPTION A: LAPTOP RESPONSIVE AUTO-COLLAPSE (960px - 1279px)
+   Hides secondary TOC on mid-range viewports to maximize code/manifest space.
+   ========================================================================== */
+
+@media screen and (min-width: 60em) and (max-width: 79.9375em) {
+  /* Suppress secondary table of contents sidebar */
+  .md-sidebar--secondary {
+    display: none !important;
+  }
+
+  /* Expand content area to consume entire remaining horizontal track */
+  .md-content {
+    max-width: 100% !important;
+  }
+
+  .md-content__inner {
+    margin-right: 0 !important;
+  }
+}
+```
+
+---
+
+### 4.3 Distraction-Free Focus Mode Implementation
+
+Distraction-Free Focus Mode enables complete visual immersion during deep technical tasks, code reviews, and incident troubleshooting by stripping away navigation chrome.
+
+Focus Mode comprises four core architectural components:
+1. Header Toggle Button (`.nx-focus-btn`)
+2. Keyboard Interaction Controller (`Z` / `Escape`)
+3. Session Persistence via `sessionStorage`
+4. Dual-Track Responsive CSS Sizing (`54rem` prose / `72rem` assets)
+
+#### 4.3.1 Header Toggle Control (`.nx-focus-btn`) & Keyboard Shortcuts
+
+A dedicated focus toggle button is integrated into the header action bar.
+
+- **DOM Representation**:
+  ```html
+  <button class="md-header__button md-icon nx-focus-btn" 
+          title="Toggle Focus Mode (Press Z)" 
+          aria-label="Toggle Focus Mode" 
+          data-nx-focus-btn>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M5 5h5v2H7v3H5V5m9 0h5v5h-2V7h-3V5m3 9h2v5h-5v-2h3v-3m-9 3v2H5v-5h2v3h3Z"/>
+    </svg>
+  </button>
+  ```
+
+- **Keyboard Interaction Controller**:
+  - **Press `Z` (or `z`)**: Toggles Focus Mode on or off.
+  - **Press `Escape`**: Exits Focus Mode immediately when active.
+  - **Input Shielding**: Keystrokes are ignored when the active target is an `<input>`, `<textarea>`, `<select>`, `[contenteditable]`, or search dialog to prevent conflict with text input.
+
+#### 4.3.2 Session Persistence Engine (`sessionStorage`)
+
+To ensure continuity across multi-page reference browsing, Focus Mode state is preserved across navigation events within the active browsing session.
+
+- **Storage Key**: `nx-focus-mode`.
+- **Allowed States**: `'enabled'` | `'disabled'`.
+- **Storage Scope**: `sessionStorage` (isolated to the browser tab; automatically clears on tab close).
+- **Instant Navigation Lifecycle**: Re-evaluates state on Material for MkDocs instant-loading events via `document$.subscribe()`.
+
+#### JavaScript Implementation Snippet (`docs/javascripts/extra.js`)
+```javascript
+/* ==========================================================================
+   OPTION A: FOCUS MODE INTERACTION & PERSISTENCE ENGINE
+   Handles toggle button, Z / Escape keybindings, and sessionStorage sync.
+   ========================================================================== */
+
+(function () {
+  var FOCUS_KEY = "nx-focus-mode";
+  var FOCUS_CLASS = "nx-focus-mode";
+
+  function setFocusMode(enabled) {
+    if (enabled) {
+      document.body.classList.add(FOCUS_CLASS);
+      try { sessionStorage.setItem(FOCUS_KEY, "enabled"); } catch (e) {}
+    } else {
+      document.body.classList.remove(FOCUS_CLASS);
+      try { sessionStorage.setItem(FOCUS_KEY, "disabled"); } catch (e) {}
+    }
+    updateFocusButtons(enabled);
+  }
+
+  function toggleFocusMode() {
+    var isCurrentlyFocused = document.body.classList.contains(FOCUS_CLASS);
+    setFocusMode(!isCurrentlyFocused);
+  }
+
+  function updateFocusButtons(enabled) {
+    var buttons = document.querySelectorAll(".nx-focus-btn");
+    buttons.forEach(function (btn) {
+      btn.setAttribute("aria-pressed", enabled ? "true" : "false");
+      btn.classList.toggle("nx-focus-btn--active", enabled);
+    });
+  }
+
+  function initFocusMode() {
+    // Restore persistent session state
+    var savedState = null;
+    try { savedState = sessionStorage.getItem(FOCUS_KEY); } catch (e) {}
+    if (savedState === "enabled") {
+      document.body.classList.add(FOCUS_CLASS);
+      updateFocusButtons(true);
+    } else {
+      updateFocusButtons(false);
+    }
+
+    // Attach click listeners to all focus toggle buttons in DOM
+    var buttons = document.querySelectorAll(".nx-focus-btn");
+    buttons.forEach(function (btn) {
+      if (!btn.dataset.focusBound) {
+        btn.dataset.focusBound = "true";
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          toggleFocusMode();
+        });
+      }
+    });
+  }
+
+  // Global Keyboard Navigation Controller
+  window.addEventListener("keydown", function (e) {
+    // Ignore keystrokes when active element is an input, textarea, or content-editable
+    var target = e.target;
+    var tagName = target.tagName;
+    if (
+      tagName === "INPUT" ||
+      tagName === "TEXTAREA" ||
+      tagName === "SELECT" ||
+      target.isContentEditable ||
+      target.closest(".md-search__input")
+    ) {
+      return;
+    }
+
+    // Key 'Z' toggles focus mode
+    if ((e.key === "z" || e.key === "Z") && !e.ctrlKey && !e.altKey && !e.metaKey) {
+      e.preventDefault();
+      toggleFocusMode();
+    }
+
+    // Key 'Escape' exits focus mode
+    if (e.key === "Escape" && document.body.classList.contains(FOCUS_CLASS)) {
+      e.preventDefault();
+      setFocusMode(false);
+    }
+  });
+
+  // Lifecycle registration: standard DOM ready + MkDocs instant navigation
+  if (typeof document$ !== "undefined" && document$.subscribe) {
+    document$.subscribe(initFocusMode);
+  } else {
+    document.addEventListener("DOMContentLoaded", initFocusMode);
+  }
+})();
+```
+
+#### 4.3.3 Adaptive Focus Mode CSS Rules (`body.nx-focus-mode`)
+
+When `body.nx-focus-mode` is activated, the layout transforms into an uncluttered technical canvas:
+1. **Sidebar Elimination**: Primary navigation (`.md-sidebar--primary`) and secondary table of contents (`.md-sidebar--secondary`) are hidden completely.
+2. **Prose Centering at `54rem` (~1080px)**: Text reading line length is locked to `54rem` and centered horizontally, maintaining strict ergonomic scan bounds.
+3. **Asset Expansion to `72rem` (~1440px)**: Code blocks (`.highlight`, `.highlighttable`), terminal windows (`.nx-terminal`), data tables (`.md-typeset__table`), and admonitions project outward beyond the prose boundary to `72rem`, granting technical assets maximum clarity without disturbing prose ergonomics.
+
+#### CSS Layout Rules Snippet (`docs/stylesheets/extra.css`)
+```css
+/* ==========================================================================
+   OPTION A: FOCUS MODE LAYOUT RULES (body.nx-focus-mode)
+   ========================================================================== */
+
+/* 1. Focus Mode Header Button */
+.nx-focus-btn {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--nx-radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--nx-header-fg-dim);
+  transition: all 0.2s ease;
+  margin-right: 0.5rem;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.nx-focus-btn:hover {
+  color: var(--nx-header-fg);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-md-color-scheme="slate"] .nx-focus-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+body.nx-focus-mode .nx-focus-btn {
+  color: var(--md-primary-fg-color);
+  background: var(--nx-accent-soft-2);
+}
+
+.nx-focus-btn svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: currentColor;
+}
+
+/* 2. Hide Primary & Secondary Sidebars */
+body.nx-focus-mode .md-sidebar--primary,
+body.nx-focus-mode .md-sidebar--secondary {
+  display: none !important;
+}
+
+/* 3. Expand Content Track to 100% Container */
+body.nx-focus-mode .md-main__inner {
+  display: flex !important;
+  justify-content: center !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+body.nx-focus-mode .md-content {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* 4. Single Centered Reading Canvas (76rem): All elements share the exact same left rail */
+body.nx-focus-mode .md-content__inner {
+  max-width: 76rem !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+/* 5. Unified Left Rail Alignment: Headings, text, code, tables, and terminals share identical start position */
+.nx-focus-mode .md-typeset > p,
+.nx-focus-mode .md-typeset > ul,
+.nx-focus-mode .md-typeset > ol,
+.nx-focus-mode .md-typeset > blockquote,
+.nx-focus-mode .md-typeset > h1,
+.nx-focus-mode .md-typeset > h2,
+.nx-focus-mode .md-typeset > h3,
+.nx-focus-mode .md-typeset > h4,
+.nx-focus-mode .highlight,
+.nx-focus-mode .md-typeset__scrollwrap,
+.nx-focus-mode .md-typeset__table,
+.nx-focus-mode .mermaid,
+.nx-focus-mode .admonition,
+.nx-focus-mode .tabbed-set {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+```
+
+---
+
+## Section 5: Step-by-Step Migration Guide for Other MkDocs Repositories
+
+Follow these 5 steps to apply this exact layout, navigation system, and Option A architecture to any other Material for MkDocs website.
 
 ```
 MIGRATION FLOW:
-┌────────────────────┐     ┌────────────────────────────┐     ┌────────────────────────┐     ┌─────────────────────┐
-│  STEP 1: CONFIG    │ ──> │  STEP 2: JINJA OVERRIDE    │ ──> │  STEP 3: CSS INJECTION │ ──> │  STEP 4: VERIFY     │
-│  Update mkdocs.yml │     │  Create nav-item.html      │     │  Append to extra.css   │     │  Build & Inspect    │
-└────────────────────┘     └────────────────────────────┘     └────────────────────────┘     └─────────────────────┘
+┌────────────────────┐     ┌────────────────────────────┐     ┌────────────────────────┐     ┌────────────────────────┐     ┌─────────────────────┐
+│  STEP 1: CONFIG    │ ──> │  STEP 2: JINJA OVERRIDE    │ ──> │  STEP 3: CSS INJECTION │ ──> │  STEP 4: JS INJECTION  │ ──> │  STEP 5: VERIFY     │
+│  Update mkdocs.yml │     │  Create nav-item.html      │     │  Append to extra.css   │     │  Append to extra.js    │     │  Build & Inspect    │
+└────────────────────┘     └────────────────────────────┘     └────────────────────────┘     └────────────────────────┘     └─────────────────────┘
 ```
 
 ---
@@ -819,6 +1191,7 @@ MIGRATION FLOW:
    - **Ensure enabled**: `navigation.tabs`, `navigation.indexes`.
    - **Ensure disabled (remove if present)**: `navigation.sections`, `navigation.prune`.
 4. Ensure `docs/stylesheets/extra.css` is registered under `extra_css`.
+5. Ensure `docs/javascripts/extra.js` is registered under `extra_javascript`.
 
 ```yaml
 theme:
@@ -835,6 +1208,9 @@ theme:
 
 extra_css:
   - docs/stylesheets/extra.css
+
+extra_javascript:
+  - docs/javascripts/extra.js
 ```
 
 ---
@@ -853,12 +1229,21 @@ extra_css:
 ### Step 3: Integrate Styles into `extra.css`
 
 1. Open or create `docs/stylesheets/extra.css`.
-2. Copy the CSS rules provided in [Section 3.3](#33-file-3-docsstylesheetsextracss-design-tokens--css-layout-rules) and append them to `extra.css`.
-3. If custom color variables already exist, retain them or adopt the Obsidian Black (`#09090b`) tokens provided for an instant dark mode upgrade.
+2. Copy the design tokens and navigation CSS rules provided in [Section 3.3](#33-file-3-docsstylesheetsextracss-design-tokens--css-layout-rules) and append them to `extra.css`.
+3. Copy the Option A layout rules and Focus Mode styles provided in [Section 4.1](#41-container-max-width--horizontal-geometry---nx-content-max-76rem), [Section 4.2](#42-laptop-responsive-auto-collapse-960px-to-1279px), and [Section 4.3.3](#433-adaptive-focus-mode-css-rules-bodynx-focus-mode) and append them to `extra.css`.
+4. If custom color variables already exist, retain them or adopt the Obsidian Black (`#09090b`) tokens provided for an instant dark mode upgrade.
 
 ---
 
-### Step 4: Build, Inspect, and Verify
+### Step 4: Register Interactive Focus Engine in `extra.js`
+
+1. Open or create `docs/javascripts/extra.js`.
+2. Copy and paste the Focus Mode controller provided in [Section 4.3.2](#432-session-persistence-engine-sessionstorage) into this file.
+3. Ensure the script is registered in `mkdocs.yml` under `extra_javascript`.
+
+---
+
+### Step 5: Build, Inspect, and Verify
 
 Run the MkDocs build command to verify that there are no syntax errors or template conflicts:
 
@@ -877,18 +1262,22 @@ mkdocs serve
 - [ ] **Section Headers**: Verify that top-level domain headings in the left sidebar do **not** have non-functional arrow toggles.
 - [ ] **No Vertical Jailhouse Bars**: Verify that nested sub-items are indented with clean whitespace (`0.85rem`) and have no harsh vertical border lines.
 - [ ] **Smooth Rotation**: Click a caret and confirm it rotates 90 degrees smoothly (`▶` to `▼`).
+- [ ] **Option A Container Max-Width**: Verify that the content grid is capped at `76rem` (~1520px) preventing runaway line lengths on ultra-wide screens.
+- [ ] **Laptop Responsive Auto-Collapse**: Resize the viewport between `960px` and `1279px`. Verify the secondary table of contents sidebar hides automatically and content consumes 100% of the remaining horizontal space.
+- [ ] **Focus Mode Toggle & Keybindings**: Press `Z` or click `.nx-focus-btn`. Verify sidebars disappear, content centers on a unified `76rem` canvas, and headings, text, tables, and terminals strictly share an identical left alignment rail. Press `Escape` or `Z` again to verify clean restoration.
+- [ ] **Session Persistence**: While in Focus Mode, navigate between pages. Verify that Focus Mode remains active across instant-loading page transitions via `sessionStorage`.
 - [ ] **Responsive Stacking**: Resize the browser window to mobile width (`< 768px`) and tablet width (`768px - 1024px`) to ensure the navigation drawer opens and functions seamlessly.
 
 ---
 
-## Section 5: Ready-to-Use LLM Prompt Template
+## Section 6: Ready-to-Use LLM Prompt Template
 
 When deploying this blueprint to another repository, copy and paste the prompt below directly into **ChatGPT**, **Claude**, or **Gemini**:
 
 ***
 
 ```markdown
-I have an MkDocs repository using the Material for MkDocs theme. I want to upgrade the site to match the Kubernetes.io-style collapsible tree navigation and modern Obsidian Dark / Frosted Light UI standards.
+I have an MkDocs repository using the Material for MkDocs theme. I want to upgrade the site to match the Kubernetes.io-style collapsible tree navigation, modern Obsidian Dark / Frosted Light UI standards, and the Option A adaptive layout architecture.
 
 Please inspect this repository and apply the following architectural changes:
 
@@ -898,6 +1287,7 @@ Please inspect this repository and apply the following architectural changes:
    - In `theme.features`, ensure `navigation.tabs` and `navigation.indexes` are present.
    - Crucially, ensure `navigation.sections` and `navigation.prune` are REMOVED (they break collapsible trees and client-side branch expansion).
    - Ensure `docs/stylesheets/extra.css` is included under `extra_css`.
+   - Ensure `docs/javascripts/extra.js` is included under `extra_javascript`.
 
 2. In `docs/overrides/partials/nav-item.html`:
    - Create this file (and parent directories if missing).
@@ -908,16 +1298,27 @@ Please inspect this repository and apply the following architectural changes:
 
 3. In `docs/stylesheets/extra.css`:
    - Add the design tokens for True Obsidian Black (`#09090b` canvas in dark mode) and Frosted Light (`#fafafa` canvas in light mode).
+   - Configure Option A container max-width: `--nx-content-max: 76rem;`.
    - Add the Kubernetes.io sidebar CSS rules:
      a) Lock the toggle label width inside `.md-nav__container` to `flex: 0 0 1.15rem !important; width: 1.15rem !important; margin: 0 !important; padding: 0 !important;`.
      b) Scope direct item labels to `.md-nav--primary .md-nav__item > label.md-nav__link`.
      c) Set the link text to `flex: 1 1 auto !important; margin: 0 0 0 0.45rem !important;`.
      d) Implement crisp SVG filled triangle carets (rightward ▶ rotating 90deg to downward ▼) via `-webkit-mask-image` / `mask-image`.
      e) Remove vertical list borders (`border-left: none !important;`) and apply clean whitespace indentation (`padding-left: 0.85rem !important;`).
+   - Add Option A responsive auto-collapse rules:
+     Between `60em` (960px) and `79.9375em` (1279px), hide `.md-sidebar--secondary` and expand `.md-content` to 100%.
+   - Add Option A Focus Mode rules:
+     When `body.nx-focus-mode` is active, hide primary and secondary sidebars, center prose at `54rem`, and expand code blocks/tables to `72rem`.
 
-4. Verification:
+4. In `docs/javascripts/extra.js`:
+   - Implement the Focus Mode controller supporting `.nx-focus-btn`, `Z` key to toggle, `Escape` key to exit, input element shielding, and session persistence via `sessionStorage`.
+   - Integrate with Material for MkDocs instant-navigation lifecycle via `document$.subscribe()`.
+
+5. Verification:
    - Run `mkdocs build` to confirm an exit code of 0.
    - Verify that all directory carets on the same level share identical horizontal coordinates and that section headers have no arrows.
+   - Test laptop auto-collapse between 960px and 1279px.
+   - Test Focus Mode via `Z` shortcut, `Escape` shortcut, and session persistence across page transitions.
 
 Please review the repository and implement these changes step by step.
 ```
@@ -936,6 +1337,11 @@ Please review the repository and implement these changes step by step.
 | **Crisp Triangle Caret** | `docs/stylesheets/extra.css` | `mask-image: url("data:image/svg+xml,...")`<br>`transform: rotate(90deg)` | Vector-sharp filled triangle (`▶` rotating to `▼`) with zero font glyph misalignment. |
 | **Clean Indentation** | `docs/stylesheets/extra.css` | `.md-nav__list .md-nav__list { padding-left: 0.85rem !important; border-left: none !important; }` | Clean whitespace hierarchy replacing cluttered, full-height vertical borders. |
 | **Modern Developer UI** | `docs/stylesheets/extra.css` | Obsidian Black (`#09090b`), Inter, JetBrains Mono, `.nx-terminal` | Establishes a luxury developer portal aesthetic with authentic dark surfaces and terminal diagnostic components. |
+| **Container Geometry (Option A)** | `docs/stylesheets/extra.css` | `--nx-content-max: 76rem;` (~1520px at 20px rem) | Balances generous horizontal space for manifests and code with ergonomic reading length. |
+| **Laptop Auto-Collapse** | `docs/stylesheets/extra.css` | `@media (min-width: 60em) and (max-width: 79.9375em) { .md-sidebar--secondary { display: none !important; } }` | Automatically hides secondary TOC on mid-range viewports (960px–1279px), giving 100% remaining width to content. |
+| **Focus Mode Controller** | `docs/javascripts/extra.js` | `.nx-focus-btn` + `Z` toggle / `Escape` exit | Provides keyboard and click controls for instant distraction-free documentation immersion. |
+| **Session Persistence** | `docs/javascripts/extra.js` | `sessionStorage.getItem("nx-focus-mode")` | Preserves focus mode state across instant navigation events within the same browsing session. |
+| **Focus Mode Unified Geometry** | `docs/stylesheets/extra.css` | `body.nx-focus-mode` centers container at `76rem` with single unified left rail | Guarantees headings, prose, tables, and terminal code blocks strictly share the exact same start position. |
 
 ---
 *Created as part of the Nectar Architecture Reference Series. Maintained for cross-repository portability across all personal MkDocs documentation portals.*
