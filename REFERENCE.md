@@ -414,24 +414,9 @@ This file overrides the upstream Material for MkDocs navigation item renderer. I
     </li>
   {% elif nav_item == page %}
     <li class="{{ class }}">
-      {% set toc = page.toc %}
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      {% set first = toc | first %}
-      {% if first and first.level == 1 %}
-        {% set toc = first.children %}
-      {% endif %}
-      {% if toc %}
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          <span class="md-nav__icon md-icon"></span>
-          {{ render_content(nav_item) }}
-        </label>
-      {% endif %}
       <a href="{{ nav_item.url | url }}" class="md-nav__link md-nav__link--active">
         {{ render_content(nav_item) }}
       </a>
-      {% if toc %}
-        {% include "partials/toc.html" %}
-      {% endif %}
     </li>
   {% else %}
     <li class="{{ class }}">
@@ -624,15 +609,24 @@ html, body {
   align-items: center !important;
 }
 
+/* Defensively hide in-page TOC toggle and nested TOC list in left primary navigation */
+.md-nav--primary label[for="__toc"],
+.md-nav--primary input[id="__toc"],
+.md-nav--primary [for="__toc"] ~ .md-nav {
+  display: none !important;
+}
+
 /* Direct Label for Sections Without an Index Page */
-.md-nav--primary .md-nav__item > label.md-nav__link {
+.md-nav--primary .md-nav__item--nested > label.md-nav__link,
+.md-nav--primary .md-nav__item > label.md-nav__link:not([for="__toc"]) {
   padding: 0.35rem 0.6rem !important;
   display: flex !important;
   align-items: center !important;
   margin: 0 !important;
 }
 
-.md-nav--primary .md-nav__item > label.md-nav__link .md-nav__icon {
+.md-nav--primary .md-nav__item--nested > label.md-nav__link .md-nav__icon,
+.md-nav--primary .md-nav__item > label.md-nav__link:not([for="__toc"]) .md-nav__icon {
   margin: 0 0.45rem 0 0 !important;
 }
 

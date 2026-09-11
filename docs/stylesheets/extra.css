@@ -428,15 +428,24 @@ html, body {
   align-items: center !important;
 }
 
+/* Defensively hide in-page TOC toggle and nested TOC list in left primary navigation */
+.md-nav--primary label[for="__toc"],
+.md-nav--primary input[id="__toc"],
+.md-nav--primary [for="__toc"] ~ .md-nav {
+  display: none !important;
+}
+
 /* Direct label for sections without an index page (e.g. Docker Compose) */
-.md-nav--primary .md-nav__item > label.md-nav__link {
+.md-nav--primary .md-nav__item--nested > label.md-nav__link,
+.md-nav--primary .md-nav__item > label.md-nav__link:not([for="__toc"]) {
   padding: 0.35rem 0.6rem !important;
   display: flex !important;
   align-items: center !important;
   margin: 0 !important;
 }
 
-.md-nav--primary .md-nav__item > label.md-nav__link .md-nav__icon {
+.md-nav--primary .md-nav__item--nested > label.md-nav__link .md-nav__icon,
+.md-nav--primary .md-nav__item > label.md-nav__link:not([for="__toc"]) .md-nav__icon {
   margin: 0 0.45rem 0 0 !important;
 }
 
