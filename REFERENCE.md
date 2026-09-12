@@ -27,14 +27,18 @@
      - [4.3.1 Header Toggle Control (`.nx-focus-btn`) & Keyboard Shortcuts](#431-header-toggle-control-nx-focus-btn--keyboard-shortcuts)
      - [4.3.2 Session Persistence Engine (`sessionStorage`)](#432-session-persistence-engine-sessionstorage)
      - [4.3.3 Adaptive Focus Mode CSS Rules (`body.nx-focus-mode`)](#433-adaptive-focus-mode-css-rules-bodynx-focus-mode)
-5. [Section 5: Step-by-Step Migration Guide for Other MkDocs Repositories](#section-5-step-by-step-migration-guide-for-other-mkdocs-repositories)
+5. [Section 5: Header & Navigation Tabs Vertical Geometry / Navbar Uplift Architecture](#section-5-header--navigation-tabs-vertical-geometry--navbar-uplift-architecture)
+   - [5.1 Root Cause: Material for MkDocs Default Spacing Void](#51-root-cause-material-for-mkdocs-default-spacing-void)
+   - [5.2 The Fix & Blueprint: Geometric Calibration](#52-the-fix--blueprint-geometric-calibration)
+   - [5.3 Production CSS Implementation](#53-production-css-implementation)
+6. [Section 6: Step-by-Step Migration Guide for Other MkDocs Repositories](#section-6-step-by-step-migration-guide-for-other-mkdocs-repositories)
    - [Step 1: Check and Update `mkdocs.yml`](#step-1-check-and-update-mkdocsyml)
    - [Step 2: Create the Template Override Directory and File](#step-2-create-the-template-override-directory-and-file)
    - [Step 3: Integrate Styles into `extra.css`](#step-3-integrate-styles-into-extracss)
    - [Step 4: Register Interactive Focus Engine in `extra.js`](#step-4-register-interactive-focus-engine-in-extrajs)
    - [Step 5: Build, Inspect, and Verify](#step-5-build-inspect-and-verify)
-6. [Section 6: Ready-to-Use LLM Prompt Template](#section-6-ready-to-use-llm-prompt-template)
-7. [Summary Reference Table](#summary-reference-table)
+7. [Section 7: Ready-to-Use LLM Prompt Template](#section-7-ready-to-use-llm-prompt-template)
+8. [Summary Reference Table](#summary-reference-table)
 
 ---
 
@@ -80,6 +84,8 @@ The transformation of **Nectar** into a world-class engineering portal addressed
      - **Left Column**: Live indicator pill badge, editorial display title with CSS gradient text clipping, dual action buttons (solid primary with hover arrow transition + frosted ghost button), and credibility metrics.
      - **Right Column**: Interactive macOS-style terminal (`.nx-terminal`) featuring authentic traffic-light buttons (red `#ff5f56`, yellow `#ffbd2e`, green `#27c93f`), tab title, shell prompt, and diagnostic output rows.
    - Designed for tablets and phones (`< 1080px`): Stacks cleanly into a vertical layout with a 100% full-width terminal to prevent text truncation or horizontal overflow bleed.
+5. **Compact Header & Navigation Tabs Vertical Geometry (Navbar Uplift)**:
+   - Eliminates the ~34px default vertical void between the top header row and navigation tabs by zeroing `.md-tabs__link` top margin and compacting item height to `1.95rem`, creating an integrated ~9px gap and reclaiming critical screen real estate above the fold.
 
 ---
 
@@ -1169,7 +1175,188 @@ body.nx-focus-mode .md-content__inner {
 
 ---
 
-## Section 5: Step-by-Step Migration Guide for Other MkDocs Repositories
+## Section 5: Header & Navigation Tabs Vertical Geometry / Navbar Uplift Architecture
+
+The navigation header represents the primary navigational plane across all documentation views. In default Material for MkDocs deployments with `navigation.tabs` enabled, excessive default spacing introduces an unergonomic vertical gap between the top header row and the horizontal tab bar. The **Navbar Uplift Architecture** eliminates this dead space, creating a cohesive, high-density header unit.
+
+```
+DEFAULT MATERIAL FOR MKDOCS (~34px Void):
+┌────────────────────────────────────────────────────────────────────────┐
+│ [Logo] Nectar                                   [Search] [Theme] [Repo]│  Header Row (48px)
+├────────────────────────────────────────────────────────────────────────┤
+│ ▲                                                                      │
+│ │   34px Vertical Void (.md-tabs__link margin-top: 0.8rem; height: 2.4rem)
+│ ▼                                                                      │
+│   [Tab 1]   [Tab 2]   [Tab 3]   [Tab 4]   [Tab 5]                      │  Tabs Row (48px)
+└────────────────────────────────────────────────────────────────────────┘
+
+UPLIFT ARCHITECTURE (~9px Sleek Gap):
+┌────────────────────────────────────────────────────────────────────────┐
+│ [Logo] Nectar                                   [Search] [Theme] [Repo]│  Header Row (48px)
+├────────────────────────────────────────────────────────────────────────┤
+│ 9px Calibrated Gap (.md-tabs__link margin-top: 0; padding: 0.25rem 0.55rem)
+│ [Tab 1]   [Tab 2]   [Tab 3]   [Tab 4]   [Tab 5]                        │  Tabs Row (39px)
+│ ━━━━━━━ (Active Indicator ::after @ bottom: 0)                         │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+### 5.1 Root Cause: Material for MkDocs Default Spacing Void
+
+The standard Material for MkDocs stylesheet imposes generous spacing variables designed for sparse single-page documentation rather than high-density developer portals:
+
+1. **Top Margin on Tab Anchors**: Default `.md-tabs__link` rules inject `margin-top: 0.8rem` (16px at base scaling).
+2. **Elevated Item Height**: Default `.md-tabs__item` rules declare `height: 2.4rem` (48px).
+3. **Compound Vertical Padding**: The enclosing `.md-tabs` wrapper and internal list structures compound this offset with supplementary vertical padding.
+
+**The Cumulative Result**: A vertical void measuring approximately `34px` separates the bottom border of the primary header from the baseline text of the navigation tabs. This void disconnects the navigation controls visually, forces unnecessary downward eye traversal, and consumes critical vertical viewport height above the fold.
+
+---
+
+### 5.2 The Fix & Blueprint: Geometric Calibration
+
+The Navbar Uplift Architecture compresses the vertical gap from `~34px` down to `~9px` through synchronized CSS overrides:
+
+| Element Selector | Default Material Property | Uplift Override Property | Architectural Function |
+| :--- | :--- | :--- | :--- |
+| `.md-tabs` | `padding: 0;` (unconstrained) | `padding: 0.15rem 0 !important;` | Constrains top and bottom outer perimeter margins of the tab bar. |
+| `.md-tabs__item` | `height: 2.4rem;` (48px) | `height: 1.95rem !important;` | Compacts item container height to 39px while centering content flexbox. |
+| `.md-tabs__link` | `margin-top: 0.8rem;`<br>`padding: ...` | `margin-top: 0 !important;`<br>`padding: 0.25rem 0.55rem !important;` | Eliminates the 16px top offset completely and applies precise click padding. |
+| `.md-tabs__indicator` | Default animated bar | `display: none !important;` | Suppresses upstream JS-calculated bar prone to horizontal lag and jitter. |
+| `.md-tabs__item--active::after` | N/A | `height: 2px; bottom: 0 !important;` | Renders a hardware-accelerated active bottom bar locked to tab text width. |
+
+#### Geometry Breakdown:
+1. **Zero-Margin Baseline Alignment**: Setting `.md-tabs__link { margin-top: 0 !important; }` removes the artificial drop-down offset, pulling tab titles directly into alignment with the header boundary.
+2. **Compact Vertical Envelope (`1.95rem` / ~39px)**: Reducing container item height to `1.95rem` provides sufficient vertical target room for cursor interactions while reclaiming ~9px of vertical document space.
+3. **Integrated Active Underline**: Upstream Material calculates an indicator element (`.md-tabs__indicator`) via JavaScript transforms. By suppressing this element (`display: none !important;`) and attaching a CSS pseudo-element (`::after`) directly to `.md-tabs__item--active`, the active underline anchors firmly to `bottom: 0 !important` with inset margins (`left: 0.55rem; right: 0.55rem;`), matching tab link padding with pixel perfection.
+4. **Horizontal Tab Preservation Across 10 Top-Level Domains**: Compact link padding (`0.25rem 0.55rem`) combined with `gap: 2px` and `font-size: 13.5px` guarantees all 10 domain tabs remain comfortably visible on laptop and desktop viewports without horizontal scrolling or wrapping.
+
+---
+
+### 5.3 Production CSS Implementation
+
+Insert the following stylesheet block into `docs/stylesheets/extra.css` to implement the complete vertical geometry uplift:
+
+```css
+/* ==========================================================================
+   HEADER & NAVIGATION TABS VERTICAL GEOMETRY / NAVBAR UPLIFT
+   Compacts default ~34px spacing void down to ~9px for high-density portals.
+   ========================================================================== */
+
+/* 1. Header and Tab Grid Alignment */
+.md-header .md-grid,
+.md-tabs .md-grid {
+  max-width: 100% !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+@media screen and (max-width: 76.1875em) {
+  .md-header .md-grid,
+  .md-tabs .md-grid {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+/* 2. Compact Tab Bar Container */
+.md-tabs {
+  background-color: var(--nx-header-bg) !important;
+  border-bottom: 1px solid var(--nx-header-border) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 0.15rem 0 !important;
+}
+
+@media screen and (min-width: 60em) {
+  .md-tabs {
+    display: block !important;
+  }
+}
+
+/* 3. Horizontal Tab Flex List */
+.md-tabs__list {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none !important;
+  gap: 2px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  align-items: center !important;
+}
+
+.md-tabs__list::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* 4. Tab Item Geometry Override (Compacted to 1.95rem / ~39px) */
+.md-tabs__item {
+  padding: 0 !important;
+  margin: 0 !important;
+  flex-shrink: 0 !important;
+  position: relative;
+  height: 1.95rem !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* 5. Tab Link Geometry (Eliminates 0.8rem margin-top; compacts to 9px gap) */
+.md-tabs__link {
+  color: var(--nx-header-fg-dim) !important;
+  font-family: var(--nx-font-sans) !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  opacity: 0.85 !important;
+  margin-top: 0 !important;
+  padding: 0.25rem 0.55rem !important;
+  border-radius: var(--nx-radius-sm);
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center;
+  line-height: 1.25 !important;
+  letter-spacing: -0.01em !important;
+  transition: color 0.15s ease, background-color 0.15s ease, opacity 0.15s ease !important;
+}
+
+.md-tabs__link:hover {
+  color: var(--nx-header-fg) !important;
+  opacity: 1 !important;
+  background-color: var(--nx-accent-soft);
+}
+
+/* 6. Suppress Upstream JS Indicator */
+.md-tabs__indicator {
+  display: none !important;
+}
+
+/* 7. Active Tab Anchor and Underline Indicator */
+.md-tabs__item--active {
+  position: relative;
+}
+
+.md-tabs__item--active .md-tabs__link {
+  color: var(--nx-header-fg) !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+}
+
+.md-tabs__item--active::after {
+  content: '';
+  position: absolute;
+  left: 0.55rem;
+  right: 0.55rem;
+  bottom: 0 !important;
+  height: 2px;
+  background: var(--md-primary-fg-color);
+  border-radius: 1px;
+}
+```
+
+---
+
+## Section 6: Step-by-Step Migration Guide for Other MkDocs Repositories
 
 Follow these 5 steps to apply this exact layout, navigation system, and Option A architecture to any other Material for MkDocs website.
 
@@ -1230,7 +1417,7 @@ extra_javascript:
 
 1. Open or create `docs/stylesheets/extra.css`.
 2. Copy the design tokens and navigation CSS rules provided in [Section 3.3](#33-file-3-docsstylesheetsextracss-design-tokens--css-layout-rules) and append them to `extra.css`.
-3. Copy the Option A layout rules and Focus Mode styles provided in [Section 4.1](#41-container-max-width--horizontal-geometry---nx-content-max-76rem), [Section 4.2](#42-laptop-responsive-auto-collapse-960px-to-1279px), and [Section 4.3.3](#433-adaptive-focus-mode-css-rules-bodynx-focus-mode) and append them to `extra.css`.
+3. Copy the Option A layout rules and Focus Mode styles provided in [Section 4.1](#41-container-max-width--horizontal-geometry---nx-content-max-76rem), [Section 4.2](#42-laptop-responsive-auto-collapse-960px-to-1279px), and [Section 4.3.3](#433-adaptive-focus-mode-css-rules-bodynx-focus-mode) along with the Header & Navigation Tabs vertical geometry styles in [Section 5.3](#53-production-css-implementation), and append them to `extra.css`.
 4. If custom color variables already exist, retain them or adopt the Obsidian Black (`#09090b`) tokens provided for an instant dark mode upgrade.
 
 ---
@@ -1264,13 +1451,14 @@ mkdocs serve
 - [ ] **Smooth Rotation**: Click a caret and confirm it rotates 90 degrees smoothly (`▶` to `▼`).
 - [ ] **Option A Container Max-Width**: Verify that the content grid is capped at `76rem` (~1520px) preventing runaway line lengths on ultra-wide screens.
 - [ ] **Laptop Responsive Auto-Collapse**: Resize the viewport between `960px` and `1279px`. Verify the secondary table of contents sidebar hides automatically and content consumes 100% of the remaining horizontal space.
+- [ ] **Header & Navigation Tabs Vertical Geometry**: Verify that the vertical gap between the top header row and navigation tabs is compacted to ~9px (`.md-tabs__link` has `margin-top: 0 !important; padding: 0.25rem 0.55rem !important;` and `.md-tabs__item` has `height: 1.95rem !important;`), the active tab underline indicator sits flush at `bottom: 0`, and all 10 domain tabs fit without clipping on desktop viewports.
 - [ ] **Focus Mode Toggle & Keybindings**: Press `Z` or click `.nx-focus-btn`. Verify sidebars disappear, content centers on a unified `76rem` canvas, and headings, text, tables, and terminals strictly share an identical left alignment rail. Press `Escape` or `Z` again to verify clean restoration.
 - [ ] **Session Persistence**: While in Focus Mode, navigate between pages. Verify that Focus Mode remains active across instant-loading page transitions via `sessionStorage`.
 - [ ] **Responsive Stacking**: Resize the browser window to mobile width (`< 768px`) and tablet width (`768px - 1024px`) to ensure the navigation drawer opens and functions seamlessly.
 
 ---
 
-## Section 6: Ready-to-Use LLM Prompt Template
+## Section 7: Ready-to-Use LLM Prompt Template
 
 When deploying this blueprint to another repository, copy and paste the prompt below directly into **ChatGPT**, **Claude**, or **Gemini**:
 
@@ -1299,6 +1487,8 @@ Please inspect this repository and apply the following architectural changes:
 3. In `docs/stylesheets/extra.css`:
    - Add the design tokens for True Obsidian Black (`#09090b` canvas in dark mode) and Frosted Light (`#fafafa` canvas in light mode).
    - Configure Option A container max-width: `--nx-content-max: 76rem;`.
+   - Add Header & Navbar Uplift geometry rules:
+     Override `.md-tabs__link` with `margin-top: 0 !important;` and `padding: 0.25rem 0.55rem !important;`, set `.md-tabs__item` to `height: 1.95rem !important;`, suppress `.md-tabs__indicator`, and position active indicator `.md-tabs__item--active::after` at `bottom: 0; left: 0.55rem; right: 0.55rem;`.
    - Add the Kubernetes.io sidebar CSS rules:
      a) Lock the toggle label width inside `.md-nav__container` to `flex: 0 0 1.15rem !important; width: 1.15rem !important; margin: 0 !important; padding: 0 !important;`.
      b) Scope direct item labels to `.md-nav--primary .md-nav__item > label.md-nav__link`.
@@ -1317,6 +1507,7 @@ Please inspect this repository and apply the following architectural changes:
 5. Verification:
    - Run `mkdocs build` to confirm an exit code of 0.
    - Verify that all directory carets on the same level share identical horizontal coordinates and that section headers have no arrows.
+   - Verify that the navigation tabs vertical gap is compacted from ~34px to ~9px and active tab indicator remains flush.
    - Test laptop auto-collapse between 960px and 1279px.
    - Test Focus Mode via `Z` shortcut, `Escape` shortcut, and session persistence across page transitions.
 
@@ -1331,6 +1522,7 @@ Please review the repository and implement these changes step by step.
 | :--- | :--- | :--- | :--- |
 | **Theme & Features** | `mkdocs.yml` | `custom_dir: docs/overrides`<br>`navigation.tabs: enabled`<br>`navigation.indexes: enabled` | Directs MkDocs to custom Jinja templates and establishes domain tabs + index page bindings. |
 | **Collapsible Invariants** | `mkdocs.yml` | **DO NOT USE** `navigation.sections`<br>**DO NOT USE** `navigation.prune` | Prevents flattening nested trees into static text and preserves all branches in DOM for instant click unfolding. |
+| **Navbar Uplift Architecture** | `docs/stylesheets/extra.css` | `.md-tabs__link { margin-top: 0 !important; padding: 0.25rem 0.55rem !important; }`<br>`.md-tabs__item { height: 1.95rem !important; }` | Compacts the ~34px default vertical spacing void down to ~9px while preserving active indicator and 10-tab desktop visibility. |
 | **Left Caret Ordering** | `docs/overrides/partials/nav-item.html` | `<label class="...--toggle">` rendered before link title; CSS `order: -1` | Anchors the expand/collapse trigger to the left of the title link matching VS Code / Kubernetes.io. |
 | **Section Header Guard** | `docs/overrides/partials/nav-item.html` | `{% if ... and not is_section %}` | Eliminates dangling, non-functional arrow switches next to permanent top-level domain headers. |
 | **Sub-Pixel Caret Alignment** | `docs/stylesheets/extra.css` | `.md-nav__container > label { flex: 0 0 1.15rem !important; width: 1.15rem !important; }` | Locks toggle box dimensions into an exact rigid square, preventing text-length caret drift. |
