@@ -35,43 +35,40 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 2: Pilot
 
-- [ ] `templates/topic.md` <!-- id:repo:templates/topic.md -->
-- [ ] `templates/module-readme.md` <!-- id:repo:templates/module-readme.md -->
-- [ ] `templates/scenario.md` <!-- id:repo:templates/scenario.md -->
-- [ ] `scripts/lint-prose.py` <!-- id:repo:scripts/lint-prose.py -->
-- [ ] `scripts/audit-tool.py` <!-- id:repo:scripts/audit-tool.py -->
-- [ ] `requirements-dev.txt` <!-- id:repo:requirements-dev.txt -->
-- [ ] `.mdformat.toml` <!-- id:repo:.mdformat.toml -->
-- [ ] Tool folder `.pages` <!-- id:technical-grounding/linux/.pages -->
-- [ ] `reference/.pages` <!-- id:technical-grounding/linux/reference/.pages -->
-- [ ] `interview/.pages` <!-- id:technical-grounding/linux/interview/.pages -->
-- [ ] `interview/scenarios/.pages` <!-- id:technical-grounding/linux/interview/scenarios/.pages -->
-- [ ] `labs/.pages` <!-- id:technical-grounding/linux/labs/.pages -->
-- [ ] `04-users-and-access/.pages` <!-- id:technical-grounding/linux/04-users-and-access/.pages -->
-- [ ] `04-users-and-access/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/04-users-and-access/README.md -->
-- [ ] `04-users-and-access/users.md` (Core, High) <!-- id:technical-grounding/linux/04-users-and-access/users.md -->
-- [ ] `04-users-and-access/groups.md` (Core, High) <!-- id:technical-grounding/linux/04-users-and-access/groups.md -->
-- [ ] `04-users-and-access/passwords-and-aging.md` (Core, Med) <!-- id:technical-grounding/linux/04-users-and-access/passwords-and-aging.md -->
-- [ ] `04-users-and-access/sudo-and-su.md` (Core, High, internals) <!-- id:technical-grounding/linux/04-users-and-access/sudo-and-su.md -->
-- [ ] `04-users-and-access/pam.md` (Core, Low) <!-- id:technical-grounding/linux/04-users-and-access/pam.md -->
-- [ ] `04-users-and-access/login-sessions.md` (Core, Low) <!-- id:technical-grounding/linux/04-users-and-access/login-sessions.md -->
-- [ ] `04-users-and-access/centralized-identity.md` (Advanced, Low) <!-- id:technical-grounding/linux/04-users-and-access/centralized-identity.md -->
-- [ ] `reference/must-know-facts.md` <!-- id:technical-grounding/linux/reference/must-know-facts.md -->
-- [ ] `reference/coverage-map.md` <!-- id:technical-grounding/linux/reference/coverage-map.md -->
-- [ ] `labs/README.md` <!-- id:technical-grounding/linux/labs/README.md -->
-- [ ] `labs/users-and-permissions-lab.md` <!-- id:technical-grounding/linux/labs/users-and-permissions-lab.md -->
-- [ ] `interview/README.md` <!-- id:technical-grounding/linux/interview/README.md -->
-- [ ] `interview/round-1-screening.md` <!-- id:technical-grounding/linux/interview/round-1-screening.md -->
-- [ ] `interview/round-3-troubleshooting.md` <!-- id:technical-grounding/linux/interview/round-3-troubleshooting.md -->
-- [ ] `interview/round-4-internals.md` <!-- id:technical-grounding/linux/interview/round-4-internals.md -->
-- [ ] `interview/scenarios/cannot-login-or-sudo.md` (modules 04) <!-- id:technical-grounding/linux/interview/scenarios/cannot-login-or-sudo.md -->
-- [ ] `README.md` <!-- id:technical-grounding/linux/README.md -->
-- [ ] `roadmap.md` <!-- id:technical-grounding/linux/roadmap.md -->
-- [ ] Pilot: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:P:grows -->
-- [ ] Pilot: `scripts/lint-prose.py` exits 0 <!-- id:check:P:lint -->
-- [ ] Pilot: `mdformat --check` passes <!-- id:check:P:mdformat -->
-- [ ] Pilot: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:P:audit -->
-- [ ] Pilot: `mkdocs build` has no warnings for the tool folder <!-- id:check:P:build -->
+- [x] `templates/topic.md` <!-- id:repo:templates/topic.md -->
+- [x] `templates/module-readme.md` <!-- id:repo:templates/module-readme.md -->
+- [x] `templates/scenario.md` <!-- id:repo:templates/scenario.md -->
+- [x] `scripts/lint-prose.py` <!-- id:repo:scripts/lint-prose.py -->
+- [x] `scripts/audit-tool.py` <!-- id:repo:scripts/audit-tool.py -->
+- [x] Tool folder `.pages` <!-- id:technical-grounding/linux/.pages -->
+- [x] `reference/.pages` <!-- id:technical-grounding/linux/reference/.pages -->
+- [x] `interview/.pages` <!-- id:technical-grounding/linux/interview/.pages -->
+- [x] `interview/scenarios/.pages` <!-- id:technical-grounding/linux/interview/scenarios/.pages -->
+- [x] `labs/.pages` <!-- id:technical-grounding/linux/labs/.pages -->
+- [x] `04-users-and-access/.pages` <!-- id:technical-grounding/linux/04-users-and-access/.pages -->
+- [x] `04-users-and-access/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/04-users-and-access/README.md -->
+- [x] `04-users-and-access/users.md` (Core, High) <!-- id:technical-grounding/linux/04-users-and-access/users.md -->
+- [x] `04-users-and-access/groups.md` (Core, High) <!-- id:technical-grounding/linux/04-users-and-access/groups.md -->
+- [x] `04-users-and-access/passwords-and-aging.md` (Core, Med) <!-- id:technical-grounding/linux/04-users-and-access/passwords-and-aging.md -->
+- [x] `04-users-and-access/sudo-and-su.md` (Core, High, internals) <!-- id:technical-grounding/linux/04-users-and-access/sudo-and-su.md -->
+- [x] `04-users-and-access/pam.md` (Core, Low) <!-- id:technical-grounding/linux/04-users-and-access/pam.md -->
+- [x] `04-users-and-access/login-sessions.md` (Core, Low) <!-- id:technical-grounding/linux/04-users-and-access/login-sessions.md -->
+- [x] `04-users-and-access/centralized-identity.md` (Advanced, Low) <!-- id:technical-grounding/linux/04-users-and-access/centralized-identity.md -->
+- [x] `reference/must-know-facts.md` <!-- id:technical-grounding/linux/reference/must-know-facts.md -->
+- [x] `reference/coverage-map.md` <!-- id:technical-grounding/linux/reference/coverage-map.md -->
+- [x] `labs/README.md` <!-- id:technical-grounding/linux/labs/README.md -->
+- [x] `labs/users-and-permissions-lab.md` <!-- id:technical-grounding/linux/labs/users-and-permissions-lab.md -->
+- [x] `interview/README.md` <!-- id:technical-grounding/linux/interview/README.md -->
+- [x] `interview/round-1-screening.md` <!-- id:technical-grounding/linux/interview/round-1-screening.md -->
+- [x] `interview/round-3-troubleshooting.md` <!-- id:technical-grounding/linux/interview/round-3-troubleshooting.md -->
+- [x] `interview/round-4-internals.md` <!-- id:technical-grounding/linux/interview/round-4-internals.md -->
+- [x] `interview/scenarios/cannot-login-or-sudo.md` (modules 04) <!-- id:technical-grounding/linux/interview/scenarios/cannot-login-or-sudo.md -->
+- [x] `README.md` <!-- id:technical-grounding/linux/README.md -->
+- [x] `roadmap.md` <!-- id:technical-grounding/linux/roadmap.md -->
+- [x] Pilot: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:P:grows -->
+- [x] Pilot: `scripts/lint-prose.py` exits 0 <!-- id:check:P:lint -->
+- [x] Pilot: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:P:audit -->
+- [x] Pilot: `mkdocs build` has no warnings for the tool folder <!-- id:check:P:build -->
 - [ ] Pilot: owner review done; first-hand line spots listed <!-- id:check:P:owner -->
 - [ ] Owner sign-off on the pilot <!-- id:p2:signoff -->
 - [ ] `CLAUDE.md` has the Notes Conventions section <!-- id:p2:conventions -->
@@ -115,7 +112,6 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [ ] `reference/error-messages.md` <!-- id:technical-grounding/linux/reference/error-messages.md -->
 - [ ] Batch A: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:A:grows -->
 - [ ] Batch A: `scripts/lint-prose.py` exits 0 <!-- id:check:A:lint -->
-- [ ] Batch A: `mdformat --check` passes <!-- id:check:A:mdformat -->
 - [ ] Batch A: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:A:audit -->
 - [ ] Batch A: `mkdocs build` has no warnings for the tool folder <!-- id:check:A:build -->
 - [ ] Batch A: owner review done; first-hand line spots listed <!-- id:check:A:owner -->
@@ -153,7 +149,6 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [ ] `interview/scenarios/binary-wont-execute.md` (modules 01, 06) <!-- id:technical-grounding/linux/interview/scenarios/binary-wont-execute.md -->
 - [ ] Batch B: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:B:grows -->
 - [ ] Batch B: `scripts/lint-prose.py` exits 0 <!-- id:check:B:lint -->
-- [ ] Batch B: `mdformat --check` passes <!-- id:check:B:mdformat -->
 - [ ] Batch B: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:B:audit -->
 - [ ] Batch B: `mkdocs build` has no warnings for the tool folder <!-- id:check:B:build -->
 - [ ] Batch B: owner review done; first-hand line spots listed <!-- id:check:B:owner -->
@@ -183,7 +178,6 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [ ] `interview/scenarios/process-wont-die.md` (modules 07) <!-- id:technical-grounding/linux/interview/scenarios/process-wont-die.md -->
 - [ ] Batch C: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:C:grows -->
 - [ ] Batch C: `scripts/lint-prose.py` exits 0 <!-- id:check:C:lint -->
-- [ ] Batch C: `mdformat --check` passes <!-- id:check:C:mdformat -->
 - [ ] Batch C: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:C:audit -->
 - [ ] Batch C: `mkdocs build` has no warnings for the tool folder <!-- id:check:C:build -->
 - [ ] Batch C: owner review done; first-hand line spots listed <!-- id:check:C:owner -->
@@ -214,7 +208,6 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [ ] `interview/scenarios/cron-job-not-running.md` (modules 01, 10) <!-- id:technical-grounding/linux/interview/scenarios/cron-job-not-running.md -->
 - [ ] Batch D: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:D:grows -->
 - [ ] Batch D: `scripts/lint-prose.py` exits 0 <!-- id:check:D:lint -->
-- [ ] Batch D: `mdformat --check` passes <!-- id:check:D:mdformat -->
 - [ ] Batch D: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:D:audit -->
 - [ ] Batch D: `mkdocs build` has no warnings for the tool folder <!-- id:check:D:build -->
 - [ ] Batch D: owner review done; first-hand line spots listed <!-- id:check:D:owner -->
@@ -240,7 +233,6 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [ ] `interview/scenarios/disk-full.md` (modules 02, 07, 12) <!-- id:technical-grounding/linux/interview/scenarios/disk-full.md -->
 - [ ] Batch E: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:E:grows -->
 - [ ] Batch E: `scripts/lint-prose.py` exits 0 <!-- id:check:E:lint -->
-- [ ] Batch E: `mdformat --check` passes <!-- id:check:E:mdformat -->
 - [ ] Batch E: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:E:audit -->
 - [ ] Batch E: `mkdocs build` has no warnings for the tool folder <!-- id:check:E:build -->
 - [ ] Batch E: owner review done; first-hand line spots listed <!-- id:check:E:owner -->
@@ -268,7 +260,6 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [ ] `interview/scenarios/dns-not-resolving.md` (modules 13) <!-- id:technical-grounding/linux/interview/scenarios/dns-not-resolving.md -->
 - [ ] Batch F: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:F:grows -->
 - [ ] Batch F: `scripts/lint-prose.py` exits 0 <!-- id:check:F:lint -->
-- [ ] Batch F: `mdformat --check` passes <!-- id:check:F:mdformat -->
 - [ ] Batch F: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:F:audit -->
 - [ ] Batch F: `mkdocs build` has no warnings for the tool folder <!-- id:check:F:build -->
 - [ ] Batch F: owner review done; first-hand line spots listed <!-- id:check:F:owner -->
@@ -305,7 +296,6 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [ ] `interview/scenarios/suspected-compromise.md` (modules 07, 13, 15) <!-- id:technical-grounding/linux/interview/scenarios/suspected-compromise.md -->
 - [ ] Batch G: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:G:grows -->
 - [ ] Batch G: `scripts/lint-prose.py` exits 0 <!-- id:check:G:lint -->
-- [ ] Batch G: `mdformat --check` passes <!-- id:check:G:mdformat -->
 - [ ] Batch G: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:G:audit -->
 - [ ] Batch G: `mkdocs build` has no warnings for the tool folder <!-- id:check:G:build -->
 - [ ] Batch G: owner review done; first-hand line spots listed <!-- id:check:G:owner -->
@@ -338,7 +328,6 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [ ] `interview/scenarios/boot-failure.md` (modules 12, 16) <!-- id:technical-grounding/linux/interview/scenarios/boot-failure.md -->
 - [ ] Batch H: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:H:grows -->
 - [ ] Batch H: `scripts/lint-prose.py` exits 0 <!-- id:check:H:lint -->
-- [ ] Batch H: `mdformat --check` passes <!-- id:check:H:mdformat -->
 - [ ] Batch H: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:H:audit -->
 - [ ] Batch H: `mkdocs build` has no warnings for the tool folder <!-- id:check:H:build -->
 - [ ] Batch H: owner review done; first-hand line spots listed <!-- id:check:H:owner -->
@@ -370,7 +359,6 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [ ] `interview/scenarios/high-memory-oom.md` (modules 07, 17, 19) <!-- id:technical-grounding/linux/interview/scenarios/high-memory-oom.md -->
 - [ ] Batch I: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:I:grows -->
 - [ ] Batch I: `scripts/lint-prose.py` exits 0 <!-- id:check:I:lint -->
-- [ ] Batch I: `mdformat --check` passes <!-- id:check:I:mdformat -->
 - [ ] Batch I: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:I:audit -->
 - [ ] Batch I: `mkdocs build` has no warnings for the tool folder <!-- id:check:I:build -->
 - [ ] Batch I: owner review done; first-hand line spots listed <!-- id:check:I:owner -->
@@ -384,7 +372,6 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [ ] Output-reading drills in `round-2-hands-on.md` <!-- id:p4:output-drills -->
 - [ ] Phase 4: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:4:grows -->
 - [ ] Phase 4: `scripts/lint-prose.py` exits 0 <!-- id:check:4:lint -->
-- [ ] Phase 4: `mdformat --check` passes <!-- id:check:4:mdformat -->
 - [ ] Phase 4: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:4:audit -->
 - [ ] Phase 4: `mkdocs build` has no warnings for the tool folder <!-- id:check:4:build -->
 - [ ] Phase 4: owner review done; first-hand line spots listed <!-- id:check:4:owner -->
@@ -405,7 +392,6 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [ ] Every `coverage-map.md` row points to an existing file <!-- id:p5:coverage-resolved -->
 - [ ] Phase 5: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:5:grows -->
 - [ ] Phase 5: `scripts/lint-prose.py` exits 0 <!-- id:check:5:lint -->
-- [ ] Phase 5: `mdformat --check` passes <!-- id:check:5:mdformat -->
 - [ ] Phase 5: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:5:audit -->
 - [ ] Phase 5: `mkdocs build` has no warnings for the tool folder <!-- id:check:5:build -->
 - [ ] Phase 5: owner review done; first-hand line spots listed <!-- id:check:5:owner -->

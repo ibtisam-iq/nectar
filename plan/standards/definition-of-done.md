@@ -23,7 +23,7 @@ A tool folder is complete only when every check below passes. Automated checks r
 | 13 | Housekeeping | Files scheduled for removal are gone; inbound links to them are fixed; `_sources/` is git-ignored and listed in `exclude_docs`. |
 | 14 | LLM pointers | `CLAUDE.md`, `GEMINI.md` and `AGENTS.md` point to `plan/`; `CLAUDE.md` contains the Notes Conventions section. |
 | 15 | Checklist | Every box in `plan/<tool>/checklist.md` is ticked. |
-| 16 | Delegated checks | `scripts/lint-prose.py` exits 0, `mdformat --check` passes, and `mkdocs build` reports no warnings for the tool folder. |
+| 16 | Delegated checks | `scripts/lint-prose.py` exits 0 and `mkdocs build` reports no warnings for the tool folder. |
 
 ---
 

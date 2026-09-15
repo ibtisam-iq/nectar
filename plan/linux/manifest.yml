@@ -390,5 +390,3 @@ housekeeping:
     - scripts/lint-prose.py
     - scripts/audit-tool.py
     - scripts/gen-checklist.py
-    - requirements-dev.txt
-    - .mdformat.toml

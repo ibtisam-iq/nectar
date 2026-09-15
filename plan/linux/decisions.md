@@ -34,3 +34,13 @@ Dated log of every decision that shaped the plan. Later changes are appended wit
 | D17 | Stratis and VDO reduced to one line; NIC teaming documented as deprecated | Dropped from RHCSA 9 and 10 objectives; teaming deprecated in RHEL 9 |
 | D18 | 19 interview scenarios (not 20 as first drafted). Read-only filesystem is a branch of `permission-denied.md`; kernel panic at boot is a branch of `boot-failure.md` | Count corrected while building `manifest.yml` |
 | D19 | Agents commit locally only: no push, no pull requests, no AI attribution lines. The rule is recorded in `plan/README.md`, `CLAUDE.md`, `GEMINI.md` and `AGENTS.md` | An agent pushed a branch and opened a pull request without being asked, with an attribution trailer. That PR was closed, the remote branch deleted, and the commit amended. |
+
+---
+
+## 2026-09-15: Changes During Execution
+
+| # | Decision | Reason |
+|---|---|---|
+| D20 | `mdformat` removed from the plan (no `requirements-dev.txt`, no `.mdformat.toml`); `scripts/lint-prose.py` enforces the MkDocs list rules instead | Tested on a sample page: `mdformat` rewrites every `---` section break into an underscore line, which conflicts with the writing standard, and has no option to disable it |
+| D21 | The local `.venv` was rebuilt on Python 3.14 (old 3.9 environment kept as a backup outside the repository) | `requirements.txt` pins `pymdown-extensions==11.0.2`, which requires Python 3.10 or later; CI uses 3.14 |
+| D22 | Captures use the iximiuz `rockylinux` playground (Rocky Linux 10.2) and `ubuntu-24-04` (Ubuntu 24.04.4 LTS). Capture footers state the shared microVM kernel (6.1.167), not a distribution kernel. SELinux output is captured on a local VM, because the Rocky playground ships without SELinux tooling | The playground provides Rocky 10, not 9 (RHCSA is now RHEL 10 based); both playgrounds boot the iximiuz kernel |

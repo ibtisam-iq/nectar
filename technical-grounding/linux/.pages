@@ -1,4 +1,10 @@
 title: Linux
 nav:
+  - README.md
+  - Roadmap: roadmap.md
+  - 04-users-and-access
+  - reference
+  - interview
+  - labs
   - STDOUT & STDERR Guide: STDOUT_STDERR_Guide.md
   - Tar Command: tar-command.md

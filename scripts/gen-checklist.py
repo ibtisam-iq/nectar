@@ -80,7 +80,6 @@ def batch_checks(batch: str, label: str) -> list[tuple[str, str]]:
     return [
         (f"check:{batch}:grows", f"{label}: aggregators, `roadmap.md` and `coverage-map.md` updated"),
         (f"check:{batch}:lint", f"{label}: `scripts/lint-prose.py` exits 0"),
-        (f"check:{batch}:mdformat", f"{label}: `mdformat --check` passes"),
         (f"check:{batch}:audit", f"{label}: `scripts/audit-tool.py --scope` exits 0"),
         (f"check:{batch}:build", f"{label}: `mkdocs build` has no warnings for the tool folder"),
         (f"check:{batch}:owner", f"{label}: owner review done; first-hand line spots listed"),

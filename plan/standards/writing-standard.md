@@ -53,7 +53,7 @@ The runbook states the boundary: Nectar holds concepts, theory and fundamentals;
     - Never `important` (not a Material type) and never GitHub `> [!NOTE]` syntax.
     - Two to five per page.
 
-- **Tables:** comparison tables leave the top-left cell empty and bold the row labels (`| | RHEL / Rocky | Ubuntu / Debian |`). Tables are for lookups and comparisons, never for prose.
+- **Tables:** comparison tables leave the top-left cell empty and bold the row labels (`| | RHEL / Rocky | Ubuntu / Debian |`). Tables are for lookups and comparisons, never for prose. Commands inside table cells contain no `|`: an escaped pipe renders with a literal backslash inside code, so pipelines go in a code block instead.
 - **Lists:** a blank line before every list. Nested lists are indented four spaces, with a blank line before the nested list. Bullets may start with a bold lead phrase.
 - **Troubleshooting headings:** the exact error string in backticks, for example ``### `useradd: user 'amor' already exists` ``, followed by `**Cause:**` and `**Fix:**`.
 - **Distro tabs:** labels are exactly `=== "RHEL / Rocky"` and `=== "Ubuntu / Debian"` (byte-identical, because `content.tabs.link` synchronises tabs across the site). Use tabs only where commands or output differ.
@@ -90,6 +90,6 @@ The runbook states the boundary: Nectar holds concepts, theory and fundamentals;
 
 ## Enforcement
 
-- `scripts/lint-prose.py` checks prose outside code blocks for dashes, banned vocabulary and structures, GitHub alerts, untitled or `important` admonitions, untagged code blocks, emoji in headings, paragraphs over three sentences, missing `Track · Interview weight` lines, and line budgets. It must exit 0 before a batch is committed.
-- `mdformat` with `mdformat-mkdocs` normalises Markdown (four-space list nesting). Configuration is shared with the runbook (`.mdformat.toml`, `validate = false` so snippet markers survive).
+- `scripts/lint-prose.py` checks prose outside code blocks for dashes, spaced hyphens, banned vocabulary and structures, GitHub alerts, untitled or `important` admonitions, untagged code blocks, emoji in headings, and paragraphs or list items over three sentences. It must exit 0 before a batch is committed. Structural rules (Track and Weight line, line budgets, section order) are checked by `scripts/audit-tool.py`.
+- `scripts/lint-prose.py` also enforces MkDocs list rules: a blank line before every list and four-space nesting. (`mdformat` was evaluated and rejected: it rewrites `---` section breaks into underscore lines.)
 - The owner's review is the final human pass. Each batch lists three to five places where a first-hand line from the owner adds the most value; the owner writes those lines.

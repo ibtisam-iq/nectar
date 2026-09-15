@@ -272,7 +272,7 @@ Size (from `manifest.yml`): 21 modules, 140 topic files (51 High, 56 Med, 33 Low
 **Phase 2: pilot, then stop for owner sign-off.**
 
 - `templates/topic.md`, `templates/module-readme.md`, `templates/scenario.md`.
-- `scripts/lint-prose.py`, `scripts/audit-tool.py`, `requirements-dev.txt`, `.mdformat.toml`.
+- `scripts/lint-prose.py`, `scripts/audit-tool.py`.
 - `technical-grounding/linux/README.md`, `roadmap.md`, `.pages`.
 - All of `04-users-and-access/`.
 - `reference/must-know-facts.md` and `interview/round-1-screening.md` with module 04 snippets.
@@ -295,7 +295,7 @@ Size (from `manifest.yml`): 21 modules, 140 topic files (51 High, 56 Med, 33 Low
 | H | 16, 17 |
 | I | 18, 19, 20 |
 
-Each batch updates `roadmap.md`, the snippet aggregators, `reference/coverage-map.md`, its scenarios and lab sections; passes `lint-prose.py`, `mdformat --check` and `audit-tool.py --scope <modules>`; ticks its boxes in `checklist.md`; and lists the places where the owner adds first-hand lines. Absorbed legacy files are deleted in the same commit as their replacement.
+Each batch updates `roadmap.md`, the snippet aggregators, `reference/coverage-map.md`, its scenarios and lab sections; passes `lint-prose.py` and `audit-tool.py --scope <modules>`; ticks its boxes in `checklist.md`; and lists the places where the owner adds first-hand lines. Absorbed legacy files are deleted in the same commit as their replacement.
 
 **Phase 4:** complete `interview/` (rounds 2 to 4 with output-reading drills, remaining scenarios, three mock interviews).
 
@@ -314,7 +314,7 @@ Each batch updates `roadmap.md`, the snippet aggregators, `reference/coverage-ma
 
 ## Capture Environments
 
-- **Primary:** iximiuz Labs playgrounds with systemd: `rockylinux` and `ubuntu-24-04`. `flexbox` multi-VM for NFS, iSCSI, bridges, NAT and host-to-host networking. Loop devices (`losetup`) for partitions, LVM, RAID and quotas. SELinux must be enforcing on the Rocky VM; otherwise SELinux output is captured on a local VM.
+- **Primary:** iximiuz Labs playgrounds with systemd: `rockylinux` (Rocky Linux 10.2) and `ubuntu-24-04` (Ubuntu 24.04.4 LTS), both on the iximiuz microVM kernel 6.1.167. `flexbox` multi-VM for NFS, iSCSI, bridges, NAT and host-to-host networking. Loop devices (`losetup`) for partitions, LVM, RAID and quotas. The Rocky playground has no SELinux tooling, so SELinux output is captured on a local VM.
 - **Full local VM** (VirtualBox RHEL from the course, or UTM): `16-boot-and-recovery/` (GRUB, rd.break) and `20-virtualization-and-provisioning/` (nested KVM).
 - **Fallback:** local Docker for modules 00 to 05.
 
@@ -332,5 +332,4 @@ Each batch updates `roadmap.md`, the snippet aggregators, `reference/coverage-ma
 | `technical-grounding/basics/index.md` | Repoint links | 1 |
 | `templates/*.md` | New | 2 |
 | `scripts/lint-prose.py`, `scripts/audit-tool.py` | New | 2 |
-| `requirements-dev.txt`, `.mdformat.toml` | New (from runbook) | 2 |
 | `CLAUDE.md` | Notes Conventions section | 2 |
