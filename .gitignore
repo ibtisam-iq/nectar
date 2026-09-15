@@ -16,3 +16,5 @@ venv/
 .scratchpad/
 
 .claude/
+# Raw source material for tool folders (never published)
+_sources/

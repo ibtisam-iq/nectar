@@ -8,9 +8,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Before creating or editing any tool folder or knowledge-base page, read:
 
-1. [`plan/README.md`](plan/README.md): index of plans and their status.
-2. [`plan/standards/`](plan/standards/): the writing standard, the tool folder blueprint, and the definition of done. These override any older page in this repository.
-3. The plan for the tool being written (for example [`plan/linux/`](plan/linux/)), including `manifest.yml` and `checklist.md`.
+1. `plan/README.md`: index of plans and their status.
+2. `plan/standards/`: the writing standard, the tool folder blueprint, and the definition of done. These override any older page in this repository.
+3. The plan for the tool being written (for example `plan/linux/`), including `manifest.yml` and `checklist.md`.
 
 **Git rule:** commit locally only. Never push, never open pull requests, and never add AI attribution lines (`Co-Authored-By`, "Generated with") to commits or pull requests. The owner pushes and merges.
 

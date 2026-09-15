@@ -152,6 +152,7 @@ exclude_docs: |
   requirements.txt
   /plan/
   /AGENTS.md
+  _sources/
 
 validation:
   nav:

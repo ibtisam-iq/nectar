@@ -20,16 +20,16 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 1: Housekeeping
 
-- [ ] Raw course material moved to `technical-grounding/linux/_sources/` <!-- id:p1:sources-moved -->
+- [x] Raw course material moved to `technical-grounding/linux/_sources/` <!-- id:p1:sources-moved -->
 - [ ] Third-party resume moved out of the repository; duplicate zip deleted <!-- id:p1:resume-removed -->
-- [ ] `_sources/` in `.gitignore` <!-- id:p1:gitignore:_sources/ -->
-- [ ] `_sources/` in `exclude_docs` <!-- id:p1:exclude:_sources/ -->
-- [ ] Remove `technical-grounding/linux/Linux.md` <!-- id:remove:Linux.md -->
-- [ ] Remove `technical-grounding/linux/cheatSheet.md` <!-- id:remove:cheatSheet.md -->
-- [ ] Remove `technical-grounding/linux/troubleshooting.md` <!-- id:remove:troubleshooting.md -->
-- [ ] Inbound links fixed in `technical-grounding/basics/index.md` <!-- id:p1:links:technical-grounding/basics/index.md -->
-- [ ] Local virtual environment synced with `requirements.txt` <!-- id:p1:venv -->
-- [ ] `_sources/INVENTORY.md` written <!-- id:p1:inventory -->
+- [x] `_sources/` in `.gitignore` <!-- id:p1:gitignore:_sources/ -->
+- [x] `_sources/` in `exclude_docs` <!-- id:p1:exclude:_sources/ -->
+- [x] Remove `technical-grounding/linux/Linux.md` <!-- id:remove:Linux.md -->
+- [x] Remove `technical-grounding/linux/cheatSheet.md` <!-- id:remove:cheatSheet.md -->
+- [x] Remove `technical-grounding/linux/troubleshooting.md` <!-- id:remove:troubleshooting.md -->
+- [x] Inbound links fixed in `technical-grounding/basics/index.md` <!-- id:p1:links:technical-grounding/basics/index.md -->
+- [x] Local virtual environment synced with `requirements.txt` <!-- id:p1:venv -->
+- [x] `_sources/INVENTORY.md` written <!-- id:p1:inventory -->
 
 ---
 
