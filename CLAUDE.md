@@ -4,6 +4,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
+## Read Before Writing Content (Mandatory)
+
+Before creating or editing any tool folder or knowledge-base page, read:
+
+1. [`plan/README.md`](plan/README.md): index of plans and their status.
+2. [`plan/standards/`](plan/standards/): the writing standard, the tool folder blueprint, and the definition of done. These override any older page in this repository.
+3. The plan for the tool being written (for example [`plan/linux/`](plan/linux/)), including `manifest.yml` and `checklist.md`.
+
+Older Nectar pages are not a style reference. When the work changes the plan, update `plan.md`, `manifest.yml` and `decisions.md` in the same commit, and regenerate the checklist with `python scripts/gen-checklist.py plan/<tool>`.
+
+---
+
 ## 1️⃣ Repository Overview
 
 **Nectar** is a personal engineering knowledge base stored as Markdown and configuration files in a single GitHub repository. It is not a compiled application – rather, it is a collection of documentation, configuration snippets, and reference material that together generate a static documentation site at https://nectar.ibtisam-iq.com.

@@ -1,5 +1,10 @@
 # Antigravity Agent Guidelines & Directives
 
+## 0. Content Plans and Standards (MANDATORY)
+- Before creating or editing any tool folder or knowledge-base page, read `plan/README.md`, everything in `plan/standards/`, and the plan for the tool being written (for example `plan/linux/`).
+- The standards in `plan/standards/` override the style of older pages in this repository.
+- Plan changes update `plan.md`, `manifest.yml` and `decisions.md` in the same commit; regenerate the checklist with `python scripts/gen-checklist.py plan/<tool>`.
+
 ## 1. Multi-Agent Concurrency (MANDATORY DIRECTIVE)
 - **Always dispatch multiple specialized subagents in parallel** whenever there is research, design, component auditing, responsive inspection, or multi-faceted work to be done.
 - Divide tasks logically (e.g. Navigation Inspector, Design Auditor, Implementation/Styling Agent, Test/Build Validator) so tasks are executed and verified quickly and thoroughly.
