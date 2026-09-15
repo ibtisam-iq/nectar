@@ -1,0 +1,394 @@
+# Linux tool folder manifest.
+# Read by scripts/gen-checklist.py and scripts/audit-tool.py.
+# Any change to this file needs a matching entry in decisions.md (same commit).
+#
+# Fields
+#   batch:     P (pilot, phase 2), A-I (phase 3 batches), "4" (phase 4), "5" (phase 5)
+#   track:     Core | RHCSA | Advanced
+#   weight:    High | Med | Low        (drives the line budget, see budgets below)
+#   internals: true for (I) topics; each must have an L4 question and a link from round-4-internals.md
+#   feeds:     module ids a scenario draws on
+
+tool: linux
+root: technical-grounding/linux
+plan_version: 1
+approved: 2026-09-15
+
+tabs:
+  - "RHEL / Rocky"
+  - "Ubuntu / Debian"
+
+budgets:            # max lines (min lines in brackets where it applies)
+  topic:
+    High: [250, 400]
+    Med: [150, 300]
+    Low: [60, 150]
+  module_readme: 150
+  scenario: 300
+  lab: 400
+
+top_level:
+  - {file: README.md, type: tool-readme, batch: P}
+  - {file: roadmap.md, type: roadmap, batch: P}
+
+modules:
+  - id: "00"
+    dir: 00-foundations
+    title: Foundations
+    batch: A
+    topics:
+      - {file: what-is-linux.md, track: Core, weight: Low}
+      - {file: kernel-vs-os-vs-distro.md, track: Core, weight: Med}
+      - {file: distributions.md, track: Core, weight: Low}
+      - {file: linux-vs-windows.md, track: Core, weight: Low}
+      - {file: architecture.md, track: Core, weight: High}
+      - {file: system-information.md, track: Core, weight: Med}
+
+  - id: "01"
+    dir: 01-shell-and-cli
+    title: Shell and CLI
+    batch: A
+    absorbs: [STDOUT_STDERR_Guide.md]
+    topics:
+      - {file: shell-basics.md, track: Core, weight: Med}
+      - {file: getting-help.md, track: Core, weight: Low}
+      - {file: command-resolution.md, track: Core, weight: Med}
+      - {file: variables-and-environment.md, track: Core, weight: High}
+      - {file: locale-and-encoding.md, track: Core, weight: Low}
+      - {file: quoting-and-expansion.md, track: Core, weight: Med}
+      - {file: streams-and-redirection.md, track: Core, weight: High}
+      - {file: exit-codes-and-chaining.md, track: Core, weight: High}
+      - {file: text-editors.md, track: Core, weight: Low}
+      - {file: scripting-essentials.md, track: RHCSA, weight: Med}
+
+  - id: "02"
+    dir: 02-files-and-filesystem
+    title: Files and Filesystem
+    batch: A
+    absorbs: [tar-command.md]
+    topics:
+      - {file: filesystem-hierarchy.md, track: Core, weight: High}
+      - {file: file-types.md, track: Core, weight: Med}
+      - {file: navigation-and-listing.md, track: Core, weight: Low}
+      - {file: file-operations.md, track: Core, weight: Med}
+      - {file: inodes-and-links.md, track: Core, weight: High}
+      - {file: file-descriptors.md, track: Advanced, weight: High, internals: true}
+      - {file: finding-files.md, track: Core, weight: High}
+      - {file: archiving-and-compression.md, track: Core, weight: Med}
+
+  - id: "03"
+    dir: 03-text-processing
+    title: Text Processing
+    batch: B
+    topics:
+      - {file: viewing-and-comparing.md, track: Core, weight: Med}
+      - {file: grep-and-regex.md, track: Core, weight: High}
+      - {file: sed.md, track: Core, weight: High}
+      - {file: awk.md, track: Core, weight: High}
+      - {file: cut-sort-uniq-tr.md, track: Core, weight: High}
+      - {file: xargs-and-tee.md, track: Core, weight: Med}
+      - {file: json-and-yaml-on-cli.md, track: Core, weight: Med}
+
+  - id: "04"
+    dir: 04-users-and-access
+    title: Users and Access
+    batch: P
+    topics:
+      - {file: users.md, track: Core, weight: High}
+      - {file: groups.md, track: Core, weight: High}
+      - {file: passwords-and-aging.md, track: Core, weight: Med}
+      - {file: sudo-and-su.md, track: Core, weight: High, internals: true}
+      - {file: pam.md, track: Core, weight: Low}
+      - {file: login-sessions.md, track: Core, weight: Low}
+      - {file: centralized-identity.md, track: Advanced, weight: Low}
+
+  - id: "05"
+    dir: 05-permissions
+    title: Permissions
+    batch: B
+    topics:
+      - {file: basic-permissions.md, track: Core, weight: High}
+      - {file: umask.md, track: Core, weight: Med}
+      - {file: special-permissions.md, track: Core, weight: High}
+      - {file: acl.md, track: RHCSA, weight: Med}
+      - {file: file-attributes.md, track: Core, weight: Med}
+
+  - id: "06"
+    dir: 06-package-management
+    title: Package Management
+    batch: B
+    topics:
+      - {file: packaging-concepts.md, track: Core, weight: Med}
+      - {file: rpm-and-dnf.md, track: Core, weight: Med}
+      - {file: dpkg-and-apt.md, track: Core, weight: Med}
+      - {file: repositories.md, track: Core, weight: Low}
+      - {file: flatpak-and-snap.md, track: RHCSA, weight: Low}
+      - {file: shared-libraries.md, track: Advanced, weight: Med, internals: true}
+      - {file: other-install-methods.md, track: Core, weight: Low}
+
+  - id: "07"
+    dir: 07-processes
+    title: Processes
+    batch: C
+    topics:
+      - {file: process-fundamentals.md, track: Core, weight: High}
+      - {file: process-lifecycle.md, track: Advanced, weight: High, internals: true}
+      - {file: viewing-processes.md, track: Core, weight: High}
+      - {file: process-states.md, track: Core, weight: High}
+      - {file: signals.md, track: Core, weight: High, internals: true}
+      - {file: job-control.md, track: Core, weight: Med}
+      - {file: priority-and-nice.md, track: Core, weight: Med}
+      - {file: system-calls-and-tracing.md, track: Advanced, weight: High, internals: true}
+
+  - id: "08"
+    dir: 08-systemd-and-services
+    title: Systemd and Services
+    batch: C
+    topics:
+      - {file: init-and-targets.md, track: Core, weight: Med}
+      - {file: systemctl.md, track: Core, weight: High}
+      - {file: unit-files.md, track: Core, weight: High}
+      - {file: writing-a-service.md, track: Core, weight: Med}
+      - {file: systemd-toolbox.md, track: Core, weight: Low}
+
+  - id: "09"
+    dir: 09-logging
+    title: Logging
+    batch: D
+    topics:
+      - {file: log-locations.md, track: Core, weight: High}
+      - {file: journalctl.md, track: Core, weight: High}
+      - {file: rsyslog.md, track: Core, weight: Low}
+      - {file: logrotate.md, track: Core, weight: Med}
+      - {file: log-parsing-recipes.md, track: Core, weight: High}
+
+  - id: "10"
+    dir: 10-scheduling
+    title: Scheduling
+    batch: D
+    topics:
+      - {file: cron-and-at.md, track: Core, weight: High}
+      - {file: systemd-timers.md, track: Core, weight: Med}
+
+  - id: "11"
+    dir: 11-kernel-and-hardware
+    title: Kernel and Hardware
+    batch: D
+    topics:
+      - {file: proc-and-sys.md, track: Core, weight: High}
+      - {file: sysctl.md, track: Core, weight: High}
+      - {file: kernel-modules.md, track: Core, weight: Med}
+      - {file: devices-and-udev.md, track: Advanced, weight: Low}
+      - {file: dmesg-and-kernel-messages.md, track: Core, weight: Med}
+
+  - id: "12"
+    dir: 12-storage
+    title: Storage
+    batch: E
+    topics:
+      - {file: disks-and-devices.md, track: Core, weight: Med}
+      - {file: partitioning.md, track: RHCSA, weight: Med}
+      - {file: filesystems.md, track: Core, weight: Med}
+      - {file: mounting-and-fstab.md, track: Core, weight: High}
+      - {file: swap.md, track: Core, weight: Med}
+      - {file: lvm.md, track: Core, weight: High}
+      - {file: resizing-and-cloud-disks.md, track: Core, weight: Med}
+      - {file: disk-usage.md, track: Core, weight: High}
+      - {file: quotas.md, track: RHCSA, weight: Low}
+      - {file: backup-and-restore.md, track: Core, weight: Med}
+      - {file: raid-and-encryption.md, track: Advanced, weight: Low}
+
+  - id: "13"
+    dir: 13-networking
+    title: Networking
+    batch: F
+    topics:
+      - {file: interfaces-and-addresses.md, track: Core, weight: High}
+      - {file: network-configuration.md, track: Core, weight: Med}
+      - {file: routing.md, track: Core, weight: High}
+      - {file: dns-resolution.md, track: Core, weight: High}
+      - {file: ports-and-sockets.md, track: Core, weight: High}
+      - {file: sockets-and-tcp-states.md, track: Advanced, weight: Med, internals: true}
+      - {file: connectivity-testing.md, track: Core, weight: High}
+      - {file: packet-capture.md, track: Core, weight: Med}
+      - {file: bridges-bonds-vlans.md, track: Advanced, weight: Low}
+      - {file: time-and-timezones.md, track: Core, weight: Med}
+      - {file: reverse-proxy-and-load-balancing.md, track: Core, weight: Med}
+      - {file: vpn-wireguard.md, track: Advanced, weight: Low}
+      - {file: troubleshooting-ladder.md, track: Core, weight: High}
+
+  - id: "14"
+    dir: 14-ssh-and-remote-access
+    title: SSH and Remote Access
+    batch: G
+    topics:
+      - {file: ssh-client.md, track: Core, weight: High}
+      - {file: ssh-tunnels.md, track: Core, weight: Med}
+      - {file: sshd-server.md, track: Core, weight: Med}
+      - {file: file-transfer.md, track: Core, weight: Med}
+      - {file: ssh-troubleshooting.md, track: Core, weight: High}
+
+  - id: "15"
+    dir: 15-security
+    title: Security
+    batch: G
+    topics:
+      - {file: firewalld-and-ufw.md, track: Core, weight: Med}
+      - {file: nftables-and-iptables.md, track: Core, weight: Med}
+      - {file: selinux.md, track: RHCSA, weight: Med, internals: true}
+      - {file: apparmor.md, track: Core, weight: Low}
+      - {file: capabilities.md, track: Advanced, weight: Med}
+      - {file: auditd.md, track: Advanced, weight: Low}
+      - {file: gpg.md, track: Core, weight: Low}
+      - {file: openssl-and-trust-store.md, track: Core, weight: Med}
+      - {file: compliance-and-integrity.md, track: Advanced, weight: Low}
+      - {file: hardening-checklist.md, track: Core, weight: Med}
+
+  - id: "16"
+    dir: 16-boot-and-recovery
+    title: Boot and Recovery
+    batch: H
+    topics:
+      - {file: boot-process.md, track: Core, weight: High}
+      - {file: grub2.md, track: RHCSA, weight: Med}
+      - {file: recovery.md, track: RHCSA, weight: Med}
+      - {file: kernel-panic.md, track: Advanced, weight: Med, internals: true}
+      - {file: kernel-updates.md, track: Core, weight: Low}
+
+  - id: "17"
+    dir: 17-performance-and-troubleshooting
+    title: Performance and Troubleshooting
+    batch: H
+    topics:
+      - {file: methodology.md, track: Core, weight: High}
+      - {file: cpu-and-load.md, track: Core, weight: High}
+      - {file: memory.md, track: Core, weight: High}
+      - {file: virtual-memory.md, track: Advanced, weight: High, internals: true}
+      - {file: disk-io.md, track: Core, weight: Med}
+      - {file: limits-and-file-descriptors.md, track: Core, weight: High}
+      - {file: profiling-and-tracing.md, track: Advanced, weight: Med, internals: true}
+      - {file: monitoring-and-capacity.md, track: Core, weight: Low}
+      - {file: tuning.md, track: RHCSA, weight: Low}
+
+  - id: "18"
+    dir: 18-network-storage
+    title: Network Storage
+    batch: I
+    topics:
+      - {file: nfs.md, track: Core, weight: Med}
+      - {file: autofs.md, track: RHCSA, weight: Low}
+      - {file: samba-cifs.md, track: RHCSA, weight: Low}
+      - {file: iscsi-and-nbd.md, track: Advanced, weight: Low}
+
+  - id: "19"
+    dir: 19-containers
+    title: Containers
+    batch: I
+    topics:
+      - {file: namespaces.md, track: Core, weight: High, internals: true}
+      - {file: cgroups.md, track: Core, weight: High, internals: true}
+      - {file: overlayfs-and-chroot.md, track: Core, weight: Med}
+      - {file: containers-vs-vms.md, track: Core, weight: High}
+      - {file: podman-and-quadlet.md, track: RHCSA, weight: Med}
+
+  - id: "20"
+    dir: 20-virtualization-and-provisioning
+    title: Virtualization and Provisioning
+    batch: I
+    topics:
+      - {file: kvm-and-libvirt.md, track: Advanced, weight: Low}
+      - {file: vm-images-and-cloning.md, track: Advanced, weight: Low}
+      - {file: cloud-init-and-kickstart.md, track: Core, weight: Low}
+
+reference:
+  dir: reference
+  pages:
+    - {file: must-know-facts.md, batch: P, grows: true}
+    - {file: coverage-map.md, batch: P, grows: true}
+    - {file: error-messages.md, batch: A, grows: true}
+    - {file: cheatsheet.md, batch: "5"}
+    - {file: command-index.md, batch: "5"}
+    - {file: important-files.md, batch: "5"}
+    - {file: rhel-vs-ubuntu.md, batch: "5"}
+    - {file: no-tools-fallbacks.md, batch: "5"}
+    - {file: glossary.md, batch: "5"}
+
+interview:
+  dir: interview
+  pages:
+    - {file: README.md, batch: P}
+    - {file: round-1-screening.md, batch: P, grows: true}
+    - {file: round-3-troubleshooting.md, batch: P, grows: true}
+    - {file: round-4-internals.md, batch: P, grows: true}
+    - {file: round-2-hands-on.md, batch: "4"}
+    - {file: mock-interviews.md, batch: "4"}
+  scenarios:
+    dir: interview/scenarios
+    items:
+      - {file: cannot-login-or-sudo.md, feeds: ["04"], batch: P}
+      - {file: binary-wont-execute.md, feeds: ["01", "06"], batch: B}
+      - {file: process-wont-die.md, feeds: ["07"], batch: C}
+      - {file: service-wont-start.md, feeds: ["08", "09"], batch: D}
+      - {file: cron-job-not-running.md, feeds: ["01", "10"], batch: D}
+      - {file: disk-full.md, feeds: ["02", "07", "12"], batch: E}
+      - {file: dns-not-resolving.md, feeds: ["13"], batch: F}
+      - {file: cannot-ssh.md, feeds: ["14", "15"], batch: G}
+      - {file: service-unreachable.md, feeds: ["13", "15"], batch: G}
+      - {file: cannot-reach-host.md, feeds: ["13", "15"], batch: G}
+      - {file: tls-certificate-errors.md, feeds: ["13", "15"], batch: G}
+      - {file: permission-denied.md, feeds: ["05", "12", "15"], batch: G}
+      - {file: suspected-compromise.md, feeds: ["07", "13", "15"], batch: G}
+      - {file: server-slow.md, feeds: ["07", "17"], batch: H}
+      - {file: too-many-open-files.md, feeds: ["02", "17"], batch: H}
+      - {file: cannot-fork.md, feeds: ["07", "17"], batch: H}
+      - {file: boot-failure.md, feeds: ["12", "16"], batch: H}
+      - {file: high-load-low-cpu.md, feeds: ["07", "17", "18"], batch: I}
+      - {file: high-memory-oom.md, feeds: ["07", "17", "19"], batch: I}
+
+labs:
+  dir: labs
+  pages:
+    - {file: README.md, batch: P}
+    - {file: users-and-permissions-lab.md, batch: P, completed_in: B}
+    - {file: processes-and-services-lab.md, batch: C}
+    - {file: storage-and-lvm-lab.md, batch: E}
+    - {file: networking-lab.md, batch: F}
+    - {file: security-lab.md, batch: G}
+    - {file: containers-by-hand-lab.md, batch: I}
+    - {file: rhcsa-style-tasks.md, batch: "5"}
+    - {file: break-fix-lab.md, batch: "5"}
+
+sources:
+  dir: _sources
+  inventory: _sources/INVENTORY.md
+
+housekeeping:
+  remove:
+    - technical-grounding/linux/Linux.md
+    - technical-grounding/linux/cheatSheet.md
+    - technical-grounding/linux/troubleshooting.md
+    - technical-grounding/linux/STDOUT_STDERR_Guide.md
+    - technical-grounding/linux/tar-command.md
+  gitignore:
+    - _sources/
+  exclude_docs:
+    - plan/
+    - _sources/
+  inbound_links_fixed:
+    - technical-grounding/basics/index.md
+  llm_pointers:
+    - CLAUDE.md
+    - GEMINI.md
+    - AGENTS.md
+  conventions_section:
+    file: CLAUDE.md
+    heading: Notes Conventions
+  repo_files:
+    - templates/topic.md
+    - templates/module-readme.md
+    - templates/scenario.md
+    - scripts/lint-prose.py
+    - scripts/audit-tool.py
+    - scripts/gen-checklist.py
+    - requirements-dev.txt
+    - .mdformat.toml
