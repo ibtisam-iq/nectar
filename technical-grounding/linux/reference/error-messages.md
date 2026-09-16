@@ -67,6 +67,31 @@ Real error text seen on Linux servers, with its cause and first fix. Search this
 
 ---
 
+## Text Processing
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `sha256sum: WARNING: 1 computed checksum did NOT match` | File changed or download corrupt | Download again; do not use the file | [Viewing and Comparing](../03-text-processing/viewing-and-comparing.md) |
+| `gzip: plain.gz: not in gzip format` | `zcat` given data that is not gzip | `file <path>`; use the matching tool | [Viewing and Comparing](../03-text-processing/viewing-and-comparing.md) |
+| `tail: '/tmp/app.log' has become inaccessible` | The followed log was rotated away | Normal with `tail -F`; it reopens the new file | [Viewing and Comparing](../03-text-processing/viewing-and-comparing.md) |
+| `grep: /usr/bin/ls: binary file matches` | Input contains NUL bytes | `grep -a`, or `strings` first | [grep and Regex](../03-text-processing/grep-and-regex.md) |
+| `grep: Invalid regular expression` | Unbalanced bracket or brace | Escape it or use `grep -F` | [grep and Regex](../03-text-processing/grep-and-regex.md) |
+| ``sed: -e expression #1, char 5: unterminated `s' command`` | Missing final delimiter or an unescaped `/` | Close the command or change the delimiter | [sed](../03-text-processing/sed.md) |
+| `sed: no input files` | `sed -i` used in a pipeline | Pass a file name, or drop `-i` | [sed](../03-text-processing/sed.md) |
+| `unescaped newline inside substitute pattern` (macOS) | BSD `sed -i` took the script as the backup suffix | `sed -i '' ...` or GNU `gsed` | [sed](../03-text-processing/sed.md) |
+| `awk: cmd. line:1: ... unexpected newline or end of string` | Unclosed brace or quote in the program | Fix the braces; keep the program in single quotes | [awk](../03-text-processing/awk.md) |
+| ``awk: fatal: cannot open file `nosuch.log' for reading`` | Wrong input path | Check the path | [awk](../03-text-processing/awk.md) |
+| `sort: access.log:14: disorder:` | Input not sorted in the current locale | Sort with the same `LC_ALL` before `comm` or `join` | [Cut, Sort, Uniq and Tr](../03-text-processing/cut-sort-uniq-tr.md) |
+| `bash: bc: command not found` | `bc` not installed | Install `bc`, or use `awk` | [Cut, Sort, Uniq and Tr](../03-text-processing/cut-sort-uniq-tr.md) |
+| `rm: missing operand` from an `xargs` pipeline | Empty input still ran the command | `xargs -r` | [xargs and tee](../03-text-processing/xargs-and-tee.md) |
+| `xargs: sh: exited with status 255; aborting` | A command exited 255 | Return 1 for ordinary failures | [xargs and tee](../03-text-processing/xargs-and-tee.md) |
+| `xargs: argument line too long` | One input item exceeds the command-line limit | Pass the data through stdin or a file | [xargs and tee](../03-text-processing/xargs-and-tee.md) |
+| `jq: parse error: Unfinished JSON term at EOF` | Input is not valid JSON | Check the raw input; `curl -f` | [JSON and YAML on the CLI](../03-text-processing/json-and-yaml-on-cli.md) |
+| `jq: error (at ...): Cannot iterate over null (null)` | `.[]` on a missing key | Check the path; `.key[]?` | [JSON and YAML on the CLI](../03-text-processing/json-and-yaml-on-cli.md) |
+| `Error: bad file '-': yaml: line 2: did not find expected key` | Inconsistent YAML indentation | Align keys; `yamllint` | [JSON and YAML on the CLI](../03-text-processing/json-and-yaml-on-cli.md) |
+
+---
+
 ## Users and Access
 
 | Error | Cause | Fix | Topic |
@@ -82,3 +107,41 @@ Real error text seen on Linux servers, with its cause and first fix. Search this
 | `amor is not in the sudoers file.` | No sudoers rule matches the user | Add to `wheel` or `sudo`, or a drop-in rule | [Sudo and Su](../04-users-and-access/sudo-and-su.md) |
 | `sudo: a password is required` | The command line does not match a `NOPASSWD` rule exactly | Match arguments exactly, or use `sudo -l` | [Sudo and Su](../04-users-and-access/sudo-and-su.md) |
 | `/etc/sudoers.d/deploy:2:48: syntax error` | Invalid sudoers syntax | `visudo -cf <file>` before installing | [Sudo and Su](../04-users-and-access/sudo-and-su.md) |
+
+---
+
+## Permissions
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `chown: changing ownership of 'report.txt': Operation not permitted` | Only root changes owners | `sudo chown` | [Basic Permissions](../05-permissions/basic-permissions.md) |
+| `ls: cannot access 'd-rw/f': Permission denied` with `-?????????` | Directory has `r` without `x` | Add `x` on the directory | [Basic Permissions](../05-permissions/basic-permissions.md) |
+| `./run.sh: Permission denied` (exit 126) | No execute bit, or `noexec` mount | `chmod +x`; `findmnt -no OPTIONS -T <file>` | [Basic Permissions](../05-permissions/basic-permissions.md) |
+| `umask: 999: octal number out of range` | Non-octal digits | Use 0 to 7 or symbolic form | [umask](../05-permissions/umask.md) |
+| `rm: cannot remove '...': Operation not permitted` in a shared directory | Sticky bit; the caller owns neither file nor directory | The owner removes it | [Special Permissions](../05-permissions/special-permissions.md) |
+| `rm: cannot remove 'resolv.conf': Operation not permitted` as root | Immutable or append-only attribute | `lsattr`, then `chattr -i` | [File Attributes](../05-permissions/file-attributes.md) |
+| `chattr: Operation not permitted while setting flags` | Only root may set `i` and `a` | `sudo chattr` | [File Attributes](../05-permissions/file-attributes.md) |
+| `lsattr: Operation not supported While reading flags` | Filesystem without attribute support | Use ext4, XFS or btrfs | [File Attributes](../05-permissions/file-attributes.md) |
+| `setfacl: secret.conf: Operation not permitted` | Only the owner or root changes an ACL | `sudo setfacl` | [ACL](../05-permissions/acl.md) |
+| `setfacl: Option -m: Invalid argument near character 3` | Unknown user or group, or malformed entry | `getent passwd <user>` | [ACL](../05-permissions/acl.md) |
+
+---
+
+## Package Management
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `Error: Unable to find a match: nosuchpackage` | Wrong name or disabled repository | `dnf search`, `dnf provides`, `dnf repolist --all` | [rpm and dnf](../06-package-management/rpm-and-dnf.md) |
+| `Error: Failed to download metadata for repo 'broken'` | One repository unreachable; `dnf` stops | Fix or disable it; `skip_if_unavailable=True` | [rpm and dnf](../06-package-management/rpm-and-dnf.md) |
+| `missing ... (Permission denied)` from `rpm -V` | Verification run without root | `sudo rpm -V` | [rpm and dnf](../06-package-management/rpm-and-dnf.md) |
+| `Package hello-notes-1.0-1.el10.noarch.rpm is not signed` / `GPG check FAILED` | Unsigned package with `gpgcheck=1` | Sign it; do not disable checks | [Packaging Concepts](../06-package-management/packaging-concepts.md) |
+| `E: Unable to locate package nosuchpackage` | Stale package lists or wrong name | `sudo apt update`; `apt-cache search` | [dpkg and apt](../06-package-management/dpkg-and-apt.md) |
+| `E: Could not get lock /var/lib/dpkg/lock-frontend` | Another package process runs | Wait; `DPkg::Lock::Timeout` in scripts | [dpkg and apt](../06-package-management/dpkg-and-apt.md) |
+| `E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a'` | A previous install stopped halfway | `sudo dpkg --configure -a`, `sudo apt -f install` | [dpkg and apt](../06-package-management/dpkg-and-apt.md) |
+| `NO_PUBKEY 7EA0A9C3F273FCD8` | Keyring for a source missing or wrong | Download the key into `/etc/apt/keyrings/` | [Repositories](../06-package-management/repositories.md) |
+| `W: Failed to fetch ... Could not resolve` | APT repository unreachable; APT continues | Fix DNS or remove the source | [Repositories](../06-package-management/repositories.md) |
+| `error: No remote refs found for ‘flathub’` | Flatpak remote in the other scope | Add the remote to the scope in use | [Flatpak and Snap](../06-package-management/flatpak-and-snap.md) |
+| `error while loading shared libraries: libgreet.so.1` | Library missing or not in the search path | Install it or `ldconfig` its directory | [Shared Libraries](../06-package-management/shared-libraries.md) |
+| ``version `GLIBC_2.42' not found`` | Binary built for a newer glibc | Build on the oldest target or link statically | [Shared Libraries](../06-package-management/shared-libraries.md) |
+| `cannot execute: required file not found` for an ELF file | The ELF interpreter (for example musl's loader) is missing | `readelf -l`; build for glibc | [Binary Won't Execute](../interview/scenarios/binary-wont-execute.md) |
+| `error: externally-managed-environment` | Ubuntu 24.04 blocks system `pip install` | Use a venv or `pipx` | [Other Install Methods](../06-package-management/other-install-methods.md) |

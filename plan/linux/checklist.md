@@ -114,43 +114,43 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Batch A: `scripts/lint-prose.py` exits 0 <!-- id:check:A:lint -->
 - [x] Batch A: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:A:audit -->
 - [x] Batch A: `mkdocs build` has no warnings for the tool folder <!-- id:check:A:build -->
-- [ ] Batch A: owner review done; first-hand line spots listed <!-- id:check:A:owner -->
+- [x] Batch A: owner review done; first-hand line spots listed <!-- id:check:A:owner -->
 
 ---
 
 ## Phase 3: Batch B (modules 03, 05, 06)
 
-- [ ] `03-text-processing/.pages` <!-- id:technical-grounding/linux/03-text-processing/.pages -->
-- [ ] `03-text-processing/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/03-text-processing/README.md -->
-- [ ] `03-text-processing/viewing-and-comparing.md` (Core, Med) <!-- id:technical-grounding/linux/03-text-processing/viewing-and-comparing.md -->
-- [ ] `03-text-processing/grep-and-regex.md` (Core, High) <!-- id:technical-grounding/linux/03-text-processing/grep-and-regex.md -->
-- [ ] `03-text-processing/sed.md` (Core, High) <!-- id:technical-grounding/linux/03-text-processing/sed.md -->
-- [ ] `03-text-processing/awk.md` (Core, High) <!-- id:technical-grounding/linux/03-text-processing/awk.md -->
-- [ ] `03-text-processing/cut-sort-uniq-tr.md` (Core, High) <!-- id:technical-grounding/linux/03-text-processing/cut-sort-uniq-tr.md -->
-- [ ] `03-text-processing/xargs-and-tee.md` (Core, Med) <!-- id:technical-grounding/linux/03-text-processing/xargs-and-tee.md -->
-- [ ] `03-text-processing/json-and-yaml-on-cli.md` (Core, Med) <!-- id:technical-grounding/linux/03-text-processing/json-and-yaml-on-cli.md -->
-- [ ] `05-permissions/.pages` <!-- id:technical-grounding/linux/05-permissions/.pages -->
-- [ ] `05-permissions/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/05-permissions/README.md -->
-- [ ] `05-permissions/basic-permissions.md` (Core, High) <!-- id:technical-grounding/linux/05-permissions/basic-permissions.md -->
-- [ ] `05-permissions/umask.md` (Core, Med) <!-- id:technical-grounding/linux/05-permissions/umask.md -->
-- [ ] `05-permissions/special-permissions.md` (Core, High) <!-- id:technical-grounding/linux/05-permissions/special-permissions.md -->
-- [ ] `05-permissions/acl.md` (RHCSA, Med) <!-- id:technical-grounding/linux/05-permissions/acl.md -->
-- [ ] `05-permissions/file-attributes.md` (Core, Med) <!-- id:technical-grounding/linux/05-permissions/file-attributes.md -->
-- [ ] `06-package-management/.pages` <!-- id:technical-grounding/linux/06-package-management/.pages -->
-- [ ] `06-package-management/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/06-package-management/README.md -->
-- [ ] `06-package-management/packaging-concepts.md` (Core, Med) <!-- id:technical-grounding/linux/06-package-management/packaging-concepts.md -->
-- [ ] `06-package-management/rpm-and-dnf.md` (Core, Med) <!-- id:technical-grounding/linux/06-package-management/rpm-and-dnf.md -->
-- [ ] `06-package-management/dpkg-and-apt.md` (Core, Med) <!-- id:technical-grounding/linux/06-package-management/dpkg-and-apt.md -->
-- [ ] `06-package-management/repositories.md` (Core, Low) <!-- id:technical-grounding/linux/06-package-management/repositories.md -->
-- [ ] `06-package-management/flatpak-and-snap.md` (RHCSA, Low) <!-- id:technical-grounding/linux/06-package-management/flatpak-and-snap.md -->
-- [ ] `06-package-management/shared-libraries.md` (Advanced, Med, internals) <!-- id:technical-grounding/linux/06-package-management/shared-libraries.md -->
-- [ ] `06-package-management/other-install-methods.md` (Core, Low) <!-- id:technical-grounding/linux/06-package-management/other-install-methods.md -->
-- [ ] Complete `labs/users-and-permissions-lab.md` <!-- id:technical-grounding/linux/labs/users-and-permissions-lab.md:complete -->
-- [ ] `interview/scenarios/binary-wont-execute.md` (modules 01, 06) <!-- id:technical-grounding/linux/interview/scenarios/binary-wont-execute.md -->
-- [ ] Batch B: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:B:grows -->
-- [ ] Batch B: `scripts/lint-prose.py` exits 0 <!-- id:check:B:lint -->
-- [ ] Batch B: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:B:audit -->
-- [ ] Batch B: `mkdocs build` has no warnings for the tool folder <!-- id:check:B:build -->
+- [x] `03-text-processing/.pages` <!-- id:technical-grounding/linux/03-text-processing/.pages -->
+- [x] `03-text-processing/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/03-text-processing/README.md -->
+- [x] `03-text-processing/viewing-and-comparing.md` (Core, Med) <!-- id:technical-grounding/linux/03-text-processing/viewing-and-comparing.md -->
+- [x] `03-text-processing/grep-and-regex.md` (Core, High) <!-- id:technical-grounding/linux/03-text-processing/grep-and-regex.md -->
+- [x] `03-text-processing/sed.md` (Core, High) <!-- id:technical-grounding/linux/03-text-processing/sed.md -->
+- [x] `03-text-processing/awk.md` (Core, High) <!-- id:technical-grounding/linux/03-text-processing/awk.md -->
+- [x] `03-text-processing/cut-sort-uniq-tr.md` (Core, High) <!-- id:technical-grounding/linux/03-text-processing/cut-sort-uniq-tr.md -->
+- [x] `03-text-processing/xargs-and-tee.md` (Core, Med) <!-- id:technical-grounding/linux/03-text-processing/xargs-and-tee.md -->
+- [x] `03-text-processing/json-and-yaml-on-cli.md` (Core, Med) <!-- id:technical-grounding/linux/03-text-processing/json-and-yaml-on-cli.md -->
+- [x] `05-permissions/.pages` <!-- id:technical-grounding/linux/05-permissions/.pages -->
+- [x] `05-permissions/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/05-permissions/README.md -->
+- [x] `05-permissions/basic-permissions.md` (Core, High) <!-- id:technical-grounding/linux/05-permissions/basic-permissions.md -->
+- [x] `05-permissions/umask.md` (Core, Med) <!-- id:technical-grounding/linux/05-permissions/umask.md -->
+- [x] `05-permissions/special-permissions.md` (Core, High) <!-- id:technical-grounding/linux/05-permissions/special-permissions.md -->
+- [x] `05-permissions/acl.md` (RHCSA, Med) <!-- id:technical-grounding/linux/05-permissions/acl.md -->
+- [x] `05-permissions/file-attributes.md` (Core, Med) <!-- id:technical-grounding/linux/05-permissions/file-attributes.md -->
+- [x] `06-package-management/.pages` <!-- id:technical-grounding/linux/06-package-management/.pages -->
+- [x] `06-package-management/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/06-package-management/README.md -->
+- [x] `06-package-management/packaging-concepts.md` (Core, Med) <!-- id:technical-grounding/linux/06-package-management/packaging-concepts.md -->
+- [x] `06-package-management/rpm-and-dnf.md` (Core, Med) <!-- id:technical-grounding/linux/06-package-management/rpm-and-dnf.md -->
+- [x] `06-package-management/dpkg-and-apt.md` (Core, Med) <!-- id:technical-grounding/linux/06-package-management/dpkg-and-apt.md -->
+- [x] `06-package-management/repositories.md` (Core, Low) <!-- id:technical-grounding/linux/06-package-management/repositories.md -->
+- [x] `06-package-management/flatpak-and-snap.md` (RHCSA, Low) <!-- id:technical-grounding/linux/06-package-management/flatpak-and-snap.md -->
+- [x] `06-package-management/shared-libraries.md` (Advanced, Med, internals) <!-- id:technical-grounding/linux/06-package-management/shared-libraries.md -->
+- [x] `06-package-management/other-install-methods.md` (Core, Low) <!-- id:technical-grounding/linux/06-package-management/other-install-methods.md -->
+- [x] Complete `labs/users-and-permissions-lab.md` <!-- id:technical-grounding/linux/labs/users-and-permissions-lab.md:complete -->
+- [x] `interview/scenarios/binary-wont-execute.md` (modules 01, 06) <!-- id:technical-grounding/linux/interview/scenarios/binary-wont-execute.md -->
+- [x] Batch B: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:B:grows -->
+- [x] Batch B: `scripts/lint-prose.py` exits 0 <!-- id:check:B:lint -->
+- [x] Batch B: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:B:audit -->
+- [x] Batch B: `mkdocs build` has no warnings for the tool folder <!-- id:check:B:build -->
 - [ ] Batch B: owner review done; first-hand line spots listed <!-- id:check:B:owner -->
 
 ---

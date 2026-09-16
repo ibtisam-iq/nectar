@@ -112,6 +112,38 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 
 ---
 
+## Text Processing
+
+### Viewing and Comparing
+
+--8<-- "technical-grounding/linux/03-text-processing/viewing-and-comparing.md:l1"
+
+### grep and Regex
+
+--8<-- "technical-grounding/linux/03-text-processing/grep-and-regex.md:l1"
+
+### sed
+
+--8<-- "technical-grounding/linux/03-text-processing/sed.md:l1"
+
+### awk
+
+--8<-- "technical-grounding/linux/03-text-processing/awk.md:l1"
+
+### Cut, Sort, Uniq and Tr
+
+--8<-- "technical-grounding/linux/03-text-processing/cut-sort-uniq-tr.md:l1"
+
+### xargs and tee
+
+--8<-- "technical-grounding/linux/03-text-processing/xargs-and-tee.md:l1"
+
+### JSON and YAML on the CLI
+
+--8<-- "technical-grounding/linux/03-text-processing/json-and-yaml-on-cli.md:l1"
+
+---
+
 ## Users and Access
 
 ### Users
@@ -141,3 +173,59 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### Centralized Identity
 
 --8<-- "technical-grounding/linux/04-users-and-access/centralized-identity.md:l1"
+
+---
+
+## Permissions
+
+### Basic Permissions
+
+--8<-- "technical-grounding/linux/05-permissions/basic-permissions.md:l1"
+
+### umask
+
+--8<-- "technical-grounding/linux/05-permissions/umask.md:l1"
+
+### Special Permissions
+
+--8<-- "technical-grounding/linux/05-permissions/special-permissions.md:l1"
+
+### ACL
+
+--8<-- "technical-grounding/linux/05-permissions/acl.md:l1"
+
+### File Attributes
+
+--8<-- "technical-grounding/linux/05-permissions/file-attributes.md:l1"
+
+---
+
+## Package Management
+
+### Packaging Concepts
+
+--8<-- "technical-grounding/linux/06-package-management/packaging-concepts.md:l1"
+
+### rpm and dnf
+
+--8<-- "technical-grounding/linux/06-package-management/rpm-and-dnf.md:l1"
+
+### dpkg and apt
+
+--8<-- "technical-grounding/linux/06-package-management/dpkg-and-apt.md:l1"
+
+### Repositories
+
+--8<-- "technical-grounding/linux/06-package-management/repositories.md:l1"
+
+### Flatpak and Snap
+
+--8<-- "technical-grounding/linux/06-package-management/flatpak-and-snap.md:l1"
+
+### Shared Libraries
+
+--8<-- "technical-grounding/linux/06-package-management/shared-libraries.md:l1"
+
+### Other Install Methods
+
+--8<-- "technical-grounding/linux/06-package-management/other-install-methods.md:l1"

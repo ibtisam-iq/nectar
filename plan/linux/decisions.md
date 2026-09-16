@@ -71,3 +71,12 @@ Dated log of every decision that shaped the plan. Later changes are appended wit
 |---|---|---|
 | D27 | When one item is missing or broken on the Rocky playground, that item is captured on the iximiuz Fedora playground. The tab label stays `RHEL / Rocky`; a note inside the tab names Fedora and its version; the capture footer names Fedora with its version; any difference from Rocky 10.2 is stated with its version next to the output. SELinux output still comes from a local VM. Pages already written under D25 keep their Ubuntu captures | Owner instruction. Fedora is RHEL's upstream, so its output is closer to RHEL than Ubuntu's, and the notes keep every capture traceable to the machine that produced it |
 | D28 | Batch A backfill under D27: the RHEL / Rocky side of the loader demo in `architecture.md` now comes from Fedora 44, because Rocky's `coreutils-single` has no ELF `ls`. The kernel license in `what-is-linux.md` comes from Rocky's repository metadata (`dnf repoquery`), because no playground installs a kernel package. Other Rocky differences in batch A (`tmp.mount` disabled by preset, `tsflags=nodocs`) are real Rocky 10.2 behavior and stay | Owner asked to close Rocky-caused gaps in batch A before batch B |
+
+---
+
+## 2026-09-16: Batch B
+
+| # | Decision | Reason |
+|---|---|---|
+| D29 | Batch A approved by the owner ("move to batch B") | Batch exit criterion |
+| D30 | Batch B captures use two extra sources, each named on the page: the BSD `sed -i` error was captured on macOS 26.6.1 (the only BSD `sed` available), and a binary built on Fedora 44 demonstrates the `GLIBC_2.42 not found` error on Ubuntu 24.04. Setuid, `rpm -V` and `ldd` demos use a compiled C program or Ubuntu where Rocky's `coreutils-single` wrapper scripts would give misleading results | Keeps every error message real and traceable to the machine that produced it |

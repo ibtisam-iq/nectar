@@ -24,10 +24,10 @@ Every topic file declares a **Track** (Core, RHCSA, Advanced) and an **Interview
 | 00 | [Foundations](00-foundations/README.md) | History, kernel vs distribution, distributions, architecture, system information |
 | 01 | [Shell and CLI](01-shell-and-cli/README.md) | Shell basics, help, command lookup, environment, quoting, redirection, exit codes, editors, scripting essentials |
 | 02 | [Files and Filesystem](02-files-and-filesystem/README.md) | Hierarchy, file types, file operations, inodes and links, file descriptors, finding files, archives |
-| 03 | Text Processing | Viewing, `grep`, `sed`, `awk`, pipeline tools, `xargs`, JSON and YAML on the command line |
+| 03 | [Text Processing](03-text-processing/README.md) | Viewing, `grep`, `sed`, `awk`, pipeline tools, `xargs`, JSON and YAML on the command line |
 | 04 | [Users and Access](04-users-and-access/README.md) | Users, groups, passwords, `sudo` and `su`, PAM, login records, central identity |
-| 05 | Permissions | Modes, `umask`, special bits, ACLs, attributes |
-| 06 | Package Management | `rpm`/`dnf`, `dpkg`/`apt`, repositories, Flatpak, shared libraries |
+| 05 | [Permissions](05-permissions/README.md) | Modes, `umask`, special bits, ACLs, attributes |
+| 06 | [Package Management](06-package-management/README.md) | `rpm`/`dnf`, `dpkg`/`apt`, repositories, Flatpak, shared libraries |
 | 07 | Processes | Lifecycle, states, signals, job control, priorities, system calls and tracing |
 | 08 | Systemd and Services | Targets, `systemctl`, unit files, writing a service |
 | 09 | Logging | Log locations, `journalctl`, `rsyslog`, `logrotate`, log parsing |

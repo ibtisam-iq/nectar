@@ -1,0 +1,8 @@
+title: Permissions
+nav:
+  - README.md
+  - Basic Permissions: basic-permissions.md
+  - umask: umask.md
+  - Special Permissions: special-permissions.md
+  - ACL: acl.md
+  - File Attributes: file-attributes.md

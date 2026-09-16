@@ -51,6 +51,20 @@ Certification objectives mapped to the topic file that covers them. The map prov
 
 ---
 
+## Text Processing
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Use `grep` and regular expressions to analyze text | [grep and Regex](../03-text-processing/grep-and-regex.md) |
+| LFCS | Search and manipulate text with filters and regular expressions | [grep and Regex](../03-text-processing/grep-and-regex.md), [sed](../03-text-processing/sed.md), [awk](../03-text-processing/awk.md) |
+| LPIC-1 103.2 | Process text streams using filters (`cut`, `sort`, `uniq`, `tr`, `paste`, `join`, `sed`, `head`, `tail`, `wc`, checksums) | [Cut, Sort, Uniq and Tr](../03-text-processing/cut-sort-uniq-tr.md), [Viewing and Comparing](../03-text-processing/viewing-and-comparing.md), [sed](../03-text-processing/sed.md) |
+| LPIC-1 103.4 | Use streams, pipes and redirects (`xargs`, `tee`) | [xargs and tee](../03-text-processing/xargs-and-tee.md) |
+| LPIC-1 103.7 | Search text files using regular expressions | [grep and Regex](../03-text-processing/grep-and-regex.md) |
+| Linux+ XK0-006 | Text manipulation and structured data (`awk`, `sed`, `jq`, YAML) | [awk](../03-text-processing/awk.md), [JSON and YAML on the CLI](../03-text-processing/json-and-yaml-on-cli.md) |
+| Interview sources | Log parsing one-liners: top IPs, status counts, time windows | [awk](../03-text-processing/awk.md), [Cut, Sort, Uniq and Tr](../03-text-processing/cut-sort-uniq-tr.md) |
+
+---
+
 ## Users and Access
 
 | Curriculum | Objective | Covered in |
@@ -67,3 +81,31 @@ Certification objectives mapped to the topic file that covers them. The map prov
 | Linux+ XK0-006 2.2 | Manage local accounts: `useradd`, `usermod`, `chage`, `/etc/skel`, UID and GID, service accounts | [Users](../04-users-and-access/users.md), [Passwords and Aging](../04-users-and-access/passwords-and-aging.md) |
 | Linux+ XK0-006 3.1 | Authentication, authorization and accounting: PAM, SSSD, LDAP, Kerberos, polkit | [PAM](../04-users-and-access/pam.md), [Centralized Identity](../04-users-and-access/centralized-identity.md), [Sudo and Su](../04-users-and-access/sudo-and-su.md) |
 | Linux+ XK0-006 3.4 | Account hardening: password quality, history, lockout, `nologin` | [PAM](../04-users-and-access/pam.md), [Passwords and Aging](../04-users-and-access/passwords-and-aging.md) |
+
+---
+
+## Permissions
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | List, set and change standard `ugo`/`rwx` permissions | [Basic Permissions](../05-permissions/basic-permissions.md) |
+| RHCSA EX200 (RHEL 10) | Create and configure set-GID directories for collaboration | [Special Permissions](../05-permissions/special-permissions.md) |
+| RHCSA EX200 (RHEL 10) | Diagnose and correct file permission problems | [Basic Permissions](../05-permissions/basic-permissions.md), [ACL](../05-permissions/acl.md), [File Attributes](../05-permissions/file-attributes.md) |
+| LFCS | Manage file permissions, ownership and ACLs | [Basic Permissions](../05-permissions/basic-permissions.md), [ACL](../05-permissions/acl.md) |
+| LPIC-1 104.5 | Manage file permissions and ownership (SUID, SGID, sticky, `umask`) | [Basic Permissions](../05-permissions/basic-permissions.md), [Special Permissions](../05-permissions/special-permissions.md), [umask](../05-permissions/umask.md) |
+| Linux+ XK0-006 | File permissions, special bits, ACLs and attributes | [Special Permissions](../05-permissions/special-permissions.md), [ACL](../05-permissions/acl.md), [File Attributes](../05-permissions/file-attributes.md) |
+
+---
+
+## Package Management
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Install and update software packages from repositories and local files | [rpm and dnf](../06-package-management/rpm-and-dnf.md) |
+| RHCSA EX200 (RHEL 10) | Configure access to RPM repositories | [Repositories](../06-package-management/repositories.md) |
+| RHCSA EX200 (RHEL 10) | Install and update software using Flatpak | [Flatpak and Snap](../06-package-management/flatpak-and-snap.md) |
+| LFCS | Manage software packages and repositories | [rpm and dnf](../06-package-management/rpm-and-dnf.md), [dpkg and apt](../06-package-management/dpkg-and-apt.md), [Repositories](../06-package-management/repositories.md) |
+| LPIC-1 102.3 | Manage shared libraries | [Shared Libraries](../06-package-management/shared-libraries.md) |
+| LPIC-1 102.4 | Use Debian package management | [dpkg and apt](../06-package-management/dpkg-and-apt.md) |
+| LPIC-1 102.5 | Use RPM and YUM package management | [rpm and dnf](../06-package-management/rpm-and-dnf.md), [Packaging Concepts](../06-package-management/packaging-concepts.md) |
+| Linux+ XK0-006 | Package management, repositories, sandboxed applications and building from source | [Packaging Concepts](../06-package-management/packaging-concepts.md), [Flatpak and Snap](../06-package-management/flatpak-and-snap.md), [Other Install Methods](../06-package-management/other-install-methods.md) |

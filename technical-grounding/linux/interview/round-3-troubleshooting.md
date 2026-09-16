@@ -23,3 +23,4 @@ The troubleshooting round starts with a symptom and no instructions. Interviewer
 | Scenario | Symptom as asked | Modules |
 |---|---|---|
 | [Cannot Log In or Use Sudo](scenarios/cannot-login-or-sudo.md) | "A user cannot log in, and another gets an error from sudo." | 04 Users and Access |
+| [Binary Won't Execute](scenarios/binary-wont-execute.md) | "We copied tools to a new server and none of them run." | 01 Shell and CLI, 06 Package Management |

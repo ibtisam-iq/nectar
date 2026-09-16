@@ -58,5 +58,6 @@ How bash reads, expands and runs a command line, where its environment comes fro
 
 ## Scenarios and Labs
 
+- [Binary Won't Execute](../interview/scenarios/binary-wont-execute.md): 126, 127 and interpreter errors in practice
 - [Error Messages](../reference/error-messages.md): shell errors from this module and their causes
 - [Round 1: Screening](../interview/round-1-screening.md): the L1 questions from this module

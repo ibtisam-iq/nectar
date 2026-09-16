@@ -1,0 +1,10 @@
+title: Package Management
+nav:
+  - README.md
+  - Packaging Concepts: packaging-concepts.md
+  - rpm and dnf: rpm-and-dnf.md
+  - dpkg and apt: dpkg-and-apt.md
+  - Repositories: repositories.md
+  - Flatpak and Snap: flatpak-and-snap.md
+  - Shared Libraries: shared-libraries.md
+  - Other Install Methods: other-install-methods.md

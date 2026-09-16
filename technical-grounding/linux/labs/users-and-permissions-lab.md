@@ -1,6 +1,6 @@
 # Users and Permissions Lab
 
-Build and break the identity layer of a server: accounts, groups, aging, sudo delegation and lockouts. Run it on a `rockylinux` playground; tasks that differ on Ubuntu say so.
+Build and break the identity and permission layers of a server: accounts, groups, aging, sudo delegation, lockouts, shared directories, ACLs and attributes. Run it on a `rockylinux` playground; tasks that differ on Ubuntu say so.
 
 ---
 
@@ -160,6 +160,86 @@ Delete `contractor` but keep a copy of the home directory in `/root`. Then find 
 
 ---
 
+## Permissions
+
+### 11. Build a Team Directory
+
+Create `/srv/devs` for group `devs`. Files created there must belong to `devs`, nobody outside the group may enter, and members must not be able to delete each other's files.
+
+??? tip "Solution"
+    ```bash
+    mkdir /srv/devs
+    chgrp devs /srv/devs
+    chmod 3770 /srv/devs
+    su - amor -c 'touch /srv/devs/report.txt'
+    ls -ld /srv/devs; ls -l /srv/devs
+    su - ibtisam -c 'rm -f /srv/devs/report.txt'    # expect: Operation not permitted
+    ```
+
+    `ls -ld` shows `drwxrws--T`: SGID gives new files the `devs` group, and the sticky bit protects each member's files.
+
+### 12. Grant One Extra Reader
+
+Let the service account `app` read `/srv/devs/report.txt` without adding it to `devs` and without letting it list the directory.
+
+??? tip "Solution"
+    ```bash
+    setfacl -m u:app:x /srv/devs
+    setfacl -m u:app:r /srv/devs/report.txt
+    sudo -u app cat /srv/devs/report.txt     # works
+    sudo -u app ls /srv/devs                 # expect: Permission denied
+    ```
+
+### 13. Keep New Files Group-Writable
+
+Every new file in `/srv/devs` must be writable by `devs`, even when its creator uses umask `077`.
+
+??? tip "Solution"
+    ```bash
+    setfacl -m g:devs:rwX /srv/devs
+    setfacl -d -m g:devs:rwX /srv/devs
+    su - amor -c 'umask 077; touch /srv/devs/new.txt'
+    getfacl --omit-header /srv/devs/new.txt
+    su - ibtisam -c 'echo edit >> /srv/devs/new.txt'
+    ```
+
+    The new file shows `group:devs:rwx  #effective:rw-`, and `ibtisam` can append to it.
+
+### 14. Tighten a User's Default
+
+Make files that `amor` creates in future login shells unreadable by others.
+
+??? tip "Solution"
+    ```bash
+    echo 'umask 027' >> ~amor/.bashrc
+    su - amor -c 'umask'     # expect: 0027
+    ```
+
+### 15. Audit Special Bits
+
+List every SUID or SGID file on the root filesystem and confirm that each belongs to a package.
+
+??? tip "Solution"
+    ```bash
+    find / -xdev -type f -perm /6000 -exec rpm -qf {} + | sort -u
+    find / -xdev -type f -perm /6000 -exec rpm -qf {} + | grep 'not owned'
+    ```
+
+    On Ubuntu, use `dpkg -S` instead of `rpm -qf`. Any file reported as not owned needs an explanation.
+
+### 16. Undeletable File
+
+Run `touch /srv/devs/locked.conf; chattr +i /srv/devs/locked.conf` and hand the machine to someone else. Their task: find out why root cannot delete the file, then delete it.
+
+??? tip "Solution"
+    ```bash
+    rm -f /srv/devs/locked.conf      # Operation not permitted
+    lsattr /srv/devs/locked.conf     # ----i---------e-------
+    chattr -i /srv/devs/locked.conf && rm -f /srv/devs/locked.conf
+    ```
+
+---
+
 ## Verification
 
 ```bash
@@ -168,13 +248,14 @@ getent group devs ops
 chage -l amor | head -2
 sudo -l -U ibtisam
 visudo -c
+ls -ld /srv/devs
+getfacl /srv/devs
 ```
-
-Permission tasks (ACLs, SGID collaboration directories, special bits) are added to this lab with the Permissions module.
 
 ---
 
 ## Related
 
-- [Users and Access module](../04-users-and-access/README.md): topics behind every task
+- [Users and Access module](../04-users-and-access/README.md): topics behind tasks 1 to 10
+- [Permissions module](../05-permissions/README.md): topics behind tasks 11 to 16
 - [Cannot Log In or Use Sudo](../interview/scenarios/cannot-login-or-sudo.md): the same failures as an interview drill

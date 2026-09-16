@@ -51,6 +51,22 @@ Senior, SRE and production engineering loops ask what happens underneath a comma
 
 ---
 
+## Permissions
+
+| Question | Answered in |
+|---|---|
+| How does `passwd` update `/etc/shadow` when a normal user runs it? | [Special Permissions](../05-permissions/special-permissions.md) |
+
+---
+
+## Package Management
+
+| Question | Answered in |
+|---|---|
+| What happens between `execve` and `main` for a dynamically linked program? | [Shared Libraries](../06-package-management/shared-libraries.md) |
+
+---
+
 ## How to Answer
 
 - Start from the mechanism (the SUID bit, the NSS lookup, the credentials stored per process), then show the evidence (`ls -l`, `/proc/<pid>/status`).

@@ -112,6 +112,38 @@ Every topic's Must-Know Facts table in one place, for a fast revision pass. Tabl
 
 ---
 
+## Text Processing
+
+### Viewing and Comparing
+
+--8<-- "technical-grounding/linux/03-text-processing/viewing-and-comparing.md:facts"
+
+### grep and Regex
+
+--8<-- "technical-grounding/linux/03-text-processing/grep-and-regex.md:facts"
+
+### sed
+
+--8<-- "technical-grounding/linux/03-text-processing/sed.md:facts"
+
+### awk
+
+--8<-- "technical-grounding/linux/03-text-processing/awk.md:facts"
+
+### Cut, Sort, Uniq and Tr
+
+--8<-- "technical-grounding/linux/03-text-processing/cut-sort-uniq-tr.md:facts"
+
+### xargs and tee
+
+--8<-- "technical-grounding/linux/03-text-processing/xargs-and-tee.md:facts"
+
+### JSON and YAML on the CLI
+
+--8<-- "technical-grounding/linux/03-text-processing/json-and-yaml-on-cli.md:facts"
+
+---
+
 ## Users and Access
 
 ### Users
@@ -141,3 +173,59 @@ Every topic's Must-Know Facts table in one place, for a fast revision pass. Tabl
 ### Centralized Identity
 
 --8<-- "technical-grounding/linux/04-users-and-access/centralized-identity.md:facts"
+
+---
+
+## Permissions
+
+### Basic Permissions
+
+--8<-- "technical-grounding/linux/05-permissions/basic-permissions.md:facts"
+
+### umask
+
+--8<-- "technical-grounding/linux/05-permissions/umask.md:facts"
+
+### Special Permissions
+
+--8<-- "technical-grounding/linux/05-permissions/special-permissions.md:facts"
+
+### ACL
+
+--8<-- "technical-grounding/linux/05-permissions/acl.md:facts"
+
+### File Attributes
+
+--8<-- "technical-grounding/linux/05-permissions/file-attributes.md:facts"
+
+---
+
+## Package Management
+
+### Packaging Concepts
+
+--8<-- "technical-grounding/linux/06-package-management/packaging-concepts.md:facts"
+
+### rpm and dnf
+
+--8<-- "technical-grounding/linux/06-package-management/rpm-and-dnf.md:facts"
+
+### dpkg and apt
+
+--8<-- "technical-grounding/linux/06-package-management/dpkg-and-apt.md:facts"
+
+### Repositories
+
+--8<-- "technical-grounding/linux/06-package-management/repositories.md:facts"
+
+### Flatpak and Snap
+
+--8<-- "technical-grounding/linux/06-package-management/flatpak-and-snap.md:facts"
+
+### Shared Libraries
+
+--8<-- "technical-grounding/linux/06-package-management/shared-libraries.md:facts"
+
+### Other Install Methods
+
+--8<-- "technical-grounding/linux/06-package-management/other-install-methods.md:facts"

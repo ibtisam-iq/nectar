@@ -5,7 +5,10 @@ nav:
   - 00-foundations
   - 01-shell-and-cli
   - 02-files-and-filesystem
+  - 03-text-processing
   - 04-users-and-access
+  - 05-permissions
+  - 06-package-management
   - reference
   - interview
   - labs

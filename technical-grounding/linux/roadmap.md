@@ -45,13 +45,13 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 
 ## 03 Text Processing
 
-- [ ] Viewing and Comparing (Core, Med)
-- [ ] grep and Regex (Core, High)
-- [ ] sed (Core, High)
-- [ ] awk (Core, High)
-- [ ] cut, sort, uniq, tr (Core, High)
-- [ ] xargs and tee (Core, Med)
-- [ ] JSON and YAML on CLI (Core, Med)
+- [ ] [Viewing and Comparing](03-text-processing/viewing-and-comparing.md) (Core, Med)
+- [ ] [grep and Regex](03-text-processing/grep-and-regex.md) (Core, High)
+- [ ] [sed](03-text-processing/sed.md) (Core, High)
+- [ ] [awk](03-text-processing/awk.md) (Core, High)
+- [ ] [Cut, Sort, Uniq and Tr](03-text-processing/cut-sort-uniq-tr.md) (Core, High)
+- [ ] [xargs and tee](03-text-processing/xargs-and-tee.md) (Core, Med)
+- [ ] [JSON and YAML on the CLI](03-text-processing/json-and-yaml-on-cli.md) (Core, Med)
 
 ---
 
@@ -69,23 +69,23 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 
 ## 05 Permissions
 
-- [ ] Basic Permissions (Core, High)
-- [ ] umask (Core, Med)
-- [ ] Special Permissions (Core, High)
-- [ ] ACL (RHCSA, Med)
-- [ ] File Attributes (Core, Med)
+- [ ] [Basic Permissions](05-permissions/basic-permissions.md) (Core, High)
+- [ ] [umask](05-permissions/umask.md) (Core, Med)
+- [ ] [Special Permissions](05-permissions/special-permissions.md) (Core, High)
+- [ ] [ACL](05-permissions/acl.md) (RHCSA, Med)
+- [ ] [File Attributes](05-permissions/file-attributes.md) (Core, Med)
 
 ---
 
 ## 06 Package Management
 
-- [ ] Packaging Concepts (Core, Med)
-- [ ] RPM and DNF (Core, Med)
-- [ ] dpkg and APT (Core, Med)
-- [ ] Repositories (Core, Low)
-- [ ] Flatpak and Snap (RHCSA, Low)
-- [ ] Shared Libraries (Advanced, Med, internals)
-- [ ] Other Install Methods (Core, Low)
+- [ ] [Packaging Concepts](06-package-management/packaging-concepts.md) (Core, Med)
+- [ ] [rpm and dnf](06-package-management/rpm-and-dnf.md) (Core, Med)
+- [ ] [dpkg and apt](06-package-management/dpkg-and-apt.md) (Core, Med)
+- [ ] [Repositories](06-package-management/repositories.md) (Core, Low)
+- [ ] [Flatpak and Snap](06-package-management/flatpak-and-snap.md) (RHCSA, Low)
+- [ ] [Shared Libraries](06-package-management/shared-libraries.md) (Advanced, Med, internals)
+- [ ] [Other Install Methods](06-package-management/other-install-methods.md) (Core, Low)
 
 ---
 
@@ -265,7 +265,7 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 ## Scenarios
 
 - [ ] [Cannot Log In or Use Sudo](interview/scenarios/cannot-login-or-sudo.md)
-- [ ] Binary Won't Execute
+- [ ] [Binary Won't Execute](interview/scenarios/binary-wont-execute.md)
 - [ ] Process Won't Die
 - [ ] Service Won't Start
 - [ ] Cron Job Not Running
