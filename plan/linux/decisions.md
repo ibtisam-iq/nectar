@@ -53,3 +53,12 @@ Dated log of every decision that shaped the plan. Later changes are appended wit
 |---|---|---|
 | D23 | The owner approved the module 04 pilot and asked to continue with Phase 3; the `CLAUDE.md` Notes Conventions section was added | Phase 2 exit criterion |
 | D24 | The third-party resume stays in the git-ignored `_sources/` until Phase 6, where the owner decides its final location | Owner instruction; `_sources/` is never committed or published |
+
+---
+
+## 2026-09-16: Batch A
+
+| # | Decision | Reason |
+|---|---|---|
+| D25 | Captures note two quirks of the Rocky playground in the pages where they matter: `/usr/bin/ls` comes from `coreutils-single` (a shebang wrapper, so `ldd` fails), and `dnf.conf` sets `tsflags=nodocs` (no man pages until it is removed and packages are reinstalled). Binary and library demos are captured on Ubuntu | Keeps every output real while explaining differences a reader may not see on a full RHEL install |
+| D26 | `reference/error-messages.md` is a table per module (error, cause, fix, topic link), fed from each topic's Common Errors section | One searchable page for error text; the topic keeps the captured output |

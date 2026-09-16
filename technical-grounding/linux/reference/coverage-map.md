@@ -4,6 +4,53 @@ Certification objectives mapped to the topic file that covers them. The map prov
 
 ---
 
+## Foundations
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| LPIC-1 101.1 | Determine and configure hardware settings (`lspci`, `lsusb`, `/proc`, `/sys`) | [System Information](../00-foundations/system-information.md), [Architecture](../00-foundations/architecture.md) |
+| Linux+ XK0-006 | Linux fundamentals: distributions, kernel and userland, licensing | [What Is Linux](../00-foundations/what-is-linux.md), [Kernel vs OS vs Distro](../00-foundations/kernel-vs-os-vs-distro.md), [Distributions](../00-foundations/distributions.md) |
+| Linux+ XK0-006 | Gather hardware and system information | [System Information](../00-foundations/system-information.md) |
+| Interview sources | Kernel space vs user space, system calls, why servers run Linux | [Architecture](../00-foundations/architecture.md), [Linux vs Windows](../00-foundations/linux-vs-windows.md) |
+
+---
+
+## Shell and CLI
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Access a shell prompt and issue commands with correct syntax | [Shell Basics](../01-shell-and-cli/shell-basics.md), [Command Resolution](../01-shell-and-cli/command-resolution.md) |
+| RHCSA EX200 (RHEL 10) | Use input-output redirection | [Streams and Redirection](../01-shell-and-cli/streams-and-redirection.md) |
+| RHCSA EX200 (RHEL 10) | Create and edit text files | [Text Editors](../01-shell-and-cli/text-editors.md) |
+| RHCSA EX200 (RHEL 10) | Locate, read and use system documentation (`man`, `info`, `/usr/share/doc`) | [Getting Help](../01-shell-and-cli/getting-help.md) |
+| RHCSA EX200 (RHEL 10) | Create simple shell scripts: conditionals, loops, script arguments, command output | [Scripting Essentials](../01-shell-and-cli/scripting-essentials.md), [Exit Codes and Chaining](../01-shell-and-cli/exit-codes-and-chaining.md) |
+| LFCS | Use input and output redirection; write scripts to automate tasks | [Streams and Redirection](../01-shell-and-cli/streams-and-redirection.md), [Scripting Essentials](../01-shell-and-cli/scripting-essentials.md) |
+| LPIC-1 103.1 | Work on the command line (quoting, history, environment, `type`, `which`) | [Shell Basics](../01-shell-and-cli/shell-basics.md), [Quoting and Expansion](../01-shell-and-cli/quoting-and-expansion.md), [Command Resolution](../01-shell-and-cli/command-resolution.md) |
+| LPIC-1 103.4 | Use streams, pipes and redirects (`tee`, `xargs`) | [Streams and Redirection](../01-shell-and-cli/streams-and-redirection.md) |
+| LPIC-1 103.8 | Basic file editing (`vi`, `EDITOR`) | [Text Editors](../01-shell-and-cli/text-editors.md) |
+| LPIC-1 105.1 | Customize and use the shell environment (profiles, `env`, `export`, aliases, functions) | [Variables and Environment](../01-shell-and-cli/variables-and-environment.md), [Command Resolution](../01-shell-and-cli/command-resolution.md) |
+| LPIC-1 105.2 | Customize or write simple scripts (`test`, loops, exit status) | [Scripting Essentials](../01-shell-and-cli/scripting-essentials.md), [Exit Codes and Chaining](../01-shell-and-cli/exit-codes-and-chaining.md) |
+| LPIC-1 107.3 | Localisation and internationalisation (`locale`, `LANG`, `LC_ALL`, `iconv`) | [Locale and Encoding](../01-shell-and-cli/locale-and-encoding.md) |
+| Linux+ XK0-006 | Shell scripting basics and environment variables | [Scripting Essentials](../01-shell-and-cli/scripting-essentials.md), [Variables and Environment](../01-shell-and-cli/variables-and-environment.md) |
+
+---
+
+## Files and Filesystem
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Archive, compress, unpack and uncompress files using `tar`, `gzip` and `bzip2` | [Archiving and Compression](../02-files-and-filesystem/archiving-and-compression.md) |
+| RHCSA EX200 (RHEL 10) | Create, delete, copy and move files and directories | [File Operations](../02-files-and-filesystem/file-operations.md) |
+| RHCSA EX200 (RHEL 10) | Create hard and soft links | [Inodes and Links](../02-files-and-filesystem/inodes-and-links.md) |
+| LFCS | Create, delete, copy and move files; manage links; archive and compress; search for files | [File Operations](../02-files-and-filesystem/file-operations.md), [Inodes and Links](../02-files-and-filesystem/inodes-and-links.md), [Archiving and Compression](../02-files-and-filesystem/archiving-and-compression.md), [Finding Files](../02-files-and-filesystem/finding-files.md) |
+| LPIC-1 103.3 | Perform basic file management (`cp`, `mv`, `rm`, `find`, `tar`, `cpio`, `dd`, globbing) | [File Operations](../02-files-and-filesystem/file-operations.md), [Finding Files](../02-files-and-filesystem/finding-files.md), [Archiving and Compression](../02-files-and-filesystem/archiving-and-compression.md) |
+| LPIC-1 104.6 | Create and change hard and symbolic links | [Inodes and Links](../02-files-and-filesystem/inodes-and-links.md) |
+| LPIC-1 104.7 | Find system files and place files in the correct location (FHS, `find`, `locate`, `whereis`, `type`) | [Filesystem Hierarchy](../02-files-and-filesystem/filesystem-hierarchy.md), [Finding Files](../02-files-and-filesystem/finding-files.md) |
+| Linux+ XK0-006 | Filesystem hierarchy, file types, links, compression and archiving | [Filesystem Hierarchy](../02-files-and-filesystem/filesystem-hierarchy.md), [File Types](../02-files-and-filesystem/file-types.md), [Inodes and Links](../02-files-and-filesystem/inodes-and-links.md), [Archiving and Compression](../02-files-and-filesystem/archiving-and-compression.md) |
+| Interview sources | File descriptors, deleted-but-open files, inode exhaustion | [File Descriptors](../02-files-and-filesystem/file-descriptors.md), [Inodes and Links](../02-files-and-filesystem/inodes-and-links.md) |
+
+---
+
 ## Users and Access
 
 | Curriculum | Objective | Covered in |

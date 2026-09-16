@@ -21,9 +21,9 @@ Every topic file declares a **Track** (Core, RHCSA, Advanced) and an **Interview
 
 | # | Module | Covers |
 |---|---|---|
-| 00 | Foundations | History, kernel vs distribution, distributions, architecture, system information |
-| 01 | Shell and CLI | Shell basics, help, command lookup, environment, quoting, redirection, exit codes, editors, scripting essentials |
-| 02 | Files and Filesystem | Hierarchy, file types, file operations, inodes and links, file descriptors, finding files, archives |
+| 00 | [Foundations](00-foundations/README.md) | History, kernel vs distribution, distributions, architecture, system information |
+| 01 | [Shell and CLI](01-shell-and-cli/README.md) | Shell basics, help, command lookup, environment, quoting, redirection, exit codes, editors, scripting essentials |
+| 02 | [Files and Filesystem](02-files-and-filesystem/README.md) | Hierarchy, file types, file operations, inodes and links, file descriptors, finding files, archives |
 | 03 | Text Processing | Viewing, `grep`, `sed`, `awk`, pipeline tools, `xargs`, JSON and YAML on the command line |
 | 04 | [Users and Access](04-users-and-access/README.md) | Users, groups, passwords, `sudo` and `su`, PAM, login records, central identity |
 | 05 | Permissions | Modes, `umask`, special bits, ACLs, attributes |

@@ -77,43 +77,43 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 3: Batch A (modules 00, 01, 02)
 
-- [ ] `00-foundations/.pages` <!-- id:technical-grounding/linux/00-foundations/.pages -->
-- [ ] `00-foundations/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/00-foundations/README.md -->
-- [ ] `00-foundations/what-is-linux.md` (Core, Low) <!-- id:technical-grounding/linux/00-foundations/what-is-linux.md -->
-- [ ] `00-foundations/kernel-vs-os-vs-distro.md` (Core, Med) <!-- id:technical-grounding/linux/00-foundations/kernel-vs-os-vs-distro.md -->
-- [ ] `00-foundations/distributions.md` (Core, Low) <!-- id:technical-grounding/linux/00-foundations/distributions.md -->
-- [ ] `00-foundations/linux-vs-windows.md` (Core, Low) <!-- id:technical-grounding/linux/00-foundations/linux-vs-windows.md -->
-- [ ] `00-foundations/architecture.md` (Core, High) <!-- id:technical-grounding/linux/00-foundations/architecture.md -->
-- [ ] `00-foundations/system-information.md` (Core, Med) <!-- id:technical-grounding/linux/00-foundations/system-information.md -->
-- [ ] `01-shell-and-cli/.pages` <!-- id:technical-grounding/linux/01-shell-and-cli/.pages -->
-- [ ] `01-shell-and-cli/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/01-shell-and-cli/README.md -->
-- [ ] `01-shell-and-cli/shell-basics.md` (Core, Med) <!-- id:technical-grounding/linux/01-shell-and-cli/shell-basics.md -->
-- [ ] `01-shell-and-cli/getting-help.md` (Core, Low) <!-- id:technical-grounding/linux/01-shell-and-cli/getting-help.md -->
-- [ ] `01-shell-and-cli/command-resolution.md` (Core, Med) <!-- id:technical-grounding/linux/01-shell-and-cli/command-resolution.md -->
-- [ ] `01-shell-and-cli/variables-and-environment.md` (Core, High) <!-- id:technical-grounding/linux/01-shell-and-cli/variables-and-environment.md -->
-- [ ] `01-shell-and-cli/locale-and-encoding.md` (Core, Low) <!-- id:technical-grounding/linux/01-shell-and-cli/locale-and-encoding.md -->
-- [ ] `01-shell-and-cli/quoting-and-expansion.md` (Core, Med) <!-- id:technical-grounding/linux/01-shell-and-cli/quoting-and-expansion.md -->
-- [ ] `01-shell-and-cli/streams-and-redirection.md` (Core, High) <!-- id:technical-grounding/linux/01-shell-and-cli/streams-and-redirection.md -->
-- [ ] `01-shell-and-cli/exit-codes-and-chaining.md` (Core, High) <!-- id:technical-grounding/linux/01-shell-and-cli/exit-codes-and-chaining.md -->
-- [ ] `01-shell-and-cli/text-editors.md` (Core, Low) <!-- id:technical-grounding/linux/01-shell-and-cli/text-editors.md -->
-- [ ] `01-shell-and-cli/scripting-essentials.md` (RHCSA, Med) <!-- id:technical-grounding/linux/01-shell-and-cli/scripting-essentials.md -->
-- [ ] Remove `technical-grounding/linux/STDOUT_STDERR_Guide.md` (absorbed into `01-shell-and-cli/`) <!-- id:remove:STDOUT_STDERR_Guide.md -->
-- [ ] `02-files-and-filesystem/.pages` <!-- id:technical-grounding/linux/02-files-and-filesystem/.pages -->
-- [ ] `02-files-and-filesystem/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/02-files-and-filesystem/README.md -->
-- [ ] `02-files-and-filesystem/filesystem-hierarchy.md` (Core, High) <!-- id:technical-grounding/linux/02-files-and-filesystem/filesystem-hierarchy.md -->
-- [ ] `02-files-and-filesystem/file-types.md` (Core, Med) <!-- id:technical-grounding/linux/02-files-and-filesystem/file-types.md -->
-- [ ] `02-files-and-filesystem/navigation-and-listing.md` (Core, Low) <!-- id:technical-grounding/linux/02-files-and-filesystem/navigation-and-listing.md -->
-- [ ] `02-files-and-filesystem/file-operations.md` (Core, Med) <!-- id:technical-grounding/linux/02-files-and-filesystem/file-operations.md -->
-- [ ] `02-files-and-filesystem/inodes-and-links.md` (Core, High) <!-- id:technical-grounding/linux/02-files-and-filesystem/inodes-and-links.md -->
-- [ ] `02-files-and-filesystem/file-descriptors.md` (Advanced, High, internals) <!-- id:technical-grounding/linux/02-files-and-filesystem/file-descriptors.md -->
-- [ ] `02-files-and-filesystem/finding-files.md` (Core, High) <!-- id:technical-grounding/linux/02-files-and-filesystem/finding-files.md -->
-- [ ] `02-files-and-filesystem/archiving-and-compression.md` (Core, Med) <!-- id:technical-grounding/linux/02-files-and-filesystem/archiving-and-compression.md -->
-- [ ] Remove `technical-grounding/linux/tar-command.md` (absorbed into `02-files-and-filesystem/`) <!-- id:remove:tar-command.md -->
-- [ ] `reference/error-messages.md` <!-- id:technical-grounding/linux/reference/error-messages.md -->
-- [ ] Batch A: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:A:grows -->
-- [ ] Batch A: `scripts/lint-prose.py` exits 0 <!-- id:check:A:lint -->
-- [ ] Batch A: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:A:audit -->
-- [ ] Batch A: `mkdocs build` has no warnings for the tool folder <!-- id:check:A:build -->
+- [x] `00-foundations/.pages` <!-- id:technical-grounding/linux/00-foundations/.pages -->
+- [x] `00-foundations/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/00-foundations/README.md -->
+- [x] `00-foundations/what-is-linux.md` (Core, Low) <!-- id:technical-grounding/linux/00-foundations/what-is-linux.md -->
+- [x] `00-foundations/kernel-vs-os-vs-distro.md` (Core, Med) <!-- id:technical-grounding/linux/00-foundations/kernel-vs-os-vs-distro.md -->
+- [x] `00-foundations/distributions.md` (Core, Low) <!-- id:technical-grounding/linux/00-foundations/distributions.md -->
+- [x] `00-foundations/linux-vs-windows.md` (Core, Low) <!-- id:technical-grounding/linux/00-foundations/linux-vs-windows.md -->
+- [x] `00-foundations/architecture.md` (Core, High) <!-- id:technical-grounding/linux/00-foundations/architecture.md -->
+- [x] `00-foundations/system-information.md` (Core, Med) <!-- id:technical-grounding/linux/00-foundations/system-information.md -->
+- [x] `01-shell-and-cli/.pages` <!-- id:technical-grounding/linux/01-shell-and-cli/.pages -->
+- [x] `01-shell-and-cli/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/01-shell-and-cli/README.md -->
+- [x] `01-shell-and-cli/shell-basics.md` (Core, Med) <!-- id:technical-grounding/linux/01-shell-and-cli/shell-basics.md -->
+- [x] `01-shell-and-cli/getting-help.md` (Core, Low) <!-- id:technical-grounding/linux/01-shell-and-cli/getting-help.md -->
+- [x] `01-shell-and-cli/command-resolution.md` (Core, Med) <!-- id:technical-grounding/linux/01-shell-and-cli/command-resolution.md -->
+- [x] `01-shell-and-cli/variables-and-environment.md` (Core, High) <!-- id:technical-grounding/linux/01-shell-and-cli/variables-and-environment.md -->
+- [x] `01-shell-and-cli/locale-and-encoding.md` (Core, Low) <!-- id:technical-grounding/linux/01-shell-and-cli/locale-and-encoding.md -->
+- [x] `01-shell-and-cli/quoting-and-expansion.md` (Core, Med) <!-- id:technical-grounding/linux/01-shell-and-cli/quoting-and-expansion.md -->
+- [x] `01-shell-and-cli/streams-and-redirection.md` (Core, High) <!-- id:technical-grounding/linux/01-shell-and-cli/streams-and-redirection.md -->
+- [x] `01-shell-and-cli/exit-codes-and-chaining.md` (Core, High) <!-- id:technical-grounding/linux/01-shell-and-cli/exit-codes-and-chaining.md -->
+- [x] `01-shell-and-cli/text-editors.md` (Core, Low) <!-- id:technical-grounding/linux/01-shell-and-cli/text-editors.md -->
+- [x] `01-shell-and-cli/scripting-essentials.md` (RHCSA, Med) <!-- id:technical-grounding/linux/01-shell-and-cli/scripting-essentials.md -->
+- [x] Remove `technical-grounding/linux/STDOUT_STDERR_Guide.md` (absorbed into `01-shell-and-cli/`) <!-- id:remove:STDOUT_STDERR_Guide.md -->
+- [x] `02-files-and-filesystem/.pages` <!-- id:technical-grounding/linux/02-files-and-filesystem/.pages -->
+- [x] `02-files-and-filesystem/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/02-files-and-filesystem/README.md -->
+- [x] `02-files-and-filesystem/filesystem-hierarchy.md` (Core, High) <!-- id:technical-grounding/linux/02-files-and-filesystem/filesystem-hierarchy.md -->
+- [x] `02-files-and-filesystem/file-types.md` (Core, Med) <!-- id:technical-grounding/linux/02-files-and-filesystem/file-types.md -->
+- [x] `02-files-and-filesystem/navigation-and-listing.md` (Core, Low) <!-- id:technical-grounding/linux/02-files-and-filesystem/navigation-and-listing.md -->
+- [x] `02-files-and-filesystem/file-operations.md` (Core, Med) <!-- id:technical-grounding/linux/02-files-and-filesystem/file-operations.md -->
+- [x] `02-files-and-filesystem/inodes-and-links.md` (Core, High) <!-- id:technical-grounding/linux/02-files-and-filesystem/inodes-and-links.md -->
+- [x] `02-files-and-filesystem/file-descriptors.md` (Advanced, High, internals) <!-- id:technical-grounding/linux/02-files-and-filesystem/file-descriptors.md -->
+- [x] `02-files-and-filesystem/finding-files.md` (Core, High) <!-- id:technical-grounding/linux/02-files-and-filesystem/finding-files.md -->
+- [x] `02-files-and-filesystem/archiving-and-compression.md` (Core, Med) <!-- id:technical-grounding/linux/02-files-and-filesystem/archiving-and-compression.md -->
+- [x] Remove `technical-grounding/linux/tar-command.md` (absorbed into `02-files-and-filesystem/`) <!-- id:remove:tar-command.md -->
+- [x] `reference/error-messages.md` <!-- id:technical-grounding/linux/reference/error-messages.md -->
+- [x] Batch A: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:A:grows -->
+- [x] Batch A: `scripts/lint-prose.py` exits 0 <!-- id:check:A:lint -->
+- [x] Batch A: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:A:audit -->
+- [x] Batch A: `mkdocs build` has no warnings for the tool folder <!-- id:check:A:build -->
 - [ ] Batch A: owner review done; first-hand line spots listed <!-- id:check:A:owner -->
 
 ---

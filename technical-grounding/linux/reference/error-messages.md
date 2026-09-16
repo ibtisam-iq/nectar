@@ -1,0 +1,84 @@
+# Error Messages
+
+Real error text seen on Linux servers, with its cause and first fix. Search this page for the words of an error; the linked topic explains the mechanism and shows the captured output. Entries are added as each module is written.
+
+---
+
+## Foundations
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `# No SMBIOS nor DMI entry point found, sorry.` | The VM or container exposes no SMBIOS table | Use `lscpu`, `lsmem`, `lspci`, or the cloud metadata service | [System Information](../00-foundations/system-information.md) |
+| `ls: cannot access '/nonexistent': No such file or directory` | A system call returned `ENOENT` | Check the path; `strace -e trace=file` shows what was tried | [Architecture](../00-foundations/architecture.md) |
+| `not a dynamic executable` | Static binary, script or other architecture | `file <path>` | [Architecture](../00-foundations/architecture.md) |
+
+---
+
+## Shell and CLI
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `bash: toool: command not found` (exit 127) | No alias, function, builtin or `PATH` entry has that name | Check spelling, `PATH`, and the owning package | [Command Resolution](../01-shell-and-cli/command-resolution.md) |
+| `bash: ./tool: No such file or directory` | The file is not in the current directory | `ls -l ./tool` | [Command Resolution](../01-shell-and-cli/command-resolution.md) |
+| `bash: /home/.../app: No such file or directory` for a command that exists | Bash hashed the command's old location | `hash -r` | [Command Resolution](../01-shell-and-cli/command-resolution.md) |
+| `cannot execute: required file not found` | The interpreter in the shebang, or the ELF loader, is missing; often CRLF line endings | `file <path>` shows CRLF terminators; strip them with `sed -i 's/\r$//'` | [Command Resolution](../01-shell-and-cli/command-resolution.md) |
+| `bash: /home/laborant/tool.sh: Permission denied` (exit 126) | No execute bit, or a `noexec` mount | `chmod +x`, or `bash <file>` | [Command Resolution](../01-shell-and-cli/command-resolution.md) |
+| `./check.sh: 3: [[: not found` | Bash syntax run by `dash` (`/bin/sh` on Ubuntu) | `#!/bin/bash` | [Shell Basics](../01-shell-and-cli/shell-basics.md) |
+| `not a tty` | A command that needs a terminal runs from cron, systemd or CI | Remove prompts, or `ssh -t` | [Shell Basics](../01-shell-and-cli/shell-basics.md) |
+| `No manual entry for bash` | Documentation excluded at install (`tsflags=nodocs`, minimized image) | Re-enable docs, reinstall, `mandb` | [Getting Help](../01-shell-and-cli/getting-help.md) |
+| `sudo: mytool: command not found` | `sudo` uses `secure_path`, which lacks the tool's directory | Full path, or extend `secure_path` | [Variables and Environment](../01-shell-and-cli/variables-and-environment.md) |
+| `warning: setlocale: LC_ALL: cannot change locale` | The requested locale is not installed, often forwarded by SSH | Install the locale or unset the variable | [Locale and Encoding](../01-shell-and-cli/locale-and-encoding.md) |
+| `ls: cannot access 'report': No such file or directory` for a file named `report 2026.txt` | Unquoted variable split on spaces | Quote: `"$file"` | [Quoting and Expansion](../01-shell-and-cli/quoting-and-expansion.md) |
+| `/etc/demo2.conf: Permission denied` after `sudo echo ... >` | The redirection runs as the calling user | Pipe into `sudo tee` | [Streams and Redirection](../01-shell-and-cli/streams-and-redirection.md) |
+| `log.txt: cannot overwrite existing file` | `noclobber` is set | Append with `>>`, or use the forced-overwrite operator shown in the topic | [Streams and Redirection](../01-shell-and-cli/streams-and-redirection.md) |
+| `$logfile: ambiguous redirect` | Unquoted target variable is empty or has spaces | Quote and set it | [Streams and Redirection](../01-shell-and-cli/streams-and-redirection.md) |
+| `Killed` (exit 137) | `SIGKILL`, often the OOM killer | `dmesg -T`, `journalctl -k` | [Exit Codes and Chaining](../01-shell-and-cli/exit-codes-and-chaining.md) |
+| `mkdir: cannot create directory ...: File exists` | The directory exists, so the `&&` chain stops | `mkdir -p` | [Exit Codes and Chaining](../01-shell-and-cli/exit-codes-and-chaining.md) |
+| `[: =: unary operator expected` | Unquoted empty variable inside `[ ]` | Quote it or use `[[ ]]` | [Scripting Essentials](../01-shell-and-cli/scripting-essentials.md) |
+| `syntax error: unexpected end of file` | Missing `fi`, `done`, `esac` or quote | `bash -n script.sh` | [Scripting Essentials](../01-shell-and-cli/scripting-essentials.md) |
+
+---
+
+## Files and Filesystem
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `No space left on device` with free space in `df -h` | Inodes exhausted, or a different filesystem is full | `df -i <path>`, `df -h <path>` | [Inodes and Links](../02-files-and-filesystem/inodes-and-links.md) |
+| Disk full, `du` finds much less | Deleted files still open | `sudo lsof +L1` | [Inodes and Links](../02-files-and-filesystem/inodes-and-links.md) |
+| `dpkg-query: no path found matching pattern /etc/ssh/sshd_config` | File created by a maintainer script | Query the directory instead | [Filesystem Hierarchy](../02-files-and-filesystem/filesystem-hierarchy.md) |
+| `cannot execute binary file: Exec format error` | Binary for another architecture | Download the build for `uname -m` | [File Types](../02-files-and-filesystem/file-types.md) |
+| `syntax error near unexpected token` when running a downloaded binary | An HTML error page was saved as the binary | `file <path>`; download with `curl -f` | [File Types](../02-files-and-filesystem/file-types.md) |
+| `/dev/vda: Permission denied` | A device node was run as a command | Use `lsblk` or `fdisk -l` | [File Types](../02-files-and-filesystem/file-types.md) |
+| `mkdir: cannot create directory 'a/b/c': No such file or directory` | Parent directory missing | `mkdir -p` | [File Operations](../02-files-and-filesystem/file-operations.md) |
+| `cp: -r not specified; omitting directory 'app'` | Source is a directory | `cp -r` or `cp -a` | [File Operations](../02-files-and-filesystem/file-operations.md) |
+| `rmdir: failed to remove 'app': Directory not empty` | `rmdir` removes empty directories only | Check contents, then `rm -r` | [File Operations](../02-files-and-filesystem/file-operations.md) |
+| `curl: (22) The requested URL returned error: 404` | HTTP error with `curl -f` | Check the URL; the script stops as intended | [File Operations](../02-files-and-filesystem/file-operations.md) |
+| `ln: failed to create hard link ...: Invalid cross-device link` | Hard links cannot span filesystems | `ln -s` or copy | [Inodes and Links](../02-files-and-filesystem/inodes-and-links.md) |
+| `ln: ...: hard link not allowed for directory` | Directories cannot have extra hard links | Symlink or bind mount | [Inodes and Links](../02-files-and-filesystem/inodes-and-links.md) |
+| `[Errno 24] Too many open files` | Per-process descriptor limit reached | Check for leaks; raise `LimitNOFILE=` | [File Descriptors](../02-files-and-filesystem/file-descriptors.md) |
+| `bash: line 1: 3: Bad file descriptor` | Redirection to a descriptor that is not open | `exec 3> file` first | [File Descriptors](../02-files-and-filesystem/file-descriptors.md) |
+| `find: ‘/root’: Permission denied` | No read access to a directory | `sudo`, or `2>/dev/null` | [Finding Files](../02-files-and-filesystem/finding-files.md) |
+| `find: paths must precede expression` | Unquoted `-name` pattern expanded by the shell | Quote the pattern | [Finding Files](../02-files-and-filesystem/finding-files.md) |
+| `find: missing argument to -exec` | `-exec` not terminated | End with `{} \;` or `{} +` | [Finding Files](../02-files-and-filesystem/finding-files.md) |
+| `tar: Refusing to read archive contents from terminal (missing -f option?)` | `-f` missing | `tar -xf <archive>` | [Archiving and Compression](../02-files-and-filesystem/archiving-and-compression.md) |
+| `gzip: stdin: not in gzip format` | Not a gzip file, often an HTML page | `file <archive>`; `tar -xf` without `-z` | [Archiving and Compression](../02-files-and-filesystem/archiving-and-compression.md) |
+| `tar: nosuch: Not found in archive` | Member path differs from the stored path | `tar -tf` for the exact name | [Archiving and Compression](../02-files-and-filesystem/archiving-and-compression.md) |
+| `` tar: Removing leading `/' from member names `` | Informational: absolute paths stored as relative | None; use `-C /` to avoid the message | [Archiving and Compression](../02-files-and-filesystem/archiving-and-compression.md) |
+
+---
+
+## Users and Access
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `useradd: user 'amor' already exists` | The name is taken | `getent passwd amor` | [Users](../04-users-and-access/users.md) |
+| `userdel: user amor is currently used by process 1244` | The user still has running processes | Stop them (`pkill -u amor`), then delete | [Users](../04-users-and-access/users.md) |
+| `userdel: /home/amor not owned by amor, not removing` | Home directory belongs to another UID | Check ownership; remove it manually if intended | [Users](../04-users-and-access/users.md) |
+| `groupdel: cannot remove the primary group of user 'amor'` | The group is a user's primary group | `usermod -g` first | [Groups](../04-users-and-access/groups.md) |
+| `groupadd: group 'amor' already exists` | Name taken, often by a user private group | `getent group amor` | [Groups](../04-users-and-access/groups.md) |
+| `su: User account has expired` | Account expiry date passed | `chage -E -1 <user>` | [Passwords and Aging](../04-users-and-access/passwords-and-aging.md) |
+| `You are required to change your password immediately (administrator enforced).` | `chage -d 0` forced a change | Set a new password at login | [Passwords and Aging](../04-users-and-access/passwords-and-aging.md) |
+| `passwd: unrecognized option '--stdin'` | `--stdin` exists only in the RHEL build of `passwd` | `chpasswd` | [Passwords and Aging](../04-users-and-access/passwords-and-aging.md) |
+| `amor is not in the sudoers file.` | No sudoers rule matches the user | Add to `wheel` or `sudo`, or a drop-in rule | [Sudo and Su](../04-users-and-access/sudo-and-su.md) |
+| `sudo: a password is required` | The command line does not match a `NOPASSWD` rule exactly | Match arguments exactly, or use `sudo -l` | [Sudo and Su](../04-users-and-access/sudo-and-su.md) |
+| `/etc/sudoers.d/deploy:2:48: syntax error` | Invalid sudoers syntax | `visudo -cf <file>` before installing | [Sudo and Su](../04-users-and-access/sudo-and-su.md) |

@@ -6,40 +6,40 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 
 ## 00 Foundations
 
-- [ ] What Is Linux (Core, Low)
-- [ ] Kernel vs OS vs Distro (Core, Med)
-- [ ] Distributions (Core, Low)
-- [ ] Linux vs Windows (Core, Low)
-- [ ] Architecture (Core, High)
-- [ ] System Information (Core, Med)
+- [ ] [What Is Linux](00-foundations/what-is-linux.md) (Core, Low)
+- [ ] [Kernel vs OS vs Distro](00-foundations/kernel-vs-os-vs-distro.md) (Core, Med)
+- [ ] [Distributions](00-foundations/distributions.md) (Core, Low)
+- [ ] [Linux vs Windows](00-foundations/linux-vs-windows.md) (Core, Low)
+- [ ] [Architecture](00-foundations/architecture.md) (Core, High)
+- [ ] [System Information](00-foundations/system-information.md) (Core, Med)
 
 ---
 
 ## 01 Shell and CLI
 
-- [ ] Shell Basics (Core, Med)
-- [ ] Getting Help (Core, Low)
-- [ ] Command Resolution (Core, Med)
-- [ ] Variables and Environment (Core, High)
-- [ ] Locale and Encoding (Core, Low)
-- [ ] Quoting and Expansion (Core, Med)
-- [ ] Streams and Redirection (Core, High)
-- [ ] Exit Codes and Chaining (Core, High)
-- [ ] Text Editors (Core, Low)
-- [ ] Scripting Essentials (RHCSA, Med)
+- [ ] [Shell Basics](01-shell-and-cli/shell-basics.md) (Core, Med)
+- [ ] [Getting Help](01-shell-and-cli/getting-help.md) (Core, Low)
+- [ ] [Command Resolution](01-shell-and-cli/command-resolution.md) (Core, Med)
+- [ ] [Variables and Environment](01-shell-and-cli/variables-and-environment.md) (Core, High)
+- [ ] [Locale and Encoding](01-shell-and-cli/locale-and-encoding.md) (Core, Low)
+- [ ] [Quoting and Expansion](01-shell-and-cli/quoting-and-expansion.md) (Core, Med)
+- [ ] [Streams and Redirection](01-shell-and-cli/streams-and-redirection.md) (Core, High)
+- [ ] [Exit Codes and Chaining](01-shell-and-cli/exit-codes-and-chaining.md) (Core, High)
+- [ ] [Text Editors](01-shell-and-cli/text-editors.md) (Core, Low)
+- [ ] [Scripting Essentials](01-shell-and-cli/scripting-essentials.md) (RHCSA, Med)
 
 ---
 
 ## 02 Files and Filesystem
 
-- [ ] Filesystem Hierarchy (Core, High)
-- [ ] File Types (Core, Med)
-- [ ] Navigation and Listing (Core, Low)
-- [ ] File Operations (Core, Med)
-- [ ] Inodes and Links (Core, High)
-- [ ] File Descriptors (Advanced, High, internals)
-- [ ] Finding Files (Core, High)
-- [ ] Archiving and Compression (Core, Med)
+- [ ] [Filesystem Hierarchy](02-files-and-filesystem/filesystem-hierarchy.md) (Core, High)
+- [ ] [File Types](02-files-and-filesystem/file-types.md) (Core, Med)
+- [ ] [Navigation and Listing](02-files-and-filesystem/navigation-and-listing.md) (Core, Low)
+- [ ] [File Operations](02-files-and-filesystem/file-operations.md) (Core, Med)
+- [ ] [Inodes and Links](02-files-and-filesystem/inodes-and-links.md) (Core, High)
+- [ ] [File Descriptors](02-files-and-filesystem/file-descriptors.md) (Advanced, High, internals)
+- [ ] [Finding Files](02-files-and-filesystem/finding-files.md) (Core, High)
+- [ ] [Archiving and Compression](02-files-and-filesystem/archiving-and-compression.md) (Core, Med)
 
 ---
 

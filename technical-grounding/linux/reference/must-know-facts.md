@@ -4,6 +4,114 @@ Every topic's Must-Know Facts table in one place, for a fast revision pass. Tabl
 
 ---
 
+## Foundations
+
+### What Is Linux
+
+--8<-- "technical-grounding/linux/00-foundations/what-is-linux.md:facts"
+
+### Kernel vs OS vs Distro
+
+--8<-- "technical-grounding/linux/00-foundations/kernel-vs-os-vs-distro.md:facts"
+
+### Distributions
+
+--8<-- "technical-grounding/linux/00-foundations/distributions.md:facts"
+
+### Linux vs Windows
+
+--8<-- "technical-grounding/linux/00-foundations/linux-vs-windows.md:facts"
+
+### Architecture
+
+--8<-- "technical-grounding/linux/00-foundations/architecture.md:facts"
+
+### System Information
+
+--8<-- "technical-grounding/linux/00-foundations/system-information.md:facts"
+
+---
+
+## Shell and CLI
+
+### Shell Basics
+
+--8<-- "technical-grounding/linux/01-shell-and-cli/shell-basics.md:facts"
+
+### Getting Help
+
+--8<-- "technical-grounding/linux/01-shell-and-cli/getting-help.md:facts"
+
+### Command Resolution
+
+--8<-- "technical-grounding/linux/01-shell-and-cli/command-resolution.md:facts"
+
+### Variables and Environment
+
+--8<-- "technical-grounding/linux/01-shell-and-cli/variables-and-environment.md:facts"
+
+### Locale and Encoding
+
+--8<-- "technical-grounding/linux/01-shell-and-cli/locale-and-encoding.md:facts"
+
+### Quoting and Expansion
+
+--8<-- "technical-grounding/linux/01-shell-and-cli/quoting-and-expansion.md:facts"
+
+### Streams and Redirection
+
+--8<-- "technical-grounding/linux/01-shell-and-cli/streams-and-redirection.md:facts"
+
+### Exit Codes and Chaining
+
+--8<-- "technical-grounding/linux/01-shell-and-cli/exit-codes-and-chaining.md:facts"
+
+### Text Editors
+
+--8<-- "technical-grounding/linux/01-shell-and-cli/text-editors.md:facts"
+
+### Scripting Essentials
+
+--8<-- "technical-grounding/linux/01-shell-and-cli/scripting-essentials.md:facts"
+
+---
+
+## Files and Filesystem
+
+### Filesystem Hierarchy
+
+--8<-- "technical-grounding/linux/02-files-and-filesystem/filesystem-hierarchy.md:facts"
+
+### File Types
+
+--8<-- "technical-grounding/linux/02-files-and-filesystem/file-types.md:facts"
+
+### Navigation and Listing
+
+--8<-- "technical-grounding/linux/02-files-and-filesystem/navigation-and-listing.md:facts"
+
+### File Operations
+
+--8<-- "technical-grounding/linux/02-files-and-filesystem/file-operations.md:facts"
+
+### Inodes and Links
+
+--8<-- "technical-grounding/linux/02-files-and-filesystem/inodes-and-links.md:facts"
+
+### File Descriptors
+
+--8<-- "technical-grounding/linux/02-files-and-filesystem/file-descriptors.md:facts"
+
+### Finding Files
+
+--8<-- "technical-grounding/linux/02-files-and-filesystem/finding-files.md:facts"
+
+### Archiving and Compression
+
+--8<-- "technical-grounding/linux/02-files-and-filesystem/archiving-and-compression.md:facts"
+
+---
+
 ## Users and Access
 
 ### Users
