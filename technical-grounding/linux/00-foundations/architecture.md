@@ -155,27 +155,54 @@ ldd /usr/bin/ls
 grep -E 'vdso|libc' /proc/self/maps
 ```
 
-Output:
+=== "RHEL / Rocky"
 
-```text
-/usr/bin/ls: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=daa5130f2a41f7fbc8662048f3294f3d439ca7ff, for GNU/Linux 3.2.0, stripped
-	linux-vdso.so.1 (0x00007fffc1566000)
-	libselinux.so.1 => /lib/x86_64-linux-gnu/libselinux.so.1 (0x00007f7a4af02000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f7a4ac00000)
-	libpcre2-8.so.0 => /lib/x86_64-linux-gnu/libpcre2-8.so.0 (0x00007f7a4ae68000)
-	/lib64/ld-linux-x86-64.so.2 (0x00007f7a4af5a000)
-7ff11d600000-7ff11d628000 r--p 00000000 fd:00 3483                       /usr/lib/x86_64-linux-gnu/libc.so.6
-7ff11d628000-7ff11d7b1000 r-xp 00028000 fd:00 3483                       /usr/lib/x86_64-linux-gnu/libc.so.6
-7ff11d7b1000-7ff11d800000 r--p 001b1000 fd:00 3483                       /usr/lib/x86_64-linux-gnu/libc.so.6
-7ff11d800000-7ff11d804000 r--p 001ff000 fd:00 3483                       /usr/lib/x86_64-linux-gnu/libc.so.6
-7ff11d804000-7ff11d806000 rw-p 00203000 fd:00 3483                       /usr/lib/x86_64-linux-gnu/libc.so.6
-7ffeeeff5000-7ffeeeff7000 r-xp 00000000 00:00 0                          [vdso]
-```
+    !!! note "Captured on Fedora 44"
+        The Rocky playground installs `coreutils-single`, where `/usr/bin/ls` is a wrapper script and `ldd` has nothing to inspect. Fedora 44 (coreutils 9.10, glibc on `/lib64`) shows the same layout a full RHEL 10 install has.
+
+    Output:
+
+    ```text
+    /usr/bin/ls: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=ae6605eeca6cc2f19d18fdd53a521e501df3456d, for GNU/Linux 3.2.0, stripped
+    	linux-vdso.so.1 (0x00007fff56d4d000)
+    	libselinux.so.1 => /lib64/libselinux.so.1 (0x00007f3fb18e6000)
+    	libcap.so.2 => /lib64/libcap.so.2 (0x00007f3fb18d9000)
+    	libc.so.6 => /lib64/libc.so.6 (0x00007f3fb16e0000)
+    	libpcre2-8.so.0 => /lib64/libpcre2-8.so.0 (0x00007f3fb162f000)
+    	libgcc_s.so.1 => /lib64/libgcc_s.so.1 (0x00007f3fb1602000)
+    	/lib64/ld-linux-x86-64.so.2 (0x00007f3fb1946000)
+    7f0289ae3000-7f0289c55000 r-xp 00000000 fd:00 14415                      /usr/lib64/libc.so.6
+    7f0289c55000-7f0289cce000 r--p 00172000 fd:00 14415                      /usr/lib64/libc.so.6
+    7f0289cce000-7f0289cd2000 r--p 001eb000 fd:00 14415                      /usr/lib64/libc.so.6
+    7f0289cd2000-7f0289cd4000 rw-p 001ef000 fd:00 14415                      /usr/lib64/libc.so.6
+    7ffe549e4000-7ffe549e6000 r-xp 00000000 00:00 0                          [vdso]
+    ```
+
+=== "Ubuntu / Debian"
+
+    Output:
+
+    ```text
+    /usr/bin/ls: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=daa5130f2a41f7fbc8662048f3294f3d439ca7ff, for GNU/Linux 3.2.0, stripped
+    	linux-vdso.so.1 (0x00007fffc1566000)
+    	libselinux.so.1 => /lib/x86_64-linux-gnu/libselinux.so.1 (0x00007f7a4af02000)
+    	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f7a4ac00000)
+    	libpcre2-8.so.0 => /lib/x86_64-linux-gnu/libpcre2-8.so.0 (0x00007f7a4ae68000)
+    	/lib64/ld-linux-x86-64.so.2 (0x00007f7a4af5a000)
+    7ff11d600000-7ff11d628000 r--p 00000000 fd:00 3483                       /usr/lib/x86_64-linux-gnu/libc.so.6
+    7ff11d628000-7ff11d7b1000 r-xp 00028000 fd:00 3483                       /usr/lib/x86_64-linux-gnu/libc.so.6
+    7ff11d7b1000-7ff11d800000 r--p 001b1000 fd:00 3483                       /usr/lib/x86_64-linux-gnu/libc.so.6
+    7ff11d800000-7ff11d804000 r--p 001ff000 fd:00 3483                       /usr/lib/x86_64-linux-gnu/libc.so.6
+    7ff11d804000-7ff11d806000 rw-p 00203000 fd:00 3483                       /usr/lib/x86_64-linux-gnu/libc.so.6
+    7ffeeeff5000-7ffeeeff7000 r-xp 00000000 00:00 0                          [vdso]
+    ```
+
+RHEL-family systems keep 64-bit libraries in `/lib64` (`/usr/lib64`); Debian-family systems use the multiarch path `/lib/x86_64-linux-gnu`. The loader path `/lib64/ld-linux-x86-64.so.2` is the same on both, because it is fixed by the x86-64 ABI.
 
 `linux-vdso.so.1` has no file path: the kernel maps it into every process so calls such as `gettimeofday` run without a mode switch.
 
 !!! warning "Some images ship a multi-call coreutils"
-    On the Rocky playground, `/usr/bin/ls` is a script that runs `/usr/bin/coreutils --coreutils-prog-shebang=ls` (the `coreutils-single` package), so `ldd /usr/bin/ls` prints `not a dynamic executable`. BusyBox on Alpine works the same way. Run `file` before `ldd` when the output looks wrong.
+    On the Rocky 10.2 playground, `/usr/bin/ls` is a script that runs `/usr/bin/coreutils --coreutils-prog-shebang=ls` (the `coreutils-single` package), so `ldd /usr/bin/ls` prints `not a dynamic executable`. BusyBox on Alpine works the same way. Run `file` before `ldd` when the output looks wrong.
 
 ---
 
@@ -327,4 +354,4 @@ CONFIG_MODULES=y
 - [Streams and Redirection](../01-shell-and-cli/streams-and-redirection.md): file descriptors 0, 1 and 2
 - [File Descriptors](../02-files-and-filesystem/file-descriptors.md): what `openat` returns
 
-Captured on Rocky Linux 10.2 and Ubuntu 24.04.4 LTS (iximiuz Labs microVMs, kernel 6.1.167), 2026-09.
+Captured on Rocky Linux 10.2, Fedora 44 (where noted) and Ubuntu 24.04.4 LTS (iximiuz Labs microVMs, kernel 6.1.167), 2026-09.

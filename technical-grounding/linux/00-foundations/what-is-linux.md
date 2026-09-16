@@ -13,7 +13,7 @@ Linux is a Unix-like operating system kernel released by Linus Torvalds in 1991 
 |---|---|---|
 | Linux is | A kernel; a full system adds a userland and becomes a distribution | `uname -s` |
 | Author and year | Linus Torvalds, first release 1991 | `cat /proc/version` |
-| Kernel license | GPL version 2 only | `rpm -q --qf '%{LICENSE}\n' kernel-core` |
+| Kernel license | GPL version 2 only, plus the Linux syscall exception, which keeps user programs outside the GPL | `dnf repoquery --qf '%{license}' kernel-core` |
 | Userland license (bash, coreutils) | GPL version 3 or later | `rpm -q --qf '%{LICENSE}\n' bash` |
 | Ancestor design | Unix (Bell Labs, 1969); Linux reimplements it, sharing no code | `man 7 standards` |
 | Standards | POSIX and the Single UNIX Specification (Linux is not certified) | `getconf _POSIX_VERSION` |
@@ -54,6 +54,18 @@ bash: GPL-3.0-or-later
 coreutils-single: GPL-3.0-or-later AND GFDL-1.3-no-invariants-or-later AND LGPL-2.1-or-later AND LGPL-3.0-or-later
 systemd: LGPL-2.1-or-later AND MIT AND GPL-2.0-or-later
 rpm: GPL-2.0-or-later
+```
+
+The kernel package is not installed on the microVM playground, but the repository metadata carries its license. RHEL 10 ships kernel 6.12, and the expression starts with the Linux syscall exception, which allows proprietary programs to run on a GPL kernel:
+
+```bash
+dnf repoquery -q --latest-limit 1 --qf '%{name}-%{version}: %{license}\n' kernel-core | cut -c1-72
+```
+
+Output:
+
+```text
+kernel-core-6.12.0: ((GPL-2.0-only WITH Linux-syscall-note) OR BSD-2-Cla
 ```
 
 On Debian and Ubuntu, the license text lives in `/usr/share/doc/<package>/copyright`.
