@@ -91,24 +91,24 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 
 ## 07 Processes
 
-- [ ] Process Fundamentals (Core, High)
-- [ ] Process Lifecycle (Advanced, High, internals)
-- [ ] Viewing Processes (Core, High)
-- [ ] Process States (Core, High)
-- [ ] Signals (Core, High, internals)
-- [ ] Job Control (Core, Med)
-- [ ] Priority and Nice (Core, Med)
-- [ ] System Calls and Tracing (Advanced, High, internals)
+- [ ] [Process Fundamentals](07-processes/process-fundamentals.md) (Core, High)
+- [ ] [Process Lifecycle](07-processes/process-lifecycle.md) (Advanced, High, internals)
+- [ ] [Viewing Processes](07-processes/viewing-processes.md) (Core, High)
+- [ ] [Process States](07-processes/process-states.md) (Core, High)
+- [ ] [Signals](07-processes/signals.md) (Core, High, internals)
+- [ ] [Job Control](07-processes/job-control.md) (Core, Med)
+- [ ] [Priority and Nice](07-processes/priority-and-nice.md) (Core, Med)
+- [ ] [System Calls and Tracing](07-processes/system-calls-and-tracing.md) (Advanced, High, internals)
 
 ---
 
 ## 08 Systemd and Services
 
-- [ ] Init and Targets (Core, Med)
-- [ ] systemctl (Core, High)
-- [ ] Unit Files (Core, High)
-- [ ] Writing a Service (Core, Med)
-- [ ] Systemd Toolbox (Core, Low)
+- [ ] [Init and Targets](08-systemd-and-services/init-and-targets.md) (Core, Med)
+- [ ] [systemctl](08-systemd-and-services/systemctl.md) (Core, High)
+- [ ] [Unit Files](08-systemd-and-services/unit-files.md) (Core, High)
+- [ ] [Writing a Service](08-systemd-and-services/writing-a-service.md) (Core, Med)
+- [ ] [Systemd Toolbox](08-systemd-and-services/systemd-toolbox.md) (Core, Low)
 
 ---
 
@@ -252,7 +252,7 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 ## Labs
 
 - [ ] [Users and Permissions Lab](labs/users-and-permissions-lab.md)
-- [ ] Processes and Services Lab
+- [ ] [Processes and Services Lab](labs/processes-and-services-lab.md)
 - [ ] Storage and LVM Lab
 - [ ] Networking Lab
 - [ ] Security Lab
@@ -266,7 +266,7 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 
 - [ ] [Cannot Log In or Use Sudo](interview/scenarios/cannot-login-or-sudo.md)
 - [ ] [Binary Won't Execute](interview/scenarios/binary-wont-execute.md)
-- [ ] Process Won't Die
+- [ ] [Process Won't Die](interview/scenarios/process-wont-die.md)
 - [ ] Service Won't Start
 - [ ] Cron Job Not Running
 - [ ] Disk Full

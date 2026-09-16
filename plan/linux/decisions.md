@@ -80,3 +80,14 @@ Dated log of every decision that shaped the plan. Later changes are appended wit
 |---|---|---|
 | D29 | Batch A approved by the owner ("move to batch B") | Batch exit criterion |
 | D30 | Batch B captures use two extra sources, each named on the page: the BSD `sed -i` error was captured on macOS 26.6.1 (the only BSD `sed` available), and a binary built on Fedora 44 demonstrates the `GLIBC_2.42 not found` error on Ubuntu 24.04. Setuid, `rpm -V` and `ldd` demos use a compiled C program or Ubuntu where Rocky's `coreutils-single` wrapper scripts would give misleading results | Keeps every error message real and traceable to the machine that produced it |
+
+---
+
+## 2026-09-17: Batch C
+
+| # | Decision | Reason |
+|---|---|---|
+| D31 | Batch B approved by the owner ("please continue batch c") | Batch exit criterion |
+| D32 | The Rocky playground now runs full `coreutils` instead of `coreutils-single` (`dnf swap`), matching a standard RHEL server install; batch A and B pages keep their D25 notes | `ps`, `strace` and `/proc/<pid>/exe` showed the `coreutils` wrapper instead of the real program, which would mislead readers of the process pages |
+| D33 | Where the playground kernel lacks a feature (Yama `ptrace_scope`, the `cpu` cgroup controller), pages state the distribution behavior and say it was not captured; D-state demos use `fsfreeze` on a loop-mounted ext4 image | Keeps every output real; `fsfreeze` reproduces a true uninterruptible sleep without NFS |
+| D34 | The Process Won't Die scenario combines two capture runs on the same host and says so on the page | The frozen-filesystem run blocked the first script, so its PIDs come from a second run |

@@ -229,3 +229,63 @@ Every topic's Must-Know Facts table in one place, for a fast revision pass. Tabl
 ### Other Install Methods
 
 --8<-- "technical-grounding/linux/06-package-management/other-install-methods.md:facts"
+
+---
+
+## Processes
+
+### Process Fundamentals
+
+--8<-- "technical-grounding/linux/07-processes/process-fundamentals.md:facts"
+
+### Process Lifecycle
+
+--8<-- "technical-grounding/linux/07-processes/process-lifecycle.md:facts"
+
+### Viewing Processes
+
+--8<-- "technical-grounding/linux/07-processes/viewing-processes.md:facts"
+
+### Process States
+
+--8<-- "technical-grounding/linux/07-processes/process-states.md:facts"
+
+### Signals
+
+--8<-- "technical-grounding/linux/07-processes/signals.md:facts"
+
+### Job Control
+
+--8<-- "technical-grounding/linux/07-processes/job-control.md:facts"
+
+### Priority and Nice
+
+--8<-- "technical-grounding/linux/07-processes/priority-and-nice.md:facts"
+
+### System Calls and Tracing
+
+--8<-- "technical-grounding/linux/07-processes/system-calls-and-tracing.md:facts"
+
+---
+
+## Systemd and Services
+
+### Init and Targets
+
+--8<-- "technical-grounding/linux/08-systemd-and-services/init-and-targets.md:facts"
+
+### systemctl
+
+--8<-- "technical-grounding/linux/08-systemd-and-services/systemctl.md:facts"
+
+### Unit Files
+
+--8<-- "technical-grounding/linux/08-systemd-and-services/unit-files.md:facts"
+
+### Writing a Service
+
+--8<-- "technical-grounding/linux/08-systemd-and-services/writing-a-service.md:facts"
+
+### Systemd Toolbox
+
+--8<-- "technical-grounding/linux/08-systemd-and-services/systemd-toolbox.md:facts"

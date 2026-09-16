@@ -1,0 +1,8 @@
+title: Systemd and Services
+nav:
+  - README.md
+  - Init and Targets: init-and-targets.md
+  - systemctl: systemctl.md
+  - Unit Files: unit-files.md
+  - Writing a Service: writing-a-service.md
+  - Systemd Toolbox: systemd-toolbox.md

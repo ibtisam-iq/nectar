@@ -67,6 +67,28 @@ Senior, SRE and production engineering loops ask what happens underneath a comma
 
 ---
 
+## Processes
+
+| Question | Answered in |
+|---|---|
+| What happens between typing `ls` and the prompt returning? | [Process Lifecycle](../07-processes/process-lifecycle.md) |
+| Why does `fork()` not double memory usage? | [Process Lifecycle](../07-processes/process-lifecycle.md) |
+| Why can Linux use one system call for both processes and threads? | [Process Fundamentals](../07-processes/process-fundamentals.md) |
+| What happens in the kernel between `kill -TERM` and the handler running? | [Signals](../07-processes/signals.md) |
+| Why does Linux count D-state tasks in the load average? | [Process States](../07-processes/process-states.md) |
+| What happens at the CPU and kernel level when a program calls `read()`? | [System Calls and Tracing](../07-processes/system-calls-and-tracing.md) |
+| Why don't time functions appear in `strace` output? | [System Calls and Tracing](../07-processes/system-calls-and-tracing.md) |
+
+---
+
+## Systemd and Services
+
+| Question | Answered in |
+|---|---|
+| How does systemd know which processes belong to a service? | [Unit Files](../08-systemd-and-services/unit-files.md) |
+
+---
+
 ## How to Answer
 
 - Start from the mechanism (the SUID bit, the NSS lookup, the credentials stored per process), then show the evidence (`ls -l`, `/proc/<pid>/status`).

@@ -151,35 +151,35 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Batch B: `scripts/lint-prose.py` exits 0 <!-- id:check:B:lint -->
 - [x] Batch B: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:B:audit -->
 - [x] Batch B: `mkdocs build` has no warnings for the tool folder <!-- id:check:B:build -->
-- [ ] Batch B: owner review done; first-hand line spots listed <!-- id:check:B:owner -->
+- [x] Batch B: owner review done; first-hand line spots listed <!-- id:check:B:owner -->
 
 ---
 
 ## Phase 3: Batch C (modules 07, 08)
 
-- [ ] `07-processes/.pages` <!-- id:technical-grounding/linux/07-processes/.pages -->
-- [ ] `07-processes/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/07-processes/README.md -->
-- [ ] `07-processes/process-fundamentals.md` (Core, High) <!-- id:technical-grounding/linux/07-processes/process-fundamentals.md -->
-- [ ] `07-processes/process-lifecycle.md` (Advanced, High, internals) <!-- id:technical-grounding/linux/07-processes/process-lifecycle.md -->
-- [ ] `07-processes/viewing-processes.md` (Core, High) <!-- id:technical-grounding/linux/07-processes/viewing-processes.md -->
-- [ ] `07-processes/process-states.md` (Core, High) <!-- id:technical-grounding/linux/07-processes/process-states.md -->
-- [ ] `07-processes/signals.md` (Core, High, internals) <!-- id:technical-grounding/linux/07-processes/signals.md -->
-- [ ] `07-processes/job-control.md` (Core, Med) <!-- id:technical-grounding/linux/07-processes/job-control.md -->
-- [ ] `07-processes/priority-and-nice.md` (Core, Med) <!-- id:technical-grounding/linux/07-processes/priority-and-nice.md -->
-- [ ] `07-processes/system-calls-and-tracing.md` (Advanced, High, internals) <!-- id:technical-grounding/linux/07-processes/system-calls-and-tracing.md -->
-- [ ] `08-systemd-and-services/.pages` <!-- id:technical-grounding/linux/08-systemd-and-services/.pages -->
-- [ ] `08-systemd-and-services/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/08-systemd-and-services/README.md -->
-- [ ] `08-systemd-and-services/init-and-targets.md` (Core, Med) <!-- id:technical-grounding/linux/08-systemd-and-services/init-and-targets.md -->
-- [ ] `08-systemd-and-services/systemctl.md` (Core, High) <!-- id:technical-grounding/linux/08-systemd-and-services/systemctl.md -->
-- [ ] `08-systemd-and-services/unit-files.md` (Core, High) <!-- id:technical-grounding/linux/08-systemd-and-services/unit-files.md -->
-- [ ] `08-systemd-and-services/writing-a-service.md` (Core, Med) <!-- id:technical-grounding/linux/08-systemd-and-services/writing-a-service.md -->
-- [ ] `08-systemd-and-services/systemd-toolbox.md` (Core, Low) <!-- id:technical-grounding/linux/08-systemd-and-services/systemd-toolbox.md -->
-- [ ] `labs/processes-and-services-lab.md` <!-- id:technical-grounding/linux/labs/processes-and-services-lab.md -->
-- [ ] `interview/scenarios/process-wont-die.md` (modules 07) <!-- id:technical-grounding/linux/interview/scenarios/process-wont-die.md -->
-- [ ] Batch C: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:C:grows -->
-- [ ] Batch C: `scripts/lint-prose.py` exits 0 <!-- id:check:C:lint -->
-- [ ] Batch C: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:C:audit -->
-- [ ] Batch C: `mkdocs build` has no warnings for the tool folder <!-- id:check:C:build -->
+- [x] `07-processes/.pages` <!-- id:technical-grounding/linux/07-processes/.pages -->
+- [x] `07-processes/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/07-processes/README.md -->
+- [x] `07-processes/process-fundamentals.md` (Core, High) <!-- id:technical-grounding/linux/07-processes/process-fundamentals.md -->
+- [x] `07-processes/process-lifecycle.md` (Advanced, High, internals) <!-- id:technical-grounding/linux/07-processes/process-lifecycle.md -->
+- [x] `07-processes/viewing-processes.md` (Core, High) <!-- id:technical-grounding/linux/07-processes/viewing-processes.md -->
+- [x] `07-processes/process-states.md` (Core, High) <!-- id:technical-grounding/linux/07-processes/process-states.md -->
+- [x] `07-processes/signals.md` (Core, High, internals) <!-- id:technical-grounding/linux/07-processes/signals.md -->
+- [x] `07-processes/job-control.md` (Core, Med) <!-- id:technical-grounding/linux/07-processes/job-control.md -->
+- [x] `07-processes/priority-and-nice.md` (Core, Med) <!-- id:technical-grounding/linux/07-processes/priority-and-nice.md -->
+- [x] `07-processes/system-calls-and-tracing.md` (Advanced, High, internals) <!-- id:technical-grounding/linux/07-processes/system-calls-and-tracing.md -->
+- [x] `08-systemd-and-services/.pages` <!-- id:technical-grounding/linux/08-systemd-and-services/.pages -->
+- [x] `08-systemd-and-services/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/08-systemd-and-services/README.md -->
+- [x] `08-systemd-and-services/init-and-targets.md` (Core, Med) <!-- id:technical-grounding/linux/08-systemd-and-services/init-and-targets.md -->
+- [x] `08-systemd-and-services/systemctl.md` (Core, High) <!-- id:technical-grounding/linux/08-systemd-and-services/systemctl.md -->
+- [x] `08-systemd-and-services/unit-files.md` (Core, High) <!-- id:technical-grounding/linux/08-systemd-and-services/unit-files.md -->
+- [x] `08-systemd-and-services/writing-a-service.md` (Core, Med) <!-- id:technical-grounding/linux/08-systemd-and-services/writing-a-service.md -->
+- [x] `08-systemd-and-services/systemd-toolbox.md` (Core, Low) <!-- id:technical-grounding/linux/08-systemd-and-services/systemd-toolbox.md -->
+- [x] `labs/processes-and-services-lab.md` <!-- id:technical-grounding/linux/labs/processes-and-services-lab.md -->
+- [x] `interview/scenarios/process-wont-die.md` (modules 07) <!-- id:technical-grounding/linux/interview/scenarios/process-wont-die.md -->
+- [x] Batch C: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:C:grows -->
+- [x] Batch C: `scripts/lint-prose.py` exits 0 <!-- id:check:C:lint -->
+- [x] Batch C: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:C:audit -->
+- [x] Batch C: `mkdocs build` has no warnings for the tool folder <!-- id:check:C:build -->
 - [ ] Batch C: owner review done; first-hand line spots listed <!-- id:check:C:owner -->
 
 ---

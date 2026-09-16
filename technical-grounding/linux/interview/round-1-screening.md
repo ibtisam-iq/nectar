@@ -229,3 +229,63 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### Other Install Methods
 
 --8<-- "technical-grounding/linux/06-package-management/other-install-methods.md:l1"
+
+---
+
+## Processes
+
+### Process Fundamentals
+
+--8<-- "technical-grounding/linux/07-processes/process-fundamentals.md:l1"
+
+### Process Lifecycle
+
+--8<-- "technical-grounding/linux/07-processes/process-lifecycle.md:l1"
+
+### Viewing Processes
+
+--8<-- "technical-grounding/linux/07-processes/viewing-processes.md:l1"
+
+### Process States
+
+--8<-- "technical-grounding/linux/07-processes/process-states.md:l1"
+
+### Signals
+
+--8<-- "technical-grounding/linux/07-processes/signals.md:l1"
+
+### Job Control
+
+--8<-- "technical-grounding/linux/07-processes/job-control.md:l1"
+
+### Priority and Nice
+
+--8<-- "technical-grounding/linux/07-processes/priority-and-nice.md:l1"
+
+### System Calls and Tracing
+
+--8<-- "technical-grounding/linux/07-processes/system-calls-and-tracing.md:l1"
+
+---
+
+## Systemd and Services
+
+### Init and Targets
+
+--8<-- "technical-grounding/linux/08-systemd-and-services/init-and-targets.md:l1"
+
+### systemctl
+
+--8<-- "technical-grounding/linux/08-systemd-and-services/systemctl.md:l1"
+
+### Unit Files
+
+--8<-- "technical-grounding/linux/08-systemd-and-services/unit-files.md:l1"
+
+### Writing a Service
+
+--8<-- "technical-grounding/linux/08-systemd-and-services/writing-a-service.md:l1"
+
+### Systemd Toolbox
+
+--8<-- "technical-grounding/linux/08-systemd-and-services/systemd-toolbox.md:l1"

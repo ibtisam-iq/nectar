@@ -145,3 +145,42 @@ Real error text seen on Linux servers, with its cause and first fix. Search this
 | ``version `GLIBC_2.42' not found`` | Binary built for a newer glibc | Build on the oldest target or link statically | [Shared Libraries](../06-package-management/shared-libraries.md) |
 | `cannot execute: required file not found` for an ELF file | The ELF interpreter (for example musl's loader) is missing | `readelf -l`; build for glibc | [Binary Won't Execute](../interview/scenarios/binary-wont-execute.md) |
 | `error: externally-managed-environment` | Ubuntu 24.04 blocks system `pip install` | Use a venv or `pipx` | [Other Install Methods](../06-package-management/other-install-methods.md) |
+
+---
+
+## Processes
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `bash: fork: retry: Resource temporarily unavailable` | User or system process limit reached (`ulimit -u`, `TasksMax=`, `pid_max`) | Find the owner of the tasks; fix the leak, then the limit | [Process Lifecycle](../07-processes/process-lifecycle.md) |
+| `ls: cannot read symbolic link '/proc/2102/cwd': Permission denied` | The process belongs to another user | `sudo`, or read `status` instead | [Process Fundamentals](../07-processes/process-fundamentals.md) |
+| `error: list of process IDs must follow -p` | Empty command substitution after `ps -p` | Check the `pgrep` match first | [Viewing Processes](../07-processes/viewing-processes.md) |
+| `kill: (1) - Operation not permitted` | Target belongs to another user (`EPERM`) | `sudo`, or signal as the owner | [Signals](../07-processes/signals.md) |
+| `kill: (2251) - No such process` | PID gone (`ESRCH`); stale PID file | `pgrep -a`, `systemctl show -p MainPID` | [Signals](../07-processes/signals.md) |
+| `sleep: no process found` | `killall` matched nothing; exits 1 | Check the name with `pgrep -a` | [Signals](../07-processes/signals.md) |
+| `Killed` reported only after a hung write returns | `SIGKILL` pending on a `D`-state process | Fix the resource in `wchan` | [Process States](../07-processes/process-states.md) |
+| `bash: fg: current: no such job` | Empty job table in this shell | `pgrep -a`; the job belongs to another shell | [Job Control](../07-processes/job-control.md) |
+| `nice: cannot set niceness: Permission denied` | Negative nice without privilege | `sudo`, `limits.d`, or `Nice=` in a unit | [Priority and Nice](../07-processes/priority-and-nice.md) |
+| `renice: failed to set priority for 2815 (process ID): Permission denied` | User tried to lower a nice value | `sudo renice` | [Priority and Nice](../07-processes/priority-and-nice.md) |
+| `chrt: failed to set pid 0's policy: Operation not permitted` | Real-time policy needs `CAP_SYS_NICE` | `sudo chrt`, or `CPUSchedulingPolicy=` | [Priority and Nice](../07-processes/priority-and-nice.md) |
+| `sudo: effective uid is not 0, is /usr/bin/sudo on a file system with the 'nosuid' option set ...` | `strace sudo` drops the setuid bit | `sudo strace ...` | [System Calls and Tracing](../07-processes/system-calls-and-tracing.md) |
+
+---
+
+## Systemd and Services
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `Failed to start nginx.service: Interactive authentication required.` | State change without root | `sudo systemctl ...` | [systemctl](../08-systemd-and-services/systemctl.md) |
+| `Failed to start nginx.service: Unit nginx.service is masked.` | Unit linked to `/dev/null` | `sudo systemctl unmask` | [systemctl](../08-systemd-and-services/systemctl.md) |
+| `Unit nosuch.service could not be found.` | Wrong name, missing package or no `daemon-reload` | `systemctl list-unit-files`, `daemon-reload` | [systemctl](../08-systemd-and-services/systemctl.md) |
+| `Warning: The unit file, source configuration file or drop-ins of nginx.service changed on disk.` | Edited without reloading | `sudo systemctl daemon-reload` | [Unit Files](../08-systemd-and-services/unit-files.md) |
+| `Unit nginx.service has a bad unit file setting.` | Parse error, often a second `ExecStart=` | Empty `ExecStart=` first; `systemd-analyze verify` | [Unit Files](../08-systemd-and-services/unit-files.md) |
+| `Service has more than one ExecStart= setting, which is only allowed for Type=oneshot services. Refusing.` | Drop-in added an `ExecStart=` without resetting | Add `ExecStart=` with no value before it | [Unit Files](../08-systemd-and-services/unit-files.md) |
+| `flaky.service: Start request repeated too quickly.` | Start limit reached | Fix the cause, `reset-failed` | [Unit Files](../08-systemd-and-services/unit-files.md) |
+| `A dependency job for app-web.service failed.` | A `Requires=` unit failed | `systemctl list-dependencies`, `--failed` | [Unit Files](../08-systemd-and-services/unit-files.md) |
+| `status=203/EXEC` / `Failed at step EXEC spawning` | `ExecStart=` not executable or missing | Check the path, mode, shebang, `noexec` | [Writing a Service](../08-systemd-and-services/writing-a-service.md) |
+| `Failed to spawn 'start' task: No such file or directory` | `EnvironmentFile=` missing | Create it, or prefix the path with `-` | [Writing a Service](../08-systemd-and-services/writing-a-service.md) |
+| `Read-only file system` inside a service | `ProtectSystem=strict` | `ReadWritePaths=` or `StateDirectory=` | [Writing a Service](../08-systemd-and-services/writing-a-service.md) |
+| `sudo: The "no new privileges" flag is set` | `NoNewPrivileges=yes` in the unit | Remove `sudo` from the service's code path | [Writing a Service](../08-systemd-and-services/writing-a-service.md) |
+| `State 'stop-sigterm' timed out. Killing.` | Process ignores `SIGTERM` longer than `TimeoutStopSec=` | Handle `SIGTERM`; `exec` in wrappers | [Signals](../07-processes/signals.md) |

@@ -109,3 +109,32 @@ Certification objectives mapped to the topic file that covers them. The map prov
 | LPIC-1 102.4 | Use Debian package management | [dpkg and apt](../06-package-management/dpkg-and-apt.md) |
 | LPIC-1 102.5 | Use RPM and YUM package management | [rpm and dnf](../06-package-management/rpm-and-dnf.md), [Packaging Concepts](../06-package-management/packaging-concepts.md) |
 | Linux+ XK0-006 | Package management, repositories, sandboxed applications and building from source | [Packaging Concepts](../06-package-management/packaging-concepts.md), [Flatpak and Snap](../06-package-management/flatpak-and-snap.md), [Other Install Methods](../06-package-management/other-install-methods.md) |
+
+---
+
+## Processes
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Identify CPU and memory intensive processes and kill processes | [Viewing Processes](../07-processes/viewing-processes.md), [Signals](../07-processes/signals.md) |
+| RHCSA EX200 (RHEL 10) | Adjust process scheduling | [Priority and Nice](../07-processes/priority-and-nice.md) |
+| LFCS | Monitor, tune and troubleshoot processes | [Viewing Processes](../07-processes/viewing-processes.md), [Process States](../07-processes/process-states.md), [System Calls and Tracing](../07-processes/system-calls-and-tracing.md) |
+| LPIC-1 103.5 | Create, monitor and kill processes (`ps`, `top`, `jobs`, `bg`, `fg`, `nohup`, `kill`, `pkill`, `screen`, `tmux`) | [Viewing Processes](../07-processes/viewing-processes.md), [Signals](../07-processes/signals.md), [Job Control](../07-processes/job-control.md) |
+| LPIC-1 103.6 | Modify process execution priorities (`nice`, `renice`) | [Priority and Nice](../07-processes/priority-and-nice.md) |
+| Linux+ XK0-006 | Process management: states, signals, priorities, job control | [Process States](../07-processes/process-states.md), [Signals](../07-processes/signals.md), [Job Control](../07-processes/job-control.md) |
+| Interview sources | `fork`/`exec`/`wait`, zombies and orphans, system calls, `strace` | [Process Lifecycle](../07-processes/process-lifecycle.md), [Process Fundamentals](../07-processes/process-fundamentals.md), [System Calls and Tracing](../07-processes/system-calls-and-tracing.md) |
+
+---
+
+## Systemd and Services
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Boot, reboot and shut down a system normally | [Init and Targets](../08-systemd-and-services/init-and-targets.md) |
+| RHCSA EX200 (RHEL 10) | Boot systems into different targets manually | [Init and Targets](../08-systemd-and-services/init-and-targets.md) |
+| RHCSA EX200 (RHEL 10) | Start, stop and check the status of network services | [systemctl](../08-systemd-and-services/systemctl.md) |
+| RHCSA EX200 (RHEL 10) | Start and stop services and configure services to start automatically at boot | [systemctl](../08-systemd-and-services/systemctl.md) |
+| RHCSA EX200 (RHEL 10) | Configure systems to boot into a specific target automatically | [Init and Targets](../08-systemd-and-services/init-and-targets.md) |
+| LFCS | Manage and configure systemd services and targets | [systemctl](../08-systemd-and-services/systemctl.md), [Unit Files](../08-systemd-and-services/unit-files.md), [Writing a Service](../08-systemd-and-services/writing-a-service.md) |
+| LPIC-1 101.3 | Change runlevels / boot targets and shut down or reboot the system | [Init and Targets](../08-systemd-and-services/init-and-targets.md) |
+| Linux+ XK0-006 | Service management with systemd: units, targets, overrides, troubleshooting | [systemctl](../08-systemd-and-services/systemctl.md), [Unit Files](../08-systemd-and-services/unit-files.md), [Systemd Toolbox](../08-systemd-and-services/systemd-toolbox.md) |

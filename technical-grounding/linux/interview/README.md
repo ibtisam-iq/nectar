@@ -46,3 +46,4 @@ A **Don't say** line records a common wrong answer worth avoiding.
 |---|---|
 | [Cannot Log In or Use Sudo](scenarios/cannot-login-or-sudo.md) | 04 Users and Access |
 | [Binary Won't Execute](scenarios/binary-wont-execute.md) | 01 Shell and CLI, 06 Package Management |
+| [Process Won't Die](scenarios/process-wont-die.md) | 07 Processes, 08 Systemd and Services |

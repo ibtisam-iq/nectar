@@ -323,6 +323,9 @@ Each batch updates `roadmap.md`, the snippet aggregators, `reference/coverage-ma
     - State the version for anything that differs from Rocky 10.2 (package version, default, message text) next to the output that shows it.
     - SELinux is the exception: it is still captured on a local VM, not on Fedora.
 
+- **Rocky playground image fixes:** from batch C on, the Rocky playground runs full `coreutils` (`dnf swap coreutils-single coreutils`), as a standard RHEL server install does, so process and tracing output shows real binaries instead of wrapper scripts. Pages written earlier keep their D25 notes.
+- **Known kernel limits of the playgrounds:** the iximiuz kernel has no Yama module (`kernel.yama.ptrace_scope` is absent) and does not enable the `cpu` cgroup controller for units, so `CPUQuota=` and `CPUWeight=` are not enforced there. Pages state these facts without claiming a capture; module 19 captures cgroup CPU limits on a VM where the controller is available.
+
 - **Full local VM** (VirtualBox RHEL from the course, or UTM): `16-boot-and-recovery/` (GRUB, rd.break) and `20-virtualization-and-provisioning/` (nested KVM).
 - **Fallback:** local Docker for modules 00 to 05.
 

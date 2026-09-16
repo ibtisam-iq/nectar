@@ -2,3 +2,4 @@ title: Scenarios
 nav:
   - Cannot Log In or Use Sudo: cannot-login-or-sudo.md
   - "Binary Won't Execute": binary-wont-execute.md
+  - "Process Won't Die": process-wont-die.md

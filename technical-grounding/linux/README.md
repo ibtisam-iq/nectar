@@ -28,8 +28,8 @@ Every topic file declares a **Track** (Core, RHCSA, Advanced) and an **Interview
 | 04 | [Users and Access](04-users-and-access/README.md) | Users, groups, passwords, `sudo` and `su`, PAM, login records, central identity |
 | 05 | [Permissions](05-permissions/README.md) | Modes, `umask`, special bits, ACLs, attributes |
 | 06 | [Package Management](06-package-management/README.md) | `rpm`/`dnf`, `dpkg`/`apt`, repositories, Flatpak, shared libraries |
-| 07 | Processes | Lifecycle, states, signals, job control, priorities, system calls and tracing |
-| 08 | Systemd and Services | Targets, `systemctl`, unit files, writing a service |
+| 07 | [Processes](07-processes/README.md) | Lifecycle, states, signals, job control, priorities, system calls and tracing |
+| 08 | [Systemd and Services](08-systemd-and-services/README.md) | Targets, `systemctl`, unit files, writing a service |
 | 09 | Logging | Log locations, `journalctl`, `rsyslog`, `logrotate`, log parsing |
 | 10 | Scheduling | `cron`, `at`, systemd timers |
 | 11 | Kernel and Hardware | `/proc` and `/sys`, `sysctl`, modules, devices, kernel messages |

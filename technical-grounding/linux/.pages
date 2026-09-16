@@ -9,6 +9,8 @@ nav:
   - 04-users-and-access
   - 05-permissions
   - 06-package-management
+  - 07-processes
+  - 08-systemd-and-services
   - reference
   - interview
   - labs

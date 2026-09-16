@@ -24,3 +24,4 @@ The troubleshooting round starts with a symptom and no instructions. Interviewer
 |---|---|---|
 | [Cannot Log In or Use Sudo](scenarios/cannot-login-or-sudo.md) | "A user cannot log in, and another gets an error from sudo." | 04 Users and Access |
 | [Binary Won't Execute](scenarios/binary-wont-execute.md) | "We copied tools to a new server and none of them run." | 01 Shell and CLI, 06 Package Management |
+| [Process Won't Die](scenarios/process-wont-die.md) | "We ran kill -9 and the process is still there." | 07 Processes |
