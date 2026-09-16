@@ -62,3 +62,11 @@ Dated log of every decision that shaped the plan. Later changes are appended wit
 |---|---|---|
 | D25 | Captures note two quirks of the Rocky playground in the pages where they matter: `/usr/bin/ls` comes from `coreutils-single` (a shebang wrapper, so `ldd` fails), and `dnf.conf` sets `tsflags=nodocs` (no man pages until it is removed and packages are reinstalled). Binary and library demos are captured on Ubuntu | Keeps every output real while explaining differences a reader may not see on a full RHEL install |
 | D26 | `reference/error-messages.md` is a table per module (error, cause, fix, topic link), fed from each topic's Common Errors section | One searchable page for error text; the topic keeps the captured output |
+
+---
+
+## 2026-09-16: Fedora Fallback
+
+| # | Decision | Reason |
+|---|---|---|
+| D27 | When one item is missing or broken on the Rocky playground, that item is captured on the iximiuz Fedora playground. The tab label stays `RHEL / Rocky`; a note inside the tab names Fedora and its version; the capture footer names Fedora with its version; any difference from Rocky 10.2 is stated with its version next to the output. SELinux output still comes from a local VM. Pages already written under D25 keep their Ubuntu captures | Owner instruction. Fedora is RHEL's upstream, so its output is closer to RHEL than Ubuntu's, and the notes keep every capture traceable to the machine that produced it |

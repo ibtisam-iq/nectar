@@ -315,6 +315,14 @@ Each batch updates `roadmap.md`, the snippet aggregators, `reference/coverage-ma
 ## Capture Environments
 
 - **Primary:** iximiuz Labs playgrounds with systemd: `rockylinux` (Rocky Linux 10.2) and `ubuntu-24-04` (Ubuntu 24.04.4 LTS), both on the iximiuz microVM kernel 6.1.167. `flexbox` multi-VM for NFS, iSCSI, bridges, NAT and host-to-host networking. Loop devices (`losetup`) for partitions, LVM, RAID and quotas. The Rocky playground has no SELinux tooling, so SELinux output is captured on a local VM.
+- **Fedora fallback for the RHEL side:** when a single item is missing or broken on the Rocky playground (a tool, a package, a behavior the image removes), capture that item on the iximiuz Fedora playground instead. Everything else on the page stays on Rocky.
+
+    - Keep the tab label `=== "RHEL / Rocky"` unchanged (tabs are linked site-wide).
+    - Inside the tab, before the output, add a note naming the source and its version, for example `!!! note "Captured on Fedora <version>"` followed by one sentence on why.
+    - Name Fedora in the page's capture footer, with its version, for example: `Captured on Rocky Linux 10.2, Fedora <version> (where noted) and Ubuntu 24.04.4 LTS (iximiuz Labs microVMs, kernel 6.1.167), YYYY-MM.`
+    - State the version for anything that differs from Rocky 10.2 (package version, default, message text) next to the output that shows it.
+    - SELinux is the exception: it is still captured on a local VM, not on Fedora.
+
 - **Full local VM** (VirtualBox RHEL from the course, or UTM): `16-boot-and-recovery/` (GRUB, rd.break) and `20-virtualization-and-provisioning/` (nested KVM).
 - **Fallback:** local Docker for modules 00 to 05.
 
