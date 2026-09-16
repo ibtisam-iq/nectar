@@ -44,3 +44,12 @@ Dated log of every decision that shaped the plan. Later changes are appended wit
 | D20 | `mdformat` removed from the plan (no `requirements-dev.txt`, no `.mdformat.toml`); `scripts/lint-prose.py` enforces the MkDocs list rules instead | Tested on a sample page: `mdformat` rewrites every `---` section break into an underscore line, which conflicts with the writing standard, and has no option to disable it |
 | D21 | The local `.venv` was rebuilt on Python 3.14 (old 3.9 environment kept as a backup outside the repository) | `requirements.txt` pins `pymdown-extensions==11.0.2`, which requires Python 3.10 or later; CI uses 3.14 |
 | D22 | Captures use the iximiuz `rockylinux` playground (Rocky Linux 10.2) and `ubuntu-24-04` (Ubuntu 24.04.4 LTS). Capture footers state the shared microVM kernel (6.1.167), not a distribution kernel. SELinux output is captured on a local VM, because the Rocky playground ships without SELinux tooling | The playground provides Rocky 10, not 9 (RHCSA is now RHEL 10 based); both playgrounds boot the iximiuz kernel |
+
+---
+
+## 2026-09-16: Pilot Sign-Off
+
+| # | Decision | Reason |
+|---|---|---|
+| D23 | The owner approved the module 04 pilot and asked to continue with Phase 3; the `CLAUDE.md` Notes Conventions section was added | Phase 2 exit criterion |
+| D24 | The third-party resume stays in the git-ignored `_sources/` until Phase 6, where the owner decides its final location | Owner instruction; `_sources/` is never committed or published |

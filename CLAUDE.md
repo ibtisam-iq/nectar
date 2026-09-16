@@ -18,6 +18,21 @@ Older Nectar pages are not a style reference. When the work changes the plan, up
 
 ---
 
+## Notes Conventions
+
+These rules apply to every tool folder (Linux is the reference implementation in `technical-grounding/linux/`). The full text is in `plan/standards/`.
+
+- **Authority:** the writing standard follows the persona post at https://blog.ibtisam-iq.com/my-core-ai-engineering-persona/, then runbook and blog practice, then Diátaxis and the Google developer documentation style guide.
+- **Prose:** no em or en dashes, no spaced hyphens, no banned vocabulary, paragraphs of three sentences at most, declarative third person in topic files, imperative steps only in labs. Never invent experience.
+- **Layout:** four layers per tool folder (Learn modules, Revise reference, Interview rounds and scenarios, Practice labs), as described in `plan/standards/tool-folder-blueprint.md`.
+- **Templates:** `templates/topic.md`, `templates/module-readme.md` and `templates/scenario.md`. Every topic declares `**Track:** ... · **Interview weight:** ...` and keeps its facts and L1 checkpoints inside snippet markers.
+- **Output:** `bash` blocks without prompts; real captured output only, in a `text` block after the line `Output:`; a capture footer on every page with output.
+- **Tabs:** labels are exactly `=== "RHEL / Rocky"` and `=== "Ubuntu / Debian"`, used only where commands or output differ.
+- **Interview questions:** L1 screening, L2 hands-on, L3 troubleshooting, L4 internals, answered as Say first, Proof, Follow-up. Trivia becomes a Must-Know Facts row, not a question.
+- **Checks before every commit:** `python scripts/lint-prose.py <folder>` and `python scripts/audit-tool.py --manifest plan/<tool>/manifest.yml --scope <batch> --build`, both with zero failures.
+
+---
+
 ## 1️⃣ Repository Overview
 
 **Nectar** is a personal engineering knowledge base stored as Markdown and configuration files in a single GitHub repository. It is not a compiled application – rather, it is a collection of documentation, configuration snippets, and reference material that together generate a static documentation site at https://nectar.ibtisam-iq.com.
