@@ -55,7 +55,8 @@ Programs call `getpwnam()` and `getgrnam()`; glibc reads `nsswitch.conf` and ask
     hosts:          files dns
     ```
 
-The `systemd` source serves dynamic users that services create at runtime (`DynamicUser=yes`). With SSSD configured, the lines read `passwd: files sss systemd`; `authselect select sssd` writes them on RHEL, and the `libnss-sss` package adds `sss` on Ubuntu.
+!!! note "The systemd source serves users created at runtime"
+    The `systemd` source serves dynamic users that services create at runtime (`DynamicUser=yes`). With SSSD configured, the lines read `passwd: files sss systemd`; `authselect select sssd` writes them on RHEL, and the `libnss-sss` package adds `sss` on Ubuntu.
 
 ---
 

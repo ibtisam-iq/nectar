@@ -13,8 +13,7 @@ Access control lists add permissions for specific users and groups beyond the si
 |---|---|---|
 | Show | `getfacl <path>` | `getfacl f` |
 | Add or change | `setfacl -m u:<user>:<perms>` or `g:<group>:<perms>` | `setfacl -m u:amor:r f` |
-| Remove one entry | `setfacl -x u:<user>` | `setfacl -x u:amor f` |
-| Remove all | `setfacl -b` | `setfacl -b f` |
+| Remove | `setfacl -x u:<user>` (one entry), `setfacl -b` (all) | `setfacl -x u:amor f` |
 | Marker in `ls -l` | A `+` after the mode | `ls -l` |
 | Mask | Upper limit for named users, named groups and the owning group | `getfacl f` |
 | `chmod` on group bits | Changes the mask, not the owning group entry, once an ACL exists | `chmod 600 f; getfacl f` |
@@ -203,7 +202,8 @@ Output:
 -rw-r-----+ 1 root root 12 Sep 16 14:38 secret.conf
 ```
 
-Backups and migrations need `cp -a`, `rsync -aAX` or `tar --acls` to keep the entries.
+!!! tip "Backups must ask for ACLs explicitly"
+    Backups and migrations need `cp -a`, `rsync -aAX` or `tar --acls` to keep the entries.
 
 ---
 

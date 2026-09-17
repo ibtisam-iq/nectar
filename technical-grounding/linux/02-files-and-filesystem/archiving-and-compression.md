@@ -18,8 +18,7 @@ An archive bundles many files, with their paths, owners and permissions, into on
 | Extracting | GNU `tar` detects the compression; the flag is optional | `tar -xf a.tar.xz` |
 | Absolute paths | Leading `/` is stripped on create | `tar -tf` |
 | Permissions | Stored always; restored for root by default, `-p` for others | `tar -tvf` |
-| Compressors by ratio | `xz` > `zstd` > `bzip2` > `gzip` (typical text) | `ls -l` |
-| Compressors by speed | `zstd` and `gzip` fastest, `xz` slowest | `time` |
+| Compressors | Ratio on typical text: `xz` > `zstd` > `bzip2` > `gzip`; speed: `zstd` and `gzip` fastest, `xz` slowest | `ls -l`, `time` |
 | Read compressed files | `zcat`, `zless`, `zgrep`; `xzcat`, `bzcat`, `zstdcat` | `zcat f.gz` |
 | Useful extras | `--exclude='*.log'`, `--strip-components=1`, one member by path | `tar -tf <archive>` |
 | `zip` | Archive and compression in one; common with Windows users | `unzip -l f.zip` |
@@ -138,7 +137,8 @@ tar: Removing leading `/' from member names
 etc/ssh/ssh_config
 ```
 
-Stored paths are relative, so extracting never overwrites `/etc` unless the command runs in `/` or uses `-C /`. The message goes to stderr and is harmless; `-C / etc/ssh/ssh_config` creates the archive without it.
+!!! note "tar stores paths without the leading slash"
+    Stored paths are relative, so extracting never overwrites `/etc` unless the command runs in `/` or uses `-C /`. The message goes to stderr and is harmless; `-C / etc/ssh/ssh_config` creates the archive without it.
 
 !!! warning "Inspect archives from untrusted sources before extracting"
     `tar -tvf` shows paths and owners first. Extracting as root restores ownership and modes from the archive. GNU `tar` strips leading `../` from member names, but a crafted archive can still use symlinks to write outside the target directory.

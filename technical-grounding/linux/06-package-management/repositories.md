@@ -11,14 +11,11 @@ A repository is a web or file location with packages and signed metadata. Adding
 <!-- --8<-- [start:facts] -->
 | Fact | Value | Verify with |
 |---|---|---|
-| RHEL definitions | `/etc/yum.repos.d/*.repo` (`baseurl` or `mirrorlist`, `gpgcheck`, `gpgkey`) | `dnf repolist --all` |
+| RHEL definitions | `/etc/yum.repos.d/*.repo` (`baseurl` or `mirrorlist`, `gpgcheck`, `gpgkey`); a local repository is a `createrepo_c` directory with `baseurl=file:///<dir>` | `dnf repolist --all` |
 | Ubuntu definitions | `/etc/apt/sources.list.d/*.sources` (deb822: `Types`, `URIs`, `Suites`, `Components`, `Signed-By`; default on 24.04) or `*.list` | `cat /etc/apt/sources.list.d/ubuntu.sources` |
 | Keys | RPM imports into its database; APT uses keyring files in `/etc/apt/keyrings/` via `Signed-By` | `rpm -q gpg-pubkey` |
-| Enable or disable (RHEL) | `dnf config-manager --set-enabled <id>` | `dnf repolist` |
-| Extra RHEL repositories | CRB (build dependencies), EPEL (community packages) | `dnf repolist` |
-| Local repository | `createrepo_c <dir>` plus `baseurl=file:///<dir>` | `dnf repoquery` |
+| Extra RHEL repositories | CRB (build dependencies) and EPEL (community packages), enabled with `dnf config-manager --set-enabled <id>`; Red Hat repositories need `subscription-manager register` (not on Rocky) | `dnf repolist` |
 | Unreachable repository | `dnf` stops with `Failed to download metadata`; `apt update` warns and continues | `dnf makecache` |
-| RHEL subscriptions | `subscription-manager register` enables Red Hat repositories (not on Rocky) | `subscription-manager repos --list-enabled` |
 <!-- --8<-- [end:facts] -->
 
 ---
@@ -61,7 +58,8 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-10
     docker-ce-3:29.8.1-1.el10.x86_64
     ```
 
-    `dnf` imports the key named by `gpgkey=` on the first install.
+    !!! note "dnf imports the repository key on first install"
+        `dnf` imports the key named by `gpgkey=` on the first install.
 
 === "Ubuntu / Debian"
 
@@ -76,7 +74,6 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-10
     Output:
 
     ```text
-    deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu noble stable
     # ... (trimmed)
     docker-ce:
       Installed: (none)
@@ -91,7 +88,10 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-10
 
 **Cause:** the keyring named in `signed-by` is missing or holds another key; APT prints `W: GPG error`, keeps the old index and continues.
 
-**Fix:** download the key again into `/etc/apt/keyrings/`, check its fingerprint, and run `apt update`. Keep keys there, scoped by `signed-by`, rather than in `/etc/apt/trusted.gpg.d/`, which trusts a key for every repository.
+**Fix:** download the key again into `/etc/apt/keyrings/`, check its fingerprint, and run `apt update`.
+
+!!! warning "A key in trusted.gpg.d is trusted for every repository"
+    Keys kept in `/etc/apt/keyrings/` and named by `signed-by` apply only to their own repository.
 
 ---
 

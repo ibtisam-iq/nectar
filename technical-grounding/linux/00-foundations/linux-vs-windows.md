@@ -71,6 +71,9 @@ The mechanisms are visible on any installed system:
     Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
     ```
 
+!!! note "RHEL gives /etc/shadow no permission bits at all"
+    Rocky sets mode `000`, so only processes running as root can read it; Ubuntu uses mode `640` with group `shadow`, so password helpers in that group can read it.
+
 !!! warning "Linux servers are compromised through configuration, not the kernel"
     Most real incidents come from weak SSH passwords, exposed services, unpatched applications and `chmod 777`. The model is strong only when those defaults stay in place.
 

@@ -183,7 +183,8 @@ Purge: nginx-common:amd64 (1.24.0-2ubuntu7.18)
 End-Date: 2026-09-16  14:43:00
 ```
 
-`apt` has no undo; the history log shows what changed, and a specific version is reinstalled with `apt install <pkg>=<version>`. Unattended security updates come from the `unattended-upgrades` package.
+!!! note "apt has no undo"
+    `apt` has no undo; the history log shows what changed, and a specific version is reinstalled with `apt install <pkg>=<version>`. Unattended security updates come from the `unattended-upgrades` package.
 
 ---
 

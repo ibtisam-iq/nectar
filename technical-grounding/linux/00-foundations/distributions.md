@@ -82,7 +82,8 @@ The full list of active distributions is tracked at the [LWN distributions list]
     x86_64
     ```
 
-    Debian packages name the architecture `amd64`; the kernel calls it `x86_64`. Download URLs for tools such as `kubectl` use one or the other, and mixing them is a common cause of `404` in install scripts.
+    !!! warning "Debian says amd64 where the kernel says x86_64"
+        Debian packages name the architecture `amd64`; the kernel calls it `x86_64`. Download URLs for tools such as `kubectl` use one or the other, and mixing them is a common cause of `404` in install scripts.
 
 ---
 

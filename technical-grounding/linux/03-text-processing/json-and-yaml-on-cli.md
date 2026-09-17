@@ -92,7 +92,8 @@ i-0a1b2c3d4e5f60002
 i-0a1b2c3d4e5f60003
 ```
 
-`.[]` unwraps an array into separate results, and `|` passes each result to the next filter.
+!!! note "An array filter emits one result per element"
+    `.[]` unwraps an array into separate results, and `|` passes each result to the next filter.
 
 ```bash
 jq -r '.Reservations[].Instances[] | select(.State.Name == "running") | [.InstanceId, .PrivateIpAddress] | @tsv' instances.json

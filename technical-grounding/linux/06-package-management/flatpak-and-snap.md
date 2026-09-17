@@ -50,7 +50,8 @@ Installation: system
 2.4G	/var/lib/flatpak
 ```
 
-The application is 1.7 MB; its runtime and graphics extensions brought the total to 2.4 GB. `sudo flatpak uninstall <app>` leaves the runtime behind, and `sudo flatpak uninstall --unused` removes it. A remote added with `sudo` exists only in the system installation, so `flatpak install --user` needs `flatpak remote-add --user` first.
+!!! tip "Uninstalling an app leaves its runtime behind"
+    The application is 1.7 MB; its runtime and graphics extensions brought the total to 2.4 GB. `sudo flatpak uninstall <app>` leaves the runtime behind, and `sudo flatpak uninstall --unused` removes it. A remote added with `sudo` exists only in the system installation, so `flatpak install --user` needs `flatpak remote-add --user` first.
 
 ---
 
@@ -75,7 +76,8 @@ TARGET               SOURCE
 hello-world removed (snap data snapshot saved)
 ```
 
-The `hello-world` snap was installed with `sudo snap install hello-world`. Each snap revision is a squashfs image on a loop device, which is why `lsblk` and `df` on Ubuntu show `/dev/loopN` entries.
+!!! note "Each snap revision is a squashfs image on a loop device"
+    The `hello-world` snap was installed with `sudo snap install hello-world`. Each snap revision is a squashfs image on a loop device, which is why `lsblk` and `df` on Ubuntu show `/dev/loopN` entries.
 
 ---
 

@@ -11,8 +11,7 @@ Plenty of DevOps software arrives outside the distribution: single binaries from
 <!-- --8<-- [start:facts] -->
 | Fact | Value | Verify with |
 |---|---|---|
-| Single binaries | `/usr/local/bin`, installed with `install -m 0755` after a checksum check | `command -v kubectl` |
-| Self-contained bundles | `/opt/<app>` | `ls /opt` |
+| Release binaries | Single files in `/usr/local/bin` (`install -m 0755` after a checksum check); bundles in `/opt/<app>` | `command -v kubectl` |
 | Source builds | `./configure && make && sudo make install`, default prefix `/usr/local` | `./configure --help` |
 | Untracked files | Nothing in `/usr/local` belongs to a package | `dpkg -S`, `rpm -qf` |
 | Alternatives | One command name, several implementations: `update-alternatives` (Debian), `alternatives` (RHEL); `--display`, `--config`, `--set` | `update-alternatives --query editor` |
@@ -63,7 +62,8 @@ Hello, world!
 dpkg-query: no path found matching pattern /usr/local/bin/hello
 ```
 
-No package owns the result, so updates and removal are manual, and `sudo make uninstall` works only while the configured source tree is kept. Never use `--prefix=/usr`, which overwrites files the package manager owns.
+!!! warning "Never install from source with the /usr prefix"
+    No package owns the result, so updates and removal are manual, and `sudo make uninstall` works only while the configured source tree is kept. Never use `--prefix=/usr`, which overwrites files the package manager owns.
 
 ---
 
@@ -89,7 +89,8 @@ error: externally-managed-environment
 2.34.2
 ```
 
-Other language tools follow the same rule: project-local `node_modules` for `npm`, `pipx` for Python command-line tools, and `~/go/bin` or `~/.cargo/bin` for `go install` and `cargo install`. `sudo pip install` mixes files into the directories `dnf` or `apt` manage, and a later package update can break either side.
+!!! warning "sudo pip install breaks package-managed directories"
+    Other language tools follow the same rule: project-local `node_modules` for `npm`, `pipx` for Python command-line tools, and `~/go/bin` or `~/.cargo/bin` for `go install` and `cargo install`. `sudo pip install` mixes files into the directories `dnf` or `apt` manage, and a later package update can break either side.
 
 ---
 

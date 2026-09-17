@@ -180,7 +180,7 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Batch C: `scripts/lint-prose.py` exits 0 <!-- id:check:C:lint -->
 - [x] Batch C: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:C:audit -->
 - [x] Batch C: `mkdocs build` has no warnings for the tool folder <!-- id:check:C:build -->
-- [ ] Batch C: owner review done; first-hand line spots listed <!-- id:check:C:owner -->
+- [x] Batch C: owner review done; first-hand line spots listed <!-- id:check:C:owner -->
 
 ---
 
@@ -210,7 +210,7 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Batch D: `scripts/lint-prose.py` exits 0 <!-- id:check:D:lint -->
 - [x] Batch D: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:D:audit -->
 - [x] Batch D: `mkdocs build` has no warnings for the tool folder <!-- id:check:D:build -->
-- [ ] Batch D: owner review done; first-hand line spots listed <!-- id:check:D:owner -->
+- [x] Batch D: owner review done; first-hand line spots listed <!-- id:check:D:owner -->
 
 ---
 

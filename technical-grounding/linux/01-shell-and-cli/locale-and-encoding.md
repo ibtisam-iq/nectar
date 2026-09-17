@@ -43,7 +43,8 @@ C.utf8
 POSIX
 ```
 
-`LC_CTYPE` controls character classes, `LC_COLLATE` sort order, `LC_NUMERIC` number format and `LC_MESSAGES` the message language. `localectl set-locale LANG=en_US.UTF-8` sets the system default once the locale is installed.
+!!! note "Each LC_ variable controls one category"
+    `LC_CTYPE` controls character classes, `LC_COLLATE` sort order, `LC_NUMERIC` number format and `LC_MESSAGES` the message language. `localectl set-locale LANG=en_US.UTF-8` sets the system default once the locale is installed.
 
 ---
 

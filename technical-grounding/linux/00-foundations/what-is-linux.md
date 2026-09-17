@@ -68,7 +68,8 @@ Output:
 kernel-core-6.12.0: ((GPL-2.0-only WITH Linux-syscall-note) OR BSD-2-Cla
 ```
 
-On Debian and Ubuntu, the license text lives in `/usr/share/doc/<package>/copyright`.
+!!! note "Debian packages keep their license in a copyright file"
+    On Debian and Ubuntu, the license text lives in `/usr/share/doc/<package>/copyright`.
 
 !!! note "Copyleft applies to distribution, not use"
     A company can run modified GPL software internally without publishing anything. The obligation starts when binaries are shipped to others; the AGPL extends it to software offered over a network.

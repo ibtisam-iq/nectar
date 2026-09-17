@@ -102,3 +102,10 @@ Dated log of every decision that shaped the plan. Later changes are appended wit
 | D36 | Batch D installs missing logging and scheduling packages on both playgrounds, enables a persistent journal on Rocky and reboots it once for previous-boot captures. Sample log data is generated on the playgrounds and named as such: nginx traffic from loopback addresses (`127.0.0.x`) to a test virtual host, and SSH password guesses against Ubuntu with password authentication enabled by a drop-in for the demo | Real captures need real log lines; loopback source addresses give distinct clients without exposing real IPs |
 | D37 | Kernel pages use the playground's iximiuz-built kernel and say so; where a driver is built in there (`br_netfilter`), the page shows that state and states the distribution default without a capture. Hardware-only tools (`sensors`, `ipmitool`) are described, with the VM's empty result where one exists | Keeps every output real while explaining differences from a stock RHEL or Ubuntu kernel |
 
+---
+
+## 2026-09-17: Admonition Check
+
+| # | Decision | Reason |
+|---|---|---|
+| D38 | Batch D approved by the owner ("finish that audit, and move to the batch e"). `scripts/audit-tool.py` check 3 now counts titled admonitions (two to five per topic). The 21 batch A and B topics below the minimum wrap an existing paragraph in a titled admonition; `linux-vs-windows.md` gets one new note drawn from its captured `/etc/shadow` modes. Pages at their line budget merge two Must-Know Facts rows, and `repositories.md` folds the `tee` echo line into its trim marker | The blueprint rule existed but was not enforced, so batches A and B passed without it; converting existing text adds no unverified facts |

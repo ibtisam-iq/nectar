@@ -38,7 +38,8 @@ auth		include		postlogin
 # ... (trimmed: account, password and session lines)
 ```
 
-`pam_rootok.so` is `sufficient`, so root switches users without a password; everyone else falls through to `system-auth`.
+!!! note "Root switches users without a password"
+    `pam_rootok.so` is `sufficient`, so root switches users without a password; everyone else falls through to `system-auth`.
 
 | Flag | On success | On failure |
 |---|---|---|
@@ -69,7 +70,8 @@ auth        required                                     pam_faillock.so authfai
 auth        required                                     pam_deny.so
 ```
 
-Ubuntu 24.04 installs `faillock` but ships no `pam-auth-update` profile for it (`/usr/share/pam-configs` holds only `capability`, `mkhomedir`, `systemd` and `unix`), so lockout means editing `/etc/pam.d/common-auth`.
+!!! warning "Ubuntu 24.04 has no pam-auth-update profile for faillock"
+    Ubuntu 24.04 installs `faillock` but ships no `pam-auth-update` profile for it (`/usr/share/pam-configs` holds only `capability`, `mkhomedir`, `systemd` and `unix`), so lockout means editing `/etc/pam.d/common-auth`.
 
 After four wrong passwords for `amor`, the correct password is rejected until the counter is reset:
 

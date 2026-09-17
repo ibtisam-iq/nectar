@@ -65,9 +65,11 @@ cd: cd [-L|[-P [-e]] [-@]] [dir]
   -t                         sort by time, newest first; see --time
 ```
 
-`man cd` returns `No manual entry for cd`: builtins are documented in `help` and in `man bash`.
+!!! note "Shell builtins have no man page of their own"
+    `man cd` returns `No manual entry for cd`: builtins are documented in `help` and in `man bash`.
 
-Package documentation lives in `/usr/share/doc/<package>` (`rpm -qd <package>` lists it), `info coreutils` holds the full GNU manuals, and `tldr` shows example-first summaries.
+!!! tip "Package docs and info manuals go beyond man pages"
+    Package documentation lives in `/usr/share/doc/<package>` (`rpm -qd <package>` lists it), `info coreutils` holds the full GNU manuals, and `tldr` shows example-first summaries.
 
 ---
 

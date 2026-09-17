@@ -162,7 +162,8 @@ Packages Altered:
     Removed nginx-filesystem-2:1.26.3-6.el10_2.7.noarch @@System
 ```
 
-The undo also removed `logrotate`, which transaction 11 had pulled in as a dependency. Noting the history ID before a risky upgrade gives an exact rollback target, as long as the repositories still carry the old versions.
+!!! note "history undo also removes pulled-in dependencies"
+    The undo also removed `logrotate`, which transaction 11 had pulled in as a dependency. Noting the history ID before a risky upgrade gives an exact rollback target, as long as the repositories still carry the old versions.
 
 ---
 

@@ -80,7 +80,8 @@ editor - auto mode
 
 `sudo update-alternatives --config editor` changes the default for `crontab -e` and `visudo`. On RHEL, `vi` comes from `vim-minimal` and `vim` from `vim-enhanced`.
 
-Setting `export EDITOR=vim VISUAL=vim` in `~/.bashrc` makes `crontab -e`, `git commit`, `kubectl edit` and `systemctl edit` use `vim`.
+!!! tip "EDITOR and VISUAL choose the editor for other tools"
+    Setting `export EDITOR=vim VISUAL=vim` in `~/.bashrc` makes `crontab -e`, `git commit`, `kubectl edit` and `systemctl edit` use `vim`.
 
 !!! warning "sudo vim gives the editor root privileges"
     From `sudo vim`, `:!sh` opens a root shell, which bypasses a sudoers rule meant to allow editing only. `sudoedit` copies the file, runs the editor as the user, and writes the result back as root.

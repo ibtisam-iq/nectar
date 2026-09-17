@@ -20,8 +20,7 @@ A shell script is a file of commands with a shebang line, run as a program. RHCS
 | File tests | `-e` exists, `-f` file, `-d` directory, `-r -w -x`, `-s` not empty | `[ -d /etc ]` |
 | Read a file line by line | `while IFS= read -r line; do ...; done < file` | `help read` |
 | Function variables | `local` keeps them inside the function | `help local` |
-| Syntax check | `bash -n script.sh` | `echo $?` |
-| Linter | `shellcheck script.sh` (EPEL, Ubuntu universe) | `shellcheck --version` |
+| Syntax check and lint | `bash -n script.sh`; `shellcheck script.sh` (EPEL, Ubuntu universe) | `echo $?` |
 <!-- --8<-- [end:facts] -->
 
 ---
@@ -86,7 +85,8 @@ rc=1
 rc=1
 ```
 
-Inside `[ ]`, `>` is a redirection: the test ran as `[ 5 ]` (true) and created a file named `3`. An unquoted empty variable disappears and leaves `[ = a ]`. Use `-gt` or `(( x > 3 ))` for numbers, and quote variables or use `[[ ]]`.
+!!! warning "Inside single brackets, > is a redirection"
+    Inside `[ ]`, `>` is a redirection: the test ran as `[ 5 ]` (true) and created a file named `3`. An unquoted empty variable disappears and leaves `[ = a ]`. Use `-gt` or `(( x > 3 ))` for numbers, and quote variables or use `[[ ]]`.
 
 A `case` statement matches one value against patterns:
 
@@ -218,7 +218,8 @@ rc=2
 app is active
 ```
 
-`bash -n` parses without running; it catches a missing `fi`, `esac` or `done` (reported as `unexpected end of file`), not logic errors. `bash -x` traces each command. `shellcheck` finds unquoted variables and most of the mistakes above.
+!!! note "bash -n checks syntax, not logic"
+    `bash -n` parses without running; it catches a missing `fi`, `esac` or `done` (reported as `unexpected end of file`), not logic errors. `bash -x` traces each command. `shellcheck` finds unquoted variables and most of the mistakes above.
 
 ---
 

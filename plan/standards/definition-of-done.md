@@ -10,7 +10,7 @@ A tool folder is complete only when every check below passes. Automated checks r
 |---|---|---|
 | 1 | Completeness | Every manifest entry exists on disk. Every `.md` file in the tool folder (except `_sources/`) is listed in the manifest. |
 | 2 | Navigation | Every folder has a `.pages` file. Every file appears in its `.pages`, every `.pages` entry resolves, and no `.pages` uses the `...` catch-all. |
-| 3 | Topic structure | H1 with at most two opening sentences, a Track and Weight line matching the manifest, `## Must-Know Facts` inside snippet markers, `## Interview Checkpoints`, `## Related`, and a capture footer, in template order. |
+| 3 | Topic structure | H1 with at most two opening sentences, a Track and Weight line matching the manifest, `## Must-Know Facts` inside snippet markers, `## Interview Checkpoints`, `## Related`, and a capture footer, in template order; two to five titled admonitions. |
 | 4 | Interview coverage | 6 to 12 checkpoints per topic; L1 questions inside `l1` snippet markers; at least one L3 in every High-weight topic; at least one L4 in every `(I)` topic, and each `(I)` topic linked from `round-4-internals.md`. |
 | 5 | Scenario structure | Every scenario has Symptom, Clarifying Questions, Diagnostic Path, Root Causes, Fix, Prevention, Related, and is linked from `round-3-troubleshooting.md` and from at least one module README. |
 | 6 | Module READMEs | Revision Card present; Topic Map lists exactly the topic files in the folder. |

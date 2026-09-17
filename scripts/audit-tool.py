@@ -33,6 +33,7 @@ TAB_RE = re.compile(r'^\s*===\+? "([^"]+)"')
 LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
 FENCE_RE = re.compile(r"^\s*(`{3,}|~{3,})(.*)$")
 SNIPPET_RE = re.compile(r'--8<--\s+"([^"]+)"')
+ADMONITION_RE = re.compile(r'^\s*(?:!!!|\?\?\?\+?) (note|tip|info|warning|danger|abstract) "[^"]+"')
 SCENARIO_SECTIONS = ["Symptom", "Clarifying Questions", "Diagnostic Path", "Root Causes", "Fix", "Prevention", "Related"]
 
 
@@ -172,6 +173,9 @@ class Audit:
                 self.fail(3, where, "'## Related' is not the last section")
         if "<!-- --8<-- [start:facts] -->" not in text or "<!-- --8<-- [end:facts] -->" not in text:
             self.fail(3, where, "Must-Know Facts table is not wrapped in facts snippet markers")
+        admonitions = [l for _, l in prose if ADMONITION_RE.match(l)]
+        if not 2 <= len(admonitions) <= 5:
+            self.fail(3, where, f"{len(admonitions)} titled admonitions (need 2 to 5)")
         # 4: checkpoints
         qs = [(n, QUESTION_RE.match(l).group(1)) for n, l in prose if QUESTION_RE.match(l)]
         if not 6 <= len(qs) <= 12:

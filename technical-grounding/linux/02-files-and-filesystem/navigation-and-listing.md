@@ -83,7 +83,8 @@ total 12
 | `--time-style=long-iso` | Full date, including the year for recent files |
 | `-u`, `-c` | Show access time or change time instead of mtime |
 
-`ls` prints the year instead of the time for files older than six months, so `--time-style=long-iso` keeps output consistent for scripts. `tree -L 2 /etc/ssh` shows a directory as a tree (package `tree`).
+!!! tip "ls changes its date format for older files"
+    `ls` prints the year instead of the time for files older than six months, so `--time-style=long-iso` keeps output consistent for scripts. `tree -L 2 /etc/ssh` shows a directory as a tree (package `tree`).
 
 !!! warning "Do not parse ls in scripts"
     Column widths, date formats and quoting of odd names change between versions and locales. Use `find -printf`, `stat -c` or a glob instead.

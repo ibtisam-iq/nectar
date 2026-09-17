@@ -107,7 +107,8 @@ Virtualization type:                     full
 4
 ```
 
-Logical CPUs equal sockets times cores per socket times threads per core. `nproc` respects CPU affinity and cgroup limits, so inside a restricted container it can report fewer CPUs than `lscpu`.
+!!! note "nproc can report fewer CPUs than lscpu"
+    Logical CPUs equal sockets times cores per socket times threads per core. `nproc` respects CPU affinity and cgroup limits, so inside a restricted container it can report fewer CPUs than `lscpu`.
 
 ---
 

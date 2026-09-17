@@ -119,7 +119,8 @@ x 2
 z 1
 ```
 
-`-k2n -r` sorted ascending, because `n` on the key replaced the global `-r`. Put every ordering option on the key (`-k2,2nr`).
+!!! warning "Global ordering options do not reach a key with its own options"
+    `-k2n -r` sorted ascending, because `n` on the key replaced the global `-r`. Put every ordering option on the key (`-k2,2nr`).
 
 | Option | Effect |
 |---|---|

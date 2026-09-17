@@ -81,7 +81,8 @@ Output:
 12K	/var/log/lastlog
 ```
 
-`lastlog` stores one fixed-size record at the offset of each UID, so a high UID makes the file look large while only 12 KB of blocks exist. Copying it with a tool that does not preserve holes (`cp --sparse=never`) inflates it for real.
+!!! warning "lastlog is a sparse file"
+    `lastlog` stores one fixed-size record at the offset of each UID, so a high UID makes the file look large while only 12 KB of blocks exist. Copying it with a tool that does not preserve holes (`cp --sparse=never`) inflates it for real.
 
 !!! note "Where these files are going"
     `utmp`, `wtmp` and `lastlog` use 32-bit timestamps, which overflow in 2038. Newer releases replace them with `wtmpdb` and `lastlog2`; Rocky Linux 10.2 and Ubuntu 24.04 still use the classic files.
