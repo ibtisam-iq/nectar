@@ -89,6 +89,16 @@ Senior, SRE and production engineering loops ask what happens underneath a comma
 
 ---
 
+## Networking
+
+| Question | Answered in |
+|---|---|
+| What does the kernel do between a client's `connect()` and the server's `accept()`? | [Sockets and TCP States](../13-networking/sockets-and-tcp-states.md) |
+| Why does `TIME_WAIT` exist, and why does it last 60 seconds on Linux? | [Sockets and TCP States](../13-networking/sockets-and-tcp-states.md) |
+| Why can a server have established connections that the application never accepted? | [Sockets and TCP States](../13-networking/sockets-and-tcp-states.md) |
+
+---
+
 ## How to Answer
 
 - Start from the mechanism (the SUID bit, the NSS lookup, the credentials stored per process), then show the evidence (`ls -l`, `/proc/<pid>/status`).

@@ -10,7 +10,7 @@ Hands-on tasks for each module, written as exercises with collapsed solutions. W
 |---|---|---|
 | iximiuz Labs `rockylinux` playground | RHEL-family tasks | Rocky Linux 10.2; no SELinux tooling |
 | iximiuz Labs `ubuntu-24-04` playground | Debian-family tasks | Ubuntu 24.04 LTS |
-| iximiuz Labs `flexbox` | Multi-host tasks (NFS, routing, firewalls) | Several VMs on one network |
+| iximiuz Labs `flexbox` | Multi-host tasks (NFS, routing, firewalls) | Up to five VMs on one or more networks; the Networking lab uses three VMs on two networks |
 | Local VM (VirtualBox or UTM) | Boot, GRUB, SELinux, nested virtualization | Full control over the boot process |
 | Loop devices on any VM | Partitioning, LVM, RAID, quotas | No extra disks needed |
 
@@ -42,3 +42,4 @@ A local VM that fails to start is usually missing hardware virtualization or con
 | [Users and Permissions](users-and-permissions-lab.md) | 04 Users and Access, 05 Permissions |
 | [Processes and Services](processes-and-services-lab.md) | 07 Processes, 08 Systemd and Services |
 | [Storage and LVM](storage-and-lvm-lab.md) | 12 Storage |
+| [Networking](networking-lab.md) | 13 Networking |

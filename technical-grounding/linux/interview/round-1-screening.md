@@ -397,3 +397,59 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### RAID and Encryption
 
 --8<-- "technical-grounding/linux/12-storage/raid-and-encryption.md:l1"
+
+---
+
+## Networking
+
+### Interfaces and Addresses
+
+--8<-- "technical-grounding/linux/13-networking/interfaces-and-addresses.md:l1"
+
+### Network Configuration
+
+--8<-- "technical-grounding/linux/13-networking/network-configuration.md:l1"
+
+### Routing
+
+--8<-- "technical-grounding/linux/13-networking/routing.md:l1"
+
+### DNS Resolution
+
+--8<-- "technical-grounding/linux/13-networking/dns-resolution.md:l1"
+
+### Ports and Sockets
+
+--8<-- "technical-grounding/linux/13-networking/ports-and-sockets.md:l1"
+
+### Sockets and TCP States
+
+--8<-- "technical-grounding/linux/13-networking/sockets-and-tcp-states.md:l1"
+
+### Connectivity Testing
+
+--8<-- "technical-grounding/linux/13-networking/connectivity-testing.md:l1"
+
+### Packet Capture
+
+--8<-- "technical-grounding/linux/13-networking/packet-capture.md:l1"
+
+### Bridges, Bonds and VLANs
+
+--8<-- "technical-grounding/linux/13-networking/bridges-bonds-vlans.md:l1"
+
+### Time and Timezones
+
+--8<-- "technical-grounding/linux/13-networking/time-and-timezones.md:l1"
+
+### Reverse Proxy and Load Balancing
+
+--8<-- "technical-grounding/linux/13-networking/reverse-proxy-and-load-balancing.md:l1"
+
+### VPN (WireGuard)
+
+--8<-- "technical-grounding/linux/13-networking/vpn-wireguard.md:l1"
+
+### Troubleshooting Ladder
+
+--8<-- "technical-grounding/linux/13-networking/troubleshooting-ladder.md:l1"

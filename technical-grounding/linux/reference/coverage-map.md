@@ -197,3 +197,28 @@ Certification objectives mapped to the topic file that covers them. The map prov
 | Linux+ XK0-006 | Storage: partitions, filesystems, LVM, RAID, quotas and encryption | [LVM](../12-storage/lvm.md), [RAID and Encryption](../12-storage/raid-and-encryption.md), [Quotas](../12-storage/quotas.md) |
 | Linux+ XK0-006 | Backup and restore methods | [Backup and Restore](../12-storage/backup-and-restore.md) |
 | Interview sources | Disk full, `df` versus `du`, inodes, deleted open files, extending a cloud volume | [Disk Usage](../12-storage/disk-usage.md), [Resizing and Cloud Disks](../12-storage/resizing-and-cloud-disks.md) |
+
+---
+
+## Networking
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Configure IPv4 and IPv6 addresses | [Network Configuration](../13-networking/network-configuration.md), [Interfaces and Addresses](../13-networking/interfaces-and-addresses.md) |
+| RHCSA EX200 (RHEL 10) | Configure hostname resolution | [DNS Resolution](../13-networking/dns-resolution.md), [Network Configuration](../13-networking/network-configuration.md) |
+| RHCSA EX200 (RHEL 10) | Configure network services to start automatically at boot | [Network Configuration](../13-networking/network-configuration.md) |
+| RHCSA EX200 (RHEL 10) | Configure time service clients | [Time and Timezones](../13-networking/time-and-timezones.md) |
+| LFCS | Configure IPv4 and IPv6 networking and hostname resolution | [Network Configuration](../13-networking/network-configuration.md), [DNS Resolution](../13-networking/dns-resolution.md) |
+| LFCS | Set and synchronize system time using time servers | [Time and Timezones](../13-networking/time-and-timezones.md) |
+| LFCS | Monitor and troubleshoot networking | [Connectivity Testing](../13-networking/connectivity-testing.md), [Packet Capture](../13-networking/packet-capture.md), [Troubleshooting Ladder](../13-networking/troubleshooting-ladder.md) |
+| LFCS | Configure bridge and bonding devices | [Bridges, Bonds and VLANs](../13-networking/bridges-bonds-vlans.md) |
+| LFCS | Implement reverse proxies and load balancers | [Reverse Proxy and Load Balancing](../13-networking/reverse-proxy-and-load-balancing.md) |
+| LFCS | Configure and verify network routes | [Routing](../13-networking/routing.md) |
+| LPIC-1 108.1 | Maintain system time (`date`, `hwclock`, `timedatectl`, chrony) | [Time and Timezones](../13-networking/time-and-timezones.md) |
+| LPIC-1 109.1 | Fundamentals of internet protocols (ports, TCP and UDP, IPv6) | [Ports and Sockets](../13-networking/ports-and-sockets.md), [Interfaces and Addresses](../13-networking/interfaces-and-addresses.md) |
+| LPIC-1 109.2 | Persistent network configuration (NetworkManager, `hostnamectl`, `/etc/hosts`, `nsswitch.conf`) | [Network Configuration](../13-networking/network-configuration.md), [DNS Resolution](../13-networking/dns-resolution.md) |
+| LPIC-1 109.3 | Basic network troubleshooting (`ip`, `ss`, `ping`, `traceroute`, `tracepath`, `nc`) | [Connectivity Testing](../13-networking/connectivity-testing.md), [Routing](../13-networking/routing.md), [Ports and Sockets](../13-networking/ports-and-sockets.md) |
+| LPIC-1 109.4 | Configure client side DNS (`resolv.conf`, `getent`, `dig`, `host`) | [DNS Resolution](../13-networking/dns-resolution.md) |
+| Linux+ XK0-006 | Network configuration, tools and troubleshooting | [Network Configuration](../13-networking/network-configuration.md), [Connectivity Testing](../13-networking/connectivity-testing.md), [Packet Capture](../13-networking/packet-capture.md), [Troubleshooting Ladder](../13-networking/troubleshooting-ladder.md) |
+| Linux+ XK0-006 | Tunnels and VPNs | [VPN (WireGuard)](../13-networking/vpn-wireguard.md) |
+| Interview sources | `ss` and `netstat`, TCP states, DNS lookup order, `502` versus `504`, a layered troubleshooting answer | [Ports and Sockets](../13-networking/ports-and-sockets.md), [Sockets and TCP States](../13-networking/sockets-and-tcp-states.md), [DNS Resolution](../13-networking/dns-resolution.md), [Reverse Proxy and Load Balancing](../13-networking/reverse-proxy-and-load-balancing.md), [Troubleshooting Ladder](../13-networking/troubleshooting-ladder.md) |

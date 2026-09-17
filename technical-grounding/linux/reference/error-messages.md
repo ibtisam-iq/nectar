@@ -286,3 +286,45 @@ Real error text seen on Linux servers, with its cause and first fix. Search this
 | `bash: line 1: /usr/bin/rm: Argument list too long` | Glob expanded beyond the argument limit | `find ... -delete` | [Disk Usage](../12-storage/disk-usage.md) |
 | `dd: error writing '/srv/web/uploads/a.bin': Disk quota exceeded` | User reached the hard quota | `quota -s <user>` | [Quotas](../12-storage/quotas.md) |
 | `rsync: [Receiver] mkdir "/backup/daily/2026-09-16" failed: No such file or directory (2)` | Destination parent missing | `mkdir -p` or `--mkpath` | [Backup and Restore](../12-storage/backup-and-restore.md) |
+
+---
+
+## Networking
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `RTNETLINK answers: File exists` | Address or route already present | `ip -br addr`; `ip addr replace` | [Interfaces and Addresses](../13-networking/interfaces-and-addresses.md) |
+| `Cannot find device "eth9"` | Wrong interface name | `ip -br link` (includes `altname`) | [Interfaces and Addresses](../13-networking/interfaces-and-addresses.md) |
+| `RTNETLINK answers: Operation not permitted` | Changing links or routes without `CAP_NET_ADMIN` | Run with `sudo` | [Interfaces and Addresses](../13-networking/interfaces-and-addresses.md) |
+| `From 172.16.0.2 icmp_seq=1 Destination Host Unreachable` | No ARP answer for the target or gateway on the local subnet | `ip neigh`; check VLAN and prefix | [Interfaces and Addresses](../13-networking/interfaces-and-addresses.md) |
+| `Error: Failed to modify connection 'dmz': Error checking authorization` | `nmcli` without `sudo` and without polkit | Run with `sudo` | [Network Configuration](../13-networking/network-configuration.md) |
+| `Error in network definition: expected sequence` | netplan list written as a single value | `addresses: [172.16.0.2/24]` | [Network Configuration](../13-networking/network-configuration.md) |
+| `Invalid YAML: inconsistent indentation` | netplan key indented differently from its siblings | Align it; `sudo netplan generate` | [Network Configuration](../13-networking/network-configuration.md) |
+| `Permissions for /etc/netplan/50-bad.yaml are too open.` | netplan file readable by other users | `sudo chmod 600 /etc/netplan/*.yaml` | [Network Configuration](../13-networking/network-configuration.md) |
+| `ping: connect: Network is unreachable` | No route matches the destination | `ip route`; add the default or static route | [Routing](../13-networking/routing.md) |
+| `Error: Nexthop has invalid gateway.` | `via` address not on a connected subnet | Use a local gateway, or `onlink` | [Routing](../13-networking/routing.md) |
+| `ping: connect: Invalid argument` | A `blackhole` route matches | `ip route`; delete the route | [Routing](../13-networking/routing.md) |
+| `curl: (6) Could not resolve host: api.shop.internal` | No nsswitch source knows the name | `getent hosts`, `resolvectl status`, `dig @server` | [DNS Resolution](../13-networking/dns-resolution.md) |
+| `ping: api.shop.internal: Name or service not known` | Name lookup failed in `getaddrinfo()` | As for `Could not resolve host` | [DNS Resolution](../13-networking/dns-resolution.md) |
+| `;; communications error to 172.16.1.99#53: timed out` | No DNS server there, or port 53 filtered | `nc -vzu <server> 53`; firewalls | [DNS Resolution](../13-networking/dns-resolution.md) |
+| `;; WARNING: recursion requested but not available` | Authoritative-only server asked for another zone | Use a recursive resolver or a routing domain | [DNS Resolution](../13-networking/dns-resolution.md) |
+| `zone shop.internal/IN: not loaded due to errors.` | Syntax error in the zone file; old data stays served | `named-checkzone`, fix, reload | [DNS Not Resolving](../interview/scenarios/dns-not-resolving.md) |
+| `nc: connect to 172.16.1.3 port 9000 (tcp) failed: Connection refused` | Nothing listens on that address, or bound to loopback | `sudo ss -tlpn 'sport = :9000'` on the server | [Ports and Sockets](../13-networking/ports-and-sockets.md) |
+| `nc: Address already in use` | Port already has a listener | `sudo ss -tlpn 'sport = :<port>'` | [Ports and Sockets](../13-networking/ports-and-sockets.md) |
+| `nc: Permission denied` | Unprivileged bind below port 1024 | `sudo`, `CAP_NET_BIND_SERVICE`, or a high port | [Ports and Sockets](../13-networking/ports-and-sockets.md) |
+| `nf_conntrack: table full, dropping packet` | More tracked flows than `nf_conntrack_max` | Raise the limit, shorten timeouts, `notrack` | [Sockets and TCP States](../13-networking/sockets-and-tcp-states.md) |
+| `Cannot assign requested address` | Client out of ephemeral ports, often many `TIME-WAIT` | Reuse connections; widen `ip_local_port_range` | [Sockets and TCP States](../13-networking/sockets-and-tcp-states.md) |
+| `ping: local error: message too long, mtu=1400` | Packet with DF set exceeds the known path MTU | Smaller packets; `tracepath` | [Connectivity Testing](../13-networking/connectivity-testing.md) |
+| `From 172.16.0.3 icmp_seq=1 Frag needed and DF set (mtu = 1400)` | A router on the path has a smaller MTU | Align MTUs; let ICMP through | [Connectivity Testing](../13-networking/connectivity-testing.md) |
+| `nc: connect to 172.16.1.3 port 9200 (tcp) timed out: Operation now in progress` | SYN or reply dropped on the way | Firewalls, security groups, routing | [Connectivity Testing](../13-networking/connectivity-testing.md) |
+| `curl: (28) Connection timed out after 3002 milliseconds` | Connection attempt dropped | Capture on the server; walk the ladder | [Troubleshooting Ladder](../13-networking/troubleshooting-ladder.md) |
+| `tcpdump: eth0: You don't have permission to perform this capture on that device` | Capture without root | `sudo tcpdump` | [Packet Capture](../13-networking/packet-capture.md) |
+| `tcpdump: eth9: No such device exists` | Wrong interface name | `tcpdump -D`; `-i any` | [Packet Capture](../13-networking/packet-capture.md) |
+| `tcpdump: truncated dump file; tried to read 4 file header bytes, only got 0` | Empty pcap file | Write with `-U`; stop with `-c` or Ctrl-C | [Packet Capture](../13-networking/packet-capture.md) |
+| `hwclock: Cannot access the Hardware Clock via any known method.` | VM without an RTC | Nothing; time comes from the hypervisor and NTP | [Time and Timezones](../13-networking/time-and-timezones.md) |
+| `506 Cannot talk to daemon` | `chronyd` not running | `sudo systemctl enable --now chronyd` | [Time and Timezones](../13-networking/time-and-timezones.md) |
+| `error 9 at 0 depth lookup: certificate is not yet valid` | Local clock earlier than `notBefore` | Fix time sync; `chronyc tracking` | [Time and Timezones](../13-networking/time-and-timezones.md) |
+| `connect() failed (111: Connection refused) while connecting to upstream` | Backend not listening | Check the backend service and bind address | [Reverse Proxy and Load Balancing](../13-networking/reverse-proxy-and-load-balancing.md) |
+| `no live upstreams while connecting to upstream` | Every upstream server marked failed | Fix backends; retried after `fail_timeout` | [Reverse Proxy and Load Balancing](../13-networking/reverse-proxy-and-load-balancing.md) |
+| `Server shop_api/client is DOWN, reason: Layer4 connection problem` | HAProxy health check cannot connect | Check the backend; `show stat` | [Reverse Proxy and Load Balancing](../13-networking/reverse-proxy-and-load-balancing.md) |
+| `ping: sendmsg: Required key not available` | No WireGuard peer's `AllowedIPs` covers the destination | Add the range to the right peer | [VPN (WireGuard)](../13-networking/vpn-wireguard.md) |

@@ -157,19 +157,19 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 
 ## 13 Networking
 
-- [ ] Interfaces and Addresses (Core, High)
-- [ ] Network Configuration (Core, Med)
-- [ ] Routing (Core, High)
-- [ ] DNS Resolution (Core, High)
-- [ ] Ports and Sockets (Core, High)
-- [ ] Sockets and TCP States (Advanced, Med, internals)
-- [ ] Connectivity Testing (Core, High)
-- [ ] Packet Capture (Core, Med)
-- [ ] Bridges, Bonds and VLANs (Advanced, Low)
-- [ ] Time and Timezones (Core, Med)
-- [ ] Reverse Proxy and Load Balancing (Core, Med)
-- [ ] VPN (WireGuard) (Advanced, Low)
-- [ ] Troubleshooting Ladder (Core, High)
+- [ ] [Interfaces and Addresses](13-networking/interfaces-and-addresses.md) (Core, High)
+- [ ] [Network Configuration](13-networking/network-configuration.md) (Core, Med)
+- [ ] [Routing](13-networking/routing.md) (Core, High)
+- [ ] [DNS Resolution](13-networking/dns-resolution.md) (Core, High)
+- [ ] [Ports and Sockets](13-networking/ports-and-sockets.md) (Core, High)
+- [ ] [Sockets and TCP States](13-networking/sockets-and-tcp-states.md) (Advanced, Med, internals)
+- [ ] [Connectivity Testing](13-networking/connectivity-testing.md) (Core, High)
+- [ ] [Packet Capture](13-networking/packet-capture.md) (Core, Med)
+- [ ] [Bridges, Bonds and VLANs](13-networking/bridges-bonds-vlans.md) (Advanced, Low)
+- [ ] [Time and Timezones](13-networking/time-and-timezones.md) (Core, Med)
+- [ ] [Reverse Proxy and Load Balancing](13-networking/reverse-proxy-and-load-balancing.md) (Core, Med)
+- [ ] [VPN (WireGuard)](13-networking/vpn-wireguard.md) (Advanced, Low)
+- [ ] [Troubleshooting Ladder](13-networking/troubleshooting-ladder.md) (Core, High)
 
 ---
 
@@ -254,7 +254,7 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 - [ ] [Users and Permissions Lab](labs/users-and-permissions-lab.md)
 - [ ] [Processes and Services Lab](labs/processes-and-services-lab.md)
 - [ ] [Storage and LVM Lab](labs/storage-and-lvm-lab.md)
-- [ ] Networking Lab
+- [ ] [Networking Lab](labs/networking-lab.md)
 - [ ] Security Lab
 - [ ] Containers by Hand Lab
 - [ ] RHCSA-Style Tasks
@@ -270,7 +270,7 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 - [ ] [Service Won't Start](interview/scenarios/service-wont-start.md)
 - [ ] [Cron Job Not Running](interview/scenarios/cron-job-not-running.md)
 - [ ] [Disk Full](interview/scenarios/disk-full.md)
-- [ ] DNS Not Resolving
+- [ ] [DNS Not Resolving](interview/scenarios/dns-not-resolving.md)
 - [ ] Cannot SSH
 - [ ] Service Unreachable
 - [ ] Cannot Reach Host

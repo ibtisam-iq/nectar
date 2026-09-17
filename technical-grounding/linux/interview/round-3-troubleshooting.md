@@ -28,3 +28,4 @@ The troubleshooting round starts with a symptom and no instructions. Interviewer
 | [Service Won't Start](scenarios/service-wont-start.md) | "We deployed the new service and systemctl start fails." | 08 Systemd and Services, 09 Logging |
 | [Cron Job Not Running](scenarios/cron-job-not-running.md) | "The script works when I run it, but the scheduled job produces nothing." | 01 Shell and CLI, 10 Scheduling |
 | [Disk Full](scenarios/disk-full.md) | "The log says No space left on device, and deleting the big log did not help." | 02 Files and Filesystem, 07 Processes, 12 Storage |
+| [DNS Not Resolving](scenarios/dns-not-resolving.md) | "The app cannot resolve api.shop.internal, but the DNS team says their server answers." | 13 Networking |

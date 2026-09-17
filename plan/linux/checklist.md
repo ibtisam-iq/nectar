@@ -235,33 +235,33 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Batch E: `scripts/lint-prose.py` exits 0 <!-- id:check:E:lint -->
 - [x] Batch E: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:E:audit -->
 - [x] Batch E: `mkdocs build` has no warnings for the tool folder <!-- id:check:E:build -->
-- [ ] Batch E: owner review done; first-hand line spots listed <!-- id:check:E:owner -->
+- [x] Batch E: owner review done; first-hand line spots listed <!-- id:check:E:owner -->
 
 ---
 
 ## Phase 3: Batch F (modules 13)
 
-- [ ] `13-networking/.pages` <!-- id:technical-grounding/linux/13-networking/.pages -->
-- [ ] `13-networking/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/13-networking/README.md -->
-- [ ] `13-networking/interfaces-and-addresses.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/interfaces-and-addresses.md -->
-- [ ] `13-networking/network-configuration.md` (Core, Med) <!-- id:technical-grounding/linux/13-networking/network-configuration.md -->
-- [ ] `13-networking/routing.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/routing.md -->
-- [ ] `13-networking/dns-resolution.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/dns-resolution.md -->
-- [ ] `13-networking/ports-and-sockets.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/ports-and-sockets.md -->
-- [ ] `13-networking/sockets-and-tcp-states.md` (Advanced, Med, internals) <!-- id:technical-grounding/linux/13-networking/sockets-and-tcp-states.md -->
-- [ ] `13-networking/connectivity-testing.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/connectivity-testing.md -->
-- [ ] `13-networking/packet-capture.md` (Core, Med) <!-- id:technical-grounding/linux/13-networking/packet-capture.md -->
-- [ ] `13-networking/bridges-bonds-vlans.md` (Advanced, Low) <!-- id:technical-grounding/linux/13-networking/bridges-bonds-vlans.md -->
-- [ ] `13-networking/time-and-timezones.md` (Core, Med) <!-- id:technical-grounding/linux/13-networking/time-and-timezones.md -->
-- [ ] `13-networking/reverse-proxy-and-load-balancing.md` (Core, Med) <!-- id:technical-grounding/linux/13-networking/reverse-proxy-and-load-balancing.md -->
-- [ ] `13-networking/vpn-wireguard.md` (Advanced, Low) <!-- id:technical-grounding/linux/13-networking/vpn-wireguard.md -->
-- [ ] `13-networking/troubleshooting-ladder.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/troubleshooting-ladder.md -->
-- [ ] `labs/networking-lab.md` <!-- id:technical-grounding/linux/labs/networking-lab.md -->
-- [ ] `interview/scenarios/dns-not-resolving.md` (modules 13) <!-- id:technical-grounding/linux/interview/scenarios/dns-not-resolving.md -->
-- [ ] Batch F: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:F:grows -->
-- [ ] Batch F: `scripts/lint-prose.py` exits 0 <!-- id:check:F:lint -->
-- [ ] Batch F: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:F:audit -->
-- [ ] Batch F: `mkdocs build` has no warnings for the tool folder <!-- id:check:F:build -->
+- [x] `13-networking/.pages` <!-- id:technical-grounding/linux/13-networking/.pages -->
+- [x] `13-networking/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/13-networking/README.md -->
+- [x] `13-networking/interfaces-and-addresses.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/interfaces-and-addresses.md -->
+- [x] `13-networking/network-configuration.md` (Core, Med) <!-- id:technical-grounding/linux/13-networking/network-configuration.md -->
+- [x] `13-networking/routing.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/routing.md -->
+- [x] `13-networking/dns-resolution.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/dns-resolution.md -->
+- [x] `13-networking/ports-and-sockets.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/ports-and-sockets.md -->
+- [x] `13-networking/sockets-and-tcp-states.md` (Advanced, Med, internals) <!-- id:technical-grounding/linux/13-networking/sockets-and-tcp-states.md -->
+- [x] `13-networking/connectivity-testing.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/connectivity-testing.md -->
+- [x] `13-networking/packet-capture.md` (Core, Med) <!-- id:technical-grounding/linux/13-networking/packet-capture.md -->
+- [x] `13-networking/bridges-bonds-vlans.md` (Advanced, Low) <!-- id:technical-grounding/linux/13-networking/bridges-bonds-vlans.md -->
+- [x] `13-networking/time-and-timezones.md` (Core, Med) <!-- id:technical-grounding/linux/13-networking/time-and-timezones.md -->
+- [x] `13-networking/reverse-proxy-and-load-balancing.md` (Core, Med) <!-- id:technical-grounding/linux/13-networking/reverse-proxy-and-load-balancing.md -->
+- [x] `13-networking/vpn-wireguard.md` (Advanced, Low) <!-- id:technical-grounding/linux/13-networking/vpn-wireguard.md -->
+- [x] `13-networking/troubleshooting-ladder.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/troubleshooting-ladder.md -->
+- [x] `labs/networking-lab.md` <!-- id:technical-grounding/linux/labs/networking-lab.md -->
+- [x] `interview/scenarios/dns-not-resolving.md` (modules 13) <!-- id:technical-grounding/linux/interview/scenarios/dns-not-resolving.md -->
+- [x] Batch F: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:F:grows -->
+- [x] Batch F: `scripts/lint-prose.py` exits 0 <!-- id:check:F:lint -->
+- [x] Batch F: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:F:audit -->
+- [x] Batch F: `mkdocs build` has no warnings for the tool folder <!-- id:check:F:build -->
 - [ ] Batch F: owner review done; first-hand line spots listed <!-- id:check:F:owner -->
 
 ---

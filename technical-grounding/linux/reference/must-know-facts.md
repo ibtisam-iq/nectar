@@ -397,3 +397,59 @@ Every topic's Must-Know Facts table in one place, for a fast revision pass. Tabl
 ### RAID and Encryption
 
 --8<-- "technical-grounding/linux/12-storage/raid-and-encryption.md:facts"
+
+---
+
+## Networking
+
+### Interfaces and Addresses
+
+--8<-- "technical-grounding/linux/13-networking/interfaces-and-addresses.md:facts"
+
+### Network Configuration
+
+--8<-- "technical-grounding/linux/13-networking/network-configuration.md:facts"
+
+### Routing
+
+--8<-- "technical-grounding/linux/13-networking/routing.md:facts"
+
+### DNS Resolution
+
+--8<-- "technical-grounding/linux/13-networking/dns-resolution.md:facts"
+
+### Ports and Sockets
+
+--8<-- "technical-grounding/linux/13-networking/ports-and-sockets.md:facts"
+
+### Sockets and TCP States
+
+--8<-- "technical-grounding/linux/13-networking/sockets-and-tcp-states.md:facts"
+
+### Connectivity Testing
+
+--8<-- "technical-grounding/linux/13-networking/connectivity-testing.md:facts"
+
+### Packet Capture
+
+--8<-- "technical-grounding/linux/13-networking/packet-capture.md:facts"
+
+### Bridges, Bonds and VLANs
+
+--8<-- "technical-grounding/linux/13-networking/bridges-bonds-vlans.md:facts"
+
+### Time and Timezones
+
+--8<-- "technical-grounding/linux/13-networking/time-and-timezones.md:facts"
+
+### Reverse Proxy and Load Balancing
+
+--8<-- "technical-grounding/linux/13-networking/reverse-proxy-and-load-balancing.md:facts"
+
+### VPN (WireGuard)
+
+--8<-- "technical-grounding/linux/13-networking/vpn-wireguard.md:facts"
+
+### Troubleshooting Ladder
+
+--8<-- "technical-grounding/linux/13-networking/troubleshooting-ladder.md:facts"

@@ -1,0 +1,16 @@
+title: Networking
+nav:
+  - README.md
+  - Interfaces and Addresses: interfaces-and-addresses.md
+  - Network Configuration: network-configuration.md
+  - Routing: routing.md
+  - DNS Resolution: dns-resolution.md
+  - Ports and Sockets: ports-and-sockets.md
+  - Sockets and TCP States: sockets-and-tcp-states.md
+  - Connectivity Testing: connectivity-testing.md
+  - Packet Capture: packet-capture.md
+  - Bridges, Bonds and VLANs: bridges-bonds-vlans.md
+  - Time and Timezones: time-and-timezones.md
+  - Reverse Proxy and Load Balancing: reverse-proxy-and-load-balancing.md
+  - VPN (WireGuard): vpn-wireguard.md
+  - Troubleshooting Ladder: troubleshooting-ladder.md
