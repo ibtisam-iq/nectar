@@ -114,28 +114,28 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 
 ## 09 Logging
 
-- [ ] Log Locations (Core, High)
-- [ ] journalctl (Core, High)
-- [ ] rsyslog (Core, Low)
-- [ ] logrotate (Core, Med)
-- [ ] Log Parsing Recipes (Core, High)
+- [ ] [Log Locations](09-logging/log-locations.md) (Core, High)
+- [ ] [journalctl](09-logging/journalctl.md) (Core, High)
+- [ ] [rsyslog](09-logging/rsyslog.md) (Core, Low)
+- [ ] [logrotate](09-logging/logrotate.md) (Core, Med)
+- [ ] [Log Parsing Recipes](09-logging/log-parsing-recipes.md) (Core, High)
 
 ---
 
 ## 10 Scheduling
 
-- [ ] cron and at (Core, High)
-- [ ] Systemd Timers (Core, Med)
+- [ ] [cron and at](10-scheduling/cron-and-at.md) (Core, High)
+- [ ] [Systemd Timers](10-scheduling/systemd-timers.md) (Core, Med)
 
 ---
 
 ## 11 Kernel and Hardware
 
-- [ ] proc and sys (Core, High)
-- [ ] sysctl (Core, High)
-- [ ] Kernel Modules (Core, Med)
-- [ ] Devices and udev (Advanced, Low)
-- [ ] dmesg and Kernel Messages (Core, Med)
+- [ ] [proc and sys](11-kernel-and-hardware/proc-and-sys.md) (Core, High)
+- [ ] [sysctl](11-kernel-and-hardware/sysctl.md) (Core, High)
+- [ ] [Kernel Modules](11-kernel-and-hardware/kernel-modules.md) (Core, Med)
+- [ ] [Devices and udev](11-kernel-and-hardware/devices-and-udev.md) (Advanced, Low)
+- [ ] [dmesg and Kernel Messages](11-kernel-and-hardware/dmesg-and-kernel-messages.md) (Core, Med)
 
 ---
 
@@ -267,8 +267,8 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 - [ ] [Cannot Log In or Use Sudo](interview/scenarios/cannot-login-or-sudo.md)
 - [ ] [Binary Won't Execute](interview/scenarios/binary-wont-execute.md)
 - [ ] [Process Won't Die](interview/scenarios/process-wont-die.md)
-- [ ] Service Won't Start
-- [ ] Cron Job Not Running
+- [ ] [Service Won't Start](interview/scenarios/service-wont-start.md)
+- [ ] [Cron Job Not Running](interview/scenarios/cron-job-not-running.md)
 - [ ] Disk Full
 - [ ] DNS Not Resolving
 - [ ] Cannot SSH

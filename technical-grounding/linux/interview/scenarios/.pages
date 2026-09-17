@@ -3,3 +3,5 @@ nav:
   - Cannot Log In or Use Sudo: cannot-login-or-sudo.md
   - "Binary Won't Execute": binary-wont-execute.md
   - "Process Won't Die": process-wont-die.md
+  - "Service Won't Start": service-wont-start.md
+  - Cron Job Not Running: cron-job-not-running.md

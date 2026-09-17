@@ -289,3 +289,63 @@ Every topic's Must-Know Facts table in one place, for a fast revision pass. Tabl
 ### Systemd Toolbox
 
 --8<-- "technical-grounding/linux/08-systemd-and-services/systemd-toolbox.md:facts"
+
+---
+
+## Logging
+
+### Log Locations
+
+--8<-- "technical-grounding/linux/09-logging/log-locations.md:facts"
+
+### journalctl
+
+--8<-- "technical-grounding/linux/09-logging/journalctl.md:facts"
+
+### rsyslog
+
+--8<-- "technical-grounding/linux/09-logging/rsyslog.md:facts"
+
+### logrotate
+
+--8<-- "technical-grounding/linux/09-logging/logrotate.md:facts"
+
+### Log Parsing Recipes
+
+--8<-- "technical-grounding/linux/09-logging/log-parsing-recipes.md:facts"
+
+---
+
+## Scheduling
+
+### cron and at
+
+--8<-- "technical-grounding/linux/10-scheduling/cron-and-at.md:facts"
+
+### Systemd Timers
+
+--8<-- "technical-grounding/linux/10-scheduling/systemd-timers.md:facts"
+
+---
+
+## Kernel and Hardware
+
+### proc and sys
+
+--8<-- "technical-grounding/linux/11-kernel-and-hardware/proc-and-sys.md:facts"
+
+### sysctl
+
+--8<-- "technical-grounding/linux/11-kernel-and-hardware/sysctl.md:facts"
+
+### Kernel Modules
+
+--8<-- "technical-grounding/linux/11-kernel-and-hardware/kernel-modules.md:facts"
+
+### Devices and udev
+
+--8<-- "technical-grounding/linux/11-kernel-and-hardware/devices-and-udev.md:facts"
+
+### dmesg and Kernel Messages
+
+--8<-- "technical-grounding/linux/11-kernel-and-hardware/dmesg-and-kernel-messages.md:facts"

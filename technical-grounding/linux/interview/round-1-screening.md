@@ -289,3 +289,63 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### Systemd Toolbox
 
 --8<-- "technical-grounding/linux/08-systemd-and-services/systemd-toolbox.md:l1"
+
+---
+
+## Logging
+
+### Log Locations
+
+--8<-- "technical-grounding/linux/09-logging/log-locations.md:l1"
+
+### journalctl
+
+--8<-- "technical-grounding/linux/09-logging/journalctl.md:l1"
+
+### rsyslog
+
+--8<-- "technical-grounding/linux/09-logging/rsyslog.md:l1"
+
+### logrotate
+
+--8<-- "technical-grounding/linux/09-logging/logrotate.md:l1"
+
+### Log Parsing Recipes
+
+--8<-- "technical-grounding/linux/09-logging/log-parsing-recipes.md:l1"
+
+---
+
+## Scheduling
+
+### cron and at
+
+--8<-- "technical-grounding/linux/10-scheduling/cron-and-at.md:l1"
+
+### Systemd Timers
+
+--8<-- "technical-grounding/linux/10-scheduling/systemd-timers.md:l1"
+
+---
+
+## Kernel and Hardware
+
+### proc and sys
+
+--8<-- "technical-grounding/linux/11-kernel-and-hardware/proc-and-sys.md:l1"
+
+### sysctl
+
+--8<-- "technical-grounding/linux/11-kernel-and-hardware/sysctl.md:l1"
+
+### Kernel Modules
+
+--8<-- "technical-grounding/linux/11-kernel-and-hardware/kernel-modules.md:l1"
+
+### Devices and udev
+
+--8<-- "technical-grounding/linux/11-kernel-and-hardware/devices-and-udev.md:l1"
+
+### dmesg and Kernel Messages
+
+--8<-- "technical-grounding/linux/11-kernel-and-hardware/dmesg-and-kernel-messages.md:l1"

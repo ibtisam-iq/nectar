@@ -184,3 +184,65 @@ Real error text seen on Linux servers, with its cause and first fix. Search this
 | `Read-only file system` inside a service | `ProtectSystem=strict` | `ReadWritePaths=` or `StateDirectory=` | [Writing a Service](../08-systemd-and-services/writing-a-service.md) |
 | `sudo: The "no new privileges" flag is set` | `NoNewPrivileges=yes` in the unit | Remove `sudo` from the service's code path | [Writing a Service](../08-systemd-and-services/writing-a-service.md) |
 | `State 'stop-sigterm' timed out. Killing.` | Process ignores `SIGTERM` longer than `TimeoutStopSec=` | Handle `SIGTERM`; `exec` in wrappers | [Signals](../07-processes/signals.md) |
+| `Failed to load environment files: No such file or directory` | `EnvironmentFile=` missing; `Result: resources` | Create it, or prefix with `-` | [Service Won't Start](../interview/scenarios/service-wont-start.md) |
+| `Failed to determine user credentials: No such process` / `status=217/USER` | `User=` names no existing user | Create the user or fix the name | [Service Won't Start](../interview/scenarios/service-wont-start.md) |
+| `OSError: [Errno 98] Address already in use` | Another process owns the port | `ss -tlnp "sport = :<port>"` | [Service Won't Start](../interview/scenarios/service-wont-start.md) |
+
+---
+
+## Logging
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `tail: cannot open '/var/log/secure' for reading: Permission denied` | RHEL log files are root only; Ubuntu's need group `adm` | `sudo`, or `journalctl` as `wheel` or `adm` | [Log Locations](../09-logging/log-locations.md) |
+| `Specifying boot ID or boot offset has no effect, no persistent journal was found.` | Volatile journal | Create `/var/log/journal`, `journalctl --flush` | [journalctl](../09-logging/journalctl.md) |
+| `No journal files were opened due to insufficient permissions.` | User not in `adm`, `systemd-journal` or `wheel` | Add the group, log in again | [journalctl](../09-logging/journalctl.md) |
+| `Suppressed 4725 messages from flood.service` | journald rate limit reached | Lower the log volume or raise `LogRateLimitBurst=` | [journalctl](../09-logging/journalctl.md) |
+| `rsyslogd: error during parsing file /etc/rsyslog.d/30-payments.conf, on or before line 2` | rsyslog syntax error | Fix the line, `rsyslogd -N1` | [rsyslog](../09-logging/rsyslog.md) |
+| `error: skipping "/var/log/app/app.log" because parent directory has insecure permissions` | Log directory writable by a non-root group or everyone | `chmod 755` the directory, or `su user group` in the rule | [logrotate](../09-logging/logrotate.md) |
+| `warning: /tmp/bad.conf:4 unknown option 'copytruncte' -- ignoring line` | Misspelled logrotate directive | Correct it; `logrotate -d` | [logrotate](../09-logging/logrotate.md) |
+| `error: /tmp/dup.conf:1 duplicate log entry for /var/log/app/app.log` | Two rules match one file | Keep one rule | [logrotate](../09-logging/logrotate.md) |
+
+---
+
+## Scheduling
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `"/tmp/bad.cron":1: bad minute` / `Invalid crontab file, can't install.` | Field out of range | Correct the schedule | [cron and at](../10-scheduling/cron-and-at.md) |
+| ``/bin/sh: -c: line 2: unexpected EOF while looking for matching `)'`` | Unescaped `%` in a crontab command | `\%` | [cron and at](../10-scheduling/cron-and-at.md) |
+| `db-backup: command not found` (in `CMDOUT`) | Command outside cron's `PATH` | Full path or `PATH=` in the crontab | [cron and at](../10-scheduling/cron-and-at.md) |
+| `/bin/sh: line 1: /opt/jobs/crlf.sh: cannot execute: required file not found` | CRLF line endings in the script | `sed -i 's/\r$//'` | [cron and at](../10-scheduling/cron-and-at.md) |
+| `/bin/sh: line 1: /opt/reports/run.sh: Permission denied` | Script not executable | `chmod 755` | [Cron Job Not Running](../interview/scenarios/cron-job-not-running.md) |
+| `(CRON) bad command (/etc/cron.d/report)` | `cron.d` line without a user field (RHEL) | Add the user | [cron and at](../10-scheduling/cron-and-at.md) |
+| `Error: bad username; while reading /etc/cron.d/nouser` | `cron.d` line without a user field (Ubuntu) | Add the user | [Cron Job Not Running](../interview/scenarios/cron-job-not-running.md) |
+| `You (bob) are not allowed to use this program (crontab)` | `cron.deny` or `cron.allow` | Update the access files | [cron and at](../10-scheduling/cron-and-at.md) |
+| `(CRON) info (No MTA installed, discarding output)` | Job output with no mail server (Ubuntu) | Redirect output to a file | [Cron Job Not Running](../interview/scenarios/cron-job-not-running.md) |
+| `You do not have permission to use at.` | `at.deny` or `at.allow` | Update the access files | [cron and at](../10-scheduling/cron-and-at.md) |
+| `Exec failed for mail command: No such file or directory` | `atd` could not mail job output | Redirect output inside the job | [cron and at](../10-scheduling/cron-and-at.md) |
+| `Timer unit lacks value setting. Refusing.` | Timer without `OnCalendar=` or `On*Sec=` | Add a trigger | [Systemd Timers](../10-scheduling/systemd-timers.md) |
+| `orphan.timer: Refusing to start, unit orphan.service to trigger not loaded.` | No matching service | Create it or set `Unit=` | [Systemd Timers](../10-scheduling/systemd-timers.md) |
+| `Failed to parse calendar specification 'Mon..Fri 25:00': Invalid argument` | Invalid calendar expression | `systemd-analyze calendar` | [Systemd Timers](../10-scheduling/systemd-timers.md) |
+
+---
+
+## Kernel and Hardware
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `-bash: line 1: /proc/sys/vm/swappiness: Permission denied` | `sudo echo ... >` redirects as the user | `sudo tee` or `sysctl -w` | [proc and sys](../11-kernel-and-hardware/proc-and-sys.md) |
+| `echo: write error: Input/output error` | Read-only proc file | Use the matching tunable | [proc and sys](../11-kernel-and-hardware/proc-and-sys.md) |
+| `sysctl: permission denied on key "vm.swappiness"` | Not root | `sudo sysctl -w` | [sysctl](../11-kernel-and-hardware/sysctl.md) |
+| `sysctl: setting key "vm.swappiness": Invalid argument` | Non-numeric or out-of-range value | Check the valid range | [sysctl](../11-kernel-and-hardware/sysctl.md) |
+| `sysctl: cannot stat /proc/sys/net/sctp/rto_min: No such file or directory` | Typo, or the module is not loaded | `sysctl -a --pattern`; load the module | [sysctl](../11-kernel-and-hardware/sysctl.md) |
+| `modprobe: FATAL: Module sctpp not found in directory /lib/modules/6.1.167` | Wrong name or missing modules for the kernel | `find /lib/modules/$(uname -r)`; install extra modules | [Kernel Modules](../11-kernel-and-hardware/kernel-modules.md) |
+| `rmmod: ERROR: Module sctp is in use` | Use count above zero | Stop the users, or reboot | [Kernel Modules](../11-kernel-and-hardware/kernel-modules.md) |
+| `insmod: ERROR: could not insert module ...: File exists` | Already loaded | `lsmod` | [Kernel Modules](../11-kernel-and-hardware/kernel-modules.md) |
+| `modprobe: FATAL: Module libcrc32c is builtin.` | Built into the kernel | Parameters go on the kernel command line | [Kernel Modules](../11-kernel-and-hardware/kernel-modules.md) |
+| `Error running install command '/bin/false' for module nbd: retcode 1` | Module blocked with `install ... /bin/false` | Remove the rule if the module is needed | [Kernel Modules](../11-kernel-and-hardware/kernel-modules.md) |
+| `/tmp/99-bad.rules:1 Invalid operator for KERNEL.` | `=` used on a udev match key | `==` | [Devices and udev](../11-kernel-and-hardware/devices-and-udev.md) |
+| `parse-config[4369]: segfault at 0 ip ... error 6 in parse-config[401000+1000]` | NULL pointer write | `coredumpctl debug` | [dmesg and Kernel Messages](../11-kernel-and-hardware/dmesg-and-kernel-messages.md) |
+| `Memory cgroup out of memory: Killed process 4383 (python3)` | cgroup memory limit reached | Raise `MemoryMax=` or fix the leak | [dmesg and Kernel Messages](../11-kernel-and-hardware/dmesg-and-kernel-messages.md) |
+| `Buffer I/O error on dev dm-0, logical block 0, async page read` | Read error from the block device | Check hardware, restore from backup | [dmesg and Kernel Messages](../11-kernel-and-hardware/dmesg-and-kernel-messages.md) |
+| `INFO: task sh:4577 blocked for more than 10 seconds.` | Task stuck in `D` state | Fix the device or filesystem it waits on | [dmesg and Kernel Messages](../11-kernel-and-hardware/dmesg-and-kernel-messages.md) |
+

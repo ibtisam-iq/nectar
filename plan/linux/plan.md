@@ -325,6 +325,8 @@ Each batch updates `roadmap.md`, the snippet aggregators, `reference/coverage-ma
 
 - **Rocky playground image fixes:** from batch C on, the Rocky playground runs full `coreutils` (`dnf swap coreutils-single coreutils`), as a standard RHEL server install does, so process and tracing output shows real binaries instead of wrapper scripts. Pages written earlier keep their D25 notes.
 - **Known kernel limits of the playgrounds:** the iximiuz kernel has no Yama module (`kernel.yama.ptrace_scope` is absent) and does not enable the `cpu` cgroup controller for units, so `CPUQuota=` and `CPUWeight=` are not enforced there. Pages state these facts without claiming a capture; module 19 captures cgroup CPU limits on a VM where the controller is available.
+- **Packages missing from the playground images:** from batch D on, the Rocky playground also has `rsyslog`, `at`, `lm_sensors` and `smartmontools`, and the Ubuntu playground has `rsyslog`, `logrotate`, `cron`, `anacron`, `at`, `sshpass` and `jq`. Standard server installs include the logging and scheduling packages; pages that list `/var/log` say the files appeared after the install.
+- **Playground kernel and modules:** the kernel and `/lib/modules` come from iximiuz Labs, not from the distribution. Some drivers that are modules on RHEL and Ubuntu are built in (`br_netfilter`, `loop`, `dummy`), so module pages demonstrate with loadable modules such as `sctp` and `nbd` and state the distribution behavior for the rest.
 
 - **Full local VM** (VirtualBox RHEL from the course, or UTM): `16-boot-and-recovery/` (GRUB, rd.break) and `20-virtualization-and-provisioning/` (nested KVM).
 - **Fallback:** local Docker for modules 00 to 05.

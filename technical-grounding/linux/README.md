@@ -30,9 +30,9 @@ Every topic file declares a **Track** (Core, RHCSA, Advanced) and an **Interview
 | 06 | [Package Management](06-package-management/README.md) | `rpm`/`dnf`, `dpkg`/`apt`, repositories, Flatpak, shared libraries |
 | 07 | [Processes](07-processes/README.md) | Lifecycle, states, signals, job control, priorities, system calls and tracing |
 | 08 | [Systemd and Services](08-systemd-and-services/README.md) | Targets, `systemctl`, unit files, writing a service |
-| 09 | Logging | Log locations, `journalctl`, `rsyslog`, `logrotate`, log parsing |
-| 10 | Scheduling | `cron`, `at`, systemd timers |
-| 11 | Kernel and Hardware | `/proc` and `/sys`, `sysctl`, modules, devices, kernel messages |
+| 09 | [Logging](09-logging/README.md) | Log locations, `journalctl`, `rsyslog`, `logrotate`, log parsing |
+| 10 | [Scheduling](10-scheduling/README.md) | `cron`, `at`, systemd timers |
+| 11 | [Kernel and Hardware](11-kernel-and-hardware/README.md) | `/proc` and `/sys`, `sysctl`, modules, devices, kernel messages |
 | 12 | Storage | Disks, partitions, filesystems, mounts, swap, LVM, resizing, usage, backup |
 | 13 | Networking | Interfaces, configuration, routing, DNS, sockets, testing, capture, time |
 | 14 | SSH and Remote Access | Client, tunnels, server, file transfer, troubleshooting |

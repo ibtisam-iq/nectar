@@ -186,30 +186,30 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 3: Batch D (modules 09, 10, 11)
 
-- [ ] `09-logging/.pages` <!-- id:technical-grounding/linux/09-logging/.pages -->
-- [ ] `09-logging/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/09-logging/README.md -->
-- [ ] `09-logging/log-locations.md` (Core, High) <!-- id:technical-grounding/linux/09-logging/log-locations.md -->
-- [ ] `09-logging/journalctl.md` (Core, High) <!-- id:technical-grounding/linux/09-logging/journalctl.md -->
-- [ ] `09-logging/rsyslog.md` (Core, Low) <!-- id:technical-grounding/linux/09-logging/rsyslog.md -->
-- [ ] `09-logging/logrotate.md` (Core, Med) <!-- id:technical-grounding/linux/09-logging/logrotate.md -->
-- [ ] `09-logging/log-parsing-recipes.md` (Core, High) <!-- id:technical-grounding/linux/09-logging/log-parsing-recipes.md -->
-- [ ] `10-scheduling/.pages` <!-- id:technical-grounding/linux/10-scheduling/.pages -->
-- [ ] `10-scheduling/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/10-scheduling/README.md -->
-- [ ] `10-scheduling/cron-and-at.md` (Core, High) <!-- id:technical-grounding/linux/10-scheduling/cron-and-at.md -->
-- [ ] `10-scheduling/systemd-timers.md` (Core, Med) <!-- id:technical-grounding/linux/10-scheduling/systemd-timers.md -->
-- [ ] `11-kernel-and-hardware/.pages` <!-- id:technical-grounding/linux/11-kernel-and-hardware/.pages -->
-- [ ] `11-kernel-and-hardware/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/11-kernel-and-hardware/README.md -->
-- [ ] `11-kernel-and-hardware/proc-and-sys.md` (Core, High) <!-- id:technical-grounding/linux/11-kernel-and-hardware/proc-and-sys.md -->
-- [ ] `11-kernel-and-hardware/sysctl.md` (Core, High) <!-- id:technical-grounding/linux/11-kernel-and-hardware/sysctl.md -->
-- [ ] `11-kernel-and-hardware/kernel-modules.md` (Core, Med) <!-- id:technical-grounding/linux/11-kernel-and-hardware/kernel-modules.md -->
-- [ ] `11-kernel-and-hardware/devices-and-udev.md` (Advanced, Low) <!-- id:technical-grounding/linux/11-kernel-and-hardware/devices-and-udev.md -->
-- [ ] `11-kernel-and-hardware/dmesg-and-kernel-messages.md` (Core, Med) <!-- id:technical-grounding/linux/11-kernel-and-hardware/dmesg-and-kernel-messages.md -->
-- [ ] `interview/scenarios/service-wont-start.md` (modules 08, 09) <!-- id:technical-grounding/linux/interview/scenarios/service-wont-start.md -->
-- [ ] `interview/scenarios/cron-job-not-running.md` (modules 01, 10) <!-- id:technical-grounding/linux/interview/scenarios/cron-job-not-running.md -->
-- [ ] Batch D: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:D:grows -->
-- [ ] Batch D: `scripts/lint-prose.py` exits 0 <!-- id:check:D:lint -->
-- [ ] Batch D: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:D:audit -->
-- [ ] Batch D: `mkdocs build` has no warnings for the tool folder <!-- id:check:D:build -->
+- [x] `09-logging/.pages` <!-- id:technical-grounding/linux/09-logging/.pages -->
+- [x] `09-logging/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/09-logging/README.md -->
+- [x] `09-logging/log-locations.md` (Core, High) <!-- id:technical-grounding/linux/09-logging/log-locations.md -->
+- [x] `09-logging/journalctl.md` (Core, High) <!-- id:technical-grounding/linux/09-logging/journalctl.md -->
+- [x] `09-logging/rsyslog.md` (Core, Low) <!-- id:technical-grounding/linux/09-logging/rsyslog.md -->
+- [x] `09-logging/logrotate.md` (Core, Med) <!-- id:technical-grounding/linux/09-logging/logrotate.md -->
+- [x] `09-logging/log-parsing-recipes.md` (Core, High) <!-- id:technical-grounding/linux/09-logging/log-parsing-recipes.md -->
+- [x] `10-scheduling/.pages` <!-- id:technical-grounding/linux/10-scheduling/.pages -->
+- [x] `10-scheduling/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/10-scheduling/README.md -->
+- [x] `10-scheduling/cron-and-at.md` (Core, High) <!-- id:technical-grounding/linux/10-scheduling/cron-and-at.md -->
+- [x] `10-scheduling/systemd-timers.md` (Core, Med) <!-- id:technical-grounding/linux/10-scheduling/systemd-timers.md -->
+- [x] `11-kernel-and-hardware/.pages` <!-- id:technical-grounding/linux/11-kernel-and-hardware/.pages -->
+- [x] `11-kernel-and-hardware/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/11-kernel-and-hardware/README.md -->
+- [x] `11-kernel-and-hardware/proc-and-sys.md` (Core, High) <!-- id:technical-grounding/linux/11-kernel-and-hardware/proc-and-sys.md -->
+- [x] `11-kernel-and-hardware/sysctl.md` (Core, High) <!-- id:technical-grounding/linux/11-kernel-and-hardware/sysctl.md -->
+- [x] `11-kernel-and-hardware/kernel-modules.md` (Core, Med) <!-- id:technical-grounding/linux/11-kernel-and-hardware/kernel-modules.md -->
+- [x] `11-kernel-and-hardware/devices-and-udev.md` (Advanced, Low) <!-- id:technical-grounding/linux/11-kernel-and-hardware/devices-and-udev.md -->
+- [x] `11-kernel-and-hardware/dmesg-and-kernel-messages.md` (Core, Med) <!-- id:technical-grounding/linux/11-kernel-and-hardware/dmesg-and-kernel-messages.md -->
+- [x] `interview/scenarios/service-wont-start.md` (modules 08, 09) <!-- id:technical-grounding/linux/interview/scenarios/service-wont-start.md -->
+- [x] `interview/scenarios/cron-job-not-running.md` (modules 01, 10) <!-- id:technical-grounding/linux/interview/scenarios/cron-job-not-running.md -->
+- [x] Batch D: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:D:grows -->
+- [x] Batch D: `scripts/lint-prose.py` exits 0 <!-- id:check:D:lint -->
+- [x] Batch D: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:D:audit -->
+- [x] Batch D: `mkdocs build` has no warnings for the tool folder <!-- id:check:D:build -->
 - [ ] Batch D: owner review done; first-hand line spots listed <!-- id:check:D:owner -->
 
 ---

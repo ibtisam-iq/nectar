@@ -91,3 +91,14 @@ Dated log of every decision that shaped the plan. Later changes are appended wit
 | D32 | The Rocky playground now runs full `coreutils` instead of `coreutils-single` (`dnf swap`), matching a standard RHEL server install; batch A and B pages keep their D25 notes | `ps`, `strace` and `/proc/<pid>/exe` showed the `coreutils` wrapper instead of the real program, which would mislead readers of the process pages |
 | D33 | Where the playground kernel lacks a feature (Yama `ptrace_scope`, the `cpu` cgroup controller), pages state the distribution behavior and say it was not captured; D-state demos use `fsfreeze` on a loop-mounted ext4 image | Keeps every output real; `fsfreeze` reproduces a true uninterruptible sleep without NFS |
 | D34 | The Process Won't Die scenario combines two capture runs on the same host and says so on the page | The frozen-filesystem run blocked the first script, so its PIDs come from a second run |
+
+---
+
+## 2026-09-17: Batch D
+
+| # | Decision | Reason |
+|---|---|---|
+| D35 | Batch C approved by the owner ("continue batch d"); the question about admonitions in 21 batch A and B pages stays open | Batch exit criterion |
+| D36 | Batch D installs missing logging and scheduling packages on both playgrounds, enables a persistent journal on Rocky and reboots it once for previous-boot captures. Sample log data is generated on the playgrounds and named as such: nginx traffic from loopback addresses (`127.0.0.x`) to a test virtual host, and SSH password guesses against Ubuntu with password authentication enabled by a drop-in for the demo | Real captures need real log lines; loopback source addresses give distinct clients without exposing real IPs |
+| D37 | Kernel pages use the playground's iximiuz-built kernel and say so; where a driver is built in there (`br_netfilter`), the page shows that state and states the distribution default without a capture. Hardware-only tools (`sensors`, `ipmitool`) are described, with the VM's empty result where one exists | Keeps every output real while explaining differences from a stock RHEL or Ubuntu kernel |
+

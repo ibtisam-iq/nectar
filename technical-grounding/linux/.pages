@@ -11,6 +11,9 @@ nav:
   - 06-package-management
   - 07-processes
   - 08-systemd-and-services
+  - 09-logging
+  - 10-scheduling
+  - 11-kernel-and-hardware
   - reference
   - interview
   - labs

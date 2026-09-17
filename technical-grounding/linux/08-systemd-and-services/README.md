@@ -55,4 +55,5 @@ How systemd boots the system into a target, and how services are managed, define
 ## Scenarios and Labs
 
 - [Process Won't Die](../interview/scenarios/process-wont-die.md): a service that systemd keeps restarting
+- [Service Won't Start](../interview/scenarios/service-wont-start.md): environment files, `203/EXEC`, `217/USER`, ports and dependencies
 - [Processes and Services Lab](../labs/processes-and-services-lab.md): write, break and fix a service

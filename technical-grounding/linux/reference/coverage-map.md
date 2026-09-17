@@ -138,3 +138,41 @@ Certification objectives mapped to the topic file that covers them. The map prov
 | LFCS | Manage and configure systemd services and targets | [systemctl](../08-systemd-and-services/systemctl.md), [Unit Files](../08-systemd-and-services/unit-files.md), [Writing a Service](../08-systemd-and-services/writing-a-service.md) |
 | LPIC-1 101.3 | Change runlevels / boot targets and shut down or reboot the system | [Init and Targets](../08-systemd-and-services/init-and-targets.md) |
 | Linux+ XK0-006 | Service management with systemd: units, targets, overrides, troubleshooting | [systemctl](../08-systemd-and-services/systemctl.md), [Unit Files](../08-systemd-and-services/unit-files.md), [Systemd Toolbox](../08-systemd-and-services/systemd-toolbox.md) |
+
+---
+
+## Logging
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Locate and interpret system log files and journals | [Log Locations](../09-logging/log-locations.md), [journalctl](../09-logging/journalctl.md) |
+| RHCSA EX200 (RHEL 10) | Preserve system journals | [journalctl](../09-logging/journalctl.md) |
+| LFCS | Configure and manage system logging; analyze logs | [journalctl](../09-logging/journalctl.md), [rsyslog](../09-logging/rsyslog.md), [Log Parsing Recipes](../09-logging/log-parsing-recipes.md) |
+| LPIC-1 108.2 | System logging: rsyslog, logrotate, journald, `logger`, `systemd-cat` | [rsyslog](../09-logging/rsyslog.md), [logrotate](../09-logging/logrotate.md), [journalctl](../09-logging/journalctl.md) |
+| Linux+ XK0-006 | Logging and log analysis | [Log Locations](../09-logging/log-locations.md), [Log Parsing Recipes](../09-logging/log-parsing-recipes.md) |
+| Interview sources | Parse access and authentication logs with `awk`, `sort`, `uniq` | [Log Parsing Recipes](../09-logging/log-parsing-recipes.md) |
+
+---
+
+## Scheduling
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Schedule tasks using `at` and `cron` | [cron and at](../10-scheduling/cron-and-at.md) |
+| RHCSA EX200 (RHEL 10) | Schedule tasks with systemd timer units | [Systemd Timers](../10-scheduling/systemd-timers.md) |
+| LFCS | Schedule tasks to run at a set date and time | [cron and at](../10-scheduling/cron-and-at.md), [Systemd Timers](../10-scheduling/systemd-timers.md) |
+| LPIC-1 107.2 | Automate system administration tasks by scheduling jobs (`cron`, `at`, `anacron`, timers, access files) | [cron and at](../10-scheduling/cron-and-at.md), [Systemd Timers](../10-scheduling/systemd-timers.md) |
+| Linux+ XK0-006 | Job scheduling | [cron and at](../10-scheduling/cron-and-at.md) |
+
+---
+
+## Kernel and Hardware
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| LFCS | Update and manage kernel parameters (`sysctl`); load and remove kernel modules | [sysctl](../11-kernel-and-hardware/sysctl.md), [Kernel Modules](../11-kernel-and-hardware/kernel-modules.md) |
+| LPIC-1 101.1 | Determine and configure hardware: sysfs, udev, procfs, `/dev`, `modprobe`, `lsmod`, `lspci`, `lsusb` | [proc and sys](../11-kernel-and-hardware/proc-and-sys.md), [Kernel Modules](../11-kernel-and-hardware/kernel-modules.md), [Devices and udev](../11-kernel-and-hardware/devices-and-udev.md) |
+| LPIC-1 101.2 | Kernel ring buffer and boot messages (`dmesg`, `journalctl -k`) | [dmesg and Kernel Messages](../11-kernel-and-hardware/dmesg-and-kernel-messages.md) |
+| Linux+ XK0-006 | Kernel modules, parameters and hardware devices | [Kernel Modules](../11-kernel-and-hardware/kernel-modules.md), [sysctl](../11-kernel-and-hardware/sysctl.md), [Devices and udev](../11-kernel-and-hardware/devices-and-udev.md) |
+| Interview sources | OOM killer, segfaults, hung tasks, `/proc` without tools | [dmesg and Kernel Messages](../11-kernel-and-hardware/dmesg-and-kernel-messages.md), [proc and sys](../11-kernel-and-hardware/proc-and-sys.md) |
+

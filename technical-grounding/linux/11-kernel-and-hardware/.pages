@@ -1,0 +1,8 @@
+title: Kernel and Hardware
+nav:
+  - README.md
+  - proc and sys: proc-and-sys.md
+  - sysctl: sysctl.md
+  - Kernel Modules: kernel-modules.md
+  - Devices and udev: devices-and-udev.md
+  - dmesg and Kernel Messages: dmesg-and-kernel-messages.md
