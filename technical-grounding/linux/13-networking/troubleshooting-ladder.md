@@ -194,7 +194,7 @@ Minimal images and containers often lack `ip`, `ss`, `nc` and `dig`. The same la
 | Route | `cat /proc/net/route` (hex, little-endian) |
 | Neighbor | `cat /proc/net/arp` |
 | Name | `getent hosts <name>`, `cat /etc/resolv.conf` |
-| Port | `timeout 2 bash -c '</dev/tcp/<ip>/<port>'` |
+| Port | `timeout 2 bash -c '< /dev/tcp/<ip>/<port>'` |
 | Listeners | `cat /proc/net/tcp /proc/net/tcp6` (state `0A` is LISTEN) |
 | HTTP | `exec 3<>/dev/tcp/<ip>/80; printf 'GET / HTTP/1.0\r\n\r\n' >&3; cat <&3` |
 
@@ -239,7 +239,7 @@ Minimal images and containers often lack `ip`, `ss`, `nc` and `dig`. The same la
 ??? question "L2: Show that a service is reachable on its port without curl, nc or telnet."
     **Say first:** use Bash's `/dev/tcp` with a timeout.
 
-    **Proof:** `timeout 2 bash -c '</dev/tcp/172.16.1.3/8080' && echo open`.
+    **Proof:** `timeout 2 bash -c '< /dev/tcp/172.16.1.3/8080' && echo open`.
 
     **Follow-up:** How do you read the answer to an HTTP request the same way?
 

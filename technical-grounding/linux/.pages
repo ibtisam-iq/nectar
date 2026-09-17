@@ -16,6 +16,8 @@ nav:
   - 11-kernel-and-hardware
   - 12-storage
   - 13-networking
+  - 14-ssh-and-remote-access
+  - 15-security
   - reference
   - interview
   - labs

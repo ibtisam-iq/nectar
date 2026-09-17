@@ -19,7 +19,7 @@ Each test tool answers one question: `ping` whether IP packets come back, `trace
 | `mtr` | Continuous traceroute with per-hop loss; loss only at a middle hop is ICMP rate limiting | `mtr -n -r -c 10 <host>` |
 | MTU probe | `ping -M do -s <size>`: payload + 28 bytes of headers must fit the MTU (1472 for 1500) | `ping -M do -s 1472 <host>` |
 | PMTU cache | The kernel remembers a lower path MTU per destination for 10 minutes | `ip route get <host>` |
-| Port test | `nc -vz host port`; `timeout 2 bash -c '</dev/tcp/host/port'` without `nc` | exit status |
+| Port test | `nc -vz host port`; `timeout 2 bash -c '< /dev/tcp/host/port'` without `nc` | exit status |
 | Refused vs timeout | Refused: RST (nothing listens or `reject`); timeout: dropped | `nc -vz -w3` |
 | HTTP | `curl -v` (headers), `-I` (HEAD), `-w` (timings), `--resolve` (skip DNS), `-k` (skip TLS verify) | `curl -sv <url>` |
 | Throughput | `iperf3 -s` on one side, `iperf3 -c` on the other; port 5201 | `iperf3 -c <host>` |
@@ -306,7 +306,7 @@ The server side ran `iperf3 -s -1` (one test, then exit). `Retr` counts TCP retr
 ??? question "L2: Test whether port 5432 on db01 accepts connections without installing anything."
     **Say first:** use Bash's `/dev/tcp` with a timeout.
 
-    **Proof:** `timeout 2 bash -c '</dev/tcp/db01/5432' && echo open || echo closed`.
+    **Proof:** `timeout 2 bash -c '< /dev/tcp/db01/5432' && echo open || echo closed`.
 
     **Follow-up:** How do you tell "closed" from "filtered" with this method? (Immediate failure versus exit 124.)
 

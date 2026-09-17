@@ -453,3 +453,67 @@ Every topic's Must-Know Facts table in one place, for a fast revision pass. Tabl
 ### Troubleshooting Ladder
 
 --8<-- "technical-grounding/linux/13-networking/troubleshooting-ladder.md:facts"
+
+## SSH and Remote Access
+
+### SSH Client
+
+--8<-- "technical-grounding/linux/14-ssh-and-remote-access/ssh-client.md:facts"
+
+### SSH Tunnels
+
+--8<-- "technical-grounding/linux/14-ssh-and-remote-access/ssh-tunnels.md:facts"
+
+### sshd Server
+
+--8<-- "technical-grounding/linux/14-ssh-and-remote-access/sshd-server.md:facts"
+
+### File Transfer
+
+--8<-- "technical-grounding/linux/14-ssh-and-remote-access/file-transfer.md:facts"
+
+### SSH Troubleshooting
+
+--8<-- "technical-grounding/linux/14-ssh-and-remote-access/ssh-troubleshooting.md:facts"
+
+## Security
+
+### firewalld and ufw
+
+--8<-- "technical-grounding/linux/15-security/firewalld-and-ufw.md:facts"
+
+### nftables and iptables
+
+--8<-- "technical-grounding/linux/15-security/nftables-and-iptables.md:facts"
+
+### SELinux
+
+--8<-- "technical-grounding/linux/15-security/selinux.md:facts"
+
+### AppArmor
+
+--8<-- "technical-grounding/linux/15-security/apparmor.md:facts"
+
+### Capabilities
+
+--8<-- "technical-grounding/linux/15-security/capabilities.md:facts"
+
+### auditd
+
+--8<-- "technical-grounding/linux/15-security/auditd.md:facts"
+
+### GPG
+
+--8<-- "technical-grounding/linux/15-security/gpg.md:facts"
+
+### OpenSSL and Trust Store
+
+--8<-- "technical-grounding/linux/15-security/openssl-and-trust-store.md:facts"
+
+### Compliance and Integrity
+
+--8<-- "technical-grounding/linux/15-security/compliance-and-integrity.md:facts"
+
+### Hardening Checklist
+
+--8<-- "technical-grounding/linux/15-security/hardening-checklist.md:facts"

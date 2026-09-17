@@ -51,3 +51,9 @@ A **Don't say** line records a common wrong answer worth avoiding.
 | [Cron Job Not Running](scenarios/cron-job-not-running.md) | 01 Shell and CLI, 10 Scheduling |
 | [Disk Full](scenarios/disk-full.md) | 02 Files and Filesystem, 07 Processes, 12 Storage |
 | [DNS Not Resolving](scenarios/dns-not-resolving.md) | 13 Networking |
+| [Cannot SSH](scenarios/cannot-ssh.md) | 14 SSH, 15 Security |
+| [Service Unreachable](scenarios/service-unreachable.md) | 13 Networking, 15 Security |
+| [Cannot Reach Host](scenarios/cannot-reach-host.md) | 13 Networking, 15 Security |
+| [TLS Certificate Errors](scenarios/tls-certificate-errors.md) | 13 Networking, 15 Security |
+| [Permission Denied](scenarios/permission-denied.md) | 05 Permissions, 12 Storage, 15 Security |
+| [Suspected Compromise](scenarios/suspected-compromise.md) | 07 Processes, 13 Networking, 15 Security |

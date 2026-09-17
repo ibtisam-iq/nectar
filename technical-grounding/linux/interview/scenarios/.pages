@@ -7,3 +7,9 @@ nav:
   - Cron Job Not Running: cron-job-not-running.md
   - Disk Full: disk-full.md
   - DNS Not Resolving: dns-not-resolving.md
+  - Cannot SSH: cannot-ssh.md
+  - Service Unreachable: service-unreachable.md
+  - Cannot Reach Host: cannot-reach-host.md
+  - TLS Certificate Errors: tls-certificate-errors.md
+  - Permission Denied: permission-denied.md
+  - Suspected Compromise: suspected-compromise.md

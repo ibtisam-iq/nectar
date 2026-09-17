@@ -222,3 +222,40 @@ Certification objectives mapped to the topic file that covers them. The map prov
 | Linux+ XK0-006 | Network configuration, tools and troubleshooting | [Network Configuration](../13-networking/network-configuration.md), [Connectivity Testing](../13-networking/connectivity-testing.md), [Packet Capture](../13-networking/packet-capture.md), [Troubleshooting Ladder](../13-networking/troubleshooting-ladder.md) |
 | Linux+ XK0-006 | Tunnels and VPNs | [VPN (WireGuard)](../13-networking/vpn-wireguard.md) |
 | Interview sources | `ss` and `netstat`, TCP states, DNS lookup order, `502` versus `504`, a layered troubleshooting answer | [Ports and Sockets](../13-networking/ports-and-sockets.md), [Sockets and TCP States](../13-networking/sockets-and-tcp-states.md), [DNS Resolution](../13-networking/dns-resolution.md), [Reverse Proxy and Load Balancing](../13-networking/reverse-proxy-and-load-balancing.md), [Troubleshooting Ladder](../13-networking/troubleshooting-ladder.md) |
+
+---
+
+## SSH and Remote Access
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Access remote systems using SSH | [SSH Client](../14-ssh-and-remote-access/ssh-client.md), [SSH Troubleshooting](../14-ssh-and-remote-access/ssh-troubleshooting.md) |
+| RHCSA EX200 (RHEL 10) | Configure key-based authentication for SSH | [SSH Client](../14-ssh-and-remote-access/ssh-client.md), [sshd Server](../14-ssh-and-remote-access/sshd-server.md) |
+| RHCSA EX200 (RHEL 10) | Securely transfer files between systems | [File Transfer](../14-ssh-and-remote-access/file-transfer.md) |
+| LFCS | Configure SSH servers and clients | [ssh Client](../14-ssh-and-remote-access/ssh-client.md), [sshd Server](../14-ssh-and-remote-access/sshd-server.md) |
+| LPIC-1 105 / 110.3 | Securing data with SSH, tunnels and known hosts | [SSH Client](../14-ssh-and-remote-access/ssh-client.md), [SSH Tunnels](../14-ssh-and-remote-access/ssh-tunnels.md) |
+| Linux+ XK0-006 | Remote access (SSH keys, config, tunnels, SFTP) | [SSH Client](../14-ssh-and-remote-access/ssh-client.md), [SSH Tunnels](../14-ssh-and-remote-access/ssh-tunnels.md), [File Transfer](../14-ssh-and-remote-access/file-transfer.md) |
+| Interview sources | `Permission denied (publickey)` ladder, slow login, bastions, `rsync` trailing slash | [SSH Troubleshooting](../14-ssh-and-remote-access/ssh-troubleshooting.md), [SSH Client](../14-ssh-and-remote-access/ssh-client.md), [File Transfer](../14-ssh-and-remote-access/file-transfer.md) |
+
+---
+
+## Security
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Configure firewall settings using firewall-cmd | [firewalld and ufw](../15-security/firewalld-and-ufw.md) |
+| RHCSA EX200 (RHEL 10) | Set enforcing and permissive modes for SELinux | [SELinux](../15-security/selinux.md) |
+| RHCSA EX200 (RHEL 10) | List and identify SELinux file and process context | [SELinux](../15-security/selinux.md) |
+| RHCSA EX200 (RHEL 10) | Restore default file contexts; use booleans | [SELinux](../15-security/selinux.md) |
+| RHCSA EX200 (RHEL 10) | Diagnose and address routine SELinux policy violations | [SELinux](../15-security/selinux.md), [Hardening Checklist](../15-security/hardening-checklist.md) |
+| LFCS | Configure firewalld / packet filtering | [firewalld and ufw](../15-security/firewalld-and-ufw.md), [nftables and iptables](../15-security/nftables-and-iptables.md) |
+| LFCS | Configure and manage SELinux / AppArmor | [SELinux](../15-security/selinux.md), [AppArmor](../15-security/apparmor.md) |
+| LFCS | Manage software and configure GPG-signed repositories | [GPG](../15-security/gpg.md) |
+| LFCS | Configure and use auditing | [auditd](../15-security/auditd.md) |
+| LPIC-1 110.1 | Perform security administration tasks (setuid, `find`, ports, `fail2ban`) | [Hardening Checklist](../15-security/hardening-checklist.md), [Capabilities](../15-security/capabilities.md) |
+| LPIC-1 110.2 | Set up host security (services, TCP wrappers, updates) | [Hardening Checklist](../15-security/hardening-checklist.md), [Compliance and Integrity](../15-security/compliance-and-integrity.md) |
+| LPIC-1 110 / GPG | Encrypt and sign with GnuPG; manage keys | [GPG](../15-security/gpg.md) |
+| Linux+ XK0-006 | Firewalls, SELinux/AppArmor, capabilities, hardening | [firewalld and ufw](../15-security/firewalld-and-ufw.md), [SELinux](../15-security/selinux.md), [Capabilities](../15-security/capabilities.md), [Hardening Checklist](../15-security/hardening-checklist.md) |
+| Linux+ XK0-006 | Certificates, PKI and the system trust store | [OpenSSL and Trust Store](../15-security/openssl-and-trust-store.md) |
+| Linux+ XK0-006 | NAT, port forwarding and packet filtering | [nftables and iptables](../15-security/nftables-and-iptables.md) |
+| Interview sources | SELinux denials with correct modes, capabilities vs setuid, reject vs drop, backported CVEs, TLS trust | [SELinux](../15-security/selinux.md), [Capabilities](../15-security/capabilities.md), [firewalld and ufw](../15-security/firewalld-and-ufw.md), [Compliance and Integrity](../15-security/compliance-and-integrity.md), [OpenSSL and Trust Store](../15-security/openssl-and-trust-store.md) |

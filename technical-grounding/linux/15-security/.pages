@@ -1,0 +1,13 @@
+title: Security
+nav:
+  - README.md
+  - firewalld and ufw: firewalld-and-ufw.md
+  - nftables and iptables: nftables-and-iptables.md
+  - SELinux: selinux.md
+  - AppArmor: apparmor.md
+  - Capabilities: capabilities.md
+  - auditd: auditd.md
+  - GPG: gpg.md
+  - OpenSSL and Trust Store: openssl-and-trust-store.md
+  - Compliance and Integrity: compliance-and-integrity.md
+  - Hardening Checklist: hardening-checklist.md

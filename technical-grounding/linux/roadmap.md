@@ -175,26 +175,26 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 
 ## 14 SSH and Remote Access
 
-- [ ] SSH Client (Core, High)
-- [ ] SSH Tunnels (Core, Med)
-- [ ] sshd Server (Core, Med)
-- [ ] File Transfer (Core, Med)
-- [ ] SSH Troubleshooting (Core, High)
+- [x] [SSH Client](14-ssh-and-remote-access/ssh-client.md) (Core, High)
+- [x] [SSH Tunnels](14-ssh-and-remote-access/ssh-tunnels.md) (Core, Med)
+- [x] [sshd Server](14-ssh-and-remote-access/sshd-server.md) (Core, Med)
+- [x] [File Transfer](14-ssh-and-remote-access/file-transfer.md) (Core, Med)
+- [x] [SSH Troubleshooting](14-ssh-and-remote-access/ssh-troubleshooting.md) (Core, High)
 
 ---
 
 ## 15 Security
 
-- [ ] firewalld and ufw (Core, Med)
-- [ ] nftables and iptables (Core, Med)
-- [ ] SELinux (RHCSA, Med, internals)
-- [ ] AppArmor (Core, Low)
-- [ ] Capabilities (Advanced, Med)
-- [ ] auditd (Advanced, Low)
-- [ ] GPG (Core, Low)
-- [ ] OpenSSL and Trust Store (Core, Med)
-- [ ] Compliance and Integrity (Advanced, Low)
-- [ ] Hardening Checklist (Core, Med)
+- [x] [firewalld and ufw](15-security/firewalld-and-ufw.md) (Core, Med)
+- [x] [nftables and iptables](15-security/nftables-and-iptables.md) (Core, Med)
+- [x] [SELinux](15-security/selinux.md) (RHCSA, Med, internals)
+- [x] [AppArmor](15-security/apparmor.md) (Core, Low)
+- [x] [Capabilities](15-security/capabilities.md) (Advanced, Med)
+- [x] [auditd](15-security/auditd.md) (Advanced, Low)
+- [x] [GPG](15-security/gpg.md) (Core, Low)
+- [x] [OpenSSL and Trust Store](15-security/openssl-and-trust-store.md) (Core, Med)
+- [x] [Compliance and Integrity](15-security/compliance-and-integrity.md) (Advanced, Low)
+- [x] [Hardening Checklist](15-security/hardening-checklist.md) (Core, Med)
 
 ---
 

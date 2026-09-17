@@ -453,3 +453,67 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### Troubleshooting Ladder
 
 --8<-- "technical-grounding/linux/13-networking/troubleshooting-ladder.md:l1"
+
+## SSH and Remote Access
+
+### SSH Client
+
+--8<-- "technical-grounding/linux/14-ssh-and-remote-access/ssh-client.md:l1"
+
+### SSH Tunnels
+
+--8<-- "technical-grounding/linux/14-ssh-and-remote-access/ssh-tunnels.md:l1"
+
+### sshd Server
+
+--8<-- "technical-grounding/linux/14-ssh-and-remote-access/sshd-server.md:l1"
+
+### File Transfer
+
+--8<-- "technical-grounding/linux/14-ssh-and-remote-access/file-transfer.md:l1"
+
+### SSH Troubleshooting
+
+--8<-- "technical-grounding/linux/14-ssh-and-remote-access/ssh-troubleshooting.md:l1"
+
+## Security
+
+### firewalld and ufw
+
+--8<-- "technical-grounding/linux/15-security/firewalld-and-ufw.md:l1"
+
+### nftables and iptables
+
+--8<-- "technical-grounding/linux/15-security/nftables-and-iptables.md:l1"
+
+### SELinux
+
+--8<-- "technical-grounding/linux/15-security/selinux.md:l1"
+
+### AppArmor
+
+--8<-- "technical-grounding/linux/15-security/apparmor.md:l1"
+
+### Capabilities
+
+--8<-- "technical-grounding/linux/15-security/capabilities.md:l1"
+
+### auditd
+
+--8<-- "technical-grounding/linux/15-security/auditd.md:l1"
+
+### GPG
+
+--8<-- "technical-grounding/linux/15-security/gpg.md:l1"
+
+### OpenSSL and Trust Store
+
+--8<-- "technical-grounding/linux/15-security/openssl-and-trust-store.md:l1"
+
+### Compliance and Integrity
+
+--8<-- "technical-grounding/linux/15-security/compliance-and-integrity.md:l1"
+
+### Hardening Checklist
+
+--8<-- "technical-grounding/linux/15-security/hardening-checklist.md:l1"

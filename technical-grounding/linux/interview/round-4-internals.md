@@ -97,6 +97,13 @@ Senior, SRE and production engineering loops ask what happens underneath a comma
 | Why does `TIME_WAIT` exist, and why does it last 60 seconds on Linux? | [Sockets and TCP States](../13-networking/sockets-and-tcp-states.md) |
 | Why can a server have established connections that the application never accepted? | [Sockets and TCP States](../13-networking/sockets-and-tcp-states.md) |
 
+## Security
+
+| Question | Answered in |
+|---|---|
+| What happens inside the kernel when nginx opens a file on an SELinux system? | [SELinux](../15-security/selinux.md) |
+| How does a service end up in its own SELinux domain? | [SELinux](../15-security/selinux.md) |
+
 ---
 
 ## How to Answer

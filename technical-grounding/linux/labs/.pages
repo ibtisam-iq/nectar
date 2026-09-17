@@ -5,3 +5,4 @@ nav:
   - Processes and Services: processes-and-services-lab.md
   - Storage and LVM: storage-and-lvm-lab.md
   - Networking: networking-lab.md
+  - Security: security-lab.md

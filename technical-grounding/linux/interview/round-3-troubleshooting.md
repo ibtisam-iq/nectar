@@ -29,3 +29,9 @@ The troubleshooting round starts with a symptom and no instructions. Interviewer
 | [Cron Job Not Running](scenarios/cron-job-not-running.md) | "The script works when I run it, but the scheduled job produces nothing." | 01 Shell and CLI, 10 Scheduling |
 | [Disk Full](scenarios/disk-full.md) | "The log says No space left on device, and deleting the big log did not help." | 02 Files and Filesystem, 07 Processes, 12 Storage |
 | [DNS Not Resolving](scenarios/dns-not-resolving.md) | "The app cannot resolve api.shop.internal, but the DNS team says their server answers." | 13 Networking |
+| [Cannot SSH](scenarios/cannot-ssh.md) | "I can't SSH to the box that worked yesterday." | 14 SSH, 15 Security |
+| [Service Unreachable](scenarios/service-unreachable.md) | "The service works on the server but clients can't connect." | 13 Networking, 15 Security |
+| [Cannot Reach Host](scenarios/cannot-reach-host.md) | "This host can't reach another one on the network." | 13 Networking, 15 Security |
+| [TLS Certificate Errors](scenarios/tls-certificate-errors.md) | "curl fails on our internal HTTPS site with a certificate error." | 13 Networking, 15 Security |
+| [Permission Denied](scenarios/permission-denied.md) | "The app logs Permission denied on a file it should be able to read." | 05 Permissions, 12 Storage, 15 Security |
+| [Suspected Compromise](scenarios/suspected-compromise.md) | "This server is behaving strangely and we think it's compromised." | 07 Processes, 13 Networking, 15 Security |

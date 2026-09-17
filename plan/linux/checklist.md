@@ -262,42 +262,42 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Batch F: `scripts/lint-prose.py` exits 0 <!-- id:check:F:lint -->
 - [x] Batch F: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:F:audit -->
 - [x] Batch F: `mkdocs build` has no warnings for the tool folder <!-- id:check:F:build -->
-- [ ] Batch F: owner review done; first-hand line spots listed <!-- id:check:F:owner -->
+- [x] Batch F: owner review done; first-hand line spots listed <!-- id:check:F:owner -->
 
 ---
 
 ## Phase 3: Batch G (modules 14, 15)
 
-- [ ] `14-ssh-and-remote-access/.pages` <!-- id:technical-grounding/linux/14-ssh-and-remote-access/.pages -->
-- [ ] `14-ssh-and-remote-access/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/README.md -->
-- [ ] `14-ssh-and-remote-access/ssh-client.md` (Core, High) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/ssh-client.md -->
-- [ ] `14-ssh-and-remote-access/ssh-tunnels.md` (Core, Med) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/ssh-tunnels.md -->
-- [ ] `14-ssh-and-remote-access/sshd-server.md` (Core, Med) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/sshd-server.md -->
-- [ ] `14-ssh-and-remote-access/file-transfer.md` (Core, Med) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/file-transfer.md -->
-- [ ] `14-ssh-and-remote-access/ssh-troubleshooting.md` (Core, High) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/ssh-troubleshooting.md -->
-- [ ] `15-security/.pages` <!-- id:technical-grounding/linux/15-security/.pages -->
-- [ ] `15-security/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/15-security/README.md -->
-- [ ] `15-security/firewalld-and-ufw.md` (Core, Med) <!-- id:technical-grounding/linux/15-security/firewalld-and-ufw.md -->
-- [ ] `15-security/nftables-and-iptables.md` (Core, Med) <!-- id:technical-grounding/linux/15-security/nftables-and-iptables.md -->
-- [ ] `15-security/selinux.md` (RHCSA, Med, internals) <!-- id:technical-grounding/linux/15-security/selinux.md -->
-- [ ] `15-security/apparmor.md` (Core, Low) <!-- id:technical-grounding/linux/15-security/apparmor.md -->
-- [ ] `15-security/capabilities.md` (Advanced, Med) <!-- id:technical-grounding/linux/15-security/capabilities.md -->
-- [ ] `15-security/auditd.md` (Advanced, Low) <!-- id:technical-grounding/linux/15-security/auditd.md -->
-- [ ] `15-security/gpg.md` (Core, Low) <!-- id:technical-grounding/linux/15-security/gpg.md -->
-- [ ] `15-security/openssl-and-trust-store.md` (Core, Med) <!-- id:technical-grounding/linux/15-security/openssl-and-trust-store.md -->
-- [ ] `15-security/compliance-and-integrity.md` (Advanced, Low) <!-- id:technical-grounding/linux/15-security/compliance-and-integrity.md -->
-- [ ] `15-security/hardening-checklist.md` (Core, Med) <!-- id:technical-grounding/linux/15-security/hardening-checklist.md -->
-- [ ] `labs/security-lab.md` <!-- id:technical-grounding/linux/labs/security-lab.md -->
-- [ ] `interview/scenarios/cannot-ssh.md` (modules 14, 15) <!-- id:technical-grounding/linux/interview/scenarios/cannot-ssh.md -->
-- [ ] `interview/scenarios/service-unreachable.md` (modules 13, 15) <!-- id:technical-grounding/linux/interview/scenarios/service-unreachable.md -->
-- [ ] `interview/scenarios/cannot-reach-host.md` (modules 13, 15) <!-- id:technical-grounding/linux/interview/scenarios/cannot-reach-host.md -->
-- [ ] `interview/scenarios/tls-certificate-errors.md` (modules 13, 15) <!-- id:technical-grounding/linux/interview/scenarios/tls-certificate-errors.md -->
-- [ ] `interview/scenarios/permission-denied.md` (modules 05, 12, 15) <!-- id:technical-grounding/linux/interview/scenarios/permission-denied.md -->
-- [ ] `interview/scenarios/suspected-compromise.md` (modules 07, 13, 15) <!-- id:technical-grounding/linux/interview/scenarios/suspected-compromise.md -->
-- [ ] Batch G: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:G:grows -->
-- [ ] Batch G: `scripts/lint-prose.py` exits 0 <!-- id:check:G:lint -->
-- [ ] Batch G: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:G:audit -->
-- [ ] Batch G: `mkdocs build` has no warnings for the tool folder <!-- id:check:G:build -->
+- [x] `14-ssh-and-remote-access/.pages` <!-- id:technical-grounding/linux/14-ssh-and-remote-access/.pages -->
+- [x] `14-ssh-and-remote-access/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/README.md -->
+- [x] `14-ssh-and-remote-access/ssh-client.md` (Core, High) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/ssh-client.md -->
+- [x] `14-ssh-and-remote-access/ssh-tunnels.md` (Core, Med) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/ssh-tunnels.md -->
+- [x] `14-ssh-and-remote-access/sshd-server.md` (Core, Med) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/sshd-server.md -->
+- [x] `14-ssh-and-remote-access/file-transfer.md` (Core, Med) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/file-transfer.md -->
+- [x] `14-ssh-and-remote-access/ssh-troubleshooting.md` (Core, High) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/ssh-troubleshooting.md -->
+- [x] `15-security/.pages` <!-- id:technical-grounding/linux/15-security/.pages -->
+- [x] `15-security/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/15-security/README.md -->
+- [x] `15-security/firewalld-and-ufw.md` (Core, Med) <!-- id:technical-grounding/linux/15-security/firewalld-and-ufw.md -->
+- [x] `15-security/nftables-and-iptables.md` (Core, Med) <!-- id:technical-grounding/linux/15-security/nftables-and-iptables.md -->
+- [x] `15-security/selinux.md` (RHCSA, Med, internals) <!-- id:technical-grounding/linux/15-security/selinux.md -->
+- [x] `15-security/apparmor.md` (Core, Low) <!-- id:technical-grounding/linux/15-security/apparmor.md -->
+- [x] `15-security/capabilities.md` (Advanced, Med) <!-- id:technical-grounding/linux/15-security/capabilities.md -->
+- [x] `15-security/auditd.md` (Advanced, Low) <!-- id:technical-grounding/linux/15-security/auditd.md -->
+- [x] `15-security/gpg.md` (Core, Low) <!-- id:technical-grounding/linux/15-security/gpg.md -->
+- [x] `15-security/openssl-and-trust-store.md` (Core, Med) <!-- id:technical-grounding/linux/15-security/openssl-and-trust-store.md -->
+- [x] `15-security/compliance-and-integrity.md` (Advanced, Low) <!-- id:technical-grounding/linux/15-security/compliance-and-integrity.md -->
+- [x] `15-security/hardening-checklist.md` (Core, Med) <!-- id:technical-grounding/linux/15-security/hardening-checklist.md -->
+- [x] `labs/security-lab.md` <!-- id:technical-grounding/linux/labs/security-lab.md -->
+- [x] `interview/scenarios/cannot-ssh.md` (modules 14, 15) <!-- id:technical-grounding/linux/interview/scenarios/cannot-ssh.md -->
+- [x] `interview/scenarios/service-unreachable.md` (modules 13, 15) <!-- id:technical-grounding/linux/interview/scenarios/service-unreachable.md -->
+- [x] `interview/scenarios/cannot-reach-host.md` (modules 13, 15) <!-- id:technical-grounding/linux/interview/scenarios/cannot-reach-host.md -->
+- [x] `interview/scenarios/tls-certificate-errors.md` (modules 13, 15) <!-- id:technical-grounding/linux/interview/scenarios/tls-certificate-errors.md -->
+- [x] `interview/scenarios/permission-denied.md` (modules 05, 12, 15) <!-- id:technical-grounding/linux/interview/scenarios/permission-denied.md -->
+- [x] `interview/scenarios/suspected-compromise.md` (modules 07, 13, 15) <!-- id:technical-grounding/linux/interview/scenarios/suspected-compromise.md -->
+- [x] Batch G: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:G:grows -->
+- [x] Batch G: `scripts/lint-prose.py` exits 0 <!-- id:check:G:lint -->
+- [x] Batch G: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:G:audit -->
+- [x] Batch G: `mkdocs build` has no warnings for the tool folder <!-- id:check:G:build -->
 - [ ] Batch G: owner review done; first-hand line spots listed <!-- id:check:G:owner -->
 
 ---

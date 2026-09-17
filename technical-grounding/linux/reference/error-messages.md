@@ -328,3 +328,45 @@ Real error text seen on Linux servers, with its cause and first fix. Search this
 | `no live upstreams while connecting to upstream` | Every upstream server marked failed | Fix backends; retried after `fail_timeout` | [Reverse Proxy and Load Balancing](../13-networking/reverse-proxy-and-load-balancing.md) |
 | `Server shop_api/client is DOWN, reason: Layer4 connection problem` | HAProxy health check cannot connect | Check the backend; `show stat` | [Reverse Proxy and Load Balancing](../13-networking/reverse-proxy-and-load-balancing.md) |
 | `ping: sendmsg: Required key not available` | No WireGuard peer's `AllowedIPs` covers the destination | Add the range to the right peer | [VPN (WireGuard)](../13-networking/vpn-wireguard.md) |
+
+---
+
+## SSH and Remote Access
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `Permission denied (publickey).` | No offered key is accepted by the server | Check `ssh -v` and the server log; install the key or fix modes | [SSH Troubleshooting](../14-ssh-and-remote-access/ssh-troubleshooting.md) |
+| `ssh: connect to host X port 22: Connection refused` | Nothing listens on the port | Start `sshd`; check the port with `ss -tlnp` | [SSH Troubleshooting](../14-ssh-and-remote-access/ssh-troubleshooting.md) |
+| `ssh: connect to host X port 22: Connection timed out` | A firewall or the route drops the packets | Open the port; check routes and security groups | [SSH Troubleshooting](../14-ssh-and-remote-access/ssh-troubleshooting.md) |
+| `WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!` | The stored host key differs | Verify the new fingerprint, then `ssh-keygen -R host` | [SSH Troubleshooting](../14-ssh-and-remote-access/ssh-troubleshooting.md) |
+| `Authentication refused: bad ownership or modes for directory` | Home or `.ssh` writable by group or others | `chmod 755 ~`, `700 ~/.ssh`, `600 authorized_keys` | [SSH Troubleshooting](../14-ssh-and-remote-access/ssh-troubleshooting.md) |
+| `Could not open user 'X' authorized keys ...: Permission denied` | Wrong SELinux label on `authorized_keys` | `restorecon -Rv ~/.ssh` | [SSH Troubleshooting](../14-ssh-and-remote-access/ssh-troubleshooting.md) |
+| `Received disconnect ... 2: Too many authentication failures` | The agent offered more keys than `MaxAuthTries` | `IdentitiesOnly yes` with one `IdentityFile` | [SSH Troubleshooting](../14-ssh-and-remote-access/ssh-troubleshooting.md) |
+| `kex_exchange_identification: read: Connection reset by peer` | Server closed before key exchange (penalty, `MaxStartups`) | Read the server log for `penalty`; wait or fix the client | [SSH Troubleshooting](../14-ssh-and-remote-access/ssh-troubleshooting.md) |
+| `Your account has expired; please contact your system administrator.` | Account expiry date passed | `chage -E -1 user` | [SSH Troubleshooting](../14-ssh-and-remote-access/ssh-troubleshooting.md) |
+| `Bad owner or permissions on /home/X/.ssh/config` | Client config writable by others | `chmod 600 ~/.ssh/config` | [SSH Client](../14-ssh-and-remote-access/ssh-client.md) |
+| `Bad configuration option: PasswordAuthentcation` | Misspelled or unsupported sshd option | Fix the line, then `sshd -t` | [sshd Server](../14-ssh-and-remote-access/sshd-server.md) |
+| `bad ownership or modes for chroot directory "..."` | SFTP chroot path not root-owned or group-writable | `chown root:root` and `chmod 755` the chroot | [sshd Server](../14-ssh-and-remote-access/sshd-server.md) |
+| `channel N: open failed: administratively prohibited: open failed` | `AllowTcpForwarding no` on the server | Allow forwarding, or check `PermitOpen` | [SSH Tunnels](../14-ssh-and-remote-access/ssh-tunnels.md) |
+| `bind [127.0.0.1]:PORT: Address already in use` | The local forward port is taken | Free the port; use `-o ExitOnForwardFailure=yes` | [SSH Tunnels](../14-ssh-and-remote-access/ssh-tunnels.md) |
+| `scp: dest open "...": Permission denied` | The remote user cannot write the destination | Copy to `/tmp`, then `sudo install` | [File Transfer](../14-ssh-and-remote-access/file-transfer.md) |
+| `bash: line 1: rsync: command not found` | `rsync` missing on the remote host | Install `rsync`, or use `tar` over `ssh` | [File Transfer](../14-ssh-and-remote-access/file-transfer.md) |
+
+---
+
+## Security
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `curl: (7) Failed to connect ... Couldn't connect to server` | Nothing listens, or firewalld rejected the packet | Check `ss -tlnp` and `firewall-cmd --list-all` | [firewalld and ufw](../15-security/firewalld-and-ufw.md) |
+| `nc: connect to X port P (tcp) failed: Connection timed out` | A drop rule (ufw, security group, nft `drop`) | Check `ufw status` and `nft list ruleset` | [firewalld and ufw](../15-security/firewalld-and-ufw.md) |
+| `nc: connect to X port P (tcp) failed: No route to host` | firewalld rejected with ICMP host-prohibited | Add the port or service to the zone | [firewalld and ufw](../15-security/firewalld-and-ufw.md) |
+| `avc: denied { read } for ... comm="nginx" ... tcontext=...:default_t` | SELinux: wrong file label | `semanage fcontext -a` then `restorecon` | [SELinux](../15-security/selinux.md) |
+| `nginx: [emerg] bind() to 0.0.0.0:PORT failed (13: Permission denied)` | SELinux: port has no matching label | `semanage port -a -t http_port_t -p tcp PORT` | [SELinux](../15-security/selinux.md) |
+| `avc: denied { name_connect } ... comm="nginx"` | SELinux boolean off (proxy to a backend) | `setsebool -P httpd_can_network_connect on` | [SELinux](../15-security/selinux.md) |
+| `ping: sendmsg: Operation not permitted` (setcap gone) | File capability lost on copy | Reapply `setcap`, or grant it in the unit | [Capabilities](../15-security/capabilities.md) |
+| `curl: (60) SSL certificate problem: unable to get local issuer certificate` | Issuing CA not trusted, or missing intermediate | Add the CA to the trust store; serve the full chain | [OpenSSL and Trust Store](../15-security/openssl-and-trust-store.md) |
+| `curl: (60) SSL: no alternative certificate subject name matches target host name` | Requested name not in the certificate SAN | Use a listed name, or reissue with the name | [OpenSSL and Trust Store](../15-security/openssl-and-trust-store.md) |
+| `curl: (60) SSL certificate problem: certificate has expired` | Certificate expired, or the clock is wrong | Renew the certificate; fix time sync | [OpenSSL and Trust Store](../15-security/openssl-and-trust-store.md) |
+| `Failed to restart auditd.service: Operation refused ...` | `auditd` refuses manual restart | `service auditd restart`, or `augenrules --load` for rules | [auditd](../15-security/auditd.md) |
+| `gpg: BAD signature from ...` | The signed content changed, or the wrong key | Re-download; verify the signer's key by fingerprint | [GPG](../15-security/gpg.md) |
