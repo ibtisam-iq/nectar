@@ -41,3 +41,4 @@ A local VM that fails to start is usually missing hardware virtualization or con
 |---|---|
 | [Users and Permissions](users-and-permissions-lab.md) | 04 Users and Access, 05 Permissions |
 | [Processes and Services](processes-and-services-lab.md) | 07 Processes, 08 Systemd and Services |
+| [Storage and LVM](storage-and-lvm-lab.md) | 12 Storage |

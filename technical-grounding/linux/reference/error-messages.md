@@ -246,3 +246,43 @@ Real error text seen on Linux servers, with its cause and first fix. Search this
 | `Buffer I/O error on dev dm-0, logical block 0, async page read` | Read error from the block device | Check hardware, restore from backup | [dmesg and Kernel Messages](../11-kernel-and-hardware/dmesg-and-kernel-messages.md) |
 | `INFO: task sh:4577 blocked for more than 10 seconds.` | Task stuck in `D` state | Fix the device or filesystem it waits on | [dmesg and Kernel Messages](../11-kernel-and-hardware/dmesg-and-kernel-messages.md) |
 
+---
+
+## Storage
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `/dev/vda: Unable to detect device type` | Virtual or hidden disk behind a controller | `smartctl -d <type>`, or check health on the host | [Disks and Devices](../12-storage/disks-and-devices.md) |
+| `losetup: cannot find an unused loop device` | All loop devices in use, or no `/dev/loop-control` | `losetup -l`; detach stale ones | [Disks and Devices](../12-storage/disks-and-devices.md) |
+| `Re-reading the partition table failed.: Invalid argument` | Kernel refused the whole-table re-read | `partprobe` or `partx -a` | [Partitioning](../12-storage/partitioning.md) |
+| `Error: /dev/loop2: unrecognised disk label` | No partition table on the disk | `parted -s <disk> mklabel gpt` | [Partitioning](../12-storage/partitioning.md) |
+| `mkfs.xfs: /dev/loop0p1 appears to contain an existing filesystem (ext4).` | Existing signature | Confirm the device; `wipefs -a` or `-f` | [Filesystems](../12-storage/filesystems.md) |
+| `Filesystem must be larger than 300MB.` | xfsprogs 6.16 minimum XFS size | Use a larger device or ext4 | [RAID and Encryption](../12-storage/raid-and-encryption.md) |
+| `e2fsck: need terminal for interactive repairs` | `e2fsck -f` without a terminal | `-p`, `-y` or `-n` | [Filesystems](../12-storage/filesystems.md) |
+| `dumpe2fs: Bad magic number in super-block while trying to open /dev/loop0p3` | Damaged primary superblock or another filesystem type | `blkid`; `e2fsck -b <backup>` | [Filesystems](../12-storage/filesystems.md) |
+| `xfs_repair: /dev/loop1p2 contains a mounted and writable filesystem` | Repair attempted on a mounted XFS | Unmount first | [Filesystems](../12-storage/filesystems.md) |
+| `xfs_growfs: XFS_IOC_FSGROWFSDATA xfsctl failed: Invalid argument` | Shrink below the last allocation group | Back up, recreate, restore | [Filesystems](../12-storage/filesystems.md) |
+| `mount: /srv/app: wrong fs type, bad option, bad superblock on /dev/loop0p3, missing codepage or helper program, or other error.` | Wrong type, bad option, missing helper or damage | `dmesg`, `blkid` | [Filesystems](../12-storage/filesystems.md) |
+| `touch: cannot touch '/srv/app/test': Read-only file system` | Mounted or remounted `ro` | `findmnt -no OPTIONS`; check the kernel log | [Mounting and fstab](../12-storage/mounting-and-fstab.md) |
+| `umount: /srv/app: target is busy.` | Open files, working directories or nested mounts | `fuser -vm`, `lsof +f --` | [Mounting and fstab](../12-storage/mounting-and-fstab.md) |
+| `mount: /srv/data: can't find UUID=683f9429-0000-4267-a91e-79c8e5787e21.` | No device with that UUID | `blkid`; fix the line or add `nofail` | [Mounting and fstab](../12-storage/mounting-and-fstab.md) |
+| `[E] unreachable on boot required source: UUID=...` | `findmnt --verify` found a missing device | Fix fstab before rebooting | [Mounting and fstab](../12-storage/mounting-and-fstab.md) |
+| `A dependency job for srv-data.mount failed. See 'journalctl -xe' for details.` | Device did not appear before the timeout | `journalctl -b`; fix fstab | [Mounting and fstab](../12-storage/mounting-and-fstab.md) |
+| `cache.mount: Where= setting doesn't match unit name. Refusing.` | Mount unit named differently from its path | `systemd-escape -p --suffix=mount <path>` | [Mounting and fstab](../12-storage/mounting-and-fstab.md) |
+| `mount: /srv/secure: unknown filesystem type 'crypto_LUKS'.` | LUKS device mounted directly | Open it and mount `/dev/mapper/<name>` | [RAID and Encryption](../12-storage/raid-and-encryption.md) |
+| `swapon: /swapfile: skipping - it appears to have holes.` | Sparse swap file | Recreate with `dd` or `fallocate` | [Swap](../12-storage/swap.md) |
+| `swapon: /swapfile: insecure permissions 0644, 0600 suggested.` | World-readable swap file | `chmod 600` before `mkswap` | [Swap](../12-storage/swap.md) |
+| `swapon: /dev/loop0p1: read swap header failed` | No swap signature on the device | `blkid`; `mkswap` | [Swap](../12-storage/swap.md) |
+| `Cannot use /dev/loop0: device is partitioned` | `pvcreate` on a partitioned disk | Use a partition or `wipefs -a` | [LVM](../12-storage/lvm.md) |
+| `Can't open /dev/loop0p3 exclusively.  Mounted filesystem?` | Device is mounted or in use | Pick an unused device | [LVM](../12-storage/lvm.md) |
+| `Insufficient free space: 512 extents needed, but only 258 available` | Too few free extents in the VG | `vgextend`, or `-l +100%FREE` | [LVM](../12-storage/lvm.md) |
+| `File system reduce is required and not supported (xfs).` | `lvreduce -r` on XFS | Back up, recreate, restore | [LVM](../12-storage/lvm.md) |
+| `fsadm: Xfs filesystem shrinking is unsupported.` | Same, on LVM 2.03.16 (Ubuntu 24.04) | Back up, recreate, restore | [LVM](../12-storage/lvm.md) |
+| `device-mapper: snapshots: Invalidating snapshot: Unable to allocate exception.` | Snapshot ran out of space | Size snapshots for the change rate | [LVM](../12-storage/lvm.md) |
+| `Aborting. Manual intervention required.` | `lvcreate -s` on an already frozen filesystem | `fsfreeze -u`, `lvremove`, `dmsetup remove` | [Backup and Restore](../12-storage/backup-and-restore.md) |
+| `NOCHANGE: partition 1 is size 6289375. it cannot be grown` | No free space after the partition | Check `lsblk`; rescan the disk | [Resizing and Cloud Disks](../12-storage/resizing-and-cloud-disks.md) |
+| `must supply partition-number` | `growpart` given the partition as one argument | `growpart <disk> <number>` | [Resizing and Cloud Disks](../12-storage/resizing-and-cloud-disks.md) |
+| `No space left on device` | Blocks (including the reserve) or inodes exhausted | `df -h`, `df -i`, `lsof -a +L1` | [Disk Usage](../12-storage/disk-usage.md) |
+| `bash: line 1: /usr/bin/rm: Argument list too long` | Glob expanded beyond the argument limit | `find ... -delete` | [Disk Usage](../12-storage/disk-usage.md) |
+| `dd: error writing '/srv/web/uploads/a.bin': Disk quota exceeded` | User reached the hard quota | `quota -s <user>` | [Quotas](../12-storage/quotas.md) |
+| `rsync: [Receiver] mkdir "/backup/daily/2026-09-16" failed: No such file or directory (2)` | Destination parent missing | `mkdir -p` or `--mkpath` | [Backup and Restore](../12-storage/backup-and-restore.md) |

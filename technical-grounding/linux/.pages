@@ -14,6 +14,7 @@ nav:
   - 09-logging
   - 10-scheduling
   - 11-kernel-and-hardware
+  - 12-storage
   - reference
   - interview
   - labs

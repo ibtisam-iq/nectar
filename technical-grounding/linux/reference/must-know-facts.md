@@ -349,3 +349,51 @@ Every topic's Must-Know Facts table in one place, for a fast revision pass. Tabl
 ### dmesg and Kernel Messages
 
 --8<-- "technical-grounding/linux/11-kernel-and-hardware/dmesg-and-kernel-messages.md:facts"
+
+---
+
+## Storage
+
+### Disks and Devices
+
+--8<-- "technical-grounding/linux/12-storage/disks-and-devices.md:facts"
+
+### Partitioning
+
+--8<-- "technical-grounding/linux/12-storage/partitioning.md:facts"
+
+### Filesystems
+
+--8<-- "technical-grounding/linux/12-storage/filesystems.md:facts"
+
+### Mounting and fstab
+
+--8<-- "technical-grounding/linux/12-storage/mounting-and-fstab.md:facts"
+
+### Swap
+
+--8<-- "technical-grounding/linux/12-storage/swap.md:facts"
+
+### LVM
+
+--8<-- "technical-grounding/linux/12-storage/lvm.md:facts"
+
+### Resizing and Cloud Disks
+
+--8<-- "technical-grounding/linux/12-storage/resizing-and-cloud-disks.md:facts"
+
+### Disk Usage
+
+--8<-- "technical-grounding/linux/12-storage/disk-usage.md:facts"
+
+### Quotas
+
+--8<-- "technical-grounding/linux/12-storage/quotas.md:facts"
+
+### Backup and Restore
+
+--8<-- "technical-grounding/linux/12-storage/backup-and-restore.md:facts"
+
+### RAID and Encryption
+
+--8<-- "technical-grounding/linux/12-storage/raid-and-encryption.md:facts"

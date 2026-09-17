@@ -5,3 +5,4 @@ nav:
   - "Process Won't Die": process-wont-die.md
   - "Service Won't Start": service-wont-start.md
   - Cron Job Not Running: cron-job-not-running.md
+  - Disk Full: disk-full.md

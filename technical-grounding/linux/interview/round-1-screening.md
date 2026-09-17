@@ -349,3 +349,51 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### dmesg and Kernel Messages
 
 --8<-- "technical-grounding/linux/11-kernel-and-hardware/dmesg-and-kernel-messages.md:l1"
+
+---
+
+## Storage
+
+### Disks and Devices
+
+--8<-- "technical-grounding/linux/12-storage/disks-and-devices.md:l1"
+
+### Partitioning
+
+--8<-- "technical-grounding/linux/12-storage/partitioning.md:l1"
+
+### Filesystems
+
+--8<-- "technical-grounding/linux/12-storage/filesystems.md:l1"
+
+### Mounting and fstab
+
+--8<-- "technical-grounding/linux/12-storage/mounting-and-fstab.md:l1"
+
+### Swap
+
+--8<-- "technical-grounding/linux/12-storage/swap.md:l1"
+
+### LVM
+
+--8<-- "technical-grounding/linux/12-storage/lvm.md:l1"
+
+### Resizing and Cloud Disks
+
+--8<-- "technical-grounding/linux/12-storage/resizing-and-cloud-disks.md:l1"
+
+### Disk Usage
+
+--8<-- "technical-grounding/linux/12-storage/disk-usage.md:l1"
+
+### Quotas
+
+--8<-- "technical-grounding/linux/12-storage/quotas.md:l1"
+
+### Backup and Restore
+
+--8<-- "technical-grounding/linux/12-storage/backup-and-restore.md:l1"
+
+### RAID and Encryption
+
+--8<-- "technical-grounding/linux/12-storage/raid-and-encryption.md:l1"

@@ -216,25 +216,25 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 3: Batch E (modules 12)
 
-- [ ] `12-storage/.pages` <!-- id:technical-grounding/linux/12-storage/.pages -->
-- [ ] `12-storage/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/12-storage/README.md -->
-- [ ] `12-storage/disks-and-devices.md` (Core, Med) <!-- id:technical-grounding/linux/12-storage/disks-and-devices.md -->
-- [ ] `12-storage/partitioning.md` (RHCSA, Med) <!-- id:technical-grounding/linux/12-storage/partitioning.md -->
-- [ ] `12-storage/filesystems.md` (Core, Med) <!-- id:technical-grounding/linux/12-storage/filesystems.md -->
-- [ ] `12-storage/mounting-and-fstab.md` (Core, High) <!-- id:technical-grounding/linux/12-storage/mounting-and-fstab.md -->
-- [ ] `12-storage/swap.md` (Core, Med) <!-- id:technical-grounding/linux/12-storage/swap.md -->
-- [ ] `12-storage/lvm.md` (Core, High) <!-- id:technical-grounding/linux/12-storage/lvm.md -->
-- [ ] `12-storage/resizing-and-cloud-disks.md` (Core, Med) <!-- id:technical-grounding/linux/12-storage/resizing-and-cloud-disks.md -->
-- [ ] `12-storage/disk-usage.md` (Core, High) <!-- id:technical-grounding/linux/12-storage/disk-usage.md -->
-- [ ] `12-storage/quotas.md` (RHCSA, Low) <!-- id:technical-grounding/linux/12-storage/quotas.md -->
-- [ ] `12-storage/backup-and-restore.md` (Core, Med) <!-- id:technical-grounding/linux/12-storage/backup-and-restore.md -->
-- [ ] `12-storage/raid-and-encryption.md` (Advanced, Low) <!-- id:technical-grounding/linux/12-storage/raid-and-encryption.md -->
-- [ ] `labs/storage-and-lvm-lab.md` <!-- id:technical-grounding/linux/labs/storage-and-lvm-lab.md -->
-- [ ] `interview/scenarios/disk-full.md` (modules 02, 07, 12) <!-- id:technical-grounding/linux/interview/scenarios/disk-full.md -->
-- [ ] Batch E: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:E:grows -->
-- [ ] Batch E: `scripts/lint-prose.py` exits 0 <!-- id:check:E:lint -->
-- [ ] Batch E: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:E:audit -->
-- [ ] Batch E: `mkdocs build` has no warnings for the tool folder <!-- id:check:E:build -->
+- [x] `12-storage/.pages` <!-- id:technical-grounding/linux/12-storage/.pages -->
+- [x] `12-storage/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/12-storage/README.md -->
+- [x] `12-storage/disks-and-devices.md` (Core, Med) <!-- id:technical-grounding/linux/12-storage/disks-and-devices.md -->
+- [x] `12-storage/partitioning.md` (RHCSA, Med) <!-- id:technical-grounding/linux/12-storage/partitioning.md -->
+- [x] `12-storage/filesystems.md` (Core, Med) <!-- id:technical-grounding/linux/12-storage/filesystems.md -->
+- [x] `12-storage/mounting-and-fstab.md` (Core, High) <!-- id:technical-grounding/linux/12-storage/mounting-and-fstab.md -->
+- [x] `12-storage/swap.md` (Core, Med) <!-- id:technical-grounding/linux/12-storage/swap.md -->
+- [x] `12-storage/lvm.md` (Core, High) <!-- id:technical-grounding/linux/12-storage/lvm.md -->
+- [x] `12-storage/resizing-and-cloud-disks.md` (Core, Med) <!-- id:technical-grounding/linux/12-storage/resizing-and-cloud-disks.md -->
+- [x] `12-storage/disk-usage.md` (Core, High) <!-- id:technical-grounding/linux/12-storage/disk-usage.md -->
+- [x] `12-storage/quotas.md` (RHCSA, Low) <!-- id:technical-grounding/linux/12-storage/quotas.md -->
+- [x] `12-storage/backup-and-restore.md` (Core, Med) <!-- id:technical-grounding/linux/12-storage/backup-and-restore.md -->
+- [x] `12-storage/raid-and-encryption.md` (Advanced, Low) <!-- id:technical-grounding/linux/12-storage/raid-and-encryption.md -->
+- [x] `labs/storage-and-lvm-lab.md` <!-- id:technical-grounding/linux/labs/storage-and-lvm-lab.md -->
+- [x] `interview/scenarios/disk-full.md` (modules 02, 07, 12) <!-- id:technical-grounding/linux/interview/scenarios/disk-full.md -->
+- [x] Batch E: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:E:grows -->
+- [x] Batch E: `scripts/lint-prose.py` exits 0 <!-- id:check:E:lint -->
+- [x] Batch E: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:E:audit -->
+- [x] Batch E: `mkdocs build` has no warnings for the tool folder <!-- id:check:E:build -->
 - [ ] Batch E: owner review done; first-hand line spots listed <!-- id:check:E:owner -->
 
 ---

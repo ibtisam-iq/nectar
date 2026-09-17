@@ -109,3 +109,14 @@ Dated log of every decision that shaped the plan. Later changes are appended wit
 | # | Decision | Reason |
 |---|---|---|
 | D38 | Batch D approved by the owner ("finish that audit, and move to the batch e"). `scripts/audit-tool.py` check 3 now counts titled admonitions (two to five per topic). The 21 batch A and B topics below the minimum wrap an existing paragraph in a titled admonition; `linux-vs-windows.md` gets one new note drawn from its captured `/etc/shadow` modes. Pages at their line budget merge two Must-Know Facts rows, and `repositories.md` folds the `tee` echo line into its trim marker | The blueprint rule existed but was not enforced, so batches A and B passed without it; converting existing text adds no unverified facts |
+
+---
+
+## 2026-09-17: Batch E
+
+| # | Decision | Reason |
+|---|---|---|
+| D39 | Storage pages demonstrate on loop devices and sparse files, and the Disk Full scenario runs on a dedicated 150 MiB logical volume (`/srv/shop`) with a demo service (`shop-api`), so no incident touches the playground's root filesystem. Pages say where a device is a loop device and name the real equivalents (`sdb`, `nvme0n1`) | Real partitioning, LVM, RAID and full-disk captures without risking the playground |
+| D40 | Two findings from the captures are stated as version-specific facts: xfsprogs 6.16 with kernel 6.1 shrinks XFS inside the last allocation group (experimental) and refuses to create XFS below 300 MB; LVM 2.03.36 (Rocky) reduces ext4 by itself, while LVM 2.03.16 (Ubuntu 24.04) goes through `fsadm` | The usual rule "XFS cannot shrink" needed the exact boundary, and the two LVM versions print different output |
+| D41 | A manual `fsfreeze` before `lvcreate -s` made LVM abort and leave device-mapper entries; the backup page shows the correct sequence and describes the failure in a titled danger admonition instead of printing the partial state | The failure is a useful warning, but the cleanup steps were ad hoc and not part of a teachable block |
+

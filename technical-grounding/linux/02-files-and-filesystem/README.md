@@ -57,5 +57,6 @@ Where things live in the Linux tree, what a file really is on disk and in the ke
 
 ## Scenarios and Labs
 
+- [Disk Full](../interview/scenarios/disk-full.md): deleted files that stay allocated while open
 - [Round 4: Internals](../interview/round-4-internals.md): descriptors across `fork()` and `exec()`, what `rm` does
 - [Error Messages](../reference/error-messages.md): filesystem errors from this module and their causes

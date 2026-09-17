@@ -49,3 +49,4 @@ A **Don't say** line records a common wrong answer worth avoiding.
 | [Process Won't Die](scenarios/process-wont-die.md) | 07 Processes, 08 Systemd and Services |
 | [Service Won't Start](scenarios/service-wont-start.md) | 08 Systemd and Services, 09 Logging |
 | [Cron Job Not Running](scenarios/cron-job-not-running.md) | 01 Shell and CLI, 10 Scheduling |
+| [Disk Full](scenarios/disk-full.md) | 02 Files and Filesystem, 07 Processes, 12 Storage |

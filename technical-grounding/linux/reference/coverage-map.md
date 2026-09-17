@@ -176,3 +176,24 @@ Certification objectives mapped to the topic file that covers them. The map prov
 | Linux+ XK0-006 | Kernel modules, parameters and hardware devices | [Kernel Modules](../11-kernel-and-hardware/kernel-modules.md), [sysctl](../11-kernel-and-hardware/sysctl.md), [Devices and udev](../11-kernel-and-hardware/devices-and-udev.md) |
 | Interview sources | OOM killer, segfaults, hung tasks, `/proc` without tools | [dmesg and Kernel Messages](../11-kernel-and-hardware/dmesg-and-kernel-messages.md), [proc and sys](../11-kernel-and-hardware/proc-and-sys.md) |
 
+---
+
+## Storage
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | List, create and delete partitions on MBR and GPT disks | [Partitioning](../12-storage/partitioning.md) |
+| RHCSA EX200 (RHEL 10) | Create and remove physical volumes, assign them to volume groups, create and delete logical volumes | [LVM](../12-storage/lvm.md) |
+| RHCSA EX200 (RHEL 10) | Configure systems to mount file systems at boot by UUID or label | [Mounting and fstab](../12-storage/mounting-and-fstab.md) |
+| RHCSA EX200 (RHEL 10) | Add new partitions, logical volumes and swap to a system non-destructively | [Partitioning](../12-storage/partitioning.md), [LVM](../12-storage/lvm.md), [Swap](../12-storage/swap.md) |
+| RHCSA EX200 (RHEL 10) | Create, mount, unmount and use vfat, ext4 and xfs file systems | [Filesystems](../12-storage/filesystems.md), [Mounting and fstab](../12-storage/mounting-and-fstab.md) |
+| RHCSA EX200 (RHEL 10) | Extend existing logical volumes | [LVM](../12-storage/lvm.md), [Resizing and Cloud Disks](../12-storage/resizing-and-cloud-disks.md) |
+| LFCS | Configure and manage LVM storage; create, manage and troubleshoot filesystems | [LVM](../12-storage/lvm.md), [Filesystems](../12-storage/filesystems.md) |
+| LFCS | Configure and manage swap space | [Swap](../12-storage/swap.md) |
+| LPIC-1 102.1 | Design hard disk layout (partitions, swap, LVM basics) | [Partitioning](../12-storage/partitioning.md), [LVM](../12-storage/lvm.md) |
+| LPIC-1 104.1 | Create partitions and filesystems (`fdisk`, `gdisk`, `parted`, `mkfs`, `mkswap`) | [Partitioning](../12-storage/partitioning.md), [Filesystems](../12-storage/filesystems.md), [Swap](../12-storage/swap.md) |
+| LPIC-1 104.2 | Maintain the integrity of filesystems (`df`, `du`, `fsck`, `e2fsck`, `tune2fs`, `xfs_repair`) | [Filesystems](../12-storage/filesystems.md), [Disk Usage](../12-storage/disk-usage.md) |
+| LPIC-1 104.3 | Control mounting and unmounting (`/etc/fstab`, `blkid`, `lsblk`, systemd mount units) | [Mounting and fstab](../12-storage/mounting-and-fstab.md), [Disks and Devices](../12-storage/disks-and-devices.md) |
+| Linux+ XK0-006 | Storage: partitions, filesystems, LVM, RAID, quotas and encryption | [LVM](../12-storage/lvm.md), [RAID and Encryption](../12-storage/raid-and-encryption.md), [Quotas](../12-storage/quotas.md) |
+| Linux+ XK0-006 | Backup and restore methods | [Backup and Restore](../12-storage/backup-and-restore.md) |
+| Interview sources | Disk full, `df` versus `du`, inodes, deleted open files, extending a cloud volume | [Disk Usage](../12-storage/disk-usage.md), [Resizing and Cloud Disks](../12-storage/resizing-and-cloud-disks.md) |

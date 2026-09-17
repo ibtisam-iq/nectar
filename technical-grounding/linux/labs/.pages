@@ -3,3 +3,4 @@ nav:
   - README.md
   - Users and Permissions: users-and-permissions-lab.md
   - Processes and Services: processes-and-services-lab.md
+  - Storage and LVM: storage-and-lvm-lab.md

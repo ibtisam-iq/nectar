@@ -141,17 +141,17 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 
 ## 12 Storage
 
-- [ ] Disks and Devices (Core, Med)
-- [ ] Partitioning (RHCSA, Med)
-- [ ] Filesystems (Core, Med)
-- [ ] Mounting and fstab (Core, High)
-- [ ] Swap (Core, Med)
-- [ ] LVM (Core, High)
-- [ ] Resizing and Cloud Disks (Core, Med)
-- [ ] Disk Usage (Core, High)
-- [ ] Quotas (RHCSA, Low)
-- [ ] Backup and Restore (Core, Med)
-- [ ] RAID and Encryption (Advanced, Low)
+- [ ] [Disks and Devices](12-storage/disks-and-devices.md) (Core, Med)
+- [ ] [Partitioning](12-storage/partitioning.md) (RHCSA, Med)
+- [ ] [Filesystems](12-storage/filesystems.md) (Core, Med)
+- [ ] [Mounting and fstab](12-storage/mounting-and-fstab.md) (Core, High)
+- [ ] [Swap](12-storage/swap.md) (Core, Med)
+- [ ] [LVM](12-storage/lvm.md) (Core, High)
+- [ ] [Resizing and Cloud Disks](12-storage/resizing-and-cloud-disks.md) (Core, Med)
+- [ ] [Disk Usage](12-storage/disk-usage.md) (Core, High)
+- [ ] [Quotas](12-storage/quotas.md) (RHCSA, Low)
+- [ ] [Backup and Restore](12-storage/backup-and-restore.md) (Core, Med)
+- [ ] [RAID and Encryption](12-storage/raid-and-encryption.md) (Advanced, Low)
 
 ---
 
@@ -253,7 +253,7 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 
 - [ ] [Users and Permissions Lab](labs/users-and-permissions-lab.md)
 - [ ] [Processes and Services Lab](labs/processes-and-services-lab.md)
-- [ ] Storage and LVM Lab
+- [ ] [Storage and LVM Lab](labs/storage-and-lvm-lab.md)
 - [ ] Networking Lab
 - [ ] Security Lab
 - [ ] Containers by Hand Lab
@@ -269,7 +269,7 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 - [ ] [Process Won't Die](interview/scenarios/process-wont-die.md)
 - [ ] [Service Won't Start](interview/scenarios/service-wont-start.md)
 - [ ] [Cron Job Not Running](interview/scenarios/cron-job-not-running.md)
-- [ ] Disk Full
+- [ ] [Disk Full](interview/scenarios/disk-full.md)
 - [ ] DNS Not Resolving
 - [ ] Cannot SSH
 - [ ] Service Unreachable

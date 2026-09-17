@@ -57,4 +57,5 @@ How processes are created, observed, prioritized, signaled and traced, from `for
 
 - [Process Won't Die](../interview/scenarios/process-wont-die.md): trapped signals, zombies, `D` state and restarting services
 - [Processes and Services Lab](../labs/processes-and-services-lab.md): tasks for this module and module 08
+- [Disk Full](../interview/scenarios/disk-full.md): finding the process that holds a deleted file
 - [Round 4: Internals](../interview/round-4-internals.md): `fork`, signals and system calls
