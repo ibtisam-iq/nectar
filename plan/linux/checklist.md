@@ -380,20 +380,20 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 5: Reference and Labs
 
-- [ ] `reference/cheatsheet.md` <!-- id:technical-grounding/linux/reference/cheatsheet.md -->
-- [ ] `reference/command-index.md` <!-- id:technical-grounding/linux/reference/command-index.md -->
-- [ ] `reference/important-files.md` <!-- id:technical-grounding/linux/reference/important-files.md -->
-- [ ] `reference/rhel-vs-ubuntu.md` <!-- id:technical-grounding/linux/reference/rhel-vs-ubuntu.md -->
-- [ ] `reference/no-tools-fallbacks.md` <!-- id:technical-grounding/linux/reference/no-tools-fallbacks.md -->
-- [ ] `reference/glossary.md` <!-- id:technical-grounding/linux/reference/glossary.md -->
-- [ ] `labs/rhcsa-style-tasks.md` <!-- id:technical-grounding/linux/labs/rhcsa-style-tasks.md -->
-- [ ] `labs/break-fix-lab.md` <!-- id:technical-grounding/linux/labs/break-fix-lab.md -->
-- [ ] Every `INVENTORY.md` item resolved <!-- id:p5:inventory-resolved -->
-- [ ] Every `coverage-map.md` row points to an existing file <!-- id:p5:coverage-resolved -->
-- [ ] Phase 5: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:5:grows -->
-- [ ] Phase 5: `scripts/lint-prose.py` exits 0 <!-- id:check:5:lint -->
-- [ ] Phase 5: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:5:audit -->
-- [ ] Phase 5: `mkdocs build` has no warnings for the tool folder <!-- id:check:5:build -->
+- [x] `reference/cheatsheet.md` <!-- id:technical-grounding/linux/reference/cheatsheet.md -->
+- [x] `reference/command-index.md` <!-- id:technical-grounding/linux/reference/command-index.md -->
+- [x] `reference/important-files.md` <!-- id:technical-grounding/linux/reference/important-files.md -->
+- [x] `reference/rhel-vs-ubuntu.md` <!-- id:technical-grounding/linux/reference/rhel-vs-ubuntu.md -->
+- [x] `reference/no-tools-fallbacks.md` <!-- id:technical-grounding/linux/reference/no-tools-fallbacks.md -->
+- [x] `reference/glossary.md` <!-- id:technical-grounding/linux/reference/glossary.md -->
+- [x] `labs/rhcsa-style-tasks.md` <!-- id:technical-grounding/linux/labs/rhcsa-style-tasks.md -->
+- [x] `labs/break-fix-lab.md` <!-- id:technical-grounding/linux/labs/break-fix-lab.md -->
+- [x] Every `INVENTORY.md` item resolved <!-- id:p5:inventory-resolved -->
+- [x] Every `coverage-map.md` row points to an existing file <!-- id:p5:coverage-resolved -->
+- [x] Phase 5: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:5:grows -->
+- [x] Phase 5: `scripts/lint-prose.py` exits 0 <!-- id:check:5:lint -->
+- [x] Phase 5: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:5:audit -->
+- [x] Phase 5: `mkdocs build` has no warnings for the tool folder <!-- id:check:5:build -->
 - [ ] Phase 5: owner review done; first-hand line spots listed <!-- id:check:5:owner -->
 
 ---

@@ -45,3 +45,5 @@ A local VM that fails to start is usually missing hardware virtualization or con
 | [Networking](networking-lab.md) | 13 Networking |
 | [Security](security-lab.md) | 14 SSH and Remote Access, 15 Security |
 | [Containers by Hand](containers-by-hand-lab.md) | 19 Containers |
+| [RHCSA-Style Tasks](rhcsa-style-tasks.md) | RHCSA objectives across modules 04 to 16 |
+| [Break-Fix Lab](break-fix-lab.md) | Diagnosis across storage, services, networking and processes |

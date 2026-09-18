@@ -257,8 +257,8 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 - [ ] [Networking Lab](labs/networking-lab.md)
 - [ ] Security Lab
 - [x] [Containers by Hand Lab](labs/containers-by-hand-lab.md)
-- [ ] RHCSA-Style Tasks
-- [ ] Break-Fix Lab
+- [x] [RHCSA-Style Tasks](labs/rhcsa-style-tasks.md)
+- [x] [Break-Fix Lab](labs/break-fix-lab.md)
 
 ---
 

@@ -47,6 +47,24 @@ Modules without a link are planned and appear as they are completed.
 
 ---
 
+## Reference
+
+Quick-lookup pages for revision and daily work, drawn from every module.
+
+| Page | Use it for |
+|---|---|
+| [Cheatsheet](reference/cheatsheet.md) | The commands used most, grouped by task |
+| [Command Index](reference/command-index.md) | A to Z: a command name to its topic page |
+| [Important Files](reference/important-files.md) | Key `/etc` files: format and the command that manages each |
+| [Glossary](reference/glossary.md) | One-line definitions of the terms used here |
+| [RHEL vs Ubuntu](reference/rhel-vs-ubuntu.md) | Where the two families differ in command and default |
+| [No-Tools Fallbacks](reference/no-tools-fallbacks.md) | `/proc` and built-ins when the usual tools will not run |
+| [Must-Know Facts](reference/must-know-facts.md) | Every topic's facts table on one page |
+| [Error Messages](reference/error-messages.md) | Real error text to cause and fix |
+| [Coverage Map](reference/coverage-map.md) | Certification objectives mapped to files |
+
+---
+
 ## Out of Scope
 
 - Desktop topics: X11 and Wayland configuration, accessibility, printing.
