@@ -200,25 +200,25 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 
 ## 16 Boot and Recovery
 
-- [ ] Boot Process (Core, High)
-- [ ] GRUB2 (RHCSA, Med)
-- [ ] Recovery (RHCSA, Med)
-- [ ] Kernel Panic (Advanced, Med, internals)
-- [ ] Kernel Updates (Core, Low)
+- [x] [Boot Process](16-boot-and-recovery/boot-process.md) (Core, High)
+- [x] [GRUB2](16-boot-and-recovery/grub2.md) (RHCSA, Med)
+- [x] [Recovery](16-boot-and-recovery/recovery.md) (RHCSA, Med)
+- [x] [Kernel Panic](16-boot-and-recovery/kernel-panic.md) (Advanced, Med, internals)
+- [x] [Kernel Updates](16-boot-and-recovery/kernel-updates.md) (Core, Low)
 
 ---
 
 ## 17 Performance and Troubleshooting
 
-- [ ] Methodology (Core, High)
-- [ ] CPU and Load (Core, High)
-- [ ] Memory (Core, High)
-- [ ] Virtual Memory (Advanced, High, internals)
-- [ ] Disk I/O (Core, Med)
-- [ ] Limits and File Descriptors (Core, High)
-- [ ] Profiling and Tracing (Advanced, Med, internals)
-- [ ] Monitoring and Capacity (Core, Low)
-- [ ] Tuning (RHCSA, Low)
+- [x] [Methodology](17-performance-and-troubleshooting/methodology.md) (Core, High)
+- [x] [CPU and Load](17-performance-and-troubleshooting/cpu-and-load.md) (Core, High)
+- [x] [Memory](17-performance-and-troubleshooting/memory.md) (Core, High)
+- [x] [Virtual Memory](17-performance-and-troubleshooting/virtual-memory.md) (Advanced, High, internals)
+- [x] [Disk I/O](17-performance-and-troubleshooting/disk-io.md) (Core, Med)
+- [x] [Limits and File Descriptors](17-performance-and-troubleshooting/limits-and-file-descriptors.md) (Core, High)
+- [x] [Profiling and Tracing](17-performance-and-troubleshooting/profiling-and-tracing.md) (Advanced, Med, internals)
+- [x] [Monitoring and Capacity](17-performance-and-troubleshooting/monitoring-and-capacity.md) (Core, Low)
+- [x] [Tuning](17-performance-and-troubleshooting/tuning.md) (RHCSA, Low)
 
 ---
 

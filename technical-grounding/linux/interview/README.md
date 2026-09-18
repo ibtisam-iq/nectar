@@ -57,3 +57,7 @@ A **Don't say** line records a common wrong answer worth avoiding.
 | [TLS Certificate Errors](scenarios/tls-certificate-errors.md) | 13 Networking, 15 Security |
 | [Permission Denied](scenarios/permission-denied.md) | 05 Permissions, 12 Storage, 15 Security |
 | [Suspected Compromise](scenarios/suspected-compromise.md) | 07 Processes, 13 Networking, 15 Security |
+| [Server Slow](scenarios/server-slow.md) | 07 Processes, 17 Performance |
+| [Too Many Open Files](scenarios/too-many-open-files.md) | 02 Files and Filesystem, 17 Performance |
+| [Cannot Fork](scenarios/cannot-fork.md) | 07 Processes, 17 Performance |
+| [Boot Failure](scenarios/boot-failure.md) | 12 Storage, 16 Boot and Recovery |

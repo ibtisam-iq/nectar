@@ -298,38 +298,38 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Batch G: `scripts/lint-prose.py` exits 0 <!-- id:check:G:lint -->
 - [x] Batch G: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:G:audit -->
 - [x] Batch G: `mkdocs build` has no warnings for the tool folder <!-- id:check:G:build -->
-- [ ] Batch G: owner review done; first-hand line spots listed <!-- id:check:G:owner -->
+- [x] Batch G: owner review done; first-hand line spots listed <!-- id:check:G:owner -->
 
 ---
 
 ## Phase 3: Batch H (modules 16, 17)
 
-- [ ] `16-boot-and-recovery/.pages` <!-- id:technical-grounding/linux/16-boot-and-recovery/.pages -->
-- [ ] `16-boot-and-recovery/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/16-boot-and-recovery/README.md -->
-- [ ] `16-boot-and-recovery/boot-process.md` (Core, High) <!-- id:technical-grounding/linux/16-boot-and-recovery/boot-process.md -->
-- [ ] `16-boot-and-recovery/grub2.md` (RHCSA, Med) <!-- id:technical-grounding/linux/16-boot-and-recovery/grub2.md -->
-- [ ] `16-boot-and-recovery/recovery.md` (RHCSA, Med) <!-- id:technical-grounding/linux/16-boot-and-recovery/recovery.md -->
-- [ ] `16-boot-and-recovery/kernel-panic.md` (Advanced, Med, internals) <!-- id:technical-grounding/linux/16-boot-and-recovery/kernel-panic.md -->
-- [ ] `16-boot-and-recovery/kernel-updates.md` (Core, Low) <!-- id:technical-grounding/linux/16-boot-and-recovery/kernel-updates.md -->
-- [ ] `17-performance-and-troubleshooting/.pages` <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/.pages -->
-- [ ] `17-performance-and-troubleshooting/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/README.md -->
-- [ ] `17-performance-and-troubleshooting/methodology.md` (Core, High) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/methodology.md -->
-- [ ] `17-performance-and-troubleshooting/cpu-and-load.md` (Core, High) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/cpu-and-load.md -->
-- [ ] `17-performance-and-troubleshooting/memory.md` (Core, High) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/memory.md -->
-- [ ] `17-performance-and-troubleshooting/virtual-memory.md` (Advanced, High, internals) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/virtual-memory.md -->
-- [ ] `17-performance-and-troubleshooting/disk-io.md` (Core, Med) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/disk-io.md -->
-- [ ] `17-performance-and-troubleshooting/limits-and-file-descriptors.md` (Core, High) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/limits-and-file-descriptors.md -->
-- [ ] `17-performance-and-troubleshooting/profiling-and-tracing.md` (Advanced, Med, internals) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/profiling-and-tracing.md -->
-- [ ] `17-performance-and-troubleshooting/monitoring-and-capacity.md` (Core, Low) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/monitoring-and-capacity.md -->
-- [ ] `17-performance-and-troubleshooting/tuning.md` (RHCSA, Low) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/tuning.md -->
-- [ ] `interview/scenarios/server-slow.md` (modules 07, 17) <!-- id:technical-grounding/linux/interview/scenarios/server-slow.md -->
-- [ ] `interview/scenarios/too-many-open-files.md` (modules 02, 17) <!-- id:technical-grounding/linux/interview/scenarios/too-many-open-files.md -->
-- [ ] `interview/scenarios/cannot-fork.md` (modules 07, 17) <!-- id:technical-grounding/linux/interview/scenarios/cannot-fork.md -->
-- [ ] `interview/scenarios/boot-failure.md` (modules 12, 16) <!-- id:technical-grounding/linux/interview/scenarios/boot-failure.md -->
-- [ ] Batch H: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:H:grows -->
-- [ ] Batch H: `scripts/lint-prose.py` exits 0 <!-- id:check:H:lint -->
-- [ ] Batch H: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:H:audit -->
-- [ ] Batch H: `mkdocs build` has no warnings for the tool folder <!-- id:check:H:build -->
+- [x] `16-boot-and-recovery/.pages` <!-- id:technical-grounding/linux/16-boot-and-recovery/.pages -->
+- [x] `16-boot-and-recovery/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/16-boot-and-recovery/README.md -->
+- [x] `16-boot-and-recovery/boot-process.md` (Core, High) <!-- id:technical-grounding/linux/16-boot-and-recovery/boot-process.md -->
+- [x] `16-boot-and-recovery/grub2.md` (RHCSA, Med) <!-- id:technical-grounding/linux/16-boot-and-recovery/grub2.md -->
+- [x] `16-boot-and-recovery/recovery.md` (RHCSA, Med) <!-- id:technical-grounding/linux/16-boot-and-recovery/recovery.md -->
+- [x] `16-boot-and-recovery/kernel-panic.md` (Advanced, Med, internals) <!-- id:technical-grounding/linux/16-boot-and-recovery/kernel-panic.md -->
+- [x] `16-boot-and-recovery/kernel-updates.md` (Core, Low) <!-- id:technical-grounding/linux/16-boot-and-recovery/kernel-updates.md -->
+- [x] `17-performance-and-troubleshooting/.pages` <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/.pages -->
+- [x] `17-performance-and-troubleshooting/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/README.md -->
+- [x] `17-performance-and-troubleshooting/methodology.md` (Core, High) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/methodology.md -->
+- [x] `17-performance-and-troubleshooting/cpu-and-load.md` (Core, High) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/cpu-and-load.md -->
+- [x] `17-performance-and-troubleshooting/memory.md` (Core, High) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/memory.md -->
+- [x] `17-performance-and-troubleshooting/virtual-memory.md` (Advanced, High, internals) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/virtual-memory.md -->
+- [x] `17-performance-and-troubleshooting/disk-io.md` (Core, Med) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/disk-io.md -->
+- [x] `17-performance-and-troubleshooting/limits-and-file-descriptors.md` (Core, High) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/limits-and-file-descriptors.md -->
+- [x] `17-performance-and-troubleshooting/profiling-and-tracing.md` (Advanced, Med, internals) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/profiling-and-tracing.md -->
+- [x] `17-performance-and-troubleshooting/monitoring-and-capacity.md` (Core, Low) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/monitoring-and-capacity.md -->
+- [x] `17-performance-and-troubleshooting/tuning.md` (RHCSA, Low) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/tuning.md -->
+- [x] `interview/scenarios/server-slow.md` (modules 07, 17) <!-- id:technical-grounding/linux/interview/scenarios/server-slow.md -->
+- [x] `interview/scenarios/too-many-open-files.md` (modules 02, 17) <!-- id:technical-grounding/linux/interview/scenarios/too-many-open-files.md -->
+- [x] `interview/scenarios/cannot-fork.md` (modules 07, 17) <!-- id:technical-grounding/linux/interview/scenarios/cannot-fork.md -->
+- [x] `interview/scenarios/boot-failure.md` (modules 12, 16) <!-- id:technical-grounding/linux/interview/scenarios/boot-failure.md -->
+- [x] Batch H: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:H:grows -->
+- [x] Batch H: `scripts/lint-prose.py` exits 0 <!-- id:check:H:lint -->
+- [x] Batch H: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:H:audit -->
+- [x] Batch H: `mkdocs build` has no warnings for the tool folder <!-- id:check:H:build -->
 - [ ] Batch H: owner review done; first-hand line spots listed <!-- id:check:H:owner -->
 
 ---

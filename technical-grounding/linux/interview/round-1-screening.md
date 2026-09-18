@@ -517,3 +517,63 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### Hardening Checklist
 
 --8<-- "technical-grounding/linux/15-security/hardening-checklist.md:l1"
+
+## Boot and Recovery
+
+### Boot Process
+
+--8<-- "technical-grounding/linux/16-boot-and-recovery/boot-process.md:l1"
+
+### GRUB2
+
+--8<-- "technical-grounding/linux/16-boot-and-recovery/grub2.md:l1"
+
+### Recovery
+
+--8<-- "technical-grounding/linux/16-boot-and-recovery/recovery.md:l1"
+
+### Kernel Panic
+
+--8<-- "technical-grounding/linux/16-boot-and-recovery/kernel-panic.md:l1"
+
+### Kernel Updates
+
+--8<-- "technical-grounding/linux/16-boot-and-recovery/kernel-updates.md:l1"
+
+## Performance and Troubleshooting
+
+### Methodology
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/methodology.md:l1"
+
+### CPU and Load
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/cpu-and-load.md:l1"
+
+### Memory
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/memory.md:l1"
+
+### Virtual Memory
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/virtual-memory.md:l1"
+
+### Disk I/O
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/disk-io.md:l1"
+
+### Limits and File Descriptors
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/limits-and-file-descriptors.md:l1"
+
+### Profiling and Tracing
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/profiling-and-tracing.md:l1"
+
+### Monitoring and Capacity
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/monitoring-and-capacity.md:l1"
+
+### Tuning
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/tuning.md:l1"

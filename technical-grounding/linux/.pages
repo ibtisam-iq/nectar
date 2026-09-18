@@ -18,6 +18,8 @@ nav:
   - 13-networking
   - 14-ssh-and-remote-access
   - 15-security
+  - 16-boot-and-recovery
+  - 17-performance-and-troubleshooting
   - reference
   - interview
   - labs

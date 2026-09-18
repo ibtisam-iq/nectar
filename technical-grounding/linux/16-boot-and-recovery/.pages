@@ -1,0 +1,8 @@
+title: Boot and Recovery
+nav:
+  - README.md
+  - Boot Process: boot-process.md
+  - GRUB2: grub2.md
+  - Recovery: recovery.md
+  - Kernel Panic: kernel-panic.md
+  - Kernel Updates: kernel-updates.md

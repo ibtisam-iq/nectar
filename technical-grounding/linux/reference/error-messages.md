@@ -370,3 +370,24 @@ Real error text seen on Linux servers, with its cause and first fix. Search this
 | `curl: (60) SSL certificate problem: certificate has expired` | Certificate expired, or the clock is wrong | Renew the certificate; fix time sync | [OpenSSL and Trust Store](../15-security/openssl-and-trust-store.md) |
 | `Failed to restart auditd.service: Operation refused ...` | `auditd` refuses manual restart | `service auditd restart`, or `augenrules --load` for rules | [auditd](../15-security/auditd.md) |
 | `gpg: BAD signature from ...` | The signed content changed, or the wrong key | Re-download; verify the signer's key by fingerprint | [GPG](../15-security/gpg.md) |
+
+## Boot and Recovery
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0)` | Wrong `root=` or an initramfs missing the root driver | Correct `root=`, rebuild the initramfs, or boot an older kernel | [Kernel Panic](../16-boot-and-recovery/kernel-panic.md) |
+| `You are in emergency mode` | A filesystem in `/etc/fstab` failed to mount | Remount root rw, fix the entry, `mount -a`, reboot | [Recovery](../16-boot-and-recovery/recovery.md) |
+| `mount: /data: can't find UUID=...` | The device or UUID in `/etc/fstab` is wrong or absent | Correct the UUID, or add `nofail` for non-critical mounts | [Recovery](../16-boot-and-recovery/recovery.md) |
+| `error: file '/vmlinuz-...' not found` (GRUB) | The kernel a menu entry references was removed | Boot an older entry, reinstall the kernel, regenerate `grub.cfg` | [GRUB2](../16-boot-and-recovery/grub2.md) |
+| edits to `/etc/default/grub` have no effect | `grub.cfg` was not regenerated after the change | Run `grub2-mkconfig -o` or `update-grub`, then reboot | [GRUB2](../16-boot-and-recovery/grub2.md) |
+
+## Performance and Troubleshooting
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `[Errno 24] Too many open files` (`EMFILE`) | The process hit its per-process descriptor limit | Raise `LimitNOFILE` (service) or `limits.conf` (login), or fix a leak | [Limits and File Descriptors](../17-performance-and-troubleshooting/limits-and-file-descriptors.md) |
+| `bash: fork: retry: Resource temporarily unavailable` (`EAGAIN`) | `RLIMIT_NPROC` or `pid_max` exhausted | Kill the runaway with builtins; raise `-u` or `pid_max` | [Cannot Fork](../interview/scenarios/cannot-fork.md) |
+| `Out of memory: Killed process N (name)` | Memory and swap exhausted; OOM killer ran | Fix the leak or add RAM; protect a process with `oom_score_adj` | [Memory](../17-performance-and-troubleshooting/memory.md) |
+| container exits with code `137` and no app error | Cgroup memory limit hit; OOM-killed (128 + 9) | Raise the memory limit or reduce footprint; check `dmesg` | [Memory](../17-performance-and-troubleshooting/memory.md) |
+| `CONFIG_TASK_DELAY_ACCT not enabled` (`iotop`) | Per-process I/O delay accounting is off | `echo 1 > /proc/sys/kernel/task_delayacct`, or use `pidstat -d` | [Disk I/O](../17-performance-and-troubleshooting/disk-io.md) |
+| `Command 'iostat' not found` | The `sysstat` package is not installed | Install `sysstat`; `vmstat`/`top`/`free` work without it | [Methodology](../17-performance-and-troubleshooting/methodology.md) |

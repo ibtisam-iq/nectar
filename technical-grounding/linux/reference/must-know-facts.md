@@ -517,3 +517,63 @@ Every topic's Must-Know Facts table in one place, for a fast revision pass. Tabl
 ### Hardening Checklist
 
 --8<-- "technical-grounding/linux/15-security/hardening-checklist.md:facts"
+
+## Boot and Recovery
+
+### Boot Process
+
+--8<-- "technical-grounding/linux/16-boot-and-recovery/boot-process.md:facts"
+
+### GRUB2
+
+--8<-- "technical-grounding/linux/16-boot-and-recovery/grub2.md:facts"
+
+### Recovery
+
+--8<-- "technical-grounding/linux/16-boot-and-recovery/recovery.md:facts"
+
+### Kernel Panic
+
+--8<-- "technical-grounding/linux/16-boot-and-recovery/kernel-panic.md:facts"
+
+### Kernel Updates
+
+--8<-- "technical-grounding/linux/16-boot-and-recovery/kernel-updates.md:facts"
+
+## Performance and Troubleshooting
+
+### Methodology
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/methodology.md:facts"
+
+### CPU and Load
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/cpu-and-load.md:facts"
+
+### Memory
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/memory.md:facts"
+
+### Virtual Memory
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/virtual-memory.md:facts"
+
+### Disk I/O
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/disk-io.md:facts"
+
+### Limits and File Descriptors
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/limits-and-file-descriptors.md:facts"
+
+### Profiling and Tracing
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/profiling-and-tracing.md:facts"
+
+### Monitoring and Capacity
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/monitoring-and-capacity.md:facts"
+
+### Tuning
+
+--8<-- "technical-grounding/linux/17-performance-and-troubleshooting/tuning.md:facts"

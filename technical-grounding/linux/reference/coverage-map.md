@@ -259,3 +259,29 @@ Certification objectives mapped to the topic file that covers them. The map prov
 | Linux+ XK0-006 | Certificates, PKI and the system trust store | [OpenSSL and Trust Store](../15-security/openssl-and-trust-store.md) |
 | Linux+ XK0-006 | NAT, port forwarding and packet filtering | [nftables and iptables](../15-security/nftables-and-iptables.md) |
 | Interview sources | SELinux denials with correct modes, capabilities vs setuid, reject vs drop, backported CVEs, TLS trust | [SELinux](../15-security/selinux.md), [Capabilities](../15-security/capabilities.md), [firewalld and ufw](../15-security/firewalld-and-ufw.md), [Compliance and Integrity](../15-security/compliance-and-integrity.md), [OpenSSL and Trust Store](../15-security/openssl-and-trust-store.md) |
+
+## Boot and Recovery
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Boot systems into different targets manually | [Boot Process](../16-boot-and-recovery/boot-process.md) |
+| RHCSA EX200 (RHEL 10) | Interrupt the boot process to gain access to a system | [Recovery](../16-boot-and-recovery/recovery.md), [GRUB2](../16-boot-and-recovery/grub2.md) |
+| RHCSA EX200 (RHEL 10) | Reset a lost root password | [Recovery](../16-boot-and-recovery/recovery.md) |
+| RHCSA EX200 (RHEL 10) | Modify the system bootloader | [GRUB2](../16-boot-and-recovery/grub2.md) |
+| LFCS | Configure GRUB2 boot loader and boot targets | [GRUB2](../16-boot-and-recovery/grub2.md), [Boot Process](../16-boot-and-recovery/boot-process.md) |
+| LFCS | Diagnose and manage the boot process and initramfs | [Boot Process](../16-boot-and-recovery/boot-process.md), [Kernel Updates](../16-boot-and-recovery/kernel-updates.md) |
+| LPIC-1 101.2 / 102.2 | Boot the system; install and configure the bootloader | [Boot Process](../16-boot-and-recovery/boot-process.md), [GRUB2](../16-boot-and-recovery/grub2.md) |
+| Linux+ XK0-006 | Boot process, GRUB, recovery and kernel panics | [Boot Process](../16-boot-and-recovery/boot-process.md), [Recovery](../16-boot-and-recovery/recovery.md), [Kernel Panic](../16-boot-and-recovery/kernel-panic.md) |
+| Interview sources | Boot stages, rescue vs emergency, root password reset, cannot mount root | [Boot Process](../16-boot-and-recovery/boot-process.md), [Recovery](../16-boot-and-recovery/recovery.md), [Kernel Panic](../16-boot-and-recovery/kernel-panic.md) |
+
+## Performance and Troubleshooting
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Identify CPU and memory intensive processes | [CPU and Load](../17-performance-and-troubleshooting/cpu-and-load.md), [Memory](../17-performance-and-troubleshooting/memory.md) |
+| RHCSA EX200 (RHEL 10) | Adjust process scheduling; tune the system with tuned | [CPU and Load](../17-performance-and-troubleshooting/cpu-and-load.md), [Tuning](../17-performance-and-troubleshooting/tuning.md) |
+| LFCS | Monitor and troubleshoot system performance | [Methodology](../17-performance-and-troubleshooting/methodology.md), [Disk I/O](../17-performance-and-troubleshooting/disk-io.md) |
+| LFCS | Configure user resource limits | [Limits and File Descriptors](../17-performance-and-troubleshooting/limits-and-file-descriptors.md) |
+| LPIC-1 / Linux+ | Process monitoring, memory and I/O tools | [CPU and Load](../17-performance-and-troubleshooting/cpu-and-load.md), [Memory](../17-performance-and-troubleshooting/memory.md), [Disk I/O](../17-performance-and-troubleshooting/disk-io.md) |
+| Linux+ XK0-006 | Analyze and troubleshoot performance; monitoring and SLOs | [Methodology](../17-performance-and-troubleshooting/methodology.md), [Monitoring and Capacity](../17-performance-and-troubleshooting/monitoring-and-capacity.md) |
+| Interview sources | USE method, 60-second checklist, load vs iowait, OOM and exit 137, fd limits, virtual memory, strace vs perf vs eBPF | [Methodology](../17-performance-and-troubleshooting/methodology.md), [CPU and Load](../17-performance-and-troubleshooting/cpu-and-load.md), [Memory](../17-performance-and-troubleshooting/memory.md), [Virtual Memory](../17-performance-and-troubleshooting/virtual-memory.md), [Limits and File Descriptors](../17-performance-and-troubleshooting/limits-and-file-descriptors.md), [Profiling and Tracing](../17-performance-and-troubleshooting/profiling-and-tracing.md) |

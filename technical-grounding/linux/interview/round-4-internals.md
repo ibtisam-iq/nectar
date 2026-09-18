@@ -106,6 +106,25 @@ Senior, SRE and production engineering loops ask what happens underneath a comma
 
 ---
 
+## Boot and Recovery
+
+| Question | Answered in |
+|---|---|
+| What is the difference between a kernel oops and a kernel panic, and when does one become the other? | [Kernel Panic](../16-boot-and-recovery/kernel-panic.md) |
+| A panic leaves nothing in `journalctl`: how do you still capture the cause? | [Kernel Panic](../16-boot-and-recovery/kernel-panic.md) |
+
+---
+
+## Performance and Troubleshooting
+
+| Question | Answered in |
+|---|---|
+| A program `malloc`s 2 GB, it succeeds, then the process is killed: explain. | [Virtual Memory](../17-performance-and-troubleshooting/virtual-memory.md) |
+| What happens in the kernel when a process touches a never-accessed heap page? | [Virtual Memory](../17-performance-and-troubleshooting/virtual-memory.md) |
+| How does `perf` sampling differ from `strace` tracing, and why does overhead differ? | [Profiling and Tracing](../17-performance-and-troubleshooting/profiling-and-tracing.md) |
+
+---
+
 ## How to Answer
 
 - Start from the mechanism (the SUID bit, the NSS lookup, the credentials stored per process), then show the evidence (`ls -l`, `/proc/<pid>/status`).

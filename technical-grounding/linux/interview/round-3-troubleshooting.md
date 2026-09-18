@@ -35,3 +35,7 @@ The troubleshooting round starts with a symptom and no instructions. Interviewer
 | [TLS Certificate Errors](scenarios/tls-certificate-errors.md) | "curl fails on our internal HTTPS site with a certificate error." | 13 Networking, 15 Security |
 | [Permission Denied](scenarios/permission-denied.md) | "The app logs Permission denied on a file it should be able to read." | 05 Permissions, 12 Storage, 15 Security |
 | [Suspected Compromise](scenarios/suspected-compromise.md) | "This server is behaving strangely and we think it's compromised." | 07 Processes, 13 Networking, 15 Security |
+| [Server Slow](scenarios/server-slow.md) | "The server feels slow. Everything is sluggish. Figure out why." | 07 Processes, 17 Performance |
+| [Too Many Open Files](scenarios/too-many-open-files.md) | "The app is logging Too many open files and dropping connections." | 02 Files and Filesystem, 17 Performance |
+| [Cannot Fork](scenarios/cannot-fork.md) | "Every command says fork: retry: Resource temporarily unavailable." | 07 Processes, 17 Performance |
+| [Boot Failure](scenarios/boot-failure.md) | "The server was rebooted and never came back." | 12 Storage, 16 Boot and Recovery |

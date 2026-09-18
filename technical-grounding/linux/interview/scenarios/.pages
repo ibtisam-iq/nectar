@@ -13,3 +13,7 @@ nav:
   - TLS Certificate Errors: tls-certificate-errors.md
   - Permission Denied: permission-denied.md
   - Suspected Compromise: suspected-compromise.md
+  - Server Slow: server-slow.md
+  - Too Many Open Files: too-many-open-files.md
+  - Cannot Fork: cannot-fork.md
+  - Boot Failure: boot-failure.md

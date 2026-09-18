@@ -37,8 +37,8 @@ Every topic file declares a **Track** (Core, RHCSA, Advanced) and an **Interview
 | 13 | [Networking](13-networking/README.md) | Interfaces, configuration, routing, DNS, sockets, testing, capture, time |
 | 14 | [SSH and Remote Access](14-ssh-and-remote-access/README.md) | Client, tunnels, server, file transfer, troubleshooting |
 | 15 | [Security](15-security/README.md) | Firewalls, SELinux, AppArmor, capabilities, auditing, GPG, TLS, hardening |
-| 16 | Boot and Recovery | Boot sequence, GRUB, recovery, kernel panic, kernel updates |
-| 17 | Performance and Troubleshooting | Method, CPU, memory, virtual memory, disk I/O, limits, profiling |
+| 16 | [Boot and Recovery](16-boot-and-recovery/README.md) | Boot sequence, GRUB, recovery, kernel panic, kernel updates |
+| 17 | [Performance and Troubleshooting](17-performance-and-troubleshooting/README.md) | Method, CPU, memory, virtual memory, disk I/O, limits, profiling |
 | 18 | Network Storage | NFS, autofs, Samba, iSCSI |
 | 19 | Containers | Namespaces, cgroups, overlayfs, containers vs VMs, Podman |
 | 20 | Virtualization and Provisioning | KVM and libvirt, VM images, cloud-init and Kickstart |
