@@ -97,12 +97,12 @@ The fourth attempt is not recorded because `preauth` rejected it before the pass
 ## Interview Checkpoints
 
 <!-- --8<-- [start:l1] -->
-??? question "L1: What are the four PAM module types?"
-    **Say first:** `auth` proves identity, `account` checks whether access is allowed now, `password` changes credentials, `session` sets up and tears down the login.
+??? question "L1: A user's password is correct but login still fails. Which PAM module type would you look at, and why?"
+    **Say first:** the `account` type, because it runs after `auth` has proved identity and decides whether access is allowed now (an expired account, a time restriction, a locked shell); `auth`, `password` and `session` handle proving identity, changing credentials and setting up the session.
 
-    **Proof:** the first column of any file in `/etc/pam.d/`.
+    **Proof:** the first column of any file in `/etc/pam.d/` names the type; an expired-account denial comes from an `account` module such as `pam_unix` or `pam_faillock`.
 
-    **Follow-up:** Which type enforces an expired account?
+    **Follow-up:** Where would a "too many failed attempts" lockout be enforced instead? (`auth` with `pam_faillock`.)
 <!-- --8<-- [end:l1] -->
 
 ??? question "L2: Lock accounts after three failed logins on RHEL."

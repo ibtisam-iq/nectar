@@ -239,12 +239,12 @@ site/conf/nginx.conf
 
     **Follow-up:** Why does `zip` not need `tar`?
 
-??? question "L1: What does the -f option of tar mean?"
-    **Say first:** the next argument is the archive file; without `-f`, `tar` reads from stdin or writes to stdout.
+??? question "L1: Why does `tar -xz archive.tgz` fail in a terminal, but work with `-f`?"
+    **Say first:** without `-f`, `tar` reads its archive from stdin, which is the terminal here, so it refuses; `-f archive.tgz` points it at the file instead.
 
-    **Proof:** `tar -xz archive.tgz` in a terminal fails with "Refusing to read archive contents from terminal".
+    **Proof:** `tar -xz archive.tgz` reports "Refusing to read archive contents from terminal"; `tar -xzf archive.tgz` extracts.
 
-    **Follow-up:** When is leaving out `-f` useful? (Piping from `curl` or over `ssh`.)
+    **Follow-up:** When is leaving out `-f` the right choice? (Piping an archive from `curl` or over `ssh`, where stdin is the source.)
 <!-- --8<-- [end:l1] -->
 
 ??? question "L2: Back up /etc into a dated, compressed archive and verify it."

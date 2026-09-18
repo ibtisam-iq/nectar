@@ -27,7 +27,7 @@ Running `ls`, `ps` or `ss` requires the shell to `fork` and `exec` a separate pr
 | `uptime`, load | `cat /proc/loadavg` | Kernel load figures |
 | `df` (roughly) | `cat /proc/mounts`, `stat -f /` | Mount table and `statfs` |
 | `which cmd` | `type cmd` | Shell built-in |
-| `find` (shallow) | `for f in **/*; do ...; done` with `shopt -s globstar` | Shell globbing |
+| `find` (recursive) | `for f in **/*; do ...; done` with `shopt -s globstar` | Shell globbing |
 
 ---
 

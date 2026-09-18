@@ -92,12 +92,12 @@ Output:
 ## Interview Checkpoints
 
 <!-- --8<-- [start:l1] -->
-??? question "L1: Which files record current logins, past logins and failed logins?"
-    **Say first:** `/run/utmp` for current sessions, `/var/log/wtmp` for history and reboots, `/var/log/btmp` for failures.
+??? question "L1: To investigate a brute-force attempt, which login record do you read, and why not the same one `who` uses?"
+    **Say first:** read `/var/log/btmp` with `sudo lastb`, because it records failed attempts; `who` reads `/run/utmp`, which shows only sessions that succeeded, and `last` reads `/var/log/wtmp` for history and reboots.
 
-    **Proof:** `who`, `last` and `sudo lastb` read them in that order.
+    **Proof:** `who`, `last` and `sudo lastb` read `utmp`, `wtmp` and `btmp` respectively.
 
-    **Follow-up:** Why is `btmp` not world-readable? (Users sometimes type a password into the username prompt.)
+    **Follow-up:** Why is `btmp` not world-readable? (Users sometimes type a password into the username prompt, which lands in the log.)
 <!-- --8<-- [end:l1] -->
 
 ??? question "L2: Show when the server last rebooted and who logged in since."

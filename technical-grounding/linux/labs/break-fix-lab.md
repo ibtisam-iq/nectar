@@ -44,22 +44,21 @@ sudo reboot
 
 ```bash
 sudo mkdir -p /mnt/tiny
-sudo mount -t tmpfs -o size=2M tmpfs /mnt/tiny
-for i in $(seq 1 5000); do : > /mnt/tiny/file$i; done   # exhaust inodes on some fs
-sudo dd if=/dev/zero of=/mnt/tiny/fill bs=1M count=3 2>/dev/null
+sudo mount -t tmpfs -o size=2M tmpfs /mnt/tiny        # a 2 MB filesystem
+sudo dd if=/dev/zero of=/mnt/tiny/fill bs=1M count=3 2>/dev/null   # fill it
 ```
 
-**Symptom:** an application reports `No space left on device` on `/mnt/tiny`, yet a first glance suggests the disk is not full.
+**Symptom:** an application reports `No space left on device` on `/mnt/tiny`, yet the underlying disk has plenty of room.
 
 ??? tip "Diagnosis and fix"
     ```bash
-    df -h /mnt/tiny        # space used
-    df -i /mnt/tiny        # inodes: this is what is exhausted, or space on tmpfs
+    df -h /mnt/tiny        # this filesystem is full, even though / is not
+    df -i /mnt/tiny        # rule out the other cause: inode exhaustion
     du -sh /mnt/tiny/*     # what is consuming it
-    sudo rm /mnt/tiny/file*   # free the small files
+    sudo rm /mnt/tiny/fill # free the space
     ```
 
-    `No space left on device` comes from either full blocks (`df -h`) or exhausted inodes (`df -i`); checking only one misses the other cause. On a real disk, many tiny files exhaust inodes long before blocks. See [Disk Full](../interview/scenarios/disk-full.md).
+    `No space left on device` comes from either full blocks (`df -h`) or exhausted inodes (`df -i`); checking only one misses the other cause. Here it is blocks on a small `tmpfs`; on a real disk, many tiny files can exhaust inodes long before blocks fill, which `df -i` catches. See [Disk Full](../interview/scenarios/disk-full.md).
 
 ---
 

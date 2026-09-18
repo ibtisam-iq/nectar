@@ -272,12 +272,12 @@ awk: fatal: cannot open file `nosuch.log' for reading: No such file or directory
 ## Interview Checkpoints
 
 <!-- --8<-- [start:l1] -->
-??? question "L1: What do NR, NF, $0 and $NF mean in awk?"
-    **Say first:** `NR` is the current line number, `NF` the number of fields, `$0` the whole line, and `$NF` the last field.
+??? question "L1: How do you print the last field of every line when its position varies per line?"
+    **Say first:** use `$NF`, because `NF` holds the field count for the current line, so `$NF` is always the last field even when lines have different widths; `$0` is the whole line and `NR` the line number.
 
-    **Proof:** `awk '{print NR, NF, $NF}' file`
+    **Proof:** `awk '{print $NF}' file` prints the last column regardless of how many columns each line has.
 
-    **Follow-up:** What is `FNR`, and when does it differ from `NR`?
+    **Follow-up:** What is `FNR`, and when does it differ from `NR`? (Per-file line number, useful across multiple input files.)
 
 ??? question "L1: When would you use awk instead of grep or cut?"
     **Say first:** when the decision or output depends on field values: numeric comparisons, sums, counts per key, or reformatting.

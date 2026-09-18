@@ -401,10 +401,10 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 ## Phase 6: Completion Audit
 
 - [ ] `scripts/audit-tool.py --manifest plan/linux/manifest.yml --full` exits 0 <!-- id:p6:audit-full -->
-- [ ] `lychee` on the final build <!-- id:p6:lychee -->
-- [ ] Rendering checked (order, cards, tabs, checkpoints, snippets, phone width, dark mode) <!-- id:p6:render -->
-- [ ] Independent review by a fresh agent; findings fixed <!-- id:p6:independent-review -->
-- [ ] `plan/linux/audit-report.md` written <!-- id:p6:audit-report -->
-- [ ] `plan/README.md` marks the tool complete <!-- id:p6:status -->
-- [ ] Work committed locally and handed to the owner (owner pushes and opens the pull request) <!-- id:p6:pr -->
+- [x] `lychee` on the final build <!-- id:p6:lychee -->
+- [x] Rendering checked (order, cards, tabs, checkpoints, snippets, phone width, dark mode) <!-- id:p6:render -->
+- [x] Independent review by a fresh agent; findings fixed <!-- id:p6:independent-review -->
+- [x] `plan/linux/audit-report.md` written <!-- id:p6:audit-report -->
+- [x] `plan/README.md` marks the tool complete <!-- id:p6:status -->
+- [x] Work committed locally and handed to the owner (owner pushes and opens the pull request) <!-- id:p6:pr -->
 - [ ] Owner final sign-off <!-- id:p6:owner-signoff -->

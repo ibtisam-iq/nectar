@@ -8,7 +8,7 @@ Senior, SRE and production engineering loops ask what happens underneath a comma
 
 | Question | Answered in |
 |---|---|
-| What happens between typing `ls` and seeing the output? | [Architecture](../00-foundations/architecture.md) |
+| When `ls` runs, how does the request cross from user space to the kernel and back? | [Architecture](../00-foundations/architecture.md) |
 | A container needs a kernel feature the host lacks. What happens? | [Kernel vs OS vs Distro](../00-foundations/kernel-vs-os-vs-distro.md) |
 
 ---
@@ -71,7 +71,7 @@ Senior, SRE and production engineering loops ask what happens underneath a comma
 
 | Question | Answered in |
 |---|---|
-| What happens between typing `ls` and the prompt returning? | [Process Lifecycle](../07-processes/process-lifecycle.md) |
+| Which process is created, replaced and reaped when the shell runs `ls`? | [Process Lifecycle](../07-processes/process-lifecycle.md) |
 | Why does `fork()` not double memory usage? | [Process Lifecycle](../07-processes/process-lifecycle.md) |
 | Why can Linux use one system call for both processes and threads? | [Process Fundamentals](../07-processes/process-fundamentals.md) |
 | What happens in the kernel between `kill -TERM` and the handler running? | [Signals](../07-processes/signals.md) |

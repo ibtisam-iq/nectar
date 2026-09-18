@@ -454,6 +454,8 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 
 --8<-- "technical-grounding/linux/13-networking/troubleshooting-ladder.md:l1"
 
+---
+
 ## SSH and Remote Access
 
 ### SSH Client
@@ -475,6 +477,8 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### SSH Troubleshooting
 
 --8<-- "technical-grounding/linux/14-ssh-and-remote-access/ssh-troubleshooting.md:l1"
+
+---
 
 ## Security
 
@@ -518,6 +522,8 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 
 --8<-- "technical-grounding/linux/15-security/hardening-checklist.md:l1"
 
+---
+
 ## Boot and Recovery
 
 ### Boot Process
@@ -539,6 +545,8 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### Kernel Updates
 
 --8<-- "technical-grounding/linux/16-boot-and-recovery/kernel-updates.md:l1"
+
+---
 
 ## Performance and Troubleshooting
 
@@ -578,6 +586,8 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 
 --8<-- "technical-grounding/linux/17-performance-and-troubleshooting/tuning.md:l1"
 
+---
+
 ## Network Storage
 
 ### NFS
@@ -595,6 +605,8 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### iSCSI and NBD
 
 --8<-- "technical-grounding/linux/18-network-storage/iscsi-and-nbd.md:l1"
+
+---
 
 ## Containers
 
@@ -617,6 +629,8 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### Podman and Quadlet
 
 --8<-- "technical-grounding/linux/19-containers/podman-and-quadlet.md:l1"
+
+---
 
 ## Virtualization and Provisioning
 

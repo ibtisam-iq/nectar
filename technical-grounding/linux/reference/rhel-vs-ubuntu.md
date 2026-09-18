@@ -27,8 +27,8 @@ See [rpm and dnf](../06-package-management/rpm-and-dnf.md) and [dpkg and apt](..
 
 | | RHEL / Rocky | Ubuntu / Debian |
 |---|---|---|
-| **Create a user (low-level)** | `useradd` (no home by default flags vary) | `useradd` (same tool) |
-| **Create a user (interactive)** | Not shipped | `adduser` (Perl wrapper, prompts) |
+| **Create a user (low-level)** | `useradd` creates the home by default (`CREATE_HOME yes`) | `useradd` creates no home without `-m` |
+| **Create a user (interactive)** | Not shipped | `adduser` (Perl wrapper, prompts, makes the home) |
 | **Default admin group** | `wheel` | `sudo` |
 | **Regular UID start** | 1000 | 1000 |
 
