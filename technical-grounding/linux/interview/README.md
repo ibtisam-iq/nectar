@@ -9,11 +9,11 @@ Linux interviews for DevOps, SRE and platform roles move through rounds that get
 | Round | Level | What is tested | How it is scored |
 |---|---|---|---|
 | [Round 1: Screening](round-1-screening.md) | L1 | Fundamentals: explain, why, difference | Correct, short answers without hesitation |
-| Round 2: Hands-On | L2 | Doing a task in a live shell, reading real output | The right command, first time, and knowing its flags |
+| [Round 2: Hands-On](round-2-hands-on.md) | L2 | Doing a task in a live shell, reading real output | The right command, first time, and knowing its flags |
 | [Round 3: Troubleshooting](round-3-troubleshooting.md) | L3 | An open symptom on a broken server | The path: questions, hypotheses, ordered checks |
 | [Round 4: Internals](round-4-internals.md) | L4 | What happens inside the kernel and the tools | Mechanism-level explanations and trade-offs |
 
-Round 2 and the mock interviews are added once enough modules exist to mix topics.
+The [mock interviews](mock-interviews.md) mix all four rounds into three timed 45-minute sessions.
 
 ---
 
