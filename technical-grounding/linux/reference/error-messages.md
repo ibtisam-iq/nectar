@@ -391,3 +391,33 @@ Real error text seen on Linux servers, with its cause and first fix. Search this
 | container exits with code `137` and no app error | Cgroup memory limit hit; OOM-killed (128 + 9) | Raise the memory limit or reduce footprint; check `dmesg` | [Memory](../17-performance-and-troubleshooting/memory.md) |
 | `CONFIG_TASK_DELAY_ACCT not enabled` (`iotop`) | Per-process I/O delay accounting is off | `echo 1 > /proc/sys/kernel/task_delayacct`, or use `pidstat -d` | [Disk I/O](../17-performance-and-troubleshooting/disk-io.md) |
 | `Command 'iostat' not found` | The `sysstat` package is not installed | Install `sysstat`; `vmstat`/`top`/`free` work without it | [Methodology](../17-performance-and-troubleshooting/methodology.md) |
+
+## Network Storage
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `clnt_create: RPC: Program not registered` | The NFS server is not running, or a firewall blocks it | Start `nfs-server`; allow the `nfs` service (port 2049) | [NFS](../18-network-storage/nfs.md) |
+| `mount.nfs: access denied by server while mounting` | The client is not in `/etc/exports`, or exports not re-applied | Fix the client range; `sudo exportfs -rav` | [NFS](../18-network-storage/nfs.md) |
+| a process is stuck in `D` on an NFS mount, ignoring `kill -9` | Hard mount with the server unreachable; uninterruptible sleep | Restore the server or network; lazy or force unmount | [NFS](../18-network-storage/nfs.md) |
+| `mount error(13): Permission denied` (CIFS) | Wrong credentials or unsupported SMB version | Check the credentials file; add `vers=3.0` | [Samba and CIFS](../18-network-storage/samba-cifs.md) |
+| `mount error(112): Host is down` (CIFS) | The server refused the requested SMB version | Specify a supported version such as `vers=3.0` | [Samba and CIFS](../18-network-storage/samba-cifs.md) |
+| `iscsiadm: no records found` | The initiator IQN is not in the target ACL, or wrong portal | Add the IQN to the ACL; rediscover the correct portal | [iSCSI and NBD](../18-network-storage/iscsi-and-nbd.md) |
+
+## Containers
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `unshare: unshare failed: Operation not permitted` | Creating the namespace needs `CAP_SYS_ADMIN` | Use `sudo`, or first `unshare --user --map-root-user` | [Namespaces](../19-containers/namespaces.md) |
+| `echo: write error: No such file or directory` (cgroup file) | The controller is not enabled in the parent `cgroup.subtree_control` | `echo +memory +cpu > <parent>/cgroup.subtree_control` first | [Cgroups](../19-containers/cgroups.md) |
+| container exits `137` with no application error | Cgroup OOM killer hit `memory.max` (128 + SIGKILL) | Raise the limit if legitimate, or fix the leak; check `dmesg` | [Cgroups](../19-containers/cgroups.md) |
+| `docker stop` waits then kills the container | PID 1 does not forward `SIGTERM` | `exec` the app as PID 1, or run with `--init` | [Containers vs VMs](../19-containers/containers-vs-vms.md) |
+| bind-mounted files are `Permission denied` in a container on RHEL | SELinux blocks a host mount with no matching label | Add `:Z` to the volume flag | [Podman and Quadlet](../19-containers/podman-and-quadlet.md) |
+
+## Virtualization and Provisioning
+
+| Error | Cause | Fix | Topic |
+|---|---|---|---|
+| `virt-host-validate`: hardware virtualization `FAIL` | No `vmx`/`svm` flag, or nested virt off; no `/dev/kvm` | Enable virtualization in firmware or nested virt on the host | [KVM and libvirt](../20-virtualization-and-provisioning/kvm-and-libvirt.md) |
+| `error: failed to connect to the hypervisor` | `libvirtd` not running, or user not in `libvirt` group | Start `libvirtd`; add the user to `libvirt`; reconnect | [KVM and libvirt](../20-virtualization-and-provisioning/kvm-and-libvirt.md) |
+| `WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED` on a new clone | The clone reused the template's SSH host keys | Regenerate host keys (`ssh-keygen -A`); `virt-sysprep` does this | [VM Images and Cloning](../20-virtualization-and-provisioning/vm-images-and-cloning.md) |
+| a cloned VM ignored its cloud-config | The instance-id was unchanged, so first-boot modules skipped | `cloud-init clean` on the template before cloning | [Cloud-init and Kickstart](../20-virtualization-and-provisioning/cloud-init-and-kickstart.md) |

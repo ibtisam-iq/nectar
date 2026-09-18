@@ -577,3 +577,57 @@ Every topic's Must-Know Facts table in one place, for a fast revision pass. Tabl
 ### Tuning
 
 --8<-- "technical-grounding/linux/17-performance-and-troubleshooting/tuning.md:facts"
+
+## Network Storage
+
+### NFS
+
+--8<-- "technical-grounding/linux/18-network-storage/nfs.md:facts"
+
+### Autofs
+
+--8<-- "technical-grounding/linux/18-network-storage/autofs.md:facts"
+
+### Samba and CIFS
+
+--8<-- "technical-grounding/linux/18-network-storage/samba-cifs.md:facts"
+
+### iSCSI and NBD
+
+--8<-- "technical-grounding/linux/18-network-storage/iscsi-and-nbd.md:facts"
+
+## Containers
+
+### Namespaces
+
+--8<-- "technical-grounding/linux/19-containers/namespaces.md:facts"
+
+### Cgroups
+
+--8<-- "technical-grounding/linux/19-containers/cgroups.md:facts"
+
+### Overlayfs and Chroot
+
+--8<-- "technical-grounding/linux/19-containers/overlayfs-and-chroot.md:facts"
+
+### Containers vs VMs
+
+--8<-- "technical-grounding/linux/19-containers/containers-vs-vms.md:facts"
+
+### Podman and Quadlet
+
+--8<-- "technical-grounding/linux/19-containers/podman-and-quadlet.md:facts"
+
+## Virtualization and Provisioning
+
+### KVM and libvirt
+
+--8<-- "technical-grounding/linux/20-virtualization-and-provisioning/kvm-and-libvirt.md:facts"
+
+### VM Images and Cloning
+
+--8<-- "technical-grounding/linux/20-virtualization-and-provisioning/vm-images-and-cloning.md:facts"
+
+### Cloud-init and Kickstart
+
+--8<-- "technical-grounding/linux/20-virtualization-and-provisioning/cloud-init-and-kickstart.md:facts"

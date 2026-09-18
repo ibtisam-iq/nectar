@@ -39,9 +39,9 @@ Every topic file declares a **Track** (Core, RHCSA, Advanced) and an **Interview
 | 15 | [Security](15-security/README.md) | Firewalls, SELinux, AppArmor, capabilities, auditing, GPG, TLS, hardening |
 | 16 | [Boot and Recovery](16-boot-and-recovery/README.md) | Boot sequence, GRUB, recovery, kernel panic, kernel updates |
 | 17 | [Performance and Troubleshooting](17-performance-and-troubleshooting/README.md) | Method, CPU, memory, virtual memory, disk I/O, limits, profiling |
-| 18 | Network Storage | NFS, autofs, Samba, iSCSI |
-| 19 | Containers | Namespaces, cgroups, overlayfs, containers vs VMs, Podman |
-| 20 | Virtualization and Provisioning | KVM and libvirt, VM images, cloud-init and Kickstart |
+| 18 | [Network Storage](18-network-storage/README.md) | NFS, autofs, Samba, iSCSI |
+| 19 | [Containers](19-containers/README.md) | Namespaces, cgroups, overlayfs, containers vs VMs, Podman |
+| 20 | [Virtualization and Provisioning](20-virtualization-and-provisioning/README.md) | KVM and libvirt, VM images, cloud-init and Kickstart |
 
 Modules without a link are planned and appear as they are completed.
 

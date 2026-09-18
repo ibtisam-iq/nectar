@@ -61,3 +61,5 @@ A **Don't say** line records a common wrong answer worth avoiding.
 | [Too Many Open Files](scenarios/too-many-open-files.md) | 02 Files and Filesystem, 17 Performance |
 | [Cannot Fork](scenarios/cannot-fork.md) | 07 Processes, 17 Performance |
 | [Boot Failure](scenarios/boot-failure.md) | 12 Storage, 16 Boot and Recovery |
+| [High Load, Low CPU](scenarios/high-load-low-cpu.md) | 07 Processes, 17 Performance, 18 Network Storage |
+| [High Memory and OOM](scenarios/high-memory-oom.md) | 07 Processes, 17 Performance, 19 Containers |

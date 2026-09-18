@@ -1,0 +1,6 @@
+title: Virtualization and Provisioning
+nav:
+  - README.md
+  - KVM and libvirt: kvm-and-libvirt.md
+  - VM Images and Cloning: vm-images-and-cloning.md
+  - Cloud-init and Kickstart: cloud-init-and-kickstart.md

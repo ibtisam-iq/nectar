@@ -224,28 +224,28 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 
 ## 18 Network Storage
 
-- [ ] NFS (Core, Med)
-- [ ] autofs (RHCSA, Low)
-- [ ] Samba and CIFS (RHCSA, Low)
-- [ ] iSCSI and NBD (Advanced, Low)
+- [x] [NFS](18-network-storage/nfs.md) (Core, Med)
+- [x] [autofs](18-network-storage/autofs.md) (RHCSA, Low)
+- [x] [Samba and CIFS](18-network-storage/samba-cifs.md) (RHCSA, Low)
+- [x] [iSCSI and NBD](18-network-storage/iscsi-and-nbd.md) (Advanced, Low)
 
 ---
 
 ## 19 Containers
 
-- [ ] Namespaces (Core, High, internals)
-- [ ] cgroups (Core, High, internals)
-- [ ] overlayfs and chroot (Core, Med)
-- [ ] Containers vs VMs (Core, High)
-- [ ] Podman and Quadlet (RHCSA, Med)
+- [x] [Namespaces](19-containers/namespaces.md) (Core, High, internals)
+- [x] [cgroups](19-containers/cgroups.md) (Core, High, internals)
+- [x] [overlayfs and chroot](19-containers/overlayfs-and-chroot.md) (Core, Med)
+- [x] [Containers vs VMs](19-containers/containers-vs-vms.md) (Core, High)
+- [x] [Podman and Quadlet](19-containers/podman-and-quadlet.md) (RHCSA, Med)
 
 ---
 
 ## 20 Virtualization and Provisioning
 
-- [ ] KVM and libvirt (Advanced, Low)
-- [ ] VM Images and Cloning (Advanced, Low)
-- [ ] cloud-init and Kickstart (Core, Low)
+- [x] [KVM and libvirt](20-virtualization-and-provisioning/kvm-and-libvirt.md) (Advanced, Low)
+- [x] [VM Images and Cloning](20-virtualization-and-provisioning/vm-images-and-cloning.md) (Advanced, Low)
+- [x] [cloud-init and Kickstart](20-virtualization-and-provisioning/cloud-init-and-kickstart.md) (Core, Low)
 
 ---
 
@@ -256,7 +256,7 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 - [ ] [Storage and LVM Lab](labs/storage-and-lvm-lab.md)
 - [ ] [Networking Lab](labs/networking-lab.md)
 - [ ] Security Lab
-- [ ] Containers by Hand Lab
+- [x] [Containers by Hand Lab](labs/containers-by-hand-lab.md)
 - [ ] RHCSA-Style Tasks
 - [ ] Break-Fix Lab
 
@@ -281,5 +281,5 @@ A progress tracker for the whole Linux folder. Tick topics in your own copy as y
 - [ ] Too Many Open Files
 - [ ] Cannot Fork
 - [ ] Boot Failure
-- [ ] High Load, Low CPU
-- [ ] High Memory and OOM
+- [x] [High Load, Low CPU](interview/scenarios/high-load-low-cpu.md)
+- [x] [High Memory and OOM](interview/scenarios/high-memory-oom.md)

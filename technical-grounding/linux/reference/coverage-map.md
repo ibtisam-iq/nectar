@@ -285,3 +285,37 @@ Certification objectives mapped to the topic file that covers them. The map prov
 | LPIC-1 / Linux+ | Process monitoring, memory and I/O tools | [CPU and Load](../17-performance-and-troubleshooting/cpu-and-load.md), [Memory](../17-performance-and-troubleshooting/memory.md), [Disk I/O](../17-performance-and-troubleshooting/disk-io.md) |
 | Linux+ XK0-006 | Analyze and troubleshoot performance; monitoring and SLOs | [Methodology](../17-performance-and-troubleshooting/methodology.md), [Monitoring and Capacity](../17-performance-and-troubleshooting/monitoring-and-capacity.md) |
 | Interview sources | USE method, 60-second checklist, load vs iowait, OOM and exit 137, fd limits, virtual memory, strace vs perf vs eBPF | [Methodology](../17-performance-and-troubleshooting/methodology.md), [CPU and Load](../17-performance-and-troubleshooting/cpu-and-load.md), [Memory](../17-performance-and-troubleshooting/memory.md), [Virtual Memory](../17-performance-and-troubleshooting/virtual-memory.md), [Limits and File Descriptors](../17-performance-and-troubleshooting/limits-and-file-descriptors.md), [Profiling and Tracing](../17-performance-and-troubleshooting/profiling-and-tracing.md) |
+
+## Network Storage
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Mount and unmount network file systems using NFS | [NFS](../18-network-storage/nfs.md), [Autofs](../18-network-storage/autofs.md) |
+| RHCSA EX200 (RHEL 10) | Configure autofs for automounting | [Autofs](../18-network-storage/autofs.md) |
+| LFCS | Configure and manage NFS server and client | [NFS](../18-network-storage/nfs.md) |
+| LFCS | Configure and manage the SMB/CIFS server and client | [Samba and CIFS](../18-network-storage/samba-cifs.md) |
+| LFCS | Configure iSCSI target and initiator | [iSCSI and NBD](../18-network-storage/iscsi-and-nbd.md) |
+| LPIC-2 209 | NFS and Samba file sharing | [NFS](../18-network-storage/nfs.md), [Samba and CIFS](../18-network-storage/samba-cifs.md) |
+| Linux+ XK0-006 | Network file systems and block storage over the network | [NFS](../18-network-storage/nfs.md), [iSCSI and NBD](../18-network-storage/iscsi-and-nbd.md) |
+| Interview sources | Hard vs soft mounts, the D-state NFS hang, block vs file sharing | [NFS](../18-network-storage/nfs.md), [iSCSI and NBD](../18-network-storage/iscsi-and-nbd.md) |
+
+## Containers
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Find and run container images with Podman | [Podman and Quadlet](../19-containers/podman-and-quadlet.md) |
+| RHCSA EX200 (RHEL 10) | Perform basic container management; run as systemd services | [Podman and Quadlet](../19-containers/podman-and-quadlet.md) |
+| RHCSA EX200 (RHEL 10) | Attach persistent storage to a container | [Podman and Quadlet](../19-containers/podman-and-quadlet.md), [Overlayfs and Chroot](../19-containers/overlayfs-and-chroot.md) |
+| LFCS | Understand container fundamentals: namespaces and cgroups | [Namespaces](../19-containers/namespaces.md), [Cgroups](../19-containers/cgroups.md) |
+| Linux+ XK0-006 | Container concepts, images and runtimes | [Containers vs VMs](../19-containers/containers-vs-vms.md), [Overlayfs and Chroot](../19-containers/overlayfs-and-chroot.md) |
+| Interview sources | A container is a process; namespaces, cgroups, overlay layers, exit 137, rootless mapping | [Namespaces](../19-containers/namespaces.md), [Cgroups](../19-containers/cgroups.md), [Containers vs VMs](../19-containers/containers-vs-vms.md), [Podman and Quadlet](../19-containers/podman-and-quadlet.md) |
+
+## Virtualization and Provisioning
+
+| Curriculum | Objective | Covered in |
+|---|---|---|
+| RHCSA EX200 (RHEL 10) | Configure a system to use cloud-init or install with Kickstart | [Cloud-init and Kickstart](../20-virtualization-and-provisioning/cloud-init-and-kickstart.md) |
+| LFCS | Create and manage virtual machines with KVM/libvirt | [KVM and libvirt](../20-virtualization-and-provisioning/kvm-and-libvirt.md) |
+| LFCS | Manage VM disk images and templates | [VM Images and Cloning](../20-virtualization-and-provisioning/vm-images-and-cloning.md) |
+| LPIC-2 / Linux+ | Virtualization concepts, KVM, and cloud provisioning | [KVM and libvirt](../20-virtualization-and-provisioning/kvm-and-libvirt.md), [Cloud-init and Kickstart](../20-virtualization-and-provisioning/cloud-init-and-kickstart.md) |
+| Interview sources | Container vs VM boundary, qcow2 vs raw, resetting machine-id and host keys on clones | [KVM and libvirt](../20-virtualization-and-provisioning/kvm-and-libvirt.md), [VM Images and Cloning](../20-virtualization-and-provisioning/vm-images-and-cloning.md) |

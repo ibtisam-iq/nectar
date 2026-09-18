@@ -1,0 +1,7 @@
+title: Network Storage
+nav:
+  - README.md
+  - NFS: nfs.md
+  - Autofs: autofs.md
+  - Samba and CIFS: samba-cifs.md
+  - iSCSI and NBD: iscsi-and-nbd.md

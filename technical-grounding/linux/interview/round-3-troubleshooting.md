@@ -39,3 +39,5 @@ The troubleshooting round starts with a symptom and no instructions. Interviewer
 | [Too Many Open Files](scenarios/too-many-open-files.md) | "The app is logging Too many open files and dropping connections." | 02 Files and Filesystem, 17 Performance |
 | [Cannot Fork](scenarios/cannot-fork.md) | "Every command says fork: retry: Resource temporarily unavailable." | 07 Processes, 17 Performance |
 | [Boot Failure](scenarios/boot-failure.md) | "The server was rebooted and never came back." | 12 Storage, 16 Boot and Recovery |
+| [High Load, Low CPU](scenarios/high-load-low-cpu.md) | "Load average is 40 but the CPUs are almost idle." | 07 Processes, 17 Performance, 18 Network Storage |
+| [High Memory and OOM](scenarios/high-memory-oom.md) | "This service keeps getting killed with exit code 137." | 07 Processes, 17 Performance, 19 Containers |

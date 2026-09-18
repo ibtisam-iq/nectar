@@ -577,3 +577,57 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### Tuning
 
 --8<-- "technical-grounding/linux/17-performance-and-troubleshooting/tuning.md:l1"
+
+## Network Storage
+
+### NFS
+
+--8<-- "technical-grounding/linux/18-network-storage/nfs.md:l1"
+
+### Autofs
+
+--8<-- "technical-grounding/linux/18-network-storage/autofs.md:l1"
+
+### Samba and CIFS
+
+--8<-- "technical-grounding/linux/18-network-storage/samba-cifs.md:l1"
+
+### iSCSI and NBD
+
+--8<-- "technical-grounding/linux/18-network-storage/iscsi-and-nbd.md:l1"
+
+## Containers
+
+### Namespaces
+
+--8<-- "technical-grounding/linux/19-containers/namespaces.md:l1"
+
+### Cgroups
+
+--8<-- "technical-grounding/linux/19-containers/cgroups.md:l1"
+
+### Overlayfs and Chroot
+
+--8<-- "technical-grounding/linux/19-containers/overlayfs-and-chroot.md:l1"
+
+### Containers vs VMs
+
+--8<-- "technical-grounding/linux/19-containers/containers-vs-vms.md:l1"
+
+### Podman and Quadlet
+
+--8<-- "technical-grounding/linux/19-containers/podman-and-quadlet.md:l1"
+
+## Virtualization and Provisioning
+
+### KVM and libvirt
+
+--8<-- "technical-grounding/linux/20-virtualization-and-provisioning/kvm-and-libvirt.md:l1"
+
+### VM Images and Cloning
+
+--8<-- "technical-grounding/linux/20-virtualization-and-provisioning/vm-images-and-cloning.md:l1"
+
+### Cloud-init and Kickstart
+
+--8<-- "technical-grounding/linux/20-virtualization-and-provisioning/cloud-init-and-kickstart.md:l1"

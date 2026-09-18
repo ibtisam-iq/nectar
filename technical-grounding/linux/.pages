@@ -20,6 +20,9 @@ nav:
   - 15-security
   - 16-boot-and-recovery
   - 17-performance-and-troubleshooting
+  - 18-network-storage
+  - 19-containers
+  - 20-virtualization-and-provisioning
   - reference
   - interview
   - labs

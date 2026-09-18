@@ -17,3 +17,5 @@ nav:
   - Too Many Open Files: too-many-open-files.md
   - Cannot Fork: cannot-fork.md
   - Boot Failure: boot-failure.md
+  - High Load, Low CPU: high-load-low-cpu.md
+  - High Memory and OOM: high-memory-oom.md

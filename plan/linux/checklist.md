@@ -330,37 +330,37 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Batch H: `scripts/lint-prose.py` exits 0 <!-- id:check:H:lint -->
 - [x] Batch H: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:H:audit -->
 - [x] Batch H: `mkdocs build` has no warnings for the tool folder <!-- id:check:H:build -->
-- [ ] Batch H: owner review done; first-hand line spots listed <!-- id:check:H:owner -->
+- [x] Batch H: owner review done; first-hand line spots listed <!-- id:check:H:owner -->
 
 ---
 
 ## Phase 3: Batch I (modules 18, 19, 20)
 
-- [ ] `18-network-storage/.pages` <!-- id:technical-grounding/linux/18-network-storage/.pages -->
-- [ ] `18-network-storage/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/18-network-storage/README.md -->
-- [ ] `18-network-storage/nfs.md` (Core, Med) <!-- id:technical-grounding/linux/18-network-storage/nfs.md -->
-- [ ] `18-network-storage/autofs.md` (RHCSA, Low) <!-- id:technical-grounding/linux/18-network-storage/autofs.md -->
-- [ ] `18-network-storage/samba-cifs.md` (RHCSA, Low) <!-- id:technical-grounding/linux/18-network-storage/samba-cifs.md -->
-- [ ] `18-network-storage/iscsi-and-nbd.md` (Advanced, Low) <!-- id:technical-grounding/linux/18-network-storage/iscsi-and-nbd.md -->
-- [ ] `19-containers/.pages` <!-- id:technical-grounding/linux/19-containers/.pages -->
-- [ ] `19-containers/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/19-containers/README.md -->
-- [ ] `19-containers/namespaces.md` (Core, High, internals) <!-- id:technical-grounding/linux/19-containers/namespaces.md -->
-- [ ] `19-containers/cgroups.md` (Core, High, internals) <!-- id:technical-grounding/linux/19-containers/cgroups.md -->
-- [ ] `19-containers/overlayfs-and-chroot.md` (Core, Med) <!-- id:technical-grounding/linux/19-containers/overlayfs-and-chroot.md -->
-- [ ] `19-containers/containers-vs-vms.md` (Core, High) <!-- id:technical-grounding/linux/19-containers/containers-vs-vms.md -->
-- [ ] `19-containers/podman-and-quadlet.md` (RHCSA, Med) <!-- id:technical-grounding/linux/19-containers/podman-and-quadlet.md -->
-- [ ] `20-virtualization-and-provisioning/.pages` <!-- id:technical-grounding/linux/20-virtualization-and-provisioning/.pages -->
-- [ ] `20-virtualization-and-provisioning/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/20-virtualization-and-provisioning/README.md -->
-- [ ] `20-virtualization-and-provisioning/kvm-and-libvirt.md` (Advanced, Low) <!-- id:technical-grounding/linux/20-virtualization-and-provisioning/kvm-and-libvirt.md -->
-- [ ] `20-virtualization-and-provisioning/vm-images-and-cloning.md` (Advanced, Low) <!-- id:technical-grounding/linux/20-virtualization-and-provisioning/vm-images-and-cloning.md -->
-- [ ] `20-virtualization-and-provisioning/cloud-init-and-kickstart.md` (Core, Low) <!-- id:technical-grounding/linux/20-virtualization-and-provisioning/cloud-init-and-kickstart.md -->
-- [ ] `labs/containers-by-hand-lab.md` <!-- id:technical-grounding/linux/labs/containers-by-hand-lab.md -->
-- [ ] `interview/scenarios/high-load-low-cpu.md` (modules 07, 17, 18) <!-- id:technical-grounding/linux/interview/scenarios/high-load-low-cpu.md -->
-- [ ] `interview/scenarios/high-memory-oom.md` (modules 07, 17, 19) <!-- id:technical-grounding/linux/interview/scenarios/high-memory-oom.md -->
-- [ ] Batch I: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:I:grows -->
-- [ ] Batch I: `scripts/lint-prose.py` exits 0 <!-- id:check:I:lint -->
-- [ ] Batch I: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:I:audit -->
-- [ ] Batch I: `mkdocs build` has no warnings for the tool folder <!-- id:check:I:build -->
+- [x] `18-network-storage/.pages` <!-- id:technical-grounding/linux/18-network-storage/.pages -->
+- [x] `18-network-storage/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/18-network-storage/README.md -->
+- [x] `18-network-storage/nfs.md` (Core, Med) <!-- id:technical-grounding/linux/18-network-storage/nfs.md -->
+- [x] `18-network-storage/autofs.md` (RHCSA, Low) <!-- id:technical-grounding/linux/18-network-storage/autofs.md -->
+- [x] `18-network-storage/samba-cifs.md` (RHCSA, Low) <!-- id:technical-grounding/linux/18-network-storage/samba-cifs.md -->
+- [x] `18-network-storage/iscsi-and-nbd.md` (Advanced, Low) <!-- id:technical-grounding/linux/18-network-storage/iscsi-and-nbd.md -->
+- [x] `19-containers/.pages` <!-- id:technical-grounding/linux/19-containers/.pages -->
+- [x] `19-containers/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/19-containers/README.md -->
+- [x] `19-containers/namespaces.md` (Core, High, internals) <!-- id:technical-grounding/linux/19-containers/namespaces.md -->
+- [x] `19-containers/cgroups.md` (Core, High, internals) <!-- id:technical-grounding/linux/19-containers/cgroups.md -->
+- [x] `19-containers/overlayfs-and-chroot.md` (Core, Med) <!-- id:technical-grounding/linux/19-containers/overlayfs-and-chroot.md -->
+- [x] `19-containers/containers-vs-vms.md` (Core, High) <!-- id:technical-grounding/linux/19-containers/containers-vs-vms.md -->
+- [x] `19-containers/podman-and-quadlet.md` (RHCSA, Med) <!-- id:technical-grounding/linux/19-containers/podman-and-quadlet.md -->
+- [x] `20-virtualization-and-provisioning/.pages` <!-- id:technical-grounding/linux/20-virtualization-and-provisioning/.pages -->
+- [x] `20-virtualization-and-provisioning/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/20-virtualization-and-provisioning/README.md -->
+- [x] `20-virtualization-and-provisioning/kvm-and-libvirt.md` (Advanced, Low) <!-- id:technical-grounding/linux/20-virtualization-and-provisioning/kvm-and-libvirt.md -->
+- [x] `20-virtualization-and-provisioning/vm-images-and-cloning.md` (Advanced, Low) <!-- id:technical-grounding/linux/20-virtualization-and-provisioning/vm-images-and-cloning.md -->
+- [x] `20-virtualization-and-provisioning/cloud-init-and-kickstart.md` (Core, Low) <!-- id:technical-grounding/linux/20-virtualization-and-provisioning/cloud-init-and-kickstart.md -->
+- [x] `labs/containers-by-hand-lab.md` <!-- id:technical-grounding/linux/labs/containers-by-hand-lab.md -->
+- [x] `interview/scenarios/high-load-low-cpu.md` (modules 07, 17, 18) <!-- id:technical-grounding/linux/interview/scenarios/high-load-low-cpu.md -->
+- [x] `interview/scenarios/high-memory-oom.md` (modules 07, 17, 19) <!-- id:technical-grounding/linux/interview/scenarios/high-memory-oom.md -->
+- [x] Batch I: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:I:grows -->
+- [x] Batch I: `scripts/lint-prose.py` exits 0 <!-- id:check:I:lint -->
+- [x] Batch I: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:I:audit -->
+- [x] Batch I: `mkdocs build` has no warnings for the tool folder <!-- id:check:I:build -->
 - [ ] Batch I: owner review done; first-hand line spots listed <!-- id:check:I:owner -->
 
 ---

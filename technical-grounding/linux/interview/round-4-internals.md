@@ -125,6 +125,17 @@ Senior, SRE and production engineering loops ask what happens underneath a comma
 
 ---
 
+## Containers
+
+| Question | Answered in |
+|---|---|
+| How does a rootless container let root inside map to a normal user outside? | [Namespaces](../19-containers/namespaces.md) |
+| What keeps a namespace alive after the process that created it exits? | [Namespaces](../19-containers/namespaces.md) |
+| How does the kernel enforce a memory limit, and what happens at the cap? | [Cgroups](../19-containers/cgroups.md) |
+| Why can a kernel vulnerability affect every container on a host but not every VM? | [Containers vs VMs](../19-containers/containers-vs-vms.md) |
+
+---
+
 ## How to Answer
 
 - Start from the mechanism (the SUID bit, the NSS lookup, the credentials stored per process), then show the evidence (`ls -l`, `/proc/<pid>/status`).

@@ -44,3 +44,4 @@ A local VM that fails to start is usually missing hardware virtualization or con
 | [Storage and LVM](storage-and-lvm-lab.md) | 12 Storage |
 | [Networking](networking-lab.md) | 13 Networking |
 | [Security](security-lab.md) | 14 SSH and Remote Access, 15 Security |
+| [Containers by Hand](containers-by-hand-lab.md) | 19 Containers |

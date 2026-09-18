@@ -6,3 +6,4 @@ nav:
   - Storage and LVM: storage-and-lvm-lab.md
   - Networking: networking-lab.md
   - Security: security-lab.md
+  - Containers by Hand: containers-by-hand-lab.md
