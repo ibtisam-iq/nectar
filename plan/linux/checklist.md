@@ -14,7 +14,7 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] `CLAUDE.md` points to `plan/` <!-- id:p0:pointer:CLAUDE.md -->
 - [x] `GEMINI.md` points to `plan/` <!-- id:p0:pointer:GEMINI.md -->
 - [x] `AGENTS.md` points to `plan/` <!-- id:p0:pointer:AGENTS.md -->
-- [ ] Phase 0 on `main` (owner pushes and merges) <!-- id:p0:merged -->
+- [x] Phase 0 on `main` (owner pushes and merges) <!-- id:p0:merged -->
 
 ---
 
@@ -400,7 +400,7 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 6: Completion Audit
 
-- [ ] `scripts/audit-tool.py --manifest plan/linux/manifest.yml --full` exits 0 <!-- id:p6:audit-full -->
+- [x] `scripts/audit-tool.py --manifest plan/linux/manifest.yml --full` exits 0 <!-- id:p6:audit-full -->
 - [x] `lychee` on the final build <!-- id:p6:lychee -->
 - [x] Rendering checked (order, cards, tabs, checkpoints, snippets, phone width, dark mode) <!-- id:p6:render -->
 - [x] Independent review by a fresh agent; findings fixed <!-- id:p6:independent-review -->
