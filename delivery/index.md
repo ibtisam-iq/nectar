@@ -9,7 +9,7 @@ Getting code from a developer's machine to production — version control workfl
 
 <div class="grid cards" markdown>
 
--   **[:material-git: Git](git/Git.md)**
+-   **[:material-git: Git](git/README.md)**
 
     Branching strategies, rebase vs merge, conflict resolution, history rewriting, and day-to-day workflows.
 

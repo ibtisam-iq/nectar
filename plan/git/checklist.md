@@ -20,16 +20,16 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 1: Housekeeping
 
-- [ ] Raw course material moved to `delivery/git/_sources/` <!-- id:p1:sources-moved -->
-- [ ] `_sources/` in `.gitignore` <!-- id:p1:gitignore:_sources/ -->
-- [ ] `_sources/` in `exclude_docs` <!-- id:p1:exclude:_sources/ -->
-- [ ] Remove `delivery/git/Git.md` <!-- id:remove:Git.md -->
-- [ ] Remove `delivery/git/gitCheatSheet.md` <!-- id:remove:gitCheatSheet.md -->
-- [ ] Remove `delivery/git/git-submodules.md` <!-- id:remove:git-submodules.md -->
-- [ ] Remove `delivery/git/troubleshooting.md` <!-- id:remove:troubleshooting.md -->
-- [ ] Inbound links fixed in `delivery/index.md` <!-- id:p1:links:delivery/index.md -->
-- [ ] Local virtual environment synced with `requirements.txt` <!-- id:p1:venv -->
-- [ ] `_sources/INVENTORY.md` written <!-- id:p1:inventory -->
+- [x] Raw course material moved to `delivery/git/_sources/` <!-- id:p1:sources-moved -->
+- [x] `_sources/` in `.gitignore` <!-- id:p1:gitignore:_sources/ -->
+- [x] `_sources/` in `exclude_docs` <!-- id:p1:exclude:_sources/ -->
+- [x] Remove `delivery/git/Git.md` <!-- id:remove:Git.md -->
+- [x] Remove `delivery/git/gitCheatSheet.md` <!-- id:remove:gitCheatSheet.md -->
+- [x] Remove `delivery/git/git-submodules.md` <!-- id:remove:git-submodules.md -->
+- [x] Remove `delivery/git/troubleshooting.md` <!-- id:remove:troubleshooting.md -->
+- [x] Inbound links fixed in `delivery/index.md` <!-- id:p1:links:delivery/index.md -->
+- [x] Local virtual environment synced with `requirements.txt` <!-- id:p1:venv -->
+- [x] `_sources/INVENTORY.md` written <!-- id:p1:inventory -->
 
 ---
 
