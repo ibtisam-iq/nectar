@@ -361,7 +361,7 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Batch I: `scripts/lint-prose.py` exits 0 <!-- id:check:I:lint -->
 - [x] Batch I: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:I:audit -->
 - [x] Batch I: `mkdocs build` has no warnings for the tool folder <!-- id:check:I:build -->
-- [ ] Batch I: owner review done; first-hand line spots listed <!-- id:check:I:owner -->
+- [x] Batch I: owner review done; first-hand line spots listed <!-- id:check:I:owner -->
 
 ---
 
@@ -374,7 +374,7 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Phase 4: `scripts/lint-prose.py` exits 0 <!-- id:check:4:lint -->
 - [x] Phase 4: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:4:audit -->
 - [x] Phase 4: `mkdocs build` has no warnings for the tool folder <!-- id:check:4:build -->
-- [ ] Phase 4: owner review done; first-hand line spots listed <!-- id:check:4:owner -->
+- [x] Phase 4: owner review done; first-hand line spots listed <!-- id:check:4:owner -->
 
 ---
 
@@ -394,7 +394,7 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Phase 5: `scripts/lint-prose.py` exits 0 <!-- id:check:5:lint -->
 - [x] Phase 5: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:5:audit -->
 - [x] Phase 5: `mkdocs build` has no warnings for the tool folder <!-- id:check:5:build -->
-- [ ] Phase 5: owner review done; first-hand line spots listed <!-- id:check:5:owner -->
+- [x] Phase 5: owner review done; first-hand line spots listed <!-- id:check:5:owner -->
 
 ---
 
@@ -407,4 +407,4 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] `plan/linux/audit-report.md` written <!-- id:p6:audit-report -->
 - [x] `plan/README.md` marks the tool complete <!-- id:p6:status -->
 - [x] Work committed locally and handed to the owner (owner pushes and opens the pull request) <!-- id:p6:pr -->
-- [ ] Owner final sign-off <!-- id:p6:owner-signoff -->
+- [x] Owner final sign-off <!-- id:p6:owner-signoff -->
