@@ -1,0 +1,8 @@
+title: Logging
+nav:
+  - README.md
+  - Log Locations: log-locations.md
+  - journalctl: journalctl.md
+  - rsyslog: rsyslog.md
+  - logrotate: logrotate.md
+  - Log Parsing Recipes: log-parsing-recipes.md

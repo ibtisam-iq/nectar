@@ -1,0 +1,11 @@
+title: Files and Filesystem
+nav:
+  - README.md
+  - Filesystem Hierarchy: filesystem-hierarchy.md
+  - File Types: file-types.md
+  - Navigation and Listing: navigation-and-listing.md
+  - File Operations: file-operations.md
+  - Inodes and Links: inodes-and-links.md
+  - File Descriptors: file-descriptors.md
+  - Finding Files: finding-files.md
+  - Archiving and Compression: archiving-and-compression.md

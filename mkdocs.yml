@@ -150,6 +150,9 @@ exclude_docs: |
   .gitignore
   .gitattributes
   requirements.txt
+  /plan/
+  /AGENTS.md
+  _sources/
 
 validation:
   nav:

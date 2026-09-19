@@ -1,0 +1,9 @@
+title: Foundations
+nav:
+  - README.md
+  - What Is Linux: what-is-linux.md
+  - Kernel vs OS vs Distro: kernel-vs-os-vs-distro.md
+  - Distributions: distributions.md
+  - Linux vs Windows: linux-vs-windows.md
+  - Architecture: architecture.md
+  - System Information: system-information.md

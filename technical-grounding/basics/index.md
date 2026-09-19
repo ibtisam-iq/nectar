@@ -11,11 +11,9 @@ Use these pages to quickly refresh a concept or to get the minimal, practical vi
 - [CLI Fundamentals](understanding-CLI-commands.md)
 
 ### Linux
-- [Linux Overview](../linux/Linux.md)
-- [STDOUT & STDERR](../linux/STDOUT_STDERR_Guide.md)
-- [Cheat Sheet](../linux/cheatSheet.md)
-- [tar Command](../linux/tar-command.md)
-- [Troubleshooting](../linux/troubleshooting.md)
+- [Linux notes](../linux/README.md)
+- [Streams and Redirection](../linux/01-shell-and-cli/streams-and-redirection.md)
+- [Archiving and Compression](../linux/02-files-and-filesystem/archiving-and-compression.md)
 
 ### Networking
 - [Networking Basics](../networking/Networking.md)

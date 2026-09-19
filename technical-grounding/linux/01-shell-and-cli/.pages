@@ -1,0 +1,13 @@
+title: Shell and CLI
+nav:
+  - README.md
+  - Shell Basics: shell-basics.md
+  - Getting Help: getting-help.md
+  - Command Resolution: command-resolution.md
+  - Variables and Environment: variables-and-environment.md
+  - Locale and Encoding: locale-and-encoding.md
+  - Quoting and Expansion: quoting-and-expansion.md
+  - Streams and Redirection: streams-and-redirection.md
+  - Exit Codes and Chaining: exit-codes-and-chaining.md
+  - Text Editors: text-editors.md
+  - Scripting Essentials: scripting-essentials.md

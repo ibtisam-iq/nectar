@@ -1,0 +1,10 @@
+title: Text Processing
+nav:
+  - README.md
+  - Viewing and Comparing: viewing-and-comparing.md
+  - grep and Regex: grep-and-regex.md
+  - sed: sed.md
+  - awk: awk.md
+  - Cut, Sort, Uniq and Tr: cut-sort-uniq-tr.md
+  - xargs and tee: xargs-and-tee.md
+  - JSON and YAML on the CLI: json-and-yaml-on-cli.md

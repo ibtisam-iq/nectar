@@ -1,0 +1,410 @@
+# Linux Checklist
+
+Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the same commit as the work. Regenerate after any manifest change; ticked items are preserved by id.
+
+---
+
+## Phase 0: Plan Logged in Repository
+
+- [x] `plan/README.md` <!-- id:p0:plan-readme -->
+- [x] `plan/standards/` (writing standard, blueprint, definition of done) <!-- id:p0:standards -->
+- [x] `plan/linux/` (plan, manifest, decisions, research, checklist) <!-- id:p0:plan-files -->
+- [x] `scripts/gen-checklist.py` <!-- id:p0:gen-checklist -->
+- [x] `plan/` listed in `exclude_docs` <!-- id:p0:exclude-plan -->
+- [x] `CLAUDE.md` points to `plan/` <!-- id:p0:pointer:CLAUDE.md -->
+- [x] `GEMINI.md` points to `plan/` <!-- id:p0:pointer:GEMINI.md -->
+- [x] `AGENTS.md` points to `plan/` <!-- id:p0:pointer:AGENTS.md -->
+- [ ] Phase 0 on `main` (owner pushes and merges) <!-- id:p0:merged -->
+
+---
+
+## Phase 1: Housekeeping
+
+- [x] Raw course material moved to `technical-grounding/linux/_sources/` <!-- id:p1:sources-moved -->
+- [x] Third-party resume moved out of the repository; duplicate zip deleted <!-- id:p1:resume-removed -->
+- [x] `_sources/` in `.gitignore` <!-- id:p1:gitignore:_sources/ -->
+- [x] `_sources/` in `exclude_docs` <!-- id:p1:exclude:_sources/ -->
+- [x] Remove `technical-grounding/linux/Linux.md` <!-- id:remove:Linux.md -->
+- [x] Remove `technical-grounding/linux/cheatSheet.md` <!-- id:remove:cheatSheet.md -->
+- [x] Remove `technical-grounding/linux/troubleshooting.md` <!-- id:remove:troubleshooting.md -->
+- [x] Inbound links fixed in `technical-grounding/basics/index.md` <!-- id:p1:links:technical-grounding/basics/index.md -->
+- [x] Local virtual environment synced with `requirements.txt` <!-- id:p1:venv -->
+- [x] `_sources/INVENTORY.md` written <!-- id:p1:inventory -->
+
+---
+
+## Phase 2: Pilot
+
+- [x] `templates/topic.md` <!-- id:repo:templates/topic.md -->
+- [x] `templates/module-readme.md` <!-- id:repo:templates/module-readme.md -->
+- [x] `templates/scenario.md` <!-- id:repo:templates/scenario.md -->
+- [x] `scripts/lint-prose.py` <!-- id:repo:scripts/lint-prose.py -->
+- [x] `scripts/audit-tool.py` <!-- id:repo:scripts/audit-tool.py -->
+- [x] Tool folder `.pages` <!-- id:technical-grounding/linux/.pages -->
+- [x] `reference/.pages` <!-- id:technical-grounding/linux/reference/.pages -->
+- [x] `interview/.pages` <!-- id:technical-grounding/linux/interview/.pages -->
+- [x] `interview/scenarios/.pages` <!-- id:technical-grounding/linux/interview/scenarios/.pages -->
+- [x] `labs/.pages` <!-- id:technical-grounding/linux/labs/.pages -->
+- [x] `04-users-and-access/.pages` <!-- id:technical-grounding/linux/04-users-and-access/.pages -->
+- [x] `04-users-and-access/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/04-users-and-access/README.md -->
+- [x] `04-users-and-access/users.md` (Core, High) <!-- id:technical-grounding/linux/04-users-and-access/users.md -->
+- [x] `04-users-and-access/groups.md` (Core, High) <!-- id:technical-grounding/linux/04-users-and-access/groups.md -->
+- [x] `04-users-and-access/passwords-and-aging.md` (Core, Med) <!-- id:technical-grounding/linux/04-users-and-access/passwords-and-aging.md -->
+- [x] `04-users-and-access/sudo-and-su.md` (Core, High, internals) <!-- id:technical-grounding/linux/04-users-and-access/sudo-and-su.md -->
+- [x] `04-users-and-access/pam.md` (Core, Low) <!-- id:technical-grounding/linux/04-users-and-access/pam.md -->
+- [x] `04-users-and-access/login-sessions.md` (Core, Low) <!-- id:technical-grounding/linux/04-users-and-access/login-sessions.md -->
+- [x] `04-users-and-access/centralized-identity.md` (Advanced, Low) <!-- id:technical-grounding/linux/04-users-and-access/centralized-identity.md -->
+- [x] `reference/must-know-facts.md` <!-- id:technical-grounding/linux/reference/must-know-facts.md -->
+- [x] `reference/coverage-map.md` <!-- id:technical-grounding/linux/reference/coverage-map.md -->
+- [x] `labs/README.md` <!-- id:technical-grounding/linux/labs/README.md -->
+- [x] `labs/users-and-permissions-lab.md` <!-- id:technical-grounding/linux/labs/users-and-permissions-lab.md -->
+- [x] `interview/README.md` <!-- id:technical-grounding/linux/interview/README.md -->
+- [x] `interview/round-1-screening.md` <!-- id:technical-grounding/linux/interview/round-1-screening.md -->
+- [x] `interview/round-3-troubleshooting.md` <!-- id:technical-grounding/linux/interview/round-3-troubleshooting.md -->
+- [x] `interview/round-4-internals.md` <!-- id:technical-grounding/linux/interview/round-4-internals.md -->
+- [x] `interview/scenarios/cannot-login-or-sudo.md` (modules 04) <!-- id:technical-grounding/linux/interview/scenarios/cannot-login-or-sudo.md -->
+- [x] `README.md` <!-- id:technical-grounding/linux/README.md -->
+- [x] `roadmap.md` <!-- id:technical-grounding/linux/roadmap.md -->
+- [x] Pilot: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:P:grows -->
+- [x] Pilot: `scripts/lint-prose.py` exits 0 <!-- id:check:P:lint -->
+- [x] Pilot: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:P:audit -->
+- [x] Pilot: `mkdocs build` has no warnings for the tool folder <!-- id:check:P:build -->
+- [x] Pilot: owner review done; first-hand line spots listed <!-- id:check:P:owner -->
+- [x] Owner sign-off on the pilot <!-- id:p2:signoff -->
+- [x] `CLAUDE.md` has the Notes Conventions section <!-- id:p2:conventions -->
+
+---
+
+## Phase 3: Batch A (modules 00, 01, 02)
+
+- [x] `00-foundations/.pages` <!-- id:technical-grounding/linux/00-foundations/.pages -->
+- [x] `00-foundations/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/00-foundations/README.md -->
+- [x] `00-foundations/what-is-linux.md` (Core, Low) <!-- id:technical-grounding/linux/00-foundations/what-is-linux.md -->
+- [x] `00-foundations/kernel-vs-os-vs-distro.md` (Core, Med) <!-- id:technical-grounding/linux/00-foundations/kernel-vs-os-vs-distro.md -->
+- [x] `00-foundations/distributions.md` (Core, Low) <!-- id:technical-grounding/linux/00-foundations/distributions.md -->
+- [x] `00-foundations/linux-vs-windows.md` (Core, Low) <!-- id:technical-grounding/linux/00-foundations/linux-vs-windows.md -->
+- [x] `00-foundations/architecture.md` (Core, High) <!-- id:technical-grounding/linux/00-foundations/architecture.md -->
+- [x] `00-foundations/system-information.md` (Core, Med) <!-- id:technical-grounding/linux/00-foundations/system-information.md -->
+- [x] `01-shell-and-cli/.pages` <!-- id:technical-grounding/linux/01-shell-and-cli/.pages -->
+- [x] `01-shell-and-cli/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/01-shell-and-cli/README.md -->
+- [x] `01-shell-and-cli/shell-basics.md` (Core, Med) <!-- id:technical-grounding/linux/01-shell-and-cli/shell-basics.md -->
+- [x] `01-shell-and-cli/getting-help.md` (Core, Low) <!-- id:technical-grounding/linux/01-shell-and-cli/getting-help.md -->
+- [x] `01-shell-and-cli/command-resolution.md` (Core, Med) <!-- id:technical-grounding/linux/01-shell-and-cli/command-resolution.md -->
+- [x] `01-shell-and-cli/variables-and-environment.md` (Core, High) <!-- id:technical-grounding/linux/01-shell-and-cli/variables-and-environment.md -->
+- [x] `01-shell-and-cli/locale-and-encoding.md` (Core, Low) <!-- id:technical-grounding/linux/01-shell-and-cli/locale-and-encoding.md -->
+- [x] `01-shell-and-cli/quoting-and-expansion.md` (Core, Med) <!-- id:technical-grounding/linux/01-shell-and-cli/quoting-and-expansion.md -->
+- [x] `01-shell-and-cli/streams-and-redirection.md` (Core, High) <!-- id:technical-grounding/linux/01-shell-and-cli/streams-and-redirection.md -->
+- [x] `01-shell-and-cli/exit-codes-and-chaining.md` (Core, High) <!-- id:technical-grounding/linux/01-shell-and-cli/exit-codes-and-chaining.md -->
+- [x] `01-shell-and-cli/text-editors.md` (Core, Low) <!-- id:technical-grounding/linux/01-shell-and-cli/text-editors.md -->
+- [x] `01-shell-and-cli/scripting-essentials.md` (RHCSA, Med) <!-- id:technical-grounding/linux/01-shell-and-cli/scripting-essentials.md -->
+- [x] Remove `technical-grounding/linux/STDOUT_STDERR_Guide.md` (absorbed into `01-shell-and-cli/`) <!-- id:remove:STDOUT_STDERR_Guide.md -->
+- [x] `02-files-and-filesystem/.pages` <!-- id:technical-grounding/linux/02-files-and-filesystem/.pages -->
+- [x] `02-files-and-filesystem/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/02-files-and-filesystem/README.md -->
+- [x] `02-files-and-filesystem/filesystem-hierarchy.md` (Core, High) <!-- id:technical-grounding/linux/02-files-and-filesystem/filesystem-hierarchy.md -->
+- [x] `02-files-and-filesystem/file-types.md` (Core, Med) <!-- id:technical-grounding/linux/02-files-and-filesystem/file-types.md -->
+- [x] `02-files-and-filesystem/navigation-and-listing.md` (Core, Low) <!-- id:technical-grounding/linux/02-files-and-filesystem/navigation-and-listing.md -->
+- [x] `02-files-and-filesystem/file-operations.md` (Core, Med) <!-- id:technical-grounding/linux/02-files-and-filesystem/file-operations.md -->
+- [x] `02-files-and-filesystem/inodes-and-links.md` (Core, High) <!-- id:technical-grounding/linux/02-files-and-filesystem/inodes-and-links.md -->
+- [x] `02-files-and-filesystem/file-descriptors.md` (Advanced, High, internals) <!-- id:technical-grounding/linux/02-files-and-filesystem/file-descriptors.md -->
+- [x] `02-files-and-filesystem/finding-files.md` (Core, High) <!-- id:technical-grounding/linux/02-files-and-filesystem/finding-files.md -->
+- [x] `02-files-and-filesystem/archiving-and-compression.md` (Core, Med) <!-- id:technical-grounding/linux/02-files-and-filesystem/archiving-and-compression.md -->
+- [x] Remove `technical-grounding/linux/tar-command.md` (absorbed into `02-files-and-filesystem/`) <!-- id:remove:tar-command.md -->
+- [x] `reference/error-messages.md` <!-- id:technical-grounding/linux/reference/error-messages.md -->
+- [x] Batch A: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:A:grows -->
+- [x] Batch A: `scripts/lint-prose.py` exits 0 <!-- id:check:A:lint -->
+- [x] Batch A: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:A:audit -->
+- [x] Batch A: `mkdocs build` has no warnings for the tool folder <!-- id:check:A:build -->
+- [x] Batch A: owner review done; first-hand line spots listed <!-- id:check:A:owner -->
+
+---
+
+## Phase 3: Batch B (modules 03, 05, 06)
+
+- [x] `03-text-processing/.pages` <!-- id:technical-grounding/linux/03-text-processing/.pages -->
+- [x] `03-text-processing/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/03-text-processing/README.md -->
+- [x] `03-text-processing/viewing-and-comparing.md` (Core, Med) <!-- id:technical-grounding/linux/03-text-processing/viewing-and-comparing.md -->
+- [x] `03-text-processing/grep-and-regex.md` (Core, High) <!-- id:technical-grounding/linux/03-text-processing/grep-and-regex.md -->
+- [x] `03-text-processing/sed.md` (Core, High) <!-- id:technical-grounding/linux/03-text-processing/sed.md -->
+- [x] `03-text-processing/awk.md` (Core, High) <!-- id:technical-grounding/linux/03-text-processing/awk.md -->
+- [x] `03-text-processing/cut-sort-uniq-tr.md` (Core, High) <!-- id:technical-grounding/linux/03-text-processing/cut-sort-uniq-tr.md -->
+- [x] `03-text-processing/xargs-and-tee.md` (Core, Med) <!-- id:technical-grounding/linux/03-text-processing/xargs-and-tee.md -->
+- [x] `03-text-processing/json-and-yaml-on-cli.md` (Core, Med) <!-- id:technical-grounding/linux/03-text-processing/json-and-yaml-on-cli.md -->
+- [x] `05-permissions/.pages` <!-- id:technical-grounding/linux/05-permissions/.pages -->
+- [x] `05-permissions/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/05-permissions/README.md -->
+- [x] `05-permissions/basic-permissions.md` (Core, High) <!-- id:technical-grounding/linux/05-permissions/basic-permissions.md -->
+- [x] `05-permissions/umask.md` (Core, Med) <!-- id:technical-grounding/linux/05-permissions/umask.md -->
+- [x] `05-permissions/special-permissions.md` (Core, High) <!-- id:technical-grounding/linux/05-permissions/special-permissions.md -->
+- [x] `05-permissions/acl.md` (RHCSA, Med) <!-- id:technical-grounding/linux/05-permissions/acl.md -->
+- [x] `05-permissions/file-attributes.md` (Core, Med) <!-- id:technical-grounding/linux/05-permissions/file-attributes.md -->
+- [x] `06-package-management/.pages` <!-- id:technical-grounding/linux/06-package-management/.pages -->
+- [x] `06-package-management/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/06-package-management/README.md -->
+- [x] `06-package-management/packaging-concepts.md` (Core, Med) <!-- id:technical-grounding/linux/06-package-management/packaging-concepts.md -->
+- [x] `06-package-management/rpm-and-dnf.md` (Core, Med) <!-- id:technical-grounding/linux/06-package-management/rpm-and-dnf.md -->
+- [x] `06-package-management/dpkg-and-apt.md` (Core, Med) <!-- id:technical-grounding/linux/06-package-management/dpkg-and-apt.md -->
+- [x] `06-package-management/repositories.md` (Core, Low) <!-- id:technical-grounding/linux/06-package-management/repositories.md -->
+- [x] `06-package-management/flatpak-and-snap.md` (RHCSA, Low) <!-- id:technical-grounding/linux/06-package-management/flatpak-and-snap.md -->
+- [x] `06-package-management/shared-libraries.md` (Advanced, Med, internals) <!-- id:technical-grounding/linux/06-package-management/shared-libraries.md -->
+- [x] `06-package-management/other-install-methods.md` (Core, Low) <!-- id:technical-grounding/linux/06-package-management/other-install-methods.md -->
+- [x] Complete `labs/users-and-permissions-lab.md` <!-- id:technical-grounding/linux/labs/users-and-permissions-lab.md:complete -->
+- [x] `interview/scenarios/binary-wont-execute.md` (modules 01, 06) <!-- id:technical-grounding/linux/interview/scenarios/binary-wont-execute.md -->
+- [x] Batch B: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:B:grows -->
+- [x] Batch B: `scripts/lint-prose.py` exits 0 <!-- id:check:B:lint -->
+- [x] Batch B: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:B:audit -->
+- [x] Batch B: `mkdocs build` has no warnings for the tool folder <!-- id:check:B:build -->
+- [x] Batch B: owner review done; first-hand line spots listed <!-- id:check:B:owner -->
+
+---
+
+## Phase 3: Batch C (modules 07, 08)
+
+- [x] `07-processes/.pages` <!-- id:technical-grounding/linux/07-processes/.pages -->
+- [x] `07-processes/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/07-processes/README.md -->
+- [x] `07-processes/process-fundamentals.md` (Core, High) <!-- id:technical-grounding/linux/07-processes/process-fundamentals.md -->
+- [x] `07-processes/process-lifecycle.md` (Advanced, High, internals) <!-- id:technical-grounding/linux/07-processes/process-lifecycle.md -->
+- [x] `07-processes/viewing-processes.md` (Core, High) <!-- id:technical-grounding/linux/07-processes/viewing-processes.md -->
+- [x] `07-processes/process-states.md` (Core, High) <!-- id:technical-grounding/linux/07-processes/process-states.md -->
+- [x] `07-processes/signals.md` (Core, High, internals) <!-- id:technical-grounding/linux/07-processes/signals.md -->
+- [x] `07-processes/job-control.md` (Core, Med) <!-- id:technical-grounding/linux/07-processes/job-control.md -->
+- [x] `07-processes/priority-and-nice.md` (Core, Med) <!-- id:technical-grounding/linux/07-processes/priority-and-nice.md -->
+- [x] `07-processes/system-calls-and-tracing.md` (Advanced, High, internals) <!-- id:technical-grounding/linux/07-processes/system-calls-and-tracing.md -->
+- [x] `08-systemd-and-services/.pages` <!-- id:technical-grounding/linux/08-systemd-and-services/.pages -->
+- [x] `08-systemd-and-services/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/08-systemd-and-services/README.md -->
+- [x] `08-systemd-and-services/init-and-targets.md` (Core, Med) <!-- id:technical-grounding/linux/08-systemd-and-services/init-and-targets.md -->
+- [x] `08-systemd-and-services/systemctl.md` (Core, High) <!-- id:technical-grounding/linux/08-systemd-and-services/systemctl.md -->
+- [x] `08-systemd-and-services/unit-files.md` (Core, High) <!-- id:technical-grounding/linux/08-systemd-and-services/unit-files.md -->
+- [x] `08-systemd-and-services/writing-a-service.md` (Core, Med) <!-- id:technical-grounding/linux/08-systemd-and-services/writing-a-service.md -->
+- [x] `08-systemd-and-services/systemd-toolbox.md` (Core, Low) <!-- id:technical-grounding/linux/08-systemd-and-services/systemd-toolbox.md -->
+- [x] `labs/processes-and-services-lab.md` <!-- id:technical-grounding/linux/labs/processes-and-services-lab.md -->
+- [x] `interview/scenarios/process-wont-die.md` (modules 07) <!-- id:technical-grounding/linux/interview/scenarios/process-wont-die.md -->
+- [x] Batch C: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:C:grows -->
+- [x] Batch C: `scripts/lint-prose.py` exits 0 <!-- id:check:C:lint -->
+- [x] Batch C: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:C:audit -->
+- [x] Batch C: `mkdocs build` has no warnings for the tool folder <!-- id:check:C:build -->
+- [x] Batch C: owner review done; first-hand line spots listed <!-- id:check:C:owner -->
+
+---
+
+## Phase 3: Batch D (modules 09, 10, 11)
+
+- [x] `09-logging/.pages` <!-- id:technical-grounding/linux/09-logging/.pages -->
+- [x] `09-logging/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/09-logging/README.md -->
+- [x] `09-logging/log-locations.md` (Core, High) <!-- id:technical-grounding/linux/09-logging/log-locations.md -->
+- [x] `09-logging/journalctl.md` (Core, High) <!-- id:technical-grounding/linux/09-logging/journalctl.md -->
+- [x] `09-logging/rsyslog.md` (Core, Low) <!-- id:technical-grounding/linux/09-logging/rsyslog.md -->
+- [x] `09-logging/logrotate.md` (Core, Med) <!-- id:technical-grounding/linux/09-logging/logrotate.md -->
+- [x] `09-logging/log-parsing-recipes.md` (Core, High) <!-- id:technical-grounding/linux/09-logging/log-parsing-recipes.md -->
+- [x] `10-scheduling/.pages` <!-- id:technical-grounding/linux/10-scheduling/.pages -->
+- [x] `10-scheduling/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/10-scheduling/README.md -->
+- [x] `10-scheduling/cron-and-at.md` (Core, High) <!-- id:technical-grounding/linux/10-scheduling/cron-and-at.md -->
+- [x] `10-scheduling/systemd-timers.md` (Core, Med) <!-- id:technical-grounding/linux/10-scheduling/systemd-timers.md -->
+- [x] `11-kernel-and-hardware/.pages` <!-- id:technical-grounding/linux/11-kernel-and-hardware/.pages -->
+- [x] `11-kernel-and-hardware/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/11-kernel-and-hardware/README.md -->
+- [x] `11-kernel-and-hardware/proc-and-sys.md` (Core, High) <!-- id:technical-grounding/linux/11-kernel-and-hardware/proc-and-sys.md -->
+- [x] `11-kernel-and-hardware/sysctl.md` (Core, High) <!-- id:technical-grounding/linux/11-kernel-and-hardware/sysctl.md -->
+- [x] `11-kernel-and-hardware/kernel-modules.md` (Core, Med) <!-- id:technical-grounding/linux/11-kernel-and-hardware/kernel-modules.md -->
+- [x] `11-kernel-and-hardware/devices-and-udev.md` (Advanced, Low) <!-- id:technical-grounding/linux/11-kernel-and-hardware/devices-and-udev.md -->
+- [x] `11-kernel-and-hardware/dmesg-and-kernel-messages.md` (Core, Med) <!-- id:technical-grounding/linux/11-kernel-and-hardware/dmesg-and-kernel-messages.md -->
+- [x] `interview/scenarios/service-wont-start.md` (modules 08, 09) <!-- id:technical-grounding/linux/interview/scenarios/service-wont-start.md -->
+- [x] `interview/scenarios/cron-job-not-running.md` (modules 01, 10) <!-- id:technical-grounding/linux/interview/scenarios/cron-job-not-running.md -->
+- [x] Batch D: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:D:grows -->
+- [x] Batch D: `scripts/lint-prose.py` exits 0 <!-- id:check:D:lint -->
+- [x] Batch D: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:D:audit -->
+- [x] Batch D: `mkdocs build` has no warnings for the tool folder <!-- id:check:D:build -->
+- [x] Batch D: owner review done; first-hand line spots listed <!-- id:check:D:owner -->
+
+---
+
+## Phase 3: Batch E (modules 12)
+
+- [x] `12-storage/.pages` <!-- id:technical-grounding/linux/12-storage/.pages -->
+- [x] `12-storage/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/12-storage/README.md -->
+- [x] `12-storage/disks-and-devices.md` (Core, Med) <!-- id:technical-grounding/linux/12-storage/disks-and-devices.md -->
+- [x] `12-storage/partitioning.md` (RHCSA, Med) <!-- id:technical-grounding/linux/12-storage/partitioning.md -->
+- [x] `12-storage/filesystems.md` (Core, Med) <!-- id:technical-grounding/linux/12-storage/filesystems.md -->
+- [x] `12-storage/mounting-and-fstab.md` (Core, High) <!-- id:technical-grounding/linux/12-storage/mounting-and-fstab.md -->
+- [x] `12-storage/swap.md` (Core, Med) <!-- id:technical-grounding/linux/12-storage/swap.md -->
+- [x] `12-storage/lvm.md` (Core, High) <!-- id:technical-grounding/linux/12-storage/lvm.md -->
+- [x] `12-storage/resizing-and-cloud-disks.md` (Core, Med) <!-- id:technical-grounding/linux/12-storage/resizing-and-cloud-disks.md -->
+- [x] `12-storage/disk-usage.md` (Core, High) <!-- id:technical-grounding/linux/12-storage/disk-usage.md -->
+- [x] `12-storage/quotas.md` (RHCSA, Low) <!-- id:technical-grounding/linux/12-storage/quotas.md -->
+- [x] `12-storage/backup-and-restore.md` (Core, Med) <!-- id:technical-grounding/linux/12-storage/backup-and-restore.md -->
+- [x] `12-storage/raid-and-encryption.md` (Advanced, Low) <!-- id:technical-grounding/linux/12-storage/raid-and-encryption.md -->
+- [x] `labs/storage-and-lvm-lab.md` <!-- id:technical-grounding/linux/labs/storage-and-lvm-lab.md -->
+- [x] `interview/scenarios/disk-full.md` (modules 02, 07, 12) <!-- id:technical-grounding/linux/interview/scenarios/disk-full.md -->
+- [x] Batch E: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:E:grows -->
+- [x] Batch E: `scripts/lint-prose.py` exits 0 <!-- id:check:E:lint -->
+- [x] Batch E: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:E:audit -->
+- [x] Batch E: `mkdocs build` has no warnings for the tool folder <!-- id:check:E:build -->
+- [x] Batch E: owner review done; first-hand line spots listed <!-- id:check:E:owner -->
+
+---
+
+## Phase 3: Batch F (modules 13)
+
+- [x] `13-networking/.pages` <!-- id:technical-grounding/linux/13-networking/.pages -->
+- [x] `13-networking/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/13-networking/README.md -->
+- [x] `13-networking/interfaces-and-addresses.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/interfaces-and-addresses.md -->
+- [x] `13-networking/network-configuration.md` (Core, Med) <!-- id:technical-grounding/linux/13-networking/network-configuration.md -->
+- [x] `13-networking/routing.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/routing.md -->
+- [x] `13-networking/dns-resolution.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/dns-resolution.md -->
+- [x] `13-networking/ports-and-sockets.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/ports-and-sockets.md -->
+- [x] `13-networking/sockets-and-tcp-states.md` (Advanced, Med, internals) <!-- id:technical-grounding/linux/13-networking/sockets-and-tcp-states.md -->
+- [x] `13-networking/connectivity-testing.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/connectivity-testing.md -->
+- [x] `13-networking/packet-capture.md` (Core, Med) <!-- id:technical-grounding/linux/13-networking/packet-capture.md -->
+- [x] `13-networking/bridges-bonds-vlans.md` (Advanced, Low) <!-- id:technical-grounding/linux/13-networking/bridges-bonds-vlans.md -->
+- [x] `13-networking/time-and-timezones.md` (Core, Med) <!-- id:technical-grounding/linux/13-networking/time-and-timezones.md -->
+- [x] `13-networking/reverse-proxy-and-load-balancing.md` (Core, Med) <!-- id:technical-grounding/linux/13-networking/reverse-proxy-and-load-balancing.md -->
+- [x] `13-networking/vpn-wireguard.md` (Advanced, Low) <!-- id:technical-grounding/linux/13-networking/vpn-wireguard.md -->
+- [x] `13-networking/troubleshooting-ladder.md` (Core, High) <!-- id:technical-grounding/linux/13-networking/troubleshooting-ladder.md -->
+- [x] `labs/networking-lab.md` <!-- id:technical-grounding/linux/labs/networking-lab.md -->
+- [x] `interview/scenarios/dns-not-resolving.md` (modules 13) <!-- id:technical-grounding/linux/interview/scenarios/dns-not-resolving.md -->
+- [x] Batch F: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:F:grows -->
+- [x] Batch F: `scripts/lint-prose.py` exits 0 <!-- id:check:F:lint -->
+- [x] Batch F: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:F:audit -->
+- [x] Batch F: `mkdocs build` has no warnings for the tool folder <!-- id:check:F:build -->
+- [x] Batch F: owner review done; first-hand line spots listed <!-- id:check:F:owner -->
+
+---
+
+## Phase 3: Batch G (modules 14, 15)
+
+- [x] `14-ssh-and-remote-access/.pages` <!-- id:technical-grounding/linux/14-ssh-and-remote-access/.pages -->
+- [x] `14-ssh-and-remote-access/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/README.md -->
+- [x] `14-ssh-and-remote-access/ssh-client.md` (Core, High) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/ssh-client.md -->
+- [x] `14-ssh-and-remote-access/ssh-tunnels.md` (Core, Med) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/ssh-tunnels.md -->
+- [x] `14-ssh-and-remote-access/sshd-server.md` (Core, Med) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/sshd-server.md -->
+- [x] `14-ssh-and-remote-access/file-transfer.md` (Core, Med) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/file-transfer.md -->
+- [x] `14-ssh-and-remote-access/ssh-troubleshooting.md` (Core, High) <!-- id:technical-grounding/linux/14-ssh-and-remote-access/ssh-troubleshooting.md -->
+- [x] `15-security/.pages` <!-- id:technical-grounding/linux/15-security/.pages -->
+- [x] `15-security/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/15-security/README.md -->
+- [x] `15-security/firewalld-and-ufw.md` (Core, Med) <!-- id:technical-grounding/linux/15-security/firewalld-and-ufw.md -->
+- [x] `15-security/nftables-and-iptables.md` (Core, Med) <!-- id:technical-grounding/linux/15-security/nftables-and-iptables.md -->
+- [x] `15-security/selinux.md` (RHCSA, Med, internals) <!-- id:technical-grounding/linux/15-security/selinux.md -->
+- [x] `15-security/apparmor.md` (Core, Low) <!-- id:technical-grounding/linux/15-security/apparmor.md -->
+- [x] `15-security/capabilities.md` (Advanced, Med) <!-- id:technical-grounding/linux/15-security/capabilities.md -->
+- [x] `15-security/auditd.md` (Advanced, Low) <!-- id:technical-grounding/linux/15-security/auditd.md -->
+- [x] `15-security/gpg.md` (Core, Low) <!-- id:technical-grounding/linux/15-security/gpg.md -->
+- [x] `15-security/openssl-and-trust-store.md` (Core, Med) <!-- id:technical-grounding/linux/15-security/openssl-and-trust-store.md -->
+- [x] `15-security/compliance-and-integrity.md` (Advanced, Low) <!-- id:technical-grounding/linux/15-security/compliance-and-integrity.md -->
+- [x] `15-security/hardening-checklist.md` (Core, Med) <!-- id:technical-grounding/linux/15-security/hardening-checklist.md -->
+- [x] `labs/security-lab.md` <!-- id:technical-grounding/linux/labs/security-lab.md -->
+- [x] `interview/scenarios/cannot-ssh.md` (modules 14, 15) <!-- id:technical-grounding/linux/interview/scenarios/cannot-ssh.md -->
+- [x] `interview/scenarios/service-unreachable.md` (modules 13, 15) <!-- id:technical-grounding/linux/interview/scenarios/service-unreachable.md -->
+- [x] `interview/scenarios/cannot-reach-host.md` (modules 13, 15) <!-- id:technical-grounding/linux/interview/scenarios/cannot-reach-host.md -->
+- [x] `interview/scenarios/tls-certificate-errors.md` (modules 13, 15) <!-- id:technical-grounding/linux/interview/scenarios/tls-certificate-errors.md -->
+- [x] `interview/scenarios/permission-denied.md` (modules 05, 12, 15) <!-- id:technical-grounding/linux/interview/scenarios/permission-denied.md -->
+- [x] `interview/scenarios/suspected-compromise.md` (modules 07, 13, 15) <!-- id:technical-grounding/linux/interview/scenarios/suspected-compromise.md -->
+- [x] Batch G: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:G:grows -->
+- [x] Batch G: `scripts/lint-prose.py` exits 0 <!-- id:check:G:lint -->
+- [x] Batch G: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:G:audit -->
+- [x] Batch G: `mkdocs build` has no warnings for the tool folder <!-- id:check:G:build -->
+- [x] Batch G: owner review done; first-hand line spots listed <!-- id:check:G:owner -->
+
+---
+
+## Phase 3: Batch H (modules 16, 17)
+
+- [x] `16-boot-and-recovery/.pages` <!-- id:technical-grounding/linux/16-boot-and-recovery/.pages -->
+- [x] `16-boot-and-recovery/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/16-boot-and-recovery/README.md -->
+- [x] `16-boot-and-recovery/boot-process.md` (Core, High) <!-- id:technical-grounding/linux/16-boot-and-recovery/boot-process.md -->
+- [x] `16-boot-and-recovery/grub2.md` (RHCSA, Med) <!-- id:technical-grounding/linux/16-boot-and-recovery/grub2.md -->
+- [x] `16-boot-and-recovery/recovery.md` (RHCSA, Med) <!-- id:technical-grounding/linux/16-boot-and-recovery/recovery.md -->
+- [x] `16-boot-and-recovery/kernel-panic.md` (Advanced, Med, internals) <!-- id:technical-grounding/linux/16-boot-and-recovery/kernel-panic.md -->
+- [x] `16-boot-and-recovery/kernel-updates.md` (Core, Low) <!-- id:technical-grounding/linux/16-boot-and-recovery/kernel-updates.md -->
+- [x] `17-performance-and-troubleshooting/.pages` <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/.pages -->
+- [x] `17-performance-and-troubleshooting/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/README.md -->
+- [x] `17-performance-and-troubleshooting/methodology.md` (Core, High) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/methodology.md -->
+- [x] `17-performance-and-troubleshooting/cpu-and-load.md` (Core, High) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/cpu-and-load.md -->
+- [x] `17-performance-and-troubleshooting/memory.md` (Core, High) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/memory.md -->
+- [x] `17-performance-and-troubleshooting/virtual-memory.md` (Advanced, High, internals) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/virtual-memory.md -->
+- [x] `17-performance-and-troubleshooting/disk-io.md` (Core, Med) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/disk-io.md -->
+- [x] `17-performance-and-troubleshooting/limits-and-file-descriptors.md` (Core, High) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/limits-and-file-descriptors.md -->
+- [x] `17-performance-and-troubleshooting/profiling-and-tracing.md` (Advanced, Med, internals) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/profiling-and-tracing.md -->
+- [x] `17-performance-and-troubleshooting/monitoring-and-capacity.md` (Core, Low) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/monitoring-and-capacity.md -->
+- [x] `17-performance-and-troubleshooting/tuning.md` (RHCSA, Low) <!-- id:technical-grounding/linux/17-performance-and-troubleshooting/tuning.md -->
+- [x] `interview/scenarios/server-slow.md` (modules 07, 17) <!-- id:technical-grounding/linux/interview/scenarios/server-slow.md -->
+- [x] `interview/scenarios/too-many-open-files.md` (modules 02, 17) <!-- id:technical-grounding/linux/interview/scenarios/too-many-open-files.md -->
+- [x] `interview/scenarios/cannot-fork.md` (modules 07, 17) <!-- id:technical-grounding/linux/interview/scenarios/cannot-fork.md -->
+- [x] `interview/scenarios/boot-failure.md` (modules 12, 16) <!-- id:technical-grounding/linux/interview/scenarios/boot-failure.md -->
+- [x] Batch H: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:H:grows -->
+- [x] Batch H: `scripts/lint-prose.py` exits 0 <!-- id:check:H:lint -->
+- [x] Batch H: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:H:audit -->
+- [x] Batch H: `mkdocs build` has no warnings for the tool folder <!-- id:check:H:build -->
+- [x] Batch H: owner review done; first-hand line spots listed <!-- id:check:H:owner -->
+
+---
+
+## Phase 3: Batch I (modules 18, 19, 20)
+
+- [x] `18-network-storage/.pages` <!-- id:technical-grounding/linux/18-network-storage/.pages -->
+- [x] `18-network-storage/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/18-network-storage/README.md -->
+- [x] `18-network-storage/nfs.md` (Core, Med) <!-- id:technical-grounding/linux/18-network-storage/nfs.md -->
+- [x] `18-network-storage/autofs.md` (RHCSA, Low) <!-- id:technical-grounding/linux/18-network-storage/autofs.md -->
+- [x] `18-network-storage/samba-cifs.md` (RHCSA, Low) <!-- id:technical-grounding/linux/18-network-storage/samba-cifs.md -->
+- [x] `18-network-storage/iscsi-and-nbd.md` (Advanced, Low) <!-- id:technical-grounding/linux/18-network-storage/iscsi-and-nbd.md -->
+- [x] `19-containers/.pages` <!-- id:technical-grounding/linux/19-containers/.pages -->
+- [x] `19-containers/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/19-containers/README.md -->
+- [x] `19-containers/namespaces.md` (Core, High, internals) <!-- id:technical-grounding/linux/19-containers/namespaces.md -->
+- [x] `19-containers/cgroups.md` (Core, High, internals) <!-- id:technical-grounding/linux/19-containers/cgroups.md -->
+- [x] `19-containers/overlayfs-and-chroot.md` (Core, Med) <!-- id:technical-grounding/linux/19-containers/overlayfs-and-chroot.md -->
+- [x] `19-containers/containers-vs-vms.md` (Core, High) <!-- id:technical-grounding/linux/19-containers/containers-vs-vms.md -->
+- [x] `19-containers/podman-and-quadlet.md` (RHCSA, Med) <!-- id:technical-grounding/linux/19-containers/podman-and-quadlet.md -->
+- [x] `20-virtualization-and-provisioning/.pages` <!-- id:technical-grounding/linux/20-virtualization-and-provisioning/.pages -->
+- [x] `20-virtualization-and-provisioning/README.md` (Revision Card, Topic Map) <!-- id:technical-grounding/linux/20-virtualization-and-provisioning/README.md -->
+- [x] `20-virtualization-and-provisioning/kvm-and-libvirt.md` (Advanced, Low) <!-- id:technical-grounding/linux/20-virtualization-and-provisioning/kvm-and-libvirt.md -->
+- [x] `20-virtualization-and-provisioning/vm-images-and-cloning.md` (Advanced, Low) <!-- id:technical-grounding/linux/20-virtualization-and-provisioning/vm-images-and-cloning.md -->
+- [x] `20-virtualization-and-provisioning/cloud-init-and-kickstart.md` (Core, Low) <!-- id:technical-grounding/linux/20-virtualization-and-provisioning/cloud-init-and-kickstart.md -->
+- [x] `labs/containers-by-hand-lab.md` <!-- id:technical-grounding/linux/labs/containers-by-hand-lab.md -->
+- [x] `interview/scenarios/high-load-low-cpu.md` (modules 07, 17, 18) <!-- id:technical-grounding/linux/interview/scenarios/high-load-low-cpu.md -->
+- [x] `interview/scenarios/high-memory-oom.md` (modules 07, 17, 19) <!-- id:technical-grounding/linux/interview/scenarios/high-memory-oom.md -->
+- [x] Batch I: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:I:grows -->
+- [x] Batch I: `scripts/lint-prose.py` exits 0 <!-- id:check:I:lint -->
+- [x] Batch I: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:I:audit -->
+- [x] Batch I: `mkdocs build` has no warnings for the tool folder <!-- id:check:I:build -->
+- [x] Batch I: owner review done; first-hand line spots listed <!-- id:check:I:owner -->
+
+---
+
+## Phase 4: Interview Layer
+
+- [x] `interview/round-2-hands-on.md` <!-- id:technical-grounding/linux/interview/round-2-hands-on.md -->
+- [x] `interview/mock-interviews.md` <!-- id:technical-grounding/linux/interview/mock-interviews.md -->
+- [x] Output-reading drills in `round-2-hands-on.md` <!-- id:p4:output-drills -->
+- [x] Phase 4: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:4:grows -->
+- [x] Phase 4: `scripts/lint-prose.py` exits 0 <!-- id:check:4:lint -->
+- [x] Phase 4: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:4:audit -->
+- [x] Phase 4: `mkdocs build` has no warnings for the tool folder <!-- id:check:4:build -->
+- [x] Phase 4: owner review done; first-hand line spots listed <!-- id:check:4:owner -->
+
+---
+
+## Phase 5: Reference and Labs
+
+- [x] `reference/cheatsheet.md` <!-- id:technical-grounding/linux/reference/cheatsheet.md -->
+- [x] `reference/command-index.md` <!-- id:technical-grounding/linux/reference/command-index.md -->
+- [x] `reference/important-files.md` <!-- id:technical-grounding/linux/reference/important-files.md -->
+- [x] `reference/rhel-vs-ubuntu.md` <!-- id:technical-grounding/linux/reference/rhel-vs-ubuntu.md -->
+- [x] `reference/no-tools-fallbacks.md` <!-- id:technical-grounding/linux/reference/no-tools-fallbacks.md -->
+- [x] `reference/glossary.md` <!-- id:technical-grounding/linux/reference/glossary.md -->
+- [x] `labs/rhcsa-style-tasks.md` <!-- id:technical-grounding/linux/labs/rhcsa-style-tasks.md -->
+- [x] `labs/break-fix-lab.md` <!-- id:technical-grounding/linux/labs/break-fix-lab.md -->
+- [x] Every `INVENTORY.md` item resolved <!-- id:p5:inventory-resolved -->
+- [x] Every `coverage-map.md` row points to an existing file <!-- id:p5:coverage-resolved -->
+- [x] Phase 5: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:5:grows -->
+- [x] Phase 5: `scripts/lint-prose.py` exits 0 <!-- id:check:5:lint -->
+- [x] Phase 5: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:5:audit -->
+- [x] Phase 5: `mkdocs build` has no warnings for the tool folder <!-- id:check:5:build -->
+- [x] Phase 5: owner review done; first-hand line spots listed <!-- id:check:5:owner -->
+
+---
+
+## Phase 6: Completion Audit
+
+- [ ] `scripts/audit-tool.py --manifest plan/linux/manifest.yml --full` exits 0 <!-- id:p6:audit-full -->
+- [x] `lychee` on the final build <!-- id:p6:lychee -->
+- [x] Rendering checked (order, cards, tabs, checkpoints, snippets, phone width, dark mode) <!-- id:p6:render -->
+- [x] Independent review by a fresh agent; findings fixed <!-- id:p6:independent-review -->
+- [x] `plan/linux/audit-report.md` written <!-- id:p6:audit-report -->
+- [x] `plan/README.md` marks the tool complete <!-- id:p6:status -->
+- [x] Work committed locally and handed to the owner (owner pushes and opens the pull request) <!-- id:p6:pr -->
+- [x] Owner final sign-off <!-- id:p6:owner-signoff -->

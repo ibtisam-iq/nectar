@@ -1,0 +1,14 @@
+title: Storage
+nav:
+  - README.md
+  - Disks and Devices: disks-and-devices.md
+  - Partitioning: partitioning.md
+  - Filesystems: filesystems.md
+  - Mounting and fstab: mounting-and-fstab.md
+  - Swap: swap.md
+  - LVM: lvm.md
+  - Resizing and Cloud Disks: resizing-and-cloud-disks.md
+  - Disk Usage: disk-usage.md
+  - Quotas: quotas.md
+  - Backup and Restore: backup-and-restore.md
+  - RAID and Encryption: raid-and-encryption.md

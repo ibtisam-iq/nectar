@@ -1,0 +1,21 @@
+title: Scenarios
+nav:
+  - Cannot Log In or Use Sudo: cannot-login-or-sudo.md
+  - "Binary Won't Execute": binary-wont-execute.md
+  - "Process Won't Die": process-wont-die.md
+  - "Service Won't Start": service-wont-start.md
+  - Cron Job Not Running: cron-job-not-running.md
+  - Disk Full: disk-full.md
+  - DNS Not Resolving: dns-not-resolving.md
+  - Cannot SSH: cannot-ssh.md
+  - Service Unreachable: service-unreachable.md
+  - Cannot Reach Host: cannot-reach-host.md
+  - TLS Certificate Errors: tls-certificate-errors.md
+  - Permission Denied: permission-denied.md
+  - Suspected Compromise: suspected-compromise.md
+  - Server Slow: server-slow.md
+  - Too Many Open Files: too-many-open-files.md
+  - Cannot Fork: cannot-fork.md
+  - Boot Failure: boot-failure.md
+  - High Load, Low CPU: high-load-low-cpu.md
+  - High Memory and OOM: high-memory-oom.md

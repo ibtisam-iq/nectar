@@ -1,0 +1,11 @@
+title: Processes
+nav:
+  - README.md
+  - Process Fundamentals: process-fundamentals.md
+  - Process Lifecycle: process-lifecycle.md
+  - Viewing Processes: viewing-processes.md
+  - Process States: process-states.md
+  - Signals: signals.md
+  - Job Control: job-control.md
+  - Priority and Nice: priority-and-nice.md
+  - System Calls and Tracing: system-calls-and-tracing.md

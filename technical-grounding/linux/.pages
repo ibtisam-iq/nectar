@@ -1,7 +1,28 @@
 title: Linux
 nav:
-  - Linux Guide: Linux.md
-  - Cheat Sheet: cheatSheet.md
-  - STDOUT & STDERR Guide: STDOUT_STDERR_Guide.md
-  - Tar Command: tar-command.md
-  - Troubleshooting: troubleshooting.md
+  - README.md
+  - Roadmap: roadmap.md
+  - 00-foundations
+  - 01-shell-and-cli
+  - 02-files-and-filesystem
+  - 03-text-processing
+  - 04-users-and-access
+  - 05-permissions
+  - 06-package-management
+  - 07-processes
+  - 08-systemd-and-services
+  - 09-logging
+  - 10-scheduling
+  - 11-kernel-and-hardware
+  - 12-storage
+  - 13-networking
+  - 14-ssh-and-remote-access
+  - 15-security
+  - 16-boot-and-recovery
+  - 17-performance-and-troubleshooting
+  - 18-network-storage
+  - 19-containers
+  - 20-virtualization-and-provisioning
+  - reference
+  - interview
+  - labs
