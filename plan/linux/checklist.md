@@ -21,7 +21,7 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 ## Phase 1: Housekeeping
 
 - [x] Raw course material moved to `technical-grounding/linux/_sources/` <!-- id:p1:sources-moved -->
-- [ ] Third-party resume moved out of the repository; duplicate zip deleted <!-- id:p1:resume-removed -->
+- [x] Third-party resume moved out of the repository; duplicate zip deleted <!-- id:p1:resume-removed -->
 - [x] `_sources/` in `.gitignore` <!-- id:p1:gitignore:_sources/ -->
 - [x] `_sources/` in `exclude_docs` <!-- id:p1:exclude:_sources/ -->
 - [x] Remove `technical-grounding/linux/Linux.md` <!-- id:remove:Linux.md -->
