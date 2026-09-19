@@ -16,3 +16,13 @@ Dated decision log for the `delivery/git/` rebuild. A change made during executi
 | G6 | No `reference/coverage-map.md`. Git has no certification objectives to map. `_sources/INVENTORY.md` and `research.md` carry the completeness proof, mapped against the Pro Git chapters | The coverage-map exists to prove certification coverage, which does not apply to git |
 | G7 | `scripts/gen-checklist.py` was generalized in four tool-agnostic ways: the Phase 1 remove rows now cover any legacy file not absorbed by a module; the resume-cleanup row is gated on `housekeeping.resume_cleanup` (default true); empty Phase 3 batches are skipped; the coverage-map row is emitted only when a `coverage-map.md` reference page exists. Each defaults to Linux's existing behaviour, and the Linux checklist regenerates byte-identical | Git uses batches P and A to E only, has no resume or coverage-map, and needed the removal rows for its own legacy files; the changes make the generator reusable for every future tool without touching Linux |
 | G8 | Capture environment is throwaway local git repositories (a scratch directory, or the iximiuz playground shell). Real emails, remote URLs and tokens are scrubbed; example identities are used | Git output is fully reproducible from disposable repos and needs no VM; scrubbing keeps real credentials and addresses out of the notes |
+
+---
+
+## 2026-09-20: Phase 1 and Phase 2 (pilot)
+
+| # | Decision | Reason |
+|---|---|---|
+| G9 | The stray `delivery/git/.gitattributes` (a corporate sample with LFS filters) was moved to `_sources/gitattributes-sample` and removed from the folder | No other tool folder carries a bespoke `.gitattributes`, and the LFS filters could misfire on files committed under `delivery/git/`; the sample is recorded in the inventory and feeds `reference/dotfiles-reference.md` |
+| G10 | Capture identity is `Amina Yusuf <amina@example.com>` with a fixed commit clock, run under an isolated `GIT_CONFIG_GLOBAL` so the owner's real config never leaks; commit SHAs and dates in the notes are therefore stable and reproducible | Deterministic captures keep the pages honest (real git output) while avoiding real credentials and churn on re-capture |
+| G11 | Pilot signed off by the owner on 2026-09-20. Module 02 passed `lint-prose` and `audit-tool --scope P --build` with zero failures; the format (Say first, Proof, Follow-up), real captured output and the four-layer structure are confirmed for the remaining batches | The pilot is the format stress test; sign-off unblocks Phase 3 (batches A to E) |

@@ -22,7 +22,7 @@ This folder holds the plans and standards that govern how Nectar tool folders ar
 | Tool | Folder | Plan | Status |
 |---|---|---|---|
 | Linux | `technical-grounding/linux/` | [`linux/plan.md`](linux/plan.md) | Complete: merged to `main` (#19), full audit clean ([`linux/audit-report.md`](linux/audit-report.md)), owner signed off |
-| Git | `delivery/git/` | [`git/plan.md`](git/plan.md) | Phase 0 (plan logged) |
+| Git | `delivery/git/` | [`git/plan.md`](git/plan.md) | Phase 2 (module 02 pilot, owner signed off); batches A to E next |
 
 Each tool plan folder contains:
 

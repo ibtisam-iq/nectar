@@ -67,8 +67,8 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Pilot: `scripts/lint-prose.py` exits 0 <!-- id:check:P:lint -->
 - [x] Pilot: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:P:audit -->
 - [x] Pilot: `mkdocs build` has no warnings for the tool folder <!-- id:check:P:build -->
-- [ ] Pilot: owner review done; first-hand line spots listed <!-- id:check:P:owner -->
-- [ ] Owner sign-off on the pilot <!-- id:p2:signoff -->
+- [x] Pilot: owner review done; first-hand line spots listed <!-- id:check:P:owner -->
+- [x] Owner sign-off on the pilot <!-- id:p2:signoff -->
 - [x] `CLAUDE.md` has the Notes Conventions section <!-- id:p2:conventions -->
 
 ---
