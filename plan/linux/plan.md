@@ -247,7 +247,7 @@ technical-grounding/linux/
 │   ├── rhcsa-style-tasks.md
 │   └── break-fix-lab.md
 │
-└── _sources/                         # git-ignored, excluded from MkDocs: rhcsa/, NOTES/, INVENTORY.md
+└── _sources/                         # excluded from MkDocs; rhcsa/ and NOTES/ git-ignored, INVENTORY.md force-tracked for the audit
 ```
 
 Size (from `manifest.yml`): 21 modules, 140 topic files (51 High, 56 Med, 33 Low; 13 internals), 19 scenarios, 9 lab pages, 9 reference pages.
@@ -263,7 +263,7 @@ Size (from `manifest.yml`): 21 modules, 140 topic files (51 High, 56 Med, 33 Low
 **Phase 1: housekeeping** (branch `feature/linux-notes`).
 
 - Move `rhcsa/` and `NOTES/` into `technical-grounding/linux/_sources/`. Move the third-party resume out of the repository. Delete the duplicate zip.
-- Add `_sources/` to `.gitignore` and to `exclude_docs` (MkDocs does not read `.gitignore`).
+- Add `_sources/` to `.gitignore` and to `exclude_docs` (MkDocs does not read `.gitignore`). `INVENTORY.md` is force-tracked (`git add -f`) as an exception so the audit runs on a fresh checkout, while remaining excluded from the site.
 - Remove `Linux.md`, `cheatSheet.md` and `troubleshooting.md`; move the LWN link into `00-foundations/distributions.md`.
 - Fix the links in `technical-grounding/basics/index.md` that point to removed files.
 - Sync the local virtual environment with `requirements.txt` (local pymdown-extensions 10.16 vs 11.0.2 in CI).
@@ -346,7 +346,7 @@ Each batch updates `roadmap.md`, the snippet aggregators, `reference/coverage-ma
 | `CLAUDE.md`, `GEMINI.md`, `AGENTS.md` | Pointer to `plan/` (AGENTS.md new) | 0 |
 | `mkdocs.yml` | `plan/` and `_sources/` in `exclude_docs` | 0, 1 |
 | `scripts/gen-checklist.py` | New | 0 |
-| `.gitignore` | `_sources/` | 1 |
+| `.gitignore` | `_sources/` (with `INVENTORY.md` force-tracked) | 1, 6 |
 | `technical-grounding/basics/index.md` | Repoint links | 1 |
 | `templates/*.md` | New | 2 |
 | `scripts/lint-prose.py`, `scripts/audit-tool.py` | New | 2 |

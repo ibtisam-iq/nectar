@@ -16,5 +16,7 @@ venv/
 .scratchpad/
 
 .claude/
-# Raw source material for tool folders (never published)
+# Raw source material for tool folders (never published).
+# INVENTORY.md is force-tracked (git add -f) so the completion audit (check 9)
+# can run on a fresh checkout; everything else under _sources/ stays ignored.
 _sources/
