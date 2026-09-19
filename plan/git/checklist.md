@@ -35,41 +35,41 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 2: Pilot
 
-- [ ] `templates/topic.md` <!-- id:repo:templates/topic.md -->
-- [ ] `templates/module-readme.md` <!-- id:repo:templates/module-readme.md -->
-- [ ] `templates/scenario.md` <!-- id:repo:templates/scenario.md -->
-- [ ] `scripts/lint-prose.py` <!-- id:repo:scripts/lint-prose.py -->
-- [ ] `scripts/audit-tool.py` <!-- id:repo:scripts/audit-tool.py -->
-- [ ] Tool folder `.pages` <!-- id:delivery/git/.pages -->
-- [ ] `reference/.pages` <!-- id:delivery/git/reference/.pages -->
-- [ ] `interview/.pages` <!-- id:delivery/git/interview/.pages -->
-- [ ] `interview/scenarios/.pages` <!-- id:delivery/git/interview/scenarios/.pages -->
-- [ ] `labs/.pages` <!-- id:delivery/git/labs/.pages -->
-- [ ] `02-branching-and-merging/.pages` <!-- id:delivery/git/02-branching-and-merging/.pages -->
-- [ ] `02-branching-and-merging/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/02-branching-and-merging/README.md -->
-- [ ] `02-branching-and-merging/branches.md` (Core, High) <!-- id:delivery/git/02-branching-and-merging/branches.md -->
-- [ ] `02-branching-and-merging/merging.md` (Core, High) <!-- id:delivery/git/02-branching-and-merging/merging.md -->
-- [ ] `02-branching-and-merging/rebasing.md` (Core, High) <!-- id:delivery/git/02-branching-and-merging/rebasing.md -->
-- [ ] `02-branching-and-merging/interactive-rebase.md` (Advanced, High) <!-- id:delivery/git/02-branching-and-merging/interactive-rebase.md -->
-- [ ] `02-branching-and-merging/conflict-resolution.md` (Core, High) <!-- id:delivery/git/02-branching-and-merging/conflict-resolution.md -->
-- [ ] `02-branching-and-merging/cherry-pick.md` (Core, Med) <!-- id:delivery/git/02-branching-and-merging/cherry-pick.md -->
-- [ ] `reference/must-know-facts.md` <!-- id:delivery/git/reference/must-know-facts.md -->
-- [ ] `labs/README.md` <!-- id:delivery/git/labs/README.md -->
-- [ ] `labs/branching-and-rebase-lab.md` <!-- id:delivery/git/labs/branching-and-rebase-lab.md -->
-- [ ] `interview/README.md` <!-- id:delivery/git/interview/README.md -->
-- [ ] `interview/round-1-screening.md` <!-- id:delivery/git/interview/round-1-screening.md -->
-- [ ] `interview/round-3-troubleshooting.md` <!-- id:delivery/git/interview/round-3-troubleshooting.md -->
-- [ ] `interview/round-4-internals.md` <!-- id:delivery/git/interview/round-4-internals.md -->
-- [ ] `interview/scenarios/merge-conflict-resolution.md` (modules 02) <!-- id:delivery/git/interview/scenarios/merge-conflict-resolution.md -->
-- [ ] `README.md` <!-- id:delivery/git/README.md -->
-- [ ] `roadmap.md` <!-- id:delivery/git/roadmap.md -->
-- [ ] Pilot: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:P:grows -->
-- [ ] Pilot: `scripts/lint-prose.py` exits 0 <!-- id:check:P:lint -->
-- [ ] Pilot: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:P:audit -->
-- [ ] Pilot: `mkdocs build` has no warnings for the tool folder <!-- id:check:P:build -->
+- [x] `templates/topic.md` <!-- id:repo:templates/topic.md -->
+- [x] `templates/module-readme.md` <!-- id:repo:templates/module-readme.md -->
+- [x] `templates/scenario.md` <!-- id:repo:templates/scenario.md -->
+- [x] `scripts/lint-prose.py` <!-- id:repo:scripts/lint-prose.py -->
+- [x] `scripts/audit-tool.py` <!-- id:repo:scripts/audit-tool.py -->
+- [x] Tool folder `.pages` <!-- id:delivery/git/.pages -->
+- [x] `reference/.pages` <!-- id:delivery/git/reference/.pages -->
+- [x] `interview/.pages` <!-- id:delivery/git/interview/.pages -->
+- [x] `interview/scenarios/.pages` <!-- id:delivery/git/interview/scenarios/.pages -->
+- [x] `labs/.pages` <!-- id:delivery/git/labs/.pages -->
+- [x] `02-branching-and-merging/.pages` <!-- id:delivery/git/02-branching-and-merging/.pages -->
+- [x] `02-branching-and-merging/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/02-branching-and-merging/README.md -->
+- [x] `02-branching-and-merging/branches.md` (Core, High) <!-- id:delivery/git/02-branching-and-merging/branches.md -->
+- [x] `02-branching-and-merging/merging.md` (Core, High) <!-- id:delivery/git/02-branching-and-merging/merging.md -->
+- [x] `02-branching-and-merging/rebasing.md` (Core, High) <!-- id:delivery/git/02-branching-and-merging/rebasing.md -->
+- [x] `02-branching-and-merging/interactive-rebase.md` (Advanced, High) <!-- id:delivery/git/02-branching-and-merging/interactive-rebase.md -->
+- [x] `02-branching-and-merging/conflict-resolution.md` (Core, High) <!-- id:delivery/git/02-branching-and-merging/conflict-resolution.md -->
+- [x] `02-branching-and-merging/cherry-pick.md` (Core, Med) <!-- id:delivery/git/02-branching-and-merging/cherry-pick.md -->
+- [x] `reference/must-know-facts.md` <!-- id:delivery/git/reference/must-know-facts.md -->
+- [x] `labs/README.md` <!-- id:delivery/git/labs/README.md -->
+- [x] `labs/branching-and-rebase-lab.md` <!-- id:delivery/git/labs/branching-and-rebase-lab.md -->
+- [x] `interview/README.md` <!-- id:delivery/git/interview/README.md -->
+- [x] `interview/round-1-screening.md` <!-- id:delivery/git/interview/round-1-screening.md -->
+- [x] `interview/round-3-troubleshooting.md` <!-- id:delivery/git/interview/round-3-troubleshooting.md -->
+- [x] `interview/round-4-internals.md` <!-- id:delivery/git/interview/round-4-internals.md -->
+- [x] `interview/scenarios/merge-conflict-resolution.md` (modules 02) <!-- id:delivery/git/interview/scenarios/merge-conflict-resolution.md -->
+- [x] `README.md` <!-- id:delivery/git/README.md -->
+- [x] `roadmap.md` <!-- id:delivery/git/roadmap.md -->
+- [x] Pilot: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:P:grows -->
+- [x] Pilot: `scripts/lint-prose.py` exits 0 <!-- id:check:P:lint -->
+- [x] Pilot: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:P:audit -->
+- [x] Pilot: `mkdocs build` has no warnings for the tool folder <!-- id:check:P:build -->
 - [ ] Pilot: owner review done; first-hand line spots listed <!-- id:check:P:owner -->
 - [ ] Owner sign-off on the pilot <!-- id:p2:signoff -->
-- [ ] `CLAUDE.md` has the Notes Conventions section <!-- id:p2:conventions -->
+- [x] `CLAUDE.md` has the Notes Conventions section <!-- id:p2:conventions -->
 
 ---
 

@@ -1,4 +1,8 @@
 title: Git
 nav:
   - README.md
-  - ...
+  - Roadmap: roadmap.md
+  - 02-branching-and-merging
+  - reference
+  - interview
+  - labs

@@ -74,4 +74,4 @@ Status values: `mapped` (topic covered by the target file), `fact` (becomes a Mu
 
 | Source topic | Status | Target |
 |---|---|---|
-| Corporate .gitattributes sample (EOL, linguist, binary, LFS filters) | fact | reference/dotfiles-reference.md documents .gitattributes format; the stray sample file is not published content |
+| Corporate .gitattributes sample (EOL, linguist, binary, LFS filters) | fact | Moved to _sources/gitattributes-sample; reference/dotfiles-reference.md documents the .gitattributes format. No tool folder carries a bespoke .gitattributes, so the stray file was removed from delivery/git/ |
