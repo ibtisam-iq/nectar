@@ -93,9 +93,8 @@ After the fixes, `lint-prose.py` reports 0 violations and `audit-tool.py --scope
 
 ---
 
-## Outstanding (Owner)
+## Closeout
 
-- Owner review of batch I, Phase 4 and Phase 5, and final sign-off.
-- The `_sources/` third-party resume and duplicate zip removal (git-ignored, owner-held files).
-- Merge of the plan and the tool folder to `main` (the owner pushes and opens the pull request).
-- The global-navigation broken links noted under the link check, if the owner wants them fixed.
+All owner items are done: batch I, Phase 4 and Phase 5 were reviewed and signed off, the `_sources/` third-party resume and duplicate zip were removed (git-ignored, owner-held), and the work merged to `main` in pull request #19. With the final checklist boxes ticked, `audit-tool.py --manifest plan/linux/manifest.yml --full` exits 0 (all 16 checks pass, notes only). The Linux tool folder is complete.
+
+One item remains open by choice, outside this folder: the global-navigation broken links noted under the link check, left for a separate focused change if the owner wants them fixed.
