@@ -54,3 +54,13 @@ Dated decision log for the `delivery/git/` rebuild. A change made during executi
 |---|---|---|
 | G17 | `labs/branching-and-rebase-lab.md` (started in the pilot, marked `completed_in: C`) is finished in batch C with a "Preparing for Review" section (squash a messy branch, autosquash a fixup), tying the lab to module 04's team-workflow topics | The manifest schedules the lab's completion for batch C once module 04 exists to justify the review-prep framing; the module-02 mechanics were the pilot part |
 | G18 | The `messy-history-before-pr` scenario feeds modules 02 and 04 and is linked from module 04's README (check 5). Module 04's Workflow topics are more conceptual than the Core modules, so their captures are smaller and some High topics land just under the 250-line guide (a non-failing note) | The topics are genuinely shorter (strategy and versioning are decision-and-table heavy); padding to the guide would add filler, so the pages carry real content plus real captures and accept the note |
+
+---
+
+## 2026-09-24: Phase 3 Batch D (modules 05, 06)
+
+| # | Decision | Reason |
+|---|---|---|
+| G19 | `filter-repo-and-secrets.md`, `object-model.md`'s plumbing section, and the `committed-a-secret` scenario use real `git filter-repo` output. `git-filter-repo` is a separate tool (present on the capture machine); the capture footer names it, and the topic states it is not built into Git | The plan lists filter-repo as the recommended purge tool over the deprecated `filter-branch`; captures must be real, so the tool was used and its non-core status is called out for the reader |
+| G20 | Module 06 is the internals module: every topic sets `internals: true`, carries at least one L4 checkpoint, and is linked from `round-4-internals.md` (audit check 4/5). `packfiles-and-gc.md` (Low) was written tersely to stay within the 150-line Low budget while still meeting the 6-checkpoint and 2-admonition minimums | The manifest marks these internals and the audit enforces the L4-from-round-4 link; the Low budget is a hard upper bound, so the packfiles page trades prose for the required checkpoints |
+| G21 | Several High internals and history topics land in the 210 to 245 range, under the 250-line guide (non-failing notes), same trade-off as G18 | Internals topics are dense and reference-heavy; the pages carry real plumbing captures and full checkpoint sets rather than filler to reach an exact line count |

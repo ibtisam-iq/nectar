@@ -109,3 +109,43 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### Release and Versioning
 
 --8<-- "delivery/git/04-team-workflows/release-and-versioning.md:l1"
+
+---
+
+## History and Recovery
+
+### Reflog and Recovery
+
+--8<-- "delivery/git/05-history-and-recovery/reflog-and-recovery.md:l1"
+
+### Bisect
+
+--8<-- "delivery/git/05-history-and-recovery/bisect.md:l1"
+
+### Rewriting History
+
+--8<-- "delivery/git/05-history-and-recovery/rewriting-history.md:l1"
+
+### Filter-Repo and Secrets
+
+--8<-- "delivery/git/05-history-and-recovery/filter-repo-and-secrets.md:l1"
+
+---
+
+## Internals
+
+### Object Model
+
+--8<-- "delivery/git/06-internals/object-model.md:l1"
+
+### Refs and HEAD
+
+--8<-- "delivery/git/06-internals/refs-and-head.md:l1"
+
+### How Merge and Rebase Work
+
+--8<-- "delivery/git/06-internals/how-merge-and-rebase-work.md:l1"
+
+### Packfiles and GC
+
+--8<-- "delivery/git/06-internals/packfiles-and-gc.md:l1"

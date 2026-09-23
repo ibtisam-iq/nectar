@@ -6,3 +6,6 @@ nav:
   - Detached HEAD: detached-head.md
   - Diverged Branches, Push Rejected: diverged-branches-push-rejected.md
   - Messy History Before a PR: messy-history-before-pr.md
+  - Lost Commits After Reset: lost-commits-after-reset.md
+  - Committed a Secret: committed-a-secret.md
+  - Force-Push Clobbered a Teammate: force-push-clobbered-teammate.md

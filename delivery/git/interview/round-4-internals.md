@@ -56,3 +56,25 @@ Senior, SRE and platform loops ask what Git stores and how a command changes it:
 | Why does gitflow merge a release branch into both `main` and `develop`? | [Branching Strategies](../04-team-workflows/branching-strategies.md) |
 | How does release tooling derive the next version from commit messages? | [Commit Conventions](../04-team-workflows/commit-conventions.md) |
 | How does `git range-diff` pair a reworked commit rather than matching by SHA? | [Code Review with Git](../04-team-workflows/code-review-with-git.md) |
+
+---
+
+## History and Recovery
+
+| Question | Answered in |
+|---|---|
+| If `reset --hard` does not delete commits, what eventually does, and when? | [Reflog and Recovery](../05-history-and-recovery/reflog-and-recovery.md) |
+| How does `git bisect` choose which commit to test, and why is it logarithmic? | [Bisect](../05-history-and-recovery/bisect.md) |
+| Why does rewriting one commit change the SHA of every commit after it? | [Rewriting History](../05-history-and-recovery/rewriting-history.md) |
+| Why does removing a file from history change SHAs and force re-clones? | [Filter-Repo and Secrets](../05-history-and-recovery/filter-repo-and-secrets.md) |
+
+---
+
+## Internals
+
+| Question | Answered in |
+|---|---|
+| What exact bytes does Git hash to produce a blob's SHA? | [Object Model](../06-internals/object-model.md) |
+| How does an annotated tag reach a commit, and how does `rev-parse` peel it? | [Refs and HEAD](../06-internals/refs-and-head.md) |
+| What does the ort strategy compute during a three-way merge? | [How Merge and Rebase Work](../06-internals/how-merge-and-rebase-work.md) |
+| How does a packfile store many versions of a file without full copies? | [Packfiles and GC](../06-internals/packfiles-and-gc.md) |

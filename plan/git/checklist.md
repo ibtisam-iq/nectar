@@ -137,26 +137,26 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 3: Batch D (modules 05, 06)
 
-- [ ] `05-history-and-recovery/.pages` <!-- id:delivery/git/05-history-and-recovery/.pages -->
-- [ ] `05-history-and-recovery/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/05-history-and-recovery/README.md -->
-- [ ] `05-history-and-recovery/reflog-and-recovery.md` (Core, High) <!-- id:delivery/git/05-history-and-recovery/reflog-and-recovery.md -->
-- [ ] `05-history-and-recovery/bisect.md` (Advanced, Med) <!-- id:delivery/git/05-history-and-recovery/bisect.md -->
-- [ ] `05-history-and-recovery/rewriting-history.md` (Advanced, High) <!-- id:delivery/git/05-history-and-recovery/rewriting-history.md -->
-- [ ] `05-history-and-recovery/filter-repo-and-secrets.md` (Advanced, Med) <!-- id:delivery/git/05-history-and-recovery/filter-repo-and-secrets.md -->
-- [ ] `06-internals/.pages` <!-- id:delivery/git/06-internals/.pages -->
-- [ ] `06-internals/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/06-internals/README.md -->
-- [ ] `06-internals/object-model.md` (Advanced, High, internals) <!-- id:delivery/git/06-internals/object-model.md -->
-- [ ] `06-internals/refs-and-head.md` (Advanced, High, internals) <!-- id:delivery/git/06-internals/refs-and-head.md -->
-- [ ] `06-internals/how-merge-and-rebase-work.md` (Advanced, High, internals) <!-- id:delivery/git/06-internals/how-merge-and-rebase-work.md -->
-- [ ] `06-internals/packfiles-and-gc.md` (Advanced, Low, internals) <!-- id:delivery/git/06-internals/packfiles-and-gc.md -->
-- [ ] `labs/recovery-and-bisect-lab.md` <!-- id:delivery/git/labs/recovery-and-bisect-lab.md -->
-- [ ] `interview/scenarios/lost-commits-after-reset.md` (modules 05) <!-- id:delivery/git/interview/scenarios/lost-commits-after-reset.md -->
-- [ ] `interview/scenarios/committed-a-secret.md` (modules 05) <!-- id:delivery/git/interview/scenarios/committed-a-secret.md -->
-- [ ] `interview/scenarios/force-push-clobbered-teammate.md` (modules 03, 05) <!-- id:delivery/git/interview/scenarios/force-push-clobbered-teammate.md -->
-- [ ] Batch D: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:D:grows -->
-- [ ] Batch D: `scripts/lint-prose.py` exits 0 <!-- id:check:D:lint -->
-- [ ] Batch D: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:D:audit -->
-- [ ] Batch D: `mkdocs build` has no warnings for the tool folder <!-- id:check:D:build -->
+- [x] `05-history-and-recovery/.pages` <!-- id:delivery/git/05-history-and-recovery/.pages -->
+- [x] `05-history-and-recovery/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/05-history-and-recovery/README.md -->
+- [x] `05-history-and-recovery/reflog-and-recovery.md` (Core, High) <!-- id:delivery/git/05-history-and-recovery/reflog-and-recovery.md -->
+- [x] `05-history-and-recovery/bisect.md` (Advanced, Med) <!-- id:delivery/git/05-history-and-recovery/bisect.md -->
+- [x] `05-history-and-recovery/rewriting-history.md` (Advanced, High) <!-- id:delivery/git/05-history-and-recovery/rewriting-history.md -->
+- [x] `05-history-and-recovery/filter-repo-and-secrets.md` (Advanced, Med) <!-- id:delivery/git/05-history-and-recovery/filter-repo-and-secrets.md -->
+- [x] `06-internals/.pages` <!-- id:delivery/git/06-internals/.pages -->
+- [x] `06-internals/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/06-internals/README.md -->
+- [x] `06-internals/object-model.md` (Advanced, High, internals) <!-- id:delivery/git/06-internals/object-model.md -->
+- [x] `06-internals/refs-and-head.md` (Advanced, High, internals) <!-- id:delivery/git/06-internals/refs-and-head.md -->
+- [x] `06-internals/how-merge-and-rebase-work.md` (Advanced, High, internals) <!-- id:delivery/git/06-internals/how-merge-and-rebase-work.md -->
+- [x] `06-internals/packfiles-and-gc.md` (Advanced, Low, internals) <!-- id:delivery/git/06-internals/packfiles-and-gc.md -->
+- [x] `labs/recovery-and-bisect-lab.md` <!-- id:delivery/git/labs/recovery-and-bisect-lab.md -->
+- [x] `interview/scenarios/lost-commits-after-reset.md` (modules 05) <!-- id:delivery/git/interview/scenarios/lost-commits-after-reset.md -->
+- [x] `interview/scenarios/committed-a-secret.md` (modules 05) <!-- id:delivery/git/interview/scenarios/committed-a-secret.md -->
+- [x] `interview/scenarios/force-push-clobbered-teammate.md` (modules 03, 05) <!-- id:delivery/git/interview/scenarios/force-push-clobbered-teammate.md -->
+- [x] Batch D: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:D:grows -->
+- [x] Batch D: `scripts/lint-prose.py` exits 0 <!-- id:check:D:lint -->
+- [x] Batch D: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:D:audit -->
+- [x] Batch D: `mkdocs build` has no warnings for the tool folder <!-- id:check:D:build -->
 - [ ] Batch D: owner review done; first-hand line spots listed <!-- id:check:D:owner -->
 
 ---

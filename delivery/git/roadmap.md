@@ -61,6 +61,28 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 
 ---
 
+## 05 History and Recovery
+
+| Topic | Track | Weight | Done |
+|---|---|---|---|
+| [Reflog and Recovery](05-history-and-recovery/reflog-and-recovery.md) | Core | High | [x] |
+| [Bisect](05-history-and-recovery/bisect.md) | Advanced | Med | [x] |
+| [Rewriting History](05-history-and-recovery/rewriting-history.md) | Advanced | High | [x] |
+| [Filter-Repo and Secrets](05-history-and-recovery/filter-repo-and-secrets.md) | Advanced | Med | [x] |
+
+---
+
+## 06 Internals
+
+| Topic | Track | Weight | Done |
+|---|---|---|---|
+| [Object Model](06-internals/object-model.md) | Advanced | High | [x] |
+| [Refs and HEAD](06-internals/refs-and-head.md) | Advanced | High | [x] |
+| [How Merge and Rebase Work](06-internals/how-merge-and-rebase-work.md) | Advanced | High | [x] |
+| [Packfiles and GC](06-internals/packfiles-and-gc.md) | Advanced | Low | [x] |
+
+---
+
 ## Scenarios
 
 | Scenario | Modules | Done |
@@ -71,6 +93,9 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 | [Detached HEAD](interview/scenarios/detached-head.md) | 02 | [x] |
 | [Diverged Branches, Push Rejected](interview/scenarios/diverged-branches-push-rejected.md) | 03 | [x] |
 | [Messy History Before a PR](interview/scenarios/messy-history-before-pr.md) | 02, 04 | [x] |
+| [Lost Commits After Reset](interview/scenarios/lost-commits-after-reset.md) | 05 | [x] |
+| [Committed a Secret](interview/scenarios/committed-a-secret.md) | 05 | [x] |
+| [Force-Push Clobbered a Teammate](interview/scenarios/force-push-clobbered-teammate.md) | 03, 05 | [x] |
 
 ---
 
@@ -80,6 +105,7 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 |---|---|---|
 | [Core Workflow Lab](labs/core-workflow-lab.md) | 00, 01 | [x] |
 | [Branching and Rebase Lab](labs/branching-and-rebase-lab.md) | 02, 04 | [x] |
+| [Recovery and Bisect Lab](labs/recovery-and-bisect-lab.md) | 05 | [x] |
 
 ---
 
@@ -87,6 +113,5 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 
 Built in later batches, in this order:
 
-- 05 History and Recovery, 06 Internals (batch D)
 - 07 Advanced Tooling (batch E)
 - Interview rounds 2 and mock interviews, the remaining scenarios, and the reference pages (`cheatsheet`, `command-index`, `config-reference`, `dotfiles-reference`, `glossary`)

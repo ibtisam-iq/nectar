@@ -109,3 +109,43 @@ Every topic's Must-Know Facts table in one place, for a fast revision pass. Tabl
 ### Release and Versioning
 
 --8<-- "delivery/git/04-team-workflows/release-and-versioning.md:facts"
+
+---
+
+## History and Recovery
+
+### Reflog and Recovery
+
+--8<-- "delivery/git/05-history-and-recovery/reflog-and-recovery.md:facts"
+
+### Bisect
+
+--8<-- "delivery/git/05-history-and-recovery/bisect.md:facts"
+
+### Rewriting History
+
+--8<-- "delivery/git/05-history-and-recovery/rewriting-history.md:facts"
+
+### Filter-Repo and Secrets
+
+--8<-- "delivery/git/05-history-and-recovery/filter-repo-and-secrets.md:facts"
+
+---
+
+## Internals
+
+### Object Model
+
+--8<-- "delivery/git/06-internals/object-model.md:facts"
+
+### Refs and HEAD
+
+--8<-- "delivery/git/06-internals/refs-and-head.md:facts"
+
+### How Merge and Rebase Work
+
+--8<-- "delivery/git/06-internals/how-merge-and-rebase-work.md:facts"
+
+### Packfiles and GC
+
+--8<-- "delivery/git/06-internals/packfiles-and-gc.md:facts"

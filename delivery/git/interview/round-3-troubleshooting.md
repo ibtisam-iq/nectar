@@ -28,3 +28,6 @@ The troubleshooting round starts with a symptom and no instructions. Interviewer
 | [Detached HEAD](scenarios/detached-head.md) | "Git says detached HEAD and I made commits here. Keep them." | 02 Branching and Merging |
 | [Diverged Branches, Push Rejected](scenarios/diverged-branches-push-rejected.md) | "My push was rejected, the remote has work I do not. Push mine without losing theirs." | 03 Remotes and Collaboration |
 | [Messy History Before a PR](scenarios/messy-history-before-pr.md) | "My branch is wip/fix/fix-again commits. Make it clean before the PR." | 02 Branching and Merging, 04 Team Workflows |
+| [Lost Commits After Reset](scenarios/lost-commits-after-reset.md) | "reset --hard ate a day of commits. Get them back." | 05 History and Recovery |
+| [Committed a Secret](scenarios/committed-a-secret.md) | "A password is in history and a scanner flags it. Clean it up." | 05 History and Recovery |
+| [Force-Push Clobbered a Teammate](scenarios/force-push-clobbered-teammate.md) | "A force-push deleted my commit from the remote. Recover it." | 03 Remotes and Collaboration, 05 History and Recovery |

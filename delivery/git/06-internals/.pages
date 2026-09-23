@@ -1,0 +1,7 @@
+title: Internals
+nav:
+  - README.md
+  - Object Model: object-model.md
+  - Refs and HEAD: refs-and-head.md
+  - How Merge and Rebase Work: how-merge-and-rebase-work.md
+  - Packfiles and GC: packfiles-and-gc.md
