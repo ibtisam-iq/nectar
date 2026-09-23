@@ -44,4 +44,6 @@ A **Don't say** line records a common wrong answer worth avoiding.
 
 | Scenario | Modules |
 |---|---|
+| [Accidental Commit to Main](scenarios/accidental-commit-to-main.md) | 01 Core Workflow, 02 Branching and Merging |
+| [Wrong-Branch Commits](scenarios/wrong-branch-commits.md) | 01 Core Workflow, 02 Branching and Merging |
 | [Merge Conflict Resolution](scenarios/merge-conflict-resolution.md) | 02 Branching and Merging |

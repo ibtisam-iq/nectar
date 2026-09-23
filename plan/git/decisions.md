@@ -26,3 +26,13 @@ Dated decision log for the `delivery/git/` rebuild. A change made during executi
 | G9 | The stray `delivery/git/.gitattributes` (a corporate sample with LFS filters) was moved to `_sources/gitattributes-sample` and removed from the folder | No other tool folder carries a bespoke `.gitattributes`, and the LFS filters could misfire on files committed under `delivery/git/`; the sample is recorded in the inventory and feeds `reference/dotfiles-reference.md` |
 | G10 | Capture identity is `Amina Yusuf <amina@example.com>` with a fixed commit clock, run under an isolated `GIT_CONFIG_GLOBAL` so the owner's real config never leaks; commit SHAs and dates in the notes are therefore stable and reproducible | Deterministic captures keep the pages honest (real git output) while avoiding real credentials and churn on re-capture |
 | G11 | Pilot signed off by the owner on 2026-09-20. Module 02 passed `lint-prose` and `audit-tool --scope P --build` with zero failures; the format (Say first, Proof, Follow-up), real captured output and the four-layer structure are confirmed for the remaining batches | The pilot is the format stress test; sign-off unblocks Phase 3 (batches A to E) |
+
+---
+
+## 2026-09-23: Phase 3 Batch A (modules 00, 01)
+
+| # | Decision | Reason |
+|---|---|---|
+| G12 | Batch-A pages link only to files that already exist (modules 00, 01, 02, the built reference and interview pages). Forward references to unbuilt modules (03 to 07, `config-reference`, `dotfiles-reference`, `reflog-and-recovery`, `object-model` and so on) are written as plain prose naming the target module, not as `.md` links | Same rule the pilot followed: the audit (checks 12 and 16) fails on any link to a missing file, so cross-links are added back when the target batch lands, keeping every intermediate state build-clean |
+| G13 | `reference/error-messages.md` was created in batch A and grows per batch (it absorbs the empty legacy `troubleshooting.md`). It is a how-to page: exact error string heading, then Cause and Fix, grouped by area | The manifest marks it `batch: A, grows: true`; starting it now gives every topic a real place to point its Common Errors readers, and it is populated only with errors actually captured or reproduced |
+| G14 | Line-ending guidance in `ignoring-and-attributes.md` and the install step use the two platform tabs `=== "macOS / Linux"` and `=== "Windows"` (per G5), the only batch-A places where behaviour genuinely differs | Everywhere else git commands are cross-platform, so tabs would be noise; `core.autocrlf` and the install command are the real differences |

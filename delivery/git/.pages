@@ -2,6 +2,8 @@ title: Git
 nav:
   - README.md
   - Roadmap: roadmap.md
+  - 00-foundations
+  - 01-core-workflow
   - 02-branching-and-merging
   - reference
   - interview

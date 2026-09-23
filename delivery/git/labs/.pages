@@ -1,4 +1,5 @@
 title: Labs
 nav:
   - README.md
+  - Core Workflow Lab: core-workflow-lab.md
   - Branching and Rebase Lab: branching-and-rebase-lab.md

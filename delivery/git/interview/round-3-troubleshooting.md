@@ -22,4 +22,6 @@ The troubleshooting round starts with a symptom and no instructions. Interviewer
 
 | Scenario | Symptom as asked | Modules |
 |---|---|---|
+| [Accidental Commit to Main](scenarios/accidental-commit-to-main.md) | "I committed to main before making a branch, nothing is pushed. Move the work off main." | 01 Core Workflow, 02 Branching and Merging |
+| [Wrong-Branch Commits](scenarios/wrong-branch-commits.md) | "Commits landed on main but belong on an existing feature branch. Relocate them." | 01 Core Workflow, 02 Branching and Merging |
 | [Merge Conflict Resolution](scenarios/merge-conflict-resolution.md) | "A pull stopped with a conflict and the repo is stuck. Get it merged cleanly." | 02 Branching and Merging |

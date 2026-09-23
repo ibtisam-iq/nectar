@@ -4,6 +4,27 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 
 ---
 
+## 00 Foundations
+
+| Topic | Track | Weight | Done |
+|---|---|---|---|
+| [What Is Git](00-foundations/what-is-git.md) | Core | Med | [x] |
+| [Install and Config](00-foundations/install-and-config.md) | Core | Med | [x] |
+| [The Three Trees](00-foundations/the-three-trees.md) | Core | High | [x] |
+
+---
+
+## 01 Core Workflow
+
+| Topic | Track | Weight | Done |
+|---|---|---|---|
+| [Staging and Committing](01-core-workflow/staging-and-committing.md) | Core | High | [x] |
+| [Inspecting History](01-core-workflow/inspecting-history.md) | Core | High | [x] |
+| [Ignoring and Attributes](01-core-workflow/ignoring-and-attributes.md) | Core | Med | [x] |
+| [Undoing Changes](01-core-workflow/undoing-changes.md) | Core | High | [x] |
+
+---
+
 ## 02 Branching and Merging
 
 | Topic | Track | Weight | Done |
@@ -21,6 +42,8 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 
 | Scenario | Modules | Done |
 |---|---|---|
+| [Accidental Commit to Main](interview/scenarios/accidental-commit-to-main.md) | 01, 02 | [x] |
+| [Wrong-Branch Commits](interview/scenarios/wrong-branch-commits.md) | 01, 02 | [x] |
 | [Merge Conflict Resolution](interview/scenarios/merge-conflict-resolution.md) | 02 | [x] |
 
 ---
@@ -29,6 +52,7 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 
 | Lab | Modules | Done |
 |---|---|---|
+| [Core Workflow Lab](labs/core-workflow-lab.md) | 00, 01 | [x] |
 | [Branching and Rebase Lab](labs/branching-and-rebase-lab.md) | 02 | [x] (module 02 part) |
 
 ---
@@ -37,9 +61,8 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 
 Built in later batches, in this order:
 
-- 00 Foundations, 01 Core Workflow (batch A)
 - 03 Remotes and Collaboration (batch B)
 - 04 Team Workflows (batch C)
 - 05 History and Recovery, 06 Internals (batch D)
 - 07 Advanced Tooling (batch E)
-- Interview rounds 2 and mock interviews, the remaining scenarios, and the reference pages (`cheatsheet`, `command-index`, `config-reference`, `dotfiles-reference`, `glossary`, `error-messages`)
+- Interview rounds 2 and mock interviews, the remaining scenarios, and the reference pages (`cheatsheet`, `command-index`, `config-reference`, `dotfiles-reference`, `glossary`)

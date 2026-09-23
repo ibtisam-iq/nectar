@@ -75,25 +75,25 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 3: Batch A (modules 00, 01)
 
-- [ ] `00-foundations/.pages` <!-- id:delivery/git/00-foundations/.pages -->
-- [ ] `00-foundations/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/00-foundations/README.md -->
-- [ ] `00-foundations/what-is-git.md` (Core, Med) <!-- id:delivery/git/00-foundations/what-is-git.md -->
-- [ ] `00-foundations/install-and-config.md` (Core, Med) <!-- id:delivery/git/00-foundations/install-and-config.md -->
-- [ ] `00-foundations/the-three-trees.md` (Core, High) <!-- id:delivery/git/00-foundations/the-three-trees.md -->
-- [ ] `01-core-workflow/.pages` <!-- id:delivery/git/01-core-workflow/.pages -->
-- [ ] `01-core-workflow/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/01-core-workflow/README.md -->
-- [ ] `01-core-workflow/staging-and-committing.md` (Core, High) <!-- id:delivery/git/01-core-workflow/staging-and-committing.md -->
-- [ ] `01-core-workflow/inspecting-history.md` (Core, High) <!-- id:delivery/git/01-core-workflow/inspecting-history.md -->
-- [ ] `01-core-workflow/ignoring-and-attributes.md` (Core, Med) <!-- id:delivery/git/01-core-workflow/ignoring-and-attributes.md -->
-- [ ] `01-core-workflow/undoing-changes.md` (Core, High) <!-- id:delivery/git/01-core-workflow/undoing-changes.md -->
-- [ ] `reference/error-messages.md` <!-- id:delivery/git/reference/error-messages.md -->
-- [ ] `labs/core-workflow-lab.md` <!-- id:delivery/git/labs/core-workflow-lab.md -->
-- [ ] `interview/scenarios/accidental-commit-to-main.md` (modules 01, 02) <!-- id:delivery/git/interview/scenarios/accidental-commit-to-main.md -->
-- [ ] `interview/scenarios/wrong-branch-commits.md` (modules 01, 02) <!-- id:delivery/git/interview/scenarios/wrong-branch-commits.md -->
-- [ ] Batch A: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:A:grows -->
-- [ ] Batch A: `scripts/lint-prose.py` exits 0 <!-- id:check:A:lint -->
-- [ ] Batch A: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:A:audit -->
-- [ ] Batch A: `mkdocs build` has no warnings for the tool folder <!-- id:check:A:build -->
+- [x] `00-foundations/.pages` <!-- id:delivery/git/00-foundations/.pages -->
+- [x] `00-foundations/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/00-foundations/README.md -->
+- [x] `00-foundations/what-is-git.md` (Core, Med) <!-- id:delivery/git/00-foundations/what-is-git.md -->
+- [x] `00-foundations/install-and-config.md` (Core, Med) <!-- id:delivery/git/00-foundations/install-and-config.md -->
+- [x] `00-foundations/the-three-trees.md` (Core, High) <!-- id:delivery/git/00-foundations/the-three-trees.md -->
+- [x] `01-core-workflow/.pages` <!-- id:delivery/git/01-core-workflow/.pages -->
+- [x] `01-core-workflow/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/01-core-workflow/README.md -->
+- [x] `01-core-workflow/staging-and-committing.md` (Core, High) <!-- id:delivery/git/01-core-workflow/staging-and-committing.md -->
+- [x] `01-core-workflow/inspecting-history.md` (Core, High) <!-- id:delivery/git/01-core-workflow/inspecting-history.md -->
+- [x] `01-core-workflow/ignoring-and-attributes.md` (Core, Med) <!-- id:delivery/git/01-core-workflow/ignoring-and-attributes.md -->
+- [x] `01-core-workflow/undoing-changes.md` (Core, High) <!-- id:delivery/git/01-core-workflow/undoing-changes.md -->
+- [x] `reference/error-messages.md` <!-- id:delivery/git/reference/error-messages.md -->
+- [x] `labs/core-workflow-lab.md` <!-- id:delivery/git/labs/core-workflow-lab.md -->
+- [x] `interview/scenarios/accidental-commit-to-main.md` (modules 01, 02) <!-- id:delivery/git/interview/scenarios/accidental-commit-to-main.md -->
+- [x] `interview/scenarios/wrong-branch-commits.md` (modules 01, 02) <!-- id:delivery/git/interview/scenarios/wrong-branch-commits.md -->
+- [x] Batch A: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:A:grows -->
+- [x] Batch A: `scripts/lint-prose.py` exits 0 <!-- id:check:A:lint -->
+- [x] Batch A: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:A:audit -->
+- [x] Batch A: `mkdocs build` has no warnings for the tool folder <!-- id:check:A:build -->
 - [ ] Batch A: owner review done; first-hand line spots listed <!-- id:check:A:owner -->
 
 ---

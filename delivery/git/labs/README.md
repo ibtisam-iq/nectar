@@ -31,4 +31,5 @@ The iximiuz Labs playground shell also has Git preinstalled if a browser environ
 
 | Lab | Modules |
 |---|---|
+| [Core Workflow Lab](core-workflow-lab.md) | 00 Foundations, 01 Core Workflow |
 | [Branching and Rebase Lab](branching-and-rebase-lab.md) | 02 Branching and Merging |
