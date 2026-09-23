@@ -45,3 +45,12 @@ Dated decision log for the `delivery/git/` rebuild. A change made during executi
 |---|---|---|
 | G15 | `scripts/audit-tool.py` `TRACK_RE` was generalized from the hardcoded `(Core\|RHCSA\|Advanced)` to `([A-Z][A-Za-z]+)` for the track name; the weight stays `(High\|Med\|Low)` and the value is still validated against the manifest (the existing check at the match site). This is the audit counterpart of the G7 checklist generalization | `forks-and-pull-requests.md` is the first `Workflow`-track topic (per G2), which the Linux-flavoured regex rejected. Reading the track from the manifest keeps the script tool-agnostic; Linux's full audit still passes with zero failures, so no page changed |
 | G16 | Batch B adds two scenarios: `diverged-branches-push-rejected` (feeds 03) and `detached-head` (feeds 02). Each is linked from the README of a module it draws on (03 and 02 respectively), which the audit (check 5) requires | The manifest schedules both in batch B; `detached-head` feeds module 02, so 02's README, already merged, gains the link now that the scenario exists |
+
+---
+
+## 2026-09-24: Phase 3 Batch C (module 04)
+
+| # | Decision | Reason |
+|---|---|---|
+| G17 | `labs/branching-and-rebase-lab.md` (started in the pilot, marked `completed_in: C`) is finished in batch C with a "Preparing for Review" section (squash a messy branch, autosquash a fixup), tying the lab to module 04's team-workflow topics | The manifest schedules the lab's completion for batch C once module 04 exists to justify the review-prep framing; the module-02 mechanics were the pilot part |
+| G18 | The `messy-history-before-pr` scenario feeds modules 02 and 04 and is linked from module 04's README (check 5). Module 04's Workflow topics are more conceptual than the Core modules, so their captures are smaller and some High topics land just under the 250-line guide (a non-failing note) | The topics are genuinely shorter (strategy and versioning are decision-and-table heavy); padding to the guide would add filler, so the pages carry real content plus real captures and accept the note |

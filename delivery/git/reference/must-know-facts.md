@@ -89,3 +89,23 @@ Every topic's Must-Know Facts table in one place, for a fast revision pass. Tabl
 ### Forks and Pull Requests
 
 --8<-- "delivery/git/03-remotes-and-collaboration/forks-and-pull-requests.md:facts"
+
+---
+
+## Team Workflows
+
+### Branching Strategies
+
+--8<-- "delivery/git/04-team-workflows/branching-strategies.md:facts"
+
+### Commit Conventions
+
+--8<-- "delivery/git/04-team-workflows/commit-conventions.md:facts"
+
+### Code Review with Git
+
+--8<-- "delivery/git/04-team-workflows/code-review-with-git.md:facts"
+
+### Release and Versioning
+
+--8<-- "delivery/git/04-team-workflows/release-and-versioning.md:facts"

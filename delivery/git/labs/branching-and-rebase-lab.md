@@ -1,6 +1,6 @@
 # Branching and Rebase Lab
 
-Practise the branching and merging workflow end to end: create branches, fast-forward and three-way merges, rebase, interactive squash, conflict resolution, and cherry-pick. Run every task in a throwaway repository.
+Practise the branching and merging workflow end to end: create branches, fast-forward and three-way merges, rebase, interactive squash, conflict resolution, cherry-pick, and cleaning up a branch before review. Run every task in a throwaway repository.
 
 ---
 
@@ -168,6 +168,41 @@ On a branch `develop`, make two commits. Cherry-pick only the second onto `main`
     git switch main
     git cherry-pick -x develop         # copies only the tip commit
     git log -1 --format=%b             # shows (cherry picked from commit ...)
+    ```
+
+---
+
+## Preparing for Review
+
+### 10. Squash a Messy Branch into One Commit
+
+On a new branch `feature/wishlist`, make three noisy commits (`wip`, `more`, `fix typo`), then squash them into one atomic, conventionally-typed commit with an interactive rebase.
+
+??? tip "Solution"
+    ```bash
+    git switch main
+    git switch -c feature/wishlist
+    printf 'wish\n' > wishlist.py && git add wishlist.py && git commit -m "wip"
+    printf 'wish2\n' >> wishlist.py && git commit -am "more"
+    printf 'wish3\n' >> wishlist.py && git commit -am "fix typo"
+    git rebase -i main
+    # keep the first as 'pick', mark the other two 'fixup', save
+    git commit --amend -m "feat(wishlist): add wishlist"
+    git log --oneline main..feature/wishlist   # one commit
+    git diff --stat main...feature/wishlist     # net change unchanged
+    ```
+
+### 11. Autosquash a Fixup
+
+Add a commit, then a fixup targeting it, and let `--autosquash` fold the fixup in automatically.
+
+??? tip "Solution"
+    ```bash
+    printf 'price\n' > price.py && git add price.py && git commit -m "feat(wishlist): add pricing"
+    printf 'price2\n' >> price.py && git add price.py
+    git commit --fixup=HEAD          # creates "fixup! feat(wishlist): add pricing"
+    git rebase -i --autosquash main  # fixup is pre-placed under its target; save
+    git log --oneline main..feature/wishlist
     ```
 
 ---

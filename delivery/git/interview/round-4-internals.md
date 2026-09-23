@@ -46,3 +46,13 @@ Senior, SRE and platform loops ask what Git stores and how a command changes it:
 | How does `--force-with-lease` know the remote moved without seeing its live state? | [Pushing and Pulling](../03-remotes-and-collaboration/pushing-and-pulling.md) |
 | Why can an annotated tag be signed but a lightweight tag cannot? | [Tags and Releases](../03-remotes-and-collaboration/tags-and-releases.md) |
 | How is a stash stored, and why can you inspect it like a commit? | [Stashing](../03-remotes-and-collaboration/stashing.md) |
+
+---
+
+## Team Workflows
+
+| Question | Answered in |
+|---|---|
+| Why does gitflow merge a release branch into both `main` and `develop`? | [Branching Strategies](../04-team-workflows/branching-strategies.md) |
+| How does release tooling derive the next version from commit messages? | [Commit Conventions](../04-team-workflows/commit-conventions.md) |
+| How does `git range-diff` pair a reworked commit rather than matching by SHA? | [Code Review with Git](../04-team-workflows/code-review-with-git.md) |

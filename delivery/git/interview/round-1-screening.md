@@ -89,3 +89,23 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### Forks and Pull Requests
 
 --8<-- "delivery/git/03-remotes-and-collaboration/forks-and-pull-requests.md:l1"
+
+---
+
+## Team Workflows
+
+### Branching Strategies
+
+--8<-- "delivery/git/04-team-workflows/branching-strategies.md:l1"
+
+### Commit Conventions
+
+--8<-- "delivery/git/04-team-workflows/commit-conventions.md:l1"
+
+### Code Review with Git
+
+--8<-- "delivery/git/04-team-workflows/code-review-with-git.md:l1"
+
+### Release and Versioning
+
+--8<-- "delivery/git/04-team-workflows/release-and-versioning.md:l1"

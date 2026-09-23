@@ -49,3 +49,4 @@ A **Don't say** line records a common wrong answer worth avoiding.
 | [Merge Conflict Resolution](scenarios/merge-conflict-resolution.md) | 02 Branching and Merging |
 | [Detached HEAD](scenarios/detached-head.md) | 02 Branching and Merging |
 | [Diverged Branches, Push Rejected](scenarios/diverged-branches-push-rejected.md) | 03 Remotes and Collaboration |
+| [Messy History Before a PR](scenarios/messy-history-before-pr.md) | 02 Branching and Merging, 04 Team Workflows |

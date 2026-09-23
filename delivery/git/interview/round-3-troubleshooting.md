@@ -27,3 +27,4 @@ The troubleshooting round starts with a symptom and no instructions. Interviewer
 | [Merge Conflict Resolution](scenarios/merge-conflict-resolution.md) | "A pull stopped with a conflict and the repo is stuck. Get it merged cleanly." | 02 Branching and Merging |
 | [Detached HEAD](scenarios/detached-head.md) | "Git says detached HEAD and I made commits here. Keep them." | 02 Branching and Merging |
 | [Diverged Branches, Push Rejected](scenarios/diverged-branches-push-rejected.md) | "My push was rejected, the remote has work I do not. Push mine without losing theirs." | 03 Remotes and Collaboration |
+| [Messy History Before a PR](scenarios/messy-history-before-pr.md) | "My branch is wip/fix/fix-again commits. Make it clean before the PR." | 02 Branching and Merging, 04 Team Workflows |

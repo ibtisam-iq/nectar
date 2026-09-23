@@ -119,18 +119,18 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 3: Batch C (modules 04)
 
-- [ ] `04-team-workflows/.pages` <!-- id:delivery/git/04-team-workflows/.pages -->
-- [ ] `04-team-workflows/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/04-team-workflows/README.md -->
-- [ ] `04-team-workflows/branching-strategies.md` (Workflow, High) <!-- id:delivery/git/04-team-workflows/branching-strategies.md -->
-- [ ] `04-team-workflows/commit-conventions.md` (Workflow, High) <!-- id:delivery/git/04-team-workflows/commit-conventions.md -->
-- [ ] `04-team-workflows/code-review-with-git.md` (Workflow, Med) <!-- id:delivery/git/04-team-workflows/code-review-with-git.md -->
-- [ ] `04-team-workflows/release-and-versioning.md` (Workflow, Med) <!-- id:delivery/git/04-team-workflows/release-and-versioning.md -->
-- [ ] Complete `labs/branching-and-rebase-lab.md` <!-- id:delivery/git/labs/branching-and-rebase-lab.md:complete -->
-- [ ] `interview/scenarios/messy-history-before-pr.md` (modules 02, 04) <!-- id:delivery/git/interview/scenarios/messy-history-before-pr.md -->
-- [ ] Batch C: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:C:grows -->
-- [ ] Batch C: `scripts/lint-prose.py` exits 0 <!-- id:check:C:lint -->
-- [ ] Batch C: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:C:audit -->
-- [ ] Batch C: `mkdocs build` has no warnings for the tool folder <!-- id:check:C:build -->
+- [x] `04-team-workflows/.pages` <!-- id:delivery/git/04-team-workflows/.pages -->
+- [x] `04-team-workflows/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/04-team-workflows/README.md -->
+- [x] `04-team-workflows/branching-strategies.md` (Workflow, High) <!-- id:delivery/git/04-team-workflows/branching-strategies.md -->
+- [x] `04-team-workflows/commit-conventions.md` (Workflow, High) <!-- id:delivery/git/04-team-workflows/commit-conventions.md -->
+- [x] `04-team-workflows/code-review-with-git.md` (Workflow, Med) <!-- id:delivery/git/04-team-workflows/code-review-with-git.md -->
+- [x] `04-team-workflows/release-and-versioning.md` (Workflow, Med) <!-- id:delivery/git/04-team-workflows/release-and-versioning.md -->
+- [x] Complete `labs/branching-and-rebase-lab.md` <!-- id:delivery/git/labs/branching-and-rebase-lab.md:complete -->
+- [x] `interview/scenarios/messy-history-before-pr.md` (modules 02, 04) <!-- id:delivery/git/interview/scenarios/messy-history-before-pr.md -->
+- [x] Batch C: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:C:grows -->
+- [x] Batch C: `scripts/lint-prose.py` exits 0 <!-- id:check:C:lint -->
+- [x] Batch C: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:C:audit -->
+- [x] Batch C: `mkdocs build` has no warnings for the tool folder <!-- id:check:C:build -->
 - [ ] Batch C: owner review done; first-hand line spots listed <!-- id:check:C:owner -->
 
 ---

@@ -50,6 +50,17 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 
 ---
 
+## 04 Team Workflows
+
+| Topic | Track | Weight | Done |
+|---|---|---|---|
+| [Branching Strategies](04-team-workflows/branching-strategies.md) | Workflow | High | [x] |
+| [Commit Conventions](04-team-workflows/commit-conventions.md) | Workflow | High | [x] |
+| [Code Review with Git](04-team-workflows/code-review-with-git.md) | Workflow | Med | [x] |
+| [Release and Versioning](04-team-workflows/release-and-versioning.md) | Workflow | Med | [x] |
+
+---
+
 ## Scenarios
 
 | Scenario | Modules | Done |
@@ -59,6 +70,7 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 | [Merge Conflict Resolution](interview/scenarios/merge-conflict-resolution.md) | 02 | [x] |
 | [Detached HEAD](interview/scenarios/detached-head.md) | 02 | [x] |
 | [Diverged Branches, Push Rejected](interview/scenarios/diverged-branches-push-rejected.md) | 03 | [x] |
+| [Messy History Before a PR](interview/scenarios/messy-history-before-pr.md) | 02, 04 | [x] |
 
 ---
 
@@ -67,7 +79,7 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 | Lab | Modules | Done |
 |---|---|---|
 | [Core Workflow Lab](labs/core-workflow-lab.md) | 00, 01 | [x] |
-| [Branching and Rebase Lab](labs/branching-and-rebase-lab.md) | 02 | [x] (module 02 part) |
+| [Branching and Rebase Lab](labs/branching-and-rebase-lab.md) | 02, 04 | [x] |
 
 ---
 
@@ -75,7 +87,6 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 
 Built in later batches, in this order:
 
-- 04 Team Workflows (batch C)
 - 05 History and Recovery, 06 Internals (batch D)
 - 07 Advanced Tooling (batch E)
 - Interview rounds 2 and mock interviews, the remaining scenarios, and the reference pages (`cheatsheet`, `command-index`, `config-reference`, `dotfiles-reference`, `glossary`)
