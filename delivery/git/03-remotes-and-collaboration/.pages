@@ -1,0 +1,8 @@
+title: Remotes and Collaboration
+nav:
+  - README.md
+  - Remotes: remotes.md
+  - Pushing and Pulling: pushing-and-pulling.md
+  - Tags and Releases: tags-and-releases.md
+  - Stashing: stashing.md
+  - Forks and Pull Requests: forks-and-pull-requests.md

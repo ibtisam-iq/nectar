@@ -25,3 +25,5 @@ The troubleshooting round starts with a symptom and no instructions. Interviewer
 | [Accidental Commit to Main](scenarios/accidental-commit-to-main.md) | "I committed to main before making a branch, nothing is pushed. Move the work off main." | 01 Core Workflow, 02 Branching and Merging |
 | [Wrong-Branch Commits](scenarios/wrong-branch-commits.md) | "Commits landed on main but belong on an existing feature branch. Relocate them." | 01 Core Workflow, 02 Branching and Merging |
 | [Merge Conflict Resolution](scenarios/merge-conflict-resolution.md) | "A pull stopped with a conflict and the repo is stuck. Get it merged cleanly." | 02 Branching and Merging |
+| [Detached HEAD](scenarios/detached-head.md) | "Git says detached HEAD and I made commits here. Keep them." | 02 Branching and Merging |
+| [Diverged Branches, Push Rejected](scenarios/diverged-branches-push-rejected.md) | "My push was rejected, the remote has work I do not. Push mine without losing theirs." | 03 Remotes and Collaboration |

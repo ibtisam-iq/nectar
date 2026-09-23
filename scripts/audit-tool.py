@@ -27,7 +27,9 @@ import yaml
 ORDER = ["P", "A", "B", "C", "D", "E", "F", "G", "H", "I", "4", "5"]
 REPO = Path(__file__).resolve().parent.parent
 
-TRACK_RE = re.compile(r"^\*\*Track:\*\* (Core|RHCSA|Advanced) · \*\*Interview weight:\*\* (High|Med|Low)$")
+# Track name is tool-specific (Linux uses Core/RHCSA/Advanced, git uses Core/Workflow/Advanced),
+# so the pattern accepts any capitalised name and the value is validated against the manifest below.
+TRACK_RE = re.compile(r"^\*\*Track:\*\* ([A-Z][A-Za-z]+) · \*\*Interview weight:\*\* (High|Med|Low)$")
 QUESTION_RE = re.compile(r'^\?\?\?\+? question "(L[1-4]): ')
 TAB_RE = re.compile(r'^\s*===\+? "([^"]+)"')
 LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")

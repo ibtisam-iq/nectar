@@ -35,3 +35,14 @@ Senior, SRE and platform loops ask what Git stores and how a command changes it:
 | How does autosquash know where to place a fixup commit? | [Interactive Rebase](../02-branching-and-merging/interactive-rebase.md) |
 | What are the three index stages during a conflict? | [Conflict Resolution](../02-branching-and-merging/conflict-resolution.md) |
 | How does cherry-pick apply a commit, and why is the result not identical? | [Cherry-Pick](../02-branching-and-merging/cherry-pick.md) |
+
+---
+
+## Remotes and Collaboration
+
+| Question | Answered in |
+|---|---|
+| How does Git know which remote branch your local branch tracks, and where is it stored? | [Remotes](../03-remotes-and-collaboration/remotes.md) |
+| How does `--force-with-lease` know the remote moved without seeing its live state? | [Pushing and Pulling](../03-remotes-and-collaboration/pushing-and-pulling.md) |
+| Why can an annotated tag be signed but a lightweight tag cannot? | [Tags and Releases](../03-remotes-and-collaboration/tags-and-releases.md) |
+| How is a stash stored, and why can you inspect it like a commit? | [Stashing](../03-remotes-and-collaboration/stashing.md) |

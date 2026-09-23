@@ -65,3 +65,27 @@ Every topic's Must-Know Facts table in one place, for a fast revision pass. Tabl
 ### Cherry-Pick
 
 --8<-- "delivery/git/02-branching-and-merging/cherry-pick.md:facts"
+
+---
+
+## Remotes and Collaboration
+
+### Remotes
+
+--8<-- "delivery/git/03-remotes-and-collaboration/remotes.md:facts"
+
+### Pushing and Pulling
+
+--8<-- "delivery/git/03-remotes-and-collaboration/pushing-and-pulling.md:facts"
+
+### Tags and Releases
+
+--8<-- "delivery/git/03-remotes-and-collaboration/tags-and-releases.md:facts"
+
+### Stashing
+
+--8<-- "delivery/git/03-remotes-and-collaboration/stashing.md:facts"
+
+### Forks and Pull Requests
+
+--8<-- "delivery/git/03-remotes-and-collaboration/forks-and-pull-requests.md:facts"

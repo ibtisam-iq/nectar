@@ -100,19 +100,19 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 3: Batch B (modules 03)
 
-- [ ] `03-remotes-and-collaboration/.pages` <!-- id:delivery/git/03-remotes-and-collaboration/.pages -->
-- [ ] `03-remotes-and-collaboration/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/03-remotes-and-collaboration/README.md -->
-- [ ] `03-remotes-and-collaboration/remotes.md` (Core, High) <!-- id:delivery/git/03-remotes-and-collaboration/remotes.md -->
-- [ ] `03-remotes-and-collaboration/pushing-and-pulling.md` (Core, High) <!-- id:delivery/git/03-remotes-and-collaboration/pushing-and-pulling.md -->
-- [ ] `03-remotes-and-collaboration/tags-and-releases.md` (Core, Med) <!-- id:delivery/git/03-remotes-and-collaboration/tags-and-releases.md -->
-- [ ] `03-remotes-and-collaboration/stashing.md` (Core, Med) <!-- id:delivery/git/03-remotes-and-collaboration/stashing.md -->
-- [ ] `03-remotes-and-collaboration/forks-and-pull-requests.md` (Workflow, Med) <!-- id:delivery/git/03-remotes-and-collaboration/forks-and-pull-requests.md -->
-- [ ] `interview/scenarios/diverged-branches-push-rejected.md` (modules 03) <!-- id:delivery/git/interview/scenarios/diverged-branches-push-rejected.md -->
-- [ ] `interview/scenarios/detached-head.md` (modules 02) <!-- id:delivery/git/interview/scenarios/detached-head.md -->
-- [ ] Batch B: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:B:grows -->
-- [ ] Batch B: `scripts/lint-prose.py` exits 0 <!-- id:check:B:lint -->
-- [ ] Batch B: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:B:audit -->
-- [ ] Batch B: `mkdocs build` has no warnings for the tool folder <!-- id:check:B:build -->
+- [x] `03-remotes-and-collaboration/.pages` <!-- id:delivery/git/03-remotes-and-collaboration/.pages -->
+- [x] `03-remotes-and-collaboration/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/03-remotes-and-collaboration/README.md -->
+- [x] `03-remotes-and-collaboration/remotes.md` (Core, High) <!-- id:delivery/git/03-remotes-and-collaboration/remotes.md -->
+- [x] `03-remotes-and-collaboration/pushing-and-pulling.md` (Core, High) <!-- id:delivery/git/03-remotes-and-collaboration/pushing-and-pulling.md -->
+- [x] `03-remotes-and-collaboration/tags-and-releases.md` (Core, Med) <!-- id:delivery/git/03-remotes-and-collaboration/tags-and-releases.md -->
+- [x] `03-remotes-and-collaboration/stashing.md` (Core, Med) <!-- id:delivery/git/03-remotes-and-collaboration/stashing.md -->
+- [x] `03-remotes-and-collaboration/forks-and-pull-requests.md` (Workflow, Med) <!-- id:delivery/git/03-remotes-and-collaboration/forks-and-pull-requests.md -->
+- [x] `interview/scenarios/diverged-branches-push-rejected.md` (modules 03) <!-- id:delivery/git/interview/scenarios/diverged-branches-push-rejected.md -->
+- [x] `interview/scenarios/detached-head.md` (modules 02) <!-- id:delivery/git/interview/scenarios/detached-head.md -->
+- [x] Batch B: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:B:grows -->
+- [x] Batch B: `scripts/lint-prose.py` exits 0 <!-- id:check:B:lint -->
+- [x] Batch B: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:B:audit -->
+- [x] Batch B: `mkdocs build` has no warnings for the tool folder <!-- id:check:B:build -->
 - [ ] Batch B: owner review done; first-hand line spots listed <!-- id:check:B:owner -->
 
 ---

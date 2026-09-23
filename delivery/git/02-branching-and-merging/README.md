@@ -46,4 +46,5 @@ How Git creates lines of work and brings them back together: branches, merge and
 ## Scenarios and Labs
 
 - [Merge Conflict Resolution](../interview/scenarios/merge-conflict-resolution.md): a pull stops on a conflict and must be resolved cleanly
+- [Detached HEAD](../interview/scenarios/detached-head.md): commits made off a branch, and how to save them
 - [Branching and Rebase Lab](../labs/branching-and-rebase-lab.md): merge, rebase and resolve conflicts by hand

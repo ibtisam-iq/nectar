@@ -3,3 +3,5 @@ nav:
   - Accidental Commit to Main: accidental-commit-to-main.md
   - Wrong-Branch Commits: wrong-branch-commits.md
   - Merge Conflict Resolution: merge-conflict-resolution.md
+  - Detached HEAD: detached-head.md
+  - Diverged Branches, Push Rejected: diverged-branches-push-rejected.md

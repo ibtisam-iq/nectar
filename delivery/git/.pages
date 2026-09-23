@@ -5,6 +5,7 @@ nav:
   - 00-foundations
   - 01-core-workflow
   - 02-branching-and-merging
+  - 03-remotes-and-collaboration
   - reference
   - interview
   - labs

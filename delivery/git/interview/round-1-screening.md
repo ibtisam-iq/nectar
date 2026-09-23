@@ -65,3 +65,27 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### Cherry-Pick
 
 --8<-- "delivery/git/02-branching-and-merging/cherry-pick.md:l1"
+
+---
+
+## Remotes and Collaboration
+
+### Remotes
+
+--8<-- "delivery/git/03-remotes-and-collaboration/remotes.md:l1"
+
+### Pushing and Pulling
+
+--8<-- "delivery/git/03-remotes-and-collaboration/pushing-and-pulling.md:l1"
+
+### Tags and Releases
+
+--8<-- "delivery/git/03-remotes-and-collaboration/tags-and-releases.md:l1"
+
+### Stashing
+
+--8<-- "delivery/git/03-remotes-and-collaboration/stashing.md:l1"
+
+### Forks and Pull Requests
+
+--8<-- "delivery/git/03-remotes-and-collaboration/forks-and-pull-requests.md:l1"

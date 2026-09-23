@@ -36,3 +36,12 @@ Dated decision log for the `delivery/git/` rebuild. A change made during executi
 | G12 | Batch-A pages link only to files that already exist (modules 00, 01, 02, the built reference and interview pages). Forward references to unbuilt modules (03 to 07, `config-reference`, `dotfiles-reference`, `reflog-and-recovery`, `object-model` and so on) are written as plain prose naming the target module, not as `.md` links | Same rule the pilot followed: the audit (checks 12 and 16) fails on any link to a missing file, so cross-links are added back when the target batch lands, keeping every intermediate state build-clean |
 | G13 | `reference/error-messages.md` was created in batch A and grows per batch (it absorbs the empty legacy `troubleshooting.md`). It is a how-to page: exact error string heading, then Cause and Fix, grouped by area | The manifest marks it `batch: A, grows: true`; starting it now gives every topic a real place to point its Common Errors readers, and it is populated only with errors actually captured or reproduced |
 | G14 | Line-ending guidance in `ignoring-and-attributes.md` and the install step use the two platform tabs `=== "macOS / Linux"` and `=== "Windows"` (per G5), the only batch-A places where behaviour genuinely differs | Everywhere else git commands are cross-platform, so tabs would be noise; `core.autocrlf` and the install command are the real differences |
+
+---
+
+## 2026-09-24: Phase 3 Batch B (module 03)
+
+| # | Decision | Reason |
+|---|---|---|
+| G15 | `scripts/audit-tool.py` `TRACK_RE` was generalized from the hardcoded `(Core\|RHCSA\|Advanced)` to `([A-Z][A-Za-z]+)` for the track name; the weight stays `(High\|Med\|Low)` and the value is still validated against the manifest (the existing check at the match site). This is the audit counterpart of the G7 checklist generalization | `forks-and-pull-requests.md` is the first `Workflow`-track topic (per G2), which the Linux-flavoured regex rejected. Reading the track from the manifest keeps the script tool-agnostic; Linux's full audit still passes with zero failures, so no page changed |
+| G16 | Batch B adds two scenarios: `diverged-branches-push-rejected` (feeds 03) and `detached-head` (feeds 02). Each is linked from the README of a module it draws on (03 and 02 respectively), which the audit (check 5) requires | The manifest schedules both in batch B; `detached-head` feeds module 02, so 02's README, already merged, gains the link now that the scenario exists |

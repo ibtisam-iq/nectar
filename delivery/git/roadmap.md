@@ -38,6 +38,18 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 
 ---
 
+## 03 Remotes and Collaboration
+
+| Topic | Track | Weight | Done |
+|---|---|---|---|
+| [Remotes](03-remotes-and-collaboration/remotes.md) | Core | High | [x] |
+| [Pushing and Pulling](03-remotes-and-collaboration/pushing-and-pulling.md) | Core | High | [x] |
+| [Tags and Releases](03-remotes-and-collaboration/tags-and-releases.md) | Core | Med | [x] |
+| [Stashing](03-remotes-and-collaboration/stashing.md) | Core | Med | [x] |
+| [Forks and Pull Requests](03-remotes-and-collaboration/forks-and-pull-requests.md) | Workflow | Med | [x] |
+
+---
+
 ## Scenarios
 
 | Scenario | Modules | Done |
@@ -45,6 +57,8 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 | [Accidental Commit to Main](interview/scenarios/accidental-commit-to-main.md) | 01, 02 | [x] |
 | [Wrong-Branch Commits](interview/scenarios/wrong-branch-commits.md) | 01, 02 | [x] |
 | [Merge Conflict Resolution](interview/scenarios/merge-conflict-resolution.md) | 02 | [x] |
+| [Detached HEAD](interview/scenarios/detached-head.md) | 02 | [x] |
+| [Diverged Branches, Push Rejected](interview/scenarios/diverged-branches-push-rejected.md) | 03 | [x] |
 
 ---
 
@@ -61,7 +75,6 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 
 Built in later batches, in this order:
 
-- 03 Remotes and Collaboration (batch B)
 - 04 Team Workflows (batch C)
 - 05 History and Recovery, 06 Internals (batch D)
 - 07 Advanced Tooling (batch E)

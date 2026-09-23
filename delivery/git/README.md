@@ -24,13 +24,13 @@ Every topic file declares a **Track** (Core, Workflow, Advanced) and an **Interv
 | 00 | [Foundations](00-foundations/README.md) | What Git is, install and config, the three trees |
 | 01 | [Core Workflow](01-core-workflow/README.md) | Staging, history, ignoring, undoing changes |
 | 02 | [Branching and Merging](02-branching-and-merging/README.md) | Branches, merge, rebase, interactive rebase, conflicts, cherry-pick |
-| 03 | Remotes and Collaboration | Remotes, push and pull, tags, stashing, forks (batch B) |
+| 03 | [Remotes and Collaboration](03-remotes-and-collaboration/README.md) | Remotes, push and pull, tags, stashing, forks |
 | 04 | Team Workflows | Branching strategies, commit conventions, reviews, releases (batch C) |
 | 05 | History and Recovery | Reflog, bisect, rewriting history, secrets (batch D) |
 | 06 | Internals | Object model, refs and HEAD, packfiles (batch D) |
 | 07 | Advanced Tooling | Hooks, submodules, worktrees, large repos, signing (batch E) |
 
-Modules 00, 01 and 02 are complete. The other modules are built in the batches noted above.
+Modules 00 to 03 are complete. The other modules are built in the batches noted above.
 
 ---
 
