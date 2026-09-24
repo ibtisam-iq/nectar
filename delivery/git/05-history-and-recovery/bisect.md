@@ -15,7 +15,7 @@
 | Method | Binary search: about `log2(n)` tests for n commits | the step counts |
 | Start | `git bisect start <bad> <good>` | Git checks out a midpoint |
 | Mark manually | `git bisect good` / `git bisect bad` per checkout | the next midpoint |
-| Automate | `git bisect run <cmd>` (exit 0 good, 1-124 bad) | the result |
+| Automate | `git bisect run <cmd>` (exit 0 good, 125 skip, else bad) | the result |
 | Skip untestable | `git bisect skip` (build broken at that commit) | the next midpoint |
 | Result | `<sha> is the first bad commit` | the output |
 | Finish | `git bisect reset` returns to where you started | `git status` |
@@ -56,7 +56,7 @@ The "roughly 2 steps" is the remaining binary-search depth. You test the checked
 
 ## Automating with bisect run
 
-When a single command can decide good from bad, `git bisect run` does the whole search unattended. The command exits `0` for a good commit and `1` to `124` for a bad one; Git checks out each midpoint, runs it, and marks it automatically.
+When a single command can decide good from bad, `git bisect run` does the whole search unattended. The command exits `0` for a good commit and non-zero for a bad one; Git checks out each midpoint, runs it, and marks it automatically.
 
 ```bash
 git bisect start HEAD 5951cc9
@@ -81,7 +81,7 @@ commit d6295d70a4e9138fbf47eb741e9024803c221ac5
 Git found the culprit (`Refactor calc`) in two checkouts. The test script is any command that reproduces the bug: a unit test, a build, or a one-line check. This turns a vague regression into a named commit and diff to read.
 
 !!! tip "Exit 125 tells bisect run a commit is untestable"
-    If a commit cannot be built or tested (a broken intermediate state), have the script exit `125`, and `git bisect run` skips it like a manual `git bisect skip`. Reserve `125`; exit codes `1` to `124` all mean "bad".
+    If a commit cannot be built or tested (a broken intermediate state), have the script exit `125`, and `git bisect run` skips it like a manual `git bisect skip`. Only `125` means skip; exit codes `1` to `127` (except `125`) all mean "bad", and `128` or above aborts the run.
 
 ---
 

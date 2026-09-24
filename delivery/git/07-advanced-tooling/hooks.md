@@ -146,7 +146,7 @@ The distinction that matters in interviews is where the hook runs and therefore 
 | Client | `pre-commit`, `commit-msg`, `pre-push` | the developer's machine | yes (`--no-verify`) |
 | Server | `pre-receive`, `update`, `post-receive` | the remote repository | no |
 
-Server hooks are the enforcement layer: a `pre-receive` hook on the remote can reject a push that violates policy, and no client flag removes it. On hosted platforms this role is usually filled by branch protection and required status checks, covered in [delivery/github](../../github/codeowners.md).
+Server hooks are the enforcement layer: a `pre-receive` hook on the remote can reject a push that violates policy, and no client flag removes it. On hosted platforms this role is usually filled by branch protection and required status checks, covered in [CODEOWNERS](../../github/codeowners.md).
 
 ---
 

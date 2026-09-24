@@ -92,15 +92,15 @@ The commits now live on `hotfix/urgent`, safely off the detached position. If yo
 
 ```bash
 git reflog -3
-git branch recovered 6cec8dd
+git branch recovered ab2164e
 ```
 
 Output:
 
 ```text
-834c335 HEAD@{0}: checkout: moving from 6cec8dd... to main
-6cec8dd HEAD@{1}: commit: Committed while detached
-834c335 HEAD@{2}: checkout: moving from main to HEAD
+cc3dfe3 HEAD@{0}: checkout: moving from ab2164ec0e02d00e8718377757d57704ad6987c9 to main
+ab2164e HEAD@{1}: commit: Committed while detached
+cc3dfe3 HEAD@{2}: checkout: moving from main to HEAD
 ```
 
 `HEAD@{1}` is the detached commit; `git branch recovered <sha>` (or `git branch recovered HEAD@{1}`) turns it back into a named, reachable branch. This works until garbage collection prunes unreachable objects, which the recovery module covers in full.

@@ -173,13 +173,28 @@ git config rerere.enabled true
 git merge --no-edit topic
 ```
 
-The first time, Git records the conflict and, after `git add`, the resolution.
+The first time, the merge conflicts and Git records the conflict's preimage.
 
 Output:
 
 ```text
+Auto-merging f.txt
+CONFLICT (content): Merge conflict in f.txt
 Recorded preimage for 'f.txt'
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+After you resolve, stage and commit, Git records the resolution against that preimage.
+
+```bash
+git commit --no-edit
+```
+
+Output:
+
+```text
 Recorded resolution for 'f.txt'.
+[main 62da126] Merge branch 'topic'
 ```
 
 When the same conflict recurs, Git applies the stored resolution.

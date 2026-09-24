@@ -246,6 +246,6 @@ Output:
 - [The Three Trees](../00-foundations/the-three-trees.md): the working tree, index and `HEAD` that `add` and `commit` move between
 - [Inspecting History](inspecting-history.md): reading the commits you create
 - [Undoing Changes](undoing-changes.md): unstaging, discarding and reverting
-- [Inspecting History](inspecting-history.md): reading the commits you create
+- [Ignoring and Attributes](ignoring-and-attributes.md): keeping files out of the commits you make
 
 Captured on macOS 26 with git 2.50.1 (throwaway local repositories), 2026-09.

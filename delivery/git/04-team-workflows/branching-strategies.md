@@ -49,9 +49,8 @@ git log --oneline --graph
 Output:
 
 ```text
-* 4abcde4 docs: readme
-* d02d363 feat: add login
-* af1cdaa Initial
+* 1dabe98 feat: add login
+* 3575a08 Initial
 ```
 
 The squash collapses the branch's work-in-progress commits into one clean commit on `main`. Short branch lifetimes keep conflicts small and make continuous integration real, which is why trunk-based fits continuous delivery.
