@@ -67,7 +67,6 @@ plugins:
   - same-dir
   - awesome-pages:
       strict: false
-  - section-index
   - autorefs
   - social:
       cards_layout_options:
