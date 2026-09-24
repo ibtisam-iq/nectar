@@ -20,3 +20,6 @@ venv/
 # INVENTORY.md is force-tracked (git add -f) so the completion audit (check 9)
 # can run on a fresh checkout; everything else under _sources/ stays ignored.
 _sources/
+
+# Plan folder (never published).
+plan/
