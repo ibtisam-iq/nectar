@@ -83,6 +83,18 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 
 ---
 
+## 07 Advanced Tooling
+
+| Topic | Track | Weight | Done |
+|---|---|---|---|
+| [Hooks](07-advanced-tooling/hooks.md) | Advanced | Med | [x] |
+| [Submodules](07-advanced-tooling/submodules.md) | Advanced | Med | [x] |
+| [Worktrees](07-advanced-tooling/worktrees.md) | Advanced | Low | [x] |
+| [Large Repos](07-advanced-tooling/large-repos.md) | Advanced | Med | [x] |
+| [Credentials and Signing](07-advanced-tooling/credentials-and-signing.md) | Core | Med | [x] |
+
+---
+
 ## Scenarios
 
 | Scenario | Modules | Done |
@@ -96,6 +108,7 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 | [Lost Commits After Reset](interview/scenarios/lost-commits-after-reset.md) | 05 | [x] |
 | [Committed a Secret](interview/scenarios/committed-a-secret.md) | 05 | [x] |
 | [Force-Push Clobbered a Teammate](interview/scenarios/force-push-clobbered-teammate.md) | 03, 05 | [x] |
+| [Bloated Repo, Large File](interview/scenarios/bloated-repo-large-file.md) | 07 | [x] |
 
 ---
 
@@ -113,5 +126,6 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 
 Built in later batches, in this order:
 
-- 07 Advanced Tooling (batch E)
-- Interview rounds 2 and mock interviews, the remaining scenarios, and the reference pages (`cheatsheet`, `command-index`, `config-reference`, `dotfiles-reference`, `glossary`)
+- Interview round 2 (hands-on) and mock interviews
+- The reference pages (`cheatsheet`, `command-index`, `config-reference`, `dotfiles-reference`, `glossary`)
+- The remaining labs (`internals-by-hand`, `history-surgery`)

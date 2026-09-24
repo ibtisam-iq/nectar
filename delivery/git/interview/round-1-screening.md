@@ -149,3 +149,27 @@ Screening rounds test whether fundamentals are solid: short "explain", "why" and
 ### Packfiles and GC
 
 --8<-- "delivery/git/06-internals/packfiles-and-gc.md:l1"
+
+---
+
+## Advanced Tooling
+
+### Hooks
+
+--8<-- "delivery/git/07-advanced-tooling/hooks.md:l1"
+
+### Submodules
+
+--8<-- "delivery/git/07-advanced-tooling/submodules.md:l1"
+
+### Worktrees
+
+--8<-- "delivery/git/07-advanced-tooling/worktrees.md:l1"
+
+### Large Repos
+
+--8<-- "delivery/git/07-advanced-tooling/large-repos.md:l1"
+
+### Credentials and Signing
+
+--8<-- "delivery/git/07-advanced-tooling/credentials-and-signing.md:l1"

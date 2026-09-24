@@ -9,3 +9,4 @@ nav:
   - Lost Commits After Reset: lost-commits-after-reset.md
   - Committed a Secret: committed-a-secret.md
   - Force-Push Clobbered a Teammate: force-push-clobbered-teammate.md
+  - Bloated Repo, Large File: bloated-repo-large-file.md

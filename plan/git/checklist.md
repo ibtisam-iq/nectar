@@ -163,18 +163,18 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 3: Batch E (modules 07)
 
-- [ ] `07-advanced-tooling/.pages` <!-- id:delivery/git/07-advanced-tooling/.pages -->
-- [ ] `07-advanced-tooling/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/07-advanced-tooling/README.md -->
-- [ ] `07-advanced-tooling/hooks.md` (Advanced, Med) <!-- id:delivery/git/07-advanced-tooling/hooks.md -->
-- [ ] `07-advanced-tooling/submodules.md` (Advanced, Med) <!-- id:delivery/git/07-advanced-tooling/submodules.md -->
-- [ ] `07-advanced-tooling/worktrees.md` (Advanced, Low) <!-- id:delivery/git/07-advanced-tooling/worktrees.md -->
-- [ ] `07-advanced-tooling/large-repos.md` (Advanced, Med) <!-- id:delivery/git/07-advanced-tooling/large-repos.md -->
-- [ ] `07-advanced-tooling/credentials-and-signing.md` (Core, Med) <!-- id:delivery/git/07-advanced-tooling/credentials-and-signing.md -->
-- [ ] `interview/scenarios/bloated-repo-large-file.md` (modules 07) <!-- id:delivery/git/interview/scenarios/bloated-repo-large-file.md -->
-- [ ] Batch E: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:E:grows -->
-- [ ] Batch E: `scripts/lint-prose.py` exits 0 <!-- id:check:E:lint -->
-- [ ] Batch E: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:E:audit -->
-- [ ] Batch E: `mkdocs build` has no warnings for the tool folder <!-- id:check:E:build -->
+- [x] `07-advanced-tooling/.pages` <!-- id:delivery/git/07-advanced-tooling/.pages -->
+- [x] `07-advanced-tooling/README.md` (Revision Card, Topic Map) <!-- id:delivery/git/07-advanced-tooling/README.md -->
+- [x] `07-advanced-tooling/hooks.md` (Advanced, Med) <!-- id:delivery/git/07-advanced-tooling/hooks.md -->
+- [x] `07-advanced-tooling/submodules.md` (Advanced, Med) <!-- id:delivery/git/07-advanced-tooling/submodules.md -->
+- [x] `07-advanced-tooling/worktrees.md` (Advanced, Low) <!-- id:delivery/git/07-advanced-tooling/worktrees.md -->
+- [x] `07-advanced-tooling/large-repos.md` (Advanced, Med) <!-- id:delivery/git/07-advanced-tooling/large-repos.md -->
+- [x] `07-advanced-tooling/credentials-and-signing.md` (Core, Med) <!-- id:delivery/git/07-advanced-tooling/credentials-and-signing.md -->
+- [x] `interview/scenarios/bloated-repo-large-file.md` (modules 07) <!-- id:delivery/git/interview/scenarios/bloated-repo-large-file.md -->
+- [x] Batch E: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:E:grows -->
+- [x] Batch E: `scripts/lint-prose.py` exits 0 <!-- id:check:E:lint -->
+- [x] Batch E: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:E:audit -->
+- [x] Batch E: `mkdocs build` has no warnings for the tool folder <!-- id:check:E:build -->
 - [ ] Batch E: owner review done; first-hand line spots listed <!-- id:check:E:owner -->
 
 ---

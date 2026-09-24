@@ -149,3 +149,27 @@ Every topic's Must-Know Facts table in one place, for a fast revision pass. Tabl
 ### Packfiles and GC
 
 --8<-- "delivery/git/06-internals/packfiles-and-gc.md:facts"
+
+---
+
+## Advanced Tooling
+
+### Hooks
+
+--8<-- "delivery/git/07-advanced-tooling/hooks.md:facts"
+
+### Submodules
+
+--8<-- "delivery/git/07-advanced-tooling/submodules.md:facts"
+
+### Worktrees
+
+--8<-- "delivery/git/07-advanced-tooling/worktrees.md:facts"
+
+### Large Repos
+
+--8<-- "delivery/git/07-advanced-tooling/large-repos.md:facts"
+
+### Credentials and Signing
+
+--8<-- "delivery/git/07-advanced-tooling/credentials-and-signing.md:facts"

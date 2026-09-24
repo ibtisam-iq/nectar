@@ -28,7 +28,7 @@ Every topic file declares a **Track** (Core, Workflow, Advanced) and an **Interv
 | 04 | [Team Workflows](04-team-workflows/README.md) | Branching strategies, commit conventions, reviews, releases |
 | 05 | [History and Recovery](05-history-and-recovery/README.md) | Reflog, bisect, rewriting history, secrets |
 | 06 | [Internals](06-internals/README.md) | Object model, refs and HEAD, merge/rebase mechanics, packfiles |
-| 07 | Advanced Tooling | Hooks, submodules, worktrees, large repos, signing (batch E) |
+| 07 | [Advanced Tooling](07-advanced-tooling/README.md) | Hooks, submodules, worktrees, large repos, signing |
 
 Modules 00 to 06 are complete. The remaining module is built in the batch noted above.
 

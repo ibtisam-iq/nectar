@@ -31,3 +31,4 @@ The troubleshooting round starts with a symptom and no instructions. Interviewer
 | [Lost Commits After Reset](scenarios/lost-commits-after-reset.md) | "reset --hard ate a day of commits. Get them back." | 05 History and Recovery |
 | [Committed a Secret](scenarios/committed-a-secret.md) | "A password is in history and a scanner flags it. Clean it up." | 05 History and Recovery |
 | [Force-Push Clobbered a Teammate](scenarios/force-push-clobbered-teammate.md) | "A force-push deleted my commit from the remote. Recover it." | 03 Remotes and Collaboration, 05 History and Recovery |
+| [Bloated Repo, Large File](scenarios/bloated-repo-large-file.md) | "The repo is huge but the files are tiny. Get the size back." | 07 Advanced Tooling |

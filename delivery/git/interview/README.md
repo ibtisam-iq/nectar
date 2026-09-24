@@ -53,3 +53,4 @@ A **Don't say** line records a common wrong answer worth avoiding.
 | [Lost Commits After Reset](scenarios/lost-commits-after-reset.md) | 05 History and Recovery |
 | [Committed a Secret](scenarios/committed-a-secret.md) | 05 History and Recovery |
 | [Force-Push Clobbered a Teammate](scenarios/force-push-clobbered-teammate.md) | 03 Remotes and Collaboration, 05 History and Recovery |
+| [Bloated Repo, Large File](scenarios/bloated-repo-large-file.md) | 07 Advanced Tooling |

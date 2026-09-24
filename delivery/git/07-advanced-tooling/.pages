@@ -1,0 +1,8 @@
+title: Advanced Tooling
+nav:
+  - README.md
+  - Hooks: hooks.md
+  - Submodules: submodules.md
+  - Worktrees: worktrees.md
+  - Large Repos: large-repos.md
+  - Credentials and Signing: credentials-and-signing.md
