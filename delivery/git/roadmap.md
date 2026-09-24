@@ -126,6 +126,5 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 
 Built in later batches, in this order:
 
-- Interview round 2 (hands-on) and mock interviews
 - The reference pages (`cheatsheet`, `command-index`, `config-reference`, `dotfiles-reference`, `glossary`)
 - The remaining labs (`internals-by-hand`, `history-surgery`)

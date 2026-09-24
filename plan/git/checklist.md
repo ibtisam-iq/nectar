@@ -181,13 +181,13 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 4: Interview Layer
 
-- [ ] `interview/round-2-hands-on.md` <!-- id:delivery/git/interview/round-2-hands-on.md -->
-- [ ] `interview/mock-interviews.md` <!-- id:delivery/git/interview/mock-interviews.md -->
-- [ ] Output-reading drills in `round-2-hands-on.md` <!-- id:p4:output-drills -->
-- [ ] Phase 4: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:4:grows -->
-- [ ] Phase 4: `scripts/lint-prose.py` exits 0 <!-- id:check:4:lint -->
-- [ ] Phase 4: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:4:audit -->
-- [ ] Phase 4: `mkdocs build` has no warnings for the tool folder <!-- id:check:4:build -->
+- [x] `interview/round-2-hands-on.md` <!-- id:delivery/git/interview/round-2-hands-on.md -->
+- [x] `interview/mock-interviews.md` <!-- id:delivery/git/interview/mock-interviews.md -->
+- [x] Output-reading drills in `round-2-hands-on.md` <!-- id:p4:output-drills -->
+- [x] Phase 4: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:4:grows -->
+- [x] Phase 4: `scripts/lint-prose.py` exits 0 <!-- id:check:4:lint -->
+- [x] Phase 4: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:4:audit -->
+- [x] Phase 4: `mkdocs build` has no warnings for the tool folder <!-- id:check:4:build -->
 - [ ] Phase 4: owner review done; first-hand line spots listed <!-- id:check:4:owner -->
 
 ---

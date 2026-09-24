@@ -9,11 +9,11 @@ Git interviews for DevOps, SRE and platform roles move through rounds that get d
 | Round | Level | What is tested | How it is scored |
 |---|---|---|---|
 | [Round 1: Screening](round-1-screening.md) | L1 | Fundamentals: explain, why, difference | Correct, short answers without hesitation |
-| Round 2: Hands-On (batch 4) | L2 | Doing a task in a live repository, reading real output | The right command, first time, and knowing its flags |
+| [Round 2: Hands-On](round-2-hands-on.md) | L2 | Doing a task in a live repository, reading real output | The right command, first time, and knowing its flags |
 | [Round 3: Troubleshooting](round-3-troubleshooting.md) | L3 | An open symptom in a broken repository | The path: questions, hypotheses, ordered checks |
 | [Round 4: Internals](round-4-internals.md) | L4 | What Git stores and how commands change it | Mechanism-level explanations and trade-offs |
 
-Round 2 (hands-on) and the mock interviews are added in batch 4.
+The [mock interviews](mock-interviews.md) run three timed sessions that mix all four rounds.
 
 ---
 
