@@ -1,0 +1,9 @@
+title: Branching and Merging
+nav:
+  - README.md
+  - Branches: branches.md
+  - Merging: merging.md
+  - Rebasing: rebasing.md
+  - Interactive Rebase: interactive-rebase.md
+  - Conflict Resolution: conflict-resolution.md
+  - Cherry-Pick: cherry-pick.md

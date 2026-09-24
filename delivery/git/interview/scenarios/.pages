@@ -1,0 +1,12 @@
+title: Scenarios
+nav:
+  - Accidental Commit to Main: accidental-commit-to-main.md
+  - Wrong-Branch Commits: wrong-branch-commits.md
+  - Merge Conflict Resolution: merge-conflict-resolution.md
+  - Detached HEAD: detached-head.md
+  - Diverged Branches, Push Rejected: diverged-branches-push-rejected.md
+  - Messy History Before a PR: messy-history-before-pr.md
+  - Lost Commits After Reset: lost-commits-after-reset.md
+  - Committed a Secret: committed-a-secret.md
+  - Force-Push Clobbered a Teammate: force-push-clobbered-teammate.md
+  - Bloated Repo, Large File: bloated-repo-large-file.md

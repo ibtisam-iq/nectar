@@ -1,0 +1,9 @@
+title: Reference
+nav:
+  - Cheatsheet: cheatsheet.md
+  - Command Index: command-index.md
+  - Config Reference: config-reference.md
+  - Dotfiles Reference: dotfiles-reference.md
+  - Glossary: glossary.md
+  - Must-Know Facts: must-know-facts.md
+  - Error Messages: error-messages.md

@@ -121,16 +121,18 @@ def render(m: dict, ticked: set[str]) -> str:
 
     section(
         "Phase 1: Housekeeping",
-        [
-            ("p1:sources-moved", f"Raw course material moved to `{root}/{m['sources']['dir']}/`"),
-            ("p1:resume-removed", "Third-party resume moved out of the repository; duplicate zip deleted"),
-        ]
+        [("p1:sources-moved", f"Raw course material moved to `{root}/{m['sources']['dir']}/`")]
+        + (
+            [("p1:resume-removed", "Third-party resume moved out of the repository; duplicate zip deleted")]
+            if hk.get("resume_cleanup", True)
+            else []
+        )
         + [(f"p1:gitignore:{g}", f"`{g}` in `.gitignore`") for g in hk["gitignore"]]
         + [(f"p1:exclude:{e}", f"`{e}` in `exclude_docs`") for e in hk["exclude_docs"] if e != "plan/"]
         + [
             (f"remove:{Path(f).name}", f"Remove `{f}`")
             for f in hk["remove"]
-            if Path(f).name in ("Linux.md", "cheatSheet.md", "troubleshooting.md")
+            if Path(f).name not in {Path(leg).name for mod in m["modules"] for leg in mod.get("absorbs", [])}
         ]
         + [(f"p1:links:{f}", f"Inbound links fixed in `{f}`") for f in hk["inbound_links_fixed"]]
         + [
@@ -156,10 +158,13 @@ def render(m: dict, ticked: set[str]) -> str:
     )
 
     for batch in BATCH_ORDER[1:10]:
+        items = batch_items(m, batch)
+        if not items:
+            continue
         mods = [x["id"] for x in m["modules"] if x["batch"] == batch]
         section(
             f"Phase 3: Batch {batch} (modules {', '.join(mods)})",
-            [(f"{root}/{i}" if not i.startswith("remove:") else i, t) for i, t in batch_items(m, batch)]
+            [(f"{root}/{i}" if not i.startswith("remove:") else i, t) for i, t in items]
             + batch_checks(batch, f"Batch {batch}"),
         )
 
@@ -173,10 +178,12 @@ def render(m: dict, ticked: set[str]) -> str:
     section(
         "Phase 5: Reference and Labs",
         [(f"{root}/{i}", t) for i, t in batch_items(m, "5")]
-        + [
-            ("p5:inventory-resolved", "Every `INVENTORY.md` item resolved"),
-            ("p5:coverage-resolved", "Every `coverage-map.md` row points to an existing file"),
-        ]
+        + [("p5:inventory-resolved", "Every `INVENTORY.md` item resolved")]
+        + (
+            [("p5:coverage-resolved", "Every `coverage-map.md` row points to an existing file")]
+            if any(p["file"] == "coverage-map.md" for p in m["reference"]["pages"])
+            else []
+        )
         + batch_checks("5", "Phase 5"),
     )
 

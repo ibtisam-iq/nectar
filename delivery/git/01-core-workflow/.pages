@@ -1,0 +1,7 @@
+title: Core Workflow
+nav:
+  - README.md
+  - Staging and Committing: staging-and-committing.md
+  - Inspecting History: inspecting-history.md
+  - Ignoring and Attributes: ignoring-and-attributes.md
+  - Undoing Changes: undoing-changes.md

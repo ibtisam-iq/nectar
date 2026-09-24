@@ -1,0 +1,7 @@
+title: History and Recovery
+nav:
+  - README.md
+  - Reflog and Recovery: reflog-and-recovery.md
+  - Bisect: bisect.md
+  - Rewriting History: rewriting-history.md
+  - Filter-Repo and Secrets: filter-repo-and-secrets.md

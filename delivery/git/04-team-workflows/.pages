@@ -1,0 +1,7 @@
+title: Team Workflows
+nav:
+  - README.md
+  - Branching Strategies: branching-strategies.md
+  - Commit Conventions: commit-conventions.md
+  - Code Review with Git: code-review-with-git.md
+  - Release and Versioning: release-and-versioning.md

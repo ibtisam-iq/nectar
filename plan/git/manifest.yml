@@ -1,0 +1,193 @@
+# Git tool folder manifest.
+# Read by scripts/gen-checklist.py and scripts/audit-tool.py.
+# Any change to this file needs a matching entry in decisions.md (same commit).
+#
+# Fields
+#   batch:     P (pilot, phase 2), A-E (phase 3 batches), "4" (phase 4), "5" (phase 5)
+#   track:     Core | Workflow | Advanced
+#   weight:    High | Med | Low        (drives the line budget, see budgets below)
+#   internals: true for (I) topics; each must have an L4 question and a link from round-4-internals.md
+#   feeds:     module ids a scenario draws on
+
+tool: git
+root: delivery/git
+plan_version: 1
+approved: 2026-09-19
+
+tabs:
+  - "macOS / Linux"
+  - "Windows"
+
+budgets:            # max lines (min lines in brackets where it applies)
+  topic:
+    High: [250, 400]
+    Med: [150, 300]
+    Low: [60, 150]
+  module_readme: 150
+  scenario: 300
+  lab: 400
+
+top_level:
+  - {file: README.md, type: tool-readme, batch: P}
+  - {file: roadmap.md, type: roadmap, batch: P}
+
+modules:
+  - id: "00"
+    dir: 00-foundations
+    title: Foundations
+    batch: A
+    topics:
+      - {file: what-is-git.md, track: Core, weight: Med}
+      - {file: install-and-config.md, track: Core, weight: Med}
+      - {file: the-three-trees.md, track: Core, weight: High}
+
+  - id: "01"
+    dir: 01-core-workflow
+    title: Core Workflow
+    batch: A
+    topics:
+      - {file: staging-and-committing.md, track: Core, weight: High}
+      - {file: inspecting-history.md, track: Core, weight: High}
+      - {file: ignoring-and-attributes.md, track: Core, weight: Med}
+      - {file: undoing-changes.md, track: Core, weight: High}
+
+  - id: "02"
+    dir: 02-branching-and-merging
+    title: Branching and Merging
+    batch: P
+    topics:
+      - {file: branches.md, track: Core, weight: High}
+      - {file: merging.md, track: Core, weight: High}
+      - {file: rebasing.md, track: Core, weight: High}
+      - {file: interactive-rebase.md, track: Advanced, weight: High}
+      - {file: conflict-resolution.md, track: Core, weight: High}
+      - {file: cherry-pick.md, track: Core, weight: Med}
+
+  - id: "03"
+    dir: 03-remotes-and-collaboration
+    title: Remotes and Collaboration
+    batch: B
+    topics:
+      - {file: remotes.md, track: Core, weight: High}
+      - {file: pushing-and-pulling.md, track: Core, weight: High}
+      - {file: tags-and-releases.md, track: Core, weight: Med}
+      - {file: stashing.md, track: Core, weight: Med}
+      - {file: forks-and-pull-requests.md, track: Workflow, weight: Med}
+
+  - id: "04"
+    dir: 04-team-workflows
+    title: Team Workflows
+    batch: C
+    topics:
+      - {file: branching-strategies.md, track: Workflow, weight: High}
+      - {file: commit-conventions.md, track: Workflow, weight: High}
+      - {file: code-review-with-git.md, track: Workflow, weight: Med}
+      - {file: release-and-versioning.md, track: Workflow, weight: Med}
+
+  - id: "05"
+    dir: 05-history-and-recovery
+    title: History and Recovery
+    batch: D
+    topics:
+      - {file: reflog-and-recovery.md, track: Core, weight: High}
+      - {file: bisect.md, track: Advanced, weight: Med}
+      - {file: rewriting-history.md, track: Advanced, weight: High}
+      - {file: filter-repo-and-secrets.md, track: Advanced, weight: Med}
+
+  - id: "06"
+    dir: 06-internals
+    title: Internals
+    batch: D
+    topics:
+      - {file: object-model.md, track: Advanced, weight: High, internals: true}
+      - {file: refs-and-head.md, track: Advanced, weight: High, internals: true}
+      - {file: how-merge-and-rebase-work.md, track: Advanced, weight: High, internals: true}
+      - {file: packfiles-and-gc.md, track: Advanced, weight: Low, internals: true}
+
+  - id: "07"
+    dir: 07-advanced-tooling
+    title: Advanced Tooling
+    batch: E
+    topics:
+      - {file: hooks.md, track: Advanced, weight: Med}
+      - {file: submodules.md, track: Advanced, weight: Med}
+      - {file: worktrees.md, track: Advanced, weight: Low}
+      - {file: large-repos.md, track: Advanced, weight: Med}
+      - {file: credentials-and-signing.md, track: Core, weight: Med}
+
+reference:
+  dir: reference
+  pages:
+    - {file: must-know-facts.md, batch: P, grows: true}
+    - {file: error-messages.md, batch: A, grows: true}
+    - {file: cheatsheet.md, batch: "5"}
+    - {file: command-index.md, batch: "5"}
+    - {file: config-reference.md, batch: "5"}
+    - {file: dotfiles-reference.md, batch: "5"}
+    - {file: glossary.md, batch: "5"}
+
+interview:
+  dir: interview
+  pages:
+    - {file: README.md, batch: P}
+    - {file: round-1-screening.md, batch: P, grows: true}
+    - {file: round-3-troubleshooting.md, batch: P, grows: true}
+    - {file: round-4-internals.md, batch: P, grows: true}
+    - {file: round-2-hands-on.md, batch: "4"}
+    - {file: mock-interviews.md, batch: "4"}
+  scenarios:
+    dir: interview/scenarios
+    items:
+      - {file: merge-conflict-resolution.md, feeds: ["02"], batch: P}
+      - {file: accidental-commit-to-main.md, feeds: ["01", "02"], batch: A}
+      - {file: wrong-branch-commits.md, feeds: ["01", "02"], batch: A}
+      - {file: diverged-branches-push-rejected.md, feeds: ["03"], batch: B}
+      - {file: detached-head.md, feeds: ["02"], batch: B}
+      - {file: messy-history-before-pr.md, feeds: ["02", "04"], batch: C}
+      - {file: lost-commits-after-reset.md, feeds: ["05"], batch: D}
+      - {file: committed-a-secret.md, feeds: ["05"], batch: D}
+      - {file: force-push-clobbered-teammate.md, feeds: ["03", "05"], batch: D}
+      - {file: bloated-repo-large-file.md, feeds: ["07"], batch: E}
+
+labs:
+  dir: labs
+  pages:
+    - {file: README.md, batch: P}
+    - {file: branching-and-rebase-lab.md, batch: P, completed_in: C}
+    - {file: core-workflow-lab.md, batch: A}
+    - {file: recovery-and-bisect-lab.md, batch: D}
+    - {file: internals-by-hand-lab.md, batch: "5"}
+    - {file: history-surgery-lab.md, batch: "5"}
+
+sources:
+  dir: _sources
+  inventory: _sources/INVENTORY.md
+
+housekeeping:
+  resume_cleanup: false        # git has no third-party resume or duplicate zip to remove
+  remove:
+    - delivery/git/Git.md
+    - delivery/git/gitCheatSheet.md
+    - delivery/git/git-submodules.md
+    - delivery/git/troubleshooting.md
+  gitignore:
+    - _sources/
+  exclude_docs:
+    - plan/
+    - _sources/
+  inbound_links_fixed:
+    - delivery/index.md
+  llm_pointers:
+    - CLAUDE.md
+    - GEMINI.md
+    - AGENTS.md
+  conventions_section:
+    file: CLAUDE.md
+    heading: Notes Conventions
+  repo_files:
+    - templates/topic.md
+    - templates/module-readme.md
+    - templates/scenario.md
+    - scripts/lint-prose.py
+    - scripts/audit-tool.py
+    - scripts/gen-checklist.py
