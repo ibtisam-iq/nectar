@@ -141,4 +141,4 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 | [Round 4: Internals](interview/round-4-internals.md) | Interview | [x] |
 | [Mock Interviews](interview/mock-interviews.md) | Interview | [x] |
 
-All planned pages are built and the completion audit is done: lint, `--scope 5 --build` and lychee clean, and the independent review resolved. Awaiting owner sign-off and merge.
+All planned pages are built, the completion audit is done (lint, `--scope 5 --build` and lychee clean, independent review resolved), and the owner has signed off. The folder is complete.

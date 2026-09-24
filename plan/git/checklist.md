@@ -94,7 +94,7 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Batch A: `scripts/lint-prose.py` exits 0 <!-- id:check:A:lint -->
 - [x] Batch A: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:A:audit -->
 - [x] Batch A: `mkdocs build` has no warnings for the tool folder <!-- id:check:A:build -->
-- [ ] Batch A: owner review done; first-hand line spots listed <!-- id:check:A:owner -->
+- [x] Batch A: owner review done; first-hand line spots listed <!-- id:check:A:owner -->
 
 ---
 
@@ -113,7 +113,7 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Batch B: `scripts/lint-prose.py` exits 0 <!-- id:check:B:lint -->
 - [x] Batch B: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:B:audit -->
 - [x] Batch B: `mkdocs build` has no warnings for the tool folder <!-- id:check:B:build -->
-- [ ] Batch B: owner review done; first-hand line spots listed <!-- id:check:B:owner -->
+- [x] Batch B: owner review done; first-hand line spots listed <!-- id:check:B:owner -->
 
 ---
 
@@ -131,7 +131,7 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Batch C: `scripts/lint-prose.py` exits 0 <!-- id:check:C:lint -->
 - [x] Batch C: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:C:audit -->
 - [x] Batch C: `mkdocs build` has no warnings for the tool folder <!-- id:check:C:build -->
-- [ ] Batch C: owner review done; first-hand line spots listed <!-- id:check:C:owner -->
+- [x] Batch C: owner review done; first-hand line spots listed <!-- id:check:C:owner -->
 
 ---
 
@@ -157,7 +157,7 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Batch D: `scripts/lint-prose.py` exits 0 <!-- id:check:D:lint -->
 - [x] Batch D: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:D:audit -->
 - [x] Batch D: `mkdocs build` has no warnings for the tool folder <!-- id:check:D:build -->
-- [ ] Batch D: owner review done; first-hand line spots listed <!-- id:check:D:owner -->
+- [x] Batch D: owner review done; first-hand line spots listed <!-- id:check:D:owner -->
 
 ---
 
@@ -175,7 +175,7 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Batch E: `scripts/lint-prose.py` exits 0 <!-- id:check:E:lint -->
 - [x] Batch E: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:E:audit -->
 - [x] Batch E: `mkdocs build` has no warnings for the tool folder <!-- id:check:E:build -->
-- [ ] Batch E: owner review done; first-hand line spots listed <!-- id:check:E:owner -->
+- [x] Batch E: owner review done; first-hand line spots listed <!-- id:check:E:owner -->
 
 ---
 
@@ -188,7 +188,7 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Phase 4: `scripts/lint-prose.py` exits 0 <!-- id:check:4:lint -->
 - [x] Phase 4: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:4:audit -->
 - [x] Phase 4: `mkdocs build` has no warnings for the tool folder <!-- id:check:4:build -->
-- [ ] Phase 4: owner review done; first-hand line spots listed <!-- id:check:4:owner -->
+- [x] Phase 4: owner review done; first-hand line spots listed <!-- id:check:4:owner -->
 
 ---
 
@@ -206,7 +206,7 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Phase 5: `scripts/lint-prose.py` exits 0 <!-- id:check:5:lint -->
 - [x] Phase 5: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:5:audit -->
 - [x] Phase 5: `mkdocs build` has no warnings for the tool folder <!-- id:check:5:build -->
-- [ ] Phase 5: owner review done; first-hand line spots listed <!-- id:check:5:owner -->
+- [x] Phase 5: owner review done; first-hand line spots listed <!-- id:check:5:owner -->
 
 ---
 
@@ -217,6 +217,6 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 - [x] Rendering checked (order, cards, tabs, checkpoints, snippets, phone width, dark mode) <!-- id:p6:render -->
 - [x] Independent review by a fresh agent; findings fixed <!-- id:p6:independent-review -->
 - [x] `plan/git/audit-report.md` written <!-- id:p6:audit-report -->
-- [ ] `plan/README.md` marks the tool complete <!-- id:p6:status -->
-- [ ] Work committed locally and handed to the owner (owner pushes and opens the pull request) <!-- id:p6:pr -->
-- [ ] Owner final sign-off <!-- id:p6:owner-signoff -->
+- [x] `plan/README.md` marks the tool complete <!-- id:p6:status -->
+- [x] Work committed locally and handed to the owner (owner pushes and opens the pull request) <!-- id:p6:pr -->
+- [x] Owner final sign-off <!-- id:p6:owner-signoff -->
