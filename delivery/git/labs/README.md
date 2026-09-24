@@ -1,6 +1,6 @@
 # Labs
 
-Hands-on exercises with collapsed solutions. Work through a lab in a throwaway repository, check the result with the verification commands, then open the solution. This folder grows as each module is added.
+Hands-on exercises with collapsed solutions. Work through a lab in a throwaway repository, check the result with the verification commands, then open the solution.
 
 ---
 
@@ -34,3 +34,5 @@ The iximiuz Labs playground shell also has Git preinstalled if a browser environ
 | [Core Workflow Lab](core-workflow-lab.md) | 00 Foundations, 01 Core Workflow |
 | [Branching and Rebase Lab](branching-and-rebase-lab.md) | 02 Branching and Merging |
 | [Recovery and Bisect Lab](recovery-and-bisect-lab.md) | 05 History and Recovery |
+| [Internals by Hand](internals-by-hand-lab.md) | 06 Internals |
+| [History Surgery](history-surgery-lab.md) | 05 History and Recovery, 07 Advanced Tooling |

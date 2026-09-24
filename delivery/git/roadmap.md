@@ -119,12 +119,26 @@ Progress tracker for the Git folder. Each topic, scenario and lab is checked off
 | [Core Workflow Lab](labs/core-workflow-lab.md) | 00, 01 | [x] |
 | [Branching and Rebase Lab](labs/branching-and-rebase-lab.md) | 02, 04 | [x] |
 | [Recovery and Bisect Lab](labs/recovery-and-bisect-lab.md) | 05 | [x] |
+| [Internals by Hand](labs/internals-by-hand-lab.md) | 06 | [x] |
+| [History Surgery](labs/history-surgery-lab.md) | 05, 07 | [x] |
 
 ---
 
-## Upcoming Modules
+## Reference and Interview
 
-Built in later batches, in this order:
+| Page | Kind | Done |
+|---|---|---|
+| [Cheatsheet](reference/cheatsheet.md) | Reference | [x] |
+| [Command Index](reference/command-index.md) | Reference | [x] |
+| [Config Reference](reference/config-reference.md) | Reference | [x] |
+| [Dotfiles Reference](reference/dotfiles-reference.md) | Reference | [x] |
+| [Glossary](reference/glossary.md) | Reference | [x] |
+| [Must-Know Facts](reference/must-know-facts.md) | Reference | [x] |
+| [Error Messages](reference/error-messages.md) | Reference | [x] |
+| [Round 1: Screening](interview/round-1-screening.md) | Interview | [x] |
+| [Round 2: Hands-On](interview/round-2-hands-on.md) | Interview | [x] |
+| [Round 3: Troubleshooting](interview/round-3-troubleshooting.md) | Interview | [x] |
+| [Round 4: Internals](interview/round-4-internals.md) | Interview | [x] |
+| [Mock Interviews](interview/mock-interviews.md) | Interview | [x] |
 
-- The reference pages (`cheatsheet`, `command-index`, `config-reference`, `dotfiles-reference`, `glossary`)
-- The remaining labs (`internals-by-hand`, `history-surgery`)
+All planned pages are built. Phase 6 runs the completion audit.

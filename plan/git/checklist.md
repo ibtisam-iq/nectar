@@ -194,18 +194,18 @@ Generated from `manifest.yml` by `scripts/gen-checklist.py`. Tick items in the s
 
 ## Phase 5: Reference and Labs
 
-- [ ] `reference/cheatsheet.md` <!-- id:delivery/git/reference/cheatsheet.md -->
-- [ ] `reference/command-index.md` <!-- id:delivery/git/reference/command-index.md -->
-- [ ] `reference/config-reference.md` <!-- id:delivery/git/reference/config-reference.md -->
-- [ ] `reference/dotfiles-reference.md` <!-- id:delivery/git/reference/dotfiles-reference.md -->
-- [ ] `reference/glossary.md` <!-- id:delivery/git/reference/glossary.md -->
-- [ ] `labs/internals-by-hand-lab.md` <!-- id:delivery/git/labs/internals-by-hand-lab.md -->
-- [ ] `labs/history-surgery-lab.md` <!-- id:delivery/git/labs/history-surgery-lab.md -->
-- [ ] Every `INVENTORY.md` item resolved <!-- id:p5:inventory-resolved -->
-- [ ] Phase 5: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:5:grows -->
-- [ ] Phase 5: `scripts/lint-prose.py` exits 0 <!-- id:check:5:lint -->
-- [ ] Phase 5: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:5:audit -->
-- [ ] Phase 5: `mkdocs build` has no warnings for the tool folder <!-- id:check:5:build -->
+- [x] `reference/cheatsheet.md` <!-- id:delivery/git/reference/cheatsheet.md -->
+- [x] `reference/command-index.md` <!-- id:delivery/git/reference/command-index.md -->
+- [x] `reference/config-reference.md` <!-- id:delivery/git/reference/config-reference.md -->
+- [x] `reference/dotfiles-reference.md` <!-- id:delivery/git/reference/dotfiles-reference.md -->
+- [x] `reference/glossary.md` <!-- id:delivery/git/reference/glossary.md -->
+- [x] `labs/internals-by-hand-lab.md` <!-- id:delivery/git/labs/internals-by-hand-lab.md -->
+- [x] `labs/history-surgery-lab.md` <!-- id:delivery/git/labs/history-surgery-lab.md -->
+- [x] Every `INVENTORY.md` item resolved <!-- id:p5:inventory-resolved -->
+- [x] Phase 5: aggregators, `roadmap.md` and `coverage-map.md` updated <!-- id:check:5:grows -->
+- [x] Phase 5: `scripts/lint-prose.py` exits 0 <!-- id:check:5:lint -->
+- [x] Phase 5: `scripts/audit-tool.py --scope` exits 0 <!-- id:check:5:audit -->
+- [x] Phase 5: `mkdocs build` has no warnings for the tool folder <!-- id:check:5:build -->
 - [ ] Phase 5: owner review done; first-hand line spots listed <!-- id:check:5:owner -->
 
 ---
