@@ -314,6 +314,7 @@ images:
     newName: myregistry.com/custom-nginx
     newTag: "1.23"
 ```
+
 ---
 
 | You type in curl                      | What it means                                         | Sent to server                   |
