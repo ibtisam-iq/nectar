@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{#
+  Nectar — theme overrides
+  - extrahead : site-level JSON-LD (WebSite + Person) on the homepage
+#}
+
+{% block extrahead %}
+  {{ super() }}
+  {% if page and page.is_homepage %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": {{ config.site_name | tojson }},
+        "url": {{ config.site_url | tojson }},
+        "description": {{ config.site_description | tojson }}
+      },
+      {
+        "@type": "Person",
+        "name": "Muhammad Ibtisam",
+        "url": "https://ibtisam-iq.com",
+        "jobTitle": "DevOps & Cloud Engineer",
+        "sameAs": [
+          "https://github.com/ibtisam-iq",
+          "https://www.linkedin.com/in/ibtisam-iq/"
+        ]
+      }
+    ]
+  }
+  </script>
+  {% endif %}
+{% endblock %}
