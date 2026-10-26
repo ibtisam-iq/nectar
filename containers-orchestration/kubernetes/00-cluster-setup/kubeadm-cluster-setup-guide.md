@@ -19,6 +19,7 @@ Before starting, ensure your environment meets these requirements:
 - **Access**: SSH access to all nodes with `sudo` privileges.
 
 **Example Cluster Setup** (AWS EC2):
+
 | Instance Name | Private IP   | Role          |
 |---------------|--------------|---------------|
 | k8s-master-1  | 10.0.138.123 | Control Plane |
@@ -102,6 +103,7 @@ Prepare each node’s operating system to meet Kubernetes requirements, includin
    ```
 
 #### Explanation:
+
 - `\s\+` → Matches **one or more whitespace characters**.
 - `swap` → Looks for the word **"swap"**.
 - `\s\+` → Ensures **"swap" is surrounded by whitespace**.
