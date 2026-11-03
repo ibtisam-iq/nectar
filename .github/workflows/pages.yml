@@ -88,7 +88,7 @@ jobs:
 
       - name: Upload link check report
         if: ${{ always() && env.ACT != 'true' }}
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: lychee-report
           path: lychee/
@@ -97,7 +97,7 @@ jobs:
 
       - name: Upload site artifact
         if: ${{ env.ACT != 'true' }}
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: site
           path: ./site
