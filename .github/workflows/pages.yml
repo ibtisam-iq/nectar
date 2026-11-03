@@ -122,7 +122,7 @@ jobs:
 
       - name: Download built site
         if: ${{ env.ACT != 'true' }}
-        uses: actions/download-artifact@v8.0.1
+        uses: actions/download-artifact@v8.0.2
         with:
           name: site
           path: ./site
@@ -155,7 +155,7 @@ jobs:
 
       - name: Download built site
         if: ${{ env.ACT != 'true' }}
-        uses: actions/download-artifact@v8.0.1
+        uses: actions/download-artifact@v8.0.2
         with:
           name: site
           path: ./site
