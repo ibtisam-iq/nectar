@@ -1,0 +1,12 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="nx-error">
+  <div class="nx-error__code">404</div>
+  <h1 class="nx-error__title">Page not found</h1>
+  <p class="nx-error__msg">This note doesn't exist, or it moved as the knowledge base grew. Head back to the source.</p>
+  <a href="{{ config.site_url }}" class="nx-error__link">
+    {% include ".icons/material/arrow-left.svg" %} Back to Nectar
+  </a>
+</div>
+{% endblock %}
